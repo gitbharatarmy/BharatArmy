@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "10449587928",
+    "firebase_url": "https://bharatarmy-e2354.firebaseio.com",
+    "project_id": "bharatarmy-e2354",
+    "storage_bucket": "bharatarmy-e2354.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:10449587928:android:e4b9a566152316d4",
+        "android_client_info": {
+          "package_name": "com.bharatarmy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "10449587928-7m984u32c5172dnrft08u075hm3k576a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDQ3I9-R9kwHgSsuQyyH71sRSE7wS7RZ7A"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

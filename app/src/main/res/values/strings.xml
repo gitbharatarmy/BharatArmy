@@ -1,0 +1,87 @@
+<resources>
+    <string name="app_name">Bharat Army</string>
+    <string name="next">NEXT</string>
+    <string name="skip">SKIP</string>
+    <string name="start">GOT IT</string>
+    <string name="ok">Ok</string>
+    <string name="alert_msg">Alert Msg</string>
+    <string name="internet_error">Internet Connection !</string>
+    <string name="internet_connection_error">Admin requires an internet connection.Make sure Wi-Fi or mobile networks are turned on, then try again.</string>
+    <string name="blank">Blank Filed Not Allowed</string>
+    <string name="false_msg">Record not found</string>
+    <string name="something_wrong">Something Wrong</string>
+
+    <!--Login Activity String-->
+    <string name="username">Email</string>
+    <string name="password">Password</string>
+    <string name="login_btn">SIGN IN</string>
+    <string name="forgot">Forgot Password ?</string>
+    <string name="sign_txt">Dont\'t have an account yet?</string>
+    <string name="singup">Sign Up</string>
+    <string name="fb_txt">Facebook</string>
+    <string name="link_txt">LinkedIn</string>
+    <string name="usererror">Blank filed not allowed</string>
+    <string name="verification">Verification</string>
+    <string name="otp_str">We have sent a four digit code on</string>
+    <string name="code_str">Enter code here</string>
+    <string name="verification_str">We will send a One Time Password (OTP) on this number for verification</string>
+
+    <!--SingUp Activity String-->
+    <string name="fullname">Fullname</string>
+    <string name="emailid">Emailid</string>
+    <string name="mobileno">Mobileno</string>
+    <string name="title_activity_dashboard">DashboardActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <!--Home Fragment  String-->
+    <string name="know_more">Know More</string>
+    <string name="upcoming">UPCOMING TOURNAMENTS &amp; SERIES</string>
+    <string name="sposer_ads">Sposer ads</string>
+    <string name="fixture">ICC CRICKET WORLD CUP 2019 FIXTURES</string>
+    <string name="all_fixture">ALL FIXTURES</string>
+    <string name="bharat_army_story">BHARAT ARMY STORIES</string>
+    <string name="about_us">About Us</string>
+
+    <!--My Profile String-->
+    <string name="email">Email</string>
+    <string name="phoneno">Phone Number</string>
+    <string name="gender">Gender</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="full_name">Full Name</string>
+    <string name="edit">Edit</string>
+    <string name="member_pro">Member Profile</string>
+    <string name="hello_txt">Hello</string>
+    <string name="upload">Upload Photo</string>
+    <string name="personal_info">Personal Infomation</string>
+    <string name="address">Addresses</string>
+    <string name="address_type">Addresses Type</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="enter_no">phone number</string>
+    <string name="send">Send</string>
+
+    <!--Dashboard String-->
+    <string name="home">Home</string>
+    <string name="myprofile">My Profile</string>
+    <string name="history">History</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!--Image Upload String-->
+    <string name="toast_image_intent_null">Image picker option is missing!</string>
+    <string name="lbl_set_profile_photo">Set profile image</string>
+    <string name="lbl_take_camera_picture">Take a picture</string>
+    <string name="lbl_choose_from_gallery">Choose from gallery</string>
+    <string name="dialog_permission_title">Grant Permissions</string>
+    <string name="dialog_permission_message">This app needs permission to use this feature. You can grant them in app settings.</string>
+    <string name="go_to_settings">GOTO SETTINGS</string>
+
+
+</resources>

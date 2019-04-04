@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/_200sdp"
+    android:layout_height="@dimen/_310sdp"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_290sdp"
+        android:layout_margin="@dimen/_5sdp"
+        android:background="@color/splash_bg_color"
+        card_view:cardCornerRadius="1dp"
+        card_view:cardElevation="6dp"
+        card_view:cardMaxElevation="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="1dp"
+            android:paddingTop="1dp"
+            android:paddingRight="1dp">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/banner_img"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_150sdp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ajif" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_20sdp"
+                    android:orientation="horizontal"
+                    android:layout_alignLeft="@+id/banner_img"
+                    android:layout_alignTop="@+id/banner_img"
+                    android:layout_alignRight="@+id/banner_img"
+                    android:layout_alignBottom="@+id/banner_img"
+                    android:layout_margin="@dimen/_10sdp">
+                <ImageView
+                    android:id="@+id/header_img"
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:alpha=".8"
+                    android:background="@color/heading_bg"
+                    android:paddingLeft="@dimen/_2sdp"
+                    android:paddingBottom="@dimen/_2sdp"
+                    android:src="@drawable/app_logo"
+                    android:visibility="gone"/>
+                <TextView
+                    android:id="@+id/header_txt"
+                    style="@style/text_font"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_20sdp"
+                    android:layout_gravity="top"
+                    android:alpha=".8"
+                    android:background="@color/heading_bg"
+                    android:text="@string/next"
+                    android:textColor="@color/splash_bg_color"
+                    android:textSize="@dimen/_11sdp"
+                    android:textStyle="normal"
+                    android:paddingLeft="@dimen/_5sdp"
+                    android:paddingRight="@dimen/_5sdp"
+                    android:paddingBottom="@dimen/_5sdp"
+                    android:layout_marginRight="@dimen/_5sdp"/>
+
+                </LinearLayout>
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/lable_linear"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/linear1_txt"
+                    style="@style/title_text_font"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@color/linear"
+                    android:gravity="center_vertical|center"
+                    android:padding="@dimen/_5sdp"
+                    android:text="IPL"
+                    android:textColor="@color/splash_bg_color"
+                    android:textSize="@dimen/_10sdp"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/linear2_txt"
+                    style="@style/title_text_font"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/_5sdp"
+                    android:background="@color/linear"
+                    android:gravity="center_vertical|center"
+                    android:padding="@dimen/_5sdp"
+                    android:text="IPL"
+                    android:textColor="@color/splash_bg_color"
+                    android:textSize="@dimen/_10sdp"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/linear3_txt"
+                    style="@style/title_text_font"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/_5sdp"
+                    android:background="@color/linear"
+                    android:gravity="center_vertical|center"
+                    android:padding="@dimen/_5sdp"
+                    android:text="IPL"
+                    android:textColor="@color/splash_bg_color"
+                    android:textSize="@dimen/_10sdp"
+                    android:visibility="gone" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/army_upcoming_header_txt"
+                style="@style/title_text_font"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginRight="@dimen/_5sdp"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:paddingRight="@dimen/_5sdp"
+                android:text="BHARAT ARMY STORIES"
+                android:textColor="@color/heading_bg"
+                android:textSize="@dimen/_15sdp" />
+
+
+            <TextView
+                android:id="@+id/army_upcoming_sub_txt"
+                style="@style/text_font"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:layout_marginRight="@dimen/_5sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:gravity="center_vertical"
+                android:paddingRight="@dimen/_5sdp"
+                android:text="@string/bharat_army_story"
+                android:textColor="@color/normal_font_color"
+                android:textSize="@dimen/_10sdp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <ImageView
+                    android:id="@+id/date_img"
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/password" />
+
+                <TextView
+                    android:id="@+id/date_txt"
+                    style="@style/text_font"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_30sdp"
+                    android:layout_marginRight="@dimen/_5sdp"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/_2sdp"
+                    android:text="06 Feb 19"
+                    android:textColor="@color/gray"
+                    android:textSize="@dimen/_12sdp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_1sdp"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <ImageView
+                    android:id="@+id/location_img"
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/password" />
+
+                <TextView
+                    android:id="@+id/location_txt"
+                    style="@style/text_font"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_30sdp"
+                    android:layout_marginRight="@dimen/_5sdp"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/_2sdp"
+                    android:text="06 Feb 19"
+                    android:textColor="@color/gray"
+                    android:textSize="@dimen/_12sdp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_1sdp"
+                android:orientation="horizontal">
+                <!--style="@style/text_font"-->
+                <TextView
+                    android:id="@+id/army_upcoming_pra_txt"
+                    style="@style/text_font"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_5sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginRight="@dimen/_5sdp"
+                    android:layout_marginBottom="@dimen/_5sdp"
+                    android:ellipsize="end"
+                    android:gravity="center_vertical"
+                    android:maxLines="2"
+                    android:paddingRight="@dimen/_5sdp"
+                    android:text="@string/bharat_army_story"
+                    android:textColor="@color/normal_font_color"
+                    android:textSize="@dimen/_11sdp" />
+            </LinearLayout>
+
+            <!--<RelativeLayout-->
+            <!--android:id="@+id/textview"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="left"-->
+            <!--android:layout_marginLeft="@dimen/_10sdp"-->
+            <!--android:layout_marginTop="-325dp"-->
+            <!--android:alpha=".8"-->
+            <!--android:background="@color/heading_bg"-->
+            <!--android:orientation="horizontal">-->
+
+
+            <!--<ImageView-->
+            <!--android:id="@+id/header_img"-->
+            <!--android:layout_width="@dimen/_15sdp"-->
+            <!--android:layout_height="@dimen/_15sdp"-->
+            <!--android:layout_gravity="center_vertical|center"-->
+            <!--android:alpha=".8"-->
+            <!--android:background="@color/heading_bg"-->
+            <!--android:paddingLeft="@dimen/_5sdp"-->
+            <!--android:src="@drawable/app_logo" />-->
+
+
+            <!--<TextView-->
+            <!--android:id="@+id/header_txt"-->
+            <!--style="@style/text_font"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="center_vertical"-->
+            <!--android:layout_marginLeft="@dimen/_15sdp"-->
+            <!--android:layout_marginRight="@dimen/_15sdp"-->
+            <!--android:alpha=".8"-->
+            <!--android:background="@color/heading_bg"-->
+            <!--android:text="@string/next"-->
+            <!--android:textColor="@color/splash_bg_color"-->
+            <!--android:textSize="@dimen/_11sdp"-->
+            <!--android:textStyle="normal" />-->
+            <!--</RelativeLayout>-->
+
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>

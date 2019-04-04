@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorAccent">#D81B60</color>
+<color name="heading_bg">#2a3550</color>
+
+    <color name="skip_color">#02ACEA</color>
+    <color name="splash_bg_color">#ffffff</color>
+    <color name="black">#000000</color>
+<color name="NotActive_dot_color">#9D9797</color>
+    <color name="Active_dot_color">#1D2846</color>
+    <color name="normal_font_color">#343434</color>
+<color name="hint_txt_color">#bbbdc2</color>
+    <color name="sign_up">#e46224</color>
+<color name="fb_txt">#3b5999</color>
+    <color name="link_txt">#1879ac</color>
+    <color name="gray">#c1c1c1</color>
+    <color name="linear">#912849</color>
+    <color name="svg_colo">#FF727272</color>
+    <color name="bgBottomNavigation">#fe485a</color>
+
+    <color name="demo_dark_transparent">#F2F2F2</color>
+
+
+</resources>

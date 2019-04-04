@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/splash_bg_color">
+
+    <LinearLayout
+        android:id="@+id/main_linear"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_500sdp"
+        android:layout_centerInParent="false"
+        android:layout_marginLeft="@dimen/_10sdp"
+        android:layout_marginRight="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:background="@drawable/rectangle_line"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:weightSum="1"
+        android:visibility="visible">
+        <!--ReletiveLayout-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.45"
+            android:orientation="vertical"
+            android:paddingLeft="1dp"
+            android:paddingTop="1dp"
+            android:paddingRight="1dp">
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/banner_img"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_350sdp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ajif" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_20sdp"
+                    android:orientation="horizontal"
+                    android:layout_alignLeft="@+id/banner_img"
+                    android:layout_alignTop="@+id/banner_img"
+                    android:layout_alignRight="@+id/banner_img"
+                    android:layout_alignBottom="@+id/banner_img"
+                    android:layout_margin="@dimen/_10sdp">
+                    <ImageView
+                        android:id="@+id/header_img"
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:alpha=".8"
+                        android:background="@color/heading_bg"
+                        android:paddingLeft="@dimen/_2sdp"
+                        android:paddingBottom="@dimen/_5sdp"
+                        android:paddingTop="@dimen/_5sdp"
+                        android:src="@drawable/app_logo" />
+                    <TextView
+                        android:id="@+id/header_txt"
+                        style="@style/text_font"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/_20sdp"
+                        android:layout_gravity="top"
+                        android:alpha=".8"
+                        android:background="@color/heading_bg"
+                        android:text="@string/next"
+                        android:textColor="@color/splash_bg_color"
+                        android:textSize="@dimen/_11sdp"
+                        android:textStyle="normal"
+                        android:paddingRight="@dimen/_5sdp"
+                        android:paddingBottom="@dimen/_5sdp"
+                        android:layout_marginRight="@dimen/_5sdp"/>
+
+                </LinearLayout>
+            </RelativeLayout>
+
+            <!--<LinearLayout-->
+                <!--android:id="@+id/textview"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_gravity="left"-->
+                <!--android:layout_marginLeft="@dimen/_15sdp"-->
+                <!--android:layout_marginTop="-262dp"-->
+                <!--android:alpha=".8"-->
+                <!--android:background="@color/heading_bg"-->
+                <!--android:orientation="horizontal">-->
+
+                <!--<ImageView-->
+                    <!--android:id="@+id/header_img"-->
+                    <!--android:layout_width="@dimen/_15sdp"-->
+                    <!--android:layout_height="@dimen/_15sdp"-->
+                    <!--android:layout_gravity="center_vertical|center"-->
+                    <!--android:alpha=".8"-->
+                    <!--android:paddingLeft="@dimen/_5sdp"-->
+                    <!--android:background="@color/heading_bg"-->
+                    <!--android:src="@drawable/app_logo" />-->
+
+
+                <!--<TextView-->
+                    <!--android:id="@+id/header_txt"-->
+                    <!--style="@style/text_font"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginRight="@dimen/_15sdp"-->
+                    <!--android:alpha=".8"-->
+                    <!--android:background="@color/heading_bg"-->
+                    <!--android:layout_gravity="center_vertical"-->
+                    <!--android:text="@string/next"-->
+                    <!--android:textColor="@color/splash_bg_color"-->
+                    <!--android:textSize="@dimen/_11sdp"-->
+                    <!--android:textStyle="normal" />-->
+            <!--</LinearLayout>-->
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/_1sdp"
+            android:layout_weight="0.55"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/_15sdp"
+            android:paddingRight="@dimen/_15sdp">
+
+            <TextView
+                android:id="@+id/heading_txt"
+                style="@style/title_text_font"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:text="Bharat Army"
+                android:textAllCaps="true"
+                android:textColor="@color/heading_bg"
+                android:textSize="@dimen/_18sdp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/heading_sub_txt"
+                style="@style/text_font"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Bharat Army"
+                android:textAllCaps="true"
+                android:textColor="@color/heading_bg"
+                android:textSize="@dimen/_10sdp"
+                android:textStyle="bold"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/heading_below_txt"
+                style="@style/text_font"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:justificationMode="inter_word"
+                android:text="Bharat Army"
+                android:textColor="@color/normal_font_color"
+                android:textSize="@dimen/_12sdp"
+                android:textStyle="normal"
+                android:visibility="gone" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/bullet_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:nestedScrollingEnabled="false"
+                android:visibility="visible" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/bullet_Rlist"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:nestedScrollingEnabled="false"
+                android:visibility="gone" />
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>
