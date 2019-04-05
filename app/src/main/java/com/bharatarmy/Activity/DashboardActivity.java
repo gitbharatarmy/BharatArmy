@@ -1,5 +1,6 @@
 package com.bharatarmy.Activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -84,7 +85,7 @@ public class DashboardActivity extends AppCompatActivity
 
     private void loadFragment(Fragment fragment) {
         // load fragment
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in_left,R.anim.slide_out_right);
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in_left,0);
         transaction.replace(R.id.frame_container, fragment);
 //        transaction.addToBackStack(null);
         transaction.commit();
@@ -104,7 +105,11 @@ public class DashboardActivity extends AppCompatActivity
             }
             else
             {
-                displayView(0);
+                Intent a = new Intent(Intent.ACTION_MAIN);
+                a.addCategory(Intent.CATEGORY_HOME);
+                a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(a);
+                finish();
             }
 //            else {
 //                Utility.ping(mContext, "Press again to exit");
@@ -180,17 +185,17 @@ public class DashboardActivity extends AppCompatActivity
                 if (first_time_trans) {
                     first_time_trans = false;
                     fragmentManager.beginTransaction()
-                            .setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right)
+                            .setCustomAnimations(R.anim.slide_in_left,0)
                             .replace(R.id.frame_container, fragment).commit();
 
                 } else {
                     fragmentManager.beginTransaction()
-                            .setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right)
+                            .setCustomAnimations(R.anim.slide_in_left,0)
                             .replace(R.id.frame_container, fragment).commit();
                 }
             } else {
                 fragmentManager.beginTransaction()
-                        .setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right)
+                        .setCustomAnimations(R.anim.slide_in_left,0)
                         .replace(R.id.frame_container, fragment).commit();
             }
 

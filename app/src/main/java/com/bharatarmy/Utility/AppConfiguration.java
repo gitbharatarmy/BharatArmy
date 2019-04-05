@@ -5,4 +5,5 @@ public class AppConfiguration {
 
 
     public static int position;
+    public static String wheretocomemobile;
 }

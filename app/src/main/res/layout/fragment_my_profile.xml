@@ -56,13 +56,13 @@
                     android:layout_gravity="center_vertical"/>
 
                 <TextView
-                    style="@style/title_text_font"
+                    style="@style/text_font"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical|center_horizontal"
                     android:text="@string/edit"
                     android:layout_marginLeft="@dimen/_2sdp"
-                    android:textColor="@color/heading_bg"
+                    android:textColor="@color/normal_font_color"
                     android:textSize="@dimen/_13sdp" />
             </LinearLayout>
 

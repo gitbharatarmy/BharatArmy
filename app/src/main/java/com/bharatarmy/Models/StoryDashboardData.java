@@ -22,6 +22,9 @@ public class StoryDashboardData {
     @SerializedName("strStorySubDescription")
     @Expose
     private String strStorySubDescription;
+    @SerializedName("StoryWebURL")
+    @Expose
+    private String storyWebURL;
     @SerializedName("BAStoryId")
     @Expose
     private Integer bAStoryId;
@@ -115,7 +118,13 @@ public class StoryDashboardData {
     public void setStrStorySubDescription(String strStorySubDescription) {
         this.strStorySubDescription = strStorySubDescription;
     }
+    public String getStoryWebURL() {
+        return storyWebURL;
+    }
 
+    public void setStoryWebURL(String storyWebURL) {
+        this.storyWebURL = storyWebURL;
+    }
     public Integer getBAStoryId() {
         return bAStoryId;
     }

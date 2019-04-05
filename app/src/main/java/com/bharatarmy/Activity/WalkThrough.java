@@ -253,7 +253,7 @@ public class WalkThrough extends AppCompatActivity {
                             public void onClick(View v) {
                                 Intent login = new Intent(WalkThrough.this, LoginActivity.class);
                                 startActivity(login);
-                                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+//                                overridePendingTransition(R.anim.slide_in_left,0);
                             }
                         });
 
@@ -269,7 +269,7 @@ public class WalkThrough extends AppCompatActivity {
                                 } else {
                                     Intent login = new Intent(WalkThrough.this, LoginActivity.class);
                                     startActivity(login);
-                                    overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+//                                    overridePendingTransition(R.anim.slide_in_left,0);
                                 }
                             }
                         });

@@ -67,5 +67,7 @@ dependencies {
 //country spinner
     implementation 'com.github.joielechong:countrycodepicker:2.3.0'
 
+    implementation 'com.squareup.retrofit2:retrofit:2.3.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
 }
 apply plugin: 'com.google.gms.google-services'

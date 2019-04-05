@@ -13,6 +13,7 @@ import com.bharatarmy.Models.LogginModel;
 import com.bharatarmy.Models.WalkthroughData;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.ApiHandler;
+import com.bharatarmy.Utility.AppConfiguration;
 import com.bharatarmy.Utility.Utils;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -29,16 +30,18 @@ import retrofit.client.Response;
 public class Splash_Screen extends AppCompatActivity {
 
 
-//    // Splash screen timer
+    //    // Splash screen timer
     private static int SPLASH_TIME_OUT = 5000;
-   Context mContext;
+    Context mContext;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash__screen);
-        mContext=Splash_Screen.this;
+        mContext = Splash_Screen.this;
 
-        if (Utils.getPref(mContext,"AppUserId").equalsIgnoreCase("")) {
+        /* User Id verification*/
+        if (Utils.getPref(mContext, "AppUserId").equalsIgnoreCase("")) {
             new Handler().postDelayed(new Runnable() {
 
                 /*
@@ -53,24 +56,24 @@ public class Splash_Screen extends AppCompatActivity {
                     if (!Utils.getPref(mContext, "LoginUserName").equalsIgnoreCase("")) {
                         Intent i = new Intent(Splash_Screen.this, DashboardActivity.class);
                         startActivity(i);
-                        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+//                        overridePendingTransition(R.anim.slide_in_left,0);
                         // close this activity
                         finish();
                     } else {
                         Intent i = new Intent(Splash_Screen.this, WalkThrough.class);
                         startActivity(i);
-                        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+//                        overridePendingTransition(R.anim.slide_in_left,0);
                         // close this activity
                         finish();
                     }
                 }
             }, SPLASH_TIME_OUT);
-        }else{
+        } else {
             getLoginUserDetail();
         }
 
     }
-
+/*use for update user detail*/
     public void getLoginUserDetail() {
         if (!Utils.checkNetwork(mContext)) {
             Utils.showCustomDialog(getResources().getString(R.string.internet_error), getResources().getString(R.string.internet_connection_error), Splash_Screen.this);
@@ -91,7 +94,7 @@ public class Splash_Screen extends AppCompatActivity {
                     return;
                 }
                 if (loginModel.getIsValid() == 0) {
-                    Utils.ping(mContext,loginModel.getMessage());
+                    Utils.ping(mContext, loginModel.getMessage());
                     return;
                 }
                 if (loginModel.getIsValid() == 1) {
@@ -102,15 +105,23 @@ public class Splash_Screen extends AppCompatActivity {
                         Utils.setPref(mContext, "LoginProfilePic", String.valueOf(loginModel.getData().getProfilePic()));
                         Utils.setPref(mContext, "EmailVerified", String.valueOf(loginModel.getData().getIsEmailVerified()));
                         Utils.setPref(mContext, "PhoneVerified", String.valueOf(loginModel.getData().getIsNumberVerified()));
-                        Utils.setPref(mContext,"AppUserId", String.valueOf(loginModel.getData().getId()));
-                        Utils.setPref(mContext,"Gender", String.valueOf(loginModel.getData().getGender()));
+                        Utils.setPref(mContext, "AppUserId", String.valueOf(loginModel.getData().getId()));
+                        Utils.setPref(mContext, "Gender", String.valueOf(loginModel.getData().getGender()));
 
-
+                            /*  Mobile verification use */
+                        if (Utils.getPref(mContext, "PhoneVerified").equalsIgnoreCase("0")) {
+                            Intent DashboardIntent = new Intent(mContext, MobileVerificationActivity.class);
+                            AppConfiguration.wheretocomemobile="splash";
+                            startActivity(DashboardIntent);
+//                            overridePendingTransition(R.anim.slide_in_left,0);
+                            finish();
+                        } else {
                             Intent DashboardIntent = new Intent(mContext, DashboardActivity.class);
                             startActivity(DashboardIntent);
-                            overridePendingTransition(R.anim.slide_in_left,0);
-
+//                            overridePendingTransition(R.anim.slide_in_left,0);
+                            finish();
                         }
+                    }
 
                 }
             }
@@ -125,9 +136,10 @@ public class Splash_Screen extends AppCompatActivity {
         });
 
     }
+
     private Map<String, String> getLoginUserData() {
         Map<String, String> map = new HashMap<>();
-        map.put("AppUserId", Utils.getPref(mContext,"AppUserId"));
+        map.put("AppUserId", Utils.getPref(mContext, "AppUserId"));
         map.put("TokenId", Utils.getPref(mContext, "registration_id"));
         return map;
     }

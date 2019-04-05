@@ -1,6 +1,7 @@
 package com.bharatarmy.Fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
@@ -27,14 +28,17 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bharatarmy.Activity.MoreStoryActivity;
 import com.bharatarmy.Adapter.BharatArmyStoriesAdapter;
 import com.bharatarmy.Adapter.UpcomingDashboardAdapter;
+import com.bharatarmy.Interfaces.MorestoryClick;
 import com.bharatarmy.Models.DashboardDataModel;
 import com.bharatarmy.Models.DashboardModel;
 import com.bharatarmy.Models.StoryDashboardData;
 import com.bharatarmy.Models.UpcommingDashboardModel;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.ApiHandler;
+import com.bharatarmy.Utility.AppConfiguration;
 import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.FragmentHomeBinding;
 
@@ -107,7 +111,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
         rootView = fragmentHomeBinding.getRoot();
         mContext = getActivity().getApplicationContext();
-
+        AppConfiguration.position = 0;
 
         return rootView;
 
@@ -226,7 +230,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         }
         if (getDashboardDataModel.getStories() != null) {
             storyDashboardDataList = getDashboardDataModel.getStories();
-            bharatArmyStoriesAdapter = new BharatArmyStoriesAdapter(mContext, storyDashboardDataList);
+            bharatArmyStoriesAdapter = new BharatArmyStoriesAdapter(mContext, storyDashboardDataList, new MorestoryClick() {
+                @Override
+                public void getmorestoryClick() {
+                }
+            });
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
             fragmentHomeBinding.armyStoryRcyList.setLayoutManager(mLayoutManager);
             fragmentHomeBinding.armyStoryRcyList.setItemAnimator(new DefaultItemAnimator());

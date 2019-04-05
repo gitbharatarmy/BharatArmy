@@ -28,6 +28,9 @@ public class LoginDataModel {
     @SerializedName("Gender")
     @Expose
     private Integer gender;
+    @SerializedName("OTP")
+    @Expose
+    private String oTP;
 
     public String getEmail() {
         return email;
@@ -89,5 +92,12 @@ public class LoginDataModel {
 
     public void setGender(Integer gender) {
         this.gender = gender;
+    }
+    public String getOTP() {
+        return oTP;
+    }
+
+    public void setOTP(String oTP) {
+        this.oTP = oTP;
     }
 }

@@ -1,22 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:orientation="vertical"
-    android:layout_height="@dimen/_470sdp"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".Activity.DashboardActivity"
-    tools:showIn="@layout/app_bar_dashboard"
-    android:background="@color/splash_bg_color">
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:scrollbars="none">
 
-
-    <FrameLayout
-        android:id="@+id/frame_container"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fitsSystemWindows="true"
-        android:orientation="vertical"></FrameLayout>
+        android:layout_height="wrap_content"
+        android:background="@color/splash_bg_color"
+        android:orientation="vertical"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:context=".Activity.DashboardActivity"
+        tools:showIn="@layout/app_bar_dashboard"
+        android:layout_marginBottom="@dimen/_30sdp">
 
 
-</LinearLayout>
+        <FrameLayout
+            android:id="@+id/frame_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fitsSystemWindows="true"
+            android:orientation="vertical"
+            ></FrameLayout>
+    </LinearLayout>
+</ScrollView>

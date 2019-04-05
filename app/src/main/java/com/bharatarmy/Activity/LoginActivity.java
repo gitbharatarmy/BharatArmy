@@ -21,6 +21,7 @@ import com.bharatarmy.Models.LogginModel;
 import com.bharatarmy.Models.WalkthroughData;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.ApiHandler;
+import com.bharatarmy.Utility.AppConfiguration;
 import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.ActivityLoginBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -163,13 +164,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                         if(loginModel.getData().getIsNumberVerified()==0){
                             Intent otpIntent=new Intent(mContext,MobileVerificationActivity.class);
+                            AppConfiguration.wheretocomemobile="Login";
                             startActivity(otpIntent);
-                            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+//                            overridePendingTransition(R.anim.slide_in_left,0);
                             finish();
                         }else {
                             Intent DashboardIntent = new Intent(mContext, DashboardActivity.class);
                             startActivity(DashboardIntent);
-                            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+//                            overridePendingTransition(R.anim.slide_in_left,0);
                             finish();
                         }
                     }

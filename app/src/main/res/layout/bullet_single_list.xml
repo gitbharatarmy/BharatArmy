@@ -24,7 +24,7 @@
         android:textColor="@color/normal_font_color"
         style="@style/text_font"
         android:textStyle="normal"
-        android:textSize="@dimen/_12sdp"/>
+        android:textSize="@dimen/_11sdp"/>
 
 
 </LinearLayout>

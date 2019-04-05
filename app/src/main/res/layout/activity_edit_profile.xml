@@ -225,6 +225,8 @@
             android:textColorHint="@color/hint_txt_color"
             android:textCursorDrawable="@drawable/color_cursor"
             android:textSize="@dimen/_12sdp"
+            android:clickable="false"
+            android:focusable="false"
             android:imeOptions="actionNext"/>
     </LinearLayout>
 
