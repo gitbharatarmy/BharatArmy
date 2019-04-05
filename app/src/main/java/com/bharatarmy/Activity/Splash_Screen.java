@@ -102,7 +102,7 @@ public class Splash_Screen extends AppCompatActivity {
                         Utils.setPref(mContext, "LoginUserName", loginModel.getData().getName());
                         Utils.setPref(mContext, "LoginEmailId", loginModel.getData().getEmail());
                         Utils.setPref(mContext, "LoginPhoneNo", loginModel.getData().getPhoneNo());
-                        Utils.setPref(mContext, "LoginProfilePic", String.valueOf(loginModel.getData().getProfilePic()));
+                        Utils.setPref(mContext, "LoginProfilePic", String.valueOf(loginModel.getData().getProfilePicUrl()));
                         Utils.setPref(mContext, "EmailVerified", String.valueOf(loginModel.getData().getIsEmailVerified()));
                         Utils.setPref(mContext, "PhoneVerified", String.valueOf(loginModel.getData().getIsNumberVerified()));
                         Utils.setPref(mContext, "AppUserId", String.valueOf(loginModel.getData().getId()));

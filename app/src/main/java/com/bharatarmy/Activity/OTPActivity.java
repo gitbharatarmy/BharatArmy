@@ -17,16 +17,25 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.bharatarmy.Interfaces.SmsListener;
+import com.bharatarmy.Models.LogginModel;
 import com.bharatarmy.R;
+import com.bharatarmy.Utility.ApiHandler;
 import com.bharatarmy.Utility.SmsReceiver;
 import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.ActivityOtpBinding;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 public class OTPActivity extends AppCompatActivity implements View.OnClickListener {
 
     ActivityOtpBinding activityOtpBinding;
     Context mContext;
     String otpStr, edit1Str, edit2Str, edit3Str, edit4Str, finalgetOtpStr;
+    String phoneNoStr, countryCodeStr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,11 +43,13 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
         activityOtpBinding = DataBindingUtil.setContentView(this, R.layout.activity_otp);
 
         mContext = OTPActivity.this;
-        otpStr = getIntent().getStringExtra("OTP");
         setListiner();
     }
 
     public void setListiner() {
+        VerificationPhone();
+        otpStr = getIntent().getStringExtra("OTP");
+
         SmsReceiver.bindListener(new SmsListener() {
             @Override
             public void messageReceived(String messageText) {
@@ -134,15 +145,15 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
         });
 
         activityOtpBinding.otpImg.setOnClickListener(this);
-activityOtpBinding.otpImg.setOnEditorActionListener(new EditText.OnEditorActionListener() {
-    @Override
-    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-        if (actionId== EditorInfo.IME_ACTION_DONE){
-            getOtpData();
-        }
-        return false;
-    }
-});
+        activityOtpBinding.otpImg.setOnEditorActionListener(new EditText.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    getOtpData();
+                }
+                return false;
+            }
+        });
     }
 
     @Override
@@ -180,6 +191,55 @@ activityOtpBinding.otpImg.setOnEditorActionListener(new EditText.OnEditorActionL
 
     }
 
+    public void VerificationPhone() {
+        if (!Utils.checkNetwork(mContext)) {
+            Utils.showCustomDialog(getResources().getString(R.string.internet_error), getResources().getString(R.string.internet_connection_error), OTPActivity.this);
+            return;
+        }
+
+        Utils.showDialog(mContext);
+        ApiHandler.getApiService().getVerifiedPhoneNo(getphoneVerificationData(), new retrofit.Callback<LogginModel>() {
+            @Override
+            public void success(LogginModel loginModel, Response response) {
+                Utils.dismissDialog();
+                if (loginModel == null) {
+                    Utils.ping(mContext, getString(R.string.something_wrong));
+                    return;
+                }
+                if (loginModel.getIsValid() == null) {
+                    Utils.ping(mContext, getString(R.string.something_wrong));
+                    return;
+                }
+                if (loginModel.getIsValid() == 0) {
+                    Utils.ping(mContext, loginModel.getMessage());
+                    return;
+                }
+                if (loginModel.getIsValid() == 1) {
+                    Intent otpIntent = new Intent(mContext, OTPActivity.class);
+                    startActivity(otpIntent);
+//                    overridePendingTransition(R.anim.slide_in_left, 0);
+                    finish();
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Utils.dismissDialog();
+                error.printStackTrace();
+                error.getMessage();
+                Utils.ping(mContext, getString(R.string.something_wrong));
+            }
+        });
+
+    }
+
+    private Map<String, String> getphoneVerificationData() {
+        Map<String, String> map = new HashMap<>();
+        map.put("AppUserId", Utils.getPref(mContext, "AppUserId"));
+        map.put("PhoneNo", phoneNoStr);
+        map.put("CountryCode", countryCodeStr);
+        return map;
+    }
 //       try
 //    {
 //        InputMethodManager imm=

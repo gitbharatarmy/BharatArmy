@@ -45,7 +45,12 @@ public class DashboardActivity extends AppCompatActivity
         setSupportActionBar(toolbar);
 //        toolbar.setNavigationIcon(null);
         getSupportActionBar().setTitle("");
-        displayView(0);
+        if (AppConfiguration.position==0){
+            displayView(0);
+        }else{
+            fragment = new MyProfileFragment();
+            loadFragment(fragment);
+        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
@@ -85,7 +90,7 @@ public class DashboardActivity extends AppCompatActivity
 
     private void loadFragment(Fragment fragment) {
         // load fragment
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction().setCustomAnimations(R.anim.slide_in_left,0);
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction().setCustomAnimations(0,0);
         transaction.replace(R.id.frame_container, fragment);
 //        transaction.addToBackStack(null);
         transaction.commit();
@@ -185,17 +190,17 @@ public class DashboardActivity extends AppCompatActivity
                 if (first_time_trans) {
                     first_time_trans = false;
                     fragmentManager.beginTransaction()
-                            .setCustomAnimations(R.anim.slide_in_left,0)
+                            .setCustomAnimations(0,0)
                             .replace(R.id.frame_container, fragment).commit();
 
                 } else {
                     fragmentManager.beginTransaction()
-                            .setCustomAnimations(R.anim.slide_in_left,0)
+                            .setCustomAnimations(0,0)
                             .replace(R.id.frame_container, fragment).commit();
                 }
             } else {
                 fragmentManager.beginTransaction()
-                        .setCustomAnimations(R.anim.slide_in_left,0)
+                        .setCustomAnimations(0,0)
                         .replace(R.id.frame_container, fragment).commit();
             }
 

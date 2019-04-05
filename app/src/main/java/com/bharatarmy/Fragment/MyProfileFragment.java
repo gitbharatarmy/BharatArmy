@@ -1,7 +1,6 @@
 package com.bharatarmy.Fragment;
 
 import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
@@ -14,6 +13,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +23,9 @@ import com.bharatarmy.Activity.EditProfileActivity;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.FragmentMyProfileBinding;
+import com.squareup.picasso.Picasso;
+
+import okhttp3.internal.Util;
 
 
 public class MyProfileFragment extends Fragment implements View.OnClickListener {
@@ -71,10 +74,6 @@ public class MyProfileFragment extends Fragment implements View.OnClickListener 
         }
 
     }
-
-    /* for image uploading https://www.simplifiedcoding.net/retrofit-upload-file-tutorial/
-     *  https://android.jlelse.eu/how-to-upload-image-to-mysql-server-using-retrofit-and-ion-in-android-observer-pattern-part-1-51c2340241c0
-     *  https://www.androidhive.info/2019/02/android-choosing-image-camera-gallery-crop-functionality/*/
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -92,6 +91,7 @@ public class MyProfileFragment extends Fragment implements View.OnClickListener 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         setListiner();
         setDataValue();
 
@@ -105,6 +105,16 @@ public class MyProfileFragment extends Fragment implements View.OnClickListener 
             myProfileBinding.userShowTxt.setText(Utils.getPref(mContext,"LoginUserName"));
             myProfileBinding.emailShowTxt.setText(Utils.getPref(mContext,"LoginEmailId"));
             myProfileBinding.phoneShowTxt.setText(Utils.getPref(mContext,"LoginPhoneNo"));
+            if (Utils.getPref(mContext,"Gender").equalsIgnoreCase("1")){
+                myProfileBinding.genderShowTxt.setText("Male");
+            }else{
+                myProfileBinding.genderShowTxt.setText("Female");
+            }
+
+        Picasso.with(mContext)
+                .load(Utils.getPref(mContext,"LoginProfilePic"))
+                .placeholder(R.drawable.progress_animation)
+                .into(myProfileBinding.profileImage);
         Log.d("emailid",Utils.getPref(mContext,"LoginEmailId"));
     }
 

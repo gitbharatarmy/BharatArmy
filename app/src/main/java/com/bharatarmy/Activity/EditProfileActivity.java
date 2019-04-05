@@ -2,17 +2,23 @@ package com.bharatarmy.Activity;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Environment;
+import android.os.Parcelable;
+import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.CursorLoader;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -22,6 +28,7 @@ import android.widget.RadioGroup;
 
 import com.bharatarmy.Fragment.MyProfileFragment;
 import com.bharatarmy.Models.LogginModel;
+import com.bharatarmy.Models.LoginDataModel;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.ApiHandler;
 import com.bharatarmy.Utility.AppConfiguration;
@@ -37,6 +44,9 @@ import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.rilixtech.Country;
 import com.rilixtech.CountryCodePicker;
 import com.squareup.picasso.Picasso;
+//import com.yalantis.ucrop.util.FileUtils;
+
+import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -61,7 +71,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
 
     ActivityEditProfileBinding activityEditProfileBinding;
     Context mContext;
-    String fullNameStr="", countryCodeStr="", phoneNoStr="", genderStr="";
+    String fullNameStr = "", countryCodeStr = "", phoneNoStr = "", genderStr = "", appUser = "", fileStr = "";
     Uri uri;
 
     @Override
@@ -82,13 +92,22 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         activityEditProfileBinding.userNameEdt.setText(Utils.getPref(mContext, "LoginUserName"));
         activityEditProfileBinding.emailEdt.setText(Utils.getPref(mContext, "LoginEmailId"));
         activityEditProfileBinding.phoneNoEdt.setText(Utils.getPref(mContext, "LoginPhoneNo"));
-//        activityEditProfileBinding.ccp.setCountryForNameCode("US");
+        if (Utils.getPref(mContext, "Gender").equalsIgnoreCase("1")) {
+            activityEditProfileBinding.maleRb.setChecked(true);
+        } else {
+            activityEditProfileBinding.femaleRb.setChecked(true);
+        }
+        Picasso.with(mContext)
+                .load(Utils.getPref(mContext, "LoginProfilePic"))
+                .placeholder(R.drawable.progress_animation)
+                .into(activityEditProfileBinding.profileImage);
     }
 
     public void setListiner() {
         activityEditProfileBinding.ccp.registerPhoneNumberTextView(activityEditProfileBinding.phoneNoEdt);
         activityEditProfileBinding.uploadTxt.setOnClickListener(this);
         activityEditProfileBinding.saveBtn.setOnClickListener(this);
+        activityEditProfileBinding.cancelBtn.setOnClickListener(this);
     }
 
     @Override
@@ -120,6 +139,9 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
                 break;
             case R.id.save_btn:
                 getUpdateData();
+                break;
+            case R.id.cancel_btn:
+                EditProfileActivity.this.finish();
                 break;
         }
     }
@@ -171,15 +193,16 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         if (requestCode == REQUEST_IMAGE) {
             if (resultCode == Activity.RESULT_OK) {
                 uri = data.getParcelableExtra("path");
-                try {
-                    // You can update this bitmap to your server
-                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
+                Log.d("path", "" + uri);
 
-                    // loading profile image from local cache
-                    loadProfile(uri.toString());
+                try {
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+
+                loadProfile(uri.toString());
+
             }
         }
     }
@@ -229,103 +252,127 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
             Utils.showCustomDialog(getResources().getString(R.string.internet_error), getResources().getString(R.string.internet_connection_error), EditProfileActivity.this);
             return;
         }
+        MultipartBody.Part body = null;
+        if (uri != null) {
+            String filePath = Utils.getFilePathFromUri(mContext, uri);
+            File file = null;
+            try {
+                file = new File(filePath);
 
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            if (file != null) {
+                if (file.exists()) {
+                    filePath = file.getAbsolutePath();
+                }
+            }
 
+            if (file != null) {
+                if (file.exists()) {
+                    RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+
+                    body =
+                            MultipartBody.Part.createFormData("file", file.getName(), requestFile);
+                }
+            }
+        } else {
+            RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), "");
+
+            body =
+                    MultipartBody.Part.createFormData("file", "", requestFile);
+        }
         Retrofit retrofit = NetworkClient.getRetrofitClient(this);
         WebServices uploadAPIs = retrofit.create(WebServices.class);
 
+        RequestBody appuserId = RequestBody.create(MediaType.parse("text/plain"), appUser);
+        RequestBody fullname = RequestBody.create(MediaType.parse("text/plain"), fullNameStr);
+        RequestBody countycode = RequestBody.create(MediaType.parse("text/plain"), countryCodeStr);
+        RequestBody phoneno = RequestBody.create(MediaType.parse("text/plain"), phoneNoStr);
+        RequestBody gender = RequestBody.create(MediaType.parse("text/plain"), genderStr);
 
-        //Create a file object using file path
-        File file = new File(String.valueOf(uri));
-        // Create a request body with file and image media type
-        RequestBody fileReqBody = RequestBody.create(MediaType.parse("*/*"), file);
-        // Create MultipartBody.Part using file request-body,file name and part name
-        MultipartBody.Part part = MultipartBody.Part.createFormData("uploaded_file", file.getName(), fileReqBody);
-        //Create request body with text description and text media type
-        RequestBody description = RequestBody.create(MediaType.parse("text/plain"), file.getName());
-        //
-        RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), file);
-
-//        RequestBody fullNameStr = RequestBody.create(MediaType.parse("text/plain"),fullNameStr);
-//        RequestBody countryCodeStr = RequestBody.create(MediaType.parse("text/plain"), countryCodeStr);
-//        RequestBody phoneNoStr = RequestBody.create(MediaType.parse("text/plain"),phoneNoStr);
-//        RequestBody genderStr = RequestBody.create(MediaType.parse("text/plain"), "1");
-//        RequestBody appid = RequestBody.create(MediaType.parse("text/plain"), Utils.getPref(mContext, "AppUserId"));
-//
-//        Map<String, RequestBody> map = new HashMap<>();
-//        map.put("AppUserId",appid );
-//        map.put("FullName", fullNameStr);
-//        map.put("CountryCode", countryCodeStr);
-//        map.put("PhoneNo", phoneNoStr);
-//        map.put("Gender", genderStr);
-
-//        Log.d("path",""+part+map);
-//        Call call = uploadAPIs.uploadImage(part,description, map);
         Utils.showDialog(mContext);
-        Call call = uploadAPIs.uploadImage(requestFile);
-        Log.d("call",""+call) ;
-        call.enqueue(new Callback() {
+
+
+        Call<LogginModel> responseBodyCall = uploadAPIs.updateprofile(appuserId, fullname,
+                countycode, phoneno, gender, body);
+        Log.d("File", "" + responseBodyCall);
+        responseBodyCall.enqueue(new Callback<LogginModel>() {
 
             @Override
-            public void onResponse(Call call, retrofit2.Response response) {
+            public void onResponse(Call<LogginModel> call, retrofit2.Response<LogginModel> response) {
                 Utils.dismissDialog();
-                Log.d("upload image",response.toString());
+                if (response.body().getIsValid()==1){
+                    Utils.setPref(mContext, "LoginUserName", response.body().getData().getName());
+                    Utils.setPref(mContext, "LoginEmailId", response.body().getData().getEmail());
+                    Utils.setPref(mContext, "LoginPhoneNo", response.body().getData().getPhoneNo());
+                    Utils.setPref(mContext, "LoginProfilePic",response.body().getData().getProfilePicUrl());
+                    Utils.setPref(mContext, "EmailVerified", String.valueOf(response.body().getData().getIsEmailVerified()));
+                    Utils.setPref(mContext, "PhoneVerified", String.valueOf(response.body().getData().getIsNumberVerified()));
+                    Utils.setPref(mContext,"AppUserId", String.valueOf(response.body().getData().getId()));
+                    Utils.setPref(mContext,"Gender", String.valueOf(response.body().getData().getGender()));
+
+                    Utils.ping(mContext,"Profile Updated Successfully");
+                    AppConfiguration.position=1;
+                   Intent iDash=new Intent(mContext,DashboardActivity.class);
+                   startActivity(iDash);
+                }else{
+                    Utils.ping(mContext,response.body().getMessage());
+                }
+
 
             }
 
             @Override
-            public void onFailure(Call call, Throwable t) {
+            public void onFailure(Call<LogginModel> call, Throwable t) {
+                Log.d("failure", "message = " + t.getMessage());
+                Log.d("failure", "cause = " + t.getCause());
+                Utils.dismissDialog();
             }
         });
-    }
 
-//    private Map<String, String> getUpdateProfileData() {
-//        Map<String, String> map = new HashMap<>();
-//        map.put("AppUserId", Utils.getPref(mContext,"AppUserId"));
-//        map.put("FullName", fullNameStr);
-//        map.put("CountryCode", countryCodeStr);
-//        map.put("PhoneNo",phoneNoStr);
-//        map.put("Gender",genderStr);
-//        return map;
-//    }
+    }
 
 
     public void getUpdateData() {
         fullNameStr = activityEditProfileBinding.userNameEdt.getText().toString();
         countryCodeStr = activityEditProfileBinding.ccp.getSelectedCountryCode();
         phoneNoStr = activityEditProfileBinding.phoneNoEdt.getText().toString();
-
+        appUser = Utils.getPref(mContext, "AppUserId");
         activityEditProfileBinding.genderRg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId) {
                     case R.id.male_rb:
-                        genderStr = "1";
+                        Utils.setPref(mContext, "Gender", "1");
                         break;
                     case R.id.female_rb:
-                        genderStr = "2";
+                        Utils.setPref(mContext, "Gender", "2");
                         break;
                 }
             }
         });
 
-        getUpdateProfile();
-//        if (!fullNameStr.equalsIgnoreCase("")){
-//            if (!countryCodeStr.equalsIgnoreCase("")){
-//                if (!phoneNoStr.equalsIgnoreCase("")){
-//                    if (!genderStr.equalsIgnoreCase("")){
-//                        getUpdateProfile();
-//                    }else {
-//                        Utils.ping(mContext,"Please select gender");
-//                    }
-//                }else{
-//                    activityEditProfileBinding.phoneNoEdt.setError("Please enter phonenumber");
-//                }
-//            }else{
-//                Utils.ping(mContext,"Please select country code");
-//            }
-//        }else {
-//            activityEditProfileBinding.userNameEdt.setError("Please enter fullname");
-//        }
+        genderStr = Utils.getPref(mContext, "Gender");
+        Log.d("DataValue", "Name :" + fullNameStr + "countrycode:" + countryCodeStr
+                + "phone number:" + phoneNoStr + "userid:" + appUser + "gender:" + genderStr);
+
+        if (!fullNameStr.equalsIgnoreCase("")) {
+            if (!countryCodeStr.equalsIgnoreCase("")) {
+                if (!phoneNoStr.equalsIgnoreCase("")) {
+                    if (!genderStr.equalsIgnoreCase("")) {
+                        getUpdateProfile();
+                    } else {
+                        Utils.ping(mContext, "Please select gender");
+                    }
+                } else {
+                    activityEditProfileBinding.phoneNoEdt.setError("Please enter phonenumber");
+                }
+            } else {
+                Utils.ping(mContext, "Please select country code");
+            }
+        } else {
+            activityEditProfileBinding.userNameEdt.setError("Please enter fullname");
+        }
     }
 }

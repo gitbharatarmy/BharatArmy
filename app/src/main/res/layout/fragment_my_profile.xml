@@ -6,12 +6,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="match_parent"
     android:layout_width="match_parent">
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars="vertical"
-        android:fillViewport="true"
-        tools:context=".Fragment.MyProfileFragment">
+    <!--<ScrollView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:scrollbars="vertical"-->
+        <!--android:fillViewport="true"-->
+        <!--tools:context=".Fragment.MyProfileFragment">-->
 
         <LinearLayout
             android:id="@+id/main_linear"
@@ -25,7 +25,7 @@
                 android:layout_height="@dimen/_160sdp"
                 android:layout_gravity="center_horizontal|center_vertical"
                 android:layout_marginLeft="@dimen/_60sdp"
-                android:layout_marginTop="@dimen/_60sdp"
+                android:layout_marginTop="@dimen/_90sdp"
                 android:layout_marginRight="@dimen/_60sdp"
                 android:background="@drawable/profile"
                 android:orientation="vertical">
@@ -36,6 +36,7 @@
                     android:layout_height="@dimen/_116sdp"
                     android:layout_gravity="center"
                     android:layout_margin="@dimen/_22sdp"
+                    android:scaleType="centerCrop"
                     android:src="@drawable/profile_pic" />
 
             </LinearLayout>
@@ -260,6 +261,6 @@
         </LinearLayout>
 
 
-    </ScrollView>
+    <!--</ScrollView>-->
 </LinearLayout>
 </layout>

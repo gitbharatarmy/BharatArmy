@@ -31,7 +31,9 @@ public class LoginDataModel {
     @SerializedName("OTP")
     @Expose
     private String oTP;
-
+    @SerializedName("ProfilePicUrl")
+    @Expose
+    private String profilePicUrl;
     public String getEmail() {
         return email;
     }
@@ -99,5 +101,12 @@ public class LoginDataModel {
 
     public void setOTP(String oTP) {
         this.oTP = oTP;
+    }
+    public String getProfilePicUrl() {
+        return profilePicUrl;
+    }
+
+    public void setProfilePicUrl(String profilePicUrl) {
+        this.profilePicUrl = profilePicUrl;
     }
 }

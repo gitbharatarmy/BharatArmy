@@ -114,7 +114,6 @@ public class MobileVerificationActivity extends AppCompatActivity implements Vie
                     Intent otpIntent=new Intent(mContext,OTPActivity.class);
                     otpIntent.putExtra("OTP",loginModel.getData().getOTP());
                     startActivity(otpIntent);
-//                    overridePendingTransition(R.anim.slide_in_left, 0);
                     finish();
                 }
             }
@@ -137,4 +136,10 @@ public class MobileVerificationActivity extends AppCompatActivity implements Vie
         map.put("CountryCode", countryCodeStr);
         return map;
     }
+
+
+
+
+
+
 }

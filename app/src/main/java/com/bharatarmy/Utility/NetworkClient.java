@@ -9,7 +9,6 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class NetworkClient {
-    private static final String BASE_URL = "http://www.eventostrings.com/";
     private static Retrofit retrofit;
     public static Retrofit getRetrofitClient(Context context) {
         if (retrofit == null) {

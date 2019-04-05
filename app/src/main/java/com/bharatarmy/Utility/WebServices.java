@@ -3,6 +3,7 @@ package com.bharatarmy.Utility;
 import com.bharatarmy.Models.DashboardModel;
 import com.bharatarmy.Models.GetWalkthroughModel;
 import com.bharatarmy.Models.LogginModel;
+import com.bharatarmy.Models.LoginDataModel;
 
 import java.util.Map;
 
@@ -13,10 +14,13 @@ import retrofit.Callback;
 import retrofit.http.FieldMap;
 import retrofit.http.FormUrlEncoded;
 import retrofit.http.POST;
+
 import retrofit2.Call;
 import retrofit2.http.Multipart;
 import retrofit2.http.Part;
 import retrofit2.http.PartMap;
+import retrofit2.http.Query;
+
 
 public interface WebServices {
     @FormUrlEncoded
@@ -39,8 +43,15 @@ public interface WebServices {
     @POST("/SendVerificationOTP")
     void getSendVerificationOTP(@FieldMap Map<String, String> map, Callback<LogginModel> callback);
 
+    /* image uploading with multiple parameter*/
     @Multipart
-    @retrofit2.http.POST("/upload.php")
-//    Call<ResponseBody> uploadImage(@Part MultipartBody.Part file/*,@Part("File") RequestBody name, @PartMap Map<String, RequestBody> partMap*/);
-    Call<ResponseBody> uploadImage(@Part ("uploaded_file") RequestBody file);
+    @retrofit2.http.POST("/API/v1/UpdateProfile")
+    Call<LogginModel> updateprofile(@Part("AppUserId") RequestBody userid, @Part("FullName") RequestBody fullname,
+                                       @Part("CountryCode") RequestBody countrycode, @Part("PhoneNo") RequestBody phoneno,
+                                       @Part("Gender") RequestBody gender, @Part MultipartBody.Part file);
+
+
+    @FormUrlEncoded
+    @POST("/VerifiedPhoneNo")
+    void getVerifiedPhoneNo(@FieldMap Map<String, String> map, Callback<LogginModel> callback);
 }
