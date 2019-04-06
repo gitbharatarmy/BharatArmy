@@ -69,7 +69,7 @@ public class Splash_Screen extends AppCompatActivity {
                 }
             }, SPLASH_TIME_OUT);
         } else {
-            getLoginUserDetail();
+                getLoginUserDetail();
         }
 
     }

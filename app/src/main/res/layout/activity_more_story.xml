@@ -46,21 +46,20 @@
                     android:textSize="@dimen/_14sdp" />
             </LinearLayout>
         </android.support.v7.widget.Toolbar>
-
+        <ProgressBar
+            android:id="@+id/progressbar1"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:indeterminate="true"
+            android:indeterminateDrawable="@drawable/app_logo"/>
         <WebView
             android:id="@+id/more_story_webview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/toolbar"
             android:scrollbars="none"/>
-        
-        <ProgressBar
-            android:id="@+id/pbProgess"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:src="@drawable/progress_animation"/>
     </LinearLayout>
 
 </RelativeLayout>

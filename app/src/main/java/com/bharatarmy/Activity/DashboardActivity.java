@@ -1,5 +1,6 @@
 package com.bharatarmy.Activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -25,11 +26,12 @@ import com.bharatarmy.Fragment.HomeFragment;
 import com.bharatarmy.Fragment.MyProfileFragment;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.AppConfiguration;
+import com.bharatarmy.Utility.Utils;
 import com.google.android.gms.common.internal.Objects;
 
 public class DashboardActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-
+Context mContext;
     private FragmentManager fragmentManager = null;
     private Fragment fragment;
     int myid;
@@ -40,6 +42,7 @@ public class DashboardActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
+        mContext=DashboardActivity.this;
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
         setSupportActionBar(toolbar);
@@ -66,6 +69,9 @@ public class DashboardActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.navigation);
+        if (AppConfiguration.position==1){
+            bottomNavigationView.setSelectedItemId(R.id.navigation_myprofile);
+        }
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -106,15 +112,24 @@ public class DashboardActivity extends AppCompatActivity
 //        }
 
             if (AppConfiguration.position != 0) {
-                displayView(AppConfiguration.position);
+                    displayView(AppConfiguration.position);
             }
             else
             {
-                Intent a = new Intent(Intent.ACTION_MAIN);
-                a.addCategory(Intent.CATEGORY_HOME);
-                a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(a);
-                finish();
+                if (!Utils.checkNetwork(mContext)){
+                    Utils.dismissDialog();
+                    Intent a = new Intent(Intent.ACTION_MAIN);
+                    a.addCategory(Intent.CATEGORY_HOME);
+                    a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(a);
+                    finish();
+                }else {
+                    Intent a = new Intent(Intent.ACTION_MAIN);
+                    a.addCategory(Intent.CATEGORY_HOME);
+                    a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(a);
+                    finish();
+                }
             }
 //            else {
 //                Utility.ping(mContext, "Press again to exit");

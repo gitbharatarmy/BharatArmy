@@ -29,6 +29,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bharatarmy.Activity.MoreStoryActivity;
+import com.bharatarmy.Activity.Splash_Screen;
 import com.bharatarmy.Adapter.BharatArmyStoriesAdapter;
 import com.bharatarmy.Adapter.UpcomingDashboardAdapter;
 import com.bharatarmy.Interfaces.MorestoryClick;
@@ -121,8 +122,15 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        if (!Utils.checkNetwork(mContext)){
+            Utils.showCustomDialog(getResources().getString(R.string.internet_error), getResources().getString(R.string.internet_connection_error), getActivity());
+        }else{
+            callDashboardData();
+        }
         setListiner();
-        callDashboardData();
+
+
     }
 
     public void setListiner() {

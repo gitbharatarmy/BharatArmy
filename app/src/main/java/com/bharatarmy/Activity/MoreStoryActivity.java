@@ -1,16 +1,20 @@
 package com.bharatarmy.Activity;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
+import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
@@ -18,7 +22,7 @@ import com.bharatarmy.R;
 import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.ActivityMoreStoryBinding;
 
-public class MoreStoryActivity extends AppCompatActivity implements View.OnClickListener {
+public class MoreStoryActivity extends Activity implements View.OnClickListener {
 
     ActivityMoreStoryBinding moreStoryBinding;
     Context mContext;
@@ -44,42 +48,10 @@ public class MoreStoryActivity extends AppCompatActivity implements View.OnClick
         storyUrlStr = getIntent().getStringExtra("StroyUrl");
 
         moreStoryBinding.toolbarTitleTxt.setText(storyHeadingStr);
+        moreStoryBinding.moreStoryWebview.setWebViewClient(new MyWebViewClient());
         moreStoryBinding.moreStoryWebview.getSettings().setJavaScriptEnabled(true);
-//        moreStoryBinding.moreStoryWebview.setScrollBarStyle(View.SCROLLBARS_OUTSIDE_OVERLAY);
-//
-//        moreStoryBinding.moreStoryWebview.getSettings().setBuiltInZoomControls(true);
-//        moreStoryBinding.moreStoryWebview.getSettings().setUseWideViewPort(true);
-//        moreStoryBinding.moreStoryWebview.getSettings().setLoadWithOverviewMode(true);
-
-//        Utils.showDialog(mContext);
-        if (dialog == null) {
-            dialog = new Dialog(mContext);
-            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-            dialog.setContentView(R.layout.progressbar_dialog);
-            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-            dialog.setCancelable(true);
-            dialog.setCanceledOnTouchOutside(true);
-            dialog.show();
-        }
-        moreStoryBinding.moreStoryWebview.setWebViewClient(new WebViewClient() {
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                view.loadUrl(url);
-                return true;
-            }
-
-            @Override
-            public void onPageFinished(WebView view, String url) {
-                Utils.dismissDialog();
-            }
-
-            @Override
-            public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-                Utils.ping(mContext,"Error for loading");
-
-            }
-        });
         moreStoryBinding.moreStoryWebview.loadUrl(storyUrlStr);
+
     }
 
     @Override
@@ -90,4 +62,30 @@ public class MoreStoryActivity extends AppCompatActivity implements View.OnClick
                 break;
         }
     }
+
+
+    public class MyWebViewClient extends WebViewClient {
+        @Override
+        public void onPageStarted(WebView view, String url, Bitmap favicon) {
+            // TODO Auto-generated method stub
+            super.onPageStarted(view, url, favicon);
+        }
+
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            // TODO Auto-generated method stub
+            moreStoryBinding.progressbar1.setVisibility(View.VISIBLE);
+            view.loadUrl(url);
+            return true;
+        }
+
+        @Override
+        public void onPageFinished(WebView view, String url) {
+            // TODO Auto-generated method stub
+            super.onPageFinished(view, url);
+
+            moreStoryBinding.progressbar1.setVisibility(View.GONE);
+        }
+    }
+
 }

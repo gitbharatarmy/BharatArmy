@@ -19,7 +19,9 @@ import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,7 +36,7 @@ import static com.yalantis.ucrop.util.FileUtils.isGooglePhotosUri;
 import static com.yalantis.ucrop.util.FileUtils.isMediaDocument;
 
 public class Utils {
-    Context context;
+
     public static Dialog dialog;
 
     public static final String MyPREFERENCES = "MyPrefs";
@@ -64,40 +66,47 @@ public class Utils {
         return wifiAvailable || mobileAvailable;
     }
 
-    public static void showCustomDialog(String title, String str, Activity activity) {
-        // custom dialog
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity);
-// ...Irrelevant code for customizing the buttons and title
-        LayoutInflater inflater = activity.getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.custom_simple_dailog_ok, null);
-
-        dialogBuilder.setView(dialogView);
-
-        TextView txt_message_dialog = dialogView.findViewById(R.id.txt_message_dialog);
-        txt_message_dialog.setText(str);
-
-        TextView txt_title_dialog = dialogView.findViewById(R.id.txt_title_dialog);
-        txt_title_dialog.setText(title);
-
-        TextView btn_ok = dialogView.findViewById(R.id.btn_ok);
+    public static void showCustomDialog(String title, String str, final Activity activity) {
+        final Dialog dialog = new Dialog(activity);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(false);
+        dialog.setContentView(R.layout.custom_simple_dailog_ok);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        final Window window = dialog.getWindow();
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
 
 
-        final AlertDialog alertDialog = dialogBuilder.create();
-        alertDialog.show();
-        btn_ok.setOnClickListener(new View.OnClickListener() {
+        Button tryagain=(Button)dialog.findViewById(R.id.try_again_btn);
+
+        if (checkNetwork(activity)){
+            dialog.dismiss();
+            activity.recreate();
+        }else{
+            tryagain.performClick();
+            Utils.ping(activity,"Internet connection not available");
+            dialog.show();
+        }
+
+        tryagain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                alertDialog.dismiss();
+                if (checkNetwork(activity)){
+                    dialog.dismiss();
+                   activity.recreate();
+                }else{
+                    Utils.ping(activity,"Internet connection not available");
+                    dialog.show();
+                }
             }
         });
-
+        dialog.show();
     }
 
     public static void showDialog(Context context) {
         if (dialog == null) {
             dialog = new Dialog(context);
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-            dialog.setContentView(R.layout.progressbar_dialog);
+//            dialog.setContentView(R.layout.progressbar_dialog);
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             dialog.setCancelable(true);
             dialog.setCanceledOnTouchOutside(false);

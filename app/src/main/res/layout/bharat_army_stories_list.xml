@@ -138,9 +138,9 @@
 
                 <ImageView
                     android:id="@+id/date_img"
-                    android:layout_width="@dimen/_15sdp"
-                    android:layout_height="@dimen/_15sdp"
-                    android:src="@drawable/password"
+                    android:layout_width="@dimen/_11sdp"
+                    android:layout_height="@dimen/_11sdp"
+                    android:src="@drawable/ic_calendar"
                     android:layout_gravity="center_vertical"/>
                 <TextView
                     android:id="@+id/date_txt"
@@ -149,14 +149,14 @@
                     android:text="06 Feb 19"
                     android:gravity="center_vertical"
                     android:paddingLeft="@dimen/_2sdp"
-                    android:textColor="@color/gray"
+                    android:textColor="@color/NotActive_dot_color"
                     style="@style/text_font"
                     android:textSize="@dimen/_10sdp"/>
                 <ImageView
                     android:id="@+id/views_img"
-                    android:layout_width="@dimen/_15sdp"
-                    android:layout_height="@dimen/_15sdp"
-                    android:src="@drawable/password"
+                    android:layout_width="@dimen/_11sdp"
+                    android:layout_height="@dimen/_11sdp"
+                    android:src="@drawable/ic_eye"
                     android:layout_gravity="center_vertical"/>
                 <TextView
                     android:id="@+id/views_txt"
@@ -165,7 +165,7 @@
                     android:text="06 Feb 19"
                     android:gravity="center_vertical"
                     android:paddingLeft="@dimen/_2sdp"
-                    android:textColor="@color/gray"
+                    android:textColor="@color/NotActive_dot_color"
                     style="@style/text_font"
                     android:textSize="@dimen/_10sdp"/>
                 <ImageView

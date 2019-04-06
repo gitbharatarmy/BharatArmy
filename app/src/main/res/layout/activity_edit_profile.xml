@@ -301,9 +301,9 @@
             android:id="@+id/cancel_btn"
             android:layout_width="@dimen/_90sdp"
             android:layout_height="@dimen/_30sdp"
-            android:background="@color/skip_color"
+            android:background="@drawable/cancel_btn"
             android:text="@string/cancel"
-            android:textColor="@color/splash_bg_color"
+            android:textColor="@color/skip_color"
             android:textSize="@dimen/_15sdp"
             style="@style/text_font"
             android:layout_marginLeft="@dimen/_15sdp"/>
