@@ -79,8 +79,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             }
 
         } else {
-            loginBinding.userNameEdt.setError("Blank filed not allowed");
-            loginBinding.userPasswordEdt.setError("Blank filed not allowed");
+            loginBinding.userNameEdt.setError("Blank field not allowed");
+            loginBinding.userPasswordEdt.setError("Blank field not allowed");
         }
 
     }
@@ -140,6 +140,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             @Override
             public void success(LogginModel loginModel, Response response) {
                 Utils.dismissDialog();
+
                 if (loginModel == null) {
                     Utils.ping(mContext, getString(R.string.something_wrong));
                     return;

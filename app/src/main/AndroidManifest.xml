@@ -18,15 +18,11 @@
         android:label="@string/app_name"
         android:roundIcon="@drawable/app_logo"
         android:supportsRtl="true">
-        <activity android:name=".DemoActivity"
+        <activity android:name=".Activity.HistoryDetailActivity"></activity>
+        <activity
+            android:name=".DemoActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".Activity.MoreStoryActivity"
             android:screenOrientation="portrait"
@@ -34,7 +30,7 @@
         <activity
             android:name=".Activity.MobileVerificationActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Activity.OTPActivity"
             android:screenOrientation="portrait"
@@ -47,10 +43,11 @@
             android:name=".Activity.EditProfileActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
-            android:windowSoftInputMode="stateHidden|adjustResize"></activity>
+            android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".Activity.DashboardActivity"
             android:label="@string/title_activity_dashboard"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity android:name=".Activity.SignUpActivity" />
         <activity
@@ -65,7 +62,11 @@
             android:name=".Activity.Splash_Screen"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
 
         <service android:name=".Utility.MyFirebaseMessagingService">

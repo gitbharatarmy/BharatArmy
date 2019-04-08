@@ -2,6 +2,7 @@ package com.bharatarmy.Activity;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -9,8 +10,11 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Environment;
+import android.os.Handler;
 import android.os.Parcelable;
 import android.provider.ContactsContract;
 import android.provider.MediaStore;
@@ -26,6 +30,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import com.bharatarmy.Fragment.MyProfileFragment;
 import com.bharatarmy.Models.LogginModel;
@@ -34,9 +39,11 @@ import com.bharatarmy.R;
 import com.bharatarmy.Utility.ApiHandler;
 import com.bharatarmy.Utility.AppConfiguration;
 import com.bharatarmy.Utility.NetworkClient;
+import com.bharatarmy.Utility.ProgressRequestBody;
 import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.Utility.WebServices;
 import com.bharatarmy.databinding.ActivityEditProfileBinding;
+import com.google.android.gms.dynamic.IFragmentWrapper;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
@@ -47,7 +54,6 @@ import com.rilixtech.CountryCodePicker;
 import com.squareup.picasso.Picasso;
 //import com.yalantis.ucrop.util.FileUtils;
 
-import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -65,7 +71,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Retrofit;
 
-public class EditProfileActivity extends AppCompatActivity implements View.OnClickListener {
+public class EditProfileActivity extends AppCompatActivity implements View.OnClickListener, ProgressRequestBody.UploadCallbacks {
 
     private static final String TAG = EditProfileActivity.class.getSimpleName();
     public static final int REQUEST_IMAGE = 100;
@@ -74,13 +80,15 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
     Context mContext;
     String fullNameStr = "", countryCodeStr = "", phoneNoStr = "", genderStr = "", appUser = "", fileStr = "";
     Uri uri;
+    File file = null;
+    int mFileLen;
+    ProgressDialog mDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activityEditProfileBinding = DataBindingUtil.setContentView(this, R.layout.activity_edit_profile);
         mContext = EditProfileActivity.this;
-
 
         ImagePickerActivity.clearCache(this);
         setDataValue();
@@ -255,8 +263,15 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         }
         MultipartBody.Part body = null;
         if (uri != null) {
+
             String filePath = Utils.getFilePathFromUri(mContext, uri);
-            File file = null;
+
+            mDialog = new ProgressDialog(mContext);
+            mDialog.setCancelable(false);
+            mDialog.setMessage("Uploading Profile Picture");
+            mDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            mDialog.setIndeterminate(false);
+            mDialog.show();
             try {
                 file = new File(filePath);
 
@@ -271,17 +286,19 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
 
             if (file != null) {
                 if (file.exists()) {
-                    RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
 
-                    body =
-                            MultipartBody.Part.createFormData("file", file.getName(), requestFile);
+//                    RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+//                    body = MultipartBody.Part.createFormData("file", file.getName(), requestFile);
+                    ProgressRequestBody fileBody = new ProgressRequestBody(file, this);
+                    body = MultipartBody.Part.createFormData("image", file.getName(), fileBody);
+
                 }
             }
         } else {
+            Utils.showDialog(mContext);
             RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), "");
 
-            body =
-                    MultipartBody.Part.createFormData("file", "", requestFile);
+            body = MultipartBody.Part.createFormData("file", "", requestFile);
         }
         Retrofit retrofit = NetworkClient.getRetrofitClient(this);
         WebServices uploadAPIs = retrofit.create(WebServices.class);
@@ -292,9 +309,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         RequestBody phoneno = RequestBody.create(MediaType.parse("text/plain"), phoneNoStr);
         RequestBody gender = RequestBody.create(MediaType.parse("text/plain"), genderStr);
 
-        Utils.showDialog(mContext);
-
-
+//        ShowProgressDialog();
         Call<LogginModel> responseBodyCall = uploadAPIs.updateprofile(appuserId, fullname,
                 countycode, phoneno, gender, body);
         Log.d("File", "" + responseBodyCall);
@@ -302,23 +317,28 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
 
             @Override
             public void onResponse(Call<LogginModel> call, retrofit2.Response<LogginModel> response) {
-                Utils.dismissDialog();
-                if (response.body().getIsValid()==1){
+                if (uri != null) {
+                    mDialog.dismiss();
+                } else {
+                    Utils.dismissDialog();
+                }
+                if (response.body().getIsValid() == 1) {
                     Utils.setPref(mContext, "LoginUserName", response.body().getData().getName());
                     Utils.setPref(mContext, "LoginEmailId", response.body().getData().getEmail());
                     Utils.setPref(mContext, "LoginPhoneNo", response.body().getData().getPhoneNo());
-                    Utils.setPref(mContext, "LoginProfilePic",response.body().getData().getProfilePicUrl());
+                    Utils.setPref(mContext, "LoginProfilePic", response.body().getData().getProfilePicUrl());
                     Utils.setPref(mContext, "EmailVerified", String.valueOf(response.body().getData().getIsEmailVerified()));
                     Utils.setPref(mContext, "PhoneVerified", String.valueOf(response.body().getData().getIsNumberVerified()));
-                    Utils.setPref(mContext,"AppUserId", String.valueOf(response.body().getData().getId()));
-                    Utils.setPref(mContext,"Gender", String.valueOf(response.body().getData().getGender()));
+                    Utils.setPref(mContext, "AppUserId", String.valueOf(response.body().getData().getId()));
+                    Utils.setPref(mContext, "Gender", String.valueOf(response.body().getData().getGender()));
 
-                    Utils.ping(mContext,"Profile Updated Successfully");
-                    AppConfiguration.position=1;
-                   Intent iDash=new Intent(mContext,DashboardActivity.class);
-                   startActivity(iDash);
-                }else{
-                    Utils.ping(mContext,response.body().getMessage());
+                    Utils.ping(mContext, "Profile Updated Successfully");
+                    AppConfiguration.position = 1;
+                    Intent iDash = new Intent(mContext, DashboardActivity.class);
+                    startActivity(iDash);
+                    finish();
+                } else {
+                    Utils.ping(mContext, response.body().getMessage());
                 }
 
 
@@ -328,9 +348,14 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
             public void onFailure(Call<LogginModel> call, Throwable t) {
                 Log.d("failure", "message = " + t.getMessage());
                 Log.d("failure", "cause = " + t.getCause());
-                Utils.dismissDialog();
+                 if (uri != null) {
+                    mDialog.dismiss();
+                } else {
+                    Utils.dismissDialog();
+                }
             }
         });
+
 
     }
 
@@ -375,5 +400,22 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         } else {
             activityEditProfileBinding.userNameEdt.setError("Please enter fullname");
         }
+    }
+
+
+    @Override
+    public void onProgressUpdate(int percentage) {
+        mDialog.setProgress(percentage);
+    }
+
+    @Override
+    public void onError() {
+        mDialog.dismiss();
+        Utils.ping(mContext, "Try Again");
+    }
+
+    @Override
+    public void onFinish() {
+        mDialog.setProgress(100);
     }
 }

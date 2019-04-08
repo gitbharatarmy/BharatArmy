@@ -75,7 +75,8 @@
                     android:gravity="center_horizontal"
                     android:text="+91-85233697410"
                     android:textColor="@color/normal_font_color"
-                    android:textSize="@dimen/_14sdp" />
+                    android:textSize="@dimen/_14sdp"
+                    android:id="@+id/no_txt"/>
 
                 <TextView
                     style="@style/text_font"
@@ -102,7 +103,8 @@
                         android:gravity="center"
                         android:inputType="number"
                         android:maxLength="1"
-                        android:textColor="@color/heading_bg" />
+                        android:textColor="@color/heading_bg"
+                        android:textCursorDrawable="@drawable/color_cursor"/>
 
                     <EditText
                         android:id="@+id/edit2"
@@ -114,7 +116,8 @@
                         android:gravity="center"
                         android:inputType="number"
                         android:maxLength="1"
-                        android:textColor="@color/heading_bg" />
+                        android:textColor="@color/heading_bg"
+                        android:textCursorDrawable="@drawable/color_cursor"/>
 
                     <EditText
                         android:id="@+id/edit3"
@@ -126,7 +129,8 @@
                         android:gravity="center"
                         android:inputType="number"
                         android:maxLength="1"
-                        android:textColor="@color/heading_bg" />
+                        android:textColor="@color/heading_bg"
+                        android:textCursorDrawable="@drawable/color_cursor"/>
 
                     <EditText
                         android:id="@+id/edit4"
@@ -138,7 +142,8 @@
                         android:gravity="center"
                         android:inputType="number"
                         android:maxLength="1"
-                        android:textColor="@color/heading_bg" />
+                        android:textColor="@color/heading_bg"
+                        android:textCursorDrawable="@drawable/color_cursor"/>
                 </LinearLayout>
 
                 <LinearLayout

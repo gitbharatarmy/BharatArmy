@@ -4,6 +4,7 @@ import com.bharatarmy.Models.DashboardModel;
 import com.bharatarmy.Models.GetWalkthroughModel;
 import com.bharatarmy.Models.LogginModel;
 import com.bharatarmy.Models.LoginDataModel;
+import com.bharatarmy.Models.OtpModel;
 
 import java.util.Map;
 
@@ -53,5 +54,5 @@ public interface WebServices {
 
     @FormUrlEncoded
     @POST("/VerifiedPhoneNo")
-    void getVerifiedPhoneNo(@FieldMap Map<String, String> map, Callback<LogginModel> callback);
+    void getVerifiedPhoneNo(@FieldMap Map<String, String> map, Callback<OtpModel> callback);
 }

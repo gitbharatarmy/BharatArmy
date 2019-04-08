@@ -1,6 +1,7 @@
 package com.bharatarmy.Activity;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -10,6 +11,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -20,8 +22,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.bharatarmy.Fragment.HistoryFragment;
 import com.bharatarmy.Fragment.HomeFragment;
 import com.bharatarmy.Fragment.MyProfileFragment;
 import com.bharatarmy.R;
@@ -31,27 +35,33 @@ import com.google.android.gms.common.internal.Objects;
 
 public class DashboardActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-Context mContext;
+    Context mContext;
     private FragmentManager fragmentManager = null;
     private Fragment fragment;
     int myid;
     boolean first_time_trans = true;
     BottomNavigationView bottomNavigationView;
 
+    LinearLayout logout_linear;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
-        mContext=DashboardActivity.this;
+        mContext = DashboardActivity.this;
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        logout_linear = (LinearLayout) findViewById(R.id.logout_linear);
 
         setSupportActionBar(toolbar);
 //        toolbar.setNavigationIcon(null);
         getSupportActionBar().setTitle("");
-        if (AppConfiguration.position==0){
+        if (AppConfiguration.position == 0) {
             displayView(0);
-        }else{
+        } else if (AppConfiguration.position==1){
             fragment = new MyProfileFragment();
+            loadFragment(fragment);
+        } else if (AppConfiguration.position==2){
+            fragment = new HistoryFragment();
             loadFragment(fragment);
         }
 
@@ -69,7 +79,7 @@ Context mContext;
         navigationView.setNavigationItemSelectedListener(this);
 
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.navigation);
-        if (AppConfiguration.position==1){
+        if (AppConfiguration.position == 1) {
             bottomNavigationView.setSelectedItemId(R.id.navigation_myprofile);
         }
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -81,6 +91,8 @@ Context mContext;
                         loadFragment(fragment);
                         return true;
                     case R.id.navigation_history:
+                        fragment= new HistoryFragment();
+                        loadFragment(fragment);
                         return true;
                     case R.id.navigation_myprofile:
 //                        getSupportActionBar().setTitle(" My Profile");
@@ -92,11 +104,65 @@ Context mContext;
             }
         });
 
+
+        logout_linear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder alertDialog2 = new AlertDialog.Builder(
+                        DashboardActivity.this);
+
+// Setting Dialog Title
+                alertDialog2.setTitle("Logout Confirm");
+
+// Setting Dialog Message
+                alertDialog2.setMessage("Are you sure you want logout?");
+
+// Setting Icon to Dialog
+                alertDialog2.setIcon(R.drawable.app_logo);
+
+                alertDialog2.setCancelable(false);
+
+// Setting Positive "Yes" Btn
+                alertDialog2.setPositiveButton("YES",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // Write your code here to execute after dialog
+                                Utils.setPref(mContext, "LoginUserName", "");
+                                Utils.setPref(mContext, "LoginEmailId", "");
+                                Utils.setPref(mContext, "LoginPhoneNo", "");
+                                Utils.setPref(mContext, "LoginProfilePic", "");
+                                Utils.setPref(mContext, "EmailVerified", "");
+                                Utils.setPref(mContext, "PhoneVerified", "");
+                                Utils.setPref(mContext, "AppUserId", "");
+                                Utils.setPref(mContext, "Gender", "");
+
+                                Utils.ping(mContext, "You are logout suceessfully");
+                                Intent ilogin = new Intent(mContext, LoginActivity.class);
+                                startActivity(ilogin);
+                                finish();
+
+                            }
+                        });
+
+// Setting Negative "NO" Btn
+                alertDialog2.setNegativeButton("NO",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // Write your code here to execute after dialog
+
+                                dialog.cancel();
+                            }
+                        });
+
+// Showing Alert Dialog
+                alertDialog2.show();
+            }
+        });
     }
 
     private void loadFragment(Fragment fragment) {
         // load fragment
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction().setCustomAnimations(0,0);
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction().setCustomAnimations(0, 0);
         transaction.replace(R.id.frame_container, fragment);
 //        transaction.addToBackStack(null);
         transaction.commit();
@@ -111,26 +177,24 @@ Context mContext;
 //            super.onBackPressed();
 //        }
 
-            if (AppConfiguration.position != 0) {
-                    displayView(AppConfiguration.position);
+        if (AppConfiguration.position != 0) {
+            displayView(AppConfiguration.position);
+        } else {
+            if (!Utils.checkNetwork(mContext)) {
+                Utils.dismissDialog();
+                Intent a = new Intent(Intent.ACTION_MAIN);
+                a.addCategory(Intent.CATEGORY_HOME);
+                a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(a);
+                finish();
+            } else {
+                Intent a = new Intent(Intent.ACTION_MAIN);
+                a.addCategory(Intent.CATEGORY_HOME);
+                a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(a);
+                finish();
             }
-            else
-            {
-                if (!Utils.checkNetwork(mContext)){
-                    Utils.dismissDialog();
-                    Intent a = new Intent(Intent.ACTION_MAIN);
-                    a.addCategory(Intent.CATEGORY_HOME);
-                    a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(a);
-                    finish();
-                }else {
-                    Intent a = new Intent(Intent.ACTION_MAIN);
-                    a.addCategory(Intent.CATEGORY_HOME);
-                    a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(a);
-                    finish();
-                }
-            }
+        }
 //            else {
 //                Utility.ping(mContext, "Press again to exit");
 //            }
@@ -205,17 +269,17 @@ Context mContext;
                 if (first_time_trans) {
                     first_time_trans = false;
                     fragmentManager.beginTransaction()
-                            .setCustomAnimations(0,0)
+                            .setCustomAnimations(0, 0)
                             .replace(R.id.frame_container, fragment).commit();
 
                 } else {
                     fragmentManager.beginTransaction()
-                            .setCustomAnimations(0,0)
+                            .setCustomAnimations(0, 0)
                             .replace(R.id.frame_container, fragment).commit();
                 }
             } else {
                 fragmentManager.beginTransaction()
-                        .setCustomAnimations(0,0)
+                        .setCustomAnimations(0, 0)
                         .replace(R.id.frame_container, fragment).commit();
             }
 

@@ -9,14 +9,14 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_150sdp"
+        android:layout_height="@dimen/_75sdp"
         android:background="@color/gray" />
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_150sdp"
+        android:layout_marginTop="@dimen/_75sdp"
         android:orientation="vertical">
 
         <View

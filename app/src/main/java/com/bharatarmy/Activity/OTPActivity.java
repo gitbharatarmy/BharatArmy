@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.bharatarmy.Interfaces.SmsListener;
 import com.bharatarmy.Models.LogginModel;
+import com.bharatarmy.Models.OtpModel;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.ApiHandler;
 import com.bharatarmy.Utility.SmsReceiver;
@@ -47,8 +48,12 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
     }
 
     public void setListiner() {
-        VerificationPhone();
+
         otpStr = getIntent().getStringExtra("OTP");
+        phoneNoStr=getIntent().getStringExtra("OTPmobileno");
+        countryCodeStr=getIntent().getStringExtra("countrycode");
+
+        activityOtpBinding.noTxt.setText("+"+countryCodeStr+"-"+phoneNoStr);
 
         SmsReceiver.bindListener(new SmsListener() {
             @Override
@@ -181,10 +186,8 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
         Log.d("otpStr", otpStr);
 
         if (otpStr.equalsIgnoreCase(finalgetOtpStr)) {
-            Intent DashboardIntent = new Intent(mContext, DashboardActivity.class);
-            startActivity(DashboardIntent);
-            overridePendingTransition(R.anim.slide_in_left, 0);
-            finish();
+            VerificationPhone();
+
         } else {
             Utils.ping(mContext, "Please Enter Valid OTP");
         }
@@ -198,9 +201,9 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
         }
 
         Utils.showDialog(mContext);
-        ApiHandler.getApiService().getVerifiedPhoneNo(getphoneVerificationData(), new retrofit.Callback<LogginModel>() {
+        ApiHandler.getApiService().getVerifiedPhoneNo(getphoneVerificationData(), new retrofit.Callback<OtpModel>() {
             @Override
-            public void success(LogginModel loginModel, Response response) {
+            public void success(OtpModel loginModel, Response response) {
                 Utils.dismissDialog();
                 if (loginModel == null) {
                     Utils.ping(mContext, getString(R.string.something_wrong));
@@ -211,13 +214,14 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
                     return;
                 }
                 if (loginModel.getIsValid() == 0) {
-                    Utils.ping(mContext, loginModel.getMessage());
+                    Utils.ping(mContext, String.valueOf(loginModel.getMessage()));
                     return;
                 }
+//                9574252404
                 if (loginModel.getIsValid() == 1) {
-                    Intent otpIntent = new Intent(mContext, OTPActivity.class);
-                    startActivity(otpIntent);
-//                    overridePendingTransition(R.anim.slide_in_left, 0);
+                    Intent DashboardIntent = new Intent(mContext, DashboardActivity.class);
+                    startActivity(DashboardIntent);
+                    overridePendingTransition(0, 0);
                     finish();
                 }
             }

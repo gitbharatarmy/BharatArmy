@@ -62,7 +62,7 @@ public class WalkThrough extends AppCompatActivity {
     private ViewPager viewPager;
     private MyViewPagerAdapter myViewPagerAdapter;
     private LinearLayout dotsLayout;
-    private TextView[] dots;
+    private ImageView[] dots;
     private ArrayList<Integer> layouts;
     private List<WalkthroughData> walkthroughDataList;
     private Button btnSkip, btnNext;
@@ -95,7 +95,7 @@ public class WalkThrough extends AppCompatActivity {
         dotsLayout = (LinearLayout) findViewById(R.id.layoutDots);
         btnSkip = (Button) findViewById(R.id.btn_skip);
         btnNext = (Button) findViewById(R.id.btn_next);
-        shimmer_view_container=(ShimmerFrameLayout)findViewById(R.id.shimmer_view_container1);
+        shimmer_view_container = (ShimmerFrameLayout) findViewById(R.id.shimmer_view_container1);
 
         shimmer_view_container.startShimmerAnimation();
 
@@ -115,7 +115,7 @@ public class WalkThrough extends AppCompatActivity {
 
     @SuppressLint("ResourceAsColor")
     private void addBottomDots(int currentPage) {
-        dots = new TextView[layouts.size()];
+        dots = new ImageView[layouts.size()];
 
 //        int[] colorsActive = getResources().getIntArray(R.array.array_dot_active);
 //        int[] colorsInactive = getResources().getIntArray(R.array.array_dot_inactive);
@@ -123,22 +123,30 @@ public class WalkThrough extends AppCompatActivity {
         List<String> colorsActiveList = new ArrayList<>();
         List<String> colorsInactive = new ArrayList<>();
         for (int i = 0; i < layouts.size(); i++) {
-            colorsActiveList.add(String.valueOf(getResources().getColor(R.color.Active_dot_color)));
-            colorsInactive.add(String.valueOf(getResources().getColor(R.color.NotActive_dot_color)));
+//            colorsActiveList.add(String.valueOf(getResources().getColor(R.color.Active_dot_color)));
+//            colorsInactive.add(String.valueOf(getResources().getColor(R.color.NotActive_dot_color)));
+            colorsActiveList.add(String.valueOf(R.drawable.ball_scroll_primary));
+            colorsInactive.add(String.valueOf(R.drawable.ball_scroll));
         }
 
+        int width = 30;
+        int height = 30;
 
         dotsLayout.removeAllViews();
         for (int i = 0; i < dots.length; i++) {
-            dots[i] = new TextView(this);
-            dots[i].setText(Html.fromHtml("&#8226;"));
-            dots[i].setTextSize(35);
-            dots[i].setTextColor(Integer.parseInt(colorsInactive.get(currentPage)));//   colorsInactive[currentPage]
+            dots[i] = new ImageView(this);
+//            dots[i].setText(Html.fromHtml("&#8226;"));
+//            dots[i].setTextSize(35);
+            LinearLayout.LayoutParams parms = new LinearLayout.LayoutParams(width, height);
+            parms.setMargins(5, 5, 0, 0);
+            dots[i].setLayoutParams(parms);
+            dots[i].setImageResource(Integer.parseInt(colorsInactive.get(currentPage)));//   colorsInactive[currentPage]
+
             dotsLayout.addView(dots[i]);
         }
 
         if (dots.length > 0)
-            dots[currentPage].setTextColor(Integer.parseInt(colorsActiveList.get(currentPage)));//colorsActive[currentPage]
+            dots[currentPage].setImageResource(Integer.parseInt(colorsActiveList.get(currentPage)));//colorsActive[currentPage]
     }
 
     private int getItem(int i) {
@@ -327,7 +335,6 @@ public class WalkThrough extends AppCompatActivity {
 
             gridViewList = (RecyclerView) view.findViewById(R.id.bullet_list);
             recyclerViewList = (RecyclerView) view.findViewById(R.id.bullet_Rlist);
-
 
 
             if (walkthroughDataList.get(position).getBulletLayoutType() == 2) {

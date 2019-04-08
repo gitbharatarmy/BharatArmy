@@ -2,26 +2,39 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:layout_gravity="center_vertical|center_horizontal"
-    android:background="@android:color/transparent">
+    android:background="@android:color/transparent"
+    android:orientation="vertical">
 
-    <LinearLayout
+    <!--<com.bharatarmy.Utility.GifImageView-->
+        <!--android:id="@+id/GifImageView"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="center_horizontal"-->
+        <!--android:src="@drawable/loadingvideo"/>-->
+
+    <pl.droidsonroids.gif.GifImageView
+        android:id="@+id/gif"
         android:layout_width="@dimen/_100sdp"
-        android:layout_height="@dimen/_100sdp"
-        android:gravity="center_vertical|center_horizontal"
-        android:orientation="vertical"
-        android:background="@drawable/flag_logo_without_chkara">
+        android:layout_height="match_parent"
+        android:src="@drawable/loadingvideo"
+        android:layout_gravity="center_horizontal" />
+    <!--<LinearLayout-->
+    <!--android:layout_width="@dimen/_100sdp"-->
+    <!--android:layout_height="@dimen/_100sdp"-->
+    <!--android:gravity="center_vertical|center_horizontal"-->
+    <!--android:orientation="vertical"-->
+    <!--android:background="@drawable/flag_logo_without_chkara">-->
 
-        <ImageView
-            android:layout_width="@dimen/_50sdp"
-        android:layout_height="@dimen/_50sdp"
-        android:src="@drawable/app_logo_animation"
-        android:layout_margin="@dimen/_15sdp"
-        />
-    </LinearLayout>
+    <!--<ImageView-->
+    <!--android:layout_width="@dimen/_50sdp"-->
+    <!--android:layout_height="@dimen/_50sdp"-->
+    <!--android:src="@drawable/app_logo_animation"-->
+    <!--android:layout_margin="@dimen/_15sdp"-->
+    <!--/>-->
+    <!--</LinearLayout>-->
 
 </LinearLayout>
 

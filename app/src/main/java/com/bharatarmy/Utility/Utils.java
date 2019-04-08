@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -106,8 +107,15 @@ public class Utils {
         if (dialog == null) {
             dialog = new Dialog(context);
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-//            dialog.setContentView(R.layout.progressbar_dialog);
-            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            dialog.setContentView(R.layout.progressbar_dialog);
+//            GifImageView gifImageView = (GifImageView)dialog. findViewById(R.id.GifImageView);
+//            gifImageView.setGifImageResource(R.drawable.loadingvideo);
+//            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            dialog.getWindow().setLayout(WindowManager.LayoutParams.FILL_PARENT,
+                    WindowManager.LayoutParams.FILL_PARENT);
+            Drawable d = new ColorDrawable(Color.BLACK);
+            d.setAlpha(30);
+            dialog.getWindow().setBackgroundDrawable(d);
             dialog.setCancelable(true);
             dialog.setCanceledOnTouchOutside(false);
             dialog.show();

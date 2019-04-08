@@ -11,6 +11,7 @@ import android.view.animation.RotateAnimation;
 
 import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.ActivityDemoBinding;
+import com.bumptech.glide.Glide;
 
 public class DemoActivity extends AppCompatActivity {
   ActivityDemoBinding demoBinding;
@@ -19,8 +20,9 @@ public class DemoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         demoBinding = DataBindingUtil.setContentView(this, R.layout.activity_demo);
 
-        Animation a = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotate_clockwise);
-        demoBinding.image.startAnimation(a);
+
+//        Animation a = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotate_clockwise);
+//        demoBinding.image.startAnimation(a);
 //        float mAngleToRotate = 360f * 12; // rotate 12 rounds
 //        RotateAnimation wheelRotation = new RotateAnimation(0.0f, mAngleToRotate,
 //                demoBinding.ivWheel.getWidth()/2.0f, demoBinding.ivWheel.getHeight()/2.0f);

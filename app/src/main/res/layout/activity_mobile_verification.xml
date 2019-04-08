@@ -90,7 +90,7 @@
         android:textColorHint="@color/hint_txt_color"
         android:textCursorDrawable="@drawable/color_cursor"
         android:textSize="@dimen/_12sdp"
-        android:imeOptions="actionNext"/>
+        android:imeOptions="actionDone"/>
     </LinearLayout>
 
     <TextView
