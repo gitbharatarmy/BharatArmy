@@ -87,4 +87,7 @@
 
     <!--History Screen String-->
     <string name="history_title_txt">Bharat Army Booking History</string>
+    <string name="ticketing_booking">Ticket Booking</string>
+    <string name="countory_name">England</string>
+    <string name="country_place">United Kingdom</string>
 </resources>
