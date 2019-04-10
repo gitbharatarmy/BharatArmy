@@ -1,6 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<LinearLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="@dimen/_5sdp"
+    android:layout_marginRight="@dimen/_5sdp"
+    android:orientation="horizontal">
+    <com.github.vipulasri.timelineview.TimelineView
+        android:id="@+id/timeline"
+        android:layout_width="@dimen/_35sdp"
+        android:layout_height="match_parent"
+        app:markerSize="20dp"
+        app:lineWidth="2dp"
+        app:startLineColor="@color/heading_bg"
+        app:endLineColor="@color/heading_bg"
+        app:lineStyle="normal"/>
+    <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/splash_bg_color"
+        android:layout_margin="@dimen/_5sdp"
+        card_view:cardCornerRadius="1dp"
+        card_view:cardElevation="3dp"
+        card_view:cardMaxElevation="6dp">
 
-</android.support.constraint.ConstraintLayout>
+        <TextView
+            android:id="@+id/stadium_to_hotel_header_txt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_5sdp"
+            android:layout_marginRight="@dimen/_5sdp"
+            android:textSize="@dimen/_15sdp"
+            style="@style/title_text_font"
+            android:textColor="@color/skip_color"
+            android:paddingRight="@dimen/_5sdp"
+            android:paddingBottom="@dimen/_5sdp"
+            android:paddingTop="@dimen/_5sdp"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textAllCaps="true"
+            android:text="@string/stdium_to_hotel"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_25sdp"
+            android:layout_marginLeft="@dimen/_5sdp"
+            android:layout_marginBottom="@dimen/_2sdp"
+            android:layout_marginRight="@dimen/_2sdp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/vehical_img"
+                android:layout_width="@dimen/_25sdp"
+                android:layout_height="@dimen/_25sdp"
+                android:src="@drawable/airport_transfer"/>
+
+            <TextView
+                android:id="@+id/trasfer_place_txt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/_10sdp"
+                style="@style/text_font"
+                android:paddingLeft="@dimen/_5sdp"
+                android:paddingRight="@dimen/_2sdp"
+                android:textColor="@color/normal_font_color"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:textAllCaps="false"
+                android:gravity="center_vertical"
+                android:text="Trasfer stadium to hotel with Bharat Army People"/>
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+</LinearLayout>

@@ -90,4 +90,12 @@
     <string name="ticketing_booking">Ticket Booking</string>
     <string name="countory_name">England</string>
     <string name="country_place">United Kingdom</string>
+    <string name="airport_trasfer">Airport Trasfer</string>
+    <string name="hotel_booking">Hotel Booking</string>
+    <string name="hotel_to_stdium">Trasfer from hotel to stadium</string>
+    <string name="stdium_to_hotel">trasfer stadium to hotel</string>
+    <string name="hotel_checkout">Hotel Checkout</string>
+
+
+    <string name="example">Example</string>
 </resources>

@@ -41,7 +41,7 @@ dependencies {
     implementation 'com.squareup.retrofit:retrofit:1.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
     implementation 'com.squareup.picasso:picasso:2.5.0'
-//    implementation 'com.android.support:recyclerview-v7:27.1.1'
+    implementation 'com.android.support:recyclerview-v7:27.1.1'
     implementation 'com.google.android.gms:play-services-base:15.0.2'
     implementation "com.google.firebase:firebase-core:16.0.1"
     implementation "com.google.firebase:firebase-messaging:17.4.0"
@@ -58,15 +58,21 @@ dependencies {
 
     // crop image
     implementation 'com.github.yalantis:ucrop:2.2.2'
+
     //dexter permissions
     implementation "com.karumi:dexter:5.0.0"
-//country spinner
+
+    //country spinner
     implementation 'com.github.joielechong:countrycodepicker:2.3.0'
 
     implementation 'com.squareup.retrofit2:retrofit:2.3.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
 
+    // for GIF
     implementation 'pl.droidsonroids.gif:android-gif-drawable:1.2.16'
+
+    // for Timeline
+    implementation 'com.github.vipulasri:timelineview:1.1.0'
 
 
 }

@@ -1,18 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
-
+    android:layout_marginLeft="@dimen/_5sdp"
+    android:layout_marginRight="@dimen/_5sdp"
+    android:orientation="horizontal">
+    <com.github.vipulasri.timelineview.TimelineView
+        android:id="@+id/timeline"
+        android:layout_width="@dimen/_35sdp"
+        android:layout_height="match_parent"
+        app:markerSize="20dp"
+        app:lineWidth="2dp"
+        app:startLineColor="@color/heading_bg"
+        app:endLineColor="@color/heading_bg"
+        app:lineStyle="normal"/>
     <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/splash_bg_color"
         android:layout_margin="@dimen/_5sdp"
         card_view:cardCornerRadius="1dp"
-        card_view:cardElevation="6dp"
-        card_view:cardMaxElevation="10dp">
+        card_view:cardElevation="3dp"
+        card_view:cardMaxElevation="6dp">
 
         <TextView
             android:id="@+id/ticket_booking_header_txt"
@@ -23,7 +34,9 @@
             android:textSize="@dimen/_15sdp"
             style="@style/title_text_font"
             android:textColor="@color/skip_color"
-            android:padding="@dimen/_5sdp"
+            android:paddingRight="@dimen/_5sdp"
+            android:paddingBottom="@dimen/_5sdp"
+            android:paddingTop="@dimen/_5sdp"
             android:maxLines="1"
             android:ellipsize="end"
             android:textAllCaps="true"
@@ -31,7 +44,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_50sdp"
+            android:layout_height="@dimen/_30sdp"
             android:layout_marginTop="@dimen/_25sdp"
             android:layout_marginLeft="@dimen/_5sdp"
             android:orientation="horizontal">
@@ -40,10 +53,10 @@
                 android:id="@+id/flag_img"
                 android:layout_width="@dimen/_20sdp"
                 android:layout_height="@dimen/_20sdp"
-                android:src="@drawable/app_logo"/>
+                android:src="@drawable/flag"/>
 
             <LinearLayout
-                android:layout_width="@dimen/_90sdp"
+                android:layout_width="@dimen/_70sdp"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
@@ -51,7 +64,7 @@
                     android:id="@+id/country_name_txt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/_12sdp"
+                    android:textSize="@dimen/_10sdp"
                     style="@style/title_text_font"
                     android:textColor="@color/heading_bg"
                     android:paddingLeft="@dimen/_2sdp"
@@ -76,21 +89,21 @@
                     android:text="@string/country_place"/>
             </LinearLayout>
             <ImageView
-                android:id="@+id/flag_img"
+                android:id="@+id/clock_img"
                 android:layout_width="@dimen/_20sdp"
                 android:layout_height="@dimen/_20sdp"
-                android:src="@drawable/app_logo"/>
+                android:src="@drawable/flight_time"/>
 
             <LinearLayout
-                android:layout_width="@dimen/_90sdp"
+                android:layout_width="@dimen/_70sdp"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/country_name_txt"
+                    android:id="@+id/flight_hour_txt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/_12sdp"
+                    android:textSize="@dimen/_10sdp"
                     style="@style/title_text_font"
                     android:textColor="@color/heading_bg"
                     android:paddingLeft="@dimen/_2sdp"
@@ -99,9 +112,9 @@
                     android:maxLines="1"
                     android:ellipsize="end"
                     android:textAllCaps="true"
-                    android:text="@string/countory_name"/>
+                    android:text="8 H 32 M"/>
                 <TextView
-                    android:id="@+id/country_place_txt"
+                    android:id="@+id/flight_time_txt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/_8sdp"
@@ -112,13 +125,13 @@
                     android:maxLines="1"
                     android:ellipsize="end"
                     android:textAllCaps="false"
-                    android:text="@string/country_place"/>
+                    android:text="Flight Time"/>
             </LinearLayout>
             <ImageView
-                android:id="@+id/flag_img"
+                android:id="@+id/right_img"
                 android:layout_width="@dimen/_20sdp"
                 android:layout_height="@dimen/_20sdp"
-                android:src="@drawable/app_logo"/>
+                android:src="@drawable/confirmation_clock"/>
 
             <LinearLayout
                 android:layout_width="@dimen/_90sdp"
@@ -126,10 +139,10 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/country_name_txt"
+                    android:id="@+id/filght_no_txt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/_12sdp"
+                    android:textSize="@dimen/_10sdp"
                     style="@style/title_text_font"
                     android:textColor="@color/heading_bg"
                     android:paddingLeft="@dimen/_2sdp"
@@ -138,9 +151,9 @@
                     android:maxLines="1"
                     android:ellipsize="end"
                     android:textAllCaps="true"
-                    android:text="@string/countory_name"/>
+                    android:text="584D9"/>
                 <TextView
-                    android:id="@+id/country_place_txt"
+                    android:id="@+id/filght_confirm_txt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/_8sdp"
@@ -151,32 +164,33 @@
                     android:maxLines="1"
                     android:ellipsize="end"
                     android:textAllCaps="false"
-                    android:text="@string/country_place"/>
+                    android:text="Confirmation"/>
             </LinearLayout>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_50sdp"
-            android:layout_marginTop="@dimen/_65sdp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_55sdp"
             android:layout_marginLeft="@dimen/_5sdp"
+            android:layout_marginBottom="@dimen/_5sdp"
             android:orientation="horizontal">
 
             <ImageView
-                android:id="@+id/flag_img"
+                android:id="@+id/flight_img"
                 android:layout_width="@dimen/_20sdp"
                 android:layout_height="@dimen/_20sdp"
-                android:src="@drawable/app_logo"/>
+                android:src="@drawable/departure_flight"/>
 
             <LinearLayout
-                android:layout_width="@dimen/_90sdp"
+                android:layout_width="@dimen/_130sdp"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/country_name_txt"
+                    android:id="@+id/flight_dis_time_txt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/_12sdp"
+                    android:textSize="@dimen/_10sdp"
                     style="@style/title_text_font"
                     android:textColor="@color/heading_bg"
                     android:paddingLeft="@dimen/_2sdp"
@@ -185,9 +199,9 @@
                     android:maxLines="1"
                     android:ellipsize="end"
                     android:textAllCaps="true"
-                    android:text="@string/countory_name"/>
+                    android:text="11:55 PM"/>
                 <TextView
-                    android:id="@+id/country_place_txt"
+                    android:id="@+id/departing_place_txt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/_8sdp"
@@ -198,24 +212,24 @@
                     android:maxLines="1"
                     android:ellipsize="end"
                     android:textAllCaps="false"
-                    android:text="@string/country_place"/>
+                    android:text="Departing Australia"/>
             </LinearLayout>
             <ImageView
-                android:id="@+id/flag_img"
+                android:id="@+id/flight_arr_img"
                 android:layout_width="@dimen/_20sdp"
                 android:layout_height="@dimen/_20sdp"
-                android:src="@drawable/app_logo"/>
+                android:src="@drawable/arriving_flight_icon"/>
 
             <LinearLayout
-                android:layout_width="@dimen/_90sdp"
+                android:layout_width="@dimen/_130sdp"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/country_name_txt"
+                    android:id="@+id/arriving_time_txt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/_12sdp"
+                    android:textSize="@dimen/_10sdp"
                     style="@style/title_text_font"
                     android:textColor="@color/heading_bg"
                     android:paddingLeft="@dimen/_2sdp"
@@ -224,9 +238,9 @@
                     android:maxLines="1"
                     android:ellipsize="end"
                     android:textAllCaps="true"
-                    android:text="@string/countory_name"/>
+                    android:text="07:55 PM"/>
                 <TextView
-                    android:id="@+id/country_place_txt"
+                    android:id="@+id/arriving_place_txt"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/_8sdp"
@@ -237,46 +251,7 @@
                     android:maxLines="1"
                     android:ellipsize="end"
                     android:textAllCaps="false"
-                    android:text="@string/country_place"/>
-            </LinearLayout>
-            <ImageView
-                android:id="@+id/flag_img"
-                android:layout_width="@dimen/_20sdp"
-                android:layout_height="@dimen/_20sdp"
-                android:src="@drawable/app_logo"/>
-
-            <LinearLayout
-                android:layout_width="@dimen/_90sdp"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/country_name_txt"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/_12sdp"
-                    style="@style/title_text_font"
-                    android:textColor="@color/heading_bg"
-                    android:paddingLeft="@dimen/_2sdp"
-                    android:paddingTop="@dimen/_2sdp"
-                    android:paddingRight="@dimen/_2sdp"
-                    android:maxLines="1"
-                    android:ellipsize="end"
-                    android:textAllCaps="true"
-                    android:text="@string/countory_name"/>
-                <TextView
-                    android:id="@+id/country_place_txt"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/_8sdp"
-                    style="@style/text_font"
-                    android:paddingLeft="@dimen/_2sdp"
-                    android:paddingRight="@dimen/_2sdp"
-                    android:textColor="@color/normal_font_color"
-                    android:maxLines="1"
-                    android:ellipsize="end"
-                    android:textAllCaps="false"
-                    android:text="@string/country_place"/>
+                    android:text="Arriving(ENG)"/>
             </LinearLayout>
         </LinearLayout>
     </android.support.v7.widget.CardView>
