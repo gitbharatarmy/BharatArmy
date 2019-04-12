@@ -21,6 +21,7 @@ import android.view.ViewGroup;
 
 import com.bharatarmy.Activity.EditProfileActivity;
 import com.bharatarmy.R;
+import com.bharatarmy.Utility.AppConfiguration;
 import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.FragmentMyProfileBinding;
 import com.squareup.picasso.Picasso;
@@ -83,7 +84,7 @@ public class MyProfileFragment extends Fragment implements View.OnClickListener 
 
         rootView = myProfileBinding.getRoot();
         mContext = getActivity().getApplicationContext();
-
+        AppConfiguration.position = 1;
         return rootView;
 
     }

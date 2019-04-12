@@ -23,10 +23,12 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bharatarmy.R;
+import com.bumptech.glide.Glide;
 
 import java.util.regex.Pattern;
 
@@ -104,13 +106,14 @@ public class Utils {
     }
 
     public static void showDialog(Context context) {
+        ImageView imageView;
+
         if (dialog == null) {
             dialog = new Dialog(context);
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
             dialog.setContentView(R.layout.progressbar_dialog);
-//            GifImageView gifImageView = (GifImageView)dialog. findViewById(R.id.GifImageView);
-//            gifImageView.setGifImageResource(R.drawable.loadingvideo);
-//            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            imageView=(ImageView)dialog.findViewById(R.id.image);
+            Glide.with(context).load(R.drawable.logo_white).into(imageView);
             dialog.getWindow().setLayout(WindowManager.LayoutParams.FILL_PARENT,
                     WindowManager.LayoutParams.FILL_PARENT);
             Drawable d = new ColorDrawable(Color.BLACK);

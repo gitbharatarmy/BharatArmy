@@ -21,6 +21,7 @@ import com.bharatarmy.Models.LogginModel;
 import com.bharatarmy.Models.OtpModel;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.ApiHandler;
+import com.bharatarmy.Utility.AppConfiguration;
 import com.bharatarmy.Utility.SmsReceiver;
 import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.ActivityOtpBinding;
@@ -35,7 +36,7 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
 
     ActivityOtpBinding activityOtpBinding;
     Context mContext;
-    String otpStr, edit1Str, edit2Str, edit3Str, edit4Str, finalgetOtpStr;
+    String otpStr, finalgetOtpStr, strWheretocome, strFullName, strEmail, strCountrycode, strMobileno, strPassword, strCheck;
     String phoneNoStr, countryCodeStr;
 
     @Override
@@ -45,15 +46,30 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
 
         mContext = OTPActivity.this;
         setListiner();
+        getIntentValue();
+    }
+
+    public void getIntentValue() {
+        otpStr = getIntent().getStringExtra("OTP");
+        phoneNoStr = getIntent().getStringExtra("OTPmobileno");
+        countryCodeStr = getIntent().getStringExtra("countrycode");
+        strWheretocome = getIntent().getStringExtra("wheretocome");
+
+        if (strWheretocome.equalsIgnoreCase("Signup")){
+            strFullName=getIntent().getStringExtra("signupFullname");
+            strEmail=getIntent().getStringExtra("signupEmail");
+            strCountrycode=getIntent().getStringExtra("signupCountryCode");
+            strMobileno=getIntent().getStringExtra("signupMobileno");
+            strPassword=getIntent().getStringExtra("signupPassword");
+            strCheck=getIntent().getStringExtra("signupCheck");
+        }
+
     }
 
     public void setListiner() {
 
-        otpStr = getIntent().getStringExtra("OTP");
-        phoneNoStr=getIntent().getStringExtra("OTPmobileno");
-        countryCodeStr=getIntent().getStringExtra("countrycode");
 
-        activityOtpBinding.noTxt.setText("+"+countryCodeStr+"-"+phoneNoStr);
+        activityOtpBinding.noTxt.setText("+" + countryCodeStr + "-" + phoneNoStr);
 
         SmsReceiver.bindListener(new SmsListener() {
             @Override
@@ -168,10 +184,17 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
                 getOtpData();
                 break;
             case R.id.back_img:
-                Intent mobileIntent = new Intent(mContext, MobileVerificationActivity.class);
-                startActivity(mobileIntent);
-                overridePendingTransition(R.anim.slide_in_left, 0);
-                finish();
+                if (strWheretocome.equalsIgnoreCase("Signup")){
+                    Intent mobileIntent = new Intent(mContext, SignUpActivity.class);
+                    startActivity(mobileIntent);
+                    overridePendingTransition(R.anim.slide_in_left, 0);
+                    finish();
+                }else {
+                    Intent mobileIntent = new Intent(mContext, MobileVerificationActivity.class);
+                    startActivity(mobileIntent);
+                    overridePendingTransition(R.anim.slide_in_left, 0);
+                    finish();
+                }
                 break;
         }
     }
@@ -186,8 +209,11 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
         Log.d("otpStr", otpStr);
 
         if (otpStr.equalsIgnoreCase(finalgetOtpStr)) {
-            VerificationPhone();
-
+            if (strWheretocome.equalsIgnoreCase("Signup")) {
+                getSignUp();
+            } else {
+                VerificationPhone();
+            }
         } else {
             Utils.ping(mContext, "Please Enter Valid OTP");
         }
@@ -257,4 +283,69 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
 //        Toast.makeText(OtpVerificationActivity.this, "OTP Verified
 //                Successfully !", Toast.LENGTH_SHORT).show();
 //    }
+
+    public void getSignUp() {
+        if (!Utils.checkNetwork(mContext)) {
+            Utils.showCustomDialog(getResources().getString(R.string.internet_error), getResources().getString(R.string.internet_connection_error), OTPActivity.this);
+            return;
+        }
+
+        Utils.showDialog(mContext);
+        ApiHandler.getApiService().getSignup(getSignUpData(), new retrofit.Callback<LogginModel>() {
+            @Override
+            public void success(LogginModel loginModel, Response response) {
+                Utils.dismissDialog();
+
+                if (loginModel == null) {
+                    Utils.ping(mContext, getString(R.string.something_wrong));
+                    return;
+                }
+                if (loginModel.getIsValid() == null) {
+                    Utils.ping(mContext, getString(R.string.something_wrong));
+                    return;
+                }
+                if (loginModel.getIsValid() == 0) {
+                    Utils.ping(mContext, loginModel.getMessage());
+                    return;
+                }
+                if (loginModel.getIsValid() == 1) {
+                    if (loginModel.getData() != null) {
+                        Utils.setPref(mContext, "LoginUserName", loginModel.getData().getName());
+                        Utils.setPref(mContext, "LoginEmailId", loginModel.getData().getEmail());
+                        Utils.setPref(mContext, "LoginPhoneNo", loginModel.getData().getPhoneNo());
+                        Utils.setPref(mContext, "LoginProfilePic", String.valueOf(loginModel.getData().getProfilePicUrl()));
+                        Utils.setPref(mContext, "EmailVerified", String.valueOf(loginModel.getData().getIsEmailVerified()));
+                        Utils.setPref(mContext, "PhoneVerified", String.valueOf(loginModel.getData().getIsNumberVerified()));
+                        Utils.setPref(mContext, "AppUserId", String.valueOf(loginModel.getData().getId()));
+                        Utils.setPref(mContext, "Gender", String.valueOf(loginModel.getData().getGender()));
+
+                            Intent DashboardIntent = new Intent(mContext, DashboardActivity.class);
+                            startActivity(DashboardIntent);
+                            finish();
+
+                    }
+
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Utils.dismissDialog();
+                error.printStackTrace();
+                error.getMessage();
+                Utils.ping(mContext, getString(R.string.something_wrong));
+            }
+        });
+
+    }
+
+    private Map<String, String> getSignUpData() {
+        Map<String, String> map = new HashMap<>();
+        map.put("FullName",strFullName);
+        map.put("Email", strEmail);
+        map.put("Code",strCountrycode);
+        map.put("PhoneNo",strMobileno);
+        map.put("Password",strPassword);
+        return map;
+    }
 }

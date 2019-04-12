@@ -21,12 +21,13 @@ import android.webkit.WebViewClient;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.ActivityMoreStoryBinding;
+import com.bumptech.glide.Glide;
 
-public class MoreStoryActivity extends Activity implements View.OnClickListener {
+public class MoreStoryActivity extends AppCompatActivity implements View.OnClickListener {
 
     ActivityMoreStoryBinding moreStoryBinding;
     Context mContext;
-    String storyHeadingStr, storyUrlStr;
+    String storyHeadingStr, storyUrlStr,strShow;
     public static Dialog dialog;
 
     @Override
@@ -47,6 +48,7 @@ public class MoreStoryActivity extends Activity implements View.OnClickListener 
         storyHeadingStr = getIntent().getStringExtra("Story Heading");
         storyUrlStr = getIntent().getStringExtra("StroyUrl");
 
+        Glide.with(mContext).load(R.drawable.logo).into(moreStoryBinding.image);
         moreStoryBinding.toolbarTitleTxt.setText(storyHeadingStr);
         moreStoryBinding.moreStoryWebview.setWebViewClient(new MyWebViewClient());
         moreStoryBinding.moreStoryWebview.getSettings().setJavaScriptEnabled(true);
@@ -74,7 +76,8 @@ public class MoreStoryActivity extends Activity implements View.OnClickListener 
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
             // TODO Auto-generated method stub
-            moreStoryBinding.progressbar1.setVisibility(View.VISIBLE);
+//            moreStoryBinding.progressbar1.setVisibility(View.VISIBLE);
+            moreStoryBinding.image.setVisibility(View.VISIBLE);
             view.loadUrl(url);
             return true;
         }
@@ -84,7 +87,7 @@ public class MoreStoryActivity extends Activity implements View.OnClickListener 
             // TODO Auto-generated method stub
             super.onPageFinished(view, url);
 
-            moreStoryBinding.progressbar1.setVisibility(View.GONE);
+            moreStoryBinding.image.setVisibility(View.GONE);
         }
     }
 

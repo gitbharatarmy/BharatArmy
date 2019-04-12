@@ -97,6 +97,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
     }
 
     public void setDataValue() {
+        activityEditProfileBinding.ccp.setCountryForNameCode(AppConfiguration.currentCountry);
         activityEditProfileBinding.usernameTitleTxt.setText(Utils.getPref(mContext, "LoginUserName"));
         activityEditProfileBinding.userNameEdt.setText(Utils.getPref(mContext, "LoginUserName"));
         activityEditProfileBinding.emailEdt.setText(Utils.getPref(mContext, "LoginEmailId"));

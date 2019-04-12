@@ -1,6 +1,7 @@
 package com.bharatarmy.Adapter;
 
 import android.content.Context;
+import android.media.Image;
 import android.media.MediaPlayer;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -10,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.bharatarmy.Models.HistoryModel;
 import com.bharatarmy.R;
@@ -44,6 +46,11 @@ public class HistoryMoreDetailListAdapter extends RecyclerView.Adapter {
 
     public static class TicketBookingTypeViewHolder extends RecyclerView.ViewHolder {
         private final TimelineView timeline;
+        private  final ImageView imageView;
+
+        public ImageView getImageView() {
+            return imageView;
+        }
 
         public final TimelineView getTimeline() {
             return this.timeline;
@@ -53,12 +60,15 @@ public class HistoryMoreDetailListAdapter extends RecyclerView.Adapter {
             this.timeline = (TimelineView) itemView.findViewById(R.id.timeline);
             this.timeline.initLine(viewType);
 
+            this.imageView=(ImageView)itemView.findViewById(R.id.marker_img);
+
+
         }
     }
 
     public static class AirportTransferTypeViewHolder extends RecyclerView.ViewHolder {
         private final TimelineView timeline;
-
+        private  final ImageView imageView;
         public final TimelineView getTimeline() {
             return this.timeline;
         }
@@ -67,28 +77,31 @@ public class HistoryMoreDetailListAdapter extends RecyclerView.Adapter {
 
             this.timeline = (TimelineView) itemView.findViewById(R.id.timeline);
             this.timeline.initLine(viewType);
+            this.imageView=(ImageView)itemView.findViewById(R.id.marker_img);
         }
     }
 
     public static class HotelBookingTypeViewHolder extends RecyclerView.ViewHolder {
         private final TimelineView timeline;
+        private final ImageView imageView;
 
         public final TimelineView getTimeline() {
             return this.timeline;
         }
-        ShimmerRecyclerView recyclerView;
+//        ShimmerRecyclerView recyclerView;
 
         public HotelBookingTypeViewHolder(View itemView,int viewType) {
             super(itemView);
-            recyclerView = (ShimmerRecyclerView) itemView.findViewById(R.id.hotel_facilities_list);
+//            recyclerView = (ShimmerRecyclerView) itemView.findViewById(R.id.hotel_facilities_list);
             this.timeline = (TimelineView) itemView.findViewById(R.id.timeline);
             this.timeline.initLine(viewType);
+            this.imageView=(ImageView)itemView.findViewById(R.id.marker_img);
         }
     }
 
     public static class TransferHotelToStadiumViewHolder extends RecyclerView.ViewHolder {
         private final TimelineView timeline;
-
+        private  final ImageView imageView;
         public final TimelineView getTimeline() {
             return this.timeline;
         }
@@ -96,12 +109,13 @@ public class HistoryMoreDetailListAdapter extends RecyclerView.Adapter {
             super(itemView);
             this.timeline = (TimelineView) itemView.findViewById(R.id.timeline);
             this.timeline.initLine(viewType);
+            this.imageView=(ImageView)itemView.findViewById(R.id.marker_img);
         }
     }
 
     public static class TransferStadiumToHotelTypeViewHolder extends RecyclerView.ViewHolder {
         private final TimelineView timeline;
-
+        private  final ImageView imageView;
         public final TimelineView getTimeline() {
             return this.timeline;
         }
@@ -110,12 +124,13 @@ public class HistoryMoreDetailListAdapter extends RecyclerView.Adapter {
 
             this.timeline = (TimelineView) itemView.findViewById(R.id.timeline);
             this.timeline.initLine(viewType);
+            this.imageView=(ImageView)itemView.findViewById(R.id.marker_img);
         }
     }
 
     public static class HotelCheckoutTypeViewHolder extends RecyclerView.ViewHolder {
         private final TimelineView timeline;
-
+        private  final ImageView imageView;
         public final TimelineView getTimeline() {
             return this.timeline;
         }
@@ -124,6 +139,7 @@ public class HistoryMoreDetailListAdapter extends RecyclerView.Adapter {
             super(itemView);
             this.timeline = (TimelineView) itemView.findViewById(R.id.timeline);
             this.timeline.initLine(viewType);
+            this.imageView=(ImageView)itemView.findViewById(R.id.marker_img);
 
         }
     }
@@ -131,7 +147,7 @@ public class HistoryMoreDetailListAdapter extends RecyclerView.Adapter {
     public static class MatchBookingTypeViewHolder extends RecyclerView.ViewHolder {
         ShimmerRecyclerView recyclerViewMatch;
         private final TimelineView timeline;
-
+        private  final ImageView imageView;
         public final TimelineView getTimeline() {
             return this.timeline;
         }
@@ -141,6 +157,7 @@ public class HistoryMoreDetailListAdapter extends RecyclerView.Adapter {
             recyclerViewMatch = (ShimmerRecyclerView) itemView.findViewById(R.id.match_history_detail_rcyList);
             this.timeline = (TimelineView) itemView.findViewById(R.id.timeline);
             this.timeline.initLine(viewType);
+            this.imageView=(ImageView)itemView.findViewById(R.id.marker_img);
         }
     }
 
@@ -213,76 +230,143 @@ public class HistoryMoreDetailListAdapter extends RecyclerView.Adapter {
                     break;
                 case HistoryModel.TICKET_BOOKING_TYPE:
                     if (object.getStatus() == OrderStatus.INACTIVE) {
-                        this.setMarkerTicket((TicketBookingTypeViewHolder) holder, R.drawable.ic_marker_inactive, R.color.heading_bg);
+                        ((TicketBookingTypeViewHolder) holder).imageView.setImageResource(R.drawable.ic_marker_inactive);
+//                        this.setMarkerTicket((TicketBookingTypeViewHolder) holder, R.drawable.ic_marker_inactive, R.color.heading_bg);
                     } else if (object.getStatus() == OrderStatus.ACTIVE) {
-                        this.setMarkerTicket((TicketBookingTypeViewHolder)holder, R.drawable.ic_marker_active, R.color.heading_bg);
+                        ((TicketBookingTypeViewHolder) holder).imageView.setImageResource(R.drawable.ic_marker_active);
+//                        this.setMarkerTicket((TicketBookingTypeViewHolder)holder, R.drawable.ic_marker_active, R.color.heading_bg);
                     } else {
-                        this.setMarkerTicket((TicketBookingTypeViewHolder)holder, R.drawable.ic_marker, R.color.heading_bg);
+                        ((TicketBookingTypeViewHolder) holder).imageView.setImageResource(R.drawable.ic_marker);
+//                        this.setMarkerTicket((TicketBookingTypeViewHolder)holder, R.drawable.ic_marker, R.color.heading_bg);
                     }
                     break;
                 case HistoryModel.AIRPORT_TRANSFER_TYPE:
+
                     if (object.getStatus() == OrderStatus.INACTIVE) {
-                        this.setMarkerAirport((AirportTransferTypeViewHolder) holder, R.drawable.ic_marker_inactive, R.color.heading_bg);
+                        ((AirportTransferTypeViewHolder) holder).imageView.setImageResource(R.drawable.ic_marker_inactive);
+//                        this.setMarkerTicket((TicketBookingTypeViewHolder) holder, R.drawable.ic_marker_inactive, R.color.heading_bg);
                     } else if (object.getStatus() == OrderStatus.ACTIVE) {
-                        this.setMarkerAirport((AirportTransferTypeViewHolder)holder, R.drawable.ic_marker_active, R.color.heading_bg);
+                        ((AirportTransferTypeViewHolder) holder).imageView.setImageResource(R.drawable.ic_marker_active);
+//                        this.setMarkerTicket((TicketBookingTypeViewHolder)holder, R.drawable.ic_marker_active, R.color.heading_bg);
                     } else {
-                        this.setMarkerAirport((AirportTransferTypeViewHolder)holder, R.drawable.ic_marker, R.color.heading_bg);
+                        ((AirportTransferTypeViewHolder) holder).imageView.setImageResource(R.drawable.ic_marker);
+//                        this.setMarkerTicket((TicketBookingTypeViewHolder)holder, R.drawable.ic_marker, R.color.heading_bg);
                     }
+
+//                    if (object.getStatus() == OrderStatus.INACTIVE) {
+//                        this.setMarkerAirport((AirportTransferTypeViewHolder) holder, R.drawable.ic_marker_inactive, R.color.heading_bg);
+//                    } else if (object.getStatus() == OrderStatus.ACTIVE) {
+//                        this.setMarkerAirport((AirportTransferTypeViewHolder)holder, R.drawable.ic_marker_active, R.color.heading_bg);
+//                    } else {
+//                        this.setMarkerAirport((AirportTransferTypeViewHolder)holder, R.drawable.ic_marker, R.color.heading_bg);
+//                    }
                     break;
                 case HistoryModel.HOTEL_BOOKING_TYPE:
                     ArrayList<String> list = new ArrayList();
                     for (int i = 0; i <7; i++) {
                         list.add(String.valueOf(i));
                     }
-                    hotelFacilitiesAdapter = new HotelFacilitiesAdapter(mContext, list);
-                    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext, OrientationHelper.VERTICAL, false);
-                    ((HotelBookingTypeViewHolder) holder).recyclerView.setLayoutManager(linearLayoutManager);
-                    ((HotelBookingTypeViewHolder) holder).recyclerView.setItemAnimator(new DefaultItemAnimator());
-                    ((HotelBookingTypeViewHolder) holder).recyclerView.setAdapter(hotelFacilitiesAdapter);
+//                    hotelFacilitiesAdapter = new HotelFacilitiesAdapter(mContext, list);
+//                    LinearLayoutManager linearLayoutManager = new LinearLayoutManager(mContext, OrientationHelper.VERTICAL, false);
+//                    ((HotelBookingTypeViewHolder) holder).recyclerView.setLayoutManager(linearLayoutManager);
+//                    ((HotelBookingTypeViewHolder) holder).recyclerView.setItemAnimator(new DefaultItemAnimator());
+//                    ((HotelBookingTypeViewHolder) holder).recyclerView.setAdapter(hotelFacilitiesAdapter);
+//                    if (object.getStatus() == OrderStatus.INACTIVE) {
+//                        this.setMarkerHotelBooking((HotelBookingTypeViewHolder) holder, R.drawable.ic_marker_inactive, R.color.heading_bg);
+//                    } else if (object.getStatus() == OrderStatus.ACTIVE) {
+//                        this.setMarkerHotelBooking((HotelBookingTypeViewHolder)holder, R.drawable.ic_marker_active, R.color.heading_bg);
+//                    } else {
+//                        this.setMarkerHotelBooking((HotelBookingTypeViewHolder)holder, R.drawable.ic_marker, R.color.heading_bg);
+//                    }
                     if (object.getStatus() == OrderStatus.INACTIVE) {
-                        this.setMarkerHotelBooking((HotelBookingTypeViewHolder) holder, R.drawable.ic_marker_inactive, R.color.heading_bg);
+                        ((HotelBookingTypeViewHolder) holder).imageView.setImageResource(R.drawable.ic_marker_inactive);
+//                        this.setMarkerTicket((TicketBookingTypeViewHolder) holder, R.drawable.ic_marker_inactive, R.color.heading_bg);
                     } else if (object.getStatus() == OrderStatus.ACTIVE) {
-                        this.setMarkerHotelBooking((HotelBookingTypeViewHolder)holder, R.drawable.ic_marker_active, R.color.heading_bg);
+                        ((HotelBookingTypeViewHolder) holder).imageView.setImageResource(R.drawable.ic_marker_active);
+//                        this.setMarkerTicket((TicketBookingTypeViewHolder)holder, R.drawable.ic_marker_active, R.color.heading_bg);
                     } else {
-                        this.setMarkerHotelBooking((HotelBookingTypeViewHolder)holder, R.drawable.ic_marker, R.color.heading_bg);
+                        ((HotelBookingTypeViewHolder) holder).imageView.setImageResource(R.drawable.ic_marker);
+//                        this.setMarkerTicket((TicketBookingTypeViewHolder)holder, R.drawable.ic_marker, R.color.heading_bg);
                     }
 
                     break;
                 case HistoryModel.TRANSFER_HOTEL_TO_STADIUM_TYPE:
                     if (object.getStatus() == OrderStatus.INACTIVE) {
-                        this.setMarkerHotelToStadium((TransferHotelToStadiumViewHolder) holder, R.drawable.ic_marker_inactive, R.color.heading_bg);
+                        ((TransferHotelToStadiumViewHolder) holder).imageView.setImageResource(R.drawable.ic_marker_inactive);
+//                        this.setMarkerTicket((TicketBookingTypeViewHolder) holder, R.drawable.ic_marker_inactive, R.color.heading_bg);
                     } else if (object.getStatus() == OrderStatus.ACTIVE) {
-                        this.setMarkerHotelToStadium((TransferHotelToStadiumViewHolder)holder, R.drawable.ic_marker_active, R.color.heading_bg);
+                        ((TransferHotelToStadiumViewHolder) holder).imageView.setImageResource(R.drawable.ic_marker_active);
+//                        this.setMarkerTicket((TicketBookingTypeViewHolder)holder, R.drawable.ic_marker_active, R.color.heading_bg);
                     } else {
-                        this.setMarkerHotelToStadium((TransferHotelToStadiumViewHolder)holder, R.drawable.ic_marker, R.color.heading_bg);
+                        ((TransferHotelToStadiumViewHolder) holder).imageView.setImageResource(R.drawable.ic_marker);
+//                        this.setMarkerTicket((TicketBookingTypeViewHolder)holder, R.drawable.ic_marker, R.color.heading_bg);
                     }
+
+//                    if (object.getStatus() == OrderStatus.INACTIVE) {
+//                        this.setMarkerHotelToStadium((TransferHotelToStadiumViewHolder) holder, R.drawable.ic_marker_inactive, R.color.heading_bg);
+//                    } else if (object.getStatus() == OrderStatus.ACTIVE) {
+//                        this.setMarkerHotelToStadium((TransferHotelToStadiumViewHolder)holder, R.drawable.ic_marker_active, R.color.heading_bg);
+//                    } else {
+//                        this.setMarkerHotelToStadium((TransferHotelToStadiumViewHolder)holder, R.drawable.ic_marker, R.color.heading_bg);
+//                    }
                     break;
                 case HistoryModel.TRANSFER_STADIUM_TO_HOTEL:
                     if (object.getStatus() == OrderStatus.INACTIVE) {
-                        this.setMarkerStadiumToHotel((TransferStadiumToHotelTypeViewHolder) holder, R.drawable.ic_marker_inactive, R.color.heading_bg);
+                        ((TransferStadiumToHotelTypeViewHolder) holder).imageView.setImageResource(R.drawable.ic_marker_inactive);
+//                        this.setMarkerTicket((TicketBookingTypeViewHolder) holder, R.drawable.ic_marker_inactive, R.color.heading_bg);
                     } else if (object.getStatus() == OrderStatus.ACTIVE) {
-                        this.setMarkerStadiumToHotel((TransferStadiumToHotelTypeViewHolder)holder, R.drawable.ic_marker_active, R.color.heading_bg);
+                        ((TransferStadiumToHotelTypeViewHolder) holder).imageView.setImageResource(R.drawable.ic_marker_active);
+//                        this.setMarkerTicket((TicketBookingTypeViewHolder)holder, R.drawable.ic_marker_active, R.color.heading_bg);
                     } else {
-                        this.setMarkerStadiumToHotel((TransferStadiumToHotelTypeViewHolder)holder, R.drawable.ic_marker, R.color.heading_bg);
+                        ((TransferStadiumToHotelTypeViewHolder) holder).imageView.setImageResource(R.drawable.ic_marker);
+//                        this.setMarkerTicket((TicketBookingTypeViewHolder)holder, R.drawable.ic_marker, R.color.heading_bg);
                     }
+
+//                    if (object.getStatus() == OrderStatus.INACTIVE) {
+//                        this.setMarkerStadiumToHotel((TransferStadiumToHotelTypeViewHolder) holder, R.drawable.ic_marker_inactive, R.color.heading_bg);
+//                    } else if (object.getStatus() == OrderStatus.ACTIVE) {
+//                        this.setMarkerStadiumToHotel((TransferStadiumToHotelTypeViewHolder)holder, R.drawable.ic_marker_active, R.color.heading_bg);
+//                    } else {
+//                        this.setMarkerStadiumToHotel((TransferStadiumToHotelTypeViewHolder)holder, R.drawable.ic_marker, R.color.heading_bg);
+//                    }
                     break;
                 case HistoryModel.HOTEL_CHECKOUT_TYPE:
                     if (object.getStatus() == OrderStatus.INACTIVE) {
-                        this.setMarkerHotelCheckout((HotelCheckoutTypeViewHolder) holder, R.drawable.ic_marker_inactive, R.color.heading_bg);
+                        ((HotelCheckoutTypeViewHolder) holder).imageView.setImageResource(R.drawable.ic_marker_inactive);
+//                        this.setMarkerTicket((TicketBookingTypeViewHolder) holder, R.drawable.ic_marker_inactive, R.color.heading_bg);
                     } else if (object.getStatus() == OrderStatus.ACTIVE) {
-                        this.setMarkerHotelCheckout((HotelCheckoutTypeViewHolder)holder, R.drawable.ic_marker_active, R.color.heading_bg);
+                        ((HotelCheckoutTypeViewHolder) holder).imageView.setImageResource(R.drawable.ic_marker_active);
+//                        this.setMarkerTicket((TicketBookingTypeViewHolder)holder, R.drawable.ic_marker_active, R.color.heading_bg);
                     } else {
-                        this.setMarkerHotelCheckout((HotelCheckoutTypeViewHolder)holder, R.drawable.ic_marker, R.color.heading_bg);
+                        ((HotelCheckoutTypeViewHolder) holder).imageView.setImageResource(R.drawable.ic_marker);
+//                        this.setMarkerTicket((TicketBookingTypeViewHolder)holder, R.drawable.ic_marker, R.color.heading_bg);
                     }
+//                    if (object.getStatus() == OrderStatus.INACTIVE) {
+//                        this.setMarkerHotelCheckout((HotelCheckoutTypeViewHolder) holder, R.drawable.ic_marker_inactive, R.color.heading_bg);
+//                    } else if (object.getStatus() == OrderStatus.ACTIVE) {
+//                        this.setMarkerHotelCheckout((HotelCheckoutTypeViewHolder)holder, R.drawable.ic_marker_active, R.color.heading_bg);
+//                    } else {
+//                        this.setMarkerHotelCheckout((HotelCheckoutTypeViewHolder)holder, R.drawable.ic_marker, R.color.heading_bg);
+//                    }
                     break;
                 case HistoryModel.MATCH_BOOKING_TYPE:
                     if (object.getStatus() == OrderStatus.INACTIVE) {
-                        this.setMarkerMatchBooking((MatchBookingTypeViewHolder) holder, R.drawable.ic_marker_inactive, R.color.heading_bg);
+                        ((MatchBookingTypeViewHolder) holder).imageView.setImageResource(R.drawable.ic_marker_inactive);
+//                        this.setMarkerTicket((TicketBookingTypeViewHolder) holder, R.drawable.ic_marker_inactive, R.color.heading_bg);
                     } else if (object.getStatus() == OrderStatus.ACTIVE) {
-                        this.setMarkerMatchBooking((MatchBookingTypeViewHolder)holder, R.drawable.ic_marker_active, R.color.heading_bg);
+                        ((MatchBookingTypeViewHolder) holder).imageView.setImageResource(R.drawable.ic_marker_active);
+//                        this.setMarkerTicket((TicketBookingTypeViewHolder)holder, R.drawable.ic_marker_active, R.color.heading_bg);
                     } else {
-                        this.setMarkerMatchBooking((MatchBookingTypeViewHolder)holder, R.drawable.ic_marker, R.color.heading_bg);
+                        ((MatchBookingTypeViewHolder) holder).imageView.setImageResource(R.drawable.ic_marker);
+//                        this.setMarkerTicket((TicketBookingTypeViewHolder)holder, R.drawable.ic_marker, R.color.heading_bg);
                     }
+//                    if (object.getStatus() == OrderStatus.INACTIVE) {
+//                        this.setMarkerMatchBooking((MatchBookingTypeViewHolder) holder, R.drawable.ic_marker_inactive, R.color.heading_bg);
+//                    } else if (object.getStatus() == OrderStatus.ACTIVE) {
+//                        this.setMarkerMatchBooking((MatchBookingTypeViewHolder)holder, R.drawable.ic_marker_active, R.color.heading_bg);
+//                    } else {
+//                        this.setMarkerMatchBooking((MatchBookingTypeViewHolder)holder, R.drawable.ic_marker, R.color.heading_bg);
+//                    }
                     ArrayList<String> list1 = new ArrayList();
                     for (int i = 0; i <1; i++) {
                         list1.add(String.valueOf(i));
@@ -302,6 +386,8 @@ public class HistoryMoreDetailListAdapter extends RecyclerView.Adapter {
 
     private final void setMarkerTicket(HistoryMoreDetailListAdapter.TicketBookingTypeViewHolder holder, int drawableResId, int colorFilter) {
      TimelineView var10000=holder.getTimeline();
+//        ImageView var10000=holder.getImageView();
+
         VectorDrawableUtils var10001 = VectorDrawableUtils.INSTANCE;
         View var10002 = holder.itemView;
 

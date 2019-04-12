@@ -55,4 +55,8 @@ public interface WebServices {
     @FormUrlEncoded
     @POST("/VerifiedPhoneNo")
     void getVerifiedPhoneNo(@FieldMap Map<String, String> map, Callback<OtpModel> callback);
+
+    @FormUrlEncoded
+    @POST("/AppSignup")
+    void getSignup(@FieldMap Map<String, String> map, Callback<LogginModel> callback);
 }

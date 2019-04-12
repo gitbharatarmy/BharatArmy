@@ -45,10 +45,10 @@ public class HistoryDetailActivity extends AppCompatActivity implements View.OnC
         ArrayList<HistoryModel> list= new ArrayList();
         list.add(new HistoryModel(HistoryModel.MAIN_BANNER_IMAGE_TYPE,"Hello. This is the Text-only View Type. Nice to meet you",0,OrderStatus.COMPLETED));
         list.add(new HistoryModel(HistoryModel.TICKET_BOOKING_TYPE,"Hi. I display a cool image too besides the omnipresent TextView.",0, OrderStatus.INACTIVE));
-        list.add(new HistoryModel(HistoryModel.AIRPORT_TRANSFER_TYPE,"Hey. Pressing the FAB button will playback an audio file on loop.",0, OrderStatus.ACTIVE));
+        list.add(new HistoryModel(HistoryModel.AIRPORT_TRANSFER_TYPE,"Hey. Pressing the FAB button will playback an audio file on loop.",0, OrderStatus.INACTIVE));
         list.add(new HistoryModel(HistoryModel.HOTEL_BOOKING_TYPE,"Hey. Pressing the FAB button will playback an audio file on loop.",0, OrderStatus.ACTIVE));
-        list.add(new HistoryModel(HistoryModel.TRANSFER_HOTEL_TO_STADIUM_TYPE,"Hello. This is the Text-only View Type. Nice to meet you",0, OrderStatus.INACTIVE));
-        list.add(new HistoryModel(HistoryModel.TRANSFER_STADIUM_TO_HOTEL,"Hi. I display a cool image too besides the omnipresent TextView.",0, OrderStatus.INACTIVE));
+        list.add(new HistoryModel(HistoryModel.TRANSFER_HOTEL_TO_STADIUM_TYPE,"Hello. This is the Text-only View Type. Nice to meet you",0, OrderStatus.ACTIVE));
+        list.add(new HistoryModel(HistoryModel.TRANSFER_STADIUM_TO_HOTEL,"Hi. I display a cool image too besides the omnipresent TextView.",0, OrderStatus.ACTIVE));
         list.add(new HistoryModel(HistoryModel.HOTEL_CHECKOUT_TYPE,"Hey. Pressing the FAB button will playback an audio file on loop.",0, OrderStatus.INACTIVE));
         list.add(new HistoryModel(HistoryModel.MATCH_BOOKING_TYPE,"Hey. Pressing the FAB button will playback an audio file on loop.",0, OrderStatus.INACTIVE));
 //

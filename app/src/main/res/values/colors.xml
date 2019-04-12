@@ -3,26 +3,26 @@
     <!--<color name="colorPrimary">#008577</color>-->
     <!--<color name="colorPrimaryDark">#00574B</color>-->
     <!--<color name="colorAccent">#D81B60</color>-->
-<color name="heading_bg">#2a3550</color>
+    <color name="heading_bg">#2a3550</color>
 
     <color name="skip_color">#02ACEA</color>
     <color name="splash_bg_color">#ffffff</color>
     <color name="black">#000000</color>
-<color name="NotActive_dot_color">#9D9797</color>
+    <color name="NotActive_dot_color">#9D9797</color>
     <color name="Active_dot_color">#1D2846</color>
     <color name="normal_font_color">#343434</color>
-<color name="hint_txt_color">#bbbdc2</color>
+    <color name="hint_txt_color">#bbbdc2</color>
     <color name="sign_up">#e46224</color>
-<color name="fb_txt">#3b5999</color>
+    <color name="fb_txt">#3b5999</color>
     <color name="link_txt">#1879ac</color>
     <color name="gray">#c1c1c1</color>
     <color name="linear">#912849</color>
     <color name="svg_colo">#FF727272</color>
     <color name="bgBottomNavigation">#fe485a</color>
-
+    <color name="unselected_icon_color">#888888</color>
     <color name="demo_dark_transparent">#F2F2F2</color>
 
-<!-- new history screen color-->
+    <!-- new history screen color-->
     <color name="colorPrimary">#FFFFFF</color>
     <color name="colorPrimaryDark">#CCCCCC</color>
     <color name="colorAccent">#2962FF</color>
@@ -46,25 +46,25 @@
     <color name="colorBackground">#eeeeee</color>
 
     <!--<array name="colors">-->
-        <!--<item>@color/material_red_500</item>-->
-        <!--<item>@color/material_pink_500</item>-->
-        <!--<item>@color/material_purple_500</item>-->
-        <!--<item>@color/material_deep_purple_500</item>-->
-        <!--<item>@color/material_indigo_500</item>-->
-        <!--<item>@color/material_blue_500</item>-->
-        <!--<item>@color/material_light_blue_500</item>-->
-        <!--<item>@color/material_cyan_500</item>-->
-        <!--<item>@color/material_teal_500</item>-->
-        <!--<item>@color/material_green_500</item>-->
-        <!--<item>@color/material_light_green_500</item>-->
-        <!--<item>@color/material_lime_500</item>-->
-        <!--<item>@color/material_yellow_500</item>-->
-        <!--<item>@color/material_amber_500</item>-->
-        <!--<item>@color/material_orange_500</item>-->
-        <!--<item>@color/material_deep_orange_500</item>-->
-        <!--<item>@color/material_brown_500</item>-->
-        <!--<item>@color/material_grey_500</item>-->
-        <!--<item>@color/material_blue_grey_500</item>-->
-        <!--<item>@color/material_light_white</item>-->
+    <!--<item>@color/material_red_500</item>-->
+    <!--<item>@color/material_pink_500</item>-->
+    <!--<item>@color/material_purple_500</item>-->
+    <!--<item>@color/material_deep_purple_500</item>-->
+    <!--<item>@color/material_indigo_500</item>-->
+    <!--<item>@color/material_blue_500</item>-->
+    <!--<item>@color/material_light_blue_500</item>-->
+    <!--<item>@color/material_cyan_500</item>-->
+    <!--<item>@color/material_teal_500</item>-->
+    <!--<item>@color/material_green_500</item>-->
+    <!--<item>@color/material_light_green_500</item>-->
+    <!--<item>@color/material_lime_500</item>-->
+    <!--<item>@color/material_yellow_500</item>-->
+    <!--<item>@color/material_amber_500</item>-->
+    <!--<item>@color/material_orange_500</item>-->
+    <!--<item>@color/material_deep_orange_500</item>-->
+    <!--<item>@color/material_brown_500</item>-->
+    <!--<item>@color/material_grey_500</item>-->
+    <!--<item>@color/material_blue_grey_500</item>-->
+    <!--<item>@color/material_light_white</item>-->
     <!--</array>-->
 </resources>

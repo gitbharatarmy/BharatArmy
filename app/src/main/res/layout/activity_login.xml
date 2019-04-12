@@ -57,7 +57,7 @@
                         android:layout_width="@dimen/_15sdp"
                         android:layout_height="@dimen/_15sdp"
                         android:layout_gravity="center_vertical"
-                        android:src="@drawable/username" />
+                        android:src="@drawable/ic_message" />
 
                     <EditText
                         android:id="@+id/user_name_edt"
@@ -214,7 +214,7 @@
                 android:layout_marginBottom="@dimen/_15sdp"
                 android:layout_weight="0.1"
                 android:orientation="horizontal"
-                android:visibility="gone">
+                android:visibility="visible">
 
                 <TextView
                     android:id="@+id/sign_txt"

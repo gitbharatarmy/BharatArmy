@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<layout>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -61,18 +62,122 @@
 
     <include layout="@layout/content_dashboard" />
 
-    <android.support.design.widget.BottomNavigationView
-        android:id="@+id/navigation"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/_50sdp"
-        android:layout_gravity="bottom"
-        android:background="@color/splash_bg_color"
-        android:foreground="?attr/selectableItemBackground"
-        android:theme="@style/text_font"
-        app:itemBackground="@color/splash_bg_color"
-        app:itemIconTint="@drawable/selector"
-        app:itemTextColor="@drawable/selector"
-        app:menu="@menu/navigation" />
+    <!--<android.support.design.widget.BottomNavigationView-->
+        <!--android:id="@+id/navigation"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="@dimen/_50sdp"-->
+        <!--android:layout_gravity="bottom"-->
+        <!--android:background="@color/splash_bg_color"-->
+        <!--android:foreground="?attr/selectableItemBackground"-->
+        <!--android:theme="@style/text_font"-->
+        <!--app:itemBackground="@color/splash_bg_color"-->
+        <!--app:itemIconTint="@drawable/selector"-->
+        <!--app:itemTextColor="@drawable/selector"-->
+        <!--app:menu="@menu/navigation" />-->
     <!--app:itemIconTint="@"-->
     <!--"-->
+
+    <LinearLayout
+        android:id="@+id/bottomnavigation_linear"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_45sdp"
+        android:layout_gravity="bottom"
+        android:background="@color/splash_bg_color"
+        android:orientation="horizontal"
+        android:weightSum="4">
+
+        <LinearLayout
+            android:id="@+id/home_linear"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginTop="@dimen/_2sdp"
+            android:layout_weight="1">
+
+            <ImageView
+                android:id="@+id/home_img"
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp"
+                android:src="@drawable/ic_home"
+                android:layout_gravity="center_horizontal"/>
+            <TextView
+                android:id="@+id/home_txt"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_30sdp"
+                android:text="@string/home"
+                android:gravity="center_horizontal"
+                android:textSize="@dimen/_10sdp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/history_linear"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:layout_marginTop="@dimen/_2sdp">
+
+            <ImageView
+                android:id="@+id/history_img"
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp"
+                android:src="@drawable/ic_history"
+                android:layout_gravity="center_horizontal"/>
+            <TextView
+                android:id="@+id/history_txt"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_30sdp"
+                android:text="@string/history"
+                android:gravity="center_horizontal"
+                android:textSize="@dimen/_10sdp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/profile_linear"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:layout_marginTop="@dimen/_2sdp">
+
+            <ImageView
+                android:id="@+id/myprofile_img"
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp"
+                android:src="@drawable/ic_profile"
+                android:layout_gravity="center_horizontal"/>
+            <TextView
+                android:id="@+id/myprofile_txt"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_30sdp"
+                android:text="@string/myprofile"
+                android:gravity="center_horizontal"
+                android:textSize="@dimen/_10sdp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/fans_linear"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:layout_marginTop="@dimen/_2sdp">
+
+            <ImageView
+                android:id="@+id/fan_img"
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp"
+                android:src="@drawable/ic_home"
+                android:layout_gravity="center_horizontal"/>
+            <TextView
+                android:id="@+id/fan_txt"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_30sdp"
+                android:text="@string/fan"
+                android:gravity="center_horizontal"
+                android:textSize="@dimen/_10sdp"/>
+        </LinearLayout>
+
+    </LinearLayout>
 </android.support.design.widget.CoordinatorLayout>
+</layout>

@@ -9,10 +9,10 @@
 
     <ImageView
         android:id="@+id/bullet_img"
-        android:layout_width="@dimen/_15sdp"
-        android:layout_height="@dimen/_15sdp"
+        android:layout_width="@dimen/_10sdp"
+        android:layout_height="@dimen/_10sdp"
         android:src="@drawable/app_logo"
-
+        android:layout_marginTop="@dimen/_5sdp"
         />
 
     <TextView
@@ -20,10 +20,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="fdsffdsfdddffghjhjhd"
-        android:layout_marginLeft="@dimen/_2sdp"
+        android:layout_marginLeft="@dimen/_4sdp"
         android:textColor="@color/normal_font_color"
         style="@style/text_font"
-        android:textStyle="normal"
         android:textSize="@dimen/_11sdp"/>
 
 

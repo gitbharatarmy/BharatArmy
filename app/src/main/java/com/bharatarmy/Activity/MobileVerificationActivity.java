@@ -39,7 +39,8 @@ public class MobileVerificationActivity extends AppCompatActivity implements Vie
     }
 
     public void setListiner(){
-        mobileVerificationBinding.ccp.setCountryForPhoneCode(91);
+        mobileVerificationBinding.ccp.setCountryForNameCode(AppConfiguration.currentCountry);
+//        mobileVerificationBinding.ccp.setCountryForPhoneCode(91);
         mobileVerificationBinding.phoneNoEdt.setText(Utils.getPref(mContext,"LoginPhoneNo"));
 
         mobileVerificationBinding.mobileVerifyBtn.setOnClickListener(this);
@@ -87,7 +88,9 @@ public class MobileVerificationActivity extends AppCompatActivity implements Vie
         if (phoneNoStr.equalsIgnoreCase("")){
             mobileVerificationBinding.phoneNoEdt.setError("Please Enter phone number");
         }else{
-            getOtpVerification();
+//            if (phoneNoStr.length()==10) {
+                getOtpVerification();
+//            }
         }
     }
     public void getOtpVerification() {
@@ -118,6 +121,7 @@ public class MobileVerificationActivity extends AppCompatActivity implements Vie
                     otpIntent.putExtra("OTP",loginModel.getData().getOTP());
                     otpIntent.putExtra("OTPmobileno",phoneNoStr);
                     otpIntent.putExtra("countrycode",countryCodeStr);
+                    otpIntent.putExtra("wheretocome","Login");
                     startActivity(otpIntent);
                     finish();
                 }

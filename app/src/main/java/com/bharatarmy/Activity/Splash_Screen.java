@@ -1,13 +1,23 @@
 package com.bharatarmy.Activity;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.os.Build;
 import android.os.Handler;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.bharatarmy.Models.LogginModel;
 import com.bharatarmy.Models.WalkthroughData;
@@ -15,24 +25,24 @@ import com.bharatarmy.R;
 import com.bharatarmy.Utility.ApiHandler;
 import com.bharatarmy.Utility.AppConfiguration;
 import com.bharatarmy.Utility.Utils;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.InstanceIdResult;
-import com.google.firebase.messaging.FirebaseMessaging;
+
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class Splash_Screen extends AppCompatActivity {
+public class Splash_Screen extends AppCompatActivity  {
 
 
-    //    // Splash screen timer
+    //Splash screen timer
     private static int SPLASH_TIME_OUT = 5000;
     Context mContext;
+
+
+    String country;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,40 +50,34 @@ public class Splash_Screen extends AppCompatActivity {
         setContentView(R.layout.activity_splash__screen);
         mContext = Splash_Screen.this;
 
+        String Country_code= getApplicationContext().getResources().getConfiguration().locale.getCountry();
+        AppConfiguration.currentCountry =Country_code;// Country_code;
+        Log.d("Country_code",AppConfiguration.currentCountry);
+
         /* User Id verification*/
         if (Utils.getPref(mContext, "AppUserId").equalsIgnoreCase("")) {
             new Handler().postDelayed(new Runnable() {
 
-                /*
-                 * Showing splash screen with a timer. This will be useful when you
-                 * want to show case your app logo / company
-                 */
-
                 @Override
                 public void run() {
-                    // This method will be executed once the timer is over
-                    // Start your app main activity
                     if (!Utils.getPref(mContext, "LoginUserName").equalsIgnoreCase("")) {
                         Intent i = new Intent(Splash_Screen.this, DashboardActivity.class);
                         startActivity(i);
-//                        overridePendingTransition(R.anim.slide_in_left,0);
-                        // close this activity
                         finish();
                     } else {
                         Intent i = new Intent(Splash_Screen.this, WalkThrough.class);
                         startActivity(i);
-//                        overridePendingTransition(R.anim.slide_in_left,0);
-                        // close this activity
                         finish();
                     }
                 }
             }, SPLASH_TIME_OUT);
         } else {
-                getLoginUserDetail();
+            getLoginUserDetail();
         }
 
     }
-/*use for update user detail*/
+
+    /*use for update user detail*/
     public void getLoginUserDetail() {
         if (!Utils.checkNetwork(mContext)) {
             Utils.showCustomDialog(getResources().getString(R.string.internet_error), getResources().getString(R.string.internet_connection_error), Splash_Screen.this);
@@ -108,10 +112,10 @@ public class Splash_Screen extends AppCompatActivity {
                         Utils.setPref(mContext, "AppUserId", String.valueOf(loginModel.getData().getId()));
                         Utils.setPref(mContext, "Gender", String.valueOf(loginModel.getData().getGender()));
 
-                            /*  Mobile verification use */
+                        /*  Mobile verification use */
                         if (Utils.getPref(mContext, "PhoneVerified").equalsIgnoreCase("0")) {
                             Intent DashboardIntent = new Intent(mContext, MobileVerificationActivity.class);
-                            AppConfiguration.wheretocomemobile="splash";
+                            AppConfiguration.wheretocomemobile = "splash";
                             startActivity(DashboardIntent);
 //                            overridePendingTransition(R.anim.slide_in_left,0);
                             finish();
@@ -143,6 +147,4 @@ public class Splash_Screen extends AppCompatActivity {
         map.put("TokenId", Utils.getPref(mContext, "registration_id"));
         return map;
     }
-
-
 }

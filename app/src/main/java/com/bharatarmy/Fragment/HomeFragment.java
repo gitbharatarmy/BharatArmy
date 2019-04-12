@@ -42,6 +42,8 @@ import com.bharatarmy.Utility.ApiHandler;
 import com.bharatarmy.Utility.AppConfiguration;
 import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.FragmentHomeBinding;
+import com.bumptech.glide.Glide;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -254,7 +256,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.know_more:
-                DisplayAboutUs();
+//                DisplayAboutUs();
+
+                Intent webviewIntent=new Intent(mContext, MoreStoryActivity.class);
+                webviewIntent.putExtra("Story Heading","Ab Jeetega India");
+                webviewIntent.putExtra("StroyUrl","http://ajif.in/");
+                webviewIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                mContext.startActivity(webviewIntent);
                 break;
         }
     }

@@ -156,7 +156,6 @@
                 android:text="Bharat Army"
                 android:textColor="@color/normal_font_color"
                 android:textSize="@dimen/_12sdp"
-                android:textStyle="normal"
                 android:visibility="gone" />
 
             <android.support.v7.widget.RecyclerView
