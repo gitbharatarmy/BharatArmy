@@ -6,7 +6,10 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".Fragment.ImageFragment">
-
+<android.support.v4.widget.SwipeRefreshLayout
+    android:id="@+id/refreshView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
     <com.cooltechworks.views.shimmer.ShimmerRecyclerView xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/image_rcyList"
         android:layout_width="match_parent"
@@ -14,8 +17,7 @@
         app:shimmer_demo_angle="10"
         app:shimmer_demo_layout="@layout/image_loading_view"
         app:shimmer_demo_layout_manager_type="linear_horizontal"
-        app:shimmer_demo_shimmer_color="@color/demo_dark_transparent"
-       />
-
+        app:shimmer_demo_shimmer_color="@color/demo_dark_transparent" />
+</android.support.v4.widget.SwipeRefreshLayout>
 </LinearLayout>
 </layout>

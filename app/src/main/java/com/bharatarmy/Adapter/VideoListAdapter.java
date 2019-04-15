@@ -1,75 +1,119 @@
 package com.bharatarmy.Adapter;
 
 import android.content.Context;
+import android.media.MediaPlayer;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.VideoView;
 
+import com.bharatarmy.Interfaces.image_click;
 import com.bharatarmy.R;
+import com.bumptech.glide.Glide;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.MyViewHolder> {
-    Context mcontext;
-    List<String> bulletList;
+public class VideoListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+    private final int VIEW_TYPE_ITEM = 0;
+    private final int VIEW_TYPE_LOADING = 1;
 
-    public VideoListAdapter(Context mContext, List<String> bulletList) {
-        this.mcontext = mContext;
-        this.bulletList = bulletList;
+    public List<String> mItemList;
+    Context mContext;
+    image_click image_click;
+    private ArrayList<String> dataCheck;
+
+    public VideoListAdapter(Context mContext, List<String> itemList, image_click image_click) {
+        this.mContext = mContext;
+        this.mItemList = itemList;
+        this.image_click = image_click;
     }
 
-//    private List<Movie> moviesList;
-
-    public class MyViewHolder extends RecyclerView.ViewHolder {
-
-        ImageView fans_image;
-
-        public MyViewHolder(View view) {
-            super(view);
-            fans_image=(ImageView)view.findViewById(R.id.fans_image);
-
+    @NonNull
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        if (viewType == VIEW_TYPE_ITEM) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.video_list, parent, false);
+            return new ItemViewHolder(view);
+        } else {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_loading, parent, false);
+            return new LoadingViewHolder(view);
         }
     }
 
-
     @Override
-    public VideoListAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.image_list, parent, false);
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
 
-        return new VideoListAdapter.MyViewHolder(itemView);
-    }
+        if (viewHolder instanceof ItemViewHolder) {
+            populateItemRows((ItemViewHolder) viewHolder, position);
+        } else if (viewHolder instanceof LoadingViewHolder) {
+            showLoadingView((LoadingViewHolder) viewHolder, position);
+        }
 
-    @Override
-    public void onBindViewHolder(VideoListAdapter.MyViewHolder holder, int position) {
-
-
-
-//        Picasso.with(mcontext)
-//                .load(bulletList.get(position)
-//
-//                        .getBulletImageURL())
-//                .into(holder.bullet_img);
-    }
-
-    @Override
-    public long getItemId(int position) {
-// return specific item's id here
-        return position;
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-        return position;
     }
 
     @Override
     public int getItemCount() {
-        return bulletList.size();
+        return mItemList == null ? 0 : mItemList.size();
     }
-}
 
+    /**
+     * The following method decides the type of ViewHolder to display in the RecyclerView
+     *
+     * @param position
+     * @return
+     */
+    @Override
+    public int getItemViewType(int position) {
+        return mItemList.get(position) == null ? VIEW_TYPE_LOADING : VIEW_TYPE_ITEM;
+    }
+
+
+    private class ItemViewHolder extends RecyclerView.ViewHolder {
+
+        
+        ImageView play_img,videoView;
+
+
+        public ItemViewHolder(@NonNull View itemView) {
+            super(itemView);
+
+            videoView = itemView.findViewById(R.id.video_img);
+            play_img = itemView.findViewById(R.id.play_img);
+
+        }
+    }
+
+    private class LoadingViewHolder extends RecyclerView.ViewHolder {
+
+        ProgressBar progressBar;
+
+        public LoadingViewHolder(@NonNull View itemView) {
+            super(itemView);
+            progressBar = itemView.findViewById(R.id.progressBar);
+        }
+    }
+
+    private void showLoadingView(LoadingViewHolder viewHolder, int position) {
+        //ProgressBar would be displayed
+
+    }
+
+    private void populateItemRows(final ItemViewHolder viewHolder, final int position) {
+
+        final String item = mItemList.get(position);
+
+
+    }
+
+    public ArrayList<String> getData() {
+        return dataCheck;
+    }
+
+}
 

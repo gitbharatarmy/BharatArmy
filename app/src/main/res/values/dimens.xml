@@ -21,7 +21,7 @@
     <dimen name="placeholderTextHeight">8dp</dimen>
     <dimen name="padding_10">10dp</dimen>
 
-
+    <dimen name="recycler_view_item_width">8dp</dimen>
 
 
     <dimen name="padding">12dp</dimen>

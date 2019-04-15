@@ -25,7 +25,9 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    //noinspection GradleCompatible
     implementation 'com.android.support:appcompat-v7:27.1.1'
+
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     implementation 'com.android.support:support-v4:27.1.1'
     implementation 'com.google.android.gms:play-services-maps:16.1.0'
@@ -78,6 +80,9 @@ dependencies {
 ////    get current Location
 //    implementation 'com.google.android.gms:play-services-location:15.0.1'
 //    implementation 'com.google.android.gms:play-services-maps:15.0.1'
+
+//    zoom image
+    implementation 'com.alexvasilkov:gesture-views:2.5.2'
 
 }
 apply plugin: 'com.google.gms.google-services'
