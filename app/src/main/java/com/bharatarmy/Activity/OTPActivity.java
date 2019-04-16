@@ -45,8 +45,8 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
         activityOtpBinding = DataBindingUtil.setContentView(this, R.layout.activity_otp);
 
         mContext = OTPActivity.this;
-        setListiner();
         getIntentValue();
+        setListiner();
     }
 
     public void getIntentValue() {
@@ -55,13 +55,13 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
         countryCodeStr = getIntent().getStringExtra("countrycode");
         strWheretocome = getIntent().getStringExtra("wheretocome");
 
-        if (strWheretocome.equalsIgnoreCase("Signup")){
-            strFullName=getIntent().getStringExtra("signupFullname");
-            strEmail=getIntent().getStringExtra("signupEmail");
-            strCountrycode=getIntent().getStringExtra("signupCountryCode");
-            strMobileno=getIntent().getStringExtra("signupMobileno");
-            strPassword=getIntent().getStringExtra("signupPassword");
-            strCheck=getIntent().getStringExtra("signupCheck");
+        if (strWheretocome.equalsIgnoreCase("Signup")) {
+            strFullName = getIntent().getStringExtra("signupFullname");
+            strEmail = getIntent().getStringExtra("signupEmail");
+            strCountrycode = getIntent().getStringExtra("signupCountryCode");
+            strMobileno = getIntent().getStringExtra("signupMobileno");
+            strPassword = getIntent().getStringExtra("signupPassword");
+            strCheck = getIntent().getStringExtra("signupCheck");
         }
 
     }
@@ -69,7 +69,7 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
     public void setListiner() {
 
 
-        activityOtpBinding.noTxt.setText("+" + countryCodeStr + "-" + phoneNoStr);
+        activityOtpBinding.noTxt.setText("+" + strCountrycode + "-" + strMobileno);
 
         SmsReceiver.bindListener(new SmsListener() {
             @Override
@@ -166,6 +166,7 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
         });
 
         activityOtpBinding.otpImg.setOnClickListener(this);
+        activityOtpBinding.backImg.setOnClickListener(this);
         activityOtpBinding.otpImg.setOnEditorActionListener(new EditText.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -184,15 +185,15 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
                 getOtpData();
                 break;
             case R.id.back_img:
-                if (strWheretocome.equalsIgnoreCase("Signup")){
+                if (strWheretocome.equalsIgnoreCase("Signup")) {
                     Intent mobileIntent = new Intent(mContext, SignUpActivity.class);
                     startActivity(mobileIntent);
-                    overridePendingTransition(R.anim.slide_in_left, 0);
+                    overridePendingTransition(0, 0);
                     finish();
-                }else {
+                } else {
                     Intent mobileIntent = new Intent(mContext, MobileVerificationActivity.class);
                     startActivity(mobileIntent);
-                    overridePendingTransition(R.anim.slide_in_left, 0);
+                    overridePendingTransition(0, 0);
                     finish();
                 }
                 break;
@@ -319,9 +320,10 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
                         Utils.setPref(mContext, "AppUserId", String.valueOf(loginModel.getData().getId()));
                         Utils.setPref(mContext, "Gender", String.valueOf(loginModel.getData().getGender()));
 
-                            Intent DashboardIntent = new Intent(mContext, DashboardActivity.class);
-                            startActivity(DashboardIntent);
-                            finish();
+                        Intent DashboardIntent = new Intent(mContext, DashboardActivity.class);
+                        AppConfiguration.position = 0;
+                        startActivity(DashboardIntent);
+                        finish();
 
                     }
 
@@ -341,11 +343,11 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
 
     private Map<String, String> getSignUpData() {
         Map<String, String> map = new HashMap<>();
-        map.put("FullName",strFullName);
+        map.put("FullName", strFullName);
         map.put("Email", strEmail);
-        map.put("Code",strCountrycode);
-        map.put("PhoneNo",strMobileno);
-        map.put("Password",strPassword);
+        map.put("Code", strCountrycode);
+        map.put("PhoneNo", strMobileno);
+        map.put("Password", strPassword);
         return map;
     }
 }

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -76,6 +77,7 @@ public class ImageFragment extends Fragment {
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
+
         }
     }
 
@@ -102,10 +104,10 @@ public class ImageFragment extends Fragment {
 
 
     public void setDataValue() {
-        if (imageList!=null)
-        {
+        if (imageList != null) {
             imageList.clear();
         }
+
         imageList.add("https://www.bharatarmy.com/Docs/Gallery/1.jpg");
         imageList.add("https://www.bharatarmy.com/Docs/Gallery/2.jpg");
         imageList.add("https://www.bharatarmy.com/Docs/Gallery/3.jpg");
@@ -119,9 +121,9 @@ public class ImageFragment extends Fragment {
         imageListAdapter = new ImageListAdapter(mContext, imageList, new image_click() {
             @Override
             public void image_more_click() {
-                imageClickData="";
+                imageClickData = "";
                 imageClickData = String.valueOf(imageListAdapter.getData());
-                imageClickData = imageClickData.replaceAll("\\[", "").replaceAll("\\]","");
+                imageClickData = imageClickData.replaceAll("\\[", "").replaceAll("\\]", "");
                 Log.d("imageClickData", "" + imageClickData);
 
                 Intent gallerydetailIntent = new Intent(mContext, GalleryImageDetailActivity.class);
@@ -132,9 +134,8 @@ public class ImageFragment extends Fragment {
         gridLayoutManager = new GridLayoutManager(mContext, 3);
         gridLayoutManager.setOrientation(LinearLayoutManager.VERTICAL); // set Horizontal Orientation
         fragmentImageBinding.imageRcyList.setLayoutManager(gridLayoutManager); // set LayoutManager to RecyclerView
-        fragmentImageBinding.imageRcyList.addItemDecoration(new GridSpacingItemDecoration(3, 10, true));
+//        fragmentImageBinding.imageRcyList.addItemDecoration(new GridSpacingItemDecoration(3, 10, true));
         fragmentImageBinding.imageRcyList.setAdapter(imageListAdapter);
-
     }
 
     public void setListiner() {
@@ -180,6 +181,8 @@ public class ImageFragment extends Fragment {
         super.onDestroyView();
         imageList.clear();
     }
+
+
 }
 
 

@@ -1,35 +1,20 @@
 package com.bharatarmy.Activity;
-
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSnapHelper;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
-import android.view.ScaleGestureDetector;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 
 import com.bharatarmy.Adapter.GalleryImageDetailAdapter;
-import com.bharatarmy.Adapter.ImageListAdapter;
 import com.bharatarmy.R;
-import com.bharatarmy.Utility.ItemOffsetDecoration;
 import com.bharatarmy.Utility.SnapHelperOneByOne;
 import com.bharatarmy.databinding.ActivityGalleryImageDetailBinding;
-import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 import java.util.List;

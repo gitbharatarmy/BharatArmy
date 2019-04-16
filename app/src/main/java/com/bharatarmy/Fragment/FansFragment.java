@@ -33,7 +33,7 @@ public class FansFragment extends Fragment {
     private View rootView;
     private Context mContext;
     FragmentFansBinding fragmentFansBinding;
-
+    FansPageAdapter adapter;
     public FansFragment() {
         // Required empty public constructor
     }
@@ -63,6 +63,7 @@ public class FansFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
     }
 
     @Override
@@ -74,7 +75,6 @@ public class FansFragment extends Fragment {
         rootView = fragmentFansBinding.getRoot();
         mContext = getActivity().getApplicationContext();
         AppConfiguration.position=3;
-
         return rootView;
     }
 
@@ -93,16 +93,10 @@ public class FansFragment extends Fragment {
         fragmentFansBinding.tabLayoutFans.setTabMode(TabLayout.MODE_FIXED);
         fragmentFansBinding.tabLayoutFans.setTabGravity(TabLayout.GRAVITY_FILL);
 
-        FansPageAdapter adapter = new FansPageAdapter(getFragmentManager(),  fragmentFansBinding.tabLayoutFans.getTabCount());
+        adapter = new FansPageAdapter(getFragmentManager(),  fragmentFansBinding.tabLayoutFans.getTabCount());
 //Adding adapter to pager
         fragmentFansBinding.pager.setAdapter(adapter);
-// fragmentFansBinding.tabLayoutFans.setupWithViewPager(fragmentFansBinding.pager);
-
-//        if (android.os.Build.VERSION.SDK_INT >= 21) {
-//            fragmentFansBinding.view.setVisibility(View.GONE);
-//        } else {
-//            fragmentFansBinding.view.setVisibility(View.VISIBLE);
-//        }
+        fragmentFansBinding.pager.setOffscreenPageLimit(0);
     }
 
     public void setListiner() {
@@ -125,4 +119,6 @@ public class FansFragment extends Fragment {
             }
         });
     }
+
+
 }

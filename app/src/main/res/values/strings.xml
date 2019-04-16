@@ -40,7 +40,7 @@
     <string name="action_settings">Settings</string>
     <string name="terms_txt">I agree to the</string>
     <string name="terms_condition_txt">Terms &amp; Conditions</string>
-    <string name="close">Close</string>
+    <string name="close">Back to login</string>
 
     <!--Home Fragment  String-->
     <string name="know_more">Know More</string>

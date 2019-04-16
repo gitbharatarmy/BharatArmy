@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.media.Image;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -42,7 +43,7 @@ public class BharatArmyStoriesAdapter extends RecyclerView.Adapter<BharatArmySto
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView header_txt, type_txt, army_story_header_txt, army_story_sub_txt,
                 date_txt, views_txt, username_txt;
-        ImageView type_img, profile_image;
+        ImageView type_img, profile_image,banner_img;
 
 
         public MyViewHolder(View view) {
@@ -58,7 +59,7 @@ public class BharatArmyStoriesAdapter extends RecyclerView.Adapter<BharatArmySto
 
             type_img = (ImageView) view.findViewById(R.id.type_img);
             profile_image = (ImageView) view.findViewById(R.id.profile_image);
-
+            banner_img=(ImageView)view.findViewById(R.id.banner_img);
 
         }
     }
@@ -86,6 +87,11 @@ public class BharatArmyStoriesAdapter extends RecyclerView.Adapter<BharatArmySto
         holder.views_txt.setText(storiesData.getStrViewCount());
         holder.username_txt.setText(storiesData.getAuthorName());
 
+
+        Picasso.with(mcontext)
+                .load(storiesData.getStrThumbImageName())
+                .placeholder(R.drawable.progress_animation)
+                .into(holder.banner_img);
         Picasso.with(mcontext)
                 .load(storiesData.getAuthorImageURL())
                 .into(holder.profile_image);

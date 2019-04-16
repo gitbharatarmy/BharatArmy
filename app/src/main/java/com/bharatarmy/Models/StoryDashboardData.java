@@ -70,6 +70,9 @@ public class StoryDashboardData {
     @SerializedName("ThumbImageName")
     @Expose
     private String thumbImageName;
+    @SerializedName("strThumbImageName")
+    @Expose
+    private String strThumbImageName;
 
     public String getAuthorImageURL() {
         return authorImageURL;
@@ -243,5 +246,13 @@ public class StoryDashboardData {
 
     public void setThumbImageName(String thumbImageName) {
         this.thumbImageName = thumbImageName;
+    }
+
+    public String getStrThumbImageName() {
+        return strThumbImageName;
+    }
+
+    public void setStrThumbImageName(String strThumbImageName) {
+        this.strThumbImageName = strThumbImageName;
     }
 }

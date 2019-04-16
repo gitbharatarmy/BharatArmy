@@ -45,11 +45,11 @@ public class DashboardActivity extends AppCompatActivity
     private Fragment fragment;
     int myid;
     boolean first_time_trans = true;
-    BottomNavigationView bottomNavigationView;
-
-    LinearLayout logout_linear, home_linear, history_linear, profile_linear, fans_linear;
-    ImageView home_img, history_img, profile_img, fans_img;
-    TextView home_txt, history_txt, profile_txt, fans_txt;
+    DrawerLayout drawer;
+    ActionBarDrawerToggle toggle;
+    LinearLayout logout_linear, home_linear, history_linear, profile_linear, fan_linear,fans_linear;
+    ImageView home_img, history_img, profile_img,fans_img ,fan_img;
+    TextView home_txt, history_txt, profile_txt, fan_txt,fans_txt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,17 +61,21 @@ public class DashboardActivity extends AppCompatActivity
         home_linear = (LinearLayout) findViewById(R.id.home_linear);
         history_linear = (LinearLayout) findViewById(R.id.history_linear);
         profile_linear = (LinearLayout) findViewById(R.id.profile_linear);
-        fans_linear = (LinearLayout) findViewById(R.id.fans_linear);
+        fan_linear = (LinearLayout) findViewById(R.id.fan_linear);
+
+        fans_linear=(LinearLayout)findViewById(R.id.fans_linear);
+        fans_img=(ImageView) findViewById(R.id.fans_img);
+        fans_txt=(TextView)findViewById(R.id.fans_txt);
 
         home_img = (ImageView) findViewById(R.id.home_img);
         history_img = (ImageView) findViewById(R.id.history_img);
         profile_img = (ImageView) findViewById(R.id.myprofile_img);
-        fans_img = (ImageView) findViewById(R.id.fan_img);
+        fan_img = (ImageView) findViewById(R.id.fan_img);
 
         home_txt = (TextView) findViewById(R.id.home_txt);
         history_txt = (TextView) findViewById(R.id.history_txt);
         profile_txt = (TextView) findViewById(R.id.myprofile_txt);
-        fans_txt = (TextView) findViewById(R.id.fan_txt);
+        fan_txt = (TextView) findViewById(R.id.fan_txt);
 
         setSupportActionBar(toolbar);
 //        toolbar.setNavigationIcon(null);
@@ -79,24 +83,20 @@ public class DashboardActivity extends AppCompatActivity
         if (AppConfiguration.position == 0) {
             displayView(0);
         }
-//        else if (AppConfiguration.position==1){
-//            profile_img.setColorFilter(ContextCompat.getColor(mContext,
-//                    R.color.sign_up));
-//            profile_txt.setTextColor(ContextCompat.getColor(mContext,
-//                    R.color.sign_up));
-//            fragment = new MyProfileFragment();
-//            loadFragment(fragment);
-//        } else if (AppConfiguration.position==2){
-//            fragment = new HistoryFragment();
-//            loadFragment(fragment);
-//        }
+        else if (AppConfiguration.position==1){
+            displayView(AppConfiguration.position);
+        } else if (AppConfiguration.position==2){
+            displayView(AppConfiguration.position);
+        } else if(AppConfiguration.position==3){
+            displayView(AppConfiguration.position);
+        }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+    toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
 //        hide the drawericon
-        toggle.setDrawerIndicatorEnabled(false);
+//        toggle.setDrawerIndicatorEnabled(true);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
@@ -104,49 +104,15 @@ public class DashboardActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-//        bottomNavigationView = (BottomNavigationView) findViewById(R.id.navigation);
-//        if (AppConfiguration.position == 1) {
-//            bottomNavigationView.setSelectedItemId(R.id.navigation_myprofile);
-//        }
-//        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-//            @Override
-//            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-//                switch (item.getItemId()) {
-//                    case R.id.navigation_home:
-//                        fragment = new HomeFragment();
-//                        loadFragment(fragment);
-//                        return true;
-//                    case R.id.navigation_history:
-//                        fragment= new HistoryFragment();
-//                        loadFragment(fragment);
-//                        return true;
-//                    case R.id.navigation_myprofile:
-////                        getSupportActionBar().setTitle(" My Profile");
-//                        fragment = new MyProfileFragment();
-//                        loadFragment(fragment);
-//                        return true;
-//                    case R.id.navigation_fan:
-//                        fragment=new FansFragment();
-//                        loadFragment(fragment);
-//                        return  true;
-//
-//                }
-//                return false;
-//            }
-//        });
-
-
         logout_linear.setOnClickListener(this);
         home_linear.setOnClickListener(this);
         history_linear.setOnClickListener(this);
         profile_linear.setOnClickListener(this);
+        fan_linear.setOnClickListener(this);
         fans_linear.setOnClickListener(this);
 
     }
 
-    public void setBottomView() {
-
-    }
 
     private void loadFragment(Fragment fragment) {
         // load fragment
@@ -197,47 +163,19 @@ public class DashboardActivity extends AppCompatActivity
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (toggle.onOptionsItemSelected(item)) {
             return true;
         }
+        // Handle your other action bar items...
 
         return super.onOptionsItemSelected(item);
+
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        if (id == R.id.navigation_home) {
-
-
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
-        }
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
-    }
 
     public void displayView(int position) {
         switch (position) {
             case 0:
-
                 home_img.setColorFilter(ContextCompat.getColor(mContext,
                         R.color.sign_up));
                 home_txt.setTextColor(ContextCompat.getColor(mContext,
@@ -247,17 +185,29 @@ public class DashboardActivity extends AppCompatActivity
                 myid = fragment.getId();
                 break;
             case 1:
+                profile_img.setColorFilter(ContextCompat.getColor(mContext,
+                        R.color.sign_up));
+                profile_txt.setTextColor(ContextCompat.getColor(mContext,
+                        R.color.sign_up));
                 profile_linear.performClick();
                 fragment = new MyProfileFragment();
                 myid = fragment.getId();
                 break;
             case 2:
+                history_img.setColorFilter(ContextCompat.getColor(mContext,
+                        R.color.sign_up));
+                history_txt.setTextColor(ContextCompat.getColor(mContext,
+                        R.color.sign_up));
                 history_linear.performClick();
                 fragment = new HistoryFragment();
                 myid = fragment.getId();
                 break;
             case 3:
-                fans_linear.performClick();
+                fan_img.setColorFilter(ContextCompat.getColor(mContext,
+                        R.color.sign_up));
+                fan_txt.setTextColor(ContextCompat.getColor(mContext,
+                        R.color.sign_up));
+                fan_linear.performClick();
                 fragment = new FansFragment();
                 myid = fragment.getId();
                 break;
@@ -349,9 +299,9 @@ public class DashboardActivity extends AppCompatActivity
                         R.color.unselected_icon_color));
                 profile_txt.setTextColor(ContextCompat.getColor(mContext,
                         R.color.unselected_icon_color));
-                fans_img.setColorFilter(ContextCompat.getColor(mContext,
+                fan_img.setColorFilter(ContextCompat.getColor(mContext,
                         R.color.unselected_icon_color));
-                fans_txt.setTextColor(ContextCompat.getColor(mContext,
+                fan_txt.setTextColor(ContextCompat.getColor(mContext,
                         R.color.unselected_icon_color));
                 fragment = new HomeFragment();
                 loadFragment(fragment);
@@ -371,9 +321,9 @@ public class DashboardActivity extends AppCompatActivity
                         R.color.unselected_icon_color));
                 profile_txt.setTextColor(ContextCompat.getColor(mContext,
                         R.color.unselected_icon_color));
-                fans_img.setColorFilter(ContextCompat.getColor(mContext,
+                fan_img.setColorFilter(ContextCompat.getColor(mContext,
                         R.color.unselected_icon_color));
-                fans_txt.setTextColor(ContextCompat.getColor(mContext,
+                fan_txt.setTextColor(ContextCompat.getColor(mContext,
                         R.color.unselected_icon_color));
                 fragment = new HistoryFragment();
                 loadFragment(fragment);
@@ -393,17 +343,17 @@ public class DashboardActivity extends AppCompatActivity
                         R.color.unselected_icon_color));
                 history_txt.setTextColor(ContextCompat.getColor(mContext,
                         R.color.unselected_icon_color));
-                fans_img.setColorFilter(ContextCompat.getColor(mContext,
+                fan_img.setColorFilter(ContextCompat.getColor(mContext,
                         R.color.unselected_icon_color));
-                fans_txt.setTextColor(ContextCompat.getColor(mContext,
+                fan_txt.setTextColor(ContextCompat.getColor(mContext,
                         R.color.unselected_icon_color));
                 fragment = new MyProfileFragment();
                 loadFragment(fragment);
                 break;
             case R.id.fans_linear:
-                fans_img.setColorFilter(ContextCompat.getColor(mContext,
+                fan_img.setColorFilter(ContextCompat.getColor(mContext,
                         R.color.sign_up));
-                fans_txt.setTextColor(ContextCompat.getColor(mContext,
+                fan_txt.setTextColor(ContextCompat.getColor(mContext,
                         R.color.sign_up));
 
                 home_img.setColorFilter(ContextCompat.getColor(mContext,
@@ -422,6 +372,20 @@ public class DashboardActivity extends AppCompatActivity
                 fragment = new FansFragment();
                 loadFragment(fragment);
                 break;
+
+            case R.id.fan_linear:
+                fans_img.setColorFilter(ContextCompat.getColor(mContext,
+                        R.color.heading_bg));
+                fans_txt.setTextColor(ContextCompat.getColor(mContext,
+                        R.color.heading_bg));
+                fragment = new FansFragment();
+                loadFragment(fragment);
+                break;
         }
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        return false;
     }
 }

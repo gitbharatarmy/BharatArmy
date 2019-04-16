@@ -49,10 +49,16 @@ public class Splash_Screen extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash__screen);
         mContext = Splash_Screen.this;
+        AppConfiguration.currentCountry="";
+//        String Country_code= getApplicationContext().getResources().getConfiguration().locale.getISO3Country();
+//        AppConfiguration.currentCountry = Country_code;// Country_code;
+        TelephonyManager tm = (TelephonyManager)this.getSystemService(getApplicationContext().TELEPHONY_SERVICE);
+        String countryCodeValue = tm.getNetworkCountryIso();
+        AppConfiguration.currentCountry=countryCodeValue.toUpperCase();//countryCodeValue;
+        Log.d("Country_code",countryCodeValue +"|"+AppConfiguration.currentCountry);
 
-        String Country_code= getApplicationContext().getResources().getConfiguration().locale.getCountry();
-        AppConfiguration.currentCountry =Country_code;// Country_code;
-        Log.d("Country_code",AppConfiguration.currentCountry);
+
+        Log.d("Utils.Country_code",Utils.getUserCountry(mContext));
 
         /* User Id verification*/
         if (Utils.getPref(mContext, "AppUserId").equalsIgnoreCase("")) {
@@ -76,6 +82,7 @@ public class Splash_Screen extends AppCompatActivity  {
         }
 
     }
+
 
     /*use for update user detail*/
     public void getLoginUserDetail() {

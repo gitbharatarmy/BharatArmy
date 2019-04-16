@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.VideoView;
 
 import com.bharatarmy.Interfaces.image_click;
@@ -76,15 +77,16 @@ public class VideoListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     private class ItemViewHolder extends RecyclerView.ViewHolder {
 
-        
-        ImageView play_img,videoView;
 
+        ImageView play_img,videoView;
+RelativeLayout videoLayout;
 
         public ItemViewHolder(@NonNull View itemView) {
             super(itemView);
 
             videoView = itemView.findViewById(R.id.video_img);
             play_img = itemView.findViewById(R.id.play_img);
+            videoLayout=itemView.findViewById(R.id.video_layout);
 
         }
     }
@@ -107,6 +109,19 @@ public class VideoListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private void populateItemRows(final ItemViewHolder viewHolder, final int position) {
 
         final String item = mItemList.get(position);
+//        Glide.with(mContext)
+//                .load(item)
+//                .placeholder(R.drawable.progress_animation)
+//                .into(viewHolder.videoView);
+
+        viewHolder.videoLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dataCheck = new ArrayList<String>();
+                dataCheck.add(mItemList.get(position));
+                image_click.image_more_click();
+            }
+        });
 
 
     }

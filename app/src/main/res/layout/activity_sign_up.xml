@@ -228,7 +228,7 @@
                 style="@style/text_font"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom|right"
+                android:layout_gravity="bottom|center"
                 android:paddingRight="@dimen/_5sdp"
                 android:layout_marginLeft="@dimen/_2sdp"
                 android:text="@string/close"

@@ -43,6 +43,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         activitySignUpBinding.ccp.setCountryForNameCode(AppConfiguration.currentCountry);
         activitySignUpBinding.termConditionTxt.setOnClickListener(this);
         activitySignUpBinding.signupBtn.setOnClickListener(this);
+        activitySignUpBinding.closeTxt.setOnClickListener(this);
 
         activitySignUpBinding.termsChk.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override

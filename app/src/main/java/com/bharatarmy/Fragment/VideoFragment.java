@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bharatarmy.Activity.GalleryImageDetailActivity;
+import com.bharatarmy.Activity.VideoDetailActivity;
 import com.bharatarmy.Adapter.ImageListAdapter;
 import com.bharatarmy.Adapter.VideoListAdapter;
 import com.bharatarmy.Interfaces.image_click;
@@ -79,6 +80,7 @@ public class VideoFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
     }
 
     @Override
@@ -109,27 +111,27 @@ setUserVisibleHint(true);
             videoList.clear();
         }
         videoList.add("https://s3.ap-south-1.amazonaws.com/balatestvideos/TestVideo1.mp4");
-        videoList.add("https://s3.ap-south-1.amazonaws.com/balatestvideos/TestVideo1.mp4");
+        videoList.add("http://jalsaclub.net/Docs/staywow_mobile.mp4");
         videoList.add("https://s3.ap-south-1.amazonaws.com/balatestvideos/TestVideo1.mp4");
 
 
         videoListAdapter = new VideoListAdapter(mContext, videoList, new image_click() {
             @Override
             public void image_more_click() {
-//                imageClickData="";
-//                imageClickData = String.valueOf(imageListAdapter.getData());
-//                imageClickData = imageClickData.replaceAll("\\[", "").replaceAll("\\]","");
-//                Log.d("imageClickData", "" + imageClickData);
-//
-//                Intent gallerydetailIntent = new Intent(mContext, GalleryImageDetailActivity.class);
-//                gallerydetailIntent.putExtra("positon", imageClickData);
-//                startActivity(gallerydetailIntent);
+                imageClickData="";
+                imageClickData = String.valueOf(videoListAdapter.getData());
+                imageClickData = imageClickData.replaceAll("\\[", "").replaceAll("\\]","");
+                Log.d("imageClickData", "" + imageClickData);
+
+                Intent videogallerydetailIntent = new Intent(mContext, VideoDetailActivity.class);
+                videogallerydetailIntent.putExtra("videoData", imageClickData);
+                startActivity(videogallerydetailIntent);
             }
         });
         gridLayoutManager = new GridLayoutManager(mContext, 3);
         gridLayoutManager.setOrientation(LinearLayoutManager.VERTICAL); // set Horizontal Orientation
         fragmentVideoBinding.videoRcyList.setLayoutManager(gridLayoutManager); // set LayoutManager to RecyclerView
-        fragmentVideoBinding.videoRcyList.addItemDecoration(new GridSpacingItemDecoration(3, 10, true));
+//        fragmentVideoBinding.videoRcyList.addItemDecoration(new GridSpacingItemDecoration(3, 10, true));
         fragmentVideoBinding.videoRcyList.setAdapter(videoListAdapter);
 
     }
