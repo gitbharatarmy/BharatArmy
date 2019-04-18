@@ -4,35 +4,57 @@
     tools:showIn="navigation_view">
 
     <group android:checkableBehavior="single">
+        <!--<item-->
+            <!--android:id="@+id/nav_home"-->
+            <!--android:icon="@drawable/ic_home"-->
+            <!--android:title="HOME" />-->
+        <!--<item-->
+            <!--android:id="@+id/nav_fan"-->
+            <!--android:icon="@drawable/ic_fans"-->
+            <!--android:title="FAN" />-->
+        <!--<item-->
+            <!--android:id="@+id/nav_travel"-->
+            <!--android:icon="@drawable/ic_flight"-->
+            <!--android:title="TRAVEL" />-->
+        <!--<item-->
+            <!--android:id="@+id/nav_event"-->
+            <!--android:icon="@drawable/ic_event"-->
+            <!--android:title="EVENT" />-->
+        <!--<item-->
+            <!--android:id="@+id/nav_ftp"-->
+            <!--android:icon="@drawable/ic_ftp"-->
+            <!--android:title="FTP" />-->
+
+        <!--<item-->
+            <!--android:id="@+id/nav_story"-->
+            <!--android:icon="@drawable/ic_news"-->
+            <!--android:title="STORY" />-->
+
         <item
-            android:id="@+id/nav_fan"
-            android:icon="@drawable/ic_fans"
-            android:title="FAN" />
+            android:id="@+id/nav_history"
+            android:icon="@drawable/ic_history"
+            android:title="HISTORY" />
+
         <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="Gallery" />
+            android:id="@+id/nav_aboutus"
+            android:icon="@drawable/ic_profile"
+            android:title="ABOUT US" />
+
         <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Slideshow" />
+            android:id="@+id/nav_contactus"
+            android:icon="@drawable/ic_profile"
+            android:title="CONTACT US" />
+
         <item
-            android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
+            android:id="@+id/nav_rateus"
+            android:icon="@drawable/ic_profile"
+            android:title="RATE US" />
+        <item
+            android:id="@+id/nav_logout"
+            android:icon="@drawable/ic_logout"
+            android:title="LOGOUT" />
     </group>
 
-    <item android:title="Communicate">
-        <menu>
-            <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Share" />
-            <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Send" />
-        </menu>
-    </item>
+
 
 </menu>

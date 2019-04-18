@@ -23,7 +23,7 @@ import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.ActivityMoreStoryBinding;
 import com.bumptech.glide.Glide;
 
-public class MoreStoryActivity extends AppCompatActivity implements View.OnClickListener {
+public class MoreStoryActivity extends BaseActivity implements View.OnClickListener {
 
     ActivityMoreStoryBinding moreStoryBinding;
     Context mContext;
@@ -38,10 +38,12 @@ public class MoreStoryActivity extends AppCompatActivity implements View.OnClick
 
         getDataValue();
         setListiner();
+        setTitleText(storyHeadingStr);
+        setBackButton(MoreStoryActivity.this);
     }
 
     public void setListiner() {
-        moreStoryBinding.backImg.setOnClickListener(this);
+//        moreStoryBinding.backImg.setOnClickListener(this);
     }
 
     public void getDataValue() {
@@ -49,7 +51,7 @@ public class MoreStoryActivity extends AppCompatActivity implements View.OnClick
         storyUrlStr = getIntent().getStringExtra("StroyUrl");
 
         Glide.with(mContext).load(R.drawable.logo).into(moreStoryBinding.image);
-        moreStoryBinding.toolbarTitleTxt.setText(storyHeadingStr);
+//        moreStoryBinding.toolbarTitleTxt.setText(storyHeadingStr);
         moreStoryBinding.moreStoryWebview.setWebViewClient(new MyWebViewClient());
         moreStoryBinding.moreStoryWebview.getSettings().setJavaScriptEnabled(true);
         moreStoryBinding.moreStoryWebview.loadUrl(storyUrlStr);
@@ -59,9 +61,9 @@ public class MoreStoryActivity extends AppCompatActivity implements View.OnClick
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.back_img:
-               MoreStoryActivity.this.finish();
-                break;
+//            case R.id.back_img:
+//               MoreStoryActivity.this.finish();
+//                break;
         }
     }
 

@@ -144,7 +144,7 @@
                     android:layout_gravity="center_vertical"/>
                 <TextView
                     android:id="@+id/date_txt"
-                    android:layout_width="@dimen/_45sdp"
+                    android:layout_width="wrap_content"
                     android:layout_height="@dimen/_20sdp"
                     android:text="06 Feb 19"
                     android:gravity="center_vertical"
@@ -157,6 +157,7 @@
                     android:layout_width="@dimen/_11sdp"
                     android:layout_height="@dimen/_11sdp"
                     android:src="@drawable/ic_eye"
+                    android:layout_marginLeft="@dimen/_5sdp"
                     android:layout_gravity="center_vertical"/>
                 <TextView
                     android:id="@+id/views_txt"

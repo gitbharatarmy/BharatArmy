@@ -18,11 +18,11 @@
             android:elevation="@dimen/_5sdp"
             android:minHeight="?attr/actionBarSize"
             app:tabIndicatorColor="@color/splash_bg_color"
-            app:tabIndicatorHeight="@dimen/_3sdp"
+            app:tabIndicatorHeight="@dimen/_1sdp"
             app:tabMaxWidth="0dp"
             app:tabPaddingEnd="@dimen/_10sdp"
             app:tabPaddingStart="@dimen/_10sdp"
-            style="@style/title_text_font"
+            app:tabTextAppearance="@style/tab_text"
             app:tabSelectedTextColor="@color/splash_bg_color"
             app:tabTextColor="@color/splash_bg_color" />
 

@@ -125,6 +125,8 @@ setUserVisibleHint(true);
 
                 Intent videogallerydetailIntent = new Intent(mContext, VideoDetailActivity.class);
                 videogallerydetailIntent.putExtra("videoData", imageClickData);
+                videogallerydetailIntent.putExtra("videoName", "TestVideo1.mp4");
+                videogallerydetailIntent.putExtra("WhereToVideoCome","VideoFragment");
                 startActivity(videogallerydetailIntent);
             }
         });

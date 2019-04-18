@@ -44,7 +44,7 @@ public class MobileVerificationActivity extends AppCompatActivity implements Vie
         mobileVerificationBinding.phoneNoEdt.setText(Utils.getPref(mContext,"LoginPhoneNo"));
 
         mobileVerificationBinding.mobileVerifyBtn.setOnClickListener(this);
-        mobileVerificationBinding.backImg.setOnClickListener(this );
+        mobileVerificationBinding.backImg.setOnClickListener(this);
         mobileVerificationBinding.mobileVerifyBtn.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {

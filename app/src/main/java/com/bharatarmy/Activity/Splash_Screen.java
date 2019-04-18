@@ -58,7 +58,7 @@ public class Splash_Screen extends AppCompatActivity  {
         Log.d("Country_code",countryCodeValue +"|"+AppConfiguration.currentCountry);
 
 
-        Log.d("Utils.Country_code",Utils.getUserCountry(mContext));
+//        Log.d("Utils.Country_code",Utils.getUserCountry(mContext));
 
         /* User Id verification*/
         if (Utils.getPref(mContext, "AppUserId").equalsIgnoreCase("")) {

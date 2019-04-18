@@ -2,6 +2,7 @@ package com.bharatarmy.Utility;
 
 import com.bharatarmy.Models.DashboardModel;
 import com.bharatarmy.Models.GetWalkthroughModel;
+import com.bharatarmy.Models.ImageMainModel;
 import com.bharatarmy.Models.LogginModel;
 import com.bharatarmy.Models.LoginDataModel;
 import com.bharatarmy.Models.OtpModel;
@@ -59,4 +60,8 @@ public interface WebServices {
     @FormUrlEncoded
     @POST("/AppSignup")
     void getSignup(@FieldMap Map<String, String> map, Callback<LogginModel> callback);
+
+    @FormUrlEncoded
+    @POST("/BAGallery")
+    void getBAGallery(@FieldMap Map<String, String> map, Callback<ImageMainModel> callback);
 }

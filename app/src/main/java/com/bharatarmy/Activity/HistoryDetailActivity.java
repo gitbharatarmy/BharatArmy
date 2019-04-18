@@ -20,7 +20,7 @@ import java.util.ArrayList;
 
 
 
-public class HistoryDetailActivity extends AppCompatActivity implements View.OnClickListener {
+public class HistoryDetailActivity extends BaseActivity implements View.OnClickListener {
 
     ActivityHistoryDetailBinding activityHistoryDetailBinding;
     Context mContext;
@@ -33,10 +33,13 @@ public class HistoryDetailActivity extends AppCompatActivity implements View.OnC
         mContext = HistoryDetailActivity.this;
         setListiner();
         setDataValue();
+
+        setTitleText("Bharat Army Booking History");
+        setBackButton(HistoryDetailActivity.this);
     }
 
     public void setListiner(){
-        activityHistoryDetailBinding.backImg.setOnClickListener(this);
+//        activityHistoryDetailBinding.backImg.setOnClickListener(this);
 
     }
 //https://github.com/Adms1/Bhadaj_Teacher/blob/master/app/src/main/java/anandniketan/com/anbcteacher/Adapter/ProfileAdapter.java
@@ -63,9 +66,9 @@ public class HistoryDetailActivity extends AppCompatActivity implements View.OnC
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.back_img:
-                HistoryDetailActivity.this.finish();
-                break;
+//            case R.id.back_img:
+//                HistoryDetailActivity.this.finish();
+//                break;
         }
     }
 }

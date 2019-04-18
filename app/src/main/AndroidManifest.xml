@@ -22,9 +22,11 @@
         android:label="@string/app_name"
         android:roundIcon="@drawable/app_logo"
         android:supportsRtl="true">
-        <activity android:name=".Activity.VideoDetailActivity"
+        <activity android:name=".Activity.BaseActivity"></activity>
+        <activity
+            android:name=".Activity.VideoDetailActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".Activity.DemoActivity"
             android:screenOrientation="portrait"

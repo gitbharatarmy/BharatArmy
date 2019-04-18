@@ -71,7 +71,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Retrofit;
 
-public class EditProfileActivity extends AppCompatActivity implements View.OnClickListener, ProgressRequestBody.UploadCallbacks {
+public class EditProfileActivity extends BaseActivity implements View.OnClickListener, ProgressRequestBody.UploadCallbacks {
 
     private static final String TAG = EditProfileActivity.class.getSimpleName();
     public static final int REQUEST_IMAGE = 100;
@@ -93,7 +93,10 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         ImagePickerActivity.clearCache(this);
         setDataValue();
         setListiner();
-        activityEditProfileBinding.backImg.setOnClickListener(this);
+
+        setTitleText("Member Profile");
+        setBackButton(EditProfileActivity.this);
+//        activityEditProfileBinding.backImg.setOnClickListener(this);
     }
 
     public void setDataValue() {
@@ -123,9 +126,9 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.back_img:
-                EditProfileActivity.this.finish();
-                break;
+//            case R.id.back_img:
+//                EditProfileActivity.this.finish();
+//                break;
             case R.id.upload_txt:
                 Dexter.withActivity(EditProfileActivity.this)
                         .withPermissions(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)

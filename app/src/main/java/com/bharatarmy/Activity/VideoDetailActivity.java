@@ -12,11 +12,12 @@ import android.view.View;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.ActivityVideoDetailBinding;
+import com.bumptech.glide.Glide;
 
-public class VideoDetailActivity extends AppCompatActivity implements View.OnClickListener {
+public class VideoDetailActivity extends BaseActivity implements View.OnClickListener {
     ActivityVideoDetailBinding videoDetailBinding;
     Context mContext;
-    String videoUrlStr;
+    String videoUrlStr,videoNameStr,whereToComeStr;
     MediaController mediaControls;
 
     @Override
@@ -27,12 +28,17 @@ public class VideoDetailActivity extends AppCompatActivity implements View.OnCli
 
         mContext = VideoDetailActivity.this;
         setDataValue();
-        setListiner();
+        setTitleText(videoNameStr);
+        setBackButton(VideoDetailActivity.this);
+//        setListiner();
     }
 
     public void setDataValue() {
         videoUrlStr = getIntent().getStringExtra("videoData");
+        videoNameStr=getIntent().getStringExtra("videoName");
+        whereToComeStr=getIntent().getStringExtra("WhereToVideoCome");
 
+//        videoDetailBinding.toolbarTitleTxt.setText(videoNameStr);
         if (mediaControls == null) {
             // create an object of media controller class
             mediaControls = new MediaController(mContext);
@@ -45,7 +51,9 @@ public class VideoDetailActivity extends AppCompatActivity implements View.OnCli
 //        String path = "android.resource://" + getPackageName() + "/" + R.raw.samplevideo_1280x720_10mb;
 //        videoDetailBinding.videoView.setVideoURI(Uri.parse(path));
 
-        videoDetailBinding.progressbar.setVisibility(View.VISIBLE);
+//        videoDetailBinding.progressbar.setVisibility(View.VISIBLE);
+        videoDetailBinding.image.setVisibility(View.VISIBLE);
+        Glide.with(mContext).load(R.drawable.logo_white).into(videoDetailBinding.image);
         videoDetailBinding.videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mp) {
@@ -56,7 +64,8 @@ public class VideoDetailActivity extends AppCompatActivity implements View.OnCli
                     public void onVideoSizeChanged(MediaPlayer mp, int arg1,
                                                    int arg2) {
                         // TODO Auto-generated method stub
-                        videoDetailBinding.progressbar.setVisibility(View.GONE);
+//                        videoDetailBinding.progressbar.setVisibility(View.GONE);
+                        videoDetailBinding.image.setVisibility(View.GONE);
                         // start a video
                         videoDetailBinding.videoView.start();
                         mp.start();
@@ -80,9 +89,9 @@ public class VideoDetailActivity extends AppCompatActivity implements View.OnCli
         });
     }
 
-    public void setListiner() {
-        videoDetailBinding.backImg.setOnClickListener(this);
-    }
+//    public void setListiner() {
+//        videoDetailBinding.backImg.setOnClickListener(this);
+//    }
 
     @Override
     public void onClick(View v) {

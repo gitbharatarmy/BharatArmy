@@ -16,7 +16,7 @@ import com.bharatarmy.databinding.ActivityMoreStoryBinding;
 import com.bharatarmy.databinding.ActivityTermConditionBinding;
 import com.bumptech.glide.Glide;
 
-public class TermConditionActivity extends AppCompatActivity implements View.OnClickListener {
+public class TermConditionActivity extends BaseActivity implements View.OnClickListener {
 
     ActivityTermConditionBinding termConditionBinding;
     Context mContext;
@@ -31,10 +31,12 @@ public class TermConditionActivity extends AppCompatActivity implements View.OnC
 
         getDataValue();
         setListiner();
+        setTitleText(storyHeadingStr);
+        setBackButton(TermConditionActivity.this);
     }
 
     public void setListiner() {
-        termConditionBinding.backImg.setOnClickListener(this);
+//        termConditionBinding.backImg.setOnClickListener(this);
     }
 
     public void getDataValue() {
@@ -42,7 +44,7 @@ public class TermConditionActivity extends AppCompatActivity implements View.OnC
         storyUrlStr = getIntent().getStringExtra("StroyUrl");
         Glide.with(mContext).load(R.drawable.logo).into(termConditionBinding.image);
 
-        termConditionBinding.toolbarTitleTxt.setText(storyHeadingStr);
+//        termConditionBinding.toolbarTitleTxt.setText(storyHeadingStr);
         termConditionBinding.moreStoryWebview.setWebViewClient(new MyWebViewClient());
         termConditionBinding.moreStoryWebview.getSettings().setJavaScriptEnabled(true);
         termConditionBinding.moreStoryWebview.loadUrl(storyUrlStr);
@@ -52,9 +54,9 @@ public class TermConditionActivity extends AppCompatActivity implements View.OnC
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.back_img:
-                TermConditionActivity.this.finish();
-                break;
+//            case R.id.back_img:
+//                TermConditionActivity.this.finish();
+//                break;
         }
     }
 

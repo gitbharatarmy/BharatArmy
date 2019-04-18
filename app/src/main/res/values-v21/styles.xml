@@ -20,6 +20,17 @@
         <item name="windowActionBar">true</item>
         <item name="windowNoTitle">true</item>
         <item name="android:statusBarColor">@color/heading_bg</item>
+        <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
 
+    </style>
+
+    <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
+        <item name="spinBars">true</item>
+        <item name="color">@color/splash_bg_color</item>
+    </style>
+
+    <style name="tab_text" parent="@android:style/TextAppearance.Widget.TabWidget">
+        <item name="android:fontFamily">@font/helveticaneueltstdbdcn</item>
+        <item name="android:textStyle">normal</item>
     </style>
 </resources>

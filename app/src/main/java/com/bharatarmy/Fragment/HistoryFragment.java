@@ -78,7 +78,6 @@ public class HistoryFragment extends Fragment {
 
         rootView = historyBinding.getRoot();
         mContext = getActivity().getApplicationContext();
-        AppConfiguration.position = 2;
 
         setListiner();
         setDataValue();

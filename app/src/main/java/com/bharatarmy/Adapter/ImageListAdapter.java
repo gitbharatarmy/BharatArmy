@@ -1,23 +1,18 @@
 package com.bharatarmy.Adapter;
 
 import android.content.Context;
-import android.media.Image;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
-import com.alexvasilkov.gestures.views.GestureImageView;
 import com.bharatarmy.Interfaces.image_click;
-import com.bharatarmy.Models.BulletsPoint;
+import com.bharatarmy.Models.ImageDetailModel;
 import com.bharatarmy.R;
 import com.bumptech.glide.Glide;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,12 +22,13 @@ public class ImageListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private final int VIEW_TYPE_ITEM = 0;
     private final int VIEW_TYPE_LOADING = 1;
 
-    public List<String> mItemList;
+
+    public List<ImageDetailModel> mItemList;
     Context mContext;
     image_click image_click;
     private ArrayList<String> dataCheck;
 
-    public ImageListAdapter(Context mContext, List<String> itemList, image_click image_click) {
+    public ImageListAdapter(Context mContext, List<ImageDetailModel> itemList, image_click image_click) {
         this.mContext = mContext;
         this.mItemList = itemList;
         this.image_click=image_click;
@@ -77,7 +73,6 @@ public class ImageListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         return mItemList.get(position) == null ? VIEW_TYPE_LOADING : VIEW_TYPE_ITEM;
     }
 
-
     private class ItemViewHolder extends RecyclerView.ViewHolder {
 
         ImageView imageView;
@@ -108,10 +103,10 @@ public class ImageListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     private void populateItemRows(ItemViewHolder viewHolder, final int position) {
 
-        final String item = mItemList.get(position);
+       ImageDetailModel detail= mItemList.get(position);
 //        viewHolder.tvItem.setText(item);
         Glide.with(mContext)
-                .load(item)
+                .load(detail.getGalleryURL())
                 .placeholder(R.drawable.progress_animation)
                 .into(viewHolder.imageView);
 
@@ -119,7 +114,7 @@ public class ImageListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             @Override
             public void onClick(View v) {
                 dataCheck = new ArrayList<String>();
-                dataCheck.add(mItemList.get(position));
+                dataCheck.add(String.valueOf(mItemList.get(position)));
                 image_click.image_more_click();
             }
         });

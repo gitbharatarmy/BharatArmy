@@ -2,6 +2,7 @@ package com.bharatarmy.Fragment;
 
 import android.content.Context;
 import android.databinding.DataBindingUtil;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -9,6 +10,9 @@ import android.support.annotation.Nullable;
 
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -106,11 +110,16 @@ public class FansFragment extends Fragment {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 fragmentFansBinding.pager.setCurrentItem(tab.getPosition());
+                Spannable wordtoSpan = new SpannableString(String.valueOf(tab.getText()));
+                wordtoSpan.setSpan(new StyleSpan(Typeface.BOLD), 0, wordtoSpan.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                tab.setText(wordtoSpan);
             }
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-
+                Spannable wordtoSpan = new SpannableString(String.valueOf(tab.getText()));
+                wordtoSpan.setSpan(new StyleSpan(Typeface.NORMAL), 0, wordtoSpan.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                tab.setText(wordtoSpan);
             }
 
             @Override

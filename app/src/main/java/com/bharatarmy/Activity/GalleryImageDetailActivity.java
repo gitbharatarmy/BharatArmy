@@ -23,7 +23,7 @@ import static android.support.v7.widget.RecyclerView.SCROLL_STATE_DRAGGING;
 import static android.support.v7.widget.RecyclerView.SCROLL_STATE_IDLE;
 
 
-public class GalleryImageDetailActivity extends AppCompatActivity implements View.OnClickListener {
+public class GalleryImageDetailActivity extends BaseActivity implements View.OnClickListener {
     ActivityGalleryImageDetailBinding activityGalleryImageDetailBinding;
     Context mContext;
     GalleryImageDetailAdapter galleryImageDetailAdapter;
@@ -44,11 +44,13 @@ public class GalleryImageDetailActivity extends AppCompatActivity implements Vie
 
         setListiner();
         setDataValue();
+        setTitleText("Image Gallery");
+        setBackButton(GalleryImageDetailActivity.this);
     }
 
     public void setListiner() {
         selectedPosition = getIntent().getStringExtra("positon");
-        activityGalleryImageDetailBinding.backImg.setOnClickListener(this);
+//        activityGalleryImageDetailBinding.backImg.setOnClickListener(this);
         activityGalleryImageDetailBinding.prevImg.setOnClickListener(this);
         activityGalleryImageDetailBinding.nextImg.setOnClickListener(this);
 
@@ -154,9 +156,9 @@ public class GalleryImageDetailActivity extends AppCompatActivity implements Vie
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.back_img:
-                GalleryImageDetailActivity.this.finish();
-                break;
+//            case R.id.back_img:
+//                GalleryImageDetailActivity.this.finish();
+//                break;
 
             case R.id.next_img:
                 activityGalleryImageDetailBinding.prevImg.setClickable(true);
