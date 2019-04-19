@@ -2,7 +2,9 @@ package com.bharatarmy.Activity;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -14,7 +16,7 @@ import com.bharatarmy.R;
 
 public abstract class BaseActivity extends AppCompatActivity {
     TextView titleText;
-    ImageView BackBtn;
+    ImageView BackBtn,shareBtn;
 
     @Override
 
@@ -41,4 +43,6 @@ public abstract class BaseActivity extends AppCompatActivity {
                 }
             });
     }
+
+
 }

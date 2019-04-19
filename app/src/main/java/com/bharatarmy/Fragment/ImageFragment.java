@@ -27,6 +27,9 @@ import com.bharatarmy.Utility.EndlessRecyclerViewScrollListener;
 import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.FragmentImageBinding;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -50,14 +53,17 @@ public class ImageFragment extends Fragment {
     private Context mContext;
     ImageListAdapter imageListAdapter;
     List<ImageDetailModel> imageDetailModelsList;
-    ImageMainModel imageMainModel;
-
+    List<ImageDetailModel> imageDetailModelsListforadapter;
+    ArrayList<String> galleryImageUrl = new ArrayList<>();
+    ImageDetailModel imageDetailModel;
+    boolean isMoreDataAvailable = true;
     String imageClickData;
-    String pageIndex;
+    int pageIndex = 0;
     // Store a member variable for the listener
     private EndlessRecyclerViewScrollListener scrollListener;
     boolean isLoading = false;
     GridLayoutManager gridLayoutManager;
+    boolean ispull;
 
     public ImageFragment() {
         // Required empty public constructor
@@ -89,6 +95,7 @@ public class ImageFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
 
         }
+
     }
 
     @Override
@@ -104,21 +111,18 @@ public class ImageFragment extends Fragment {
         return rootView;
     }
 
+    @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser && rootView != null) {
-            setDataValue();
+            // Refresh your fragment here
+            if (imageListAdapter == null) {
+                callImageGalleryData();
+            }
             setListiner();
         }
     }
 
-
-    public void setDataValue() {
-        pageIndex="0";
-        callImageGalleryData();
-
-
-    }
 
     public void setListiner() {
         gridLayoutManager = new GridLayoutManager(mContext, 3);
@@ -130,7 +134,12 @@ public class ImageFragment extends Fragment {
 //            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
 //                // Triggered only when new data needs to be appended to the list
 //                // Add whatever code is needed to append new items to the bottom of the list
-//                loadNextDataFromApi(page);
+////                if (gridLayoutManager != null && gridLayoutManager.findLastCompletelyVisibleItemPosition() == imageDetailModelsList.size() - 1) {
+//                    //bottom of list!
+//                    loadNextDataFromApi(page);
+////                }
+//
+//
 //            }
 //        };
 //        // Adds the scroll listener to RecyclerView
@@ -139,36 +148,98 @@ public class ImageFragment extends Fragment {
         fragmentImageBinding.refreshView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-//                callImageGalleryData();
+                callImageGalleryPullData();
                 fragmentImageBinding.refreshView.setRefreshing(false);
             }
         });
+
+//        fragmentImageBinding.imageRcyList.addOnScrollListener(new RecyclerView.OnScrollListener() {
+//            @Override
+//            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+//                super.onScrollStateChanged(recyclerView, newState);
+////                pageIndex= String.valueOf(newState);
+////                callImageGalleryData();
+//
+//            }
+//
+//            @Override
+//            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+//                super.onScrolled(recyclerView, dx, dy);
+//
+////                LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+////                if (dy > 0) {
+//                    if (!isLoading) {
+//                        if (gridLayoutManager != null && gridLayoutManager.findLastCompletelyVisibleItemPosition() == imageDetailModelsList.size() - 1) {
+//                            //bottom of list!
+//                            pageIndex++;
+//                            callImageGalleryData();
+//                            isLoading = true;
+//                        loadMore();
+//
+//                        }
+//                    }
+////                } else if (dy < 0) {
+////                    if (!isLoading) {
+////                        if (gridLayoutManager != null && gridLayoutManager.findFirstCompletelyVisibleItemPosition() == 0) {
+////                            //bottom of list!
+////                            callImageGalleryData();
+////                            isLoading = true;
+////                        loadMore();
+////
+////                        }
+////                    }
+////                }
+//
+//            }
+//        });
+
+//        fragmentImageBinding.imageRcyList.addOnScrollListener(new RecyclerView.OnScrollListener() {
+//            @Override
+//            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+//                super.onScrollStateChanged(recyclerView, newState);
+//                if (isLoading)
+//                    return;
+//                int visibleItemCount = gridLayoutManager.getChildCount();
+//                int totalItemCount = gridLayoutManager.getItemCount();
+//                int pastVisibleItems = gridLayoutManager.findFirstVisibleItemPosition();
+//                if (pastVisibleItems + visibleItemCount >= totalItemCount) {
+//                    //Scrolled to End of list
+//                    if (imageListAdapter != null && imageListAdapter.getItemCount() == imageDetailModelsList.size() && isMoreDataAvailable) {
+//
+//                       callImageGalleryData();
+//
+//
+//                    }
+//                }
+//            }
+//
+//        });
+
 
         fragmentImageBinding.imageRcyList.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                pageIndex= String.valueOf(newState);
-//                callImageGalleryData();
             }
 
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
 
-//                LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
 
                 if (!isLoading) {
                     if (gridLayoutManager != null && gridLayoutManager.findLastCompletelyVisibleItemPosition() == imageDetailModelsList.size() - 1) {
                         //bottom of list!
-                            callImageGalleryData();
-                            isLoading = true;
-//                        loadMore();
-
+                        ispull = false;
+                        pageIndex = pageIndex + 1;
+                        loadMore();
+                        isLoading = true;
                     }
                 }
             }
         });
+
+
     }
 
     // Append the next page of data into the adapter
@@ -179,23 +250,18 @@ public class ImageFragment extends Fragment {
         //  --> Deserialize and construct new model objects from the API response
         //  --> Append the new data objects to the existing set of items inside the array of items
         //  --> Notify the adapter of the new items made with `notifyItemRangeInserted()`
-        pageIndex = String.valueOf(offset);
+        pageIndex = offset;
         callImageGalleryData();
         // 1. First, clear the array of data
-//        imageList.clear();
-//// 2. Notify the adapter of the update
-//        imageListAdapter.notifyDataSetChanged(); // or notifyItemRangeRemoved
-//// 3. Reset endless scroll listener when performing a new search
-//        scrollListener.resetState();
-//        imageDetailModelsList.clear();
-        imageListAdapter.notifyItemRangeChanged(imageDetailModelsList.size()-1,imageDetailModelsList.size()); // or notifyItemRangeRemoved
-        scrollListener.resetState();
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
         imageDetailModelsList.clear();
+        // 2. Notify the adapter of the update
+
+//      imageListAdapter.notifyDataSetChanged();
+
+//        imageListAdapter.notifyItemRangeChanged(imageDetailModelsList.size() - 1, imageDetailModelsList.size()); // or notifyItemRangeRemoved
+//      // 3. Reset endless scroll listener when performing a new search
+        scrollListener.resetState();
+
     }
 
 
@@ -227,8 +293,16 @@ public class ImageFragment extends Fragment {
                 if (imageMainModel.getIsValid() == 1) {
 
                     if (imageMainModel.getData() != null) {
-                        imageDetailModelsList=imageMainModel.getData();
-                       fillImageGallery();
+                        imageDetailModelsList = imageMainModel.getData();
+
+                        addOldNewValue (imageDetailModelsList);
+                        if (imageListAdapter != null && imageDetailModelsList.size() > 0) {
+                            imageListAdapter.addMoreDataToList(imageDetailModelsList);
+                            // just append more data to current list
+                        } else {
+                            fillImageGallery();
+                        }
+
                     }
 
                 }
@@ -248,114 +322,114 @@ public class ImageFragment extends Fragment {
 
     private Map<String, String> getImageGalleryData() {
         Map<String, String> map = new HashMap<>();
-        map.put("PageIndex", pageIndex);
+        map.put("PageIndex", String.valueOf(pageIndex));
         map.put("PageSize", "15");
         return map;
     }
 
-     public void fillImageGallery(){
-//         if (imageDetailModelsList != null) {
-//             imageDetailModelsList.clear();
-//         }
+    public void fillImageGallery() {
+        imageListAdapter = new ImageListAdapter(mContext, imageDetailModelsList, new image_click() {
+            @Override
+            public void image_more_click() {
+                imageClickData = "";
+                imageClickData = String.valueOf(imageListAdapter.getData());
+                imageClickData = imageClickData.replaceAll("\\[", "").replaceAll("\\]", "");
+                Log.d("imageClickData", "" + imageClickData);
+                Intent gallerydetailIntent = new Intent(mContext, GalleryImageDetailActivity.class);
+                gallerydetailIntent.putExtra("positon", imageClickData);
+                gallerydetailIntent.putStringArrayListExtra("data", galleryImageUrl);
+                startActivity(gallerydetailIntent);
+            }
+        });
+        fragmentImageBinding.imageRcyList.setAdapter(imageListAdapter);
 
-//         imageList.add("https://www.bharatarmy.com/Docs/Gallery/1.jpg");
-//         imageList.add("https://www.bharatarmy.com/Docs/Gallery/2.jpg");
-//         imageList.add("https://www.bharatarmy.com/Docs/Gallery/3.jpg");
-//         imageList.add("https://www.bharatarmy.com/Docs/Gallery/4.jpeg");
-//         imageList.add("https://www.bharatarmy.com/Docs/Gallery/5.jpeg");
-//         imageList.add("https://www.bharatarmy.com/Docs/Gallery/6.jpeg");
-//         imageList.add("https://www.bharatarmy.com/Docs/Gallery/7.jpeg");
-//         imageList.add("https://www.bharatarmy.com/Docs/Gallery/8.jpeg");
-//         imageList.add("https://www.bharatarmy.com/Docs/Gallery/9.jpeg");
-         imageListAdapter = new ImageListAdapter(mContext, imageDetailModelsList, new image_click() {
-             @Override
-             public void image_more_click() {
-                 imageClickData = "";
-                 imageClickData = String.valueOf(imageListAdapter.getData());
-                 imageClickData = imageClickData.replaceAll("\\[", "").replaceAll("\\]", "");
-                 Log.d("imageClickData", "" + imageClickData);
-
-                 Intent gallerydetailIntent = new Intent(mContext, GalleryImageDetailActivity.class);
-                 gallerydetailIntent.putExtra("positon", imageClickData);
-                 startActivity(gallerydetailIntent);
-             }
-         });
-
-//        fragmentImageBinding.imageRcyList.addItemDecoration(new GridSpacingItemDecoration(3, 10, true));
-         fragmentImageBinding.imageRcyList.setAdapter(imageListAdapter);
-
-
-     }
-
+    }
 
     private void loadMore() {
-//        imageDetailModelsList.remove(imageDetailModelsList.size()-1);
-//        imageListAdapter.notifyItemRemoved(imageDetailModelsList.size());
-//        imageDetailModelsList.addAll(imageDetailModelsList);
-//        imageListAdapter.notifyItemInserted(imageDetailModelsList.size());
-//        imageDetailModelsList.addAll(imageDetailModelsList);
-//        imageListAdapter.notifyDataSetChanged();
 
-
-//        imageListAdapter.notifyItemInserted(imageDetailModelsList.size() - 1);
-
-
-//        Handler handler = new Handler();
-//        handler.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-////                imageDetailModelsList.addAll(imageDetailModelsList);
-////        imageListAdapter.notifyDataSetChanged();
-//                imageListAdapter.notifyItemRangeChanged(imageDetailModelsList.size() - 1, imageListAdapter.getItemCount());
-//                isLoading = false;
-//            }
-//        }, 2000);
-
-//isLoading=false;
-////        fillImageGallery();
-//        final ArrayList<String> rowsArrayList = new ArrayList<>();
-//        imageDetailModelsList.clear();
-////        imageListAdapter.notifyItemInserted(imageDetailModelsList.size() - 1);
-//
-//
-//        Handler handler = new Handler();
-//        handler.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-////                imageDetailModelsList.remove(imageDetailModelsList.size() - 1);
-//                int scrollPosition = imageDetailModelsList.size();
-////                imageListAdapter.notifyItemRemoved(scrollPosition);
-//           if (imageDetailModelsList!=null) {
-//
-////                int currentSize = scrollPosition;
-////                int nextLimit = currentSize + 10;
-//
-////                while (currentSize - 1 < nextLimit) {
-////                    rowsArrayList.add("Item " + currentSize);
-////                    currentSize++;
-////                }
-//
-//
-////                fragmentImageBinding.imageRcyList.post(new Runnable() {
-////                    public void run() {
-////                        // There is no need to use notifyDataSetChanged()
-//////                        imageListAdapter.notifyItemInserted(imageDetailModelsList.size() - 1);
-////                        imageListAdapter.notifyDataSetChanged();
-////                    }
-////                });
-//
-//               imageListAdapter.notifyDataSetChanged();
-//               isLoading = false;
-//
-//           }
-//
-//            }
-//        }, 2000);
+        callImageGalleryData();
 
 
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        imageDetailModelsList.clear();
+    }
 
+    public void addOldNewValue(List<ImageDetailModel> result) {
+        for (int i = 0; i < result.size(); i++) {
+            galleryImageUrl.addAll(Collections.singleton(result.get(i).getGalleryURL()));
+        }
+        Log.d("galleryImageUrl", "" + galleryImageUrl.size());
+
+    }
+    public void addOldNewPullValue(List<ImageDetailModel> result) {
+        galleryImageUrl.clear();
+        for (int i = 0; i < result.size(); i++) {
+            galleryImageUrl.addAll(Collections.singleton(result.get(i).getGalleryURL()));
+        }
+        Log.d("galleryImagepullUrl", "" + galleryImageUrl.size());
+
+    }
+
+
+    // Api calling GetImageGalleryData
+    public void callImageGalleryPullData() {
+        if (!Utils.checkNetwork(mContext)) {
+            Utils.showCustomDialog(getResources().getString(R.string.internet_error), getResources().getString(R.string.internet_connection_error), getActivity());
+            return;
+        }
+
+//        Utils.showDialog(mContext);
+
+        ApiHandler.getApiService().getBAGallery(getImageGalleryPullData(), new retrofit.Callback<ImageMainModel>() {
+            @Override
+            public void success(ImageMainModel imageMainModel, Response response) {
+                Utils.dismissDialog();
+                if (imageMainModel == null) {
+                    Utils.ping(mContext, getString(R.string.something_wrong));
+                    return;
+                }
+                if (imageMainModel.getIsValid() == null) {
+                    Utils.ping(mContext, getString(R.string.something_wrong));
+                    return;
+                }
+                if (imageMainModel.getIsValid() == 0) {
+                    Utils.ping(mContext, getString(R.string.false_msg));
+                    return;
+                }
+                if (imageMainModel.getIsValid() == 1) {
+
+                    if (imageMainModel.getData() != null) {
+                        imageDetailModelsList = imageMainModel.getData();
+
+//                        addOldNewPullValue (imageDetailModelsList);
+                            imageListAdapter.notifyDataSetChanged();
+                    }
+
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Utils.dismissDialog();
+                error.printStackTrace();
+                error.getMessage();
+                Utils.ping(mContext, getString(R.string.something_wrong));
+            }
+        });
+
+
+    }
+
+    private Map<String, String> getImageGalleryPullData() {
+        Map<String, String> map = new HashMap<>();
+        map.put("PageIndex","0");
+        map.put("PageSize", "15");
+        return map;
+    }
 }
 
 

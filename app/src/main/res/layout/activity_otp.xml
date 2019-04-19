@@ -18,8 +18,8 @@
 
             <ImageView
                 android:id="@+id/back_img"
-                android:layout_width="@dimen/_30sdp"
-                android:layout_height="@dimen/_30sdp"
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="@dimen/_10sdp"
                 android:src="@drawable/ic_left_arrow" />

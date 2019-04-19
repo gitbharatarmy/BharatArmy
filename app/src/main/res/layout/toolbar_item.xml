@@ -22,7 +22,7 @@
                 android:src="@drawable/ic_left_arrow"/>
             <TextView
                 android:id="@+id/toolbar_title_txt"
-                android:layout_width="match_parent"
+                android:layout_width="@dimen/_240sdp"
                 android:layout_height="@dimen/_30sdp"
                 style="@style/title_text_font"
                 android:textColor="@color/splash_bg_color"
@@ -32,6 +32,8 @@
                 android:layout_gravity="center_vertical"
                 android:textAllCaps="true"
                 android:layout_marginLeft="@dimen/_5sdp"/>
+
+
         </LinearLayout>
     </android.support.v7.widget.Toolbar>
 </LinearLayout>

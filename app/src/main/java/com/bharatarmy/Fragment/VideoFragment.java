@@ -96,13 +96,14 @@ setUserVisibleHint(true);
         return rootView;
     }
 
+    @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser && rootView != null) {
+        if (isVisibleToUser) {
+            // Refresh your fragment here
             setDataValue();
             setListiner();
         }
-        // execute your data loading logic.
     }
 
     public void setDataValue() {

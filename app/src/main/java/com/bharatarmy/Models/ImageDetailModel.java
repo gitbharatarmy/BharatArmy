@@ -3,7 +3,9 @@ package com.bharatarmy.Models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class ImageDetailModel {
+import java.io.Serializable;
+
+public class ImageDetailModel  implements Serializable {
     @SerializedName("BAGalleryId")
     @Expose
     private Integer bAGalleryId;
@@ -16,13 +18,15 @@ public class ImageDetailModel {
     @SerializedName("GalleryURL")
     @Expose
     private String galleryURL;
-@SerializedName("CurrentSie")
-@Expose
-private int currentSize;
+    @SerializedName("CurrentSie")
+    @Expose
+    private int currentSize;
 
-@SerializedName("NextLimit")
-@Expose
-private int nextLimit;
+    @SerializedName("NextLimit")
+    @Expose
+    private int nextLimit;
+
+
     public Integer getBAGalleryId() {
         return bAGalleryId;
     }
@@ -70,4 +74,6 @@ private int nextLimit;
     public void setNextLimit(int nextLimit) {
         this.nextLimit = nextLimit;
     }
+
+
 }

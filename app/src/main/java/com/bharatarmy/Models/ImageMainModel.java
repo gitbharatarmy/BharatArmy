@@ -1,11 +1,14 @@
 package com.bharatarmy.Models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class ImageMainModel {
+public class ImageMainModel  {
     @SerializedName("Message")
     @Expose
     private Object message;
@@ -72,5 +75,6 @@ public class ImageMainModel {
     public void setOtherData(Object otherData) {
         this.otherData = otherData;
     }
+
 
 }

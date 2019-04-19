@@ -15,6 +15,8 @@ import android.widget.ImageView;
 
 
 import com.alexvasilkov.gestures.views.GestureImageView;
+import com.bharatarmy.Models.ImageDetailModel;
+import com.bharatarmy.Models.ImageMainModel;
 import com.bharatarmy.R;
 
 import com.bumptech.glide.Glide;
@@ -75,6 +77,8 @@ public class GalleryImageDetailAdapter extends RecyclerView.Adapter<GalleryImage
     @SuppressLint("ResourceAsColor")
     @Override
     public void onBindViewHolder(GalleryImageDetailAdapter.MyViewHolder holder, int position) {
+
+//        ImageDetailModel item= imageList.get(position);
         Glide.with(mContext)
                 .load(imageList.get(position))
                 .placeholder(R.drawable.progress_animation)

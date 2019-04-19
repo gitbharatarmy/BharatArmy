@@ -8,7 +8,7 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 public abstract class EndlessRecyclerViewScrollListener extends RecyclerView.OnScrollListener {
     // The minimum amount of items to have below your current scroll position
     // before loading more.
-    private int visibleThreshold = 5;
+    private int visibleThreshold = 3;
     // The current offset index of data you have loaded
     private int currentPage = 0;
     // The total number of items in the dataset after the last load
@@ -77,7 +77,7 @@ public abstract class EndlessRecyclerViewScrollListener extends RecyclerView.OnS
         // If it’s still loading, we check to see if the dataset count has
         // changed, if so we conclude it has finished loading and update the current page
         // number and total item count.
-        if (loading && (totalItemCount > previousTotalItemCount)) {
+        if (loading && (totalItemCount >= previousTotalItemCount)) {
             loading = false;
             previousTotalItemCount = totalItemCount;
         }
@@ -86,13 +86,32 @@ public abstract class EndlessRecyclerViewScrollListener extends RecyclerView.OnS
         // the visibleThreshold and need to reload more data.
         // If we do need to reload some more data, we execute onLoadMore to fetch the data.
         // threshold should reflect how many total columns there are too
-        if (!loading && (lastVisibleItemPosition + visibleThreshold) > totalItemCount) {
+//        if (!loading && (lastVisibleItemPosition + visibleThreshold) > totalItemCount) {
+//            currentPage++;
+//            onLoadMore(currentPage, totalItemCount, view);
+//            loading = true;
+//        }
+        if (!loading && (lastVisibleItemPosition==totalItemCount-1)){
             currentPage++;
             onLoadMore(currentPage, totalItemCount, view);
             loading = true;
         }
     }
-
+    @Override
+    public void onScrollStateChanged(RecyclerView recyclerView, int newState)
+    {
+        super.onScrollStateChanged(recyclerView, newState);
+        if (newState == RecyclerView.SCROLL_STATE_IDLE)
+        {
+            // supply a positive number to recyclerView.canScrollVertically(int direction) to check if scrolling down.
+            boolean canScrollDownMore = recyclerView.canScrollVertically(1);
+            // If recyclerView.canScrollVertically(1) returns false it means you're at the end of the list.
+            if (!canScrollDownMore)
+            {
+                onScrolled(recyclerView, 0, 1);
+            }
+        }
+    }
     // Call this method whenever performing new searches
     public void resetState() {
         this.currentPage = this.startingPageIndex;

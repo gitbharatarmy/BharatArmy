@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.StyleSpan;
@@ -24,7 +25,7 @@ import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.FragmentFansBinding;
 
 
-public class FansFragment extends Fragment {
+public class FansFragment extends Fragment implements ViewPager.OnPageChangeListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -92,15 +93,16 @@ public class FansFragment extends Fragment {
 
     public void setDataValue() {
 
-        fragmentFansBinding.tabLayoutFans.addTab( fragmentFansBinding.tabLayoutFans.newTab().setText("IMAGE"), true);
-        fragmentFansBinding.tabLayoutFans.addTab( fragmentFansBinding.tabLayoutFans.newTab().setText("VIDEO"));
+        fragmentFansBinding.tabLayoutFans.addTab(fragmentFansBinding.tabLayoutFans.newTab().setText("IMAGE"), true);
+        fragmentFansBinding.tabLayoutFans.addTab(fragmentFansBinding.tabLayoutFans.newTab().setText("VIDEO"));
         fragmentFansBinding.tabLayoutFans.setTabMode(TabLayout.MODE_FIXED);
         fragmentFansBinding.tabLayoutFans.setTabGravity(TabLayout.GRAVITY_FILL);
 
-        adapter = new FansPageAdapter(getFragmentManager(),  fragmentFansBinding.tabLayoutFans.getTabCount());
+        adapter = new FansPageAdapter(getFragmentManager(),fragmentFansBinding.tabLayoutFans.getTabCount());
 //Adding adapter to pager
-        fragmentFansBinding.pager.setAdapter(adapter);
         fragmentFansBinding.pager.setOffscreenPageLimit(0);
+        fragmentFansBinding.pager.setAdapter(adapter);
+
     }
 
     public void setListiner() {
@@ -130,4 +132,18 @@ public class FansFragment extends Fragment {
     }
 
 
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
+    }
 }

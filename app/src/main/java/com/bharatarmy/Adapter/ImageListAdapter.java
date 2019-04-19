@@ -28,6 +28,7 @@ public class ImageListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     image_click image_click;
     private ArrayList<String> dataCheck;
 
+
     public ImageListAdapter(Context mContext, List<ImageDetailModel> itemList, image_click image_click) {
         this.mContext = mContext;
         this.mItemList = itemList;
@@ -103,7 +104,7 @@ public class ImageListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     private void populateItemRows(ItemViewHolder viewHolder, final int position) {
 
-       ImageDetailModel detail= mItemList.get(position);
+       final ImageDetailModel detail= mItemList.get(position);
 //        viewHolder.tvItem.setText(item);
         Glide.with(mContext)
                 .load(detail.getGalleryURL())
@@ -114,7 +115,7 @@ public class ImageListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             @Override
             public void onClick(View v) {
                 dataCheck = new ArrayList<String>();
-                dataCheck.add(String.valueOf(mItemList.get(position)));
+                dataCheck.add(String.valueOf(detail.getGalleryURL()));
                 image_click.image_more_click();
             }
         });
@@ -125,5 +126,10 @@ public class ImageListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         return dataCheck;
     }
 
+
+    public void addMoreDataToList(List<ImageDetailModel> result){
+        mItemList.addAll(result);
+        notifyDataSetChanged();
+    }
 }
 
