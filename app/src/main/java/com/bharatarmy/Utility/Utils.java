@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -16,6 +17,7 @@ import android.os.Build;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.telephony.TelephonyManager;
 import android.view.LayoutInflater;
@@ -28,9 +30,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bharatarmy.BuildConfig;
 import com.bharatarmy.R;
 import com.bumptech.glide.Glide;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Locale;
 import java.util.regex.Pattern;
 
@@ -257,5 +264,22 @@ public class Utils {
         }
         catch (Exception e) { }
         return null;
+    }
+
+    static public Uri getLocalBitmapUri(Bitmap bmp, Context context) {
+        Uri bmpUri = null;
+        try {
+            File file =  new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES), "share_image_" + System.currentTimeMillis() + ".JPEG");
+            FileOutputStream out = new FileOutputStream(file);
+//            bmp.compress(Bitmap.CompressFormat.JPEG, 100, out);
+            out.close();
+//            bmpUri = Uri.fromFile(file);
+            bmpUri= FileProvider.getUriForFile(context,
+                    BuildConfig.APPLICATION_ID + ".provider",
+                    file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return bmpUri;
     }
 }

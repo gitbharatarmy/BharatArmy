@@ -3,7 +3,11 @@ package com.bharatarmy.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -11,19 +15,36 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSnapHelper;
 import android.support.v7.widget.OrientationHelper;
 import android.support.v7.widget.RecyclerView;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.bharatarmy.Adapter.GalleryImageDetailAdapter;
 import com.bharatarmy.Models.ImageDetailModel;
 import com.bharatarmy.Models.ImageMainModel;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.SnapHelperOneByOne;
+import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.ActivityGalleryImageDetailBinding;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.target.BitmapImageViewTarget;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import retrofit2.http.Url;
 
 import static android.support.v7.widget.RecyclerView.SCROLL_STATE_DRAGGING;
 import static android.support.v7.widget.RecyclerView.SCROLL_STATE_IDLE;
@@ -33,14 +54,14 @@ public class GalleryImageDetailActivity extends BaseActivity implements View.OnC
     ActivityGalleryImageDetailBinding activityGalleryImageDetailBinding;
     Context mContext;
     GalleryImageDetailAdapter galleryImageDetailAdapter;
-    ArrayList<String> imageList;
+    ArrayList<String> imageList = new ArrayList<>();
     ImageMainModel imageDetailModel;
     LinearLayoutManager linearLayoutManager;
     String selectedPosition;
     int positon = 0;
     boolean programaticallyScrolled;
-    int currentVisibleItem,showPositionImage;
-
+    int currentVisibleItem, showPositionImage;
+    Bitmap bitmap;
 
     @Override
 
@@ -48,6 +69,14 @@ public class GalleryImageDetailActivity extends BaseActivity implements View.OnC
         super.onCreate(savedInstanceState);
         activityGalleryImageDetailBinding = DataBindingUtil.setContentView(this, R.layout.activity_gallery_image_detail);
         mContext = GalleryImageDetailActivity.this;
+        int SDK_INT = android.os.Build.VERSION.SDK_INT;
+        if (SDK_INT > 8) {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
+                    .permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+            //your codes here
+
+        }
         setDataValue();
         setListiner();
     }
@@ -188,27 +217,35 @@ public class GalleryImageDetailActivity extends BaseActivity implements View.OnC
                 break;
 
             case R.id.share_img:
-                String imageUriStr="";
-//                Uri imageUri = Uri.parse("android.resource://" + getPackageName()
-//                        + "/drawable/" + "ic_launcher");
+                String imageUriStr = "";
                 showPositionImage = linearLayoutManager.findFirstCompletelyVisibleItemPosition();
-                for (int i=0;i<imageList.size();i++){
-//                    if (imageList.get(i).equalsIgnoreCase(String.valueOf(showPositionImage))){
-                        imageUriStr=imageList.get(showPositionImage);
-//                    }
+                for (int i = 0; i < imageList.size(); i++) {
+                    if (showPositionImage == i) {
+                        imageUriStr = imageList.get(showPositionImage);
+                        break;
+                    }
                 }
-                Log.d("showPositionImage",""+showPositionImage+"  "+imageUriStr);
-                Uri imageUri = Uri.parse(imageUriStr);
+
+
+                imageUriStr = "http://jalsaclub.net//Docs/0c795bdb-7ba9-4ebe-a668-19096f042388.jpg";
+
+//                StringToBitMap(imageUriStr);
+                Uri uri = Utils.getLocalBitmapUri(StringToBitMap(imageUriStr), mContext);
+                Log.d("uri", "" + uri);
+
+
                 Intent shareIntent = new Intent();
                 shareIntent.setAction(Intent.ACTION_SEND);
                 shareIntent.putExtra(Intent.EXTRA_TEXT, "Hello");
-                shareIntent.putExtra(Intent.EXTRA_STREAM, imageUri);
-                shareIntent.setType("image/*");
-                shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                startActivity(Intent.createChooser(shareIntent, "send"));
+                shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+                shareIntent.setType("*/*");
+                shareIntent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+                startActivity(Intent.createChooser(shareIntent, "Share It"));
                 break;
         }
     }
+
+
 
     boolean isLastVisible() {
         LinearLayoutManager layoutManager = ((LinearLayoutManager) activityGalleryImageDetailBinding.imageDetailRcvList.getLayoutManager());
@@ -217,6 +254,30 @@ public class GalleryImageDetailActivity extends BaseActivity implements View.OnC
         Log.d("positon", String.valueOf(pos >= numItems - 2));
         return (pos >= numItems - 2);
     }
+    public Bitmap StringToBitMap(String encodedString){
+//        try {
+//            byte [] encodeByte= Base64.decode(encodedString,Base64.DEFAULT);
+//            bitmap= BitmapFactory.decodeByteArray(encodeByte, 1, encodeByte.length);
+//
+//            Log.d("bitmap",""+bitmap);
+//            return bitmap;
+//        } catch(Exception e) {
+//           Utils.ping(mContext,e.getMessage());
+//            return null;
+//        }
+        try {
+            URL url = new URL(encodedString);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setDoInput(true);
+            connection.connect();
+            InputStream input = connection.getInputStream();
+            Bitmap myBitmap = BitmapFactory.decodeStream(input);
+            return myBitmap;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
 
+    }
 
 }
