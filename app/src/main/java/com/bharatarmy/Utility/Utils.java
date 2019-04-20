@@ -5,8 +5,10 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.ContentUris;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -20,6 +22,7 @@ import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -38,7 +41,11 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.Locale;
+import java.util.Random;
 import java.util.regex.Pattern;
 
 import static com.yalantis.ucrop.util.FileUtils.getDataColumn;
@@ -266,20 +273,20 @@ public class Utils {
         return null;
     }
 
-    static public Uri getLocalBitmapUri(Bitmap bmp, Context context) {
-        Uri bmpUri = null;
+    public static Bitmap StringToBitMap(String encodedString) {
         try {
-            File file =  new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES), "share_image_" + System.currentTimeMillis() + ".JPEG");
-            FileOutputStream out = new FileOutputStream(file);
-//            bmp.compress(Bitmap.CompressFormat.JPEG, 100, out);
-            out.close();
-//            bmpUri = Uri.fromFile(file);
-            bmpUri= FileProvider.getUriForFile(context,
-                    BuildConfig.APPLICATION_ID + ".provider",
-                    file);
+            URL url = new URL(encodedString);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setDoInput(true);
+            connection.connect();
+            InputStream input = connection.getInputStream();
+            Bitmap myBitmap = BitmapFactory.decodeStream(input);
+            return myBitmap;
         } catch (IOException e) {
             e.printStackTrace();
+            return null;
         }
-        return bmpUri;
+
     }
+
 }

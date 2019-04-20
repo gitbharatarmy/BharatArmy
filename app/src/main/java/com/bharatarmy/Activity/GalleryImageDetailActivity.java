@@ -1,5 +1,7 @@
 package com.bharatarmy.Activity;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
@@ -7,7 +9,10 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Environment;
 import android.os.StrictMode;
+import android.provider.MediaStore;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -30,10 +35,16 @@ import com.bharatarmy.databinding.ActivityGalleryImageDetailBinding;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.MultiplePermissionsReport;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -43,11 +54,14 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 import retrofit2.http.Url;
 
+import static android.support.v4.content.FileProvider.getUriForFile;
 import static android.support.v7.widget.RecyclerView.SCROLL_STATE_DRAGGING;
 import static android.support.v7.widget.RecyclerView.SCROLL_STATE_IDLE;
+import static com.bharatarmy.Activity.ImagePickerActivity.REQUEST_GALLERY_IMAGE;
 
 
 public class GalleryImageDetailActivity extends BaseActivity implements View.OnClickListener {
@@ -62,6 +76,8 @@ public class GalleryImageDetailActivity extends BaseActivity implements View.OnC
     boolean programaticallyScrolled;
     int currentVisibleItem, showPositionImage;
     Bitmap bitmap;
+    Uri uri;
+    public static final int REQUEST_IMAGE = 100;
 
     @Override
 
@@ -225,21 +241,30 @@ public class GalleryImageDetailActivity extends BaseActivity implements View.OnC
                         break;
                     }
                 }
-
-
-                imageUriStr = "http://jalsaclub.net//Docs/0c795bdb-7ba9-4ebe-a668-19096f042388.jpg";
-
-//                StringToBitMap(imageUriStr);
-                Uri uri = Utils.getLocalBitmapUri(StringToBitMap(imageUriStr), mContext);
-                Log.d("uri", "" + uri);
-
-
+                File myDir = new File(getExternalCacheDir(), "camera");
+                myDir.mkdirs();
+                Random generator = new Random();
+                int n = 10000;
+                n = generator.nextInt(n);
+                String fname = "Image-" + n + ".jpg";
+                File file = new File(myDir, fname);
+                Log.i("file", "" + file);
+                if (file.exists())
+                    file.delete();
+                try {
+                    FileOutputStream out = new FileOutputStream(file);
+                    Utils.StringToBitMap(imageUriStr).compress(Bitmap.CompressFormat.JPEG, 90, out);
+                    out.flush();
+                    out.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 Intent shareIntent = new Intent();
                 shareIntent.setAction(Intent.ACTION_SEND);
-                shareIntent.putExtra(Intent.EXTRA_TEXT, "Hello");
-                shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
-                shareIntent.setType("*/*");
-                shareIntent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+                shareIntent.putExtra(Intent.EXTRA_TEXT,"shared from Bharat Army");
+                shareIntent.putExtra(Intent.EXTRA_STREAM,uri=getUriForFile(mContext, getPackageName() + ".provider",file));
+                shareIntent.setType("image/*");
+                shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 startActivity(Intent.createChooser(shareIntent, "Share It"));
                 break;
         }
@@ -254,30 +279,7 @@ public class GalleryImageDetailActivity extends BaseActivity implements View.OnC
         Log.d("positon", String.valueOf(pos >= numItems - 2));
         return (pos >= numItems - 2);
     }
-    public Bitmap StringToBitMap(String encodedString){
-//        try {
-//            byte [] encodeByte= Base64.decode(encodedString,Base64.DEFAULT);
-//            bitmap= BitmapFactory.decodeByteArray(encodeByte, 1, encodeByte.length);
-//
-//            Log.d("bitmap",""+bitmap);
-//            return bitmap;
-//        } catch(Exception e) {
-//           Utils.ping(mContext,e.getMessage());
-//            return null;
-//        }
-        try {
-            URL url = new URL(encodedString);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setDoInput(true);
-            connection.connect();
-            InputStream input = connection.getInputStream();
-            Bitmap myBitmap = BitmapFactory.decodeStream(input);
-            return myBitmap;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
 
-    }
+
 
 }
