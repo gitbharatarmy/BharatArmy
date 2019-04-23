@@ -69,16 +69,13 @@ public class GalleryImageDetailActivity extends BaseActivity implements View.OnC
     Context mContext;
     GalleryImageDetailAdapter galleryImageDetailAdapter;
     ArrayList<String> imageList = new ArrayList<>();
-    ImageMainModel imageDetailModel;
     LinearLayoutManager linearLayoutManager;
     String selectedPosition;
     int positon = 0;
     boolean programaticallyScrolled;
     int currentVisibleItem, showPositionImage;
-    Bitmap bitmap;
     Uri uri;
-    public static final int REQUEST_IMAGE = 100;
-
+    String imageNameStr;
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,15 +132,6 @@ public class GalleryImageDetailActivity extends BaseActivity implements View.OnC
             }
         }
 
-
-//        activityGalleryImageDetailBinding.imageDetailRcvList.setLayoutFrozen(true);
-//        RecyclerViewDisabler disabler = new RecyclerViewDisabler(true);
-//        activityGalleryImageDetailBinding.imageDetailRcvList.addOnItemTouchListener(disabler);
-//
-//// TO ENABLE/DISABLE JUST USE THIS
-//        disabler.setEnable(false);
-
-
         galleryImageDetailAdapter = new GalleryImageDetailAdapter(mContext, imageList);//,onTouchListener
         linearLayoutManager = new LinearLayoutManager(this, OrientationHelper.HORIZONTAL, false);
         LinearSnapHelper linearSnapHelper = new SnapHelperOneByOne();
@@ -167,7 +155,6 @@ public class GalleryImageDetailActivity extends BaseActivity implements View.OnC
                             currentVisibleItem = linearLayoutManager.findFirstCompletelyVisibleItemPosition();
                             handleWritingViewNavigationArrows(false);
                         }
-
                         break;
                     default:
                         break;
@@ -206,6 +193,17 @@ public class GalleryImageDetailActivity extends BaseActivity implements View.OnC
                 break;
 
             case R.id.next_img:
+
+                showPositionImage = linearLayoutManager.findFirstCompletelyVisibleItemPosition();
+                for (int i = 0; i < imageList.size(); i++) {
+                    if (showPositionImage == i) {
+                        imageNameStr = imageList.get(showPositionImage);
+                        break;
+                    }
+                }
+
+                String []splitStr=imageNameStr.split("\\/");
+                Log.d("stringName",splitStr[0]+" "+splitStr[1]+" "+splitStr[2]+" "+splitStr[3]+" "+splitStr[4]);
                 activityGalleryImageDetailBinding.prevImg.setClickable(true);
                 activityGalleryImageDetailBinding.prevImg.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_back, 0, 0, 0);
                 if (isLastVisible()) {
@@ -241,6 +239,7 @@ public class GalleryImageDetailActivity extends BaseActivity implements View.OnC
                         break;
                     }
                 }
+                //Use for Internal Storage file
                 File myDir = new File(getExternalCacheDir(), "camera");
                 myDir.mkdirs();
                 Random generator = new Random();
@@ -259,6 +258,7 @@ public class GalleryImageDetailActivity extends BaseActivity implements View.OnC
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+                 //share image from other application
                 Intent shareIntent = new Intent();
                 shareIntent.setAction(Intent.ACTION_SEND);
                 shareIntent.putExtra(Intent.EXTRA_TEXT,"shared from Bharat Army");

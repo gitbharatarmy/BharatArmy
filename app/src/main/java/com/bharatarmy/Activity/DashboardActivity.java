@@ -29,10 +29,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bharatarmy.Fragment.FTPFragment;
 import com.bharatarmy.Fragment.FansFragment;
 import com.bharatarmy.Fragment.HistoryFragment;
 import com.bharatarmy.Fragment.HomeFragment;
 import com.bharatarmy.Fragment.MyProfileFragment;
+import com.bharatarmy.Fragment.StoryFragment;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.AppConfiguration;
 import com.bharatarmy.Utility.Utils;
@@ -43,15 +45,11 @@ import com.google.android.gms.common.internal.Objects;
 // pass=mynameis8672952197
 public class DashboardActivity extends AppCompatActivity implements View.OnClickListener {
     Context mContext;
-    private FragmentManager fragmentManager = null;
     private Fragment fragment;
-    int myid;
-    boolean first_time_trans = true;
     DrawerLayout drawer;
-    ActionBarDrawerToggle toggle;
-    LinearLayout home1_linear, home_linear, history_linear, profile_linear, fan_linear, fans_linear;
-    ImageView home_img, history_img, profile_img, fans_img, fan_img, user_profile_img;
-    TextView home_txt, history_txt, profile_txt, fan_txt, fans_txt, user_name_txt;
+    LinearLayout home1_linear, home_linear, history_linear, profile_linear, fan_linear, fans_linear, story_linear, ftp_linear;
+    ImageView home_img, history_img, profile_img, fans_img, fan_img, user_profile_img, story_img, ftp_img;
+    TextView home_txt, history_txt, profile_txt, fan_txt, fans_txt, user_name_txt, story_txt, ftp_txt;
     NavigationView navigationView;
     Toolbar toolbar;
     private View navHeader;
@@ -140,6 +138,14 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         fans_img = (ImageView) findViewById(R.id.fans_img);
         fans_txt = (TextView) findViewById(R.id.fans_txt);
 
+        story_linear = (LinearLayout) findViewById(R.id.story_linear);
+        story_img = (ImageView) findViewById(R.id.story_img);
+        story_txt = (TextView) findViewById(R.id.story_txt);
+
+        ftp_linear = (LinearLayout) findViewById(R.id.ftp_linear);
+        ftp_img = (ImageView) findViewById(R.id.ftp_img);
+        ftp_txt = (TextView) findViewById(R.id.ftp_txt);
+
         home_img = (ImageView) findViewById(R.id.home_img);
         history_img = (ImageView) findViewById(R.id.history_img);
         profile_img = (ImageView) findViewById(R.id.myprofile_img);
@@ -158,6 +164,8 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         profile_linear.setOnClickListener(this);
         fan_linear.setOnClickListener(this);
         fans_linear.setOnClickListener(this);
+        story_linear.setOnClickListener(this);
+        ftp_linear.setOnClickListener(this);
     }
 
     private void loadNavHeader() {
@@ -273,10 +281,6 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
             // This method will trigger on item Click of navigation menu
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
-                fans_img.setColorFilter(ContextCompat.getColor(mContext,
-                        R.color.unselected_view));
-                fans_txt.setTextColor(ContextCompat.getColor(mContext,
-                        R.color.unselected_view));
                 //Check to see which item was being clicked and perform appropriate action
                 switch (menuItem.getItemId()) {
                     //Replacing the main content with ContentFragment Which is our Inbox View;
@@ -323,7 +327,6 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                         mContext.startActivity(webviewIntent);
                         drawer.closeDrawers();
                         break;
-//                        return true;
                     case R.id.nav_contactus:
                         navItemIndex = 4;
                         // launch new intent instead of loading fragment
@@ -591,6 +594,14 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                         R.color.heading_bg));
                 fans_txt.setTextColor(ContextCompat.getColor(mContext,
                         R.color.heading_bg));
+                story_img.setColorFilter(ContextCompat.getColor(mContext,
+                        R.color.unselected_icon_color));
+                story_txt.setTextColor(ContextCompat.getColor(mContext,
+                        R.color.unselected_icon_color));
+                ftp_img.setColorFilter(ContextCompat.getColor(mContext,
+                        R.color.unselected_icon_color));
+                ftp_txt.setTextColor(ContextCompat.getColor(mContext,
+                        R.color.unselected_icon_color));
                 navItemIndex = 3;
                 fragment = new FansFragment();
                 loadFragment(fragment);
@@ -607,9 +618,58 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                         R.color.unselected_view));
                 fans_txt.setTextColor(ContextCompat.getColor(mContext,
                         R.color.unselected_view));
+                story_img.setColorFilter(ContextCompat.getColor(mContext,
+                        R.color.unselected_view));
+                story_txt.setTextColor(ContextCompat.getColor(mContext,
+                        R.color.unselected_view));
+
+                ftp_img.setColorFilter(ContextCompat.getColor(mContext,
+                        R.color.unselected_view));
+                ftp_txt.setTextColor(ContextCompat.getColor(mContext,
+                        R.color.unselected_view));
+
                 navItemIndex = 0;
                 CURRENT_TAG = TAG_HOME;
                 loadHomeFragment();
+                break;
+            case R.id.story_linear:
+                story_img.setColorFilter(ContextCompat.getColor(mContext,
+                        R.color.heading_bg));
+                story_txt.setTextColor(ContextCompat.getColor(mContext,
+                        R.color.heading_bg));
+
+                fans_img.setColorFilter(ContextCompat.getColor(mContext,
+                        R.color.unselected_icon_color));
+                fans_txt.setTextColor(ContextCompat.getColor(mContext,
+                        R.color.unselected_icon_color));
+
+                ftp_img.setColorFilter(ContextCompat.getColor(mContext,
+                        R.color.unselected_icon_color));
+                ftp_txt.setTextColor(ContextCompat.getColor(mContext,
+                        R.color.unselected_icon_color));
+
+                navItemIndex = 6;
+                fragment = new StoryFragment();
+                loadFragment(fragment);
+                break;
+            case R.id.ftp_linear:
+                ftp_img.setColorFilter(ContextCompat.getColor(mContext,
+                        R.color.heading_bg));
+                ftp_txt.setTextColor(ContextCompat.getColor(mContext,
+                        R.color.heading_bg));
+
+                story_img.setColorFilter(ContextCompat.getColor(mContext,
+                        R.color.unselected_icon_color));
+                story_txt.setTextColor(ContextCompat.getColor(mContext,
+                        R.color.unselected_icon_color));
+
+                fans_img.setColorFilter(ContextCompat.getColor(mContext,
+                        R.color.unselected_icon_color));
+                fans_txt.setTextColor(ContextCompat.getColor(mContext,
+                        R.color.unselected_icon_color));
+                navItemIndex = 7;
+                fragment = new FTPFragment();
+                loadFragment(fragment);
                 break;
         }
     }

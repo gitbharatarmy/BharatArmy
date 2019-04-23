@@ -39,7 +39,7 @@ public class VideoFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-   FragmentVideoBinding fragmentVideoBinding;
+    FragmentVideoBinding fragmentVideoBinding;
     private View rootView;
     private Context mContext;
     VideoListAdapter videoListAdapter;
@@ -92,7 +92,7 @@ public class VideoFragment extends Fragment {
         rootView = fragmentVideoBinding.getRoot();
         mContext = getActivity().getApplicationContext();
 
-setUserVisibleHint(true);
+        setUserVisibleHint(true);
         return rootView;
     }
 
@@ -107,8 +107,7 @@ setUserVisibleHint(true);
     }
 
     public void setDataValue() {
-        if (videoList!=null)
-        {
+        if (videoList != null) {
             videoList.clear();
         }
         videoList.add("https://s3.ap-south-1.amazonaws.com/balatestvideos/TestVideo1.mp4");
@@ -119,15 +118,15 @@ setUserVisibleHint(true);
         videoListAdapter = new VideoListAdapter(mContext, videoList, new image_click() {
             @Override
             public void image_more_click() {
-                imageClickData="";
+                imageClickData = "";
                 imageClickData = String.valueOf(videoListAdapter.getData());
-                imageClickData = imageClickData.replaceAll("\\[", "").replaceAll("\\]","");
+                imageClickData = imageClickData.replaceAll("\\[", "").replaceAll("\\]", "");
                 Log.d("imageClickData", "" + imageClickData);
 
                 Intent videogallerydetailIntent = new Intent(mContext, VideoDetailActivity.class);
                 videogallerydetailIntent.putExtra("videoData", imageClickData);
                 videogallerydetailIntent.putExtra("videoName", "TestVideo1.mp4");
-                videogallerydetailIntent.putExtra("WhereToVideoCome","VideoFragment");
+                videogallerydetailIntent.putExtra("WhereToVideoCome", "VideoFragment");
                 startActivity(videogallerydetailIntent);
             }
         });

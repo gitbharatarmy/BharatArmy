@@ -64,4 +64,12 @@ public interface WebServices {
     @FormUrlEncoded
     @POST("/BAGallery")
     void getBAGallery(@FieldMap Map<String, String> map, Callback<ImageMainModel> callback);
+
+    @FormUrlEncoded
+    @POST("/GetBAStories")
+    void getBAStories(@FieldMap Map<String, String> map, Callback<ImageMainModel> callback);
+
+    @FormUrlEncoded
+    @POST("/GetBAFTP")
+    void getBAFTP(@FieldMap Map<String, String> map, Callback<ImageMainModel> callback);
 }

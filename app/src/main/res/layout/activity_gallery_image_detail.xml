@@ -13,7 +13,7 @@
         android:layout_height="@dimen/_60sdp"
         android:background="@color/heading_bg">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
@@ -23,6 +23,7 @@
                 android:layout_width="@dimen/_20sdp"
                 android:layout_height="@dimen/_20sdp"
                 android:layout_margin="@dimen/_5sdp"
+                android:layout_alignParentLeft="true"
                 android:src="@drawable/ic_left_arrow"/>
             <TextView
                 android:id="@+id/toolbar_title_txt"
@@ -30,12 +31,13 @@
                 android:layout_height="@dimen/_30sdp"
                 style="@style/title_text_font"
                 android:textColor="@color/splash_bg_color"
+                android:layout_alignParentLeft="true"
                 android:textSize="@dimen/_15sdp"
                 android:text="Title "
                 android:gravity="center_vertical"
                 android:layout_gravity="center_vertical"
                 android:textAllCaps="true"
-                android:layout_marginLeft="@dimen/_5sdp"/>
+                android:layout_marginLeft="@dimen/_30sdp"/>
 
             <ImageView
                 android:id="@+id/share_img"
@@ -43,9 +45,11 @@
                 android:layout_height="@dimen/_20sdp"
                 android:layout_margin="@dimen/_5sdp"
                 android:layout_gravity="center_vertical"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/_5sdp"
                 android:src="@drawable/ic_share"
                 android:visibility="visible"/>
-        </LinearLayout>
+        </RelativeLayout>
     </android.support.v7.widget.Toolbar>
     <LinearLayout
         android:layout_width="match_parent"

@@ -53,9 +53,7 @@ public class ImageFragment extends Fragment {
     private Context mContext;
     ImageListAdapter imageListAdapter;
     List<ImageDetailModel> imageDetailModelsList;
-    List<ImageDetailModel> imageDetailModelsListforadapter;
     ArrayList<String> galleryImageUrl = new ArrayList<>();
-    ImageDetailModel imageDetailModel;
     boolean isMoreDataAvailable = true;
     String imageClickData;
     int pageIndex = 0;

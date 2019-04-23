@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:weightSum="2"
+        android:background="@color/splash_bg_color"
+        android:orientation="vertical">
+
+        <include layout="@layout/toolbar_item" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.84">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1.84"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/ftp_detail_banner_img"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_170sdp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/header_banner" />
+
+                <TextView
+                    android:id="@+id/ftp_main_title_txt"
+                    style="@style/title_text_font"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:ellipsize="end"
+                    android:maxLines="2"
+                    android:paddingLeft="@dimen/_10sdp"
+                    android:paddingRight="@dimen/_10sdp"
+                    android:text="@string/bharat_army_story"
+                    android:textColor="@color/heading_bg"
+                    android:textSize="@dimen/_20sdp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_10sdp"
+
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/date_img"
+                        android:layout_width="@dimen/_11sdp"
+                        android:layout_height="@dimen/_11sdp"
+
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/ic_calendar" />
+
+                    <TextView
+                        android:id="@+id/ftpdate_txt"
+                        style="@style/text_font"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/_20sdp"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="@dimen/_5sdp"
+                        android:text="Jun 2019 - July 2019"
+                        android:textColor="@color/NotActive_dot_color"
+                        android:textSize="@dimen/_9sdp" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/ftp_short_title_txt"
+                    style="@style/text_font"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:ellipsize="end"
+                    android:maxLines="3"
+                    android:paddingLeft="@dimen/_10sdp"
+                    android:paddingRight="@dimen/_10sdp"
+                    android:text="@string/bharat_army_story"
+                    android:textColor="@color/heading_bg"
+                    android:textSize="@dimen/_12sdp" />
+
+                <WebView
+                    android:id="@+id/ftp_detail_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_3sdp" />
+            </LinearLayout>
+        </ScrollView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.16"
+            android:layout_gravity="bottom"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <TextView
+                android:id="@+id/inquriy_btn"
+                style="@style/title_text_font"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/ftp_bookbtn"
+                android:text="Inquiry"
+                android:gravity="center_vertical|center_horizontal"
+                android:textAllCaps="true"
+                android:textColor="@color/heading_bg"
+                android:textSize="@dimen/_12sdp" />
+
+            <TextView
+                android:id="@+id/booknow_btn"
+                style="@style/title_text_font"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@color/heading_bg"
+                android:text="Book now"
+                android:gravity="center_vertical|center_horizontal"
+                android:textAllCaps="true"
+                android:textColor="@color/splash_bg_color"
+                android:textSize="@dimen/_12sdp" />
+        </LinearLayout>
+    </LinearLayout>
+</layout>
