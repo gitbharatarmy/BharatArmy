@@ -360,7 +360,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                                         Utils.setPref(mContext, "Gender", "");
 
                                         Utils.ping(mContext, "You are logout suceessfully");
-                                        Intent ilogin = new Intent(mContext, LoginActivity.class);
+                                        Intent ilogin = new Intent(mContext, LoginNewActivity.class);
                                         startActivity(ilogin);
                                         finish();
 

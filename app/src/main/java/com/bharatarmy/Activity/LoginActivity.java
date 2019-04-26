@@ -166,7 +166,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
 
                         if(loginModel.getData().getIsNumberVerified()==0){
-                            Intent otpIntent=new Intent(mContext,MobileVerificationActivity.class);
+                            Intent otpIntent=new Intent(mContext,MobileVerificationNewActivity.class);
                             AppConfiguration.wheretocomemobile="Login";
                             startActivity(otpIntent);
 //                            overridePendingTransition(R.anim.slide_in_left,0);

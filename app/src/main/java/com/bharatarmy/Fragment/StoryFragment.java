@@ -192,7 +192,7 @@ public class StoryFragment extends Fragment {
                             storyLsitAdapter.addMoreDataToList(storyDetailModelList);
                             // just append more data to current list
                         }else if(storyLsitAdapter!=null && storyDetailModelList.size()==0){
-                            Utils.ping(mContext,"No more data available");
+//                            Utils.ping(mContext,"No more data available");
                             addOldNewValue (imageMainModel.getData());
                         }
                         else {

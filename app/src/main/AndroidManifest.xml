@@ -21,10 +21,33 @@
         android:icon="@drawable/app_logo"
         android:label="@string/app_name"
         android:roundIcon="@drawable/app_logo"
-        android:supportsRtl="true">
-        <activity android:name=".Activity.FTPDetailsActivity"
+        android:supportsRtl="true"
+        android:hardwareAccelerated="true">
+        <activity android:name=".Activity.SignupNewActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateVisible|adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".Activity.LoginNewActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateVisible|adjustResize">
+
+        </activity>
+        <activity
+            android:name=".Activity.MobileVerificationNewActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".Activity.FTPDetailsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".Activity.BaseActivity"
             android:screenOrientation="portrait" />
@@ -35,7 +58,7 @@
         <activity
             android:name=".Activity.DemoActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".Activity.GalleryImageDetailActivity"
             android:screenOrientation="portrait"
@@ -106,11 +129,7 @@
             android:name=".Activity.Splash_Screen"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <service android:name=".Utility.MyFirebaseMessagingService">

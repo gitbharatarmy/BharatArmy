@@ -1,36 +1,27 @@
 package com.bharatarmy.Activity;
 
-import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
-import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.animation.DecelerateInterpolator;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 import com.bharatarmy.Adapter.BulletAdapter;
@@ -39,14 +30,9 @@ import com.bharatarmy.Models.GetWalkthroughModel;
 import com.bharatarmy.Models.WalkthroughData;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.ApiHandler;
+import com.bharatarmy.Utility.HingeTransformation;
 import com.bharatarmy.Utility.Utils;
-import com.bumptech.glide.Glide;
 import com.facebook.shimmer.ShimmerFrameLayout;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.InstanceIdResult;
-import com.google.firebase.messaging.FirebaseMessaging;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -71,7 +57,7 @@ public class WalkThrough extends AppCompatActivity {
     Context mContext;
     ShimmerFrameLayout shimmer_view_container;
     LinearLayout mainLinear;
-
+    HingeTransformation hingeTransformation = new HingeTransformation();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,7 +82,7 @@ public class WalkThrough extends AppCompatActivity {
         btnSkip = (Button) findViewById(R.id.btn_skip);
         btnNext = (Button) findViewById(R.id.btn_next);
         shimmer_view_container = (ShimmerFrameLayout) findViewById(R.id.shimmer_view_container1);
-
+        viewPager.setPageTransformer(true, hingeTransformation);
         shimmer_view_container.startShimmerAnimation();
 
         callWalkThroughData();
@@ -259,7 +245,7 @@ public class WalkThrough extends AppCompatActivity {
                         btnSkip.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                Intent login = new Intent(WalkThrough.this, LoginActivity.class);
+                                Intent login = new Intent(WalkThrough.this, LoginNewActivity.class);
                                 startActivity(login);
 //                                overridePendingTransition(R.anim.slide_in_left,0);
                             }
@@ -275,7 +261,7 @@ public class WalkThrough extends AppCompatActivity {
                                     // move to next screen
                                     viewPager.setCurrentItem(current);
                                 } else {
-                                    Intent login = new Intent(WalkThrough.this, LoginActivity.class);
+                                    Intent login = new Intent(WalkThrough.this, LoginNewActivity.class);
                                     startActivity(login);
 //                                    overridePendingTransition(R.anim.slide_in_left,0);
                                 }
@@ -344,15 +330,18 @@ public class WalkThrough extends AppCompatActivity {
                 GridLayoutManager gridLayoutManager = new GridLayoutManager(getApplicationContext(), 2);
                 gridLayoutManager.setOrientation(LinearLayoutManager.VERTICAL); // set Horizontal Orientation
                 gridViewList.setLayoutManager(gridLayoutManager); // set LayoutManager to RecyclerView
+                gridViewList.setItemAnimator(null);
                 gridViewList.setAdapter(bulletAdapter);
                 //notifyDataSetChanged();
             } else {
+
                 gridViewList.setVisibility(View.GONE);
                 recyclerViewList.setVisibility(View.VISIBLE);
                 bulletSingleAdapter = new BulletSingleAdapter(mContext, walkthroughDataList.get(position).getBulletsPoint());
                 RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
                 recyclerViewList.setLayoutManager(mLayoutManager);
-                recyclerViewList.setItemAnimator(new DefaultItemAnimator());
+                recyclerViewList.setItemAnimator(null);
+//                ((SimpleItemAnimator) recyclerViewList.getItemAnimator()).setSupportsChangeAnimations(false);
                 recyclerViewList.setAdapter(bulletSingleAdapter);
                 //   bulletSingleAdapter.notifyDataSetChanged();
             }

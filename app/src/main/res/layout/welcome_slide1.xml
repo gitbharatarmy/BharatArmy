@@ -12,7 +12,7 @@
         android:layout_marginLeft="@dimen/_10sdp"
         android:layout_marginRight="@dimen/_10sdp"
         android:layout_marginTop="@dimen/_10sdp"
-        android:background="@drawable/rectangle_line"
+
         android:gravity="center_horizontal"
         android:orientation="vertical"
         android:weightSum="1"
@@ -164,6 +164,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_20sdp"
                 android:nestedScrollingEnabled="false"
+                android:layoutAnimation="@anim/layout_animation_slide_right"
                 android:visibility="visible" />
 
             <android.support.v7.widget.RecyclerView
@@ -172,6 +173,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_20sdp"
                 android:nestedScrollingEnabled="false"
+                android:layoutAnimation="@anim/layout_animation_slide_right"
                 android:visibility="gone" />
         </LinearLayout>
     </LinearLayout>

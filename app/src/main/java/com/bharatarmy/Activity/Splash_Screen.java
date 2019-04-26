@@ -17,6 +17,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bharatarmy.Models.LogginModel;
@@ -25,6 +26,7 @@ import com.bharatarmy.R;
 import com.bharatarmy.Utility.ApiHandler;
 import com.bharatarmy.Utility.AppConfiguration;
 import com.bharatarmy.Utility.Utils;
+import com.bumptech.glide.Glide;
 
 
 import java.util.HashMap;
@@ -40,7 +42,7 @@ public class Splash_Screen extends AppCompatActivity  {
     //Splash screen timer
     private static int SPLASH_TIME_OUT = 5000;
     Context mContext;
-
+ImageView imageView;
 
     String country;
 
@@ -49,6 +51,10 @@ public class Splash_Screen extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash__screen);
         mContext = Splash_Screen.this;
+        imageView=(ImageView)findViewById(R.id.imgLogo);
+        Glide.with(mContext)
+                .load(R.drawable.logo)
+                .into(imageView);
         AppConfiguration.currentCountry="";
 //        String Country_code= getApplicationContext().getResources().getConfiguration().locale.getISO3Country();
 //        AppConfiguration.currentCountry = Country_code;// Country_code;
@@ -121,7 +127,7 @@ public class Splash_Screen extends AppCompatActivity  {
 
                         /*  Mobile verification use */
                         if (Utils.getPref(mContext, "PhoneVerified").equalsIgnoreCase("0")) {
-                            Intent DashboardIntent = new Intent(mContext, MobileVerificationActivity.class);
+                            Intent DashboardIntent = new Intent(mContext, MobileVerificationNewActivity.class);
                             AppConfiguration.wheretocomemobile = "splash";
                             startActivity(DashboardIntent);
 //                            overridePendingTransition(R.anim.slide_in_left,0);

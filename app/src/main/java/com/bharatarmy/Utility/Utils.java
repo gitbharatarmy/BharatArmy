@@ -1,5 +1,6 @@
 package com.bharatarmy.Utility;
 
+import android.animation.ValueAnimator;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Dialog;
@@ -287,6 +288,19 @@ public class Utils {
             return null;
         }
 
+    }
+
+    public static void move(final ImageView view){
+        ValueAnimator va = ValueAnimator.ofFloat(0f, 3f);
+        int mDuration = 3000; //in millis
+        va.setDuration(mDuration);
+        va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            public void onAnimationUpdate(ValueAnimator animation) {
+                view.setTranslationX((float)animation.getAnimatedValue());
+            }
+        });
+        va.setRepeatCount(5);
+        va.start();
     }
 
 }

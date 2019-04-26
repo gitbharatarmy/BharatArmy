@@ -5,6 +5,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,7 +23,7 @@ import java.util.List;
 public class BulletSingleAdapter extends RecyclerView.Adapter<BulletSingleAdapter.MyViewHolder> {
     Context mcontext;
     List<BulletsPoint> bulletList;
-
+    private final static int FADE_DURATION = 1000;
 
     public BulletSingleAdapter(Context mContext, List<BulletsPoint> bulletList) {
         this.mcontext = mContext;
@@ -53,7 +56,8 @@ public class BulletSingleAdapter extends RecyclerView.Adapter<BulletSingleAdapte
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
 
-
+//// Set the view to fade in
+//        setScaleAnimation(holder.itemView);
         holder.bullet_txt.setText(bulletList.get(position)
                 .getBulletName());
         Picasso.with(mcontext)
@@ -77,5 +81,17 @@ public class BulletSingleAdapter extends RecyclerView.Adapter<BulletSingleAdapte
     @Override
     public int getItemCount() {
         return bulletList.size();
+    }
+
+    private void setScaleAnimation(View view) {
+        ScaleAnimation anim = new ScaleAnimation(0.0f, 1.0f, 0.0f, 1.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+        anim.setDuration(FADE_DURATION);
+        view.startAnimation(anim);
+    }
+
+    private void setFadeAnimation(View view) {
+        AlphaAnimation anim = new AlphaAnimation(0.0f, 1.0f);
+        anim.setDuration(FADE_DURATION);
+        view.startAnimation(anim);
     }
 }

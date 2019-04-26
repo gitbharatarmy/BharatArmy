@@ -202,7 +202,7 @@ public class FTPFragment extends Fragment {
                             ftpListAdapter.addMoreDataToList(ftpDetailModelList);
                             // just append more data to current list
                         } else if(ftpListAdapter!=null && ftpDetailModelList.size()==0){
-                            Utils.ping(mContext,"No more data available");
+//                            Utils.ping(mContext,"No more data available");
                             addOldNewValue (imageMainModel.getData());
                         } else {
                             fillFTPGallery();
@@ -312,7 +312,6 @@ public class FTPFragment extends Fragment {
     }
 
     public void addOldNewValue(List<ImageDetailModel> result) {
-
         ftpDetailModelList=result;
        ftpListAdapter.notifyDataSetChanged();
     }

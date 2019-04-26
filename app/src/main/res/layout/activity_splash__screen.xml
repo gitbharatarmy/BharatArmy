@@ -16,11 +16,9 @@
 
         <ImageView
             android:id="@+id/imgLogo"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="@dimen/_170sdp"
-            android:layout_centerHorizontal="true"
-
-            android:src="@drawable/balogo" />
+            android:layout_centerHorizontal="true" />
     </LinearLayout>
 
     <LinearLayout

@@ -22,10 +22,11 @@
     <string name="link_txt">LinkedIn</string>
     <string name="usererror">Blank filed not allowed</string>
     <string name="verification">Verification</string>
-    <string name="otp_str">We have sent a four digit code on</string>
+    <string name="otp_str">Please enter the verification code</string>
     <string name="code_str">Enter code here</string>
     <string name="verification_str">We will send a One Time Password (OTP) on this number for verification</string>
     <string name="mobile_veri">Phone Verification</string>
+    <string name="verifycode">Verification Code</string>
 
     <!--SingUp Activity String-->
     <string name="fullname">Name</string>
@@ -40,6 +41,10 @@
     <string name="terms_txt">I agree to the</string>
     <string name="terms_condition_txt">Terms &amp; Conditions</string>
     <string name="close">Back to login</string>
+    <string name="termStr">
+
+
+</string>
 
     <!--Home Fragment  String-->
     <string name="know_more">Know More</string>
@@ -69,6 +74,7 @@
     <string name="cancel">Cancel</string>
     <string name="enter_no">phone number</string>
     <string name="send">Send</string>
+    <string name="verify">Verified</string>
 
     <!--Dashboard String-->
     <string name="home">Home</string>
