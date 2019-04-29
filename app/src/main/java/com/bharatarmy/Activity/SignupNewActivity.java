@@ -1,16 +1,22 @@
 package com.bharatarmy.Activity;
 
+import android.animation.Animator;
+import android.animation.AnimatorSet;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.Matrix;
+import android.graphics.RectF;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.Image;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.transition.ChangeBounds;
+import android.support.transition.ChangeImageTransform;
 import android.support.transition.Fade;
 import android.support.transition.TransitionManager;
 import android.support.transition.TransitionSet;
@@ -37,6 +43,7 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.ScaleAnimation;
+import android.view.animation.TranslateAnimation;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
@@ -71,6 +78,8 @@ import java.util.TimerTask;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
+import static android.support.v4.app.FrameMetricsAggregator.ANIMATION_DURATION;
+
 public class SignupNewActivity extends AppCompatActivity implements View.OnClickListener, meghWebView.OnBottomReachedListener {
     ActivitySignupNewBinding activitySignupNewBinding;
     Context mContext;
@@ -80,7 +89,8 @@ public class SignupNewActivity extends AppCompatActivity implements View.OnClick
     private ArrayList<Integer> layouts;
     private MyImageViewPagerAdapter myViewPagerAdapter;
     int currentPage = 0;
-    Timer timer=new Timer();;
+    Timer timer = new Timer();
+    ;
     final long DELAY_MS = 0;//delay in milliseconds before task is to be executed
     final long PERIOD_MS = 6000;
     meghWebView webView;
@@ -88,16 +98,16 @@ public class SignupNewActivity extends AppCompatActivity implements View.OnClick
     Button agree_btn;
     TextView close_btn;
     ImageView image;
-String termStr="<section>\n" +
-        "    <div class=\"container\">\n" +
-        "        <div class=\"col-md-12 col-sm-12 col-xs-12\">\n" +
-        "            <div class=\"dynamicpageshtml\">\n" +
-        "                                                        <span id=\"docs-internal-guid-8e99efde-7fff-3975-9a67-c20012abb7ca\"><h2 dir=\"ltr\" ><span >INTRODUCTION</span></h2><p dir=\"ltr\" ><span >This website (\"Website\") is owned and provided by The Bharat Army. The Bharat Army Limited. is a member of the Big 3 Entertainment Group of companies (registered in England and Wales with company number 10929757) whose registered address is at 71-75 Shelton Street, Covent Garden, London, England, WC2H 9JQ.</span></p><br><p dir=\"ltr\" ><span >In these Terms of Use, \"we\", \"our\" and \"us\" means The Bharat Army and \"you\" and \"your\" means any person who accesses and uses this Website.</span></p><h2 dir=\"ltr\" ><span >GENERAL</span></h2><p dir=\"ltr\" ><span >Access to and use of this Website is subject to these Terms of Use and our Privacy Policy. By accessing and using this Website you agree to be bound by and to act in accordance with these Terms of Use and our Privacy Policy. If you do not agree to these Terms of Use or our Privacy Policy, you are not permitted to access and use this Website and you should cease such access and/or use immediately. If you breach any term of these Terms of Use, your right to access and use this Website shall cease immediately.</span></p><p dir=\"ltr\" ><span >We reserve the right to amend these Terms of Use from time to time without notice by amending this page. The amended Terms of Use will be effective from the date they are posted on this Website. As these Terms of Use may be amended from time to time, you should check them whenever you visit this Website. Your continued use of this Website will constitute your acceptance of the amended Terms of Use.</span></p><h2 dir=\"ltr\" ><span >OUR SERVICE</span></h2><p dir=\"ltr\" ><span >We aim to provide uninterrupted access to this Website but we give no warranty as to the uninterrupted availability of this Website. We reserve the right to suspend, restrict or terminate your access to this Website at any time.</span></p><br><p dir=\"ltr\" ><span >It is very important before you purchase any product or service that you carefully read the terms and conditions of the product or service and any other documentation that applies to the product or service. You must familiarise yourself with all the details of the product or service, for example, the minimum check in times, cancellations or modifications of bookings, refunds, visa or passport requirements, vaccination requirements, restrictions, exclusions, conditions and obligations which apply to the product or service. It is your responsibility to ensure that the product or service matches your requirements and that you agree to the terms and conditions of the product or service before you purchase it. We accept no responsibility or liability whatsoever for any loss or damage you may suffer or incur in the event that any product or service you purchase does not meet your requirements or is not suitable for you.</span></p><h2 dir=\"ltr\" ><span >LIMITS TO OUR LIABILITY</span></h2><p dir=\"ltr\" ><span >Nothing in these Terms of Use excludes or limits our liability for death or personal injury caused by our negligence or for our fraud or fraudulent misrepresentation.</span></p><br><p dir=\"ltr\" ><span >We are not responsible or liable for any loss or damage you may suffer or incur in connection with your use of this Website which is caused by any event beyond our reasonable control including the electronic transmission of information, content, material and data over the internet and the interception or decryption of it by others.</span></p><br><p dir=\"ltr\" ><span >We are not responsible or liable for any indirect loss or damage you may suffer or incur in connection with your use of this Website or for any loss or damage you may suffer or incur in connection with your use of this Website which was not foreseeable by us when you used this Website.</span></p><p dir=\"ltr\" ><span >We are not responsible or liable for any loss or damage you may suffer or incur in connection with any inability to access and use this Website for any reason.</span></p><h2 dir=\"ltr\" ><span >YOUR RESPONSIBILITIES</span></h2><p dir=\"ltr\" ><span >You must take all reasonable precautions (including using appropriate virus checking software) to ensure that any information, content, material or data you provide &nbsp;is free from viruses, spyware, malicious software, trojans, worms, logic bombs and anything else which may have a contaminating, harmful or destructive effect on any part of this Website or any other technology.</span></p><br><p dir=\"ltr\" ><span >You may complete a registration process as part of your use of this Website which may include the creation of a username, password and/or other identification information. Any username, password and/or other identification information must be kept confidential by you and must not be disclosed to, or shared with, anyone. Where you do disclose to or share with anyone your username, password and/or other identification information, you are solely responsible for all activities undertaken on this Website using your username, password and/or other identification information.</span></p><br><p dir=\"ltr\" ><span >You must check and ensure that all information, content, material or data you provide on this Website is correct, complete, accurate and not misleading and that you disclose all relevant facts. We do not accept any responsibility or liability for any loss or damage you may suffer or incur if any information, content, material or data you provide on this Website is not correct, complete and accurate or if it is misleading or if you fail to disclose all relevant facts.</span></p><h2 dir=\"ltr\" ><span >COMPLAINTS</span></h2><p dir=\"ltr\" ><span >Our aim is at all times to provide you with an excellent service. If you are unhappy with our service for any reason, please contact us via our Contact Us page or by writing to us at The Bharat Army, 144 Ewell Road, Surbiton, Surrey, KT6 6HE.</span></p><p dir=\"ltr\" ><span >We will aim to resolve your complaint within 5 working days. If we are not able to do so, we will provide you with an acknowledgement. After we have had an opportunity to investigate your concerns, we will issue you with a final response.</span></p><h2 dir=\"ltr\" ><span >MISCELLANEOUS</span></h2><p dir=\"ltr\" ><span >If any provision of these Terms of Use is held to be unlawful, invalid or unenforceable, that provision shall be deemed deleted from these Terms of Use and the validity and enforceability of the remaining provisions of these Terms of Use shall not be affected.</span></p><br><p dir=\"ltr\" ><span >These Terms of Use constitute the entire agreement between you and us relating to your access to and use of this Website and supersedes any prior agreements (including any previous terms of use of this Website).</span></p><br><p dir=\"ltr\" ><span >No failure or delay by us in exercising any right under these Terms of Use will operate as a waiver of that right nor will any single or partial exercise by us of any right preclude any further exercise of any right.</span></p><h2 dir=\"ltr\" ><span >GOVERNING LAW</span></h2><p dir=\"ltr\" ><span >This Website has been designed for use within the United Kingdom. These Terms of Use and access to and use of this Website shall be governed by and interpreted in accordance with English law. Each of you and us submit to the exclusive jurisdiction of the courts of England and Wales in connection with these Terms of Use and your access to and use of this Website (including any non-contractual claims or disputes).</span></p><h2 dir=\"ltr\" ><span >NON-COMMERCIAL USE ONLY</span></h2><p dir=\"ltr\" ><span >You may only use this Website for your own personal, non-commercial use (which will at all times be reasonable and not abusive) or for purposes legitimately connected with the purchasing of such products and services.</span></p><br><p dir=\"ltr\" ><span >You are not allowed to access, use or copy any material or information on this Website for any commercial purpose or for any purposes which are unlawful. In particular, you are not allowed to copy (whether by printing off, storing on disk or in any other way), distribute (including distributing copies), alter or tamper with in any way or use any material contained in this Website except that you may print off any individual page for your own personal use.</span></p><h2 dir=\"ltr\" ><span >OWNERSHIP AND USE OF MATERIAL AND INFORMATION ON OUR WEBSITE</span></h2><p dir=\"ltr\" ><span >This Website displays brands, trademarks and registered trademarks which are registered in the UK and/or other countries and which belong to us and third parties and any such brand, trademarks, mentioned on this Website are proprietary to their respective owners. You are not licensed to use any of the marks on our Website unless written permission is granted from the relevant owner of the mark, and you may not meta tag any of these marks.</span></p><p dir=\"ltr\" ><span >Unless otherwise stated, we own (or are licensed to use) the intellectual property rights in the content and information in this Website, including (without limitation) all text, sound, photographs, images, logos, videos, 360° maps, podcasts, blogs, customer reviews, graphics, design, underlying source code and software. Subject to the \"Non-Commercial Use Only\" section above, material and information, either in whole or in part, from this Website may not be reproduced, copied, republished, downloaded, posted, broadcast or transmitted in any form or medium without our and/or the appropriate owner's prior written permission.</span></p><div><span ><br></span></div></span>\n" +
-        "                                    \n" +
-        "            </div>\n" +
-        "        </div>\n" +
-        "    </div>\n" +
-        "</section>\n";
+    String termStr = "<section>\n" +
+            "    <div class=\"container\">\n" +
+            "        <div class=\"col-md-12 col-sm-12 col-xs-12\">\n" +
+            "            <div class=\"dynamicpageshtml\">\n" +
+            "                                                        <span id=\"docs-internal-guid-8e99efde-7fff-3975-9a67-c20012abb7ca\"><h2 dir=\"ltr\" ><span >INTRODUCTION</span></h2><p dir=\"ltr\" ><span >This website (\"Website\") is owned and provided by The Bharat Army. The Bharat Army Limited. is a member of the Big 3 Entertainment Group of companies (registered in England and Wales with company number 10929757) whose registered address is at 71-75 Shelton Street, Covent Garden, London, England, WC2H 9JQ.</span></p><br><p dir=\"ltr\" ><span >In these Terms of Use, \"we\", \"our\" and \"us\" means The Bharat Army and \"you\" and \"your\" means any person who accesses and uses this Website.</span></p><h2 dir=\"ltr\" ><span >GENERAL</span></h2><p dir=\"ltr\" ><span >Access to and use of this Website is subject to these Terms of Use and our Privacy Policy. By accessing and using this Website you agree to be bound by and to act in accordance with these Terms of Use and our Privacy Policy. If you do not agree to these Terms of Use or our Privacy Policy, you are not permitted to access and use this Website and you should cease such access and/or use immediately. If you breach any term of these Terms of Use, your right to access and use this Website shall cease immediately.</span></p><p dir=\"ltr\" ><span >We reserve the right to amend these Terms of Use from time to time without notice by amending this page. The amended Terms of Use will be effective from the date they are posted on this Website. As these Terms of Use may be amended from time to time, you should check them whenever you visit this Website. Your continued use of this Website will constitute your acceptance of the amended Terms of Use.</span></p><h2 dir=\"ltr\" ><span >OUR SERVICE</span></h2><p dir=\"ltr\" ><span >We aim to provide uninterrupted access to this Website but we give no warranty as to the uninterrupted availability of this Website. We reserve the right to suspend, restrict or terminate your access to this Website at any time.</span></p><br><p dir=\"ltr\" ><span >It is very important before you purchase any product or service that you carefully read the terms and conditions of the product or service and any other documentation that applies to the product or service. You must familiarise yourself with all the details of the product or service, for example, the minimum check in times, cancellations or modifications of bookings, refunds, visa or passport requirements, vaccination requirements, restrictions, exclusions, conditions and obligations which apply to the product or service. It is your responsibility to ensure that the product or service matches your requirements and that you agree to the terms and conditions of the product or service before you purchase it. We accept no responsibility or liability whatsoever for any loss or damage you may suffer or incur in the event that any product or service you purchase does not meet your requirements or is not suitable for you.</span></p><h2 dir=\"ltr\" ><span >LIMITS TO OUR LIABILITY</span></h2><p dir=\"ltr\" ><span >Nothing in these Terms of Use excludes or limits our liability for death or personal injury caused by our negligence or for our fraud or fraudulent misrepresentation.</span></p><br><p dir=\"ltr\" ><span >We are not responsible or liable for any loss or damage you may suffer or incur in connection with your use of this Website which is caused by any event beyond our reasonable control including the electronic transmission of information, content, material and data over the internet and the interception or decryption of it by others.</span></p><br><p dir=\"ltr\" ><span >We are not responsible or liable for any indirect loss or damage you may suffer or incur in connection with your use of this Website or for any loss or damage you may suffer or incur in connection with your use of this Website which was not foreseeable by us when you used this Website.</span></p><p dir=\"ltr\" ><span >We are not responsible or liable for any loss or damage you may suffer or incur in connection with any inability to access and use this Website for any reason.</span></p><h2 dir=\"ltr\" ><span >YOUR RESPONSIBILITIES</span></h2><p dir=\"ltr\" ><span >You must take all reasonable precautions (including using appropriate virus checking software) to ensure that any information, content, material or data you provide &nbsp;is free from viruses, spyware, malicious software, trojans, worms, logic bombs and anything else which may have a contaminating, harmful or destructive effect on any part of this Website or any other technology.</span></p><br><p dir=\"ltr\" ><span >You may complete a registration process as part of your use of this Website which may include the creation of a username, password and/or other identification information. Any username, password and/or other identification information must be kept confidential by you and must not be disclosed to, or shared with, anyone. Where you do disclose to or share with anyone your username, password and/or other identification information, you are solely responsible for all activities undertaken on this Website using your username, password and/or other identification information.</span></p><br><p dir=\"ltr\" ><span >You must check and ensure that all information, content, material or data you provide on this Website is correct, complete, accurate and not misleading and that you disclose all relevant facts. We do not accept any responsibility or liability for any loss or damage you may suffer or incur if any information, content, material or data you provide on this Website is not correct, complete and accurate or if it is misleading or if you fail to disclose all relevant facts.</span></p><h2 dir=\"ltr\" ><span >COMPLAINTS</span></h2><p dir=\"ltr\" ><span >Our aim is at all times to provide you with an excellent service. If you are unhappy with our service for any reason, please contact us via our Contact Us page or by writing to us at The Bharat Army, 144 Ewell Road, Surbiton, Surrey, KT6 6HE.</span></p><p dir=\"ltr\" ><span >We will aim to resolve your complaint within 5 working days. If we are not able to do so, we will provide you with an acknowledgement. After we have had an opportunity to investigate your concerns, we will issue you with a final response.</span></p><h2 dir=\"ltr\" ><span >MISCELLANEOUS</span></h2><p dir=\"ltr\" ><span >If any provision of these Terms of Use is held to be unlawful, invalid or unenforceable, that provision shall be deemed deleted from these Terms of Use and the validity and enforceability of the remaining provisions of these Terms of Use shall not be affected.</span></p><br><p dir=\"ltr\" ><span >These Terms of Use constitute the entire agreement between you and us relating to your access to and use of this Website and supersedes any prior agreements (including any previous terms of use of this Website).</span></p><br><p dir=\"ltr\" ><span >No failure or delay by us in exercising any right under these Terms of Use will operate as a waiver of that right nor will any single or partial exercise by us of any right preclude any further exercise of any right.</span></p><h2 dir=\"ltr\" ><span >GOVERNING LAW</span></h2><p dir=\"ltr\" ><span >This Website has been designed for use within the United Kingdom. These Terms of Use and access to and use of this Website shall be governed by and interpreted in accordance with English law. Each of you and us submit to the exclusive jurisdiction of the courts of England and Wales in connection with these Terms of Use and your access to and use of this Website (including any non-contractual claims or disputes).</span></p><h2 dir=\"ltr\" ><span >NON-COMMERCIAL USE ONLY</span></h2><p dir=\"ltr\" ><span >You may only use this Website for your own personal, non-commercial use (which will at all times be reasonable and not abusive) or for purposes legitimately connected with the purchasing of such products and services.</span></p><br><p dir=\"ltr\" ><span >You are not allowed to access, use or copy any material or information on this Website for any commercial purpose or for any purposes which are unlawful. In particular, you are not allowed to copy (whether by printing off, storing on disk or in any other way), distribute (including distributing copies), alter or tamper with in any way or use any material contained in this Website except that you may print off any individual page for your own personal use.</span></p><h2 dir=\"ltr\" ><span >OWNERSHIP AND USE OF MATERIAL AND INFORMATION ON OUR WEBSITE</span></h2><p dir=\"ltr\" ><span >This Website displays brands, trademarks and registered trademarks which are registered in the UK and/or other countries and which belong to us and third parties and any such brand, trademarks, mentioned on this Website are proprietary to their respective owners. You are not licensed to use any of the marks on our Website unless written permission is granted from the relevant owner of the mark, and you may not meta tag any of these marks.</span></p><p dir=\"ltr\" ><span >Unless otherwise stated, we own (or are licensed to use) the intellectual property rights in the content and information in this Website, including (without limitation) all text, sound, photographs, images, logos, videos, 360° maps, podcasts, blogs, customer reviews, graphics, design, underlying source code and software. Subject to the \"Non-Commercial Use Only\" section above, material and information, either in whole or in part, from this Website may not be reproduced, copied, republished, downloaded, posted, broadcast or transmitted in any form or medium without our and/or the appropriate owner's prior written permission.</span></p><div><span ><br></span></div></span>\n" +
+            "                                    \n" +
+            "            </div>\n" +
+            "        </div>\n" +
+            "    </div>\n" +
+            "</section>\n";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,23 +129,24 @@ String termStr="<section>\n" +
 
     public void setDataValue() {
 //        ----------Image Switcher-----------------
-//        Animation in = AnimationUtils.loadAnimation(mContext, R.anim.fade_in);
-//        Animation out = AnimationUtils.loadAnimation(mContext, R.anim.fade_out);
-//
-//        activitySignupNewBinding.imageView.setFactory(new ViewSwitcher.ViewFactory() {
-//            @Override
-//            public View makeView() {
-//                ImageView myView = new ImageView(mContext);
-//                myView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-//                myView.setLayoutParams(new
-//                        ImageSwitcher.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-//                        LinearLayout.LayoutParams.MATCH_PARENT));
-//                return myView;
-//            }
-//        });
-//        activitySignupNewBinding.imageView.setImageResource(R.drawable.login41);
-//        activitySignupNewBinding.imageView.setInAnimation(in);
-//        activitySignupNewBinding.imageView.setOutAnimation(out);
+        Animation in = AnimationUtils.loadAnimation(mContext, R.anim.fade_in);
+        Animation out = AnimationUtils.loadAnimation(mContext, R.anim.fade_out);
+
+        activitySignupNewBinding.imageView.setFactory(new ViewSwitcher.ViewFactory() {
+            @Override
+            public View makeView() {
+                ImageView myView = new ImageView(mContext);
+                myView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                myView.setLayoutParams(new
+                        ImageSwitcher.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.MATCH_PARENT));
+                return myView;
+            }
+        });
+        activitySignupNewBinding.imageView.setImageResource(R.drawable.login41);
+        activitySignupNewBinding.imageView.setInAnimation(in);
+        activitySignupNewBinding.imageView.setOutAnimation(out);
+
 //        Animation fadeIn = new AlphaAnimation(0, 1);
 //        fadeIn.setInterpolator(new LinearInterpolator()); //add this
 //        fadeIn.setDuration(5000);
@@ -150,76 +161,75 @@ String termStr="<section>\n" +
 //        animation.addAnimation(fadeOut);
 //        activitySignupNewBinding.imageView.setAnimation(animation);
 
-//        layouts = new ArrayList<Integer>();
-//
-//        layouts.add(R.drawable.login_new_2);
-//        layouts.add(R.drawable.login_new_3);
-//        layouts.add(R.drawable.login_new_1);
-//
-//
-//        imageSwitcherHandler = new Handler();
-//        Runnable runnable = new Runnable() {
-//            int i = 0;
-//
-//            public void run() {
-//                activitySignupNewBinding.imageView.setImageResource(layouts.get(i));
-//                i++;
-//                if (i > layouts.size()-1) {
-////                    activitySignupNewBinding.imageView.setImageResource(R.drawable.login41);
-//                    i = 0;
-//                }
-//                imageSwitcherHandler.postDelayed(this, 7000);  //for interval...
-//            }
-//        };
-//        imageSwitcherHandler.postDelayed(runnable, 7000); //for initial delay..
-//        --------View Pager-----------------
+        layouts = new ArrayList<Integer>();
 
-//        activitySignupNewBinding.viewPager.setPageTransformer(true, new FadeOutTransformation());
-        activitySignupNewBinding.viewPager.setOnTouchListener(new View.OnTouchListener()
-        {
-            @Override
-            public boolean onTouch(View v, MotionEvent event)
-            {
-                return true;
-            }
-        });
-        layouts=new ArrayList<>();
-        layouts.add(R.drawable.login41);
         layouts.add(R.drawable.login_new_2);
         layouts.add(R.drawable.login_new_3);
+        layouts.add(R.drawable.login_new_1);
 
-        myViewPagerAdapter = new MyImageViewPagerAdapter();
-       activitySignupNewBinding.viewPager.setAdapter(myViewPagerAdapter);
-        try {
-            Field mScroller;
-            mScroller = ViewPager.class.getDeclaredField("mScroller");
-            mScroller.setAccessible(true);
-            FixedSpeedScroller scroller = new FixedSpeedScroller(activitySignupNewBinding.viewPager.getContext());
-            // scroller.setFixedDuration(5000);
-            mScroller.set(activitySignupNewBinding.viewPager, scroller);
-        } catch (NoSuchFieldException e) {
-        } catch (IllegalArgumentException e) {
-        } catch (IllegalAccessException e) {
-        }
 
-        final Handler handler = new Handler();
-        final Runnable Update = new Runnable() {
+        imageSwitcherHandler = new Handler();
+        Runnable runnable = new Runnable() {
+            int i = 0;
+
             public void run() {
-                if (currentPage == layouts.size()) {
-                    currentPage = 0;
+                activitySignupNewBinding.imageView.setImageResource(layouts.get(i));
+                i++;
+                if (i > layouts.size()-1) {
+                    i = 0;
+//                    activitySignupNewBinding.imageView.setImageResource(R.drawable.login41);
                 }
-                activitySignupNewBinding.viewPager.setCurrentItem(currentPage++, true);
+                imageSwitcherHandler.postDelayed(this, 7000);  //for interval...
             }
         };
+        imageSwitcherHandler.postDelayed(runnable, 7000); //for initial delay..
 
-        timer = new Timer(); // This will create a new Thread
 
-        timer.schedule(new TimerTask() { // task to be scheduled
-            @Override
-            public void run() {
-                handler.post(Update);
-            }
-        }, DELAY_MS, PERIOD_MS);
+//        --------View Pager-----------------
+//        activitySignupNewBinding.viewPager.setPageTransformer(true, new FadeOutTransformation());
+//        activitySignupNewBinding.viewPager.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                return true;
+//            }
+//        });
+//        layouts = new ArrayList<>();
+//        layouts.add(R.drawable.login41);
+//        layouts.add(R.drawable.login_new_2);
+//        layouts.add(R.drawable.login_new_3);
+//
+//        myViewPagerAdapter = new MyImageViewPagerAdapter();
+//        activitySignupNewBinding.viewPager.setAdapter(myViewPagerAdapter);
+//        try {
+//            Field mScroller;
+//            mScroller = ViewPager.class.getDeclaredField("mScroller");
+//            mScroller.setAccessible(true);
+//            FixedSpeedScroller scroller = new FixedSpeedScroller(activitySignupNewBinding.viewPager.getContext());
+//            // scroller.setFixedDuration(5000);
+//            mScroller.set(activitySignupNewBinding.viewPager, scroller);
+//        } catch (NoSuchFieldException e) {
+//        } catch (IllegalArgumentException e) {
+//        } catch (IllegalAccessException e) {
+//        }
+//
+//        final Handler handler = new Handler();
+//        final Runnable Update = new Runnable() {
+//            public void run() {
+//                if (currentPage == layouts.size()) {
+//                    currentPage = 0;
+//                }
+//                activitySignupNewBinding.viewPager.setCurrentItem(currentPage++, true);
+//            }
+//        };
+//
+//        timer = new Timer(); // This will create a new Thread
+//
+//        timer.schedule(new TimerTask() { // task to be scheduled
+//            @Override
+//            public void run() {
+//                handler.post(Update);
+//            }
+//        }, DELAY_MS, PERIOD_MS);
 
 
     }
@@ -464,24 +474,33 @@ String termStr="<section>\n" +
 
         @Override
         public Object instantiateItem(ViewGroup container, final int position) {
-            layoutInflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
             View view = layoutInflater.inflate(R.layout.login_image_slider, container, false);
 
             imageView = (ImageView) view.findViewById(R.id.imageView);
 
-            Animation fadein = AnimationUtils.loadAnimation(mContext, R.anim.fade_in);
+//            Animation inAnimation = AnimationUtils.loadAnimation(mContext, R.anim.fade_in);
+//            imageView.startAnimation(inAnimation);
 
-            imageView.startAnimation(fadein);
+//            AlphaAnimation animation1 = new AlphaAnimation(0.0f, 1.0f);
+//            animation1.setDuration(1000);
+//            animation1.setStartOffset(50);
+//            animation1.setFillAfter(true);
+//            imageView.startAnimation(animation1);
 
-//            ScaleAnimation fade_in =  new ScaleAnimation(0f, 1f, 0f, 1f,
-//                    Animation.RELATIVE_TO_SELF, 0.7f, Animation.RELATIVE_TO_SELF, 0.7f);
-//            fade_in.setDuration(2000);     // animation duration in milliseconds
-//            fade_in.setFillAfter(true);    // If fillAfter is true, the transformation that this animation performed will persist when it is finished.
-//            imageView.startAnimation(fade_in);
+
 
             imageView.setImageResource(layouts.get(position));
-
+//            ValueAnimator.ofFloat(0f, 500f).setDuration(3000).addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+//                @Override
+//                public void onAnimationUpdate(ValueAnimator animation) {
+//                    imageView.setScaleX(animation.getAnimatedFraction());
+//                    imageView.setScaleY(animation.getAnimatedFraction());
+//                    animation.start();
+//                }
+//            });
+//
 
 
 //            ValueAnimator animator = ValueAnimator.ofFloat(0, 1); // values from 0 to 1
@@ -531,7 +550,5 @@ String termStr="<section>\n" +
             return super.getItemPosition(object);
         }
     }
-
-
 
 }

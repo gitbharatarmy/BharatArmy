@@ -5,6 +5,7 @@ import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.os.Build;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
@@ -15,6 +16,7 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -31,12 +33,21 @@ import android.widget.LinearLayout;
 
 import android.widget.ViewSwitcher;
 
+import com.asp.fliptimerviewlibrary.CountDownClock;
 import com.bharatarmy.R;
 
 import com.bharatarmy.databinding.ActivityDemoBinding;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Timer;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 public class DemoActivity extends AppCompatActivity {
 
@@ -54,51 +65,133 @@ public class DemoActivity extends AppCompatActivity {
 
     private int animationCounter = 0;
 
+    CountDownTimer mCountDownTimer;
+    long diffInSecond, diffInMinute, diffInHour, diffInDays;
+
+    Handler timeHandler = new Handler();
+    int delay = 1000;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activityDemoBinding = DataBindingUtil.setContentView(this, R.layout.activity_demo);
         mContext = DemoActivity.this;
+        activityDemoBinding.timerProgramCountdown.startCountDown(99999999);
 
-        Animation in = AnimationUtils.loadAnimation(mContext, R.anim.fade_in);
-        Animation out = AnimationUtils.loadAnimation(mContext, R.anim.fade_out);
 
-        activityDemoBinding.imageView.setFactory(new ViewSwitcher.ViewFactory() {
-            @Override
-            public View makeView() {
-                ImageView myView = new ImageView(mContext);
-                myView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                myView.setLayoutParams(new
-                        ImageSwitcher.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.MATCH_PARENT));
-                return myView;
-            }
-        });
-        activityDemoBinding.imageView.setImageResource(R.drawable.login41);
-        activityDemoBinding.imageView.setInAnimation(in);
-        activityDemoBinding.imageView.setOutAnimation(out);
-        layouts = new ArrayList<Integer>();
+//        final ScheduledExecutorService service = new ScheduledThreadPoolExecutor(1);
+//
+//        Date endDate=new Date();
+//        final long[] diffInMilis = new long[1];
+//        final Date startDate=new Date();
+//
+//        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss a");
+//        String dateToStr = format.format(startDate);
+//        Log.d("Todaytime",dateToStr);
+//        try {
+//            SimpleDateFormat formatendDate = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss a");
+//          endDate=  formatendDate.parse("15/05/2019 08:20:00 AM");
+//
+//
+//            final Date finalEndDate = endDate;
+//            service.schedule(new Runnable() {
+//
+//                @Override
+//                public void run() {
+//                    // Calculate the difference in millisecond between two dates
+//                   diffInMilis[0] = finalEndDate.getTime() - startDate.getTime();
+//                  diffInSecond = diffInMilis[0] / 1000;
+//                    diffInMinute = diffInMilis[0]/ (60 * 1000);
+//                diffInHour = diffInMilis[0] / (60 * 60 * 1000);
+//               diffInDays = diffInMilis[0] / (24 * 60 * 60 * 1000);
+//                    if (diffInMilis[0] > 0) {
+////                        Log.d("=========Days:", "" + diffInDays + "========Hours:" + diffInHour + "=======Minutes:" + diffInMinute + "=======Second:" + diffInSecond);
+////                        Log.d("time", "" + service.schedule(this, 1, TimeUnit.SECONDS));
+//                    }
+//                }
+//            }, 1, TimeUnit.SECONDS);
+//
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+//        timeHandler.postDelayed(new Runnable() {
+//            public void run() {
+//                //do something
+//                Date endDate = new Date();
+//                final long[] diffInMilis = new long[1];
+//                final Date startDate = new Date();
+//                try {
+//                    SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss a");
+//                    String dateToStr = format.format(startDate);
+//                    Log.d("Todaytime", dateToStr);
+//                    SimpleDateFormat formatendDate = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss a");
+//
+//                    endDate = formatendDate.parse("30/04/2019 12:42:00 PM");
+//
+//
+//                    final Date finalEndDate = endDate;
+////                    Calculate the difference in millisecond between two dates
+//                    diffInMilis[0] = finalEndDate.getTime() - startDate.getTime();
+//
+//                    diffInSecond = diffInMilis[0] / 1000;
+//                    diffInMinute = diffInMilis[0] / (60 * 1000);
+//                    diffInHour = diffInMilis[0] / (60 * 60 * 1000);
+//                    diffInDays = diffInMilis[0] / (24 * 60 * 60 * 1000);
+//                    if (diffInMilis[0] > 0) {
+//                        Log.d("=========Days:", "" + diffInDays + "========Hours:" + diffInHour + "=======Minutes:" + diffInMinute + "=======Second:" + diffInSecond);
+//                        activityDemoBinding.daysTxt.setText(String.valueOf(diffInDays));
+//                        activityDemoBinding.hoursTxt.setText(String.valueOf(diffInHour));
+//                        activityDemoBinding.minutesTxt.setText(String.valueOf(diffInMinute));
+//                        activityDemoBinding.secondsTxt.setText(String.valueOf(diffInSecond));
+//                    }
+//                } catch (ParseException e) {
+//                    e.printStackTrace();
+//                }
+//                timeHandler.postDelayed(this, delay);
+//            }
+//        }, delay);
 
-        layouts.add(R.drawable.login_new_1);
-        layouts.add(R.drawable.login_new_2);
-        layouts.add(R.drawable.login_new_3);
-
-        imageSwitcherHandler = new Handler();
-        Runnable runnable = new Runnable() {
-            int i=0;
-            public void run() {
-                activityDemoBinding.imageView.setImageResource(layouts.get(i));
-                i++;
-                if(i>layouts.size()-1)
-                {
-                    activityDemoBinding.imageView.setImageResource(R.drawable.login41);
-                    i=0;
-                }
-                imageSwitcherHandler.postDelayed(this, 7000);  //for interval...
-            }
-        };
-        imageSwitcherHandler.postDelayed(runnable, 7000); //for initial delay..
     }
+
+//        Animation in = AnimationUtils.loadAnimation(mContext, R.anim.fade_in);
+//        Animation out = AnimationUtils.loadAnimation(mContext, R.anim.fade_out);
+//
+//        activityDemoBinding.imageView.setFactory(new ViewSwitcher.ViewFactory() {
+//            @Override
+//            public View makeView() {
+//                ImageView myView = new ImageView(mContext);
+//                myView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+//                myView.setLayoutParams(new
+//                        ImageSwitcher.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+//                        LinearLayout.LayoutParams.MATCH_PARENT));
+//                return myView;
+//            }
+//        });
+//        activityDemoBinding.imageView.setImageResource(R.drawable.login41);
+//        activityDemoBinding.imageView.setInAnimation(in);
+//        activityDemoBinding.imageView.setOutAnimation(out);
+//        layouts = new ArrayList<Integer>();
+//
+//        layouts.add(R.drawable.login_new_1);
+//        layouts.add(R.drawable.login_new_2);
+//        layouts.add(R.drawable.login_new_3);
+//
+//        imageSwitcherHandler = new Handler();
+//        Runnable runnable = new Runnable() {
+//            int i = 0;
+//
+//            public void run() {
+//                activityDemoBinding.imageView.setImageResource(layouts.get(i));
+//                i++;
+//                if (i > layouts.size() - 1) {
+//                    activityDemoBinding.imageView.setImageResource(R.drawable.login41);
+//                    i = 0;
+//                }
+//                imageSwitcherHandler.postDelayed(this, 7000);  //for interval...
+//            }
+//        };
+//        imageSwitcherHandler.postDelayed(runnable, 7000); //for initial delay..
+
 
 //        imageSwitcherHandler = new Handler(Looper.getMainLooper());
 //        imageSwitcherHandler.post(new Runnable() {
@@ -253,7 +346,7 @@ public class DemoActivity extends AppCompatActivity {
 
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
-            layoutInflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
             View view = layoutInflater.inflate(R.layout.login_image_slider, container, false);
 

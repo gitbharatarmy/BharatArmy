@@ -45,10 +45,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
+import static android.provider.Settings.System.DATE_FORMAT;
 import static com.yalantis.ucrop.util.FileUtils.getDataColumn;
 import static com.yalantis.ucrop.util.FileUtils.isDownloadsDocument;
 import static com.yalantis.ucrop.util.FileUtils.isExternalStorageDocument;
@@ -289,18 +294,21 @@ public class Utils {
         }
 
     }
-
-    public static void move(final ImageView view){
-        ValueAnimator va = ValueAnimator.ofFloat(0f, 3f);
-        int mDuration = 3000; //in millis
-        va.setDuration(mDuration);
-        va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            public void onAnimationUpdate(ValueAnimator animation) {
-                view.setTranslationX((float)animation.getAnimatedValue());
-            }
-        });
-        va.setRepeatCount(5);
-        va.start();
+    public static long getDaysBetweenDates(String start, String end,TimeUnit unit) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT, Locale.ENGLISH);
+        Date startDate, endDate;
+        long numberOfDays = 0;
+        try {
+            startDate = dateFormat.parse(start);
+            endDate = dateFormat.parse(end);
+            numberOfDays  = endDate.getTime() - startDate.getTime();
+            numberOfDays=unit.convert(numberOfDays,TimeUnit.DAYS);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return numberOfDays;
     }
+
+
 
 }

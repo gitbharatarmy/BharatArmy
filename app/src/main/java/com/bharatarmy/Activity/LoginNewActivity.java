@@ -105,9 +105,10 @@ public class LoginNewActivity extends AppCompatActivity implements View.OnClickL
         activityLoginNewBinding.imageView.setOutAnimation(out);
         layouts = new ArrayList<Integer>();
 
-        layouts.add(R.drawable.login_new_1);
+
         layouts.add(R.drawable.login_new_2);
         layouts.add(R.drawable.login_new_3);
+        layouts.add(R.drawable.login_new_1);
 
         imageSwitcherHandler = new Handler();
         Runnable runnable = new Runnable() {
@@ -117,7 +118,7 @@ public class LoginNewActivity extends AppCompatActivity implements View.OnClickL
                 activityLoginNewBinding.imageView.setImageResource(layouts.get(i));
                 i++;
                 if (i > layouts.size() - 1) {
-                    activityLoginNewBinding.imageView.setImageResource(R.drawable.login41);
+//                    activityLoginNewBinding.imageView.setImageResource(R.drawable.login41);
                     i = 0;
                 }
                 imageSwitcherHandler.postDelayed(this, 7000);  //for interval...

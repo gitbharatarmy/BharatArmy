@@ -19,6 +19,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +29,7 @@ import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -36,6 +38,7 @@ import android.widget.TextView;
 import android.widget.VideoView;
 import android.widget.ViewSwitcher;
 
+import com.asp.fliptimerviewlibrary.CountDownClock;
 import com.bharatarmy.Activity.MoreStoryActivity;
 import com.bharatarmy.Activity.VideoDetailActivity;
 import com.bharatarmy.Adapter.BharatArmyStoriesAdapter;
@@ -51,11 +54,16 @@ import com.bharatarmy.Utility.AppConfiguration;
 import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.FragmentHomeBinding;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
+import okhttp3.internal.Util;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
@@ -84,6 +92,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     VideoView videoView;
     ProgressBar progressbar;
     ArrayList<String> image;
+    String currentDateStr, nextDateStr;
 
     private TransitionDrawable mTransition;
     private int animationCounter = 1;
@@ -150,6 +159,40 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     }
 
     public void setListiner() {
+        //Countdown Timer
+        Date endDate = new Date();
+        final long[] diffInMilis = new long[1];
+        final Date startDate = new Date();
+        try {
+            SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss a");
+            String dateToStr = format.format(startDate);
+            Log.d("Todaytime", dateToStr);
+            SimpleDateFormat formatendDate = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss a");
+
+            endDate = formatendDate.parse("15/05/2019 04:15:00 PM");
+
+
+            final Date finalEndDate = endDate;
+//                    Calculate the difference in millisecond between two dates
+            diffInMilis[0] = finalEndDate.getTime() - startDate.getTime();
+        }catch (ParseException ex){
+
+        }
+        fragmentHomeBinding.timerProgramCountdown.startCountDown(diffInMilis[0]);
+
+        fragmentHomeBinding.timerProgramCountdown.setCountdownListener(new CountDownClock.CountdownCallBack() {
+            @Override
+            public void countdownAboutToFinish() {
+
+            }
+
+            @Override
+            public void countdownFinished() {
+                fragmentHomeBinding.timerProgramCountdown.resetCountdownTimer();
+            }
+        });
+
+        //  use for Advertisement image
         Animation in = AnimationUtils.loadAnimation(mContext, R.anim.fade_in);
         Animation out = AnimationUtils.loadAnimation(mContext, R.anim.fade_out);
         fragmentHomeBinding.advImg.setInAnimation(in);
@@ -321,9 +364,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.adv_img:
                 Intent videoIntent = new Intent(mContext, VideoDetailActivity.class);
-                videoIntent.putExtra("videoData","https://s3.ap-south-1.amazonaws.com/balatestvideos/TestVideo1.mp4");
+                videoIntent.putExtra("videoData", "https://s3.ap-south-1.amazonaws.com/balatestvideos/TestVideo1.mp4");
                 videoIntent.putExtra("videoName", "TestVideo1.mp4");
-                videoIntent.putExtra("WhereToVideoCome","Home");
+                videoIntent.putExtra("WhereToVideoCome", "Home");
                 videoIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 mContext.startActivity(videoIntent);
 //                DisplayAdvertise();
@@ -349,8 +392,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 //        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
 //        // Display the custom alert dialog on interface
 //        dialog.show();
-
-
         LayoutInflater lInflater = (LayoutInflater) mContext
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         final View layout = lInflater.inflate(R.layout.advertise_list, null);
@@ -373,7 +414,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
         close_btn = layout.findViewById(R.id.close_btn);
         videoView = layout.findViewById(R.id.play_video);
-        progressbar=layout.findViewById(R.id.progressbar);
+        progressbar = layout.findViewById(R.id.progressbar);
         videoView.setVideoPath("https://s3.ap-south-1.amazonaws.com/balatestvideos/TestVideo1.mp4");
         progressbar.setVisibility(View.VISIBLE);
         videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {

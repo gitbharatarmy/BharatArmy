@@ -79,6 +79,12 @@
         <item name="android:fontFamily">@font/helveticaneueltstdbdcn</item>
         <item name="android:textStyle">normal</item>
     </style>
+    <style name="count_down">
+        <item name="android:fontFamily">@font/helveticaneueltstdbdcn</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
+
 
 </resources>
 

@@ -1,11 +1,11 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 27
+    compileSdkVersion 28
     defaultConfig {
         applicationId "com.bharatarmy"
         minSdkVersion 21
-        targetSdkVersion 27
+        targetSdkVersion 28
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -80,6 +80,8 @@ dependencies {
 
 //    zoom image
     implementation 'com.alexvasilkov:gesture-views:2.5.2'
+
+    implementation 'com.github.anugotta:FlipTimerView:v1.3'
 
 }
 apply plugin: 'com.google.gms.google-services'
