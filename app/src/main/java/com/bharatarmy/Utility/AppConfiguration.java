@@ -6,7 +6,7 @@ public class AppConfiguration {
 //    public static final String BASEURL = "https://www.bharatarmy.com/API/v1/";
 
     public static final String BASEURL="http://jalsaclub.net/API/v1/";
-
+public static final String TERMSURL="https://www.bharatarmy.com/legal/privacypolicy";
     public static int position;
     public static String wheretocomemobile;
     public static String currentCountry;

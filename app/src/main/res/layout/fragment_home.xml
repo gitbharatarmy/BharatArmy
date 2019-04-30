@@ -79,7 +79,7 @@
                             flipTimer:halfDigitHeight="23dp"
                             flipTimer:resetSymbol="8"
                             flipTimer:splitterPadding="0dp"
-                            style="@style/count_down"/>
+                            style="@style/title_text_font"/>
                     </LinearLayout>
                 </android.support.v7.widget.CardView>
                 <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"

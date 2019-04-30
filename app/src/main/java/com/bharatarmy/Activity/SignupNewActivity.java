@@ -44,6 +44,7 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.ScaleAnimation;
 import android.view.animation.TranslateAnimation;
+import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
@@ -121,7 +122,7 @@ public class SignupNewActivity extends AppCompatActivity implements View.OnClick
                 | View.SYSTEM_UI_FLAG_FULLSCREEN;
         decorView.setSystemUiVisibility(uiOptions);
         activitySignupNewBinding = DataBindingUtil.setContentView(this, R.layout.activity_signup_new);
-
+//        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
         mContext = SignupNewActivity.this;
         setDataValue();
         setListiner();
@@ -175,7 +176,7 @@ public class SignupNewActivity extends AppCompatActivity implements View.OnClick
             public void run() {
                 activitySignupNewBinding.imageView.setImageResource(layouts.get(i));
                 i++;
-                if (i > layouts.size()-1) {
+                if (i > layouts.size() - 1) {
                     i = 0;
 //                    activitySignupNewBinding.imageView.setImageResource(R.drawable.login41);
                 }
@@ -239,6 +240,7 @@ public class SignupNewActivity extends AppCompatActivity implements View.OnClick
         activitySignupNewBinding.termConditionTxt.setOnClickListener(this);
         activitySignupNewBinding.signupBtn.setOnClickListener(this);
         activitySignupNewBinding.closeTxt.setOnClickListener(this);
+
 
         activitySignupNewBinding.termsChk.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -309,13 +311,18 @@ public class SignupNewActivity extends AppCompatActivity implements View.OnClick
         Window window = alertDialogAndroid.getWindow();
         window.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         WindowManager.LayoutParams wlp = window.getAttributes();
-
-        wlp.gravity = Gravity.CENTER_HORIZONTAL;
+        window.setGravity( Gravity.LEFT | Gravity.TOP );
+        wlp.x = 1;
+        wlp.y = 100;
         wlp.flags = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
         window.setAttributes(wlp);
         alertDialogAndroid.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-        Drawable d = new ColorDrawable(Color.BLACK);
-        d.setAlpha(50);
+        alertDialogAndroid.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT,
+                WindowManager.LayoutParams.MATCH_PARENT);
+
+        Drawable d = new ColorDrawable(getResources().getColor(R.color.black_dialog));
+//        d.setAlpha(50);
+        alertDialogAndroid.getWindow().setBackgroundDrawable(d);
         alertDialogAndroid.show();
 
         webView = (meghWebView) layout.findViewById(R.id.webView);
@@ -325,10 +332,10 @@ public class SignupNewActivity extends AppCompatActivity implements View.OnClick
         close_btn = (TextView) layout.findViewById(R.id.close_btn1);
         Glide.with(mContext).load(R.drawable.logo).into(image);
         image.setVisibility(View.VISIBLE);
-
+        agree_btn.setVisibility(View.VISIBLE);
         webView.setWebViewClient(new MyWebViewClient());
         webView.getSettings().setJavaScriptEnabled(true);
-        webView.loadDataWithBaseURL("", termStr, "text/html", "UTF-8", "");
+        webView.loadUrl(AppConfiguration.TERMSURL);
         webView.setVerticalScrollBarEnabled(true);
         webView.setOnBottomReachedListener(SignupNewActivity.this, 50);
         webView.setOnClickListener(this);
@@ -488,7 +495,6 @@ public class SignupNewActivity extends AppCompatActivity implements View.OnClick
 //            animation1.setStartOffset(50);
 //            animation1.setFillAfter(true);
 //            imageView.startAnimation(animation1);
-
 
 
             imageView.setImageResource(layouts.get(position));

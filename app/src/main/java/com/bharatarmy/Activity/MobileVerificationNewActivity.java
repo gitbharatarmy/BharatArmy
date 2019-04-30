@@ -3,11 +3,26 @@ package com.bharatarmy.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bharatarmy.Models.LogginModel;
@@ -15,7 +30,9 @@ import com.bharatarmy.R;
 import com.bharatarmy.Utility.ApiHandler;
 import com.bharatarmy.Utility.AppConfiguration;
 import com.bharatarmy.Utility.Utils;
+import com.bharatarmy.Utility.meghWebView;
 import com.bharatarmy.databinding.ActivityMobileVerificationNewBinding;
+import com.bumptech.glide.Glide;
 import com.rilixtech.Country;
 import com.rilixtech.CountryCodePicker;
 
@@ -29,7 +46,13 @@ public class MobileVerificationNewActivity extends AppCompatActivity implements 
 
     ActivityMobileVerificationNewBinding mobileVerificationNewBinding;
     Context mContext;
-    String phoneNoStr,countryCodeStr;
+    String phoneNoStr, countryCodeStr,strCheck = "0";
+    AlertDialog alertDialogAndroid;
+    meghWebView webView;
+    //     WebView webView;
+    Button agree_btn;
+    TextView close_btn;
+    ImageView image;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,41 +63,52 @@ public class MobileVerificationNewActivity extends AppCompatActivity implements 
         setListiner();
     }
 
-    public void setListiner(){
+    public void setListiner() {
         mobileVerificationNewBinding.ccp.setCountryForNameCode(AppConfiguration.currentCountry);
-        mobileVerificationNewBinding.phoneNoEdt.setText(Utils.getPref(mContext,"LoginPhoneNo"));
-
+        mobileVerificationNewBinding.phoneNoEdt.setText(Utils.getPref(mContext, "LoginPhoneNo"));
+        mobileVerificationNewBinding.termConditionTxt.setOnClickListener(this);
         mobileVerificationNewBinding.mobileVerifyBtn.setOnClickListener(this);
         mobileVerificationNewBinding.backImg.setOnClickListener(this);
         mobileVerificationNewBinding.mobileVerifyBtn.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId== EditorInfo.IME_ACTION_DONE){
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
                     getMobileverificationData();
                 }
                 return false;
             }
         });
-        
+
         mobileVerificationNewBinding.ccp.setOnCountryChangeListener(new CountryCodePicker.OnCountryChangeListener() {
             @Override
             public void onCountrySelected(Country selectedCountry) {
-                mobileVerificationNewBinding.codeTxt.setText("+"+selectedCountry.getPhoneCode());
+                mobileVerificationNewBinding.codeTxt.setText("+" + selectedCountry.getPhoneCode());
+            }
+        });
+
+        mobileVerificationNewBinding.termsChk.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    strCheck = "1";
+                } else {
+                    strCheck = "0";
+                }
             }
         });
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.back_img:
-                if (AppConfiguration.wheretocomemobile.equalsIgnoreCase("splash")){
+                if (AppConfiguration.wheretocomemobile.equalsIgnoreCase("splash")) {
                     Intent a = new Intent(Intent.ACTION_MAIN);
                     a.addCategory(Intent.CATEGORY_HOME);
                     a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(a);
                     finish();
-                }else {
+                } else {
                     Intent loginIntent = new Intent(mContext, LoginNewActivity.class);
                     startActivity(loginIntent);
 //                overridePendingTransition(R.anim.slide_in_left,0);
@@ -84,21 +118,31 @@ public class MobileVerificationNewActivity extends AppCompatActivity implements 
             case R.id.mobile_verify_btn:
                 getMobileverificationData();
                 break;
+            case R.id.term_condition_txt:
+                termconditionDialog();
+                break;
         }
     }
 
-    public void getMobileverificationData(){
-        phoneNoStr=mobileVerificationNewBinding.phoneNoEdt.getText().toString();
-        countryCodeStr=mobileVerificationNewBinding.codeTxt.getText().toString();
+    public void getMobileverificationData() {
+        phoneNoStr = mobileVerificationNewBinding.phoneNoEdt.getText().toString();
+        countryCodeStr = mobileVerificationNewBinding.codeTxt.getText().toString();
 
-        if (phoneNoStr.equalsIgnoreCase("")){
-            mobileVerificationNewBinding.phoneNoEdt.setError("Please Enter phone number");
+        if (!phoneNoStr.equalsIgnoreCase("")){
+            if (!countryCodeStr.equalsIgnoreCase("")){
+                if (!strCheck.equalsIgnoreCase("0")){
+                    getOtpVerification();
+                }else{
+                    Utils.ping(mContext,"Please accept the privacy policy.");
+                }
+            }else{
+                Utils.ping(mContext,"Please enter the country code.");
+            }
         }else{
-//            if (phoneNoStr.length()==10) {
-            getOtpVerification();
-//            }
+            mobileVerificationNewBinding.phoneNoEdt.setError("Please enter phone no.");
         }
     }
+
     public void getOtpVerification() {
         if (!Utils.checkNetwork(mContext)) {
             Utils.showCustomDialog(getResources().getString(R.string.internet_error), getResources().getString(R.string.internet_connection_error), MobileVerificationNewActivity.this);
@@ -119,15 +163,15 @@ public class MobileVerificationNewActivity extends AppCompatActivity implements 
                     return;
                 }
                 if (loginModel.getIsValid() == 0) {
-                    Utils.ping(mContext,loginModel.getMessage());
+                    Utils.ping(mContext, loginModel.getMessage());
                     return;
                 }
                 if (loginModel.getIsValid() == 1) {
-                    Intent otpIntent=new Intent(mContext,OTPActivity.class);
-                    otpIntent.putExtra("OTP",loginModel.getData().getOTP());
-                    otpIntent.putExtra("OTPmobileno",phoneNoStr);
-                    otpIntent.putExtra("countrycode",countryCodeStr);
-                    otpIntent.putExtra("wheretocome","Login");
+                    Intent otpIntent = new Intent(mContext, OTPActivity.class);
+                    otpIntent.putExtra("OTP", loginModel.getData().getOTP());
+                    otpIntent.putExtra("OTPmobileno", phoneNoStr);
+                    otpIntent.putExtra("countrycode", countryCodeStr);
+                    otpIntent.putExtra("wheretocome", "Login");
                     startActivity(otpIntent);
                     finish();
                 }
@@ -146,15 +190,90 @@ public class MobileVerificationNewActivity extends AppCompatActivity implements 
 
     private Map<String, String> getOtpVerificationData() {
         Map<String, String> map = new HashMap<>();
-        map.put("AppUserId", Utils.getPref(mContext,"AppUserId"));
+        map.put("AppUserId", Utils.getPref(mContext, "AppUserId"));
         map.put("PhoneNo", phoneNoStr);
         map.put("CountryCode", countryCodeStr);
         return map;
     }
 
 
+    public void termconditionDialog() {
+        LayoutInflater lInflater = (LayoutInflater) mContext
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        final View layout = lInflater.inflate(R.layout.mobile_term_condition, null);
+
+        AlertDialog.Builder alertDialogBuilderUserInput = new AlertDialog.Builder(mContext);
+        alertDialogBuilderUserInput.setView(layout);
+
+        alertDialogAndroid = alertDialogBuilderUserInput.create();
+        alertDialogAndroid.setCancelable(false);
+        alertDialogAndroid.show();
+        Window window = alertDialogAndroid.getWindow();
+        window.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        WindowManager.LayoutParams wlp = window.getAttributes();
+        window.setGravity( Gravity.LEFT | Gravity.TOP );
+        wlp.x = 1;
+        wlp.y = 100;
+        wlp.flags = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
+        window.setAttributes(wlp);
+        alertDialogAndroid.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        alertDialogAndroid.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT,
+                WindowManager.LayoutParams.MATCH_PARENT);
+
+        Drawable d = new ColorDrawable(getResources().getColor(R.color.black_dialog));
+//        d.setAlpha(100);
+        alertDialogAndroid.getWindow().setBackgroundDrawable(d);
+        alertDialogAndroid.show();
+
+        webView = (meghWebView) layout.findViewById(R.id.webView);
+        image = (ImageView) layout.findViewById(R.id.image);
+        agree_btn = (Button) layout.findViewById(R.id.agree_btn);
+//        close_btn = (Button) layout.findViewById(R.id.close_btn);
+        close_btn = (TextView) layout.findViewById(R.id.close_btn1);
+        Glide.with(mContext).load(R.drawable.logo).into(image);
+        image.setVisibility(View.VISIBLE);
+
+        webView.setWebViewClient(new MyWebViewClient());
+        webView.getSettings().setJavaScriptEnabled(true);
+        webView.loadUrl(AppConfiguration.TERMSURL);
+        webView.setVerticalScrollBarEnabled(true);
+        webView.setOnClickListener(this);
 
 
+//        agree_btn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                getOtpVerification();
+//            }
+//        });
+        close_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialogAndroid.dismiss();
+            }
+        });
+    }
 
+    public class MyWebViewClient extends WebViewClient {
+        @Override
+        public void onPageStarted(WebView view, String url, Bitmap favicon) {
+            // TODO Auto-generated method stub
+            super.onPageStarted(view, url, favicon);
+        }
 
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            // TODO Auto-generated method stub
+            image.setVisibility(View.VISIBLE);
+            view.loadUrl(url);
+            return true;
+        }
+
+        @Override
+        public void onPageFinished(WebView view, String url) {
+            // TODO Auto-generated method stub
+            super.onPageFinished(view, url);
+            image.setVisibility(View.GONE);
+        }
+    }
 }

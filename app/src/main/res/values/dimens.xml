@@ -11,7 +11,10 @@
     <dimen name="desc_padding">40dp</dimen>
     <dimen name="nav_header_vertical_spacing">8dp</dimen>
     <dimen name="nav_header_height">210dp</dimen>
-
+    <dimen name="margin_left">@dimen/_15sdp</dimen>
+    <dimen name="margin_right">@dimen/_15sdp</dimen>
+    <dimen name="margin_top">@dimen/_10sdp</dimen>
+    <dimen name="margin_bottom">@dimen/_10sdp</dimen>
 
     <dimen name="item_width">300dp</dimen>
     <dimen name="padding_item_width">300dp</dimen>

@@ -87,11 +87,13 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 Integer textlength1 = activityOtpBinding.edit1.getText().length();
-
+                activityOtpBinding.edit1.setBackgroundResource(R.drawable.rectangle_line);
                 if (textlength1 >= 1) {
+                    activityOtpBinding.edit1.setBackgroundResource(R.drawable.fill_rectangle_line);
                     activityOtpBinding.edit2.requestFocus();
                 } else {
                     activityOtpBinding.edit1.requestFocus();
+
                 }
             }
 
@@ -109,8 +111,9 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 Integer textlength1 = activityOtpBinding.edit2.getText().length();
-
+                activityOtpBinding.edit2.setBackgroundResource(R.drawable.rectangle_line);
                 if (textlength1 == 1) {
+                    activityOtpBinding.edit2.setBackgroundResource(R.drawable.fill_rectangle_line);
                     activityOtpBinding.edit3.requestFocus();
                 } else {
                     activityOtpBinding.edit1.requestFocus();
@@ -131,8 +134,9 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 Integer textlength1 = activityOtpBinding.edit3.getText().length();
-
+                activityOtpBinding.edit3.setBackgroundResource(R.drawable.rectangle_line);
                 if (textlength1 == 1) {
+                    activityOtpBinding.edit3.setBackgroundResource(R.drawable.fill_rectangle_line);
                     activityOtpBinding.edit4.requestFocus();
                 } else {
                     activityOtpBinding.edit2.requestFocus();
@@ -153,8 +157,9 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 Integer textlength1 = activityOtpBinding.edit4.getText().length();
-
+                activityOtpBinding.edit4.setBackgroundResource(R.drawable.fill_rectangle_line);
                 if (textlength1 == 0) {
+                    activityOtpBinding.edit4.setBackgroundResource(R.drawable.rectangle_line);
                     activityOtpBinding.edit3.requestFocus();
                 }
             }
@@ -207,7 +212,7 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
                 activityOtpBinding.edit3.getText().toString() +
                 activityOtpBinding.edit4.getText().toString();
         Log.d("finalOtpStr", finalgetOtpStr);
-        Log.d("otpStr", otpStr);
+//        Log.d("otpStr", otpStr);
 
         if (otpStr.equalsIgnoreCase(finalgetOtpStr)) {
             if (strWheretocome.equalsIgnoreCase("Signup")) {

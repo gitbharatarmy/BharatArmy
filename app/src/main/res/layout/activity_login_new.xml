@@ -58,8 +58,8 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_below="@+id/login_logo"
-            android:layout_marginLeft="@dimen/_30sdp"
-            android:layout_marginRight="@dimen/_30sdp"
+            android:layout_marginLeft="@dimen/margin_left"
+            android:layout_marginRight="@dimen/margin_right"
             android:layout_marginTop="@dimen/_200sdp">
             <LinearLayout
                 android:id="@+id/email_linear"

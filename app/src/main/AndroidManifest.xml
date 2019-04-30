@@ -32,16 +32,21 @@
             android:name=".Activity.SignupNewActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateVisible|adjustResize"></activity>
+            android:windowSoftInputMode="stateHidden|adjustResize">
+
+        </activity>
+        <!-- android:windowSoftInputMode="stateVisible|adjustResize"-->
         <activity
             android:name=".Activity.LoginNewActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateVisible|adjustResize"></activity>
+            android:windowSoftInputMode="stateHidden|adjustResize"></activity>
         <activity
             android:name=".Activity.MobileVerificationNewActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar" >
+
+        </activity>
         <activity
             android:name=".Activity.FTPDetailsActivity"
             android:screenOrientation="portrait"
@@ -98,7 +103,9 @@
         <activity
             android:name=".Activity.OTPActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar" >
+
+        </activity>
         <activity
             android:name=".Activity.ImagePickerActivity"
             android:screenOrientation="portrait"

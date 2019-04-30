@@ -33,25 +33,30 @@
             android:layout_marginTop="@dimen/_50sdp"
             android:src="@drawable/logo_login" />
 
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/login_logo"
-            android:layout_alignParentBottom="true">
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_below="@+id/login_logo"-->
+            <!--android:orientation="vertical"-->
+            <!--android:layout_alignParentBottom="true">-->
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="bottom"
-                android:layout_marginLeft="@dimen/_30sdp"
-                android:layout_marginRight="@dimen/_30sdp"
+                android:layout_below="@+id/login_logo"
+                android:layout_marginLeft="@dimen/margin_left"
+                android:layout_marginRight="@dimen/margin_right"
                 android:layout_marginBottom="@dimen/_50sdp"
+                android:layout_marginTop="@dimen/_150sdp"
+                android:layout_alignParentBottom="true"
                 android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/login_btn_layout"
+                    android:layout_gravity="bottom"
                     android:orientation="horizontal">
 
                     <ImageView
@@ -143,13 +148,14 @@
                         android:background="@android:color/transparent"
                         android:hint="@string/mobileno"
                         android:inputType="number"
-                        android:maxLength="10"
+                        android:maxLines="1"
+                        android:maxLength="12"
                         android:paddingLeft="@dimen/_5sdp"
                         android:paddingRight="@dimen/_5sdp"
                         android:textColor="@color/heading_bg"
                         android:textColorHint="@color/hint_txt_color"
                         android:textCursorDrawable="@drawable/color_cursor"
-                        android:textSize="@dimen/_12sdp" />
+                        android:textSize="@dimen/_12sdp"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -175,6 +181,7 @@
                         android:hint="@string/password"
                         android:inputType="textPassword"
                         android:maxLines="1"
+                        android:maxLength="10"
                         android:paddingLeft="@dimen/_5sdp"
                         android:paddingRight="@dimen/_5sdp"
                         android:textColor="@color/heading_bg"
@@ -197,12 +204,6 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="@dimen/_8sdp"
                         android:button="@drawable/chk_indicator" />
-
-                    <!--<LinearLayout-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:orientation="vertical"-->
-                    <!--android:layout_marginLeft="@dimen/_5sdp">-->
 
                     <TextView
                         android:id="@+id/term_txt"
@@ -257,6 +258,6 @@
                     android:textSize="@dimen/_12sdp"
                     android:visibility="gone" />
             </LinearLayout>
-        </ScrollView>
+        <!--</LinearLayout>-->
     </RelativeLayout>
 </layout>

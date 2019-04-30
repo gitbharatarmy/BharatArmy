@@ -1,35 +1,178 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:flipTimer="http://schemas.android.com/apk/res-auto">
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
     android:clipChildren="false"
     android:clipToPadding="false"
-    android:gravity="center"
     android:orientation="horizontal">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_180sdp"
+            android:background="@color/heading_bg"/>
+    <ImageView
+        android:id="@+id/back_img"
+        android:layout_width="@dimen/_20sdp"
+        android:layout_height="@dimen/_20sdp"
+        android:layout_gravity="center_vertical"
+        android:layout_margin="@dimen/_15sdp"
+        android:src="@drawable/ic_left_arrow"
+        android:tint="@color/splash_bg_color" />
 
+    <ImageView
+        android:id="@+id/verify_logo"
+        android:layout_width="@dimen/_90sdp"
+        android:layout_height="@dimen/_90sdp"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/ic_email_message_by_mobile_phone"
+        android:layout_marginTop="@dimen/_130sdp"/>
 
-    <com.asp.fliptimerviewlibrary.CountDownClock
-        android:id="@+id/timerProgramCountdown"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/otp_linear"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:clipChildren="false"
-        android:clipToPadding="false"
-        flipTimer:almostFinishedCallbackTimeInSeconds="5"
-        flipTimer:animationDuration="850"
-        flipTimer:countdownTickInterval="1000"
-        flipTimer:digitBottomDrawable="@drawable/background_bottom"
-        flipTimer:digitDividerColor="@color/transparent"
-        flipTimer:digitPadding="2dp"
-        flipTimer:digitTextColor="@color/black"
-        flipTimer:digitTextSize="24sp"
-        flipTimer:digitTopDrawable="@drawable/background_top"
-        flipTimer:digitWidth="28dp"
-        flipTimer:halfDigitHeight="22dp"
-        flipTimer:resetSymbol="8"
-        flipTimer:splitterPadding="0dp"
-        />
-</LinearLayout>
+        android:layout_below="@+id/verify_logo"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:animateLayoutChanges="true"
+        android:orientation="vertical"
+        android:visibility="visible">
+        <TextView
+            style="@style/text_font"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/verify_logo"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:gravity="center_horizontal"
+            android:text="@string/verifycode"
+            android:textColor="@color/heading_bg"
+            android:textSize="@dimen/_14sdp" />
+
+        <TextView
+            style="@style/text_font"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:gravity="center_horizontal"
+            android:text="@string/otp_str"
+            android:textColor="@color/heading_bg"
+            android:textSize="@dimen/_14sdp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_30sdp"
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal">
+            <TextView
+                style="@style/text_font"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="sent to "
+                android:textColor="@color/heading_bg"
+                android:textSize="@dimen/_14sdp" />
+
+            <TextView
+                android:id="@+id/no_txt"
+                style="@style/text_font"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="+91-85233697410"
+                android:textColor="@color/heading_bg"
+                android:textSize="@dimen/_14sdp" />
+        </LinearLayout>
+
+
+        <TextView
+            style="@style/text_font"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_20sdp"
+            android:gravity="center_horizontal"
+            android:text="@string/code_str"
+            android:textColor="@color/hint_txt_color"
+            android:textSize="@dimen/_13sdp"
+            android:visibility="gone"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/edit1"
+                style="@style/title_text_font"
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="@dimen/_40sdp"
+                android:background="@drawable/rectangle_line"
+                android:gravity="center"
+                android:inputType="number"
+                android:maxLength="1"
+                android:textColor="@color/splash_bg_color"
+                android:textCursorDrawable="@drawable/color_cursor" />
+
+            <EditText
+                android:id="@+id/edit2"
+                style="@style/title_text_font"
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:background="@drawable/rectangle_line"
+                android:gravity="center"
+                android:inputType="number"
+                android:maxLength="1"
+                android:textColor="@color/splash_bg_color"
+                android:textCursorDrawable="@drawable/color_cursor" />
+
+            <EditText
+                android:id="@+id/edit3"
+                style="@style/title_text_font"
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:background="@drawable/rectangle_line"
+                android:gravity="center"
+                android:inputType="number"
+                android:maxLength="1"
+                android:textColor="@color/splash_bg_color"
+                android:textCursorDrawable="@drawable/color_cursor" />
+
+            <EditText
+                android:id="@+id/edit4"
+                style="@style/title_text_font"
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:background="@drawable/rectangle_line"
+                android:gravity="center"
+                android:inputType="number"
+                android:maxLength="1"
+                android:textColor="@color/splash_bg_color"
+                android:textCursorDrawable="@drawable/color_cursor" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_50sdp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/_40sdp"
+            android:background="@drawable/close_cancel"
+            android:backgroundTint="@color/heading_bg">
+
+            <TextView
+                android:id="@+id/otp_img"
+                android:layout_width="@dimen/_25sdp"
+                android:layout_height="@dimen/_25sdp"
+                android:layout_margin="@dimen/_13sdp"
+                android:background="@drawable/ic_right_arrow"
+                android:imeOptions="actionDone" />
+        </LinearLayout>
+    </LinearLayout>
+    </RelativeLayout>
 </layout>
