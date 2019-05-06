@@ -1,178 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:flipTimer="http://schemas.android.com/apk/res-auto">
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_gravity="center"
-    android:clipChildren="false"
-    android:clipToPadding="false"
-    android:orientation="horizontal">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_180sdp"
-            android:background="@color/heading_bg"/>
-    <ImageView
-        android:id="@+id/back_img"
-        android:layout_width="@dimen/_20sdp"
-        android:layout_height="@dimen/_20sdp"
-        android:layout_gravity="center_vertical"
-        android:layout_margin="@dimen/_15sdp"
-        android:src="@drawable/ic_left_arrow"
-        android:tint="@color/splash_bg_color" />
+    tools:context=".Activity.WalkthorughNewActivity">
 
-    <ImageView
-        android:id="@+id/verify_logo"
-        android:layout_width="@dimen/_90sdp"
-        android:layout_height="@dimen/_90sdp"
-        android:layout_centerHorizontal="true"
-        android:src="@drawable/ic_email_message_by_mobile_phone"
-        android:layout_marginTop="@dimen/_130sdp"/>
+    <com.bharatarmy.Utility.ParallaxBackground
+        android:id="@+id/parallax_bg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible">
+    </com.bharatarmy.Utility.ParallaxBackground>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 
     <LinearLayout
-        android:id="@+id/otp_linear"
+        android:id="@+id/circles"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/_65sdp"
+        android:orientation="horizontal">
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/bottom_rel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/verify_logo"
-        android:layout_marginTop="@dimen/_20sdp"
-        android:animateLayoutChanges="true"
-        android:orientation="vertical"
-        android:visibility="visible">
-        <TextView
-            style="@style/text_font"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/verify_logo"
-            android:layout_marginLeft="@dimen/_10sdp"
-            android:layout_marginRight="@dimen/_10sdp"
-            android:gravity="center_horizontal"
-            android:text="@string/verifycode"
-            android:textColor="@color/heading_bg"
-            android:textSize="@dimen/_14sdp" />
+        android:layout_alignParentBottom="true">
 
-        <TextView
-            style="@style/text_font"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/_10sdp"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:layout_marginRight="@dimen/_10sdp"
-            android:gravity="center_horizontal"
-            android:text="@string/otp_str"
-            android:textColor="@color/heading_bg"
-            android:textSize="@dimen/_14sdp" />
-
-        <LinearLayout
+        <Button
+            android:id="@+id/btn_next"
+            style="@style/title_text_font"
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/_30sdp"
-            android:orientation="horizontal"
-            android:layout_gravity="center_horizontal">
-            <TextView
-                style="@style/text_font"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:text="sent to "
-                android:textColor="@color/heading_bg"
-                android:textSize="@dimen/_14sdp" />
-
-            <TextView
-                android:id="@+id/no_txt"
-                style="@style/text_font"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:text="+91-85233697410"
-                android:textColor="@color/heading_bg"
-                android:textSize="@dimen/_14sdp" />
-        </LinearLayout>
-
-
-        <TextView
-            style="@style/text_font"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/_20sdp"
-            android:gravity="center_horizontal"
-            android:text="@string/code_str"
-            android:textColor="@color/hint_txt_color"
-            android:textSize="@dimen/_13sdp"
-            android:visibility="gone"/>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/_20sdp"
-            android:orientation="horizontal">
-
-            <EditText
-                android:id="@+id/edit1"
-                style="@style/title_text_font"
-                android:layout_width="@dimen/_40sdp"
-                android:layout_height="@dimen/_40sdp"
-                android:background="@drawable/rectangle_line"
-                android:gravity="center"
-                android:inputType="number"
-                android:maxLength="1"
-                android:textColor="@color/splash_bg_color"
-                android:textCursorDrawable="@drawable/color_cursor" />
-
-            <EditText
-                android:id="@+id/edit2"
-                style="@style/title_text_font"
-                android:layout_width="@dimen/_40sdp"
-                android:layout_height="@dimen/_40sdp"
-                android:layout_marginLeft="@dimen/_10sdp"
-                android:background="@drawable/rectangle_line"
-                android:gravity="center"
-                android:inputType="number"
-                android:maxLength="1"
-                android:textColor="@color/splash_bg_color"
-                android:textCursorDrawable="@drawable/color_cursor" />
-
-            <EditText
-                android:id="@+id/edit3"
-                style="@style/title_text_font"
-                android:layout_width="@dimen/_40sdp"
-                android:layout_height="@dimen/_40sdp"
-                android:layout_marginLeft="@dimen/_10sdp"
-                android:background="@drawable/rectangle_line"
-                android:gravity="center"
-                android:inputType="number"
-                android:maxLength="1"
-                android:textColor="@color/splash_bg_color"
-                android:textCursorDrawable="@drawable/color_cursor" />
-
-            <EditText
-                android:id="@+id/edit4"
-                style="@style/title_text_font"
-                android:layout_width="@dimen/_40sdp"
-                android:layout_height="@dimen/_40sdp"
-                android:layout_marginLeft="@dimen/_10sdp"
-                android:background="@drawable/rectangle_line"
-                android:gravity="center"
-                android:inputType="number"
-                android:maxLength="1"
-                android:textColor="@color/splash_bg_color"
-                android:textCursorDrawable="@drawable/color_cursor" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="@dimen/_50sdp"
             android:layout_height="@dimen/_50sdp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/_40sdp"
-            android:background="@drawable/close_cancel"
-            android:backgroundTint="@color/heading_bg">
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:background="@null"
+            android:gravity="center|bottom"
+            android:paddingBottom="@dimen/_20sdp"
+            android:text="@string/next"
+            android:textColor="@color/splash_bg_color"
+            android:visibility="visible" />
 
-            <TextView
-                android:id="@+id/otp_img"
-                android:layout_width="@dimen/_25sdp"
-                android:layout_height="@dimen/_25sdp"
-                android:layout_margin="@dimen/_13sdp"
-                android:background="@drawable/ic_right_arrow"
-                android:imeOptions="actionDone" />
-        </LinearLayout>
-    </LinearLayout>
+        <Button
+            android:id="@+id/btn_skip"
+            style="@style/title_text_font"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_50sdp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentBottom="true"
+            android:background="@null"
+            android:gravity="center"
+            android:text="@string/skip"
+            android:textColor="@color/splash_bg_color"
+            android:visibility="visible" />
+
+        <Button
+            android:id="@+id/btn_done"
+            style="@style/title_text_font"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_50sdp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:background="@null"
+            android:gravity="center"
+            android:text="@string/start"
+            android:textColor="@color/splash_bg_color"
+            android:visibility="gone" />
     </RelativeLayout>
-</layout>
+
+</RelativeLayout>

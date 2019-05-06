@@ -297,7 +297,10 @@ public class ImageFragment extends Fragment {
                         if (imageListAdapter != null && imageDetailModelsList.size() > 0) {
                             imageListAdapter.addMoreDataToList(imageDetailModelsList);
                             // just append more data to current list
-                        } else {
+                        } /*else if(imageListAdapter!=null && imageDetailModelsList.size()==0){
+                            isLoading = true;
+                            addOldNewValue (imageMainModel.getData());
+                        }*/else {
                             fillImageGallery();
                         }
 

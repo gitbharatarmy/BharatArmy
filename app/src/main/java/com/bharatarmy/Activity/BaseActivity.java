@@ -13,10 +13,12 @@ import android.widget.TextView;
 
 import com.bharatarmy.R;
 
+import static android.support.v4.content.FileProvider.getUriForFile;
+
 
 public abstract class BaseActivity extends AppCompatActivity {
     TextView titleText;
-    ImageView BackBtn,shareBtn;
+    ImageView BackBtn, shareBtn;
 
     @Override
 
@@ -44,5 +46,26 @@ public abstract class BaseActivity extends AppCompatActivity {
             });
     }
 
+    public void setShareBtn(final Activity activity, final String url,final String whereTocome) {
+        if(shareBtn==null)
+            shareBtn=findViewById(R.id.share_img);
+        if (shareBtn!=null)
+            if (whereTocome.equalsIgnoreCase("storylistadp")) {
+                shareBtn.setVisibility(View.VISIBLE);
+                shareBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //share image from other application
+                        Intent shareIntent = new Intent();
+                        shareIntent.setAction(Intent.ACTION_SEND);
+                        shareIntent.putExtra(Intent.EXTRA_TEXT, "shared from Bharat Army");
+                        shareIntent.putExtra(Intent.EXTRA_TEXT, url);
+                        shareIntent.setType("text/plain");
+                        shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                        startActivity(Intent.createChooser(shareIntent, "Share It"));
+                    }
+                });
+            }
+    }
 
 }

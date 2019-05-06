@@ -294,21 +294,4 @@ public class Utils {
         }
 
     }
-    public static long getDaysBetweenDates(String start, String end,TimeUnit unit) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT, Locale.ENGLISH);
-        Date startDate, endDate;
-        long numberOfDays = 0;
-        try {
-            startDate = dateFormat.parse(start);
-            endDate = dateFormat.parse(end);
-            numberOfDays  = endDate.getTime() - startDate.getTime();
-            numberOfDays=unit.convert(numberOfDays,TimeUnit.DAYS);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return numberOfDays;
-    }
-
-
-
 }

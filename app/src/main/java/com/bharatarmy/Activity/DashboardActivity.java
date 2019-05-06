@@ -323,6 +323,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                         Intent webviewIntent = new Intent(mContext, MoreStoryActivity.class);
                         webviewIntent.putExtra("Story Heading", "Ab Jeetega India");
                         webviewIntent.putExtra("StroyUrl", "http://ajif.in/");
+                        webviewIntent.putExtra("whereTocome","aboutus");
                         webviewIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         mContext.startActivity(webviewIntent);
                         drawer.closeDrawers();

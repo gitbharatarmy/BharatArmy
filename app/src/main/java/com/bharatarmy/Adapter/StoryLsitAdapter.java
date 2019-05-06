@@ -145,6 +145,7 @@ public class StoryLsitAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 Intent webviewIntent=new Intent(mContext, MoreStoryActivity.class);
                 webviewIntent.putExtra("Story Heading",detail.getStoryTitle());
                 webviewIntent.putExtra("StroyUrl",detail.getStoryWebURL());
+                webviewIntent.putExtra("whereTocome","storylistadp");
                 webviewIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 mContext.startActivity(webviewIntent);
 //                  ((Activity)  mcontext).overridePendingTransition(R.anim.slide_in_left,0);

@@ -29,6 +29,7 @@ import com.bharatarmy.Adapter.GalleryImageDetailAdapter;
 import com.bharatarmy.Models.ImageDetailModel;
 import com.bharatarmy.Models.ImageMainModel;
 import com.bharatarmy.R;
+import com.bharatarmy.Utility.AppConfiguration;
 import com.bharatarmy.Utility.SnapHelperOneByOne;
 import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.ActivityGalleryImageDetailBinding;
@@ -261,7 +262,7 @@ public class GalleryImageDetailActivity extends BaseActivity implements View.OnC
                  //share image from other application
                 Intent shareIntent = new Intent();
                 shareIntent.setAction(Intent.ACTION_SEND);
-                shareIntent.putExtra(Intent.EXTRA_TEXT,"shared from Bharat Army");
+                shareIntent.putExtra(Intent.EXTRA_TEXT, AppConfiguration.SHARETEXT);
                 shareIntent.putExtra(Intent.EXTRA_STREAM,uri=getUriForFile(mContext, getPackageName() + ".provider",file));
                 shareIntent.setType("image/*");
                 shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);

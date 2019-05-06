@@ -146,7 +146,7 @@ public class StoryFragment extends Fragment {
                         ispull = false;
                         pageIndex = pageIndex + 1;
                         loadMore();
-                        isLoading = true;
+
                     }
                 }
             }
@@ -193,6 +193,8 @@ public class StoryFragment extends Fragment {
                             // just append more data to current list
                         }else if(storyLsitAdapter!=null && storyDetailModelList.size()==0){
 //                            Utils.ping(mContext,"No more data available");
+                            Log.d("pageIndex",""+pageIndex);
+                            isLoading = true;
                             addOldNewValue (imageMainModel.getData());
                         }
                         else {

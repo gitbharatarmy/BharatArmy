@@ -102,6 +102,7 @@ public class BharatArmyStoriesAdapter extends RecyclerView.Adapter<BharatArmySto
                   Intent webviewIntent=new Intent(mcontext, MoreStoryActivity.class);
                   webviewIntent.putExtra("Story Heading",storiesData.getStoryTitle());
                   webviewIntent.putExtra("StroyUrl",storiesData.getStoryWebURL());
+                  webviewIntent.putExtra("whereTocome","bharatarmystoryadp");
                   webviewIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                   mcontext.startActivity(webviewIntent);
 //                  ((Activity)  mcontext).overridePendingTransition(R.anim.slide_in_left,0);

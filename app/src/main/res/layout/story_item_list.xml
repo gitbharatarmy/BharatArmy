@@ -119,7 +119,7 @@
                 android:id="@+id/army_story_sub_txt"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_30sdp"
-                android:layout_margin="@dimen/_3sdp"
+                android:layout_marginLeft="@dimen/_5sdp"
                 android:ellipsize="end"
                 android:gravity="top"
                 android:maxLines="2"

@@ -4,10 +4,12 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -19,15 +21,18 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.bharatarmy.R;
+import com.bharatarmy.Utility.AppConfiguration;
 import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.ActivityMoreStoryBinding;
 import com.bumptech.glide.Glide;
+
+import static android.support.v4.content.FileProvider.getUriForFile;
 
 public class MoreStoryActivity extends BaseActivity implements View.OnClickListener {
 
     ActivityMoreStoryBinding moreStoryBinding;
     Context mContext;
-    String storyHeadingStr, storyUrlStr,strShow;
+    String storyHeadingStr, storyUrlStr, strShow, strWheretocome;
     public static Dialog dialog;
 
     @Override
@@ -38,18 +43,28 @@ public class MoreStoryActivity extends BaseActivity implements View.OnClickListe
 
         getDataValue();
         setListiner();
-        setTitleText(storyHeadingStr);
-        setBackButton(MoreStoryActivity.this);
+//        setTitleText(storyHeadingStr);
+//        setBackButton(MoreStoryActivity.this);
+//        setShareBtn(MoreStoryActivity.this,storyUrlStr,strWheretocome);
     }
 
     public void setListiner() {
-//        moreStoryBinding.backImg.setOnClickListener(this);
+        moreStoryBinding.backImg.setOnClickListener(this);
+        moreStoryBinding.shareImg.setOnClickListener(this);
     }
 
     public void getDataValue() {
         storyHeadingStr = getIntent().getStringExtra("Story Heading");
         storyUrlStr = getIntent().getStringExtra("StroyUrl");
+        strWheretocome = getIntent().getStringExtra("whereTocome");
 
+
+        moreStoryBinding.toolbarTitleTxt.setText(storyHeadingStr);
+        if (strWheretocome.equalsIgnoreCase("storylistadp")) {
+            moreStoryBinding.shareImg.setVisibility(View.VISIBLE);
+        } else {
+            moreStoryBinding.shareImg.setVisibility(View.GONE);
+        }
         Glide.with(mContext).load(R.drawable.logo).into(moreStoryBinding.image);
 //        moreStoryBinding.toolbarTitleTxt.setText(storyHeadingStr);
         moreStoryBinding.moreStoryWebview.setWebViewClient(new MyWebViewClient());
@@ -60,10 +75,21 @@ public class MoreStoryActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
-//            case R.id.back_img:
-//               MoreStoryActivity.this.finish();
-//                break;
+        switch (v.getId()) {
+            case R.id.back_img:
+                MoreStoryActivity.this.finish();
+                break;
+            case R.id.share_img:
+                Uri uri= Uri.parse(storyUrlStr);
+                //share image from other application
+                Intent shareIntent = new Intent();
+                shareIntent.setAction(Intent.ACTION_SEND);
+                shareIntent.putExtra(Intent.EXTRA_SUBJECT, AppConfiguration.SHARETEXT);
+                shareIntent.putExtra(Intent.EXTRA_TEXT,storyUrlStr+"\n\n"+AppConfiguration.SHARETEXT);
+                shareIntent.setType("text/plain");
+                shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                startActivity(Intent.createChooser(shareIntent, "Share It"));
+                break;
         }
     }
 

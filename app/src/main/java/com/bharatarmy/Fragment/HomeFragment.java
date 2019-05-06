@@ -305,11 +305,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     public void FillDashboardData() {
         fragmentHomeBinding.titleTxt.setText(getDashboardDataModel.getCommonData().getPageHeaderText());
         fragmentHomeBinding.subTitleTxt.setText(getDashboardDataModel.getCommonData().getPageHeaderDesc());
-//        Glide.with(mContext)
-//                .load(R.drawable.ad)
-//                .placeholder(R.drawable.progress_animation)
-//                .into(fragmentHomeBinding.advImg);
-
 
         for (int i = 0; i < getDashboardDataModel.getUpcomming().size(); i++) {
             String data = getDashboardDataModel.getUpcomming().get(i).getCategoryTypes();
@@ -359,6 +354,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 Intent webviewIntent = new Intent(mContext, MoreStoryActivity.class);
                 webviewIntent.putExtra("Story Heading", "Ab Jeetega India");
                 webviewIntent.putExtra("StroyUrl", "http://ajif.in/");
+                webviewIntent.putExtra("whereTocome","aboutus");
                 webviewIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 mContext.startActivity(webviewIntent);
                 break;
@@ -375,23 +371,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     }
 
     public void DisplayAdvertise() {
-//        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-//
-//        LayoutInflater inflater = getLayoutInflater();
-//        View dialogView = inflater.inflate(R.layout.advertise_list, null);
-//
-//        // Specify alert dialog is not cancelable/not ignorable
-//        builder.setCancelable(false);
-//
-//        // Set the custom layout as alert dialog view
-//        builder.setView(dialogView);
-//
-//        // Create the alert dialog
-//        final AlertDialog dialog = builder.create();
-//
-//        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-//        // Display the custom alert dialog on interface
-//        dialog.show();
         LayoutInflater lInflater = (LayoutInflater) mContext
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         final View layout = lInflater.inflate(R.layout.advertise_list, null);

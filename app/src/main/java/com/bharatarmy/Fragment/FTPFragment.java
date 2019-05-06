@@ -142,7 +142,7 @@ public class FTPFragment extends Fragment {
                         ispull = false;
                         pageIndex = pageIndex + 1;
                         loadMore();
-                        isLoading = true;
+
                     }
                 }
             }
@@ -203,6 +203,7 @@ public class FTPFragment extends Fragment {
                             // just append more data to current list
                         } else if(ftpListAdapter!=null && ftpDetailModelList.size()==0){
 //                            Utils.ping(mContext,"No more data available");
+                            isLoading = true;
                             addOldNewValue (imageMainModel.getData());
                         } else {
                             fillFTPGallery();

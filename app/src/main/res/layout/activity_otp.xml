@@ -25,7 +25,7 @@
             <ImageView
                 android:id="@+id/back_img"
                 android:layout_width="@dimen/_20sdp"
-                android:layout_height="@dimen/_30sdp"
+                android:layout_height="@dimen/_20sdp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_10sdp"
@@ -43,7 +43,7 @@
                 android:paddingTop="@dimen/_5sdp"
                 android:text="@string/verifycode"
                 android:textColor="@color/splash_bg_color"
-                android:textSize="@dimen/_13sdp" />
+                android:textSize="@dimen/_12sdp" />
         </LinearLayout>
 
         <ImageView

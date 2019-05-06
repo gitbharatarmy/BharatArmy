@@ -37,6 +37,8 @@ public class WalkthroughData {
     @Expose
     private Integer bulletLayoutType;
 
+    private List<Integer> imagesSlider;
+
     public String getCategoryName() {
         return categoryName;
     }

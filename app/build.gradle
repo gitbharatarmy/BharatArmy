@@ -82,6 +82,13 @@ dependencies {
     implementation 'com.alexvasilkov:gesture-views:2.5.2'
 
     implementation 'com.github.anugotta:FlipTimerView:v1.3'
+    implementation 'com.akaita.android:morphview:1.0.0'
 
+    implementation 'com.tbuonomo.andrui:viewpagerdotsindicator:3.0.3'
+    implementation 'com.github.abdularis:ParallaxImageView:1.0'
+
+    implementation 'com.nineoldandroids:library:2.4.0'
+
+    implementation 'com.github.VRGsoftUA:ParallaxView:1.0'
 }
 apply plugin: 'com.google.gms.google-services'

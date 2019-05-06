@@ -52,5 +52,5 @@
 
     <color name="divider_color">#B32a3550</color>
     <color name="black_dialog">#CC000000</color>
-
+    <color name="text_selected">#888</color>
 </resources>
