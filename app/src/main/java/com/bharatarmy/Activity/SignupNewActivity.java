@@ -153,55 +153,6 @@ public class SignupNewActivity extends AppCompatActivity implements View.OnClick
             }
         };
         imageSwitcherHandler.postDelayed(runnable, 7000); //for initial delay..
-
-
-//        --------View Pager-----------------
-//        activitySignupNewBinding.viewPager.setPageTransformer(true, new FadeOutTransformation());
-//        activitySignupNewBinding.viewPager.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//                return true;
-//            }
-//        });
-//        layouts = new ArrayList<>();
-//        layouts.add(R.drawable.login41);
-//        layouts.add(R.drawable.login_new_2);
-//        layouts.add(R.drawable.login_new_3);
-//
-//        myViewPagerAdapter = new MyImageViewPagerAdapter();
-//        activitySignupNewBinding.viewPager.setAdapter(myViewPagerAdapter);
-//        try {
-//            Field mScroller;
-//            mScroller = ViewPager.class.getDeclaredField("mScroller");
-//            mScroller.setAccessible(true);
-//            FixedSpeedScroller scroller = new FixedSpeedScroller(activitySignupNewBinding.viewPager.getContext());
-//            // scroller.setFixedDuration(5000);
-//            mScroller.set(activitySignupNewBinding.viewPager, scroller);
-//        } catch (NoSuchFieldException e) {
-//        } catch (IllegalArgumentException e) {
-//        } catch (IllegalAccessException e) {
-//        }
-//
-//        final Handler handler = new Handler();
-//        final Runnable Update = new Runnable() {
-//            public void run() {
-//                if (currentPage == layouts.size()) {
-//                    currentPage = 0;
-//                }
-//                activitySignupNewBinding.viewPager.setCurrentItem(currentPage++, true);
-//            }
-//        };
-//
-//        timer = new Timer(); // This will create a new Thread
-//
-//        timer.schedule(new TimerTask() { // task to be scheduled
-//            @Override
-//            public void run() {
-//                handler.post(Update);
-//            }
-//        }, DELAY_MS, PERIOD_MS);
-
-
     }
 
     public void setListiner() {
@@ -235,32 +186,36 @@ public class SignupNewActivity extends AppCompatActivity implements View.OnClick
         if (!strFullName.equalsIgnoreCase("")) {
             if (!strEmail.equalsIgnoreCase("")) {
                 if (Utils.isValidEmailId(strEmail)) {
-                    if (!strMobileno.equalsIgnoreCase("")) {
-//                        if (strMobileno.length()==10) {
-                        if (!strPassword.equalsIgnoreCase("")) {
-                            termconditionDialog();
-//                            if (!strCheck.equalsIgnoreCase("0")) {
-//                                getOtpVerification();
-//                            } else {
-//                                Utils.ping(mContext, "Please accept terms & conditions");
-//                            }
+                    if (strCountrycode.length() > 0) {
+                        if (strMobileno.length() > 0) {
+                            if (Utils.isValidPhoneNumber(strMobileno)) {
+                                boolean status = Utils.validateUsing_libphonenumber(mContext, strCountrycode, strMobileno);
+                                if (status) {
+                                    if (!strPassword.equalsIgnoreCase("")) {
+                                       termconditionDialog();
+                                    } else {
+                                        Utils.ping(mContext, "Password is required");
+                                    }
+                                } else {
+                                    activitySignupNewBinding.mobileEdt.setError("Invalid Phone Number");
+                                }
+                            } else {
+                                activitySignupNewBinding.mobileEdt.setError("Invalid Phone Number");
+                            }
                         } else {
-                            activitySignupNewBinding.userPasswordEdt.setError("Please enter password");
+                            activitySignupNewBinding.mobileEdt.setError("Phone Number is required");
                         }
-//                        }else{
-//                            activitySignupNewBinding.mobileEdt.setError("Please enter 10 digit mobile no");
-//                        }
                     } else {
-                        activitySignupNewBinding.mobileEdt.setError("Please enter mobile no");
+                        Utils.ping(mContext,"Country Code is required");
                     }
                 } else {
-                    activitySignupNewBinding.emailEdt.setError("Please enter valid email address");
+                    activitySignupNewBinding.emailEdt.setError("Invalid Email Address");
                 }
             } else {
-                activitySignupNewBinding.emailEdt.setError("Please enter email address");
+                activitySignupNewBinding.emailEdt.setError("Email Address is required");
             }
         } else {
-            activitySignupNewBinding.fulluserNameEdt.setError("Please enter fullname");
+            activitySignupNewBinding.fulluserNameEdt.setError("Full Name is required");
         }
 
 

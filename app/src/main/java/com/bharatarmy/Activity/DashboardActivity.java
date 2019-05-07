@@ -284,30 +284,6 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                 //Check to see which item was being clicked and perform appropriate action
                 switch (menuItem.getItemId()) {
                     //Replacing the main content with ContentFragment Which is our Inbox View;
-//                    case R.id.nav_home:
-//                        navItemIndex = 0;
-//                        CURRENT_TAG = TAG_HOME;
-//                        break;
-//                    case R.id.nav_fan:
-//                        navItemIndex = 1;
-//                        CURRENT_TAG = TAG_FANS;
-//                        break;
-//                    case R.id.nav_travel:
-//                        navItemIndex = 2;
-//                        CURRENT_TAG = TAG_TRAVEL;
-//                        break;
-//                    case R.id.nav_event:
-//                        navItemIndex = 3;
-//                        CURRENT_TAG = TAG_EVENT;
-//                        break;
-//                    case R.id.nav_ftp:
-//                        navItemIndex = 4;
-//                        CURRENT_TAG = TAG_FTP;
-//                        break;
-//                    case R.id.nav_story:
-//                        navItemIndex = 5;
-//                        CURRENT_TAG = TAG_STORY;
-//                        break;
                     case R.id.nav_history:
                         Fragment fragment = new HistoryFragment();
                         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
@@ -330,14 +306,10 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                         break;
                     case R.id.nav_contactus:
                         navItemIndex = 4;
-                        // launch new intent instead of loading fragment
-//                        startActivity(new Intent(MainActivity.this, PrivacyPolicyActivity.class));
                         drawer.closeDrawers();
                         break;
                     case R.id.nav_rateus:
                         navItemIndex = 5;
-                        // launch new intent instead of loading fragment
-//                        startActivity(new Intent(MainActivity.this, PrivacyPolicyActivity.class));
                         drawer.closeDrawers();
                         break;
                     case R.id.nav_logout:
@@ -361,7 +333,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                                         Utils.setPref(mContext, "Gender", "");
 
                                         Utils.ping(mContext, "You are logout suceessfully");
-                                        Intent ilogin = new Intent(mContext, LoginNewActivity.class);
+                                        Intent ilogin = new Intent(mContext, LoginActivity.class);
                                         startActivity(ilogin);
                                         finish();
 
@@ -435,6 +407,15 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                         R.color.unselected_view));
                 fans_txt.setTextColor(ContextCompat.getColor(mContext,
                         R.color.unselected_view));
+                ftp_img.setColorFilter(ContextCompat.getColor(mContext,
+                        R.color.unselected_view));
+                ftp_txt.setTextColor(ContextCompat.getColor(mContext,
+                        R.color.unselected_view));
+                story_img.setColorFilter(ContextCompat.getColor(mContext,
+                        R.color.unselected_view));
+                story_txt.setTextColor(ContextCompat.getColor(mContext,
+                        R.color.unselected_view));
+
                 navItemIndex = 0;
                 CURRENT_TAG = TAG_HOME;
                 loadHomeFragment();
@@ -449,15 +430,6 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
 
-        // show menu only when home fragment is selected
-//        if (navItemIndex == 0) {
-//            getMenuInflater().inflate(R.menu.main, menu);
-//        }
-//
-//        // when fragment is notifications, load the menu created for notifications
-//        if (navItemIndex == 3) {
-//            getMenuInflater().inflate(R.menu.notifications, menu);
-//        }
         return true;
     }
 

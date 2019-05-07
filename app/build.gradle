@@ -90,5 +90,8 @@ dependencies {
     implementation 'com.nineoldandroids:library:2.4.0'
 
     implementation 'com.github.VRGsoftUA:ParallaxView:1.0'
+
+    implementation 'com.andraskindler.parallaxviewpager:parallaxviewpager:0.2.0'
+    implementation files('D:\\Working Projects\\Android\\BharatArmy_images\\libphonenumber-5.3.jar')
 }
 apply plugin: 'com.google.gms.google-services'

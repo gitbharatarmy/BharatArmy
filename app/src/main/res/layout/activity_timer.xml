@@ -7,18 +7,37 @@
     android:layout_height="match_parent"
     tools:context=".Activity.WalkthorughNewActivity">
 
-    <com.bharatarmy.Utility.ParallaxBackground
-        android:id="@+id/parallax_bg"
+    <HorizontalScrollView
+        android:id="@+id/scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="visible">
-    </com.bharatarmy.Utility.ParallaxBackground>
+        android:scrollbars="none">
 
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/background"
+                android:layout_width="1000dp"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop" />
+        </FrameLayout>
+
+    </HorizontalScrollView>
+    <!--<LinearLayout-->
+        <!--android:id="@+id/bg_linear"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:background="@drawable/dropshadow"-->
+        <!--android:orientation="vertical"-->
+        <!--android:visibility="gone">-->
     <android.support.v4.view.ViewPager
         android:id="@+id/pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
-
+    <!--</LinearLayout>-->
     <LinearLayout
         android:id="@+id/circles"
         android:layout_width="wrap_content"
@@ -44,10 +63,9 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
             android:background="@null"
-            android:gravity="center|bottom"
-            android:paddingBottom="@dimen/_20sdp"
+            android:gravity="center"
             android:text="@string/next"
-            android:textColor="@color/splash_bg_color"
+            android:textColor="@color/heading_bg"
             android:visibility="visible" />
 
         <Button
@@ -60,7 +78,7 @@
             android:background="@null"
             android:gravity="center"
             android:text="@string/skip"
-            android:textColor="@color/splash_bg_color"
+            android:textColor="@color/heading_bg"
             android:visibility="visible" />
 
         <Button
@@ -73,7 +91,7 @@
             android:background="@null"
             android:gravity="center"
             android:text="@string/start"
-            android:textColor="@color/splash_bg_color"
+            android:textColor="@color/heading_bg"
             android:visibility="gone" />
     </RelativeLayout>
 

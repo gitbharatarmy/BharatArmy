@@ -3,42 +3,33 @@ package com.bharatarmy.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.bharatarmy.Fragment.ProductTourFragment;
 import com.bharatarmy.R;
-import com.bharatarmy.R.drawable;
-import com.bharatarmy.Utility.ParallaxBackground;
 import com.nineoldandroids.view.ViewHelper;
-import com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator;
-import java.util.ArrayList;
 
 public class TimerActivity extends AppCompatActivity {
 
     Context mContext;
-    private ArrayList<Integer> layouts;
-
     ViewPager viewPager;
-   ScreenSlidePagerAdapter pagerAdapter;
-    WormDotsIndicator worm_dots_indicator;
+    ScreenSlidePagerAdapter pagerAdapter;
     Button btn_next, btn_skip, btn_done;
     boolean isOpaque = true;
     LinearLayout circles;
-    static final int NUM_PAGES = 5;
-    ParallaxBackground  parallaxBackground;
-
+    static final int NUM_PAGES = 6;
+    HorizontalScrollView scroll_view;
+    ImageView background;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,28 +39,22 @@ public class TimerActivity extends AppCompatActivity {
 
 
         viewPager = (ViewPager) findViewById(R.id.pager);
-        worm_dots_indicator = (WormDotsIndicator) findViewById(R.id.worm_dots_indicator);
         btn_next = (Button) findViewById(R.id.btn_next);
         btn_skip = (Button) findViewById(R.id.btn_skip);
         btn_done = (Button) findViewById(R.id.btn_done);
-       parallaxBackground=findViewById(R.id.parallax_bg);
-
-Drawable drawable=getDrawable(R.drawable.login_new_3);
-
-parallaxBackground.setBackground(drawable);
-
+        scroll_view = (HorizontalScrollView) findViewById(R.id.scroll_view);
+        background = (ImageView) findViewById(R.id.background);
 
         pagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
-        viewPager.setAdapter(pagerAdapter);
-//        worm_dots_indicator.setViewPager(viewPager);
+
         viewPager.setPageTransformer(true, new CrossfadePageTransformer());
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                int totalpages=NUM_PAGES-1; // the total number of pages
-                float finalPercentage=((position+positionOffset)*100/totalpages); // percentage of this page+offset respect the total pages
-                setBackgroundX ((int)finalPercentage);
+
+                int x = (int) ((viewPager.getWidth() * position + positionOffsetPixels) * computeFactor());
+                scroll_view.scrollTo(x, 0);
 
                 if (position == NUM_PAGES - 2 && positionOffset > 0) {
                     if (isOpaque) {
@@ -104,17 +89,22 @@ parallaxBackground.setBackground(drawable);
             public void onPageScrollStateChanged(int state) {
 
             }
-        });
 
+            private float computeFactor() {
+                return (background.getWidth() - viewPager.getWidth()) /
+                        (float) (viewPager.getWidth() * (viewPager.getAdapter().getCount()));
+            }
+
+        });
+        viewPager.setAdapter(pagerAdapter);
         buildCircles();
 
 
         btn_skip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent login = new Intent(mContext, LoginNewActivity.class);
+                Intent login = new Intent(mContext, LoginActivity.class);
                 startActivity(login);
-//                                overridePendingTransition(R.anim.slide_in_left,0);
             }
         });
 
@@ -158,8 +148,10 @@ parallaxBackground.setBackground(drawable);
                 case 4:
                     tp = ProductTourFragment.newInstance(R.layout.welcome_fragment5);
                     break;
+                case 5:
+                    tp = ProductTourFragment.newInstance(R.layout.welcome_fragment6);
+                    break;
             }
-
             return tp;
         }
 
@@ -170,7 +162,6 @@ parallaxBackground.setBackground(drawable);
     }
 
     public class CrossfadePageTransformer implements ViewPager.PageTransformer {
-
         @Override
         public void transformPage(View page, float position) {
             int pageWidth = page.getWidth();
@@ -192,6 +183,7 @@ parallaxBackground.setBackground(drawable);
             View object11 = page.findViewById(R.id.a007);
             View object12 = page.findViewById(R.id.a012);
             View object13 = page.findViewById(R.id.a013);
+            View object14  =page.findViewById(R.id.a015);
 
             if (0 <= position && position < 1) {
                 ViewHelper.setTranslationX(page, pageWidth * -position);
@@ -255,6 +247,9 @@ parallaxBackground.setBackground(drawable);
                 if (object11 != null) {
                     ViewHelper.setTranslationX(object11, (float) (pageWidth / 1.2 * position));
                 }
+                if (object14 != null) {
+                    ViewHelper.setTranslationX(object14, (float) (pageWidth / 1.2 * position));
+                }
 
                 if (object12 != null) {
                     ViewHelper.setTranslationX(object12, (float) (pageWidth / 1.3 * position));
@@ -272,7 +267,7 @@ parallaxBackground.setBackground(drawable);
     }
 
     private void endTutorial() {
-        Intent iLogin = new Intent(mContext, LoginNewActivity.class);
+        Intent iLogin = new Intent(mContext, LoginActivity.class);
         startActivity(iLogin);
         finish();
     }
@@ -298,15 +293,15 @@ parallaxBackground.setBackground(drawable);
         circles = LinearLayout.class.cast(findViewById(R.id.circles));
 
         float scale = getResources().getDisplayMetrics().density;
-        int padding = (int) (5 * scale + 0.5f);
-        int width = 40, height = 40;
+//        int padding = (int) (5 * scale + 0.5f);
+        int width = 30, height = 30;
         for (int i = 0; i < NUM_PAGES - 1; i++) {
             ImageView circle = new ImageView(this);
-            circle.setImageResource(R.drawable.ic_swipe_indicator_white_18dp);
-            circle.setLayoutParams(new LinearLayout.LayoutParams(width, height));
-            circle.setAdjustViewBounds(true);
+            circle.setImageResource(R.drawable.ball_scroll);
+            LinearLayout.LayoutParams parms = new LinearLayout.LayoutParams(width, height);
+            parms.setMargins(7, 5, 0, 0);
+            circle.setLayoutParams(parms);
             circle.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            circle.setPadding(padding, 0, padding, 0);
             circles.addView(circle);
         }
         setIndicator(0);
@@ -317,19 +312,12 @@ parallaxBackground.setBackground(drawable);
             for (int i = 0; i < NUM_PAGES - 1; i++) {
                 ImageView circle = (ImageView) circles.getChildAt(i);
                 if (i == index) {
-                    circle.setColorFilter(getResources().getColor(R.color.splash_bg_color));
+                    circle.setImageResource(R.drawable.ball_scroll_primary);
                 } else {
-                    circle.setColorFilter(getResources().getColor(R.color.text_selected));
+                    circle.setImageResource(R.drawable.ball_scroll);
                 }
             }
         }
-    }
-
-    void setBackgroundX(int scrollPosition) {
-        // now you have to scroll the background layer to this position. You can either adjust the clipping or
-        // the background X coordinate, or a scroll position if you use an image inside an scrollview ...
-        // I personally like to extend View and draw a scaled bitmap with a clipping region (drawBitmap with Rect parameters), so just modifying the X position then calling invalidate will do. See attached source ParallaxBackground
-        parallaxBackground.setPercent(scrollPosition);
     }
 
 }

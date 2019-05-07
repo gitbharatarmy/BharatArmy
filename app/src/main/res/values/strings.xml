@@ -134,4 +134,17 @@
     <string name="welcom_head_04">Edit Excel spreadsheets</string>
     <string name="welcom_content_04">Open, edit, and save Excel files - all within Sheets.</string>
 
+
+
+    <!--Walkthrough String-->
+    <string name="welcome_head_text_01">Bharat Army Merchandise</string>
+    <string name="welcome_content_text_01">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.</string>
+    <string name="welcome_head_text_02">Bharat Ke Saath - Largest Indian Fan Gathering</string>
+    <string name="welcome_content_text_02">The largest Indian Fan Gathering in Manchester, on the eve of the most awaited match of the tournament.</string>
+    <string name="welcome_head_text_03">At the ab jeetega india foundation</string>
+    <string name="welcome_content_text_03">At the Ab Jeetega India Foundation, we aim to build a holistic sporting ecosystem.</string>
+    <string name="welcome_head_text_04">Why Join ?</string>
+    <string name="welcome_content_text_04">Bharat Army Priority for Global Cricket Events Including ICC Tournaments.It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old.</string>
+    <string name="welcome_head_text_05">Bharat Army Travel</string>
+    <string name="welcome_content_text_05">The Bharat Army has become famous in its association with Team India for its passionate and committed support travelling around the world for almost 20 years</string>
 </resources>

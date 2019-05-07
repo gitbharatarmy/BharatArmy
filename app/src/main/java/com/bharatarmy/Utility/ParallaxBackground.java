@@ -16,6 +16,7 @@ public class ParallaxBackground extends View {
 
     private final static String TAG="ParallaxBackground";
     private final static int MODE_PRESCALE=0, MODE_POSTSCALE=1;
+    Context context;
 
     /** How much a image will be scaled  */
     /** Warning: A full screen image on a Samsung 10.1 scaled to 1.5 consumes 6Mb !! So be careful */
@@ -49,6 +50,7 @@ public class ParallaxBackground extends View {
     public ParallaxBackground(Context context) {
         super(context);
         construct(context);
+        this.context=context;
     }
 
     /**
@@ -133,12 +135,36 @@ public class ParallaxBackground extends View {
 
     }
 
+    @Override
+    public void setBackgroundResource(int resid) {
+        Drawable drawable = getResources().getDrawable(resid);
+        if ((!isParallax) || (!(drawable instanceof BitmapDrawable))) {
+            Log.d(TAG, "No parallax is active: Setting background normally.");
+            if (mCurrentBackground != null) {
+                mCurrentBackground.recycle(); // arguably here
+                mCurrentBackground = null;
+            }
+            super.setBackgroundResource(resid);
+            return;
+        }
+            switch (mParallaxMode) {
+
+                case MODE_POSTSCALE:
+                    setBackgroundDrawable_postscale(drawable);
+                    break;
+
+                case MODE_PRESCALE:
+                    setBackgroundDrawable_prescale(drawable);
+                    break;
+            }
+    }
+
     private void setBackgroundDrawable_prescale(Drawable incomingImage) {
 
         Bitmap original=((BitmapDrawable) incomingImage).getBitmap();
 //        Log.v(TAG, "Created bitmap for background : original: "+original.getByteCount()+", w="+original.getWidth()+", h="+original.getHeight());
 
-        mCurrentBackground=Bitmap.createBitmap((int) (this.getWidth()*FACTOR), this.getHeight(), Bitmap.Config.ARGB_8888);
+        mCurrentBackground=Bitmap.createBitmap((int) (2000*FACTOR),2500, Bitmap.Config.ARGB_8888);
         Canvas canvas=new Canvas(mCurrentBackground);
 
         // we crop the original image up and down, as it has been expanded to FACTOR

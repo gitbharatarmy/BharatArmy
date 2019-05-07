@@ -10,6 +10,8 @@ import android.graphics.drawable.Drawable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Patterns;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -24,6 +26,7 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bharatarmy.Models.LogginModel;
 import com.bharatarmy.R;
@@ -33,6 +36,9 @@ import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.Utility.meghWebView;
 import com.bharatarmy.databinding.ActivityMobileVerificationNewBinding;
 import com.bumptech.glide.Glide;
+import com.google.i18n.phonenumbers.NumberParseException;
+import com.google.i18n.phonenumbers.PhoneNumberUtil;
+import com.google.i18n.phonenumbers.Phonenumber;
 import com.rilixtech.Country;
 import com.rilixtech.CountryCodePicker;
 
@@ -46,7 +52,7 @@ public class MobileVerificationNewActivity extends AppCompatActivity implements 
 
     ActivityMobileVerificationNewBinding mobileVerificationNewBinding;
     Context mContext;
-    String phoneNoStr, countryCodeStr,strCheck = "0";
+    String phoneNoStr, countryCodeStr, strCheck = "0";
     AlertDialog alertDialogAndroid;
     meghWebView webView;
     //     WebView webView;
@@ -124,23 +130,33 @@ public class MobileVerificationNewActivity extends AppCompatActivity implements 
         }
     }
 
+
     public void getMobileverificationData() {
         phoneNoStr = mobileVerificationNewBinding.phoneNoEdt.getText().toString();
         countryCodeStr = mobileVerificationNewBinding.codeTxt.getText().toString();
-
-        if (!phoneNoStr.equalsIgnoreCase("")){
-            if (!countryCodeStr.equalsIgnoreCase("")){
-                if (!strCheck.equalsIgnoreCase("0")){
-                    getOtpVerification();
-                }else{
-                    Utils.ping(mContext,"Please accept the privacy policy.");
+        if (countryCodeStr.length() > 0) {
+            if (phoneNoStr.length() > 0) {
+                if (Utils.isValidPhoneNumber(phoneNoStr)) {
+                    boolean status = Utils.validateUsing_libphonenumber(mContext, countryCodeStr, phoneNoStr);
+                    if (status) {
+                        if (!strCheck.equalsIgnoreCase("0")) {
+                             getOtpVerification ();
+                        } else {
+                            Utils.ping(mContext, "Please accept the privacy policy.");
+                        }
+                    } else {
+                        mobileVerificationNewBinding.phoneNoEdt.setError("Invalid Phone Number");
+                    }
+                } else {
+                    mobileVerificationNewBinding.phoneNoEdt.setError("Invalid Phone Number");
                 }
-            }else{
-                Utils.ping(mContext,"Please enter the country code.");
+            } else {
+                mobileVerificationNewBinding.phoneNoEdt.setError("Phone Number is required");
             }
-        }else{
-            mobileVerificationNewBinding.phoneNoEdt.setError("Please enter phone no.");
+        } else {
+            mobileVerificationNewBinding.codeTxt.setError("Country Code is required");
         }
+
     }
 
     public void getOtpVerification() {
@@ -211,7 +227,7 @@ public class MobileVerificationNewActivity extends AppCompatActivity implements 
         Window window = alertDialogAndroid.getWindow();
         window.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         WindowManager.LayoutParams wlp = window.getAttributes();
-        window.setGravity( Gravity.LEFT | Gravity.TOP );
+        window.setGravity(Gravity.LEFT | Gravity.TOP);
         wlp.x = 1;
         wlp.y = 100;
         wlp.flags = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
@@ -276,4 +292,6 @@ public class MobileVerificationNewActivity extends AppCompatActivity implements 
             image.setVisibility(View.GONE);
         }
     }
+
+
 }

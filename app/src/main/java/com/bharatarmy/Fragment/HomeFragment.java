@@ -169,7 +169,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             Log.d("Todaytime", dateToStr);
             SimpleDateFormat formatendDate = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss a");
 
-            endDate = formatendDate.parse("15/05/2019 04:15:00 PM");
+            endDate = formatendDate.parse("30/05/2019 04:15:00 PM");
 
 
             final Date finalEndDate = endDate;

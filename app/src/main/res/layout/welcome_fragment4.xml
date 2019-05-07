@@ -6,17 +6,6 @@
     android:clipChildren="false"
     android:background="@null">
 
-    <ImageView
-        android:id="@+id/bg_image"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="@drawable/login_new_2"
-        android:scaleType="centerCrop"
-        android:visibility="gone"/>
-    <!--<RelativeLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:background="@drawable/dropshadow">-->
     <FrameLayout
         android:id="@+id/images"
         android:layout_width="@dimen/welcome_images_size"
@@ -52,29 +41,32 @@
 
     <TextView
         android:id="@+id/heading"
-        android:text="@string/welcom_head_04"
+        android:text="@string/welcome_head_text_04"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/images"
-        android:layout_alignLeft="@id/images"
-        android:layout_marginTop="24dp"
-        android:layout_marginLeft="@dimen/welcome_text_margin"
-        android:layout_marginRight="@dimen/welcome_text_margin"
+        android:layout_marginTop="@dimen/_44sdp"
+        android:layout_marginRight="@dimen/margin_right"
+        android:layout_marginLeft="@dimen/margin_left"
+        android:maxLines="2"
+        android:gravity="center"
         android:textAppearance="@style/WelcomeHeadingAppearance"
         style="@style/title_text_font"/>
 
     <TextView
         android:id="@+id/content"
-        android:text="@string/welcom_content_04"
+        android:text="@string/welcome_content_text_04"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@id/images"
+        android:layout_marginRight="@dimen/margin_right"
+        android:layout_marginLeft="@dimen/margin_left"
         android:layout_below="@+id/heading"
         android:layout_marginTop="8dp"
-        android:layout_marginLeft="@dimen/welcome_text_margin"
-        android:layout_marginRight="@dimen/welcome_text_margin"
         android:minHeight="@dimen/welcome_content_min_height"
+        android:maxLines="3"
+        android:layout_centerHorizontal="true"
         android:textAppearance="@style/WelcomeContentAppearance"
+        android:justificationMode="inter_word"
         style="@style/text_font"/>
 
 <!--</RelativeLayout>-->

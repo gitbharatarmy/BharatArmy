@@ -2,6 +2,7 @@ package com.bharatarmy.Adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bharatarmy.Activity.FTPDetailsActivity;
 import com.bharatarmy.Models.UpcommingDashboardModel;
 import com.bharatarmy.R;
 import com.bumptech.glide.Glide;
@@ -79,26 +81,19 @@ public class UpcomingDashboardAdapter extends RecyclerView.Adapter<UpcomingDashb
 
 
 
-        UpcommingDashboardModel upcomingData = upcomingDataList.get(position);
+        final UpcommingDashboardModel upcomingData = upcomingDataList.get(position);
 
         holder.header_txt.setText(upcomingData.getCategoryName());
         holder.army_upcoming_header_txt.setText(upcomingData.getTourName());
         holder.army_upcoming_sub_txt.setText(upcomingData.getSubCategoryId());
         holder.location_txt.setText(upcomingData.getTourLocation());
         holder.army_upcoming_pra_txt.setText(upcomingData.getTourShortDescription());
-//        Picasso.with(mcontext)
-//                .load(upcomingData.getFutureTourThumbImageURL())
-//                .into(holder.banner_img);
 
         Picasso.with(mcontext)
                 .load(upcomingData.getFutureTourThumbImageURL())
                 .placeholder(R.drawable.progress_animation)
                 .into(holder.banner_img);
 
-
-//        Glide.with(mcontext)
-//                .load("https://i.stack.imgur.com/h6viz.gif")
-//                .into(holder.banner_img);
 
         if (!upcomingData.getStr1().equalsIgnoreCase("")) {
             holder.linear1_txt.setVisibility(View.VISIBLE);
@@ -128,7 +123,19 @@ public class UpcomingDashboardAdapter extends RecyclerView.Adapter<UpcomingDashb
         } else {
             holder.linear3_txt.setVisibility(View.GONE);
         }
-
+  holder.army_upcoming_header_txt.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+          Intent ftpIntent =new Intent(mcontext, FTPDetailsActivity.class);
+          ftpIntent.putExtra("ftpmaintitle",upcomingData.getTourName());
+          ftpIntent.putExtra("ftpdate",upcomingData.getDateAdded());
+          ftpIntent.putExtra("ftpshortdesc",upcomingData.getTourShortDescription());
+          ftpIntent.putExtra("ftptourdesc",upcomingData.getTourDescription());
+          ftpIntent.putExtra("ftpbannerimg",upcomingData.getFutureTourThumbImageURL());
+          ftpIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+          mcontext.startActivity(ftpIntent);
+      }
+  });
 
     }
 

@@ -23,7 +23,9 @@ import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.telephony.TelephonyManager;
+import android.text.TextUtils;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -37,6 +39,9 @@ import android.widget.Toast;
 import com.bharatarmy.BuildConfig;
 import com.bharatarmy.R;
 import com.bumptech.glide.Glide;
+import com.google.i18n.phonenumbers.NumberParseException;
+import com.google.i18n.phonenumbers.PhoneNumberUtil;
+import com.google.i18n.phonenumbers.Phonenumber;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -293,5 +298,35 @@ public class Utils {
             return null;
         }
 
+    }
+
+
+    public static boolean isValidPhoneNumber(CharSequence phoneNumber) {
+        if (!TextUtils.isEmpty(phoneNumber)) {
+            return Patterns.PHONE.matcher(phoneNumber).matches();
+        }
+        return false;
+    }
+
+    public static boolean validateUsing_libphonenumber(Context context,String countryCode, String phNumber) {
+        PhoneNumberUtil phoneNumberUtil = PhoneNumberUtil.getInstance();
+        String isoCode = phoneNumberUtil.getRegionCodeForCountryCode(Integer.parseInt(countryCode));
+        Phonenumber.PhoneNumber phoneNumber = null;
+        try {
+            //phoneNumber = phoneNumberUtil.parse(phNumber, "IN");  //if you want to pass region code
+            phoneNumber = phoneNumberUtil.parse(phNumber, isoCode);
+        } catch (NumberParseException e) {
+            System.err.println(e);
+        }
+
+        boolean isValid = phoneNumberUtil.isValidNumber(phoneNumber);
+        if (isValid) {
+            String internationalFormat = phoneNumberUtil.format(phoneNumber, PhoneNumberUtil.PhoneNumberFormat.INTERNATIONAL);
+//            Toast.makeText(context, "Phone Number is Valid " + internationalFormat, Toast.LENGTH_LONG).show();
+            return true;
+        } else {
+//            Toast.makeText(context, "Phone Number is Invalid " + phoneNumber, Toast.LENGTH_LONG).show();
+            return false;
+        }
     }
 }

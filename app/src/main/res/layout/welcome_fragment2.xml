@@ -5,17 +5,7 @@
     android:layout_height="fill_parent"
     android:clipChildren="false"
     android:background="@null">
-    <ImageView
-        android:id="@+id/bg_image"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="@drawable/login_new_1"
-        android:scaleType="centerCrop"
-        android:visibility="gone"/>
-    <!--<RelativeLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:background="@drawable/dropshadow">-->
+
     <FrameLayout
         android:id="@id/images"
         android:layout_width="@dimen/welcome_images_size"
@@ -34,11 +24,15 @@
             android:visibility="gone"/>
         <ImageView
             android:id="@+id/a015"
-            android:layout_width="320dp"
-            android:layout_height="320dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="48dp"
+            android:layout_marginRight="25dp"
             android:scaleType="centerInside"
-            android:src="@drawable/image2_a_01"
-            android:layout_gravity="right|center_vertical"/>
+            android:tint="@color/heading_bg"
+            android:src="@drawable/bharatkesath"/>
         <ImageView
             android:id="@+id/a003"
             android:layout_width="80dp"
@@ -47,7 +41,8 @@
             android:src="@drawable/image2_b_01"
             android:layout_marginLeft="56dp"
             android:layout_marginBottom="24dp"
-            android:layout_gravity="left|bottom"/>
+            android:layout_gravity="left|bottom"
+            android:visibility="gone"/>
 
         <ImageView
             android:id="@+id/a004"
@@ -57,7 +52,8 @@
             android:layout_marginRight="64dp"
             android:scaleType="centerInside"
             android:src="@drawable/image2_b_02"
-            android:layout_gravity="right|top"/>
+            android:layout_gravity="right|top"
+            android:visibility="gone"/>
         <ImageView
             android:id="@+id/a005"
             android:layout_width="80dp"
@@ -66,7 +62,8 @@
             android:layout_marginBottom="114dp"
             android:layout_marginRight="40dp"
             android:src="@drawable/image2_b_03"
-            android:layout_gravity="right|bottom"/>
+            android:layout_gravity="right|bottom"
+            android:visibility="gone"/>
         <ImageView
             android:id="@+id/a006"
             android:layout_width="80dp"
@@ -75,36 +72,38 @@
             android:layout_marginTop="112dp"
             android:layout_marginLeft="8dp"
             android:src="@drawable/image2_b_04"
-            android:layout_gravity="left|top"/>
+            android:layout_gravity="left|top"
+            android:visibility="gone"/>
     </FrameLayout>
 
     <TextView
         android:id="@id/heading"
-        android:text="@string/welcom_head_02"
+        android:text="@string/welcome_head_text_02"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/images"
-        android:layout_alignLeft="@id/images"
-        android:layout_marginTop="24dp"
-        android:layout_marginLeft="@dimen/welcome_text_margin"
-        android:layout_marginRight="@dimen/welcome_text_margin"
-        android:textColor="@color/splash_bg_color"
+        android:layout_marginRight="@dimen/margin_right"
+        android:layout_marginLeft="@dimen/margin_left"
+        android:layout_marginTop="@dimen/_44sdp"
+        android:maxLines="2"
         android:textAppearance="@style/WelcomeHeadingAppearance"
+        android:gravity="center"
         style="@style/title_text_font"/>
 
     <TextView
         android:id="@id/content"
-        android:text="@string/welcom_content_02"
+        android:text="@string/welcome_content_text_02"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@id/images"
+        android:layout_marginRight="@dimen/margin_right"
+        android:layout_marginLeft="@dimen/margin_left"
         android:layout_below="@+id/heading"
         android:layout_marginTop="8dp"
-        android:layout_marginLeft="@dimen/welcome_text_margin"
-        android:layout_marginRight="@dimen/welcome_text_margin"
         android:minHeight="@dimen/welcome_content_min_height"
-        android:textColor="@color/splash_bg_color"
+        android:maxLines="3"
         android:textAppearance="@style/WelcomeContentAppearance"
+        android:layout_centerHorizontal="true"
+        android:justificationMode="inter_word"
         style="@style/text_font"/>
     <!--</RelativeLayout>-->
 </RelativeLayout>

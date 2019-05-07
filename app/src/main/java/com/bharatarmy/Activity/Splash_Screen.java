@@ -77,7 +77,7 @@ ImageView imageView;
                         startActivity(i);
                         finish();
                     } else {
-                        Intent i = new Intent(Splash_Screen.this, WalkThrough.class);
+                        Intent i = new Intent(Splash_Screen.this, TimerActivity.class);
                         startActivity(i);
                         finish();
                     }

@@ -390,7 +390,7 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
         if (!fullNameStr.equalsIgnoreCase("")) {
             if (!countryCodeStr.equalsIgnoreCase("")) {
                 if (!phoneNoStr.equalsIgnoreCase("")) {
-                    if (!genderStr.equalsIgnoreCase("")) {
+                    if (!genderStr.equalsIgnoreCase("0")) {
                         getUpdateProfile();
                     } else {
                         Utils.ping(mContext, "Please select gender");

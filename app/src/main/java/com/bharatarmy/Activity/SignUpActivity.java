@@ -3,18 +3,34 @@ package com.bharatarmy.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.graphics.Bitmap;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.bharatarmy.Models.LogginModel;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.ApiHandler;
 import com.bharatarmy.Utility.AppConfiguration;
 import com.bharatarmy.Utility.Utils;
+import com.bharatarmy.Utility.meghWebView;
 import com.bharatarmy.databinding.ActivitySignUpBinding;
+import com.bumptech.glide.Glide;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -27,7 +43,11 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     ActivitySignUpBinding activitySignUpBinding;
     Context mContext;
     String strFullName, strEmail, strCountrycode, strMobileno, strPassword, strCheck = "0";
-
+    AlertDialog alertDialogAndroid;
+    Button agree_btn;
+    meghWebView webView;
+    TextView close_btn;
+    ImageView image;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,32 +89,42 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         if (!strFullName.equalsIgnoreCase("")) {
             if (!strEmail.equalsIgnoreCase("")) {
                 if (Utils.isValidEmailId(strEmail)) {
-                    if (!strMobileno.equalsIgnoreCase("")) {
-//                        if (strMobileno.length()==10) {
-                        if (!strPassword.equalsIgnoreCase("")) {
-                            if (!strCheck.equalsIgnoreCase("0")) {
-                                getOtpVerification();
+                    if (strCountrycode.length() > 0) {
+                        if (strMobileno.length() > 0) {
+                            if (Utils.isValidPhoneNumber(strMobileno)) {
+                                boolean status = Utils.validateUsing_libphonenumber(mContext, strCountrycode, strMobileno);
+                                if (status) {
+                                    if (!strPassword.equalsIgnoreCase("")) {
+                                        if (!strCheck.equalsIgnoreCase("0")){
+                                            getOtpVerification();
+                                        }else{
+                                            Utils.ping(mContext,"Check the privacy policy");
+                                        }
+                                    } else {
+                                      activitySignUpBinding.userPasswordEdt.setError("Password is required");
+                                    }
+                                } else {
+                                    activitySignUpBinding.mobileEdt.setError("Invalid Phone Number");
+                                }
                             } else {
-                                Utils.ping(mContext, "Please accept terms & conditions");
+                                activitySignUpBinding.mobileEdt.setError("Invalid Phone Number");
                             }
                         } else {
-                            activitySignUpBinding.userPasswordEdt.setError("Please enter password");
+                            activitySignUpBinding.mobileEdt.setError("Phone Number is required");
                         }
-//                        }else{
-//                            activitySignUpBinding.mobileEdt.setError("Please enter 10 digit mobile no");
-//                        }
                     } else {
-                        activitySignUpBinding.mobileEdt.setError("Please enter mobile no");
+                        Utils.ping(mContext,"Country Code is required");
                     }
                 } else {
-                    activitySignUpBinding.emailEdt.setError("Please enter valid email address");
+                    activitySignUpBinding.emailEdt.setError("Invalid Email Address");
                 }
             } else {
-                activitySignUpBinding.emailEdt.setError("Please enter email address");
+                activitySignUpBinding.emailEdt.setError("Email Address is required");
             }
         } else {
-            activitySignUpBinding.fulluserNameEdt.setError("Please enter fullname");
+            activitySignUpBinding.fulluserNameEdt.setError("Full Name is required");
         }
+
 
 
     }
@@ -104,11 +134,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.term_condition_txt:
-                Intent webviewIntent = new Intent(mContext, TermConditionActivity.class);
-                webviewIntent.putExtra("Story Heading", "Terms & Conditions");
-                webviewIntent.putExtra("StroyUrl", "https://www.bharatarmy.com/legal/termsofuse");
-                webviewIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                mContext.startActivity(webviewIntent);
+                termconditionDialog();
                 break;
             case R.id.signup_btn:
                 getDataValue();
@@ -179,5 +205,76 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         map.put("CountryCode", strCountrycode);
         return map;
     }
+    public void termconditionDialog() {
+        LayoutInflater lInflater = (LayoutInflater) mContext
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        final View layout = lInflater.inflate(R.layout.mobile_term_condition, null);
 
+        AlertDialog.Builder alertDialogBuilderUserInput = new AlertDialog.Builder(mContext);
+        alertDialogBuilderUserInput.setView(layout);
+
+        alertDialogAndroid = alertDialogBuilderUserInput.create();
+        alertDialogAndroid.setCancelable(false);
+        alertDialogAndroid.show();
+        Window window = alertDialogAndroid.getWindow();
+        window.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        WindowManager.LayoutParams wlp = window.getAttributes();
+        window.setGravity(Gravity.LEFT | Gravity.TOP);
+        wlp.x = 1;
+        wlp.y = 100;
+        wlp.flags = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
+        window.setAttributes(wlp);
+        alertDialogAndroid.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        alertDialogAndroid.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT,
+                WindowManager.LayoutParams.MATCH_PARENT);
+
+        Drawable d = new ColorDrawable(getResources().getColor(R.color.black_dialog));
+//        d.setAlpha(100);
+        alertDialogAndroid.getWindow().setBackgroundDrawable(d);
+        alertDialogAndroid.show();
+
+        webView = (meghWebView) layout.findViewById(R.id.webView);
+        image = (ImageView) layout.findViewById(R.id.image);
+        agree_btn = (Button) layout.findViewById(R.id.agree_btn);
+//        close_btn = (Button) layout.findViewById(R.id.close_btn);
+        close_btn = (TextView) layout.findViewById(R.id.close_btn1);
+        Glide.with(mContext).load(R.drawable.logo).into(image);
+        image.setVisibility(View.VISIBLE);
+
+        webView.setWebViewClient(new MyWebViewClient());
+        webView.getSettings().setJavaScriptEnabled(true);
+        webView.loadUrl(AppConfiguration.TERMSURL);
+        webView.setVerticalScrollBarEnabled(true);
+        webView.setOnClickListener(this);
+
+        close_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialogAndroid.dismiss();
+            }
+        });
+    }
+
+    public class MyWebViewClient extends WebViewClient {
+        @Override
+        public void onPageStarted(WebView view, String url, Bitmap favicon) {
+            // TODO Auto-generated method stub
+            super.onPageStarted(view, url, favicon);
+        }
+
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            // TODO Auto-generated method stub
+            image.setVisibility(View.VISIBLE);
+            view.loadUrl(url);
+            return true;
+        }
+
+        @Override
+        public void onPageFinished(WebView view, String url) {
+            // TODO Auto-generated method stub
+            super.onPageFinished(view, url);
+            image.setVisibility(View.GONE);
+        }
+    }
 }

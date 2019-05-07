@@ -26,7 +26,7 @@
                 <ImageView
                     android:id="@+id/ftp_detail_banner_img"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_170sdp"
+                    android:layout_height="@dimen/_200sdp"
                     android:scaleType="centerCrop"
                     android:src="@drawable/header_banner" />
 
