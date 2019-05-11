@@ -58,22 +58,14 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
 
     // tags used to attach the fragments
     private static final String TAG_HOME = "home";
-    private static final String TAG_FANS = "fans";
-    private static final String TAG_TRAVEL = "travel";
-    private static final String TAG_EVENT = "event";
-    private static final String TAG_FTP = "ftp";
-    private static final String TAG_STORY = "story";
-    private static final String TAG_HISTORY = "history";
-    private static final String TAG_ABOUTUS = "aboutus";
-    private static final String TAG_CONTACTUS = "contactus";
-    private static final String TAG_RATEUS = "rateus";
-    private static final String TAG_LOGOUT = "logout";
     public static String CURRENT_TAG = TAG_HOME;
 
 
     //  flag to load home fragment when user presses back key
     private boolean shouldLoadHomeFragOnBackPress = true;
     private Handler mHandler;
+
+    private boolean fansclick=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,24 +93,6 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
             CURRENT_TAG = TAG_HOME;
             loadHomeFragment();
         }
-//        if (AppConfiguration.position == 0) {
-//            displayView(0);
-//        } else if (AppConfiguration.position == 1) {
-//            displayView(AppConfiguration.position);
-//        } else if (AppConfiguration.position == 2) {
-//            displayView(AppConfiguration.position);
-//        } else if (AppConfiguration.position == 3) {
-//            displayView(AppConfiguration.position);
-//        }
-
-
-//        drawer.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
-//        toggle = new ActionBarDrawerToggle(
-//                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-////        hide the drawericon
-////        toggle.setDrawerIndicatorEnabled(true);
-//        drawer.addDrawerListener(toggle);
-//        toggle.syncState();
     }
 
     public void init() {
@@ -166,6 +140,9 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         fans_linear.setOnClickListener(this);
         story_linear.setOnClickListener(this);
         ftp_linear.setOnClickListener(this);
+
+
+
     }
 
     private void loadNavHeader() {
@@ -240,23 +217,6 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                 // home
                 HomeFragment homeFragment = new HomeFragment();
                 return homeFragment;
-//            case 1:
-//                // FANS
-//                FansFragment fansFragment = new FansFragment();
-//                return fansFragment;
-//            case 6:
-//                //  HISTORY fragment
-//                HistoryFragment historyFragment = new HistoryFragment();
-//                return historyFragment;
-//            case 3:
-//                // notifications fragment
-//                NotificationsFragment notificationsFragment = new NotificationsFragment();
-//                return notificationsFragment;
-//
-//            case 4:
-//                // settings fragment
-//                SettingsFragment settingsFragment = new SettingsFragment();
-//                return settingsFragment;
             default:
                 return new HomeFragment();
         }
@@ -578,6 +538,10 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                 navItemIndex = 3;
                 fragment = new FansFragment();
                 loadFragment(fragment);
+                fans_linear.setClickable(false);
+                story_linear.setClickable(true);
+                ftp_linear.setClickable(true);
+                home1_linear.setClickable(true);
                 break;
             case R.id.profile_image:
                 navItemIndex = 2;
@@ -587,6 +551,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                 break;
 
             case R.id.home1_linear:
+                fansclick=true;
                 fans_img.setColorFilter(ContextCompat.getColor(mContext,
                         R.color.unselected_view));
                 fans_txt.setTextColor(ContextCompat.getColor(mContext,
@@ -604,8 +569,13 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                 navItemIndex = 0;
                 CURRENT_TAG = TAG_HOME;
                 loadHomeFragment();
+                fans_linear.setClickable(true);
+                story_linear.setClickable(true);
+                ftp_linear.setClickable(true);
+                home1_linear.setClickable(false);
                 break;
             case R.id.story_linear:
+                fansclick=true;
                 story_img.setColorFilter(ContextCompat.getColor(mContext,
                         R.color.heading_bg));
                 story_txt.setTextColor(ContextCompat.getColor(mContext,
@@ -624,8 +594,13 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                 navItemIndex = 6;
                 fragment = new StoryFragment();
                 loadFragment(fragment);
+                fans_linear.setClickable(true);
+                story_linear.setClickable(false);
+                ftp_linear.setClickable(true);
+                home1_linear.setClickable(true);
                 break;
             case R.id.ftp_linear:
+                fansclick=true;
                 ftp_img.setColorFilter(ContextCompat.getColor(mContext,
                         R.color.heading_bg));
                 ftp_txt.setTextColor(ContextCompat.getColor(mContext,
@@ -643,6 +618,10 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                 navItemIndex = 7;
                 fragment = new FTPFragment();
                 loadFragment(fragment);
+                fans_linear.setClickable(true);
+                story_linear.setClickable(true);
+                ftp_linear.setClickable(false);
+                home1_linear.setClickable(true);
                 break;
         }
     }

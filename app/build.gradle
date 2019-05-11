@@ -93,5 +93,7 @@ dependencies {
 
     implementation 'com.andraskindler.parallaxviewpager:parallaxviewpager:0.2.0'
     implementation files('D:\\Working Projects\\Android\\BharatArmy_images\\libphonenumber-5.3.jar')
+
+    implementation 'com.google.android:flexbox:1.1.0'
 }
 apply plugin: 'com.google.gms.google-services'

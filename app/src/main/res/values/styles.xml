@@ -9,6 +9,12 @@
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
     </style>
 
+    <style name="MyThemeVideo" parent="Theme.AppCompat.Light">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">false</item>
+
+    </style>
+
     <style name="text_font">
         <item name="android:fontFamily">@font/thesansplain</item>
     </style>
@@ -38,12 +44,6 @@
     </style>
 
     <style name="AppTheme.NoActionBar">
-        <!--<item name="windowActionBar">false</item>-->
-        <!--<item name="windowNoTitle">true</item>-->
-        <!--<item name="colorAccent">@android:color/transparent</item>-->
-        <!--<item name="android:statusBarColor">@android:color/transparent</item>-->
-        <!--<item name="colorPrimary">@android:color/transparent</item>-->
-        <!--<item name="android:windowFullscreen">true</item>-->
         <item name="android:windowTranslucentNavigation">false</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowActionBar">true</item>
@@ -100,6 +100,9 @@
     <style name="WelcomeContentAppearance" parent="@android:style/TextAppearance">
         <item name="android:textSize">@dimen/welcome_content</item>
         <item name="android:textColor">@color/heading_bg</item>
+    </style>
+    <style name="ToolbarTitle" parent="@style/TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textSize">20sp</item>
     </style>
 </resources>
 

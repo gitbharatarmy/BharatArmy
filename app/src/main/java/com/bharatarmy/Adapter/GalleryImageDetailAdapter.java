@@ -20,6 +20,7 @@ import com.bharatarmy.Models.ImageMainModel;
 import com.bharatarmy.R;
 
 import com.bumptech.glide.Glide;
+import com.squareup.picasso.Picasso;
 
 
 import java.util.ArrayList;
@@ -79,16 +80,16 @@ public class GalleryImageDetailAdapter extends RecyclerView.Adapter<GalleryImage
     public void onBindViewHolder(GalleryImageDetailAdapter.MyViewHolder holder, int position) {
 
 //        ImageDetailModel item= imageList.get(position);
-        Glide.with(mContext)
-                .load(imageList.get(position))
-                .placeholder(R.drawable.progress_animation)
-                .into(holder.galleryimageListImg);
+//        Glide.with(mContext)
+//                .load(imageList.get(position))
+//                .placeholder(R.drawable.progress_animation)
+//                .into(holder.galleryimageListImg);
 
-        Glide.with(mContext)
+
+        Picasso.with(mContext)
                 .load(imageList.get(position))
                 .placeholder(R.drawable.progress_animation)
                 .into(holder.fullimage);
-
         holder.fullimage.getPositionAnimator().enter(holder.galleryimageListImg, false);
 
 

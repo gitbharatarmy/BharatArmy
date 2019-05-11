@@ -23,7 +23,8 @@
         android:label="@string/app_name"
         android:roundIcon="@drawable/app_logo"
         android:supportsRtl="true">
-        <activity android:name=".Activity.MainActivity"
+        <activity
+            android:name=".Activity.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
 
@@ -31,22 +32,16 @@
         <activity
             android:name=".Activity.WalkthorughNewActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
-
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".Activity.TimerActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" >
-
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".Activity.SignupNewActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden|adjustResize" >
-
-        </activity>
+            android:windowSoftInputMode="stateHidden|adjustResize"></activity>
         <activity
             android:name=".Activity.LoginNewActivity"
             android:screenOrientation="portrait"
@@ -55,24 +50,18 @@
         <activity
             android:name=".Activity.MobileVerificationNewActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" >
-
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".Activity.FTPDetailsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".Activity.BaseActivity"
-            android:screenOrientation="portrait" />
+            android:configChanges="orientation|screenSize|keyboardHidden"/>
         <activity
             android:name=".Activity.VideoDetailActivity"
-            android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:theme="@style/AppTheme" />
-        <activity
-            android:name=".Activity.DemoActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Activity.GalleryImageDetailActivity"
             android:screenOrientation="portrait"
@@ -112,7 +101,7 @@
         <activity
             android:name=".Activity.OTPActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".Activity.ImagePickerActivity"
             android:screenOrientation="portrait"

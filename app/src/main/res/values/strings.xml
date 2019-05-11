@@ -135,7 +135,6 @@
     <string name="welcom_content_04">Open, edit, and save Excel files - all within Sheets.</string>
 
 
-
     <!--Walkthrough String-->
     <string name="welcome_head_text_01">Bharat Army Merchandise</string>
     <string name="welcome_content_text_01">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.</string>
@@ -147,4 +146,20 @@
     <string name="welcome_content_text_04">Bharat Army Priority for Global Cricket Events Including ICC Tournaments.It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old.</string>
     <string name="welcome_head_text_05">Bharat Army Travel</string>
     <string name="welcome_content_text_05">The Bharat Army has become famous in its association with Team India for its passionate and committed support travelling around the world for almost 20 years</string>
+
+
+    <!--VideoModule String-->
+    <string name="playback_speed_0_25">0.25x</string>
+    <string name="playback_speed_0_5">0.5x</string>
+    <string name="playback_speed_0_75">0.75x</string>
+    <string name="playback_speed_1">1x</string>
+    <string name="playback_speed_1_25">1.25x</string>
+    <string name="playback_speed_1_5">1.5x</string>
+    <string name="playback_speed_2">2x</string>
+
+    <string name="cd_rewind_media_button">Rewind media button</string>
+    <string name="cd_pause_media_button">Pause media button</string>
+    <string name="cd_forward_media_button">Forward media button</string>
+    <string name="cd_fullscreen_media_button">Fullscreen media button</string>
+    <string name="cd_playback_speed_button">Playback speed button</string>
 </resources>

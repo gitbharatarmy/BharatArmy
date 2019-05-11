@@ -200,4 +200,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         map.put("TokenId", Utils.getPref(mContext, "registration_id"));
         return map;
     }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+        super.onBackPressed();
+    }
 }

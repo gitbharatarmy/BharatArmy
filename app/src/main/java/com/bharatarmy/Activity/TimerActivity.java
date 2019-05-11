@@ -319,5 +319,4 @@ public class TimerActivity extends AppCompatActivity {
             }
         }
     }
-
 }

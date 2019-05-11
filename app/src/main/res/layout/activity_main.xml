@@ -1,78 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activity.WalkthorughNewActivity">
+    tools:context=".Activity.MainActivity">
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="centerCrop"
-        android:src="@drawable/login_new_2"/>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rvPosters"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="3dp"
+        android:layout_marginEnd="3dp"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="3dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/pager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-
-    <LinearLayout
-        android:id="@+id/circles"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="@dimen/_65sdp"
-        android:orientation="horizontal">
-
-    </LinearLayout>
-
-    <RelativeLayout
-        android:id="@+id/bottom_rel"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/_50sdp"
-        android:layout_alignParentBottom="true">
-
-        <Button
-            android:id="@+id/btn_next"
-            style="@style/title_text_font"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/_50sdp"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true"
-            android:background="@null"
-            android:gravity="center|bottom"
-            android:paddingBottom="@dimen/_20sdp"
-            android:text="@string/next"
-            android:textColor="@color/splash_bg_color"
-            android:visibility="visible" />
-
-        <Button
-            android:id="@+id/btn_skip"
-            style="@style/title_text_font"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/_50sdp"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentBottom="true"
-            android:background="@null"
-            android:gravity="center"
-            android:text="@string/skip"
-            android:textColor="@color/splash_bg_color"
-            android:visibility="visible" />
-
-        <Button
-            android:id="@+id/btn_done"
-            style="@style/title_text_font"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/_50sdp"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true"
-            android:background="@null"
-            android:gravity="center"
-            android:text="@string/start"
-            android:textColor="@color/splash_bg_color"
-            android:visibility="gone" />
-    </RelativeLayout>
-</RelativeLayout>
+</android.support.constraint.ConstraintLayout>

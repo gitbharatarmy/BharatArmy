@@ -139,7 +139,6 @@ ImageView imageView;
                             finish();
                         }
                     }
-
                 }
             }
 

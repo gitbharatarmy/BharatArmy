@@ -28,7 +28,7 @@
                     android:id="@+id/play_img"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/ic_play_button" />
+                    android:src="@drawable/ic_play_video" />
             </LinearLayout>
         </RelativeLayout>
 </LinearLayout>

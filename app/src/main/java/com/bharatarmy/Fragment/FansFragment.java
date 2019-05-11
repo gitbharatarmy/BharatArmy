@@ -39,6 +39,8 @@ public class FansFragment extends Fragment implements ViewPager.OnPageChangeList
     private Context mContext;
     FragmentFansBinding fragmentFansBinding;
     FansPageAdapter adapter;
+
+
     public FansFragment() {
         // Required empty public constructor
     }
@@ -79,7 +81,7 @@ public class FansFragment extends Fragment implements ViewPager.OnPageChangeList
 
         rootView = fragmentFansBinding.getRoot();
         mContext = getActivity().getApplicationContext();
-        AppConfiguration.position=3;
+        AppConfiguration.position = 3;
         return rootView;
     }
 
@@ -92,15 +94,19 @@ public class FansFragment extends Fragment implements ViewPager.OnPageChangeList
     }
 
     public void setDataValue() {
-
-        fragmentFansBinding.tabLayoutFans.addTab(fragmentFansBinding.tabLayoutFans.newTab().setText("IMAGE"), true);
+        fragmentFansBinding.tabLayoutFans.addTab(fragmentFansBinding.tabLayoutFans.newTab().setText("ALBUM"),true);
+        fragmentFansBinding.tabLayoutFans.addTab(fragmentFansBinding.tabLayoutFans.newTab().setText("IMAGE"));
         fragmentFansBinding.tabLayoutFans.addTab(fragmentFansBinding.tabLayoutFans.newTab().setText("VIDEO"));
+
+        fragmentFansBinding.tabLayoutFans.getTabAt(0).setIcon(R.drawable.ic_album_icon);
+        fragmentFansBinding.tabLayoutFans.getTabAt(1).setIcon(R.drawable.ic_image_icon);
+        fragmentFansBinding.tabLayoutFans.getTabAt(2).setIcon(R.drawable.ic_video_icon);
         fragmentFansBinding.tabLayoutFans.setTabMode(TabLayout.MODE_FIXED);
         fragmentFansBinding.tabLayoutFans.setTabGravity(TabLayout.GRAVITY_FILL);
 
-        adapter = new FansPageAdapter(getFragmentManager(),fragmentFansBinding.tabLayoutFans.getTabCount());
+        adapter = new FansPageAdapter(getFragmentManager(), fragmentFansBinding.tabLayoutFans.getTabCount());
 //Adding adapter to pager
-        fragmentFansBinding.pager.setOffscreenPageLimit(0);
+        fragmentFansBinding.pager.setOffscreenPageLimit(3);
         fragmentFansBinding.pager.setAdapter(adapter);
 
     }

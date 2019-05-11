@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+import com.bharatarmy.Fragment.AlbumFragment;
 import com.bharatarmy.Fragment.ImageFragment;
 import com.bharatarmy.Fragment.VideoFragment;
 
@@ -30,11 +31,14 @@ public class FansPageAdapter extends FragmentStatePagerAdapter {
 //Returning the current tabs
         switch (position) {
             case 0:
-              ImageFragment tab1 = new ImageFragment();
+                AlbumFragment tab1=new AlbumFragment();
                 return tab1;
             case 1:
-                VideoFragment tab2 = new VideoFragment();
+                ImageFragment tab2 = new ImageFragment();
                 return tab2;
+            case 2:
+                VideoFragment tab3=new VideoFragment();
+                return tab3;
             default:
                 return null;
         }

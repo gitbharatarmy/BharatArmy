@@ -67,5 +67,14 @@ public abstract class BaseActivity extends AppCompatActivity {
                 });
             }
     }
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
 
+    }
+    @Override
+    protected void onRestoreInstanceState(Bundle in) {
+        super.onRestoreInstanceState(in);
+
+    }
 }

@@ -18,6 +18,12 @@ public class ImageDetailModel implements Serializable {
     @SerializedName("GalleryURL")
     @Expose
     private String galleryURL;
+    @SerializedName("Height")
+    @Expose
+    private Integer height;
+    @SerializedName("Width")
+    @Expose
+    private Integer width;
 
     public Integer getBAGalleryId() {
         return bAGalleryId;
@@ -51,6 +57,21 @@ public class ImageDetailModel implements Serializable {
         this.galleryURL = galleryURL;
     }
 
+    public Integer getHeight() {
+        return height;
+    }
+
+    public void setHeight(Integer height) {
+        this.height = height;
+    }
+
+    public Integer getWidth() {
+        return width;
+    }
+
+    public void setWidth(Integer width) {
+        this.width = width;
+    }
 
     //Story Detail Model
     @SerializedName("AuthorImageURL")
@@ -330,7 +351,7 @@ public class ImageDetailModel implements Serializable {
     }
 
 
-//    FTP List Model
+    //    FTP List Model
     public String Str1 = "", Str2 = "", Str3 = "";
     @SerializedName("DisplayAsPopup")
     @Expose

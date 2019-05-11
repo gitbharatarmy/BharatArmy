@@ -121,6 +121,25 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
         activityEditProfileBinding.uploadTxt.setOnClickListener(this);
         activityEditProfileBinding.saveBtn.setOnClickListener(this);
         activityEditProfileBinding.cancelBtn.setOnClickListener(this);
+
+        activityEditProfileBinding.genderRg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if (checkedId == R.id.male_rb) {
+                    Utils.setPref(mContext, "Gender", "1");
+                } else  if (checkedId == R.id.female_rb) {
+                    Utils.setPref(mContext, "Gender", "2");
+                }
+//                switch (checkedId) {
+//                    case R.id.male_rb:
+//                        Utils.setPref(mContext, "Gender", "1");
+//                        break;
+//                    case R.id.female_rb:
+//                        Utils.setPref(mContext, "Gender", "2");
+//                        break;
+//                }
+            }
+        });
     }
 
     @Override
@@ -369,19 +388,6 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
         countryCodeStr = activityEditProfileBinding.ccp.getSelectedCountryCode();
         phoneNoStr = activityEditProfileBinding.phoneNoEdt.getText().toString();
         appUser = Utils.getPref(mContext, "AppUserId");
-        activityEditProfileBinding.genderRg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch (checkedId) {
-                    case R.id.male_rb:
-                        Utils.setPref(mContext, "Gender", "1");
-                        break;
-                    case R.id.female_rb:
-                        Utils.setPref(mContext, "Gender", "2");
-                        break;
-                }
-            }
-        });
 
         genderStr = Utils.getPref(mContext, "Gender");
         Log.d("DataValue", "Name :" + fullNameStr + "countrycode:" + countryCodeStr
