@@ -6,6 +6,7 @@ import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -60,7 +61,7 @@ public class StoryFragment extends Fragment {
 
     int pageIndex = 0;
 
-
+    FloatingActionButton fab;
     boolean isLoading = false;
     GridLayoutManager gridLayoutManager;
     boolean ispull;
@@ -106,7 +107,8 @@ public class StoryFragment extends Fragment {
 
         rootView = fragmentStoryBinding.getRoot();
         mContext = getActivity().getApplicationContext();
-
+        fab=getActivity().findViewById(R.id.fab);
+        fab.hide();
             callStoryData();
 
         setListiner();

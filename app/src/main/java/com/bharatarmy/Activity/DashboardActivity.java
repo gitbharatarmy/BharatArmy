@@ -1,5 +1,6 @@
 package com.bharatarmy.Activity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -14,6 +15,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -24,8 +26,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,6 +40,7 @@ import com.bharatarmy.Fragment.HistoryFragment;
 import com.bharatarmy.Fragment.HomeFragment;
 import com.bharatarmy.Fragment.MyProfileFragment;
 import com.bharatarmy.Fragment.StoryFragment;
+import com.bharatarmy.Fragment.TravelFragment;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.AppConfiguration;
 import com.bharatarmy.Utility.Utils;
@@ -42,17 +48,22 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.android.gms.common.internal.Objects;
 
+import java.util.ArrayList;
+import java.util.List;
+
 // pass=mynameis8672952197
-public class DashboardActivity extends AppCompatActivity implements View.OnClickListener {
+public class DashboardActivity extends AppCompatActivity implements View.OnClickListener, TravelFragment.OnItemClick {
     Context mContext;
     private Fragment fragment;
     DrawerLayout drawer;
-    LinearLayout home1_linear, home_linear, history_linear, profile_linear, fan_linear, fans_linear, story_linear, ftp_linear;
-    ImageView home_img, history_img, profile_img, fans_img, fan_img, user_profile_img, story_img, ftp_img;
-    TextView home_txt, history_txt, profile_txt, fan_txt, fans_txt, user_name_txt, story_txt, ftp_txt;
-    NavigationView navigationView;
+    LinearLayout home1_linear, home_linear, history_linear, profile_linear, fan_linear, fans_linear, story_linear, ftp_linear, travel_linear;
+    ImageView home_img, history_img, profile_img, fans_img, fan_img, user_profile_img, story_img, ftp_img, travel_img;
+    TextView home_txt, history_txt, profile_txt, fan_txt, fans_txt, user_name_txt, story_txt, ftp_txt, travel_txt;
+    NavigationView navigationView, nav_travel_view;
     Toolbar toolbar;
     private View navHeader;
+    CardView old_menu, new_menu;
+    FloatingActionButton filter_fab;
     // index to identify current nav menu item
     public static int navItemIndex = 0;
 
@@ -61,11 +72,15 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
     public static String CURRENT_TAG = TAG_HOME;
 
 
+    Spinner team_spinner;
+
     //  flag to load home fragment when user presses back key
     private boolean shouldLoadHomeFragOnBackPress = true;
     private Handler mHandler;
 
-    private boolean fansclick=false;
+    private boolean fansclick = false;
+
+    String compStr = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,6 +108,8 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
             CURRENT_TAG = TAG_HOME;
             loadHomeFragment();
         }
+
+        showHide();
     }
 
     public void init() {
@@ -108,9 +125,16 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         profile_linear = (LinearLayout) findViewById(R.id.profile_linear);
         fan_linear = (LinearLayout) findViewById(R.id.fan_linear);
 
+        old_menu = (CardView) findViewById(R.id.old_menu);
+        new_menu = (CardView) findViewById(R.id.new_menu);
+
         fans_linear = (LinearLayout) findViewById(R.id.fans_linear);
         fans_img = (ImageView) findViewById(R.id.fans_img);
         fans_txt = (TextView) findViewById(R.id.fans_txt);
+
+        travel_linear = (LinearLayout) findViewById(R.id.travel_linear);
+        travel_img = (ImageView) findViewById(R.id.travel_img);
+        travel_txt = (TextView) findViewById(R.id.travel_txt);
 
         story_linear = (LinearLayout) findViewById(R.id.story_linear);
         story_img = (ImageView) findViewById(R.id.story_img);
@@ -129,6 +153,10 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         history_txt = (TextView) findViewById(R.id.history_txt);
         profile_txt = (TextView) findViewById(R.id.myprofile_txt);
         fan_txt = (TextView) findViewById(R.id.fan_txt);
+
+        filter_fab = (FloatingActionButton) findViewById(R.id.fab);
+        filter_fab.hide();
+        AppConfiguration.firstDashStr = "true";
     }
 
     public void setListiner() {
@@ -140,9 +168,17 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         fans_linear.setOnClickListener(this);
         story_linear.setOnClickListener(this);
         ftp_linear.setOnClickListener(this);
+        travel_linear.setOnClickListener(this);
+    }
 
-
-
+    public void showHide() {
+        if (AppConfiguration.firstDashStr.equalsIgnoreCase("false")) {
+            old_menu.setVisibility(View.VISIBLE);
+            new_menu.setVisibility(View.GONE);
+        } else {
+            new_menu.setVisibility(View.VISIBLE);
+            old_menu.setVisibility(View.GONE);
+        }
     }
 
     private void loadNavHeader() {
@@ -252,6 +288,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                         fragmentTransaction.commit();
                         drawer.closeDrawers();
                         navItemIndex = 1;
+                        home1_linear.setClickable(true);
                         break;
                     case R.id.nav_aboutus:
                         navItemIndex = 3;
@@ -259,10 +296,11 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                         Intent webviewIntent = new Intent(mContext, MoreStoryActivity.class);
                         webviewIntent.putExtra("Story Heading", "Ab Jeetega India");
                         webviewIntent.putExtra("StroyUrl", "http://ajif.in/");
-                        webviewIntent.putExtra("whereTocome","aboutus");
+                        webviewIntent.putExtra("whereTocome", "aboutus");
                         webviewIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         mContext.startActivity(webviewIntent);
                         drawer.closeDrawers();
+                        home1_linear.setClickable(true);
                         break;
                     case R.id.nav_contactus:
                         navItemIndex = 4;
@@ -428,30 +466,33 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         transaction.commit();
     }
 
+    @SuppressLint("RestrictedApi")
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.home_linear:
-                home_img.setColorFilter(ContextCompat.getColor(mContext,
-                        R.color.sign_up));
-                home_txt.setTextColor(ContextCompat.getColor(mContext,
-                        R.color.sign_up));
-
-                history_img.setColorFilter(ContextCompat.getColor(mContext,
-                        R.color.unselected_icon_color));
-                history_txt.setTextColor(ContextCompat.getColor(mContext,
-                        R.color.unselected_icon_color));
-                profile_img.setColorFilter(ContextCompat.getColor(mContext,
-                        R.color.unselected_icon_color));
-                profile_txt.setTextColor(ContextCompat.getColor(mContext,
-                        R.color.unselected_icon_color));
-                fan_img.setColorFilter(ContextCompat.getColor(mContext,
-                        R.color.unselected_icon_color));
-                fan_txt.setTextColor(ContextCompat.getColor(mContext,
-                        R.color.unselected_icon_color));
-                navItemIndex = 0;
-                fragment = new HomeFragment();
-                loadFragment(fragment);
+//                home_img.setColorFilter(ContextCompat.getColor(mContext,
+//                        R.color.sign_up));
+//                home_txt.setTextColor(ContextCompat.getColor(mContext,
+//                        R.color.sign_up));
+//
+//                history_img.setColorFilter(ContextCompat.getColor(mContext,
+//                        R.color.unselected_icon_color));
+//                history_txt.setTextColor(ContextCompat.getColor(mContext,
+//                        R.color.unselected_icon_color));
+//                profile_img.setColorFilter(ContextCompat.getColor(mContext,
+//                        R.color.unselected_icon_color));
+//                profile_txt.setTextColor(ContextCompat.getColor(mContext,
+//                        R.color.unselected_icon_color));
+//                fan_img.setColorFilter(ContextCompat.getColor(mContext,
+//                        R.color.unselected_icon_color));
+//                fan_txt.setTextColor(ContextCompat.getColor(mContext,
+//                        R.color.unselected_icon_color));
+//                navItemIndex = 0;
+//                fragment = new HomeFragment();
+//                loadFragment(fragment);
+                new_menu.setVisibility(View.VISIBLE);
+                old_menu.setVisibility(View.GONE);
                 break;
             case R.id.history_linear:
                 history_img.setColorFilter(ContextCompat.getColor(mContext,
@@ -535,23 +576,28 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                         R.color.unselected_icon_color));
                 ftp_txt.setTextColor(ContextCompat.getColor(mContext,
                         R.color.unselected_icon_color));
+                travel_img.setColorFilter(ContextCompat.getColor(mContext,
+                        R.color.unselected_icon_color));
+                travel_txt.setTextColor(ContextCompat.getColor(mContext,
+                        R.color.unselected_icon_color));
                 navItemIndex = 3;
                 fragment = new FansFragment();
                 loadFragment(fragment);
                 fans_linear.setClickable(false);
                 story_linear.setClickable(true);
                 ftp_linear.setClickable(true);
+                travel_linear.setClickable(true);
                 home1_linear.setClickable(true);
                 break;
             case R.id.profile_image:
                 navItemIndex = 2;
+                home1_linear.setClickable(true);
                 fragment = new MyProfileFragment();
                 loadFragment(fragment);
                 drawer.closeDrawers();
                 break;
-
             case R.id.home1_linear:
-                fansclick=true;
+                fansclick = true;
                 fans_img.setColorFilter(ContextCompat.getColor(mContext,
                         R.color.unselected_view));
                 fans_txt.setTextColor(ContextCompat.getColor(mContext,
@@ -565,17 +611,21 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                         R.color.unselected_view));
                 ftp_txt.setTextColor(ContextCompat.getColor(mContext,
                         R.color.unselected_view));
-
+                travel_img.setColorFilter(ContextCompat.getColor(mContext,
+                        R.color.unselected_icon_color));
+                travel_txt.setTextColor(ContextCompat.getColor(mContext,
+                        R.color.unselected_icon_color));
                 navItemIndex = 0;
                 CURRENT_TAG = TAG_HOME;
                 loadHomeFragment();
                 fans_linear.setClickable(true);
                 story_linear.setClickable(true);
                 ftp_linear.setClickable(true);
+                travel_linear.setClickable(true);
                 home1_linear.setClickable(false);
                 break;
             case R.id.story_linear:
-                fansclick=true;
+                fansclick = true;
                 story_img.setColorFilter(ContextCompat.getColor(mContext,
                         R.color.heading_bg));
                 story_txt.setTextColor(ContextCompat.getColor(mContext,
@@ -590,17 +640,21 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                         R.color.unselected_icon_color));
                 ftp_txt.setTextColor(ContextCompat.getColor(mContext,
                         R.color.unselected_icon_color));
-
+                travel_img.setColorFilter(ContextCompat.getColor(mContext,
+                        R.color.unselected_icon_color));
+                travel_txt.setTextColor(ContextCompat.getColor(mContext,
+                        R.color.unselected_icon_color));
                 navItemIndex = 6;
                 fragment = new StoryFragment();
                 loadFragment(fragment);
                 fans_linear.setClickable(true);
                 story_linear.setClickable(false);
                 ftp_linear.setClickable(true);
+                travel_linear.setClickable(true);
                 home1_linear.setClickable(true);
                 break;
             case R.id.ftp_linear:
-                fansclick=true;
+                fansclick = true;
                 ftp_img.setColorFilter(ContextCompat.getColor(mContext,
                         R.color.heading_bg));
                 ftp_txt.setTextColor(ContextCompat.getColor(mContext,
@@ -614,6 +668,10 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                 fans_img.setColorFilter(ContextCompat.getColor(mContext,
                         R.color.unselected_icon_color));
                 fans_txt.setTextColor(ContextCompat.getColor(mContext,
+                        R.color.unselected_icon_color));
+                travel_img.setColorFilter(ContextCompat.getColor(mContext,
+                        R.color.unselected_icon_color));
+                travel_txt.setTextColor(ContextCompat.getColor(mContext,
                         R.color.unselected_icon_color));
                 navItemIndex = 7;
                 fragment = new FTPFragment();
@@ -622,7 +680,42 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                 story_linear.setClickable(true);
                 ftp_linear.setClickable(false);
                 home1_linear.setClickable(true);
+                travel_linear.setClickable(true);
                 break;
+            case R.id.travel_linear:
+                travel_img.setColorFilter(ContextCompat.getColor(mContext,
+                        R.color.heading_bg));
+                travel_txt.setTextColor(ContextCompat.getColor(mContext,
+                        R.color.heading_bg));
+                fans_img.setColorFilter(ContextCompat.getColor(mContext,
+                        R.color.unselected_icon_color));
+                fans_txt.setTextColor(ContextCompat.getColor(mContext,
+                        R.color.unselected_icon_color));
+                story_img.setColorFilter(ContextCompat.getColor(mContext,
+                        R.color.unselected_icon_color));
+                story_txt.setTextColor(ContextCompat.getColor(mContext,
+                        R.color.unselected_icon_color));
+                ftp_img.setColorFilter(ContextCompat.getColor(mContext,
+                        R.color.unselected_icon_color));
+                ftp_txt.setTextColor(ContextCompat.getColor(mContext,
+                        R.color.unselected_icon_color));
+                navItemIndex = 8;
+                fragment = new TravelFragment();
+                loadFragment(fragment);
+                fans_linear.setClickable(true);
+                travel_linear.setClickable(false);
+                story_linear.setClickable(true);
+                ftp_linear.setClickable(true);
+                home1_linear.setClickable(true);
+                break;
+        }
+    }
+
+    @Override
+    public void onTrave() {
+        if (fragment != null) {
+            old_menu.setVisibility(View.VISIBLE);
+            new_menu.setVisibility(View.GONE);
         }
     }
 

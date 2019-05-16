@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
@@ -71,7 +72,7 @@ public class AlbumFragment extends Fragment {
     private int[] pastVisiblesItems;
     private int visibleItemCount;
     private int totalItemCount;
-
+    FloatingActionButton fab;
     public AlbumFragment() {
         // Required empty public constructor
     }
@@ -123,6 +124,8 @@ public class AlbumFragment extends Fragment {
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser && rootView != null) {
             // Refresh your fragment here
+            fab=getActivity().findViewById(R.id.fab);
+            fab.hide();
             if (albumListAdapter == null) {
                 callImageGalleryData();
             }

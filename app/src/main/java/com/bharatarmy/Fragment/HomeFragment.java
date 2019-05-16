@@ -14,6 +14,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -97,7 +98,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private TransitionDrawable mTransition;
     private int animationCounter = 1;
     private Handler imageSwitcherHandler;
-
+    FloatingActionButton fab;
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -138,7 +139,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         rootView = fragmentHomeBinding.getRoot();
         mContext = getActivity().getApplicationContext();
         AppConfiguration.position = 0;
-
+        fab=getActivity().findViewById(R.id.fab);
+        fab.hide();
         return rootView;
 
     }
@@ -169,7 +171,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             Log.d("Todaytime", dateToStr);
             SimpleDateFormat formatendDate = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss a");
 
-            endDate = formatendDate.parse("30/05/2019 04:15:00 PM");
+            endDate = formatendDate.parse("30/05/2019 03:00:00 PM");
 
 
             final Date finalEndDate = endDate;

@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
@@ -43,7 +44,7 @@ public class MyProfileFragment extends Fragment implements View.OnClickListener 
     FragmentMyProfileBinding myProfileBinding;
     private View rootView;
     private Context mContext;
-
+    FloatingActionButton fab;
     public MyProfileFragment() {
         // Required empty public constructor
     }
@@ -85,6 +86,8 @@ public class MyProfileFragment extends Fragment implements View.OnClickListener 
         rootView = myProfileBinding.getRoot();
         mContext = getActivity().getApplicationContext();
         AppConfiguration.position = 1;
+        fab=getActivity().findViewById(R.id.fab);
+        fab.hide();
         return rootView;
 
     }

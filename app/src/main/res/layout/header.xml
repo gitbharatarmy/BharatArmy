@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:flipTimer="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView"
+        android:src="@drawable/travel_banner_1"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:adjustViewBounds="true"/>
+
+    <TextView
+        android:id="@+id/countdown_txt"
+        style="@style/title_text_font"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_15sdp"
+        android:gravity="center_vertical|center"
+        android:text="#CWCOUNTDOWN"
+        android:textColor="@color/heading_bg"
+        android:textSize="@dimen/_13sdp"
+        android:visibility="gone"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_30sdp"
+        android:layout_marginBottom="@dimen/_20sdp"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <com.asp.fliptimerviewlibrary.CountDownClock
+            android:id="@+id/timerProgramCountdown"
+            style="@style/title_text_font"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:clipChildren="false"
+            android:clipToPadding="false"
+            flipTimer:almostFinishedCallbackTimeInSeconds="5"
+            flipTimer:animationDuration="850"
+            flipTimer:countdownTickInterval="1000"
+            flipTimer:digitBottomDrawable="@drawable/background_bottom"
+            flipTimer:digitDividerColor="@color/heading_bg"
+            flipTimer:digitPadding="2dp"
+            flipTimer:digitTextColor="@color/splash_bg_color"
+            flipTimer:digitTextSize="24sp"
+            flipTimer:digitTopDrawable="@drawable/background_top"
+            flipTimer:digitWidth="28dp"
+            flipTimer:halfDigitHeight="23dp"
+            flipTimer:resetSymbol="8"
+            flipTimer:splitterPadding="0dp" />
+    </LinearLayout>
+</LinearLayout>

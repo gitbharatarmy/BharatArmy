@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -38,7 +39,7 @@ public class HistoryFragment extends Fragment {
     private Context mContext;
     HistoryMainListAdapter historymainlistAdapter;
     List<String> invoiceList;
-
+    FloatingActionButton fab;
     public HistoryFragment() {
         // Required empty public constructor
     }
@@ -78,7 +79,8 @@ public class HistoryFragment extends Fragment {
 
         rootView = historyBinding.getRoot();
         mContext = getActivity().getApplicationContext();
-
+        fab=getActivity().findViewById(R.id.fab);
+        fab.hide();
         setListiner();
         setDataValue();
         return rootView;

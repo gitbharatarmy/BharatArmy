@@ -42,12 +42,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mContext = MainActivity.this;
-        StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, 1);
-        recyclerView = (RecyclerView) findViewById(R.id.rvPosters);
-        recyclerView.setLayoutManager((RecyclerView.LayoutManager)staggeredGridLayoutManager);
-        moviePosterAdapter = new MoviePosterAdapter();
-        recyclerView.setAdapter((RecyclerView.Adapter)moviePosterAdapter);
-        moviePosterAdapter.setMMoviePosters(this.readMoviesDetails());
+
 
     }
 

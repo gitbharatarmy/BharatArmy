@@ -191,7 +191,7 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
                 break;
             case R.id.back_img:
                 if (strWheretocome.equalsIgnoreCase("Signup")) {
-                    Intent mobileIntent = new Intent(mContext, SignupNewActivity.class);
+                    Intent mobileIntent = new Intent(mContext, SignUpActivity.class);
                     startActivity(mobileIntent);
                     overridePendingTransition(0, 0);
                     finish();

@@ -357,8 +357,9 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
 
                     Utils.ping(mContext, "Profile Updated Successfully");
                     AppConfiguration.position = 1;
-                    Intent iDash = new Intent(mContext, DashboardActivity.class);
-                    startActivity(iDash);
+//                    DashboardActivity.navItemIndex=2;
+//                    Intent iDash = new Intent(mContext, DashboardActivity.class);
+//                    startActivity(iDash);
                     finish();
                 } else {
                     Utils.ping(mContext, response.body().getMessage());

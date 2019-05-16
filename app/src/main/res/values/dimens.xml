@@ -47,4 +47,19 @@
     <dimen name="welcome_text_margin_bottom">12.0dip</dimen>
     <dimen name="welcome_content_min_height">96.0dip</dimen>
     <dimen name="welcome_content">@dimen/_13sdp</dimen>
+
+
+    <!--Travel-->
+    <dimen name="detail_backdrop_height">@dimen/_150sdp</dimen>
+    <dimen name="card_margin">16dp</dimen>
+    <dimen name="font_size_heading">25sp</dimen>
+    <dimen name="font_size_subheading">18sp</dimen>
+    <dimen name="font_size_normal">14sp</dimen>
+
+    <dimen name="recyclerview_margin">10dp</dimen>
+    <dimen name="layout_margin">10dp</dimen>
+    <dimen name="searchview_margin">5dp</dimen>
+    <dimen name="text_button_size">14sp</dimen>
+    <dimen name="textview_margin">10dp</dimen>
+    <dimen name="line_margin">40dp</dimen>
 </resources>

@@ -6,6 +6,7 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
@@ -62,7 +63,7 @@ public class ImageFragment extends Fragment {
     boolean isLoading = false;
     GridLayoutManager gridLayoutManager;
     boolean ispull;
-
+    FloatingActionButton fab;
     public ImageFragment() {
         // Required empty public constructor
     }
@@ -104,7 +105,8 @@ public class ImageFragment extends Fragment {
 
         rootView = fragmentImageBinding.getRoot();
         mContext = getActivity().getApplicationContext();
-
+        fab=getActivity().findViewById(R.id.fab);
+        fab.hide();
         setUserVisibleHint(true);
         return rootView;
     }
