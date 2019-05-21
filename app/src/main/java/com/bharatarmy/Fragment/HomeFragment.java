@@ -2,11 +2,8 @@ package com.bharatarmy.Fragment;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.databinding.DataBindingUtil;
-import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.graphics.drawable.TransitionDrawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -30,7 +27,6 @@ import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -39,7 +35,7 @@ import android.widget.TextView;
 import android.widget.VideoView;
 import android.widget.ViewSwitcher;
 
-import com.asp.fliptimerviewlibrary.CountDownClock;
+
 import com.bharatarmy.Activity.MoreStoryActivity;
 import com.bharatarmy.Activity.VideoDetailActivity;
 import com.bharatarmy.Adapter.BharatArmyStoriesAdapter;
@@ -50,6 +46,7 @@ import com.bharatarmy.Models.DashboardModel;
 import com.bharatarmy.Models.StoryDashboardData;
 import com.bharatarmy.Models.UpcommingDashboardModel;
 import com.bharatarmy.R;
+import com.bharatarmy.CountDownClockHome;
 import com.bharatarmy.Utility.ApiHandler;
 import com.bharatarmy.Utility.AppConfiguration;
 import com.bharatarmy.Utility.Utils;
@@ -62,9 +59,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
-import okhttp3.internal.Util;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
@@ -180,9 +175,22 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         }catch (ParseException ex){
 
         }
-        fragmentHomeBinding.timerProgramCountdown.startCountDown(diffInMilis[0]);
+//        fragmentHomeBinding.timerProgramCountdown.startCountDown(diffInMilis[0]);
 
-        fragmentHomeBinding.timerProgramCountdown.setCountdownListener(new CountDownClock.CountdownCallBack() {
+//        fragmentHomeBinding.timerProgramCountdown.setCountdownListener(new CountDownClock.CountdownCallBack() {
+//            @Override
+//            public void countdownAboutToFinish() {
+//
+//            }
+//
+//            @Override
+//            public void countdownFinished() {
+//                fragmentHomeBinding.timerProgramCountdown.resetCountdownTimer();
+//            }
+//        });
+
+        fragmentHomeBinding.timerProgramCountdown.startCountDown(diffInMilis[0]);
+        fragmentHomeBinding.timerProgramCountdown.setCountdownListener(new CountDownClockHome.CountdownCallBack() {
             @Override
             public void countdownAboutToFinish() {
 

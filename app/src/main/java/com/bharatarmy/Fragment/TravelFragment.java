@@ -1,12 +1,12 @@
 package com.bharatarmy.Fragment;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -14,15 +14,15 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.widget.ArrayAdapter;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bharatarmy.Adapter.TravelListAdapter;
 import com.bharatarmy.Interfaces.image_click;
@@ -35,7 +35,6 @@ import com.bharatarmy.databinding.FragmentTravelBinding;
 import com.crystal.crystalrangeseekbar.interfaces.OnRangeSeekbarChangeListener;
 import com.crystal.crystalrangeseekbar.interfaces.OnRangeSeekbarFinalValueListener;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,17 +48,18 @@ public class TravelFragment extends Fragment {
     private String mParam1;
     private String mParam2;
     private View rootView;
-   public static Context mContext;
-   public static FragmentTravelBinding travelBinding;
+    public static Context mContext;
+    public static FragmentTravelBinding travelBinding;
     private RecyclerView mRecyclerView;
-   public static OnItemClick mListener;
+    public static OnItemClick mListener;
     TextView filter_txt;
     public static TravelListAdapter travelListAdapter;
     boolean isOpen = false;
     FloatingActionButton fab;
-    static String countriesDataString="", monthDataString="", groundDataString="";
+    static String countriesDataString = "", monthDataString = "", groundDataString = "";
     public static List<TravelModel> content;
-//    final BottomSheetDialogFragment myBottomSheet = MyBottomSheetDialogFragment.newInstance("Modal Bottom Sheet");
+    //    final BottomSheetDialogFragment myBottomSheet = MyBottomSheetDialogFragment.newInstance("Modal Bottom Sheet");
+    AlertDialog alertDialogAndroid;
 
     public TravelFragment() {
         // Required empty public constructor
@@ -133,6 +133,11 @@ public class TravelFragment extends Fragment {
                 //show it
                 bottomSheetDialogFragment.show(getFragmentManager(), bottomSheetDialogFragment.getTag());
 //                bottomSheetDialogFragment.setCancelable(false);
+
+//                BottomSheetDialog mBottomSheetDialog = new BottomSheetDialog(getActivity());
+//                View sheetView = getActivity().getLayoutInflater().inflate(R.layout.bottom_sheet_list, null);
+//                mBottomSheetDialog.setContentView(sheetView);
+//                mBottomSheetDialog.show();
             }
         });
 
@@ -168,10 +173,12 @@ public class TravelFragment extends Fragment {
         travelBinding.recyclerView.setAdapter(travelListAdapter);
 
     }
+
     @Override
     public void onDetach() {
         super.onDetach();
     }
+
 
     public static class MyBottomSheetDialogFragment extends BottomSheetDialogFragment {
         BottomSheetListBinding bottomSheetListBinding;
@@ -206,8 +213,8 @@ public class TravelFragment extends Fragment {
                     countriesDataString = bottomSheetListBinding.teamSelectedTxt.getText().toString();
                     monthDataString = bottomSheetListBinding.monthSelectedTxt.getText().toString();
                     groundDataString = bottomSheetListBinding.groundSelectedTxt.getText().toString();
-                    if (!countriesDataString.equalsIgnoreCase("All")){
-                        Log.d("Selected Value","Country :"+ countriesDataString+"Month :"+ monthDataString+"Ground :"+ groundDataString);
+                    if (!countriesDataString.equalsIgnoreCase("All")) {
+                        Log.d("Selected Value", "Country :" + countriesDataString + "Month :" + monthDataString + "Ground :" + groundDataString);
 
                         List<TravelModel> filterFinalArray = new ArrayList<TravelModel>();
 //                        for (TravelModel arrayObj : dataResponse.getData()) {
@@ -216,28 +223,27 @@ public class TravelFragment extends Fragment {
 //                                filterFinalArray.add(arrayObj);
 //                            }
 //                        }
-                            if (countriesDataString.contains(",")) {
-                                String[] spiltstr = countriesDataString.split(",");
+                        if (countriesDataString.contains(",")) {
+                            String[] spiltstr = countriesDataString.split(",");
 
-                                for (int j = 0; j < spiltstr.length; j++) {
-                                    for (int i = 0; i < content.size(); i++) {
-                                        if (content.get(i).getMatch_first_Country().trim().equalsIgnoreCase(spiltstr[j].trim())) {
-                                            filterFinalArray.add(content.get(i));
-                                        }
-                                    }
-                                }
-                                createAdapter(filterFinalArray);
-                            }
-                            else{
+                            for (int j = 0; j < spiltstr.length; j++) {
                                 for (int i = 0; i < content.size(); i++) {
-                                    if (content.get(i).getMatch_first_Country().trim().equalsIgnoreCase(countriesDataString.trim())) {
+                                    if (content.get(i).getMatch_first_Country().trim().equalsIgnoreCase(spiltstr[j].trim())) {
                                         filterFinalArray.add(content.get(i));
                                     }
                                 }
-                                createAdapter(filterFinalArray);
                             }
+                            createAdapter(filterFinalArray);
+                        } else {
+                            for (int i = 0; i < content.size(); i++) {
+                                if (content.get(i).getMatch_first_Country().trim().equalsIgnoreCase(countriesDataString.trim())) {
+                                    filterFinalArray.add(content.get(i));
+                                }
+                            }
+                            createAdapter(filterFinalArray);
+                        }
 
-                    }else{
+                    } else {
                         createAdapter(content);
                     }
 
@@ -324,8 +330,6 @@ public class TravelFragment extends Fragment {
 //                                    "DataString : " + dataString, Toast.LENGTH_SHORT).show();
                                 bottomSheetListBinding.teamSelectedTxt.setText(dataString);
                             }
-
-
                         }
 
                         @Override
@@ -464,8 +468,9 @@ public class TravelFragment extends Fragment {
             });
 
 
-
         }
+
+
 
     }
 

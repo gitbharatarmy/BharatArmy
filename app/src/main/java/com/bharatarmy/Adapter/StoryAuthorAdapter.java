@@ -17,13 +17,12 @@ import com.bharatarmy.Activity.StoryAuthorActivity;
 import com.bharatarmy.Interfaces.image_click;
 import com.bharatarmy.Models.ImageDetailModel;
 import com.bharatarmy.R;
-import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class StoryLsitAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class StoryAuthorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private final int VIEW_TYPE_ITEM = 0;
     private final int VIEW_TYPE_LOADING = 1;
@@ -31,11 +30,11 @@ public class StoryLsitAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     public List<ImageDetailModel> mItemList;
     Context mContext;
-    image_click image_click;
+    com.bharatarmy.Interfaces.image_click image_click;
     private ArrayList<String> dataCheck;
 
 
-    public StoryLsitAdapter(Context mContext, List<ImageDetailModel> itemList, image_click image_click) {
+    public StoryAuthorAdapter(Context mContext, List<ImageDetailModel> itemList, image_click image_click) {
         this.mContext = mContext;
         this.mItemList = itemList;
         this.image_click = image_click;
@@ -154,14 +153,6 @@ public class StoryLsitAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 //                  ((Activity)  mcontext).overridePendingTransition(R.anim.slide_in_left,0);
             }
         });
-        viewHolder.author_linear.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent authorIntent=new Intent(mContext, StoryAuthorActivity.class);
-                mContext.startActivity(authorIntent);
-            }
-        });
-
     }
 
     public ArrayList<String> getData() {
@@ -174,5 +165,6 @@ public class StoryLsitAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         notifyDataSetChanged();
     }
 }
+
 
 

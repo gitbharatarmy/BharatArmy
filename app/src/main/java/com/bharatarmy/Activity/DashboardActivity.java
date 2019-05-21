@@ -59,7 +59,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
     LinearLayout home1_linear, home_linear, history_linear, profile_linear, fan_linear, fans_linear, story_linear, ftp_linear, travel_linear;
     ImageView home_img, history_img, profile_img, fans_img, fan_img, user_profile_img, story_img, ftp_img, travel_img;
     TextView home_txt, history_txt, profile_txt, fan_txt, fans_txt, user_name_txt, story_txt, ftp_txt, travel_txt;
-    NavigationView navigationView, nav_travel_view;
+    NavigationView navigationView;
     Toolbar toolbar;
     private View navHeader;
     CardView old_menu, new_menu;
@@ -71,16 +71,9 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
     private static final String TAG_HOME = "home";
     public static String CURRENT_TAG = TAG_HOME;
 
-
-    Spinner team_spinner;
-
     //  flag to load home fragment when user presses back key
     private boolean shouldLoadHomeFragOnBackPress = true;
     private Handler mHandler;
-
-    private boolean fansclick = false;
-
-    String compStr = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -413,8 +406,11 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                         R.color.unselected_view));
                 story_txt.setTextColor(ContextCompat.getColor(mContext,
                         R.color.unselected_view));
-
-                navItemIndex = 0;
+                travel_img.setColorFilter(ContextCompat.getColor(mContext,
+                        R.color.unselected_view));
+                travel_txt.setTextColor(ContextCompat.getColor(mContext,
+                        R.color.unselected_view));
+                        navItemIndex = 0;
                 CURRENT_TAG = TAG_HOME;
                 loadHomeFragment();
                 return;
@@ -597,7 +593,6 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                 drawer.closeDrawers();
                 break;
             case R.id.home1_linear:
-                fansclick = true;
                 fans_img.setColorFilter(ContextCompat.getColor(mContext,
                         R.color.unselected_view));
                 fans_txt.setTextColor(ContextCompat.getColor(mContext,
@@ -625,7 +620,6 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                 home1_linear.setClickable(false);
                 break;
             case R.id.story_linear:
-                fansclick = true;
                 story_img.setColorFilter(ContextCompat.getColor(mContext,
                         R.color.heading_bg));
                 story_txt.setTextColor(ContextCompat.getColor(mContext,
@@ -654,7 +648,6 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                 home1_linear.setClickable(true);
                 break;
             case R.id.ftp_linear:
-                fansclick = true;
                 ftp_img.setColorFilter(ContextCompat.getColor(mContext,
                         R.color.heading_bg));
                 ftp_txt.setTextColor(ContextCompat.getColor(mContext,

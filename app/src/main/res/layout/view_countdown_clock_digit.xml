@@ -19,7 +19,7 @@
             android:layout_width="31dp"
             android:layout_height="17dp">
 
-            <com.asp.fliptimerviewlibrary.AlignedTextView
+            <com.bharatarmy.AlignedTextView
                 android:id="@+id/backUpperText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -38,7 +38,7 @@
             android:layout_width="31dp"
             android:layout_height="17dp">
 
-            <com.asp.fliptimerviewlibrary.AlignedTextView
+            <com.bharatarmy.AlignedTextView
                 android:id="@+id/backLowerText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -64,7 +64,7 @@
             android:layout_width="31dp"
             android:layout_height="17dp">
 
-            <com.asp.fliptimerviewlibrary.AlignedTextView
+            <com.bharatarmy.AlignedTextView
                 android:id="@+id/frontUpperText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -83,7 +83,7 @@
             android:layout_width="31dp"
             android:layout_height="17dp">
 
-            <com.asp.fliptimerviewlibrary.AlignedTextView
+            <com.bharatarmy.AlignedTextView
                 android:id="@+id/frontLowerText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

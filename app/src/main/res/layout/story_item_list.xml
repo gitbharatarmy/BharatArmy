@@ -189,6 +189,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/author_linear"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_30sdp"
                 android:orientation="horizontal"

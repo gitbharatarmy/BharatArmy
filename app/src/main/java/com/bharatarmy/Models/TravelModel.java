@@ -10,16 +10,16 @@ public class TravelModel {
     public String match_location;
     public int match_map;
 
-    public TravelModel(String match_type, String match_date, String match_first_Country, String match_Second_country, int match_first_country_flag, int match_second_country_flag, String match_location,int match_map) {
-        this.match_type = match_type;
-        this.match_date = match_date;
-        this.match_first_Country = match_first_Country;
-        this.match_Second_country = match_Second_country;
-        this.match_first_country_flag = match_first_country_flag;
-        this.match_second_country_flag = match_second_country_flag;
-        this.match_location = match_location;
-        this.match_map=match_map;
-    }
+        public TravelModel(String match_type, String match_date, String match_first_Country, String match_Second_country, int match_first_country_flag, int match_second_country_flag, String match_location,int match_map) {
+            this.match_type = match_type;
+            this.match_date = match_date;
+            this.match_first_Country = match_first_Country;
+            this.match_Second_country = match_Second_country;
+            this.match_first_country_flag = match_first_country_flag;
+            this.match_second_country_flag = match_second_country_flag;
+            this.match_location = match_location;
+            this.match_map=match_map;
+        }
 
     public String getMatch_type() {
         return match_type;

@@ -14,8 +14,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.asp.fliptimerviewlibrary.CountDownClock;
 import com.bharatarmy.Activity.LocationMapActivity;
+import com.bharatarmy.Activity.TravelDetailActivity;
 import com.bharatarmy.Interfaces.image_click;
 import com.bharatarmy.Models.BulletsPoint;
 import com.bharatarmy.Models.TravelModel;
@@ -94,7 +94,8 @@ public class TravelListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             ((ItemViewHolder) holder).middle_linear.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                  Intent travelIntent=new Intent(mContext, TravelDetailActivity.class);
+                  mContext.startActivity(travelIntent);
                 }
             });
         }else if (holder.getItemViewType()==HEADER){
@@ -117,28 +118,28 @@ public class TravelListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             }catch (ParseException ex){
 
             }
-            ((HeaderViewHolder) holder).timerProgramCountdown.startCountDown(diffInMilis[0]);
-
-            ((HeaderViewHolder) holder).timerProgramCountdown.setCountdownListener(new CountDownClock.CountdownCallBack() {
-                @Override
-                public void countdownAboutToFinish() {
-
-                }
-
-                @Override
-                public void countdownFinished() {
-                    ((HeaderViewHolder) holder).timerProgramCountdown.resetCountdownTimer();
-                }
-            });
+//            ((HeaderViewHolder) holder).timerProgramCountdown.startCountDown(diffInMilis[0]);
+//
+//            ((HeaderViewHolder) holder).timerProgramCountdown.setCountdownListener(new CountDownClock.CountdownCallBack() {
+//                @Override
+//                public void countdownAboutToFinish() {
+//
+//                }
+//
+//                @Override
+//                public void countdownFinished() {
+//                    ((HeaderViewHolder) holder).timerProgramCountdown.resetCountdownTimer();
+//                }
+//            });
         }
     }
 
 
     static class HeaderViewHolder extends RecyclerView.ViewHolder {
-    CountDownClock timerProgramCountdown;
+//    CountDownClock timerProgramCountdown;
         HeaderViewHolder(View itemView) {
             super(itemView);
-            timerProgramCountdown=(CountDownClock)itemView.findViewById(R.id.timerProgramCountdown);
+//            timerProgramCountdown=(CountDownClock)itemView.findViewById(R.id.timerProgramCountdown);
         }
     }
 

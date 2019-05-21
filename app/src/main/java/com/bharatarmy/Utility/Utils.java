@@ -1,16 +1,16 @@
 package com.bharatarmy.Utility;
 
-import android.animation.ValueAnimator;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.ContentUris;
 import android.content.Context;
-import android.content.ContextWrapper;
 import android.content.SharedPreferences;
+import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
@@ -20,45 +20,33 @@ import android.os.Build;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
-import android.support.v4.content.FileProvider;
-import android.support.v7.app.AlertDialog;
+import android.support.v4.widget.NestedScrollView;
+import android.support.v7.widget.RecyclerView;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.Patterns;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bharatarmy.BuildConfig;
 import com.bharatarmy.R;
 import com.bumptech.glide.Glide;
 import com.google.i18n.phonenumbers.NumberParseException;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.google.i18n.phonenumbers.Phonenumber;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.Locale;
-import java.util.Random;
-import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
-import static android.provider.Settings.System.DATE_FORMAT;
 import static com.yalantis.ucrop.util.FileUtils.getDataColumn;
 import static com.yalantis.ucrop.util.FileUtils.isDownloadsDocument;
 import static com.yalantis.ucrop.util.FileUtils.isExternalStorageDocument;
@@ -106,25 +94,25 @@ public class Utils {
         window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
 
 
-        Button tryagain=(Button)dialog.findViewById(R.id.try_again_btn);
+        Button tryagain = (Button) dialog.findViewById(R.id.try_again_btn);
 
-        if (checkNetwork(activity)){
+        if (checkNetwork(activity)) {
             dialog.dismiss();
             activity.recreate();
-        }else{
+        } else {
             tryagain.performClick();
-            Utils.ping(activity,"Internet connection not available");
+            Utils.ping(activity, "Internet connection not available");
             dialog.show();
         }
 
         tryagain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (checkNetwork(activity)){
+                if (checkNetwork(activity)) {
                     dialog.dismiss();
-                   activity.recreate();
-                }else{
-                    Utils.ping(activity,"Internet connection not available");
+                    activity.recreate();
+                } else {
+                    Utils.ping(activity, "Internet connection not available");
                     dialog.show();
                 }
             }
@@ -139,7 +127,7 @@ public class Utils {
             dialog = new Dialog(context);
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
             dialog.setContentView(R.layout.progressbar_dialog);
-            imageView=(ImageView)dialog.findViewById(R.id.image);
+            imageView = (ImageView) dialog.findViewById(R.id.image);
             Glide.with(context).load(R.drawable.logo_white).into(imageView);
             dialog.getWindow().setLayout(WindowManager.LayoutParams.FILL_PARENT,
                     WindowManager.LayoutParams.FILL_PARENT);
@@ -186,7 +174,7 @@ public class Utils {
         return value;
     }
 
-    public static boolean isValidEmailId(String email){
+    public static boolean isValidEmailId(String email) {
 
         return Pattern.compile("^(([\\w-]+\\.)+[\\w-]+|([a-zA-Z]{1}|[\\w-]{2,}))@"
                 + "((([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?"
@@ -241,7 +229,7 @@ public class Utils {
                 }
 
                 final String selection = "_id=?";
-                final String[] selectionArgs = new String[] {
+                final String[] selectionArgs = new String[]{
                         split[1]
                 };
 
@@ -265,22 +253,21 @@ public class Utils {
         return null;
     }
 
-// use for get current company
+    // use for get current company
     public static String getUserCountry(Context context) {
         try {
             final TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
             final String simCountry = tm.getSimCountryIso();
             if (simCountry != null && simCountry.length() == 2) { // SIM country code is available
                 return simCountry.toUpperCase(Locale.US);
-            }
-            else if (tm.getPhoneType() != TelephonyManager.PHONE_TYPE_CDMA) { // device is not 3G (would be unreliable)
+            } else if (tm.getPhoneType() != TelephonyManager.PHONE_TYPE_CDMA) { // device is not 3G (would be unreliable)
                 String networkCountry = tm.getNetworkCountryIso();
                 if (networkCountry != null && networkCountry.length() == 2) { // network country code is available
                     return networkCountry.toUpperCase(Locale.US);
                 }
             }
+        } catch (Exception e) {
         }
-        catch (Exception e) { }
         return null;
     }
 
@@ -300,6 +287,11 @@ public class Utils {
 
     }
 
+    public static Bitmap DrawableToBitMap(Drawable drawable, Context context) {
+        Drawable myDrawable = context.getResources().getDrawable(R.drawable.first_match_map);
+        Bitmap anImage = ((BitmapDrawable) myDrawable).getBitmap();
+        return anImage;
+    }
 
     public static boolean isValidPhoneNumber(CharSequence phoneNumber) {
         if (!TextUtils.isEmpty(phoneNumber)) {
@@ -308,7 +300,7 @@ public class Utils {
         return false;
     }
 
-    public static boolean validateUsing_libphonenumber(Context context,String countryCode, String phNumber) {
+    public static boolean validateUsing_libphonenumber(Context context, String countryCode, String phNumber) {
         PhoneNumberUtil phoneNumberUtil = PhoneNumberUtil.getInstance();
         String isoCode = phoneNumberUtil.getRegionCodeForCountryCode(Integer.parseInt(countryCode));
         Phonenumber.PhoneNumber phoneNumber = null;
@@ -329,4 +321,13 @@ public class Utils {
             return false;
         }
     }
+
+    public static Bitmap DrawableToBitMap(int first_match_map, Context mContext) {
+        Drawable myDrawable = mContext.getResources().getDrawable(first_match_map);
+        Bitmap anImage = ((BitmapDrawable) myDrawable).getBitmap();
+        return anImage;
+    }
+
+
+
 }

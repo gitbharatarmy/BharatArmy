@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/_200sdp"
+    android:layout_height="@dimen/_150sdp"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:weightSum="1">
+
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/_5sdp"
+        android:background="@color/splash_bg_color"
+        card_view:cardCornerRadius="1dp"
+        card_view:cardElevation="2dp"
+        card_view:cardMaxElevation="2dp">
+        <ImageView
+            android:id="@+id/ticket_img"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/gold_images"
+            android:scaleType="centerCrop"/>
+    </android.support.v7.widget.CardView>
+
+
+</LinearLayout>
