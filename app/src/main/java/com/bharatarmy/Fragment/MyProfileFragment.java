@@ -115,10 +115,12 @@ public class MyProfileFragment extends Fragment implements View.OnClickListener 
                 myProfileBinding.genderShowTxt.setText("Female");
             }
 
-        Picasso.with(mContext)
-                .load(Utils.getPref(mContext,"LoginProfilePic"))
-                .placeholder(R.drawable.progress_animation)
-                .into(myProfileBinding.profileImage);
+//        Picasso.with(mContext)
+//                .load(Utils.getPref(mContext,"LoginProfilePic"))
+//                .placeholder(R.drawable.progress_animation)
+//                .into(myProfileBinding.profileImage);
+
+        Utils.setImageInImageView(Utils.getPref(mContext,"LoginProfilePic"),myProfileBinding.profileImage,mContext);
         Log.d("emailid",Utils.getPref(mContext,"LoginEmailId"));
     }
 

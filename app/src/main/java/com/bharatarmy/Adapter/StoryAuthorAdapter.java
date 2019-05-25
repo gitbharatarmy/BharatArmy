@@ -17,6 +17,7 @@ import com.bharatarmy.Activity.StoryAuthorActivity;
 import com.bharatarmy.Interfaces.image_click;
 import com.bharatarmy.Models.ImageDetailModel;
 import com.bharatarmy.R;
+import com.bharatarmy.Utility.Utils;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -133,13 +134,12 @@ public class StoryAuthorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 //        viewHolder.username_txt.setText(detail.getAuthorName());
 
 
-        Picasso.with(mContext)
-                .load(detail.getStrThumbImageName())
-                .placeholder(R.drawable.progress_animation)
-                .into(viewHolder.banner_img);
 //        Picasso.with(mContext)
-//                .load(detail.getAuthorImageURL())
-//                .into(viewHolder.profile_image);
+//                .load(detail.getStrThumbImageName())
+//                .placeholder(R.drawable.progress_animation)
+//                .into(viewHolder.banner_img);
+
+        Utils.setImageInImageView(detail.getStrThumbImageName(),viewHolder.banner_img,mContext);
 
         viewHolder.army_story_header_txt.setOnClickListener(new View.OnClickListener() {
             @Override

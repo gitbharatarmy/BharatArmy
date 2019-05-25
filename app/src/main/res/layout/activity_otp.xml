@@ -182,6 +182,7 @@
                     android:background="@drawable/rectangle_line"
                     android:gravity="center"
                     android:inputType="number"
+                    android:imeOptions="actionDone"
                     android:maxLength="1"
                     android:textColor="@color/heading_bg"
                     android:textCursorDrawable="@drawable/color_cursor" />

@@ -40,6 +40,7 @@ import com.bumptech.glide.Glide;
 import com.google.i18n.phonenumbers.NumberParseException;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.google.i18n.phonenumbers.Phonenumber;
+import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -342,4 +343,11 @@ public class Utils {
         return app_installed;
     }
 
+    public static void setImageInImageView(String imageUrl,ImageView view,Context mContext){
+        Picasso.with(mContext)
+                .load(imageUrl)
+                .placeholder(R.drawable.progress_animation)
+                .into(view);
+
+    }
 }

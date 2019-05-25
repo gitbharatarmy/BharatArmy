@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.bharatarmy.Activity.FTPDetailsActivity;
 import com.bharatarmy.Models.UpcommingDashboardModel;
 import com.bharatarmy.R;
+import com.bharatarmy.Utility.Utils;
 import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 
@@ -89,11 +90,12 @@ public class UpcomingDashboardAdapter extends RecyclerView.Adapter<UpcomingDashb
         holder.location_txt.setText(upcomingData.getTourLocation());
         holder.army_upcoming_pra_txt.setText(upcomingData.getTourShortDescription());
 
-        Picasso.with(mcontext)
-                .load(upcomingData.getFutureTourThumbImageURL())
-                .placeholder(R.drawable.progress_animation)
-                .into(holder.banner_img);
+//        Picasso.with(mcontext)
+//                .load(upcomingData.getFutureTourThumbImageURL())
+//                .placeholder(R.drawable.progress_animation)
+//                .into(holder.banner_img);
 
+        Utils.setImageInImageView(upcomingData.getFutureTourThumbImageURL(),holder.banner_img,mcontext);
 
         if (!upcomingData.getStr1().equalsIgnoreCase("")) {
             holder.linear1_txt.setVisibility(View.VISIBLE);

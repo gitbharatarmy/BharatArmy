@@ -172,7 +172,7 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
 
         activityOtpBinding.otpImg.setOnClickListener(this);
         activityOtpBinding.backLinear.setOnClickListener(this);
-        activityOtpBinding.otpImg.setOnEditorActionListener(new EditText.OnEditorActionListener() {
+        activityOtpBinding.edit4.setOnEditorActionListener(new EditText.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {

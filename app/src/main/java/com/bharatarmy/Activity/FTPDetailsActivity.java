@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.bharatarmy.R;
+import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.ActivityFtpdetailsBinding;
 import com.bumptech.glide.Glide;
 
@@ -39,10 +40,12 @@ public class FTPDetailsActivity extends BaseActivity implements View.OnClickList
         ftpbannerimgStr = getIntent().getStringExtra("ftpbannerimg");
 
         Log.d("webview",ftptourdescStr);
-        Glide.with(mContext)
-                .load(ftpbannerimgStr)
-                .placeholder(R.drawable.progress_animation)
-                .into(ftpdetailsBinding.ftpDetailBannerImg);
+//        Glide.with(mContext)
+//                .load(ftpbannerimgStr)
+//                .placeholder(R.drawable.progress_animation)
+//                .into(ftpdetailsBinding.ftpDetailBannerImg);
+        Utils.setImageInImageView(ftpbannerimgStr,ftpdetailsBinding.ftpDetailBannerImg,mContext);
+
         ftpdetailsBinding.ftpMainTitleTxt.setText(ftpmaintitleStr);
         ftpdetailsBinding.ftpdateTxt.setText(ftpdateStr);
         ftpdetailsBinding.ftpShortTitleTxt.setText(ftpshortdescStr);

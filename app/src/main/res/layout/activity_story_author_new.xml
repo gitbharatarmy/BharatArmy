@@ -13,6 +13,7 @@
             android:id="@+id/shimmer_view_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_300sdp"
             android:orientation="vertical">
 
             <include layout="@layout/ftp_dataholder_item" />
@@ -24,11 +25,11 @@
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/story_author_rcvList"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:visibility="gone"/>
         </android.support.v4.widget.SwipeRefreshLayout>
 
         <android.support.design.widget.AppBarLayout
@@ -36,7 +37,8 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/detail_backdrop_height"
             android:fitsSystemWindows="true"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:titleTextAppearance="@style/TextAppearance.AppCompat.Title.Collapse">
 
             <android.support.design.widget.CollapsingToolbarLayout
                 android:id="@+id/collapsingToolbarLayoutAndroidExample"
@@ -45,10 +47,10 @@
                 android:fitsSystemWindows="true"
                 app:collapsedTitleTextAppearance="@style/TextAppearance.AppCompat.Title.Collapse"
                 app:contentScrim="?attr/colorPrimary"
-                app:expandedTitleMarginEnd="@dimen/_10sdp"
-                app:expandedTitleMarginStart="@dimen/_45sdp"
                 app:expandedTitleTextAppearance="@style/TextAppearance.AppCompat.Title.Expand"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed">
+                app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                app:expandedTitleMarginStart="0dp"
+                >
 
                 <RelativeLayout
                     android:id="@+id/imgContainer"
@@ -361,32 +363,33 @@
 
                         <LinearLayout
                             android:id="@+id/follow_linear_toolbar"
-                            android:layout_width="@dimen/_60sdp"
+                            android:layout_width="match_parent"
                             android:layout_height="@dimen/_50sdp"
-                            android:layout_alignParentRight="true"
+                            android:layout_alignParentLeft="true"
                             android:orientation="horizontal"
-                            android:visibility="gone">
+                            android:visibility="visible">
 
 
                             <ImageView
+                                android:id="@+id/back_img"
                                 android:layout_width="@dimen/_15sdp"
                                 android:layout_height="@dimen/_25sdp"
                                 android:layout_gravity="left"
-                                android:src="@drawable/ic_user_follow"
-                                android:tint="@color/splash_bg_color"
-                                android:layout_marginTop="@dimen/_6sdp"/>
+                                android:src="@drawable/ic_left_arrow"
+                                android:layout_marginTop="@dimen/_2sdp"/>
 
                             <TextView
+                                android:id="@+id/story_title_txt"
                                 style="@style/title_text_font"
                                 android:layout_width="wrap_content"
                                 android:layout_height="@dimen/_25sdp"
-                                android:layout_marginLeft="@dimen/_5sdp"
-                                android:layout_marginTop="@dimen/_2sdp"
+                                android:layout_marginLeft="@dimen/_10sdp"
                                 android:gravity="center_vertical"
-                                android:text="Follow"
+                                android:text="Yash Mittal Story"
                                 android:textColor="@color/splash_bg_color"
-                                android:textSize="@dimen/_12sdp"
-                                android:textStyle="normal" />
+                                android:textSize="@dimen/_14sdp"
+                                android:textStyle="normal"
+                                android:visibility="gone"/>
                         </LinearLayout>
                     </RelativeLayout>
                 </android.support.v7.widget.Toolbar>

@@ -15,7 +15,8 @@
 
         <TextView
             android:id="@+id/title_tv"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
+            android:layout_weight="0.5"
             android:layout_height="match_parent"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
@@ -25,6 +26,20 @@
             android:gravity="center_vertical"
             android:textSize="@dimen/_14sdp"
             android:textColor="@color/splash_bg_color" />
+
+        <TextView
+            android:id="@+id/close_btn1"
+            style="@style/title_text_font"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:background="@color/heading_bg"
+            android:gravity="center_vertical|right"
+            android:text="x"
+            android:paddingRight="@dimen/_20sdp"
+            android:textColor="@color/splash_bg_color"
+            android:textSize="@dimen/_16sdp"
+            android:textStyle="bold" />
 
 
     </LinearLayout>

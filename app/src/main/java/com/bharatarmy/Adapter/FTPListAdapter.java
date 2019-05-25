@@ -17,6 +17,7 @@ import com.bharatarmy.Activity.MoreStoryActivity;
 import com.bharatarmy.Interfaces.image_click;
 import com.bharatarmy.Models.ImageDetailModel;
 import com.bharatarmy.R;
+import com.bharatarmy.Utility.Utils;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -148,12 +149,12 @@ public class FTPListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             }
         });
 
-        Picasso.with(mContext)
-                .load(detail.getFutureTourThumbImageURL())
-                .placeholder(R.drawable.progress_animation)
-                .into(viewHolder.banner_img);
+//        Picasso.with(mContext)
+//                .load(detail.getFutureTourThumbImageURL())
+//                .placeholder(R.drawable.progress_animation)
+//                .into(viewHolder.banner_img);
 
-
+        Utils.setImageInImageView(detail.getFutureTourImageURL(),viewHolder.banner_img,mContext);
 
         if (!detail.getStr1().equalsIgnoreCase("")) {
             viewHolder.linear1_txt.setVisibility(View.VISIBLE);

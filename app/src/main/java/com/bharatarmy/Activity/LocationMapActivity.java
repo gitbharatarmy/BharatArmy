@@ -41,11 +41,12 @@ public class LocationMapActivity extends AppCompatActivity implements View.OnCli
 //        setTitleText("View Stadium Map");
 //        setShareBtn(LocationMapActivity.this,);
 
-        Picasso.with(mContext)
-                .load(R.drawable.first_match_map)
-                .placeholder(R.drawable.progress_animation)
-                .into(locationMapBinding.imageFull);
+//        Picasso.with(mContext)
+//                .load(R.drawable.first_match_map)
+//                .placeholder(R.drawable.progress_animation)
+//                .into(locationMapBinding.imageFull);
 
+Utils.setImageInImageView(String.valueOf(R.drawable.first_match_map),locationMapBinding.imageFull,mContext);
 
         locationMapBinding.imageFull.getPositionAnimator().enter(locationMapBinding.imageDetailImg, false);
         setListiner();

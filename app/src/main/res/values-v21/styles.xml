@@ -84,14 +84,14 @@
     </style>
 
     <style name="TextAppearance.AppCompat.Title.Collapse">
-        <item name="android:fontFamily">@font/thesansplain</item>
+        <item name="android:fontFamily">@font/helveticaneueltstdbdcn</item>
         <item name="android:textSize">@dimen/_14sdp</item>
         <item name="android:textColor">@color/splash_bg_color</item>
     </style>
 
     <style name="TextAppearance.AppCompat.Title.Expand">
-        <item name="android:fontFamily">@font/thesansplain</item>
-        <item name="android:textSize">@dimen/_18sdp</item>
+        <item name="android:fontFamily">@font/helveticaneueltstdbdcn</item>
+        <item name="android:textSize">@dimen/_16sdp</item>
         <item name="android:textColor">@color/splash_bg_color</item>
     </style>
     <style name="ToolBarStyle" parent="Theme.AppCompat">

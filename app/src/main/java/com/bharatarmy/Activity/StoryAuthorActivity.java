@@ -3,10 +3,12 @@ package com.bharatarmy.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,6 +17,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -72,10 +75,10 @@ public class StoryAuthorActivity extends AppCompatActivity implements View.OnCli
 
     public void setListiner() {
         setSupportActionBar(activityStoryAuthorNewBinding.toolbarAndroid);
-        getSupportActionBar().setBackgroundDrawable(getResources().getDrawable(R.drawable.dropshadow));
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+//        getSupportActionBar().setBackgroundDrawable(getResources().getDrawable(R.drawable.dropshadow));
+//        getSupportActionBar().setDisplayShowTitleEnabled(true);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
 //fb,tw,youtube,instagram
         activityStoryAuthorNewBinding.shimmerViewContainer.startShimmerAnimation();
@@ -131,20 +134,29 @@ public class StoryAuthorActivity extends AppCompatActivity implements View.OnCli
                 //Check if the view is collapsed
                 if (scrollRange + verticalOffset == 0) {
                     activityStoryAuthorNewBinding.toolbarAndroid.setBackgroundColor(ContextCompat.getColor(mContext, R.color.heading_bg));
-                    activityStoryAuthorNewBinding.collapsingToolbarLayoutAndroidExample.setTitle("Yash Mittal Story");
-//                    activityStoryAuthorNewBinding.followLinearToolbar.setVisibility(View.VISIBLE);
+//                    activityStoryAuthorNewBinding.collapsingToolbarLayoutAndroidExample.setTitle("Yash Mittal Story");
+//                    Typeface typeface = ResourcesCompat.getFont(mContext, R.font.helveticaneueltstdbdcn);
+//                    activityStoryAuthorNewBinding.collapsingToolbarLayoutAndroidExample.setCollapsedTitleTypeface(typeface);
+//                    activityStoryAuthorNewBinding.collapsingToolbarLayoutAndroidExample.setExpandedTitleTypeface(typeface);
+//                    activityStoryAuthorNewBinding.collapsingToolbarLayoutAndroidExample.setCollapsedTitleGravity(Gravity.START);
+//                    activityStoryAuthorNewBinding.collapsingToolbarLayoutAndroidExample.setExpandedTitleGravity(Gravity.START);
+
+                    activityStoryAuthorNewBinding.followLinearToolbar.setVisibility(View.VISIBLE);
+                    activityStoryAuthorNewBinding.storyTitleTxt.setVisibility(View.VISIBLE);
                     isShow = true;
-                }
-                else if(isShow){
+                } else if (isShow) {
                     activityStoryAuthorNewBinding.toolbarAndroid.setBackgroundColor(ContextCompat.getColor(mContext, R.color.transparent));
                     activityStoryAuthorNewBinding.collapsingToolbarLayoutAndroidExample.setTitle(" ");
 //                    activityStoryAuthorNewBinding.followLinearToolbar.setVisibility(View.GONE);
+//                    activityStoryAuthorNewBinding.followLinearToolbar.setVisibility(View.GONE);
+
+                    activityStoryAuthorNewBinding.storyTitleTxt.setVisibility(View.GONE);
                     isShow = false;
                 }
             }
         });
 
-//        activityStoryAuthorNewBinding.backLinear.setOnClickListener(this);
+        activityStoryAuthorNewBinding.backImg.setOnClickListener(this);
         activityStoryAuthorNewBinding.facebookLinear.setOnClickListener(this);
         activityStoryAuthorNewBinding.tiwtterLinear.setOnClickListener(this);
         activityStoryAuthorNewBinding.instagramLinear.setOnClickListener(this);
@@ -185,6 +197,7 @@ public class StoryAuthorActivity extends AppCompatActivity implements View.OnCli
                         storyDetailModelList = imageMainModel.getData();
                         activityStoryAuthorNewBinding.shimmerViewContainer.stopShimmerAnimation();
                         activityStoryAuthorNewBinding.shimmerViewContainer.setVisibility(View.GONE);
+                        activityStoryAuthorNewBinding.storyAuthorRcvList.setVisibility(View.VISIBLE);
 
                         if (storyLsitAdapter != null && storyDetailModelList.size() > 0) {
                             storyLsitAdapter.addMoreDataToList(storyDetailModelList);
@@ -270,6 +283,7 @@ public class StoryAuthorActivity extends AppCompatActivity implements View.OnCli
 
                     if (imageMainModel.getData() != null) {
                         storyDetailModelList = imageMainModel.getData();
+                        activityStoryAuthorNewBinding.storyAuthorRcvList.setVisibility(View.VISIBLE);
 
 //                        addOldNewPullValue (imageDetailModelsList);
                         storyLsitAdapter.notifyDataSetChanged();
@@ -306,46 +320,46 @@ public class StoryAuthorActivity extends AppCompatActivity implements View.OnCli
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.back_linear:
+            case R.id.back_img:
                 StoryAuthorActivity.this.finish();
                 break;
             case R.id.facebook_linear:
-                boolean installed_whatsapp = Utils.appInstalledOrNot("com.facebook.katana",mContext);
-                if (installed_whatsapp){
+                boolean installed_whatsapp = Utils.appInstalledOrNot("com.facebook.katana", mContext);
+                if (installed_whatsapp) {
                     Intent launchIntent = getPackageManager().getLaunchIntentForPackage("com.facebook.katana");
                     startActivity(launchIntent);
-                }else{
-                    Utils.ping(mContext,getResources().getString(R.string.app_not_installed));
+                } else {
+                    Utils.ping(mContext, getResources().getString(R.string.app_not_installed));
                     startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + "com.facebook.katana")));
                 }
                 break;
             case R.id.tiwtter_linear:
-                boolean installed_twitter = Utils.appInstalledOrNot("com.twitter.android",mContext);
-                if (installed_twitter){
+                boolean installed_twitter = Utils.appInstalledOrNot("com.twitter.android", mContext);
+                if (installed_twitter) {
                     Intent launchIntent = getPackageManager().getLaunchIntentForPackage("com.twitter.android");
                     startActivity(launchIntent);
-                }else{
-                    Utils.ping(mContext,getResources().getString(R.string.app_not_installed));
+                } else {
+                    Utils.ping(mContext, getResources().getString(R.string.app_not_installed));
                     startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + "com.twitter.android")));
                 }
                 break;
             case R.id.instagram_linear:
-                boolean installed_instagram = Utils.appInstalledOrNot("com.instagram.android",mContext);
-                if (installed_instagram){
+                boolean installed_instagram = Utils.appInstalledOrNot("com.instagram.android", mContext);
+                if (installed_instagram) {
                     Intent launchIntent = getPackageManager().getLaunchIntentForPackage("com.instagram.android");
                     startActivity(launchIntent);
-                }else{
-                    Utils.ping(mContext,getResources().getString(R.string.app_not_installed));
+                } else {
+                    Utils.ping(mContext, getResources().getString(R.string.app_not_installed));
                     startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + "com.instagram.android")));
                 }
                 break;
             case R.id.youtube_linear:
-                boolean installed_youtube = Utils.appInstalledOrNot("com.google.android.youtube",mContext);
-                if (installed_youtube){
+                boolean installed_youtube = Utils.appInstalledOrNot("com.google.android.youtube", mContext);
+                if (installed_youtube) {
                     Intent launchIntent = getPackageManager().getLaunchIntentForPackage("com.google.android.youtube");
                     startActivity(launchIntent);
-                }else{
-                    Utils.ping(mContext,getResources().getString(R.string.app_not_installed));
+                } else {
+                    Utils.ping(mContext, getResources().getString(R.string.app_not_installed));
                     startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + "com.google.android.youtube")));
                 }
                 break;

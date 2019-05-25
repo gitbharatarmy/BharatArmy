@@ -19,6 +19,7 @@ import com.bharatarmy.Models.ImageDetailModel;
 import com.bharatarmy.Models.ImageMainModel;
 import com.bharatarmy.R;
 
+import com.bharatarmy.Utility.Utils;
 import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 
@@ -85,11 +86,13 @@ public class GalleryImageDetailAdapter extends RecyclerView.Adapter<GalleryImage
 //                .placeholder(R.drawable.progress_animation)
 //                .into(holder.galleryimageListImg);
 
+//
+//        Picasso.with(mContext)
+//                .load(imageList.get(position))
+//                .placeholder(R.drawable.progress_animation)
+//                .into(holder.fullimage);
 
-        Picasso.with(mContext)
-                .load(imageList.get(position))
-                .placeholder(R.drawable.progress_animation)
-                .into(holder.fullimage);
+        Utils.setImageInImageView(imageList.get(position),holder.fullimage,mContext);
         holder.fullimage.getPositionAnimator().enter(holder.galleryimageListImg, false);
 
 

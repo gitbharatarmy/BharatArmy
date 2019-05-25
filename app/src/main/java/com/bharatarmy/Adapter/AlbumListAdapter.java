@@ -15,8 +15,10 @@ import android.widget.TextView;
 import com.bharatarmy.Models.ImageDetailModel;
 import com.bharatarmy.Models.MoviePoster;
 import com.bharatarmy.R;
+import com.bharatarmy.Utility.Utils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.squareup.picasso.Picasso;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -57,9 +59,12 @@ List<ImageDetailModel> imageDetailModelList;
         holder.getMMovieName().setText((CharSequence)$receiver.getGalleryName());
         View var10000 = holder.itemView;
         Intrinsics.checkExpressionValueIsNotNull(var10000, "holder.itemView");
-        Glide.with(var10000.getContext()).setDefaultRequestOptions(this.requestOptions)
-                .load($receiver.getGalleryURL())
-                .into(holder.getMImgPoster());
+//        Picasso.with(var10000.getContext())
+//                .load($receiver.getGalleryURL())
+//                .placeholder(R.drawable.progress_animation)
+//                .into(holder.getMImgPoster());
+        Utils.setImageInImageView($receiver.getGalleryURL(),holder.getMImgPoster(),var10000.getContext());
+
         ConstraintSet var6 = this.set;
         boolean var8 = false;
         StringCompanionObject var9 = StringCompanionObject.INSTANCE;

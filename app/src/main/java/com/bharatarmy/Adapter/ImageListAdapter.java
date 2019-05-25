@@ -12,6 +12,7 @@ import android.widget.ProgressBar;
 import com.bharatarmy.Interfaces.image_click;
 import com.bharatarmy.Models.ImageDetailModel;
 import com.bharatarmy.R;
+import com.bharatarmy.Utility.Utils;
 import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 
@@ -107,10 +108,12 @@ public class ImageListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
        final ImageDetailModel detail= mItemList.get(position);
 //        viewHolder.tvItem.setText(item);
-        Glide.with(mContext)
-                .load(detail.getGalleryURL())
-                .placeholder(R.drawable.progress_animation)
-                .into(viewHolder.imageView);
+//        Picasso.with(mContext)
+//                .load(detail.getGalleryURL())
+//                .placeholder(R.drawable.progress_animation)
+//                .into(viewHolder.imageView);
+
+        Utils.setImageInImageView(detail.getGalleryURL(),viewHolder.imageView,mContext);
 
         viewHolder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override

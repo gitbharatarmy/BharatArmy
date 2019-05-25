@@ -96,6 +96,8 @@ public class BharatArmyStoriesAdapter extends RecyclerView.Adapter<BharatArmySto
                 .load(storiesData.getAuthorImageURL())
                 .into(holder.profile_image);
 
+
+
         holder.army_story_header_txt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
