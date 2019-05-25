@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Activity.MainActivity"
-    android:layout_marginBottom="@dimen/_30sdp">
+    android:layout_marginBottom="@dimen/_10sdp">
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/refreshView"
         android:layout_width="match_parent"

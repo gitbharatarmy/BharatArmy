@@ -42,23 +42,24 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
     ActivitySignUpBinding activitySignUpBinding;
     Context mContext;
-    String strFullName, strEmail, strCountrycode, strMobileno, strPassword, strCheck = "0";
+    String strFullName, strEmail, strCountrycode, strMobileno, strPassword, strCheck = "0",
+            strbckFullName, strbckEmail, strbckCountrycode, strbckMobileno, strbckPassword, strbckCheck;
     AlertDialog alertDialogAndroid;
     Button agree_btn;
     meghWebView webView;
     TextView close_btn;
     ImageView image;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activitySignUpBinding = DataBindingUtil.setContentView(this, R.layout.activity_sign_up);
 
-
         mContext = SignUpActivity.this;
         setListiner();
 
     }
-
+    // set the All Listiner and Data
     public void setListiner() {
         activitySignUpBinding.ccp.setCountryForNameCode(AppConfiguration.currentCountry);
         activitySignUpBinding.termConditionTxt.setOnClickListener(this);
@@ -75,8 +76,28 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                 }
             }
         });
+            if (getIntent().getStringExtra("wheretocome").equalsIgnoreCase("OTP")) {
+                strbckFullName = getIntent().getStringExtra("signupFullname");
+                strbckEmail = getIntent().getStringExtra("signupEmail");
+                strbckCountrycode = getIntent().getStringExtra("signupCountryCode");
+                strbckMobileno = getIntent().getStringExtra("signupMobileno");
+                strbckPassword = getIntent().getStringExtra("signupPassword");
+                strbckCheck = getIntent().getStringExtra("signupCheck");
+
+
+                activitySignUpBinding.fulluserNameEdt.setText(strbckFullName);
+                activitySignUpBinding.emailEdt.setText(strbckEmail);
+                activitySignUpBinding.ccp.setCountryForNameCode(strbckCountrycode);
+                activitySignUpBinding.mobileEdt.setText(strbckMobileno);
+                activitySignUpBinding.userPasswordEdt.setText(strbckPassword);
+
+                if (strbckCheck.equalsIgnoreCase("1")){
+                    activitySignUpBinding.termsChk.setChecked(true);
+                }
+            }
     }
 
+    // get the data user fill for singup
     public void getDataValue() {
         strFullName = activitySignUpBinding.fulluserNameEdt.getText().toString();
         strEmail = activitySignUpBinding.emailEdt.getText().toString();
@@ -84,7 +105,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         strMobileno = activitySignUpBinding.mobileEdt.getText().toString();
         strPassword = activitySignUpBinding.userPasswordEdt.getText().toString();
 
-        Log.d("selectedcode",strCountrycode);
+        Log.d("selectedcode", strCountrycode);
 
         if (!strFullName.equalsIgnoreCase("")) {
             if (!strEmail.equalsIgnoreCase("")) {
@@ -95,13 +116,13 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                                 boolean status = Utils.validateUsing_libphonenumber(mContext, strCountrycode, strMobileno);
                                 if (status) {
                                     if (!strPassword.equalsIgnoreCase("")) {
-                                        if (!strCheck.equalsIgnoreCase("0")){
+                                        if (!strCheck.equalsIgnoreCase("0")) {
                                             getOtpVerification();
-                                        }else{
-                                            Utils.ping(mContext,"Check the privacy policy");
+                                        } else {
+                                            Utils.ping(mContext, "Check the privacy policy");
                                         }
                                     } else {
-                                      activitySignUpBinding.userPasswordEdt.setError("Password is required");
+                                        activitySignUpBinding.userPasswordEdt.setError("Password is required");
                                     }
                                 } else {
                                     activitySignUpBinding.mobileEdt.setError("Invalid Phone Number");
@@ -113,7 +134,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                             activitySignUpBinding.mobileEdt.setError("Phone Number is required");
                         }
                     } else {
-                        Utils.ping(mContext,"Country Code is required");
+                        Utils.ping(mContext, "Country Code is required");
                     }
                 } else {
                     activitySignUpBinding.emailEdt.setError("Invalid Email Address");
@@ -124,7 +145,6 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         } else {
             activitySignUpBinding.fulluserNameEdt.setError("Full Name is required");
         }
-
 
 
     }
@@ -140,13 +160,14 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                 getDataValue();
                 break;
             case R.id.close_txt:
-                Intent iLogin=new Intent(mContext,LoginActivity.class);
+                Intent iLogin = new Intent(mContext, LoginActivity.class);
                 startActivity(iLogin);
                 finish();
                 break;
         }
     }
 
+    // call the Otp Verification service and get the otp
     public void getOtpVerification() {
         if (!Utils.checkNetwork(mContext)) {
             Utils.showCustomDialog(getResources().getString(R.string.internet_error), getResources().getString(R.string.internet_connection_error), SignUpActivity.this);
@@ -205,6 +226,8 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         map.put("CountryCode", strCountrycode);
         return map;
     }
+
+    // use for show the terms & condition
     public void termconditionDialog() {
         LayoutInflater lInflater = (LayoutInflater) mContext
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -255,6 +278,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         });
     }
 
+    // use for webview adavnce facility funcation
     public class MyWebViewClient extends WebViewClient {
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {

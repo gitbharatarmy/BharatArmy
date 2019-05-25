@@ -190,4 +190,13 @@
     <string name="Mins">Mins</string>
     <string name="Secs">Secs</string>
     <string name="_8">8</string>
+
+    <string name="view_more"><u>View More</u></string>
+    <string name="add_cart">ADD TO CART</string>
+    <string name="ticket_header">Tickets</string>
+    <string name="hospitality_header">Hospitality</string>
+    <string name="transfer_header">Transfer</string>
+
+    <!--Story String-->
+    <string name="app_not_installed">App is not currently installed on your phone</string>
 </resources>

@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
+
 import com.bharatarmy.Models.TravelDetailModel;
 import com.bharatarmy.R;
 import com.squareup.picasso.Picasso;
@@ -25,12 +27,14 @@ public class TravelTicketListAdapter extends RecyclerView.Adapter<TravelTicketLi
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
        ImageView ticket_img;
+       TextView ticket_name,ticket_price_txt;
 
         public MyViewHolder(View view) {
             super(view);
 
            ticket_img=(ImageView)view.findViewById(R.id.ticket_img);
-
+            ticket_name=(TextView)view.findViewById(R.id.ticket_txt);
+            ticket_price_txt=(TextView)view.findViewById(R.id.ticket_price_txt);
 
         }
     }
@@ -54,6 +58,8 @@ public class TravelTicketListAdapter extends RecyclerView.Adapter<TravelTicketLi
                .placeholder(R.drawable.progress_animation)
                .into(holder.ticket_img);
 
+       holder.ticket_name.setText(ticketListDetail.getTicketName());
+       holder.ticket_price_txt.setText("£ " + String.valueOf(ticketListDetail.getTicketprice()));
     }
 
     @Override

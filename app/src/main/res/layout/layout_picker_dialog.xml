@@ -32,13 +32,17 @@
     <EditText
         android:id="@+id/search_edt"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/_40sdp"
         android:layout_below="@+id/toolbar_linear"
         android:hint="@string/search_hint"
         android:imeOptions="flagNoExtractUi"
         android:maxLines="1"
         android:singleLine="true"
         android:padding="8dp"
+        android:layout_marginLeft="@dimen/_5sdp"
+        android:layout_marginRight="@dimen/_5sdp"
+        android:background="@drawable/line_shape"
+        android:textCursorDrawable="@drawable/color_cursor"
         android:textColor="@android:color/primary_text_light_nodisable"
         />
 

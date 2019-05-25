@@ -5,14 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:layout_marginBottom="@dimen/_10sdp"
     tools:context=".Fragment.ImageFragment">
 <android.support.v4.widget.SwipeRefreshLayout
     android:id="@+id/refreshView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginLeft="@dimen/_1sdp"
-    android:layout_marginRight="@dimen/_2sdp"
-    android:layout_marginBottom="@dimen/_20sdp">
+    android:layout_marginRight="@dimen/_2sdp">
     <android.support.v7.widget.RecyclerView xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/image_rcyList"
         android:layout_width="match_parent"

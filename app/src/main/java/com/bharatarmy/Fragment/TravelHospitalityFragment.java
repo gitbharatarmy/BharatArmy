@@ -66,7 +66,7 @@ public class TravelHospitalityFragment extends Fragment {
         if (isVisibleToUser && rootView != null) {
             // Refresh your fragment here
             if (travelTicketListAdapter == null) {
-                setDataValue();
+//                setDataValue();
             }
 
         }
@@ -83,19 +83,19 @@ public class TravelHospitalityFragment extends Fragment {
         setUserVisibleHint(true);
         return rootView;
     }
-    public void setDataValue() {
-        ticketArray = new ArrayList<TravelDetailModel>();
-        for (int i=0;i<10;i++){
-            ticketArray.add(new TravelDetailModel(R.drawable.gold_images));
-        }
-
-        travelTicketListAdapter = new TravelTicketListAdapter(mContext, ticketArray);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
-        LinearSnapHelper linearSnapHelper = new SnapHelperOneByOne();
-        linearSnapHelper.attachToRecyclerView(travelHospitalityBinding.hospitalityDetailRcvList);
-        travelHospitalityBinding.hospitalityDetailRcvList.setLayoutManager(mLayoutManager);
-        travelHospitalityBinding.hospitalityDetailRcvList.setItemAnimator(new DefaultItemAnimator());
-        travelHospitalityBinding.hospitalityDetailRcvList.setAdapter(travelTicketListAdapter);
-    }
+//    public void setDataValue() {
+//        ticketArray = new ArrayList<TravelDetailModel>();
+//        for (int i=0;i<10;i++){
+//            ticketArray.add(new TravelDetailModel(R.drawable.gold_images));
+//        }
+//
+//        travelTicketListAdapter = new TravelTicketListAdapter(mContext, ticketArray);
+//        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
+//        LinearSnapHelper linearSnapHelper = new SnapHelperOneByOne();
+//        linearSnapHelper.attachToRecyclerView(travelHospitalityBinding.hospitalityDetailRcvList);
+//        travelHospitalityBinding.hospitalityDetailRcvList.setLayoutManager(mLayoutManager);
+//        travelHospitalityBinding.hospitalityDetailRcvList.setItemAnimator(new DefaultItemAnimator());
+//        travelHospitalityBinding.hospitalityDetailRcvList.setAdapter(travelTicketListAdapter);
+//    }
 
 }

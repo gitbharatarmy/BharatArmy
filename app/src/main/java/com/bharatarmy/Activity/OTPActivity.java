@@ -171,7 +171,7 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
         });
 
         activityOtpBinding.otpImg.setOnClickListener(this);
-        activityOtpBinding.backImg.setOnClickListener(this);
+        activityOtpBinding.backLinear.setOnClickListener(this);
         activityOtpBinding.otpImg.setOnEditorActionListener(new EditText.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -189,17 +189,24 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
             case R.id.otp_img:
                 getOtpData();
                 break;
-            case R.id.back_img:
+            case R.id.back_linear:
                 if (strWheretocome.equalsIgnoreCase("Signup")) {
                     Intent mobileIntent = new Intent(mContext, SignUpActivity.class);
+                    mobileIntent.putExtra("wheretocome", "OTP");
+                    mobileIntent.putExtra("signupFullname", strFullName);
+                    mobileIntent.putExtra("signupEmail", strEmail);
+                    mobileIntent.putExtra("signupCountryCode", strCountrycode);
+                    mobileIntent.putExtra("signupMobileno", strMobileno);
+                    mobileIntent.putExtra("signupPassword", strPassword);
+                    mobileIntent.putExtra("signupCheck", strCheck);
                     startActivity(mobileIntent);
                     overridePendingTransition(0, 0);
-                    finish();
+//                    finish();
                 } else {
                     Intent mobileIntent = new Intent(mContext, MobileVerificationNewActivity.class);
                     startActivity(mobileIntent);
                     overridePendingTransition(0, 0);
-                    finish();
+//                    finish();
                 }
                 break;
         }

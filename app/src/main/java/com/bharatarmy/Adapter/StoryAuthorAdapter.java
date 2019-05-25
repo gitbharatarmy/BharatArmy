@@ -44,7 +44,7 @@ public class StoryAuthorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (viewType == VIEW_TYPE_ITEM) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.story_item_list, parent, false);
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.story_author_list, parent, false);
             return new ItemViewHolder(view);
         } else {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_loading, parent, false);
@@ -96,10 +96,10 @@ public class StoryAuthorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             date_txt = (TextView) itemView.findViewById(R.id.date_txt);
             views_txt = (TextView) itemView.findViewById(R.id.views_txt);
             type_txt = (TextView) itemView.findViewById(R.id.type_txt);
-            username_txt = (TextView) itemView.findViewById(R.id.username_txt);
+//            username_txt = (TextView) itemView.findViewById(R.id.username_txt);
 
             type_img = (ImageView) itemView.findViewById(R.id.type_img);
-            profile_image = (ImageView) itemView.findViewById(R.id.profile_image);
+//            profile_image = (ImageView) itemView.findViewById(R.id.profile_image);
             banner_img = (ImageView) itemView.findViewById(R.id.banner_img);
             author_linear = (LinearLayout) itemView.findViewById(R.id.author_linear);
 
@@ -130,16 +130,16 @@ public class StoryAuthorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         viewHolder.army_story_sub_txt.setText(detail.getShortDescription());
         viewHolder.date_txt.setText(detail.getStrStoryAdded());
         viewHolder.views_txt.setText(detail.getStrViewCount());
-        viewHolder.username_txt.setText(detail.getAuthorName());
+//        viewHolder.username_txt.setText(detail.getAuthorName());
 
 
         Picasso.with(mContext)
                 .load(detail.getStrThumbImageName())
                 .placeholder(R.drawable.progress_animation)
                 .into(viewHolder.banner_img);
-        Picasso.with(mContext)
-                .load(detail.getAuthorImageURL())
-                .into(viewHolder.profile_image);
+//        Picasso.with(mContext)
+//                .load(detail.getAuthorImageURL())
+//                .into(viewHolder.profile_image);
 
         viewHolder.army_story_header_txt.setOnClickListener(new View.OnClickListener() {
             @Override

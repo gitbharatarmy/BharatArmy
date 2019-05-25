@@ -1,9 +1,12 @@
 package com.bharatarmy.Activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,22 +15,30 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.bharatarmy.Adapter.StoryAuthorAdapter;
-import com.bharatarmy.Adapter.StoryLsitAdapter;
 import com.bharatarmy.Interfaces.image_click;
 import com.bharatarmy.Models.ImageDetailModel;
 import com.bharatarmy.Models.ImageMainModel;
 import com.bharatarmy.R;
+import com.bharatarmy.TravelDesignModule.ObservableScrollView;
+import com.bharatarmy.TravelDesignModule.ObservableScrollViewCallbacks;
+import com.bharatarmy.TravelDesignModule.ParallaxRecyclerAdapter;
+import com.bharatarmy.TravelDesignModule.ScrollState;
 import com.bharatarmy.Utility.ApiHandler;
 import com.bharatarmy.Utility.Utils;
-import com.bharatarmy.databinding.ActivityStoryAuthorBinding;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
+import com.bharatarmy.databinding.ActivityStoryAuthorNewBinding;
+import com.squareup.picasso.Picasso;
 
+import java.security.PublicKey;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,59 +46,61 @@ import java.util.Map;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class StoryAuthorActivity extends AppCompatActivity {
+public class StoryAuthorActivity extends AppCompatActivity implements View.OnClickListener {
 
-    ActivityStoryAuthorBinding activityStoryAuthorBinding;
+    ActivityStoryAuthorNewBinding activityStoryAuthorNewBinding;
     Context mContext;
     StoryAuthorAdapter storyLsitAdapter;
     List<ImageDetailModel> storyDetailModelList;
-
     int pageIndex = 0;
     boolean isLoading = false;
     GridLayoutManager gridLayoutManager;
     boolean ispull;
 
+    ParallaxRecyclerAdapter<ImageDetailModel> adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        activityStoryAuthorBinding= DataBindingUtil.setContentView(this,R.layout.activity_story_author);
-        mContext=StoryAuthorActivity.this;
-        setSupportActionBar(activityStoryAuthorBinding.toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        activityStoryAuthorBinding.collapsingToolbar.setTitle("Yash Mittal");
+        activityStoryAuthorNewBinding = DataBindingUtil.setContentView(this, R.layout.activity_story_author_new);
+        mContext = StoryAuthorActivity.this;
 
-        loadBackdrop();
         callStoryData();
         setListiner();
+
     }
 
-    private void loadBackdrop() {
-        final ImageView imageView = findViewById(R.id.backdrop);
-        Glide.with(mContext).load(R.drawable.yashmittal).into(imageView);
-    }
     public void setListiner() {
-//        activityStoryAuthorBinding.shimmerViewContainer.startShimmerAnimation();
+        setSupportActionBar(activityStoryAuthorNewBinding.toolbarAndroid);
+        getSupportActionBar().setBackgroundDrawable(getResources().getDrawable(R.drawable.dropshadow));
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+//fb,tw,youtube,instagram
+        activityStoryAuthorNewBinding.shimmerViewContainer.startShimmerAnimation();
         gridLayoutManager = new GridLayoutManager(mContext, 2);
         gridLayoutManager.setOrientation(LinearLayoutManager.VERTICAL); // set Horizontal Orientation
-        activityStoryAuthorBinding.storyAuthorRcvList.setLayoutManager(gridLayoutManager); // set LayoutManager to RecyclerView
+        activityStoryAuthorNewBinding.storyAuthorRcvList.setLayoutManager(gridLayoutManager); // set LayoutManager to RecyclerView
 
 
-        activityStoryAuthorBinding.swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        activityStoryAuthorNewBinding.swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 callStoryPullData();
-                activityStoryAuthorBinding.swipeRefreshLayout.setRefreshing(false);
+                activityStoryAuthorNewBinding.swipeRefreshLayout.setRefreshing(false);
             }
         });
 
 
-        activityStoryAuthorBinding.storyAuthorRcvList.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        activityStoryAuthorNewBinding.storyAuthorRcvList.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
             }
 
             @Override
+
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
 
@@ -104,13 +117,46 @@ public class StoryAuthorActivity extends AppCompatActivity {
             }
         });
 
+
+        activityStoryAuthorNewBinding.androidAppbarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            boolean isShow = true;
+            int scrollRange = -1;
+
+            @Override
+            public void onOffsetChanged(final AppBarLayout appBarLayout, int verticalOffset) {
+                //Initialize the size of the scroll
+                if (scrollRange == -1) {
+                    scrollRange = appBarLayout.getTotalScrollRange();
+                }
+                //Check if the view is collapsed
+                if (scrollRange + verticalOffset == 0) {
+                    activityStoryAuthorNewBinding.toolbarAndroid.setBackgroundColor(ContextCompat.getColor(mContext, R.color.heading_bg));
+                    activityStoryAuthorNewBinding.collapsingToolbarLayoutAndroidExample.setTitle("Yash Mittal Story");
+//                    activityStoryAuthorNewBinding.followLinearToolbar.setVisibility(View.VISIBLE);
+                    isShow = true;
+                }
+                else if(isShow){
+                    activityStoryAuthorNewBinding.toolbarAndroid.setBackgroundColor(ContextCompat.getColor(mContext, R.color.transparent));
+                    activityStoryAuthorNewBinding.collapsingToolbarLayoutAndroidExample.setTitle(" ");
+//                    activityStoryAuthorNewBinding.followLinearToolbar.setVisibility(View.GONE);
+                    isShow = false;
+                }
+            }
+        });
+
+//        activityStoryAuthorNewBinding.backLinear.setOnClickListener(this);
+        activityStoryAuthorNewBinding.facebookLinear.setOnClickListener(this);
+        activityStoryAuthorNewBinding.tiwtterLinear.setOnClickListener(this);
+        activityStoryAuthorNewBinding.instagramLinear.setOnClickListener(this);
+        activityStoryAuthorNewBinding.youtubeLinear.setOnClickListener(this);
+
     }
 
 
-//     Api calling GetStoryData
+    //     Api calling GetStoryData
     public void callStoryData() {
         if (!Utils.checkNetwork(mContext)) {
-            Utils.showCustomDialog(getResources().getString(R.string.internet_error), getResources().getString(R.string.internet_connection_error),StoryAuthorActivity.this);
+            Utils.showCustomDialog(getResources().getString(R.string.internet_error), getResources().getString(R.string.internet_connection_error), StoryAuthorActivity.this);
             return;
         }
 
@@ -137,20 +183,20 @@ public class StoryAuthorActivity extends AppCompatActivity {
                     if (imageMainModel.getData() != null) {
 
                         storyDetailModelList = imageMainModel.getData();
-//                        activityStoryAuthorBinding.shimmerViewContainer.stopShimmerAnimation();
-//                        activityStoryAuthorBinding.shimmerViewContainer.setVisibility(View.GONE);
+                        activityStoryAuthorNewBinding.shimmerViewContainer.stopShimmerAnimation();
+                        activityStoryAuthorNewBinding.shimmerViewContainer.setVisibility(View.GONE);
 
                         if (storyLsitAdapter != null && storyDetailModelList.size() > 0) {
                             storyLsitAdapter.addMoreDataToList(storyDetailModelList);
                             // just append more data to current list
-                        }else if(storyLsitAdapter!=null && storyDetailModelList.size()==0){
+                        } else if (storyLsitAdapter != null && storyDetailModelList.size() == 0) {
 //                            Utils.ping(mContext,"No more data available");
-                            Log.d("pageIndex",""+pageIndex);
+                            Log.d("pageIndex", "" + pageIndex);
                             isLoading = true;
-                            addOldNewValue (imageMainModel.getData());
-                        }
-                        else {
+                            addOldNewValue(imageMainModel.getData());
+                        } else {
                             fillStoryGallery();
+
                         }
 
                     }
@@ -184,8 +230,9 @@ public class StoryAuthorActivity extends AppCompatActivity {
 
             }
         });
-        activityStoryAuthorBinding.storyAuthorRcvList.setItemAnimator(new DefaultItemAnimator());
-        activityStoryAuthorBinding.storyAuthorRcvList.setAdapter(storyLsitAdapter);
+        activityStoryAuthorNewBinding.storyAuthorRcvList.setItemAnimator(new DefaultItemAnimator());
+        activityStoryAuthorNewBinding.storyAuthorRcvList.setAdapter(storyLsitAdapter);
+
 
     }
 
@@ -197,7 +244,7 @@ public class StoryAuthorActivity extends AppCompatActivity {
     // Api calling GetStoryPullData
     public void callStoryPullData() {
         if (!Utils.checkNetwork(mContext)) {
-            Utils.showCustomDialog(getResources().getString(R.string.internet_error), getResources().getString(R.string.internet_connection_error),StoryAuthorActivity.this);
+            Utils.showCustomDialog(getResources().getString(R.string.internet_error), getResources().getString(R.string.internet_connection_error), StoryAuthorActivity.this);
             return;
         }
 
@@ -245,27 +292,75 @@ public class StoryAuthorActivity extends AppCompatActivity {
 
     private Map<String, String> getStoryPullData() {
         Map<String, String> map = new HashMap<>();
-        map.put("PageIndex","0");
+        map.put("PageIndex", "0");
         map.put("PageSize", "14");
         return map;
     }
 
     public void addOldNewValue(List<ImageDetailModel> result) {
-
-        storyDetailModelList=result;
+        storyDetailModelList = result;
         storyLsitAdapter.notifyDataSetChanged();
+    }
+
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.back_linear:
+                StoryAuthorActivity.this.finish();
+                break;
+            case R.id.facebook_linear:
+                boolean installed_whatsapp = Utils.appInstalledOrNot("com.facebook.katana",mContext);
+                if (installed_whatsapp){
+                    Intent launchIntent = getPackageManager().getLaunchIntentForPackage("com.facebook.katana");
+                    startActivity(launchIntent);
+                }else{
+                    Utils.ping(mContext,getResources().getString(R.string.app_not_installed));
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + "com.facebook.katana")));
+                }
+                break;
+            case R.id.tiwtter_linear:
+                boolean installed_twitter = Utils.appInstalledOrNot("com.twitter.android",mContext);
+                if (installed_twitter){
+                    Intent launchIntent = getPackageManager().getLaunchIntentForPackage("com.twitter.android");
+                    startActivity(launchIntent);
+                }else{
+                    Utils.ping(mContext,getResources().getString(R.string.app_not_installed));
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + "com.twitter.android")));
+                }
+                break;
+            case R.id.instagram_linear:
+                boolean installed_instagram = Utils.appInstalledOrNot("com.instagram.android",mContext);
+                if (installed_instagram){
+                    Intent launchIntent = getPackageManager().getLaunchIntentForPackage("com.instagram.android");
+                    startActivity(launchIntent);
+                }else{
+                    Utils.ping(mContext,getResources().getString(R.string.app_not_installed));
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + "com.instagram.android")));
+                }
+                break;
+            case R.id.youtube_linear:
+                boolean installed_youtube = Utils.appInstalledOrNot("com.google.android.youtube",mContext);
+                if (installed_youtube){
+                    Intent launchIntent = getPackageManager().getLaunchIntentForPackage("com.google.android.youtube");
+                    startActivity(launchIntent);
+                }else{
+                    Utils.ping(mContext,getResources().getString(R.string.app_not_installed));
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + "com.google.android.youtube")));
+                }
+                break;
+        }
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-               StoryAuthorActivity.this.finish();
-                break;
+                StoryAuthorActivity.this.finish();
+                return true;
         }
-        return true;
+        return super.onOptionsItemSelected(item);
     }
-
 
 
 }

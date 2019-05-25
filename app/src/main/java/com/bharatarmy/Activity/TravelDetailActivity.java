@@ -3,43 +3,21 @@ package com.bharatarmy.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.graphics.Typeface;
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.LinearSnapHelper;
 import android.support.v7.widget.RecyclerView;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.style.StyleSpan;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.AlphaAnimation;
-
 import com.bharatarmy.Adapter.TravelHospitalityListAdapter;
 import com.bharatarmy.Adapter.TravelTicketListAdapter;
 import com.bharatarmy.Adapter.TravelTransferListAdapter;
 import com.bharatarmy.CountDownClockTravel;
-import com.bharatarmy.Fragment.TravelHospitalityFragment;
-import com.bharatarmy.Fragment.TravelTicketFragment;
-import com.bharatarmy.Fragment.TravelTransferFragment;
 import com.bharatarmy.Models.TravelDetailModel;
-import com.bharatarmy.Models.TravelModel;
 import com.bharatarmy.R;
-import com.bharatarmy.TravelDesignModule.ControllableAppBarLayout;
-import com.bharatarmy.Utility.SnapHelperOneByOne;
 import com.bharatarmy.databinding.ActivityTravelDetailBinding;
-import com.bumptech.glide.Glide;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -48,6 +26,8 @@ import java.util.Date;
 import java.util.List;
 
 //sonicwal id/password   Megha Developer@123
+
+//https://www.behance.net/gallery/69985261/Hotel-Booking-Android-App-Design-Concept
 public class TravelDetailActivity extends AppCompatActivity implements View.OnClickListener {
 
     ActivityTravelDetailBinding activityTravelDetailBinding;
@@ -128,8 +108,8 @@ public class TravelDetailActivity extends AppCompatActivity implements View.OnCl
 
 
         ticketArray = new ArrayList<TravelDetailModel>();
-        ticketArray.add(new TravelDetailModel(R.drawable.silver));
-        ticketArray.add(new TravelDetailModel(R.drawable.gold_images));
+        ticketArray.add(new TravelDetailModel(R.drawable.silver_tickets,"Silver",755));
+        ticketArray.add(new TravelDetailModel(R.drawable.gold_tickets,"Gold",855));
 
         travelTicketListAdapter = new TravelTicketListAdapter(mContext, ticketArray);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
@@ -139,8 +119,10 @@ public class TravelDetailActivity extends AppCompatActivity implements View.OnCl
 
 
         hospitalityArray = new ArrayList<TravelDetailModel>();
-        hospitalityArray.add(new TravelDetailModel(R.drawable.hospital, "HGI Terrace (Exclusive Private Area"));
-        hospitalityArray.add(new TravelDetailModel(R.drawable.hospital1, "HGI 101 Suite"));
+        hospitalityArray.add(new TravelDetailModel(R.drawable.hospital, "HGI Terrace (Exclusive Private Area)","Old Trafford Manchester",
+                1895,"Inclusions","Meal",R.drawable.meal));
+        hospitalityArray.add(new TravelDetailModel(R.drawable.hospital1, "HGI 101 Suite","Old Trafford Manchester",
+                4577,"Inclusions","Meal",R.drawable.meal));
 
         travelHospitalityListAdapter = new TravelHospitalityListAdapter(mContext, hospitalityArray);
         RecyclerView.LayoutManager mLayoutManager1 = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);

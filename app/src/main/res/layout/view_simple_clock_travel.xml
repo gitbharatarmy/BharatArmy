@@ -48,10 +48,10 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:layout_marginStart="4dp"
+        android:layout_marginStart="@dimen/_6sdp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="4dp">
+        android:layout_marginLeft="@dimen/_6sdp">
 
         <com.bharatarmy.CountDownDigit
             android:id="@+id/firstDigitHours"
@@ -89,9 +89,10 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:layout_marginStart="4dp"
+        android:layout_marginStart="@dimen/_6sdp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" android:layout_marginLeft="4dp">
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/_6sdp">
 
         <com.bharatarmy.CountDownDigit
             android:id="@+id/firstDigitMinute"
@@ -128,9 +129,11 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:layout_marginStart="4dp"
+        android:layout_marginStart="@dimen/_6sdp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" android:layout_marginLeft="4dp">
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/_6sdp"
+        android:visibility="gone">
 
         <com.bharatarmy.CountDownDigit
             android:id="@+id/firstDigitSecond"
@@ -145,7 +148,8 @@
             android:layout_height="wrap_content"
             android:layout_toEndOf="@+id/firstDigitSecond"
             android:clipChildren="false"
-            android:clipToPadding="false" android:layout_toRightOf="@+id/firstDigitSecond"/>
+            android:clipToPadding="false"
+            android:layout_toRightOf="@+id/firstDigitSecond"/>
 
 
         <TextView

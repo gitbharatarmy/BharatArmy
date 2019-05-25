@@ -77,22 +77,22 @@ public class TravelTicketFragment extends Fragment {
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser && rootView != null) {
             // Refresh your fragment here
-            setDataValue();
+//            setDataValue();
 
         }
     }
 
-    public void setDataValue() {
-        ticketArray = new ArrayList<TravelDetailModel>();
-        for (int i=0;i<10;i++){
-            ticketArray.add(new TravelDetailModel(R.drawable.gold_images));
-        }
-
-        travelTicketListAdapter = new TravelTicketListAdapter(mContext, ticketArray);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
-        travelTicketBinding.ticketDetailRcvList.setLayoutManager(mLayoutManager);
-        travelTicketBinding.ticketDetailRcvList.setItemAnimator(new DefaultItemAnimator());
-        travelTicketBinding.ticketDetailRcvList.setAdapter(travelTicketListAdapter);
-    }
+//    public void setDataValue() {
+//        ticketArray = new ArrayList<TravelDetailModel>();
+//        for (int i=0;i<10;i++){
+//            ticketArray.add(new TravelDetailModel(R.drawable.gold_images));
+//        }
+//
+//        travelTicketListAdapter = new TravelTicketListAdapter(mContext, ticketArray);
+//        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
+//        travelTicketBinding.ticketDetailRcvList.setLayoutManager(mLayoutManager);
+//        travelTicketBinding.ticketDetailRcvList.setItemAnimator(new DefaultItemAnimator());
+//        travelTicketBinding.ticketDetailRcvList.setAdapter(travelTicketListAdapter);
+//    }
 
 }

@@ -80,25 +80,25 @@ public class TravelTransferFragment extends Fragment {
         if (isVisibleToUser && rootView != null) {
             // Refresh your fragment here
             if (travelTicketListAdapter == null) {
-                setDataValue();
+//                setDataValue();
             }
 
         }
     }
 
-    public void setDataValue() {
-        ticketArray = new ArrayList<TravelDetailModel>();
-        for (int i=0;i<10;i++){
-            ticketArray.add(new TravelDetailModel(R.drawable.gold_images));
-        }
-
-        travelTicketListAdapter = new TravelTicketListAdapter(mContext, ticketArray);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
-        LinearSnapHelper linearSnapHelper = new SnapHelperOneByOne();
-        linearSnapHelper.attachToRecyclerView(travelTransferBinding.transferDetailRcvList);
-        travelTransferBinding.transferDetailRcvList.setLayoutManager(mLayoutManager);
-        travelTransferBinding.transferDetailRcvList.setItemAnimator(new DefaultItemAnimator());
-        travelTransferBinding.transferDetailRcvList.setAdapter(travelTicketListAdapter);
-    }
+//    public void setDataValue() {
+//        ticketArray = new ArrayList<TravelDetailModel>();
+//        for (int i=0;i<10;i++){
+//            ticketArray.add(new TravelDetailModel(R.drawable.gold_images));
+//        }
+//
+//        travelTicketListAdapter = new TravelTicketListAdapter(mContext, ticketArray);
+//        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
+//        LinearSnapHelper linearSnapHelper = new SnapHelperOneByOne();
+//        linearSnapHelper.attachToRecyclerView(travelTransferBinding.transferDetailRcvList);
+//        travelTransferBinding.transferDetailRcvList.setLayoutManager(mLayoutManager);
+//        travelTransferBinding.transferDetailRcvList.setItemAnimator(new DefaultItemAnimator());
+//        travelTransferBinding.transferDetailRcvList.setAdapter(travelTicketListAdapter);
+//    }
 
 }

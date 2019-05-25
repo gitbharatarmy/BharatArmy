@@ -121,6 +121,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         switch (view.getId()) {
             case R.id.sign_up_txt:
                 Intent signupIntent = new Intent(mContext, SignUpActivity.class);
+                signupIntent.putExtra("wheretocome","login");
                 startActivity(signupIntent);
                 break;
             case R.id.loggin_btn:

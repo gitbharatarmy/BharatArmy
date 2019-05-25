@@ -12,7 +12,7 @@ import android.widget.RelativeLayout;
 
 import java.util.List;
 
-public abstract class ParallaxRecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public abstract class ParallaxRecyclerAdapter <T> extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private float mScrollMultiplier = 0.5f;
 
     public static class VIEW_TYPES {
