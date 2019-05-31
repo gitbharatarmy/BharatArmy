@@ -2,21 +2,12 @@ package com.bharatarmy.Fragment;
 
 import android.content.Context;
 import android.content.Intent;
-import android.databinding.DataBindingUtil;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.TransitionDrawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -36,6 +27,15 @@ import android.widget.VideoView;
 import android.widget.ViewSwitcher;
 
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.bharatarmy.Activity.MoreStoryActivity;
 import com.bharatarmy.Activity.VideoDetailActivity;
 import com.bharatarmy.Adapter.BharatArmyStoriesAdapter;
@@ -51,6 +51,7 @@ import com.bharatarmy.Utility.ApiHandler;
 import com.bharatarmy.Utility.AppConfiguration;
 import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.FragmentHomeBinding;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -321,9 +322,23 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             if (!data.equalsIgnoreCase("")) {
                 if (data.contains(",")) {
                     String[] splitStr = data.split(",");
-                    getDashboardDataModel.getUpcomming().get(i).setStr1(splitStr[0]);
-                    getDashboardDataModel.getUpcomming().get(i).setStr2(splitStr[1]);
-                    getDashboardDataModel.getUpcomming().get(i).setStr3(splitStr[2]);
+
+//                    for (int j=0;j<splitStr.length;j++){
+//                        getDashboardDataModel.getUpcomming().get(j).setStr1(splitStr[j]);
+//                        getDashboardDataModel.getUpcomming().get(j).setStr2(splitStr[j]);
+//                        getDashboardDataModel.getUpcomming().get(j).setStr3(splitStr[j]);
+//                    }
+
+                    if (splitStr.length==3){
+                        getDashboardDataModel.getUpcomming().get(i).setStr1(splitStr[0]);
+                        getDashboardDataModel.getUpcomming().get(i).setStr2(splitStr[1]);
+                        getDashboardDataModel.getUpcomming().get(i).setStr3(splitStr[2]);
+                    }else{
+                        getDashboardDataModel.getUpcomming().get(i).setStr1(splitStr[0]);
+                        getDashboardDataModel.getUpcomming().get(i).setStr2(splitStr[1]);
+                    }
+
+
                 } else {
                     getDashboardDataModel.getUpcomming().get(i).setStr1(data);
                     getDashboardDataModel.getUpcomming().get(i).setStr2("1");

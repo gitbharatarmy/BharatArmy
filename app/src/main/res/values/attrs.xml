@@ -38,4 +38,71 @@
     <declare-styleable name="AlignedTextView">
         <attr name="alignment" format="integer"/>
     </declare-styleable>
+
+    <declare-styleable name="CountryCodePicker">
+        <attr format="integer" name="ccp_defaultCode"/>
+        <attr format="color" name="ccp_textColor"/>
+        <attr format="color" name="ccp_backgroundColor"/>
+        <attr format="dimension" name="ccp_textSize"/>
+        <attr format="string" name="ccp_textFont"/>
+        <attr format="dimension" name="ccp_arrowSize"/>
+        <attr format="string" name="ccp_countryPreference"/>
+        <attr format="string" name="ccp_defaultNameCode"/>
+        <attr format="boolean" name="ccp_hideNameCode"/>
+        <attr format="boolean" name="ccp_keyboardAutoPopOnSearch"/>
+        <attr format="string" name="ccp_customMasterCountries"/>
+        <attr format="boolean" name="ccp_showFlag"/>
+        <attr format="boolean" name="ccp_showFullName"/>
+        <attr format="boolean" name="ccp_selectionDialogShowSearch"/>
+        <attr format="boolean" name="ccp_clickable"/>
+        <attr format="boolean" name="ccp_hidePhoneCode"/>
+        <attr format="boolean" name="ccp_enableHint"/>
+        <attr format="boolean" name="ccp_enablePhoneAutoFormatter"/>
+        <attr format="boolean" name="ccp_setCountryByTimeZone"/>
+
+        <!--For dialog-->
+        <attr format="color" name="ccp_dialogTextColor"/>
+    </declare-styleable>
+
+    <declare-styleable name="SpaceTabLayout">
+        <attr name="number_of_tabs">
+            <enum name="three" value="3" />
+            <enum name="four" value="4" />
+            <enum name="five" value="5" />
+            <enum name="three_IconOnly" value="0" />
+        </attr>
+
+        <attr name="starting_position">
+            <enum name="one" value="0"/>
+            <enum name="two" value="1"/>
+            <enum name="three" value="2"/>
+            <enum name="four" value="3"/>
+            <enum name="five" value="4"/>
+        </attr>
+
+        <attr name="tab_color" format="color" />
+        <attr name="button_color" format="color" />
+        <attr name="text_color" format="color" />
+
+        <attr name="icon_one" format="reference" />
+        <attr name="icon_two" format="reference" />
+        <attr name="icon_three" format="reference" />
+        <attr name="icon_four" format="reference" />
+        <attr name="icon_five" format="reference" />
+
+        <attr name="text_one" format="string" />
+        <attr name="text_two" format="string" />
+        <attr name="text_three" format="string" />
+    </declare-styleable>
+
+
+    <declare-styleable name="FluidBottomNavigation">
+        <attr name="defaultTabPosition" format="integer"/>
+        <attr name="accentColor" format="color"/>
+        <attr name="backColor" format="color"/>
+        <attr name="iconColor" format="color"/>
+        <attr name="iconSelectedColor" format="color"/>
+        <attr name="textColor" format="color"/>
+        <attr name="textFont" format="string"/>
+    </declare-styleable>
 </resources>

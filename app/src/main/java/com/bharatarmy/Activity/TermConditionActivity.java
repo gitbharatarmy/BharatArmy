@@ -1,18 +1,15 @@
 package com.bharatarmy.Activity;
 
-import android.app.Dialog;
 import android.content.Context;
-import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import androidx.databinding.DataBindingUtil;
+
 import com.bharatarmy.R;
-import com.bharatarmy.Utility.Utils;
-import com.bharatarmy.databinding.ActivityMoreStoryBinding;
 import com.bharatarmy.databinding.ActivityTermConditionBinding;
 import com.bumptech.glide.Glide;
 

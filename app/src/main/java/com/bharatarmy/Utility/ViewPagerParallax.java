@@ -8,10 +8,11 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.os.Build;
 import android.os.Debug;
-import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
+
+import androidx.viewpager.widget.ViewPager;
 
 import java.io.IOException;
 import java.io.InputStream;

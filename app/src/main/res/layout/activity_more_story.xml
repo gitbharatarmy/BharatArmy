@@ -13,7 +13,7 @@
         android:orientation="vertical">
 
         <!--<include layout="@layout/toolbar_item"/>-->
-        <android.support.v7.widget.Toolbar
+        <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_60sdp"
@@ -57,7 +57,7 @@
                     android:src="@drawable/ic_share"
                     android:visibility="visible"/>
             </LinearLayout>
-        </android.support.v7.widget.Toolbar>
+        </androidx.appcompat.widget.Toolbar>
         <!--<ProgressBar-->
             <!--android:id="@+id/progressbar1"-->
             <!--android:layout_width="@dimen/_100sdp"-->

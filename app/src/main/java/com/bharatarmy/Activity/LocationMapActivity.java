@@ -2,16 +2,14 @@ package com.bharatarmy.Activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
 
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.AppConfiguration;
@@ -23,7 +21,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.util.Random;
 
-import static android.support.v4.content.FileProvider.getUriForFile;
+import static androidx.core.content.FileProvider.getUriForFile;
+
 
 public class LocationMapActivity extends AppCompatActivity implements View.OnClickListener {
 

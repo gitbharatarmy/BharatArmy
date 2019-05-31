@@ -2,15 +2,17 @@ package com.bharatarmy.Activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.databinding.DataBindingUtil;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.bharatarmy.Adapter.TravelHospitalityListAdapter;
 import com.bharatarmy.Adapter.TravelTicketListAdapter;
 import com.bharatarmy.Adapter.TravelTransferListAdapter;
@@ -18,6 +20,7 @@ import com.bharatarmy.CountDownClockTravel;
 import com.bharatarmy.Models.TravelDetailModel;
 import com.bharatarmy.R;
 import com.bharatarmy.databinding.ActivityTravelDetailBinding;
+
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -44,8 +47,6 @@ public class TravelDetailActivity extends AppCompatActivity implements View.OnCl
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activityTravelDetailBinding = DataBindingUtil.setContentView(this, R.layout.activity_travel_detail);
-
-
         mContext = TravelDetailActivity.this;
 
         activityTravelDetailBinding.toolbar.setTitle("Match 1");

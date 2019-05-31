@@ -5,14 +5,15 @@ import android.graphics.PointF;
 import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.v4.view.ViewCompat;
-import android.support.v7.widget.LinearSmoothScroller;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.LinearLayout;
+
+import androidx.core.view.ViewCompat;
+import androidx.recyclerview.widget.LinearSmoothScroller;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
@@ -220,7 +221,7 @@ public class HeaderLayoutManagerFixed extends RecyclerView.LayoutManager {
     }
 
     /**
-     * Sets the orientation of the layout. {@link android.support.v7.widget.LinearLayoutManager}
+
      * will do its best to keep scroll position.
      *
      * @param orientation {@link #HORIZONTAL} or {@link #VERTICAL}
@@ -271,8 +272,8 @@ public class HeaderLayoutManagerFixed extends RecyclerView.LayoutManager {
      * rendered at the end of the UI, second item is render before it etc.
      * <p/>
      * For horizontal layouts, it depends on the layout direction.
-     * When set to true, If {@link android.support.v7.widget.RecyclerView} is LTR, than it will
-     * render from RTL, if {@link android.support.v7.widget.RecyclerView}} is RTL, it will render
+     * When set to true, If {@link RecyclerView} is LTR, than it will
+     * render from RTL, if {@link RecyclerView}} is RTL, it will render
      * from LTR.
      * <p/>
      * If you are looking for the exact same behavior of
@@ -310,7 +311,7 @@ public class HeaderLayoutManagerFixed extends RecyclerView.LayoutManager {
 
     /**
      * <p>Returns the amount of extra space that should be rendered by LinearLayoutManager.
-     * By default, {@link android.support.v7.widget.LinearLayoutManager} lays out 1 extra page of
+     *
      * items while smooth scrolling and 0 otherwise. You can override this method to implement your
      * custom layout pre-cache logic.</p>
      * <p>Laying out invisible elements will eventually come with performance cost. On the other
@@ -863,7 +864,7 @@ public class HeaderLayoutManagerFixed extends RecyclerView.LayoutManager {
     /**
      * Recycles views that went out of bounds after scrolling towards the end of the layout.
      *
-     * @param recycler Recycler instance of {@link android.support.v7.widget.RecyclerView}
+
      * @param dt       This can be used to add additional padding to the visible area. This is used
      *                 to
      *                 detect children that will go out of bounds after scrolling, without actually
@@ -902,7 +903,7 @@ public class HeaderLayoutManagerFixed extends RecyclerView.LayoutManager {
     /**
      * Recycles views that went out of bounds after scrolling towards the start of the layout.
      *
-     * @param recycler Recycler instance of {@link android.support.v7.widget.RecyclerView}
+     * @param recycler Recycler instance of {@
      * @param dt       This can be used to add additional padding to the visible area. This is used
      *                 to detect children that will go out of bounds after scrolling, without
      *                 actually moving them.
@@ -945,8 +946,6 @@ public class HeaderLayoutManagerFixed extends RecyclerView.LayoutManager {
      * @param renderState Current render state. Right now, this object does not change but
      *                    we may consider moving it out of this view so passing around as a
      *                    parameter for now, rather than accessing {@link #mRenderState}
-     * @see #recycleViewsFromStart(android.support.v7.widget.RecyclerView.Recycler, int)
-     * @see #recycleViewsFromEnd(android.support.v7.widget.RecyclerView.Recycler, int)
      */
     private void recycleByRenderState(RecyclerView.Recycler recycler, RenderState renderState) {
         if (renderState.mLayoutDirection == RenderState.LAYOUT_START) {
@@ -958,7 +957,7 @@ public class HeaderLayoutManagerFixed extends RecyclerView.LayoutManager {
 
     /**
      * The magic functions :). Fills the given layout, defined by the renderState. This is fairly
-     * independent from the rest of the {@link android.support.v7.widget.LinearLayoutManager}
+     *
      * and with little change, can be made publicly available as a helper class.
      *
      * @param recycler        Current recycler that is attached to RecyclerView

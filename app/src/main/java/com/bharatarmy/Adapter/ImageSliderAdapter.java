@@ -1,8 +1,9 @@
 package com.bharatarmy.Adapter;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentStatePagerAdapter;
 
 public class ImageSliderAdapter extends FragmentStatePagerAdapter {
     public ImageSliderAdapter(FragmentManager fm) {

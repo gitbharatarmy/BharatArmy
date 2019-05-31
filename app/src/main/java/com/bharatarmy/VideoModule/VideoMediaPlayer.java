@@ -4,7 +4,8 @@ import android.annotation.TargetApi;
 import android.media.MediaPlayer;
 import android.media.PlaybackParams;
 import android.os.Build;
-import android.support.annotation.Nullable;
+
+import androidx.annotation.Nullable;
 
 public class VideoMediaPlayer extends MediaPlayer {
     @Nullable

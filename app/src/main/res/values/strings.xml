@@ -1,202 +1,217 @@
 <resources>
-    <string name="app_name">Bharat Army</string>
-    <string name="next">NEXT</string>
-    <string name="skip">SKIP</string>
-    <string name="start">DONE</string>
-    <string name="ok">Ok</string>
-    <string name="alert_msg">Alert Msg</string>
-    <string name="internet_error">Internet Connection !</string>
-    <string name="internet_connection_error">Admin requires an internet connection.Make sure Wi-Fi or mobile networks are turned on, then try again.</string>
-    <string name="blank">Blank Filed Not Allowed</string>
-    <string name="false_msg">Record not found</string>
-    <string name="something_wrong">Something Wrong</string>
+   <string name="app_name" translatable="false">Bharat Army</string>
+   <string name="next" translatable="false">NEXT</string>
+   <string name="skip" translatable="false">SKIP</string>
+   <string name="start" translatable="false">DONE</string>
+   <string name="ok" translatable="false">Ok</string>
+   <string name="alert_msg" translatable="false">Alert Msg</string>
+   <string name="internet_error" translatable="false">Internet Connection !</string>
+   <string name="internet_connection_error" translatable="false">Admin requires an internet connection.Make sure Wi-Fi or mobile networks are turned on, then try again.</string>
+   <string name="blank" translatable="false">Blank Filed Not Allowed</string>
+   <string name="false_msg" translatable="false">Record not found</string>
+   <string name="something_wrong" translatable="false">Something Wrong</string>
 
-    <!--Login Activity String-->
-    <string name="username">Email</string>
-    <string name="password">Password</string>
-    <string name="login_btn">SIGN IN</string>
-    <string name="forgot">Forgot Password ?</string>
-    <string name="sign_txt">Dont\'t have an account yet?</string>
-    <string name="singup">Sign Up</string>
-    <string name="fb_txt">Facebook</string>
-    <string name="link_txt">LinkedIn</string>
-    <string name="usererror">Blank filed not allowed</string>
-    <string name="verification">Verification</string>
-    <string name="otp_str">We have sent you an access code via SMS for Mobile number verifications</string>
-    <!--Please enter the verification code-->
-    <string name="code_str">Enter code here</string>
-    <string name="verification_str">We will send a One Time Password (OTP) on this number for verification</string>
-    <string name="mobile_veri">Phone Verification</string>
-    <string name="verifycode">Verification</string>
+   <!--Login Activity String-->
+   <string name="username" translatable="false">Email</string>
+   <string name="password" translatable="false">Password</string>
+   <string name="login_btn" translatable="false">SIGN IN</string>
+   <string name="forgot" translatable="false">Forgot Password ?</string>
+   <string name="sign_txt" translatable="false">Dont\'t have an account yet?</string>
+   <string name="singup" translatable="false">Sign Up</string>
+   <string name="fb_txt" translatable="false">Facebook</string>
+   <string name="link_txt" translatable="false">LinkedIn</string>
+   <string name="usererror" translatable="false">Blank filed not allowed</string>
+   <string name="verification" translatable="false">Verification</string>
+   <string name="otp_str" translatable="false">We have sent you an access code via SMS for Mobile number verifications</string>
+   <!--Please enter the verification code-->
+   <string name="code_str" translatable="false">Enter code here</string>
+   <string name="verification_str" translatable="false">We will send a One Time Password (OTP) on this number for verification</string>
+   <string name="mobile_veri" translatable="false">Phone Verification</string>
+   <string name="verifycode" translatable="false">Verification</string>
 
-    <!--SingUp Activity String-->
-    <string name="fullname">Name</string>
-    <string name="emailid">Emailid</string>
-    <string name="mobileno">Mobile Number</string>
-    <string name="title_activity_dashboard">DashboardActivity</string>
+   <!--SingUp Activity String-->
+   <string name="fullname" translatable="false">Name</string>
+   <string name="emailid" translatable="false">Emailid</string>
+   <string name="mobileno" translatable="false">Mobile Number</string>
+   <string name="title_activity_dashboard" translatable="false">DashboardActivity</string>
 
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
-    <string name="nav_header_desc">Navigation header</string>
-    <string name="action_settings">Settings</string>
-    <string name="terms_txt">Agreed to</string>
-    <string name="terms_condition_txt"><u>Privacy Policy</u></string>
-    <string name="close">Back to login</string>
-    <string name="termStr">
+   <string name="nav_header_title" translatable="false">Android Studio</string>
+   <string name="nav_header_subtitle" translatable="false">android.studio@android.com</string>
+   <string name="nav_header_desc" translatable="false">Navigation header</string>
+   <string name="action_settings" translatable="false">Settings</string>
+   <string name="terms_txt" translatable="false">Agreed to</string>
+   <string name="terms_condition_txt" translatable="false"><u>Privacy Policy</u></string>
+   <string name="close" translatable="false">Back to login</string>
+   <string name="termStr" translatable="false"></string>
 
+   <!--Home Fragment  String-->
+   <string name="know_more" translatable="false">Know More</string>
+   <string name="upcoming" translatable="false">UPCOMING TOURNAMENTS &amp; SERIES</string>
+   <string name="sposer_ads" translatable="false">Sposer ads</string>
+   <string name="fixture" translatable="false">ICC CRICKET WORLD CUP 2019 FIXTURES</string>
+   <string name="all_fixture" translatable="false">ALL FIXTURES</string>
+   <string name="bharat_army_story" translatable="false">BHARAT ARMY NEWS</string>
+   <string name="about_us" translatable="false">About Us</string>
+   <string name="sponser" translatable="false">Sponsor ads</string>
 
-</string>
+   <!--My Profile String-->
+   <string name="email" translatable="false">Email</string>
+   <string name="phoneno" translatable="false">Phone Number</string>
+   <string name="gender" translatable="false">Gender</string>
+   <string name="male" translatable="false">Male</string>
+   <string name="female" translatable="false">Female</string>
+   <string name="full_name" translatable="false">Full Name</string>
+   <string name="edit" translatable="false">Edit</string>
 
-    <!--Home Fragment  String-->
-    <string name="know_more">Know More</string>
-    <string name="upcoming">UPCOMING TOURNAMENTS &amp; SERIES</string>
-    <string name="sposer_ads">Sposer ads</string>
-    <string name="fixture">ICC CRICKET WORLD CUP 2019 FIXTURES</string>
-    <string name="all_fixture">ALL FIXTURES</string>
-    <string name="bharat_army_story">BHARAT ARMY NEWS</string>
-    <string name="about_us">About Us</string>
-    <string name="sponser">Sponsor ads</string>
+   <string name="hello_txt" translatable="false">Hello</string>
+   <string name="upload" translatable="false">Upload Photo</string>
+   <string name="personal_info" translatable="false">Personal Infomation</string>
+   <string name="address" translatable="false">Addresses</string>
+   <string name="address_type" translatable="false">Addresses Type</string>
+   <string name="save" translatable="false">Save</string>
+   <string name="cancel" translatable="false">Cancel</string>
+   <string name="enter_no" translatable="false">phone number</string>
+   <string name="send" translatable="false">Send</string>
+   <string name="verify" translatable="false">Verified</string>
 
-    <!--My Profile String-->
-    <string name="email">Email</string>
-    <string name="phoneno">Phone Number</string>
-    <string name="gender">Gender</string>
-    <string name="male">Male</string>
-    <string name="female">Female</string>
-    <string name="full_name">Full Name</string>
-    <string name="edit">Edit</string>
+   <!--Dashboard String-->
+   <string name="home" translatable="false">Home</string>
+   <string name="myprofile" translatable="false">My Profile</string>
+   <string name="history" translatable="false">History</string>
+   <string name="heading" translatable="false">Story</string>
+   <string name="fan" translatable="false">Fan</string>
+   <string name="openDrawer" translatable="false">open_drawer</string>
+   <string name="closeDrawer" translatable="false">close_drawer</string>
+   <string name="navigation_drawer_open" translatable="false">Open navigation drawer</string>
+   <string name="navigation_drawer_close" translatable="false">Close navigation drawer</string>
+   <string name="fans" translatable="false">Fans</string>
+   <string name="flight" translatable="false">Travel</string>
+   <string name="event" translatable="false">Event</string>
+   <string name="ftp" translatable="false">FTP</string>
+   <string name="story" translatable="false">Story</string>
+   <string name="exception_not_enough_items" translatable="false">Items list should have minimum 3 items</string>
+   <string name="exception_too_many_items" translatable="false">Items list should have maximum 5 items</string>
 
-    <string name="hello_txt">Hello</string>
-    <string name="upload">Upload Photo</string>
-    <string name="personal_info">Personal Infomation</string>
-    <string name="address">Addresses</string>
-    <string name="address_type">Addresses Type</string>
-    <string name="save">Save</string>
-    <string name="cancel">Cancel</string>
-    <string name="enter_no">phone number</string>
-    <string name="send">Send</string>
-    <string name="verify">Verified</string>
+   <!-- TODO: Remove or change this placeholder text -->
+   <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
 
-    <!--Dashboard String-->
-    <string name="home">Home</string>
-    <string name="myprofile">My Profile</string>
-    <string name="history">History</string>
-    <string name="heading">Story</string>
-    <string name="fan">Fan</string>
-    <string name="openDrawer">open_drawer</string>
-    <string name="closeDrawer">close_drawer</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+   <!--Image Upload String-->
+   <string name="toast_image_intent_null" translatable="false">Image picker option is missing!</string>
+   <string name="lbl_set_profile_photo" translatable="false">Set profile image</string>
+   <string name="lbl_take_camera_picture" translatable="false">Take a picture</string>
+   <string name="lbl_choose_from_gallery" translatable="false">Choose from gallery</string>
+   <string name="dialog_permission_title" translatable="false">Grant Permissions</string>
+   <string name="dialog_permission_message" translatable="false">This app needs permission to use this feature. You can grant them in app settings.</string>
+   <string name="go_to_settings" translatable="false">GOTO SETTINGS</string>
 
-    <!--Image Upload String-->
-    <string name="toast_image_intent_null">Image picker option is missing!</string>
-    <string name="lbl_set_profile_photo">Set profile image</string>
-    <string name="lbl_take_camera_picture">Take a picture</string>
-    <string name="lbl_choose_from_gallery">Choose from gallery</string>
-    <string name="dialog_permission_title">Grant Permissions</string>
-    <string name="dialog_permission_message">This app needs permission to use this feature. You can grant them in app settings.</string>
-    <string name="go_to_settings">GOTO SETTINGS</string>
-
-    <!--History Screen String-->
-    <string name="history_title_txt">Bharat Army Booking History</string>
-    <string name="ticketing_booking">Ticket Booking</string>
-    <string name="countory_name">England</string>
-    <string name="country_place">United Kingdom</string>
-    <string name="airport_trasfer">Airport Trasfer</string>
-    <string name="hotel_booking">Hotel Booking</string>
-    <string name="hotel_to_stdium">Trasfer from hotel to stadium</string>
-    <string name="stdium_to_hotel">trasfer stadium to hotel</string>
-    <string name="hotel_checkout">Hotel Checkout</string>
-
-
-    <string name="example">Example</string>
-    <string name="title_activity_maps">Map</string>
-
-    <!--Base Activity String-->
-    <string name="image_txt">Image Gallery</string>
-    <string name="member_pro">Member Profile</string>
-
-    <string name="path_remove">M 19.0,13.0 h 0.0 v 0.0 h 0.0 v 0.0 H 5.0 v 0.0 h 0.0 V 13.0 h 0.0 v -2.0 h 14.0 v 2.0 L 19.0,13.0</string>
-    <string name="path_add">M 19.0,13.0 h -6.0 v 6.0 h -2.0 v -6.0 H 5.0 v -2.0 h 6.0 V 5.0 h 2.0 v 6.0 h 6.0 v 2.0 L 19.0,13.0</string>
-    <string name="add">add</string>
-    <string name="remove">target</string>
-    <string name="groupAddRemove">groupAddRemove</string>
+   <!--History Screen String-->
+   <string name="history_title_txt" translatable="false">Bharat Army Booking History</string>
+   <string name="ticketing_booking" translatable="false">Ticket Booking</string>
+   <string name="countory_name" translatable="false">England</string>
+   <string name="country_place" translatable="false">United Kingdom</string>
+   <string name="airport_trasfer" translatable="false">Airport Trasfer</string>
+   <string name="hotel_booking" translatable="false">Hotel Booking</string>
+   <string name="hotel_to_stdium" translatable="false">Trasfer from hotel to stadium</string>
+   <string name="stdium_to_hotel" translatable="false">trasfer stadium to hotel</string>
+   <string name="hotel_checkout" translatable="false">Hotel Checkout</string>
 
 
-    <string name="welcom_head_01">Spreadsheets on the go</string>
-    <string name="welcom_content_01">Get stuff done with or without an internet connection.</string>
-    <string name="welcom_head_02">Share and edit together</string>
-    <string name="welcom_content_02">Write on your own or invite more people to contribute.</string>
-    <string name="welcom_head_03">Automatically save to the web</string>
-    <string name="welcom_content_03">Never lose your progress, so you can keep working from any computer or device.</string>
-    <string name="welcom_head_04">Edit Excel spreadsheets</string>
-    <string name="welcom_content_04">Open, edit, and save Excel files - all within Sheets.</string>
+   <string name="example" translatable="false">Example</string>
+   <string name="title_activity_maps" translatable="false">Map</string>
+
+   <!--Base Activity String-->
+   <string name="image_txt" translatable="false">Image Gallery</string>
+   <string name="member_pro" translatable="false">Member Profile</string>
+
+   <string name="path_remove" translatable="false">M 19.0,13.0 h 0.0 v 0.0 h 0.0 v 0.0 H 5.0 v 0.0 h 0.0 V 13.0 h 0.0 v -2.0 h 14.0 v 2.0 L 19.0,13.0</string>
+   <string name="path_add" translatable="false">M 19.0,13.0 h -6.0 v 6.0 h -2.0 v -6.0 H 5.0 v -2.0 h 6.0 V 5.0 h 2.0 v 6.0 h 6.0 v 2.0 L 19.0,13.0</string>
+   <string name="add" translatable="false">add</string>
+   <string name="remove" translatable="false">target</string>
+   <string name="groupAddRemove" translatable="false">groupAddRemove</string>
 
 
-    <!--Walkthrough String-->
-    <string name="welcome_head_text_01">Bharat Army Merchandise</string>
-    <string name="welcome_content_text_01">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.</string>
-    <string name="welcome_head_text_02">Bharat Ke Saath - Largest Indian Fan Gathering</string>
-    <string name="welcome_content_text_02">The largest Indian Fan Gathering in Manchester, on the eve of the most awaited match of the tournament.</string>
-    <string name="welcome_head_text_03">At the ab jeetega india foundation</string>
-    <string name="welcome_content_text_03">At the Ab Jeetega India Foundation, we aim to build a holistic sporting ecosystem.</string>
-    <string name="welcome_head_text_04">Why Join ?</string>
-    <string name="welcome_content_text_04">Bharat Army Priority for Global Cricket Events Including ICC Tournaments.It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old.</string>
-    <string name="welcome_head_text_05">Bharat Army Travel</string>
-    <string name="welcome_content_text_05">The Bharat Army has become famous in its association with Team India for its passionate and committed support travelling around the world for almost 20 years</string>
+   <string name="welcom_head_01" translatable="false">Spreadsheets on the go</string>
+   <string name="welcom_content_01" translatable="false">Get stuff done with or without an internet connection.</string>
+   <string name="welcom_head_02" translatable="false">Share and edit together</string>
+   <string name="welcom_content_02" translatable="false">Write on your own or invite more people to contribute.</string>
+   <string name="welcom_head_03" translatable="false">Automatically save to the web</string>
+   <string name="welcom_content_03" translatable="false">Never lose your progress, so you can keep working from any computer or device.</string>
+   <string name="welcom_head_04" translatable="false">Edit Excel spreadsheets</string>
+   <string name="welcom_content_04" translatable="false">Open, edit, and save Excel files - all within Sheets.</string>
 
 
-    <!--VideoModule String-->
-    <string name="playback_speed_0_25">0.25x</string>
-    <string name="playback_speed_0_5">0.5x</string>
-    <string name="playback_speed_0_75">0.75x</string>
-    <string name="playback_speed_1">1x</string>
-    <string name="playback_speed_1_25">1.25x</string>
-    <string name="playback_speed_1_5">1.5x</string>
-    <string name="playback_speed_2">2x</string>
-
-    <string name="cd_rewind_media_button">Rewind media button</string>
-    <string name="cd_pause_media_button">Pause media button</string>
-    <string name="cd_forward_media_button">Forward media button</string>
-    <string name="cd_fullscreen_media_button">Fullscreen media button</string>
-    <string name="cd_playback_speed_button">Playback speed button</string>
+   <!--Walkthrough String-->
+   <string name="welcome_head_text_01" translatable="false">Bharat Army Merchandise</string>
+   <string name="welcome_content_text_01" translatable="false">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.</string>
+   <string name="welcome_head_text_02" translatable="false">Bharat Ke Saath - Largest Indian Fan Gathering</string>
+   <string name="welcome_content_text_02" translatable="false">The largest Indian Fan Gathering in Manchester, on the eve of the most awaited match of the tournament.</string>
+   <string name="welcome_head_text_03" translatable="false">At the ab jeetega india foundation</string>
+   <string name="welcome_content_text_03" translatable="false">At the Ab Jeetega India Foundation, we aim to build a holistic sporting ecosystem.</string>
+   <string name="welcome_head_text_04" translatable="false">Why Join ?</string>
+   <string name="welcome_content_text_04" translatable="false">Bharat Army Priority for Global Cricket Events Including ICC Tournaments.It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old.</string>
+   <string name="welcome_head_text_05" translatable="false">Bharat Army Travel</string>
+   <string name="welcome_content_text_05" translatable="false">The Bharat Army has become famous in its association with Team India for its passionate and committed support travelling around the world for almost 20 years</string>
 
 
-    <!--Travel String-->
-    <string name="cheese_ipsum">Jarlsberg lancashire edam. Dolcelatte hard cheese brie st. agur blue
+   <!--VideoModule String-->
+   <string name="playback_speed_0_25" translatable="false">0.25x</string>
+   <string name="playback_speed_0_5" translatable="false">0.5x</string>
+   <string name="playback_speed_0_75" translatable="false">0.75x</string>
+   <string name="playback_speed_1" translatable="false">1x</string>
+   <string name="playback_speed_1_25" translatable="false">1.25x</string>
+   <string name="playback_speed_1_5" translatable="false">1.5x</string>
+   <string name="playback_speed_2" translatable="false">2x</string>
+
+   <string name="cd_rewind_media_button" translatable="false">Rewind media button</string>
+   <string name="cd_pause_media_button" translatable="false">Pause media button</string>
+   <string name="cd_forward_media_button" translatable="false">Forward media button</string>
+   <string name="cd_fullscreen_media_button" translatable="false">Fullscreen media button</string>
+   <string name="cd_playback_speed_button" translatable="false">Playback speed button</string>
+
+
+   <!--Travel String-->
+   <string name="cheese_ipsum" translatable="false">Jarlsberg lancashire edam. Dolcelatte hard cheese brie st. agur blue
     cheese caerphilly bavarian bergkase cheese and biscuits mascarpone. Cheeseburger swiss bavarian
     bergkase cream cheese fromage frais cheesy feet port-salut airedale. St. agur blue cheese rubber
     cheese caerphilly cheddar cheesecake cream cheese manchego lancashire. Roquefort squirty cheese
     the big cheese.</string>
-    <string name="dialog_done_text">DONE</string>
-    <string name="dialog_cancel_text">CANCEL</string>
-    <string name="list_empty">No items to display</string>
-    <string name="select_entry">Select Entries</string>
-    <string name="validation_text">Please select atleast one option</string>
-    <string name="please_select_atleast">Please select atleast </string>
-    <string name="you_can_only_select_upto">You can only select upto </string>
-    <string name="option"> option</string>
-    <string name="options"> options</string>
-    <string name="select_all">select all</string>
-    <string name="de_select_all">deselect all</string>
-    <string name="multi_select_dialog_title">Select Countries</string>
-    <string name="show_multi_select_dialog">Show Multi Select Dialog</string>
-    <string name="content">The flexible space shrinks until only the toolbar remains. The title shrinks to 20sp in the navigation bar. When scrolling to the top of the page, the flexible space and the title grow into place again.The flexible space shrinks until only the toolbar remains. The title shrinks to 20sp in the navigation bar. When scrolling to the top of the page, the flexible space and the title grow into place again.The flexible space shrinks until only the toolbar remains. The title shrinks to 20sp in the navigation bar. When scrolling to the top of the page, the flexible space and the title grow into place again.The flexible space shrinks until only the toolbar remains. The title shrinks to 20sp in the navigation bar. When scrolling to the top of the page, the flexible space and the title grow into place again.The flexible space shrinks until only the toolbar remains. The title shrinks to 20sp in the navigation bar. When scrolling to the top of the page, the flexible space and the title grow into place again. The flexible space shrinks until only the toolbar remains. The title shrinks to 20sp in the navigation bar. When scrolling to the top of the page, the flexible space and the title grow into place again.The flexible space shrinks until only the toolbar remains. The title shrinks to 20sp in the navigation bar. When scrolling to the top of the page, the flexible space and the title grow into place again.The flexible space shrinks until only the toolbar remains. The title shrinks to 20sp in the navigation bar. When scrolling to the top of the page, the flexible space and the title grow into place again.The flexible space shrinks until only the toolbar remains. The title shrinks to 20sp in the navigation bar. When scrolling to the top of the page, the flexible space and the title grow into place again. The flexible space shrinks until only the toolbar remains. The title shrinks to 20sp in the navigation bar. When scrolling to the top of the page, the flexible space and the title grow into place again.The flexible space shrinks until only the toolbar remains. The title shrinks to 20sp in the navigation bar. When scrolling to the top of the page, the flexible space and the title grow into place again.The flexible space shrinks until only the toolbar remains. The title shrinks to 20sp in the navigation bar. When scrolling to the top of the page, the flexible space and the title grow into place again.The flexible space shrinks until only the toolbar remains. The title shrinks to 20sp in the navigation bar. When scrolling to the top of the page, the flexible space and the title grow into place again. The flexible space shrinks until only the toolbar remains. The title shrinks to 20sp in the navigation bar. When scrolling to the top of the page, the flexible space and the title grow into place again.The flexible space shrinks until only the toolbar remains. The title shrinks to 20sp in the navigation bar. When scrolling to the top of the page, the flexible space and the title grow into place again.The flexible space shrinks until only the toolbar remains. The title shrinks to 20sp in the navigation bar. When scrolling to the top of the page, the flexible space and the title grow into place again.</string>
+   <string name="dialog_done_text" translatable="false">DONE</string>
+   <string name="dialog_cancel_text" translatable="false">CANCEL</string>
+   <string name="list_empty" translatable="false">No items to display</string>
+   <string name="select_entry" translatable="false">Select Entries</string>
+   <string name="validation_text" translatable="false">Please select atleast one option</string>
+   <string name="please_select_atleast" translatable="false">Please select atleast </string>
+   <string name="you_can_only_select_upto" translatable="false">You can only select upto </string>
+   <string name="option" translatable="false"> option</string>
+   <string name="options" translatable="false"> options</string>
+   <string name="select_all" translatable="false">select all</string>
+   <string name="de_select_all" translatable="false">deselect all</string>
+   <string name="multi_select_dialog_title" translatable="false">Select Countries</string>
+   <string name="show_multi_select_dialog" translatable="false">Show Multi Select Dialog</string>
+   <string name="content" translatable="false">The flexible space shrinks until only the toolbar remains. The title shrinks to 20sp in the navigation bar. When scrolling to the top of the page, the flexible space and the title grow into place again.The flexible space shrinks until only the toolbar remains. The title shrinks to 20sp in the navigation bar. When scrolling to the top of the page, the flexible space and the title grow into place again.The flexible space shrinks until only the toolbar remains. The title shrinks to 20sp in the navigation bar. When scrolling to the top of the page, the flexible space and the title grow into place again.The flexible space shrinks until only the toolbar remains. The title shrinks to 20sp in the navigation bar. When scrolling to the top of the page, the flexible space and the title grow into place again.The flexible space shrinks until only the toolbar remains. The title shrinks to 20sp in the navigation bar. When scrolling to the top of the page, the flexible space and the title grow into place again. The flexible space shrinks until only the toolbar remains. The title shrinks to 20sp in the navigation bar. When scrolling to the top of the page, the flexible space and the title grow into place again.The flexible space shrinks until only the toolbar remains. The title shrinks to 20sp in the navigation bar. When scrolling to the top of the page, the flexible space and the title grow into place again.The flexible space shrinks until only the toolbar remains. The title shrinks to 20sp in the navigation bar. When scrolling to the top of the page, the flexible space and the title grow into place again.The flexible space shrinks until only the toolbar remains. The title shrinks to 20sp in the navigation bar. When scrolling to the top of the page, the flexible space and the title grow into place again. The flexible space shrinks until only the toolbar remains. The title shrinks to 20sp in the navigation bar. When scrolling to the top of the page, the flexible space and the title grow into place again.The flexible space shrinks until only the toolbar remains. The title shrinks to 20sp in the navigation bar. When scrolling to the top of the page, the flexible space and the title grow into place again.The flexible space shrinks until only the toolbar remains. The title shrinks to 20sp in the navigation bar. When scrolling to the top of the page, the flexible space and the title grow into place again.The flexible space shrinks until only the toolbar remains. The title shrinks to 20sp in the navigation bar. When scrolling to the top of the page, the flexible space and the title grow into place again. The flexible space shrinks until only the toolbar remains. The title shrinks to 20sp in the navigation bar. When scrolling to the top of the page, the flexible space and the title grow into place again.The flexible space shrinks until only the toolbar remains. The title shrinks to 20sp in the navigation bar. When scrolling to the top of the page, the flexible space and the title grow into place again.The flexible space shrinks until only the toolbar remains. The title shrinks to 20sp in the navigation bar. When scrolling to the top of the page, the flexible space and the title grow into place again.</string>
 
-    <string name="Days">Days</string>
-    <string name="Hours">Hours</string>
-    <string name="Mins">Mins</string>
-    <string name="Secs">Secs</string>
-    <string name="_8">8</string>
+   <string name="Days" translatable="false">Days</string>
+   <string name="Hours" translatable="false">Hours</string>
+   <string name="Mins" translatable="false">Mins</string>
+   <string name="Secs" translatable="false">Secs</string>
+   <string name="_8" translatable="false">8</string>
 
-    <string name="view_more"><u>View More</u></string>
-    <string name="add_cart">ADD TO CART</string>
-    <string name="ticket_header">Tickets</string>
-    <string name="hospitality_header">Hospitality</string>
-    <string name="transfer_header">Transfer</string>
+   <string name="view_more" translatable="false"><u>View More</u></string>
+   <string name="add_cart" translatable="false">ADD TO CART</string>
+   <string name="ticket_header" translatable="false">Tickets</string>
+   <string name="hospitality_header" translatable="false">Hospitality</string>
+   <string name="transfer_header" translatable="false">Transfer</string>
 
-    <!--Story String-->
-    <string name="app_not_installed">App is not currently installed on your phone</string>
+   <!--Story String-->
+   <string name="app_not_installed" translatable="false">App is not currently installed on your phone</string>
+
+
+   <string name="phone_code" translatable="false">+%s</string>
+   <string name="country_name_and_code" translatable="false">%1$s (%2$s)</string>
+   <string name="search_hint">Search&#8230;</string>
+   <string name="no_result_found">No result found</string>
+   <string name="select_country">Select Country</string>
+   <string name="country_code_and_phone_code" translatable="false">(%1$s) +%2$s</string>
+   <string name="country_full_name_and_phone_code" translatable="false">%1$s +%2$s</string>
+   <string name="error_unregister_carrier_number" translatable="false">EditText for carrier number is not registered. Register it using registerPhoneNumberTextView() before getFullNumber() or setFullNumber().</string>
 </resources>

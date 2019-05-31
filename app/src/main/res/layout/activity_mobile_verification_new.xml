@@ -89,7 +89,7 @@
                         android:textColor="@color/normal_font_color"
                         android:textSize="@dimen/_12sdp" />
 
-                    <com.rilixtech.CountryCodePicker
+                    <com.bharatarmy.CountryCodePicker
                         android:id="@+id/ccp"
                         style="@style/text_font"
                         android:layout_width="match_parent"

@@ -1,10 +1,10 @@
 package com.bharatarmy.Activity;
 
 import android.content.Context;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bharatarmy.Adapter.MoviePosterAdapter;
 import com.bharatarmy.Models.MoviePoster;

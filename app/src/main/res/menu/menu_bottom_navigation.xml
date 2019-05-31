@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+  <group android:checkableBehavior="single">
+
+    <item
+        android:id="@+id/ic_fans"
+        android:icon="@drawable/ic_fans"
+        android:title="Fans"/>
+    <!--<item-->
+        <!--android:id="@+id/ic_travel"-->
+        <!--android:icon="@drawable/ic_flight"-->
+        <!--android:title="Travel"/>-->
+    <item
+        android:id="@+id/ic_home"
+        android:icon="@drawable/ic_home"
+        android:title="Home"/>
+    <item
+        android:id="@+id/ic_ftp"
+        android:icon="@drawable/ic_ftp"
+        android:title="FTP"/>
+
+    <item
+        android:id="@+id/ic_story"
+        android:icon="@drawable/ic_story"
+        android:title="Story"/>
+  </group>
+</menu>

@@ -1,14 +1,15 @@
 package com.bharatarmy.Adapter;
 
 import android.annotation.SuppressLint;
-import android.support.constraint.ConstraintLayout;
-import android.support.constraint.ConstraintSet;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bharatarmy.Models.MoviePoster;
 import com.bharatarmy.R;
@@ -77,7 +78,7 @@ public class MoviePosterAdapter extends RecyclerView.Adapter {
 
     // $FF: synthetic method
     // $FF: bridge method
-    public void onBindViewHolder(android.support.v7.widget.RecyclerView.ViewHolder var1, int var2) {
+    public void onBindViewHolder(RecyclerView.ViewHolder var1, int var2) {
         this.onBindViewHolder((MoviePosterAdapter.ViewHolder)var1, var2);
     }
 
@@ -85,7 +86,7 @@ public class MoviePosterAdapter extends RecyclerView.Adapter {
         return this.mMoviePosters.size();
     }
 
-    public final class ViewHolder extends android.support.v7.widget.RecyclerView.ViewHolder {
+    public final class ViewHolder extends RecyclerView.ViewHolder {
         @NotNull
         private final ConstraintLayout mConstraintLayout;
         @NotNull

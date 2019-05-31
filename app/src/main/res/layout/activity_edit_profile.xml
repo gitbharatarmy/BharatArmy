@@ -11,36 +11,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <!--<android.support.v7.widget.Toolbar-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="@dimen/_60sdp"-->
-        <!--android:background="@color/heading_bg">-->
-
-        <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:orientation="horizontal">-->
-
-            <!--<ImageView-->
-                <!--android:id="@+id/back_img"-->
-                <!--android:layout_width="@dimen/_30sdp"-->
-                <!--android:layout_height="@dimen/_30sdp"-->
-                <!--android:layout_margin="@dimen/_5sdp"-->
-                <!--android:src="@drawable/ic_left_arrow"/>-->
-            <!--<TextView-->
-                <!--android:id="@+id/toolbar_title_txt"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="@dimen/_30sdp"-->
-                <!--style="@style/title_text_font"-->
-                <!--android:textColor="@color/splash_bg_color"-->
-                <!--android:textSize="@dimen/_15sdp"-->
-                <!--android:text="@string/member_pro"-->
-                <!--android:gravity="center_vertical"-->
-                <!--android:layout_gravity="center_vertical"-->
-                <!--android:textAllCaps="true"-->
-                <!--android:layout_marginLeft="@dimen/_5sdp"/>-->
-        <!--</LinearLayout>-->
-    <!--</android.support.v7.widget.Toolbar>-->
     <include layout="@layout/toolbar_item"/>
 <LinearLayout
     android:layout_width="match_parent"
@@ -254,7 +224,7 @@
         android:layout_marginLeft="@dimen/_15sdp"
         android:layout_marginRight="@dimen/_15sdp"
         android:layout_marginBottom="@dimen/_5sdp">
-        <com.rilixtech.CountryCodePicker
+        <com.bharatarmy.CountryCodePicker
             android:id="@+id/ccp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

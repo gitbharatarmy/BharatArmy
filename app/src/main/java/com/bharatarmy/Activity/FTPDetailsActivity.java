@@ -1,13 +1,11 @@
 package com.bharatarmy.Activity;
 
 import android.content.Context;
-import android.content.res.Resources;
-import android.databinding.DataBindingUtil;
-import android.graphics.drawable.Drawable;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+
+import androidx.databinding.DataBindingUtil;
 
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.Utils;

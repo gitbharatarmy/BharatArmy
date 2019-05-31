@@ -1,7 +1,8 @@
 package com.bharatarmy.Utility;
 
-import android.support.v4.view.ViewPager;
 import android.view.View;
+
+import androidx.viewpager.widget.ViewPager;
 
 public class ParallaxPageTransformer implements ViewPager.PageTransformer {
 

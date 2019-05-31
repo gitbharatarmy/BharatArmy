@@ -1,73 +1,45 @@
 package com.bharatarmy.Activity;
 
-import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.Environment;
 import android.os.StrictMode;
-import android.provider.MediaStore;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.LinearSnapHelper;
-import android.support.v7.widget.OrientationHelper;
-import android.support.v7.widget.RecyclerView;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
+import android.widget.TextView;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.LinearSnapHelper;
+import androidx.recyclerview.widget.OrientationHelper;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bharatarmy.Adapter.GalleryImageDetailAdapter;
-import com.bharatarmy.Models.ImageDetailModel;
-import com.bharatarmy.Models.ImageMainModel;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.AppConfiguration;
 import com.bharatarmy.Utility.SnapHelperOneByOne;
 import com.bharatarmy.Utility.Utils;
+import com.bharatarmy.VideoModule.BottomCommentDialog;
 import com.bharatarmy.databinding.ActivityGalleryImageDetailBinding;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.target.BitmapImageViewTarget;
-import com.karumi.dexter.Dexter;
-import com.karumi.dexter.MultiplePermissionsReport;
-import com.karumi.dexter.PermissionToken;
-import com.karumi.dexter.listener.PermissionRequest;
-import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
-import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.nio.charset.Charset;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.Random;
 
-import retrofit2.http.Url;
-
-import static android.support.v4.content.FileProvider.getUriForFile;
-import static android.support.v7.widget.RecyclerView.SCROLL_STATE_DRAGGING;
-import static android.support.v7.widget.RecyclerView.SCROLL_STATE_IDLE;
-import static com.bharatarmy.Activity.ImagePickerActivity.REQUEST_GALLERY_IMAGE;
+import static androidx.core.content.FileProvider.getUriForFile;
+import static androidx.recyclerview.widget.RecyclerView.SCROLL_STATE_DRAGGING;
+import static androidx.recyclerview.widget.RecyclerView.SCROLL_STATE_IDLE;
 
 
 public class GalleryImageDetailActivity extends BaseActivity implements View.OnClickListener {
     ActivityGalleryImageDetailBinding activityGalleryImageDetailBinding;
-    Context mContext;
+    public static Context mContext;
     GalleryImageDetailAdapter galleryImageDetailAdapter;
     ArrayList<String> imageList = new ArrayList<>();
     LinearLayoutManager linearLayoutManager;
@@ -77,6 +49,8 @@ public class GalleryImageDetailActivity extends BaseActivity implements View.OnC
     int currentVisibleItem, showPositionImage;
     Uri uri;
     String imageNameStr;
+    AlertDialog alertDialogAndroid;
+    TextView close_btn, aboutuse_sub_title_txt;
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,6 +74,8 @@ public class GalleryImageDetailActivity extends BaseActivity implements View.OnC
         activityGalleryImageDetailBinding.prevImg.setOnClickListener(this);
         activityGalleryImageDetailBinding.nextImg.setOnClickListener(this);
         activityGalleryImageDetailBinding.shareImg.setOnClickListener(this);
+        activityGalleryImageDetailBinding.commentLinear.setOnClickListener(this);
+
     }
 
     public void setDataValue() {
@@ -203,8 +179,8 @@ public class GalleryImageDetailActivity extends BaseActivity implements View.OnC
                     }
                 }
 
-                String []splitStr=imageNameStr.split("\\/");
-                Log.d("stringName",splitStr[0]+" "+splitStr[1]+" "+splitStr[2]+" "+splitStr[3]+" "+splitStr[4]);
+                String[] splitStr = imageNameStr.split("\\/");
+                Log.d("stringName", splitStr[0] + " " + splitStr[1] + " " + splitStr[2] + " " + splitStr[3] + " " + splitStr[4]);
                 activityGalleryImageDetailBinding.prevImg.setClickable(true);
                 activityGalleryImageDetailBinding.prevImg.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_back, 0, 0, 0);
                 if (isLastVisible()) {
@@ -259,18 +235,31 @@ public class GalleryImageDetailActivity extends BaseActivity implements View.OnC
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                 //share image from other application
+                //share image from other application
                 Intent shareIntent = new Intent();
                 shareIntent.setAction(Intent.ACTION_SEND);
                 shareIntent.putExtra(Intent.EXTRA_TEXT, AppConfiguration.SHARETEXT);
-                shareIntent.putExtra(Intent.EXTRA_STREAM,uri=getUriForFile(mContext, getPackageName() + ".provider",file));
+                shareIntent.putExtra(Intent.EXTRA_STREAM, uri = getUriForFile(mContext, getPackageName() + ".provider", file));
                 shareIntent.setType("image/*");
                 shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 startActivity(Intent.createChooser(shareIntent, "Share It"));
                 break;
+            case R.id.comment_linear:
+//                BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(mContext);
+//                LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
+//
+//                View view = inflater.inflate(R.layout.comment_sheet_item, null);
+//
+//                bottomSheetDialog.setContentView(view);
+//                bottomSheetDialog.setCanceledOnTouchOutside(false);
+//                bottomSheetDialog.show();
+
+                BottomCommentDialog dialog = new BottomCommentDialog();
+                FragmentManager ft = getSupportFragmentManager();
+                dialog.show(ft, BottomCommentDialog.TAG);
+                break;
         }
     }
-
 
 
     boolean isLastVisible() {
@@ -280,7 +269,5 @@ public class GalleryImageDetailActivity extends BaseActivity implements View.OnC
         Log.d("positon", String.valueOf(pos >= numItems - 2));
         return (pos >= numItems - 2);
     }
-
-
 
 }

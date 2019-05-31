@@ -1,14 +1,14 @@
 package com.bharatarmy.Activity;
 
 import android.content.Context;
-import android.databinding.DataBindingUtil;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.OrientationHelper;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
+
+import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.OrientationHelper;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bharatarmy.Adapter.HistoryMoreDetailListAdapter;
 import com.bharatarmy.Models.HistoryModel;
@@ -56,7 +56,7 @@ public class HistoryDetailActivity extends BaseActivity implements View.OnClickL
         list.add(new HistoryModel(HistoryModel.MATCH_BOOKING_TYPE,"Hey. Pressing the FAB button will playback an audio file on loop.",0, OrderStatus.INACTIVE));
 //
         HistoryMoreDetailListAdapter adapter = new HistoryMoreDetailListAdapter(list,mContext);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, OrientationHelper.VERTICAL, false);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
 
         activityHistoryDetailBinding.bookingHistoryDetailRcyList.setLayoutManager(linearLayoutManager);
         activityHistoryDetailBinding.bookingHistoryDetailRcyList.setItemAnimator(new DefaultItemAnimator());

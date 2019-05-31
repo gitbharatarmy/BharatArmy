@@ -2,19 +2,19 @@ package com.bharatarmy.Fragment;
 
 import android.content.Context;
 import android.content.Intent;
-import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bharatarmy.Activity.GalleryImageDetailActivity;
 import com.bharatarmy.Activity.VideoDetailActivity;
@@ -25,6 +25,7 @@ import com.bharatarmy.R;
 import com.bharatarmy.Utility.EndlessRecyclerViewScrollListener;
 import com.bharatarmy.Utility.GridSpacingItemDecoration;
 import com.bharatarmy.databinding.FragmentVideoBinding;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -133,7 +134,7 @@ public class VideoFragment extends Fragment {
             }
         });
         gridLayoutManager = new GridLayoutManager(mContext, 3);
-        gridLayoutManager.setOrientation(LinearLayoutManager.VERTICAL); // set Horizontal Orientation
+        gridLayoutManager.setOrientation(GridLayoutManager.VERTICAL); // set Horizontal Orientation
         fragmentVideoBinding.videoRcyList.setLayoutManager(gridLayoutManager); // set LayoutManager to RecyclerView
 //        fragmentVideoBinding.videoRcyList.addItemDecoration(new GridSpacingItemDecoration(3, 10, true));
         fragmentVideoBinding.videoRcyList.setAdapter(videoListAdapter);

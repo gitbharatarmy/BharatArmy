@@ -1,7 +1,8 @@
 package com.bharatarmy.Utility;
 
-import android.support.v7.widget.RecyclerView;
 import android.view.MotionEvent;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 public class RecyclerViewDisabler implements RecyclerView.OnItemTouchListener {
 

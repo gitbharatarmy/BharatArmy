@@ -1,22 +1,5 @@
 package com.bharatarmy.Fragment;
 
-import android.content.Context;
-import android.databinding.DataBindingUtil;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.design.widget.BottomSheetDialogFragment;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Toast;
-
-import com.bharatarmy.R;
-import com.bharatarmy.TravelDesignModule.MultiSelectDialog;
-import com.bharatarmy.TravelDesignModule.MultiSelectModel;
-import com.bharatarmy.databinding.BottomSheetListBinding;
-import com.crystal.crystalrangeseekbar.interfaces.OnRangeSeekbarChangeListener;
-import com.crystal.crystalrangeseekbar.interfaces.OnRangeSeekbarFinalValueListener;
 
 import java.util.ArrayList;
 

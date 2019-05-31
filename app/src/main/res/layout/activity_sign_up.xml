@@ -130,7 +130,7 @@
                         android:src="@drawable/username"
                         android:visibility="gone" />
 
-                    <com.rilixtech.CountryCodePicker
+                    <com.bharatarmy.CountryCodePicker
                         android:id="@+id/ccp"
                         style="@style/text_font"
                         android:layout_width="wrap_content"

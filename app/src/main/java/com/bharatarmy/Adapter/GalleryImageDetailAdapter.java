@@ -2,29 +2,17 @@ package com.bharatarmy.Adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.media.Image;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
-import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.alexvasilkov.gestures.views.GestureImageView;
-import com.bharatarmy.Models.ImageDetailModel;
-import com.bharatarmy.Models.ImageMainModel;
 import com.bharatarmy.R;
-
 import com.bharatarmy.Utility.Utils;
-import com.bumptech.glide.Glide;
-import com.squareup.picasso.Picasso;
-
-
-import java.util.ArrayList;
 import java.util.List;
 
 

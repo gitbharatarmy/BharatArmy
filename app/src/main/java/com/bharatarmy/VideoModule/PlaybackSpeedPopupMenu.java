@@ -5,11 +5,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import androidx.appcompat.widget.PopupMenu;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Locale;
 
-public class PlaybackSpeedPopupMenu extends android.support.v7.widget.PopupMenu {
+public class PlaybackSpeedPopupMenu extends PopupMenu {
 
     private ArrayList<Float> values = new ArrayList<>(Arrays.asList(0.25f, 0.5f, 0.75f, 1f, 1.25f, 1.5f, 2f));
 

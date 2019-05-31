@@ -18,7 +18,7 @@
                 android:scaleType="centerCrop"
                 android:visibility="visible" />
 
-            <android.support.v4.view.ViewPager
+            <androidx.viewpager.widget.ViewPager
                 android:id="@+id/viewPager"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -128,7 +128,7 @@
                         android:src="@drawable/username"
                         android:visibility="gone" />
 
-                    <com.rilixtech.CountryCodePicker
+                    <com.bharatarmy.CountryCodePicker
                         android:id="@+id/ccp"
                         style="@style/text_font"
                         android:layout_width="wrap_content"

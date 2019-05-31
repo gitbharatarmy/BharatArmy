@@ -1,32 +1,22 @@
 package com.bharatarmy.Activity;
 
-import android.app.Activity;
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.Window;
-import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import androidx.databinding.DataBindingUtil;
+
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.AppConfiguration;
-import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.ActivityMoreStoryBinding;
 import com.bumptech.glide.Glide;
 
-import static android.support.v4.content.FileProvider.getUriForFile;
 
 public class MoreStoryActivity extends BaseActivity implements View.OnClickListener {
 

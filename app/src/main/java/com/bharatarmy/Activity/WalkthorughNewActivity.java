@@ -2,40 +2,28 @@ package com.bharatarmy.Activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.databinding.DataBindingUtil;
-import android.os.Handler;
-import android.support.annotation.NonNull;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
-import android.widget.TextSwitcher;
 import android.widget.TextView;
 
-import com.bharatarmy.Adapter.ViewPagerSliderAdapter;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
+
 import com.bharatarmy.Models.GetWalkthroughModel;
 import com.bharatarmy.Models.WalkthroughData;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.ApiHandler;
-import com.bharatarmy.Utility.FixedSpeedScroller;
-import com.bharatarmy.Utility.ParallaxRecyclerView;
 import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.ActivityWalkthorughNewBinding;
 import com.github.abdularis.piv.ScrollTransformImageView;
-import com.github.abdularis.piv.transformer.HorizontalScaleTransformer;
-import com.nineoldandroids.view.ViewHelper;
-
-
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

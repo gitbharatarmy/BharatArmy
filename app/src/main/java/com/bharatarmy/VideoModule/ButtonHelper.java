@@ -3,9 +3,10 @@ package com.bharatarmy.VideoModule;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
-import android.support.v4.content.ContextCompat;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
+import androidx.core.content.ContextCompat;
 
 import com.bharatarmy.R;
 

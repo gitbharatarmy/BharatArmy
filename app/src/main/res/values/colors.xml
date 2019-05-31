@@ -56,4 +56,15 @@
 
     <color name="white">#ffffff</color>
     <color name="transparent">#00ffffff</color>
+
+    <color name="defaultTextColor">@android:color/black</color>
+    <color name="defaultBackgroundColor">@android:color/transparent</color>
+
+
+
+    <color name="accentColor">#303F9F</color>
+    <color name="backColor">#FFFFFF</color>
+    <color name="textColor">#303F9F</color>
+    <color name="iconColor">#3F51B5</color>
+    <color name="iconSelectedColor">#FFFFFF</color>
 </resources>

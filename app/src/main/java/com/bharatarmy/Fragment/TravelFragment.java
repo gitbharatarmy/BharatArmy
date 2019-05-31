@@ -1,19 +1,8 @@
 package com.bharatarmy.Fragment;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.databinding.DataBindingUtil;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.design.widget.BottomSheetDialog;
-import android.support.design.widget.BottomSheetDialogFragment;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -23,6 +12,14 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bharatarmy.Adapter.TravelListAdapter;
 import com.bharatarmy.Interfaces.image_click;
@@ -34,6 +31,8 @@ import com.bharatarmy.databinding.BottomSheetListBinding;
 import com.bharatarmy.databinding.FragmentTravelBinding;
 import com.crystal.crystalrangeseekbar.interfaces.OnRangeSeekbarChangeListener;
 import com.crystal.crystalrangeseekbar.interfaces.OnRangeSeekbarFinalValueListener;
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -88,7 +87,8 @@ public class TravelFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        travelBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_travel, container, false);
+//        travelBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_travel, container, false);
+        travelBinding= DataBindingUtil.inflate(inflater,R.layout.fragment_travel,container,false);
 
         rootView = travelBinding.getRoot();
         mContext = getActivity().getApplicationContext();
@@ -167,6 +167,7 @@ public class TravelFragment extends Fragment {
                 mListener.onTrave();
             }
         });
+        @SuppressLint("WrongConstant")
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
         travelBinding.recyclerView.setLayoutManager(mLayoutManager);
         travelBinding.recyclerView.setItemAnimator(new DefaultItemAnimator());

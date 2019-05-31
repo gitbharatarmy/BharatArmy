@@ -2,12 +2,9 @@ package com.bharatarmy.Activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -22,6 +19,10 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
 
 import com.bharatarmy.Models.LogginModel;
 import com.bharatarmy.R;
@@ -61,10 +62,13 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     }
     // set the All Listiner and Data
     public void setListiner() {
+//        activitySignUpBinding.ccp.setCountryForNameCode(AppConfiguration.currentCountry);
         activitySignUpBinding.ccp.setCountryForNameCode(AppConfiguration.currentCountry);
         activitySignUpBinding.termConditionTxt.setOnClickListener(this);
         activitySignUpBinding.signupBtn.setOnClickListener(this);
         activitySignUpBinding.closeTxt.setOnClickListener(this);
+
+
 
         activitySignUpBinding.termsChk.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override

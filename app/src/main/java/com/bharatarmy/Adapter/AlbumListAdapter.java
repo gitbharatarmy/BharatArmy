@@ -2,15 +2,15 @@ package com.bharatarmy.Adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.constraint.ConstraintLayout;
-import android.support.constraint.ConstraintSet;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bharatarmy.Models.ImageDetailModel;
 import com.bharatarmy.Models.MoviePoster;
@@ -80,7 +80,7 @@ List<ImageDetailModel> imageDetailModelList;
 
     // $FF: synthetic method
     // $FF: bridge method
-    public void onBindViewHolder(android.support.v7.widget.RecyclerView.ViewHolder var1, int var2) {
+    public void onBindViewHolder(RecyclerView.ViewHolder var1, int var2) {
         this.onBindViewHolder((AlbumListAdapter.ViewHolder)var1, var2);
     }
 
@@ -88,7 +88,7 @@ List<ImageDetailModel> imageDetailModelList;
         return this.imageDetailModelList.size();
     }
 
-    public final class ViewHolder extends android.support.v7.widget.RecyclerView.ViewHolder {
+    public final class ViewHolder extends RecyclerView.ViewHolder {
         @NotNull
         private final ConstraintLayout mConstraintLayout;
         @NotNull

@@ -1,17 +1,16 @@
 package com.bharatarmy.Adapter;
 
 import android.content.Context;
-import android.media.Image;
-import android.media.MediaPlayer;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.OrientationHelper;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.OrientationHelper;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bharatarmy.Models.HistoryModel;
 import com.bharatarmy.R;
@@ -372,7 +371,7 @@ public class HistoryMoreDetailListAdapter extends RecyclerView.Adapter {
                         list1.add(String.valueOf(i));
                     }
                     matchHistoryAdapter = new MatchHistoryAdapter(mContext, list1);
-                    LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(mContext, OrientationHelper.VERTICAL, false);
+                    LinearLayoutManager linearLayoutManager1 = new LinearLayoutManager(mContext,RecyclerView.VERTICAL, false);
                     ((MatchBookingTypeViewHolder) holder).recyclerViewMatch.setLayoutManager(linearLayoutManager1);
                     ((MatchBookingTypeViewHolder) holder).recyclerViewMatch.setItemAnimator(new DefaultItemAnimator());
                     ((MatchBookingTypeViewHolder) holder).recyclerViewMatch.setAdapter(matchHistoryAdapter);

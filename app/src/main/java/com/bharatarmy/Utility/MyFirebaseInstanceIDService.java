@@ -1,12 +1,6 @@
 package com.bharatarmy.Utility;
 
-import android.support.annotation.NonNull;
-import android.util.Log;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
-import com.google.firebase.iid.InstanceIdResult;
 
 public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
 

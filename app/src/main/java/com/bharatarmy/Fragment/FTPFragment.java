@@ -1,21 +1,21 @@
 package com.bharatarmy.Fragment;
 
 import android.content.Context;
-import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
+import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bharatarmy.Adapter.FTPListAdapter;
 import com.bharatarmy.Adapter.StoryLsitAdapter;
@@ -27,6 +27,7 @@ import com.bharatarmy.Utility.ApiHandler;
 import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.FragmentFtBinding;
 import com.bharatarmy.databinding.FragmentStoryBinding;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -75,8 +76,8 @@ public class FTPFragment extends Fragment {
      * @return A new instance of fragment ImageFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ImageFragment newInstance(String param1, String param2) {
-        ImageFragment fragment = new ImageFragment();
+    public static FTPFragment newInstance(String param1, String param2) {
+        FTPFragment fragment = new FTPFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -114,7 +115,7 @@ public class FTPFragment extends Fragment {
     public void setListiner() {
         fragmentFtBinding.shimmerViewContainer.startShimmerAnimation();
         gridLayoutManager = new GridLayoutManager(mContext, 2);
-        gridLayoutManager.setOrientation(LinearLayoutManager.VERTICAL); // set Horizontal Orientation
+//        gridLayoutManager.setOrientation(GridLayoutManager.VERTICAL); // set Horizontal Orientation
         fragmentFtBinding.ftpRcyList.setLayoutManager(gridLayoutManager); // set LayoutManager to RecyclerView
 
 
@@ -189,9 +190,18 @@ public class FTPFragment extends Fragment {
                             if (!data.equalsIgnoreCase("")) {
                                 if (data.contains(",")) {
                                     String[] splitStr = data.split(",");
-                                    imageMainModel.getData().get(i).setStr1(splitStr[0]);
-                                    imageMainModel.getData().get(i).setStr2(splitStr[1]);
-                                    imageMainModel.getData().get(i).setStr3(splitStr[2]);
+//                                    imageMainModel.getData().get(i).setStr1(splitStr[0]);
+//                                    imageMainModel.getData().get(i).setStr2(splitStr[1]);
+//                                    imageMainModel.getData().get(i).setStr3(splitStr[2]);
+
+                                    if (splitStr.length==3){
+                                        imageMainModel.getData().get(i).setStr1(splitStr[0]);
+                                        imageMainModel.getData().get(i).setStr2(splitStr[1]);
+                                        imageMainModel.getData().get(i).setStr3(splitStr[2]);
+                                    }else{
+                                        imageMainModel.getData().get(i).setStr1(splitStr[0]);
+                                        imageMainModel.getData().get(i).setStr2(splitStr[1]);
+                                    }
                                 } else {
                                     imageMainModel.getData().get(i).setStr1(data);
                                     imageMainModel.getData().get(i).setStr2("1");
@@ -254,7 +264,10 @@ public class FTPFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ftpDetailModelList.clear();
+        if (ftpDetailModelList.size()!=0){
+            ftpDetailModelList.clear();
+        }
+
     }
 
 

@@ -2,46 +2,33 @@ package com.bharatarmy.Activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.databinding.DataBindingUtil;
-import android.graphics.Typeface;
 import android.net.Uri;
-import android.support.annotation.NonNull;
-import android.support.design.widget.AppBarLayout;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.content.res.ResourcesCompat;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bharatarmy.Adapter.StoryAuthorAdapter;
 import com.bharatarmy.Interfaces.image_click;
 import com.bharatarmy.Models.ImageDetailModel;
 import com.bharatarmy.Models.ImageMainModel;
 import com.bharatarmy.R;
-import com.bharatarmy.TravelDesignModule.ObservableScrollView;
-import com.bharatarmy.TravelDesignModule.ObservableScrollViewCallbacks;
 import com.bharatarmy.TravelDesignModule.ParallaxRecyclerAdapter;
-import com.bharatarmy.TravelDesignModule.ScrollState;
 import com.bharatarmy.Utility.ApiHandler;
 import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.ActivityStoryAuthorNewBinding;
-import com.squareup.picasso.Picasso;
+import com.google.android.material.appbar.AppBarLayout;
 
-import java.security.PublicKey;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -83,7 +70,7 @@ public class StoryAuthorActivity extends AppCompatActivity implements View.OnCli
 //fb,tw,youtube,instagram
         activityStoryAuthorNewBinding.shimmerViewContainer.startShimmerAnimation();
         gridLayoutManager = new GridLayoutManager(mContext, 2);
-        gridLayoutManager.setOrientation(LinearLayoutManager.VERTICAL); // set Horizontal Orientation
+        gridLayoutManager.setOrientation(RecyclerView.VERTICAL); // set Horizontal Orientation
         activityStoryAuthorNewBinding.storyAuthorRcvList.setLayoutManager(gridLayoutManager); // set LayoutManager to RecyclerView
 
 

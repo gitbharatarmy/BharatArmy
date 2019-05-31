@@ -9,7 +9,7 @@
         android:orientation="vertical"
         tools:context=".Activity.GalleryImageDetailActivity">
 
-        <android.support.v7.widget.Toolbar
+        <androidx.appcompat.widget.Toolbar
             android:layout_width="match_parent"
             android:layout_height="@dimen/_60sdp"
             android:background="@color/heading_bg">
@@ -54,7 +54,7 @@
                     android:src="@drawable/ic_share"
                     android:visibility="visible" />
             </LinearLayout>
-        </android.support.v7.widget.Toolbar>
+        </androidx.appcompat.widget.Toolbar>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -67,7 +67,7 @@
                 android:layout_height="wrap_content"
                 android:visibility="visible">
 
-                <android.support.v7.widget.RecyclerView
+                <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/image_detail_rcvList"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -138,8 +138,8 @@
                             android:textColor="@color/splash_bg_color"
                             android:textSize="@dimen/_14sdp" />
                     </LinearLayout>
-
                     <LinearLayout
+                      android:id="@+id/comment_linear"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1">
