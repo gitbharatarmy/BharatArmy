@@ -10,6 +10,7 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.ImageView
 import androidx.core.widget.ImageViewCompat
+import com.bharatarmy.Activity.DashboardActivity
 import com.bharatarmy.FluidBottomNavigation
 
 internal fun View.visible() {
@@ -59,7 +60,7 @@ internal fun FluidBottomNavigation.calculateHeight(layoutHeight: Int): Int {
     return navigationLayoutHeight
 }
 
-private fun isInImmersiveMode(context: Context) =
+ fun isInImmersiveMode(context: Context) =
         with((context.getSystemService(Context.WINDOW_SERVICE) as WindowManager).defaultDisplay) {
             val realMetrics = getRealMetrics()
             val metrics = getMetrics()

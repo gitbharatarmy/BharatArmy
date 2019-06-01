@@ -7,25 +7,35 @@ import android.os.Bundle
 import android.os.Parcelable
 import android.os.SystemClock
 import android.util.AttributeSet
+import android.util.Log
 import android.util.TypedValue
-import android.view.Gravity
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.FrameLayout
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
+import com.bharatarmy.Activity.DashboardActivity
+//import com.bharatarmy.Activity.DashboardActivity.Companion.loadFragment
+import com.bharatarmy.Activity.DashboardActivity.Companion.navItemIndex
+import com.bharatarmy.Fragment.FansFragment
 import com.bharatarmy.Interfaces.dashboard_click
 import com.bharatarmy.extension.calculateHeight
 import com.bharatarmy.extension.setTintColor
 import com.bharatarmy.listener.OnTabSelectedListener
 import com.google.android.gms.common.util.VisibleForTesting
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.tbuonomo.morphbottomnavigation.MorphBottomNavigationView
 import kotlinx.android.synthetic.main.item.view.*
 import java.lang.Math.abs
+import com.bharatarmy.Activity.MainActivity
 
-class FluidBottomNavigation : FrameLayout {
+
+
+class FluidBottomNavigation :FrameLayout{
+
+
 
     constructor(context: Context) : super(context) {
         init(null)
@@ -73,16 +83,19 @@ class FluidBottomNavigation : FrameLayout {
         set(value) {
             field = value
             onTabSelectedListener?.onTabSelected(value)
+            val mActivity = DashboardActivity()
+            if(value==0){
+                Toast.makeText(context,"this is toast message", Toast.LENGTH_SHORT).show()
 
-//            if(value==0){
-//                Toast.makeText(context,"this is toast message",Toast.LENGTH_SHORT).show()
-//
-//                Log.d("print value : ",value.toString());
-//
-//            }else if(value ==1){
-//                val toast = Toast.makeText(context, "Hello Javatpoint", Toast.LENGTH_LONG)
-//                toast.show()
-//            }
+                Log.d("print value : ",value.toString());
+                navItemIndex = 3
+                fragment = FansFragment()
+                mActivity.loadFragment(fragment)
+
+            }else if(value ==1){
+                val toast = Toast.makeText(context, "Hello Javatpoint", Toast.LENGTH_LONG)
+                toast.show()
+            }
         }
 
 
@@ -241,7 +254,7 @@ class FluidBottomNavigation : FrameLayout {
                             attrs,
                             R.styleable.FluidBottomNavigation,
                             0, 0)) {
-                selectedTabPosition = getInt(
+                    selectedTabPosition = getInt(
                         R.styleable.FluidBottomNavigation_defaultTabPosition,
                         DEFAULT_SELECTED_TAB_POSITION)
                 accentColor = getColor(
@@ -285,8 +298,7 @@ class FluidBottomNavigation : FrameLayout {
                 state?.getParcelable(EXTRA_SELECTED_SUPER_STATE)
             } else {
                 state
-            }
-                    .let {
+            }.let {
                         super.onRestoreInstanceState(it)
                     }
 }

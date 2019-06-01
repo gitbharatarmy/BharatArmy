@@ -4,31 +4,28 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
-import android.os.Bundle
-import android.os.Handler
+import android.graphics.Typeface
+import android.os.*
+import android.util.AttributeSet
 
 import android.util.Log
-import android.view.View
-import android.view.Menu
-import android.view.MenuItem
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.Spinner
-import android.widget.TextView
-import android.widget.Toast
+import android.util.TypedValue
+import android.view.*
+import android.widget.*
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
-import com.bharatarmy.FluidBottomNavigationItem
+import com.bharatarmy.*
+import com.bharatarmy.DEFAULT_SELECTED_TAB_POSITION
 
 import com.bharatarmy.Fragment.FTPFragment
 import com.bharatarmy.Fragment.FansFragment
@@ -37,21 +34,24 @@ import com.bharatarmy.Fragment.HomeFragment
 import com.bharatarmy.Fragment.MyProfileFragment
 import com.bharatarmy.Fragment.StoryFragment
 import com.bharatarmy.Fragment.TravelFragment
-import com.bharatarmy.R
-import com.bharatarmy.SpaceTabLayout
+import com.bharatarmy.Interfaces.dashboard_click
 import com.bharatarmy.Utility.AppConfiguration
 import com.bharatarmy.Utility.Utils
+import com.bharatarmy.extension.isInImmersiveMode
+import com.bharatarmy.extension.setTintColor
+import com.bharatarmy.listener.OnTabSelectedListener
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation
 import com.google.android.gms.common.internal.Objects
+import com.google.android.gms.common.util.VisibleForTesting
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import com.tbuonomo.morphbottomnavigation.MorphBottomNavigationView
 import kotlinx.android.synthetic.main.app_bar_dashboard.*
-
-import java.util.ArrayList
+import kotlinx.android.synthetic.main.item.view.*
+import java.util.*
 
 // pass=mynameis8672952197
 class DashboardActivity : AppCompatActivity(), View.OnClickListener, TravelFragment.OnItemClick {
@@ -100,7 +100,7 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, TravelFragm
     private var mHandler: Handler? = null
 
     internal lateinit var bottomNavigationView: MorphBottomNavigationView
-
+    var onTabSelectedListener: OnTabSelectedListener? = null
 
     private// home
     val homeFragment: Fragment
@@ -214,15 +214,20 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, TravelFragm
 
 
 
-        fluidBottomNavigation.setOnClickListener(View.OnClickListener { fluidBottomNavigation.getSelectedTabPosition()
+//        fluidBottomNavigation.setOnClickListener(View.OnClickListener { fluidBottomNavigation.getSelectedTabPosition()
 
-       if (fluidBottomNavigation.getSelectedTabPosition()==0){
-           Toast.makeText(mContext,"this is toast message",Toast.LENGTH_SHORT).show()
-       }else if (fluidBottomNavigation.getSelectedTabPosition()==1){
-           val toast = Toast.makeText(mContext, "Hello Javatpoint", Toast.LENGTH_LONG)
-                toast.show()
-       }
-})
+//       if (fluidBottomNavigation.getSelectedTabPosition()==0){
+//           Toast.makeText(mContext,"this is toast message",Toast.LENGTH_SHORT).show()
+//           navItemIndex = 3
+//                    fragment = FansFragment()
+//                    loadFragment(fragment)
+//       }else if (fluidBottomNavigation.getSelectedTabPosition()==1){
+//           val toast = Toast.makeText(mContext, "Hello Javatpoint", Toast.LENGTH_LONG)
+//                toast.show()
+//       }
+//})
+
+
 
 //        bottomNavigationView = findViewById<View>(R.id.bottomnavigationView) as MorphBottomNavigationView
 //
@@ -255,34 +260,33 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, TravelFragm
 //                    travel_linear.isClickable = true
 //                    home1_linear.isClickable = true
 //                }
-//                R.id.ic_travel -> {
-//                    travel_img.setColorFilter(ContextCompat.getColor(mContext,
-//                            R.color.heading_bg))
-//                    travel_txt.setTextColor(ContextCompat.getColor(mContext,
-//                            R.color.heading_bg))
-//                    fans_img.setColorFilter(ContextCompat.getColor(mContext,
-//                            R.color.unselected_icon_color))
-//                    fans_txt.setTextColor(ContextCompat.getColor(mContext,
-//                            R.color.unselected_icon_color))
-//                    story_img.setColorFilter(ContextCompat.getColor(mContext,
-//                            R.color.unselected_icon_color))
-//                    story_txt.setTextColor(ContextCompat.getColor(mContext,
-//                            R.color.unselected_icon_color))
-//                    ftp_img.setColorFilter(ContextCompat.getColor(mContext,
-//                            R.color.unselected_icon_color))
-//                    ftp_txt.setTextColor(ContextCompat.getColor(mContext,
-//                            R.color.unselected_icon_color))
-//                    navItemIndex = 8
-//                    fragment = TravelFragment()
-//                    loadFragment(fragment)
-//                    fans_linear.isClickable = true
-//                    travel_linear.isClickable = false
-//                    story_linear.isClickable = true
-//                    ftp_linear.isClickable = true
-//                    home1_linear.isClickable = true
-//                }
-                //                    case R.id.ic_event:
-                //                        break;
+////                R.id.ic_travel -> {
+////                    travel_img.setColorFilter(ContextCompat.getColor(mContext,
+////                            R.color.heading_bg))
+////                    travel_txt.setTextColor(ContextCompat.getColor(mContext,
+////                            R.color.heading_bg))
+////                    fans_img.setColorFilter(ContextCompat.getColor(mContext,
+////                            R.color.unselected_icon_color))
+////                    fans_txt.setTextColor(ContextCompat.getColor(mContext,
+////                            R.color.unselected_icon_color))
+////                    story_img.setColorFilter(ContextCompat.getColor(mContext,
+////                            R.color.unselected_icon_color))
+////                    story_txt.setTextColor(ContextCompat.getColor(mContext,
+////                            R.color.unselected_icon_color))
+////                    ftp_img.setColorFilter(ContextCompat.getColor(mContext,
+////                            R.color.unselected_icon_color))
+////                    ftp_txt.setTextColor(ContextCompat.getColor(mContext,
+////                            R.color.unselected_icon_color))
+////                    navItemIndex = 8
+////                    fragment = TravelFragment()
+////                    loadFragment(fragment)
+////                    fans_linear.isClickable = true
+////                    travel_linear.isClickable = false
+////                    story_linear.isClickable = true
+////                    ftp_linear.isClickable = true
+////                    home1_linear.isClickable = true
+////                }
+//
 //                R.id.ic_ftp -> {
 //                    ftp_img.setColorFilter(ContextCompat.getColor(mContext,
 //                            R.color.heading_bg))
@@ -497,6 +501,22 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, TravelFragm
 ////            Toast.makeText(this, "$name is clicked", Toast.LENGTH_SHORT).show()
 //        }
     }
+
+    private var selectedTabPosition = DEFAULT_SELECTED_TAB_POSITION
+        set(value) {
+            field = value
+            onTabSelectedListener?.onTabSelected(value)
+
+            if(value==0){
+                Toast.makeText(mContext,"this is toast message",Toast.LENGTH_SHORT).show()
+
+                Log.d("print value : ",value.toString());
+
+            }else if(value ==1){
+                val toast = Toast.makeText(mContext, "Hello Javatpoint", Toast.LENGTH_LONG)
+                toast.show()
+            }
+        }
 
     fun setListiner() {
         home1_linear.setOnClickListener(this)
@@ -775,12 +795,21 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, TravelFragm
 
         return super.onOptionsItemSelected(item)
     }
-
+    val mFragmentManager : FragmentManager? = null
     public fun loadFragment(fragment: Fragment?) {
         // load fragment
-        val transaction = supportFragmentManager.beginTransaction().setCustomAnimations(0, 0)
-        transaction.replace(R.id.frame_container, fragment!!)
-        transaction.commit()
+//        val transaction = supportFragmentManager.beginTransaction().setCustomAnimations(0, 0)
+//        transaction.replace(R.id.frame_container, fragment!!)
+//        transaction.commit()
+
+        // load fragment
+        if (mFragmentManager != null) {
+
+            val transaction = (mFragmentManager as FragmentManager).beginTransaction().setCustomAnimations(0, 0)
+            transaction.replace(R.id.frame_container, fragment!!)
+            transaction.commit()
+        }
+
     }
 
     @SuppressLint("RestrictedApi")
@@ -1040,8 +1069,21 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, TravelFragm
         // tags used to attach the fragments
         private val TAG_HOME = "home"
         var CURRENT_TAG = TAG_HOME
-
+        val mFragmentManager : FragmentManager? = null
+//        public fun loadFragment(fragment: Fragment?) {
+//
+//            // load fragment
+//            if (mFragmentManager != null) {
+//
+//                val transaction = (mFragmentManager as FragmentManager).beginTransaction().setCustomAnimations(0, 0)
+//                transaction.replace(R.id.frame_container, fragment!!)
+//                transaction.commit()
+//            }
+//
+//        }
+        }
 
     }
 
-}
+
+
