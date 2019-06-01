@@ -24,6 +24,8 @@ import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.FragmentFansBinding;
 import com.google.android.material.tabs.TabLayout;
 
+import java.lang.reflect.Field;
+
 
 public class FansFragment extends Fragment implements ViewPager.OnPageChangeListener {
     // TODO: Rename parameter arguments, choose names that match
@@ -152,4 +154,7 @@ public class FansFragment extends Fragment implements ViewPager.OnPageChangeList
     public void onPageScrollStateChanged(int state) {
 
     }
+
+
+
 }

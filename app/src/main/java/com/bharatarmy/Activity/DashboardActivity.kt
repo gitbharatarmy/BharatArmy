@@ -802,13 +802,11 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, TravelFragm
 //        transaction.replace(R.id.frame_container, fragment!!)
 //        transaction.commit()
 
-        // load fragment
-        if (mFragmentManager != null) {
-
-            val transaction = (mFragmentManager as FragmentManager).beginTransaction().setCustomAnimations(0, 0)
-            transaction.replace(R.id.frame_container, fragment!!)
-            transaction.commit()
-        }
+        val fragmentTransaction = supportFragmentManager.beginTransaction()
+        fragmentTransaction.setCustomAnimations(android.R.anim.fade_in,
+                android.R.anim.fade_out)
+        fragmentTransaction.replace(R.id.frame_container, fragment!!)
+        fragmentTransaction.commitAllowingStateLoss()
 
     }
 

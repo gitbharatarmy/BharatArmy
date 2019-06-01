@@ -30,7 +30,7 @@ import com.tbuonomo.morphbottomnavigation.MorphBottomNavigationView
 import kotlinx.android.synthetic.main.item.view.*
 import java.lang.Math.abs
 import com.bharatarmy.Activity.MainActivity
-
+import com.bharatarmy.Fragment.StoryFragment
 
 
 class FluidBottomNavigation :FrameLayout{
@@ -88,13 +88,15 @@ class FluidBottomNavigation :FrameLayout{
                 Toast.makeText(context,"this is toast message", Toast.LENGTH_SHORT).show()
 
                 Log.d("print value : ",value.toString());
-                navItemIndex = 3
-                fragment = FansFragment()
-                mActivity.loadFragment(fragment)
+
 
             }else if(value ==1){
                 val toast = Toast.makeText(context, "Hello Javatpoint", Toast.LENGTH_LONG)
                 toast.show()
+
+                navItemIndex = 3
+                fragment = StoryFragment()
+                mActivity.loadFragment(fragment)
             }
         }
 
