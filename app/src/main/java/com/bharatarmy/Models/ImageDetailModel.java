@@ -149,6 +149,12 @@ public class ImageDetailModel implements Serializable {
     @SerializedName("CategoryImage")
     @Expose
     private String categoryImage;
+    @SerializedName("AuthorId")
+    @Expose
+    private Integer authorId;
+    @SerializedName("CategoryId")
+    @Expose
+    private Integer categoryId;
 
     public String getAuthorImageURL() {
         return authorImageURL;
@@ -222,7 +228,7 @@ public class ImageDetailModel implements Serializable {
         this.strThumbImageName = strThumbImageName;
     }
 
-    public Integer getBAStoryId() {
+    public Integer  getBAStoryId() {
         return bAStoryId;
     }
 
@@ -350,6 +356,21 @@ public class ImageDetailModel implements Serializable {
         this.categoryImage = categoryImage;
     }
 
+    public Integer getAuthorId() {
+        return authorId;
+    }
+
+    public void setAuthorId(Integer authorId) {
+        this.authorId = authorId;
+    }
+
+    public Integer getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(Integer categoryId) {
+        this.categoryId = categoryId;
+    }
 
     //    FTP List Model
     public String Str1 = "", Str2 = "", Str3 = "";
@@ -674,6 +695,31 @@ public class ImageDetailModel implements Serializable {
 
     public void setStr3(String str3) {
         this.Str3 = str3;
+    }
+
+
+    //    StoryDetail
+    @SerializedName("StoryId")
+    @Expose
+    private Integer storyId;
+    @SerializedName("StoryDescription")
+    @Expose
+    private String storyDescription;
+
+    public Integer getStoryId() {
+        return storyId;
+    }
+
+    public void setStoryId(Integer storyId) {
+        this.storyId = storyId;
+    }
+
+    public String getStoryDescription() {
+        return storyDescription;
+    }
+
+    public void setStoryDescription(String storyDescription) {
+        this.storyDescription = storyDescription;
     }
 
 }

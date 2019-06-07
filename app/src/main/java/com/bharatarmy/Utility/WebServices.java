@@ -72,4 +72,8 @@ public interface WebServices {
     @FormUrlEncoded
     @POST("/GetBAFTP")
     void getBAFTP(@FieldMap Map<String, String> map, Callback<ImageMainModel> callback);
+
+    @FormUrlEncoded
+    @POST("/GetStoryDetail")
+    void getStoryDetail(@FieldMap Map<String, String> map, Callback<ImageMainModel> callback);
 }

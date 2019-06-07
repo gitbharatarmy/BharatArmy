@@ -2,7 +2,7 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="@dimen/_150sdp"
-    android:layout_height="@dimen/_240sdp"
+    android:layout_height="@dimen/_235sdp"
     android:layout_marginTop="@dimen/_2sdp"
     android:layout_marginLeft="@dimen/_1sdp"
     android:layout_marginRight="@dimen/_1sdp"
@@ -10,8 +10,8 @@
 
     <androidx.cardview.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_230sdp"
-        android:background="@color/splash_bg_color"
+        android:layout_height="@dimen/_225sdp"
+
         android:layout_margin="@dimen/_5sdp"
         card_view:cardCornerRadius="1dp"
         card_view:cardElevation="3dp"
@@ -26,6 +26,7 @@
             android:paddingTop="1dp"
             android:paddingRight="1dp">
             <RelativeLayout
+                android:id="@+id/header_banner_rcv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
@@ -37,6 +38,7 @@
                     android:src="@drawable/ajif" />
 
                 <LinearLayout
+
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/_15sdp"
                     android:orientation="horizontal"
@@ -130,6 +132,7 @@
                 style="@style/text_font"/>
 
             <LinearLayout
+                android:id="@+id/bottom_linear"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -172,7 +175,7 @@
                     android:id="@+id/follows_img"
                     android:layout_width="@dimen/_15sdp"
                     android:layout_height="@dimen/_15sdp"
-                    android:src="@drawable/password"
+                    android:src="@drawable/ic_password"
                     android:layout_gravity="center_vertical"
                     android:visibility="gone"/>
                 <TextView
@@ -201,7 +204,7 @@
                     android:id="@+id/profile_image"
                     android:layout_width="@dimen/_15sdp"
                     android:layout_height="@dimen/_15sdp"
-                    android:src="@drawable/username"
+                    android:src="@drawable/ic_avatar"
                     app:civ_border_width="1dp"
                     android:layout_gravity="center_vertical"
                     app:civ_border_color="#2a3550"/>

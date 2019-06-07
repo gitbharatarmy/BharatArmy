@@ -287,11 +287,7 @@ public class Utils {
 
     }
 
-    public static Bitmap DrawableToBitMap(Drawable drawable, Context context) {
-        Drawable myDrawable = context.getResources().getDrawable(R.drawable.first_match_map);
-        Bitmap anImage = ((BitmapDrawable) myDrawable).getBitmap();
-        return anImage;
-    }
+
 
     public static boolean isValidPhoneNumber(CharSequence phoneNumber) {
         if (!TextUtils.isEmpty(phoneNumber)) {

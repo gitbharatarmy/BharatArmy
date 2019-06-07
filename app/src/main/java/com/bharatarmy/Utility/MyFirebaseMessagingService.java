@@ -82,7 +82,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         NotificationManager notificationManager = (NotificationManager) ctx.getSystemService(Context.NOTIFICATION_SERVICE);
 
         Notification noti = new NotificationCompat.Builder(ctx)
-                .setSmallIcon(R.drawable.the_bharat_mob)
+                .setSmallIcon(R.drawable.app_logo)
                 .setTicker(String.valueOf(remoteMessage.getData().get("body")))
                 .setWhen(System.currentTimeMillis())
                 .setContentTitle("Bharat Army")//

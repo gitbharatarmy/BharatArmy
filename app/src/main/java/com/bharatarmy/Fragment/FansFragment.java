@@ -96,13 +96,13 @@ public class FansFragment extends Fragment implements ViewPager.OnPageChangeList
     }
 
     public void setDataValue() {
-        fragmentFansBinding.tabLayoutFans.addTab(fragmentFansBinding.tabLayoutFans.newTab().setText("ALBUM"),true);
-        fragmentFansBinding.tabLayoutFans.addTab(fragmentFansBinding.tabLayoutFans.newTab().setText("IMAGE"));
+        fragmentFansBinding.tabLayoutFans.addTab(fragmentFansBinding.tabLayoutFans.newTab().setText("IMAGE"),true);
         fragmentFansBinding.tabLayoutFans.addTab(fragmentFansBinding.tabLayoutFans.newTab().setText("VIDEO"));
+        fragmentFansBinding.tabLayoutFans.addTab(fragmentFansBinding.tabLayoutFans.newTab().setText("ALBUMS"));
 
-        fragmentFansBinding.tabLayoutFans.getTabAt(0).setIcon(R.drawable.ic_album_icon);
-        fragmentFansBinding.tabLayoutFans.getTabAt(1).setIcon(R.drawable.ic_image_icon);
-        fragmentFansBinding.tabLayoutFans.getTabAt(2).setIcon(R.drawable.ic_video_icon);
+        fragmentFansBinding.tabLayoutFans.getTabAt(0).setIcon(R.drawable.ic_image_icon);
+        fragmentFansBinding.tabLayoutFans.getTabAt(1).setIcon(R.drawable.ic_video_icon);
+        fragmentFansBinding.tabLayoutFans.getTabAt(2).setIcon(R.drawable.ic_album_icon);
         fragmentFansBinding.tabLayoutFans.setTabMode(TabLayout.MODE_FIXED);
         fragmentFansBinding.tabLayoutFans.setTabGravity(TabLayout.GRAVITY_FILL);
 

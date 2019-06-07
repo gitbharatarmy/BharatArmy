@@ -45,7 +45,7 @@
         android:layout_height="@dimen/_230sdp"
         android:layout_below="@+id/top_layout"
         android:layout_margin="@dimen/_3sdp"
-        android:src="@drawable/location_popup" />
+        android:src="@drawable/first_match_map" />
 
     <com.alexvasilkov.gestures.views.GestureImageView
         android:id="@+id/image_full"

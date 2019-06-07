@@ -2,10 +2,14 @@ package com.bharatarmy.VideoModule;
 
 import android.app.Dialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.fragment.app.DialogFragment;
 
@@ -14,6 +18,8 @@ import com.bharatarmy.R;
 public class BottomCommentDialog extends DialogFragment {
 
     public static String TAG = "FullScreenDialog";
+    EditText commentTxt;
+    LinearLayout comment_SendLinear;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -27,9 +33,19 @@ public class BottomCommentDialog extends DialogFragment {
         View view = inflater.inflate(R.layout.comment_sheet_item, container, false);
 
 
+        commentTxt = (EditText) view.findViewById(R.id.comment_edt);
+        comment_SendLinear = (LinearLayout) view.findViewById(R.id.comment_send_linear);
+
+        comment_SendLinear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d("commentSTr", commentTxt.getText().toString());
+                dismiss();
+            }
+        });
+
         return view;
     }
-
 
     @Override
     public void onStart() {
@@ -67,8 +83,6 @@ public class BottomCommentDialog extends DialogFragment {
         getDialog().getWindow().getAttributes().windowAnimations = R.style.DialogSlideAnim;
 
     }*/
-
-
 
 
 }

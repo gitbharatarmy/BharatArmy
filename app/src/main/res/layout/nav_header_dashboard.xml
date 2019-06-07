@@ -23,7 +23,7 @@
             android:layout_gravity="center"
             android:layout_margin="@dimen/_15sdp"
             android:scaleType="centerCrop"
-            android:src="@drawable/profile_pic" />
+            android:src="@drawable/proflie" />
     </LinearLayout>
     <TextView
         android:id="@+id/textView"

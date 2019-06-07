@@ -46,6 +46,7 @@ public class StoryAuthorActivity extends AppCompatActivity implements View.OnCli
     boolean isLoading = false;
     GridLayoutManager gridLayoutManager;
     boolean ispull;
+    int authorIdStr;
 
     ParallaxRecyclerAdapter<ImageDetailModel> adapter;
 
@@ -54,7 +55,8 @@ public class StoryAuthorActivity extends AppCompatActivity implements View.OnCli
         super.onCreate(savedInstanceState);
         activityStoryAuthorNewBinding = DataBindingUtil.setContentView(this, R.layout.activity_story_author_new);
         mContext = StoryAuthorActivity.this;
-
+        authorIdStr=getIntent().getIntExtra("StoryauthorId",0);
+        Log.d("authorId",""+authorIdStr);
         callStoryData();
         setListiner();
 
@@ -62,12 +64,7 @@ public class StoryAuthorActivity extends AppCompatActivity implements View.OnCli
 
     public void setListiner() {
         setSupportActionBar(activityStoryAuthorNewBinding.toolbarAndroid);
-//        getSupportActionBar().setBackgroundDrawable(getResources().getDrawable(R.drawable.dropshadow));
-//        getSupportActionBar().setDisplayShowTitleEnabled(true);
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-//fb,tw,youtube,instagram
         activityStoryAuthorNewBinding.shimmerViewContainer.startShimmerAnimation();
         gridLayoutManager = new GridLayoutManager(mContext, 2);
         gridLayoutManager.setOrientation(RecyclerView.VERTICAL); // set Horizontal Orientation
@@ -220,10 +217,14 @@ public class StoryAuthorActivity extends AppCompatActivity implements View.OnCli
         Map<String, String> map = new HashMap<>();
         map.put("PageIndex", String.valueOf(pageIndex));
         map.put("PageSize", "14");
+        map.put("AuthorId",String.valueOf(authorIdStr));
         return map;
     }
 
     public void fillStoryGallery() {
+        Utils.setImageInImageView(storyDetailModelList.get(0).getAuthorImageURL(),activityStoryAuthorNewBinding.profileImage,mContext);
+activityStoryAuthorNewBinding.userNameTxt.setText(storyDetailModelList.get(0).getAuthorName());
+activityStoryAuthorNewBinding.storyTitleTxt.setText(storyDetailModelList.get(0).getAuthorName());
         storyLsitAdapter = new StoryAuthorAdapter(mContext, storyDetailModelList, new image_click() {
             @Override
             public void image_more_click() {
@@ -295,6 +296,7 @@ public class StoryAuthorActivity extends AppCompatActivity implements View.OnCli
         Map<String, String> map = new HashMap<>();
         map.put("PageIndex", "0");
         map.put("PageSize", "14");
+        map.put("AuthorId",String.valueOf(authorIdStr));
         return map;
     }
 

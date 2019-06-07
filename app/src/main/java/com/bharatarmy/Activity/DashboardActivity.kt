@@ -2,59 +2,37 @@ package com.bharatarmy.Activity
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
-import android.graphics.Typeface
-import android.os.*
-import android.util.AttributeSet
+import android.os.Bundle
+import android.os.Handler
+import android.view.View
+import android.view.Menu
+import android.view.MenuItem
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.TextView
 
-import android.util.Log
-import android.util.TypedValue
-import android.view.*
-import android.widget.*
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
-import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
-import com.bharatarmy.*
-import com.bharatarmy.DEFAULT_SELECTED_TAB_POSITION
+import com.bharatarmy.Fragment.*
 
-import com.bharatarmy.Fragment.FTPFragment
-import com.bharatarmy.Fragment.FansFragment
-import com.bharatarmy.Fragment.HistoryFragment
-import com.bharatarmy.Fragment.HomeFragment
-import com.bharatarmy.Fragment.MyProfileFragment
-import com.bharatarmy.Fragment.StoryFragment
-import com.bharatarmy.Fragment.TravelFragment
-import com.bharatarmy.Interfaces.dashboard_click
+import com.bharatarmy.R
 import com.bharatarmy.Utility.AppConfiguration
 import com.bharatarmy.Utility.Utils
-import com.bharatarmy.extension.isInImmersiveMode
-import com.bharatarmy.extension.setTintColor
-import com.bharatarmy.listener.OnTabSelectedListener
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation
-import com.google.android.gms.common.internal.Objects
-import com.google.android.gms.common.util.VisibleForTesting
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
-import com.tbuonomo.morphbottomnavigation.MorphBottomNavigationView
 import kotlinx.android.synthetic.main.app_bar_dashboard.*
-import kotlinx.android.synthetic.main.item.view.*
-import java.util.*
 
-// pass=mynameis8672952197
-class DashboardActivity : AppCompatActivity(), View.OnClickListener, TravelFragment.OnItemClick {
+class DashboardActivity : AppCompatActivity(), View.OnClickListener, TravelFragment.OnItemClick, StoryFragment.OnItemClick, StoryCategoryFragment.OnItemClick {
 
 
     internal lateinit var mContext: Context
@@ -88,7 +66,6 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, TravelFragm
     internal lateinit var ftp_txt: TextView
     internal lateinit var travel_txt: TextView
     internal lateinit var navigationView: NavigationView
-    internal var tabLayout: SpaceTabLayout? = null
     internal lateinit var toolbar: Toolbar
     private var navHeader: View? = null
     internal lateinit var old_menu: CardView
@@ -99,14 +76,13 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, TravelFragm
     private val shouldLoadHomeFragOnBackPress = true
     private var mHandler: Handler? = null
 
-    internal lateinit var bottomNavigationView: MorphBottomNavigationView
-    var onTabSelectedListener: OnTabSelectedListener? = null
 
     private// home
     val homeFragment: Fragment
         get() {
             when (navItemIndex) {
                 0 -> {
+
                     return HomeFragment()
                 }
                 else -> return HomeFragment()
@@ -125,6 +101,7 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, TravelFragm
 
         //initilize control
         init()
+        bottomNavigationView()
 
         // load nav menu header data
         loadNavHeader()
@@ -188,335 +165,160 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, TravelFragm
         filter_fab.hide()
         AppConfiguration.firstDashStr = "true"
 
-        fluidBottomNavigation.accentColor = ContextCompat.getColor(this, R.color.heading_bg)
-        fluidBottomNavigation.backColor = ContextCompat.getColor(this, R.color.orange)
-        fluidBottomNavigation.textColor = ContextCompat.getColor(this, R.color.heading_bg)
-        fluidBottomNavigation.iconColor = ContextCompat.getColor(this, R.color.heading_bg)
-        fluidBottomNavigation.iconSelectedColor = ContextCompat.getColor(this, R.color.splash_bg_color)
 
-        fluidBottomNavigation.items =
-                listOf(
-                        FluidBottomNavigationItem(
-                                getString(R.string.fans),
-                                ContextCompat.getDrawable(this, R.drawable.ic_fans)),
-                        FluidBottomNavigationItem(
-                                getString(R.string.flight),
-                                ContextCompat.getDrawable(this, R.drawable.ic_flight)),
-                        FluidBottomNavigationItem(
-                                getString(R.string.event),
-                                ContextCompat.getDrawable(this, R.drawable.ic_event)),
-                        FluidBottomNavigationItem(
-                                getString(R.string.ftp),
-                                ContextCompat.getDrawable(this, R.drawable.ic_ftp)),
-                        FluidBottomNavigationItem(
-                                getString(R.string.story),
-                                ContextCompat.getDrawable(this, R.drawable.ic_story)))
-
-
-
-//        fluidBottomNavigation.setOnClickListener(View.OnClickListener { fluidBottomNavigation.getSelectedTabPosition()
-
-//       if (fluidBottomNavigation.getSelectedTabPosition()==0){
-//           Toast.makeText(mContext,"this is toast message",Toast.LENGTH_SHORT).show()
-//           navItemIndex = 3
-//                    fragment = FansFragment()
-//                    loadFragment(fragment)
-//       }else if (fluidBottomNavigation.getSelectedTabPosition()==1){
-//           val toast = Toast.makeText(mContext, "Hello Javatpoint", Toast.LENGTH_LONG)
-//                toast.show()
-//       }
-//})
-
-
-
-//        bottomNavigationView = findViewById<View>(R.id.bottomnavigationView) as MorphBottomNavigationView
-//
-//        bottomNavigationView.setSelectedItemId(R.id.ic_home)
-//        bottomNavigationView.setOnNavigationItemSelectedListener { menuItem ->
-//            when (menuItem.itemId) {
-//                R.id.ic_fans -> {
-//                    fans_img.setColorFilter(ContextCompat.getColor(mContext,
-//                            R.color.heading_bg))
-//                    fans_txt.setTextColor(ContextCompat.getColor(mContext,
-//                            R.color.heading_bg))
-//                    story_img.setColorFilter(ContextCompat.getColor(mContext,
-//                            R.color.unselected_icon_color))
-//                    story_txt.setTextColor(ContextCompat.getColor(mContext,
-//                            R.color.unselected_icon_color))
-//                    ftp_img.setColorFilter(ContextCompat.getColor(mContext,
-//                            R.color.unselected_icon_color))
-//                    ftp_txt.setTextColor(ContextCompat.getColor(mContext,
-//                            R.color.unselected_icon_color))
-//                    travel_img.setColorFilter(ContextCompat.getColor(mContext,
-//                            R.color.unselected_icon_color))
-//                    travel_txt.setTextColor(ContextCompat.getColor(mContext,
-//                            R.color.unselected_icon_color))
-//                    navItemIndex = 3
-//                    fragment = FansFragment()
-//                    loadFragment(fragment)
-//                    fans_linear.isClickable = false
-//                    story_linear.isClickable = true
-//                    ftp_linear.isClickable = true
-//                    travel_linear.isClickable = true
-//                    home1_linear.isClickable = true
-//                }
-////                R.id.ic_travel -> {
-////                    travel_img.setColorFilter(ContextCompat.getColor(mContext,
-////                            R.color.heading_bg))
-////                    travel_txt.setTextColor(ContextCompat.getColor(mContext,
-////                            R.color.heading_bg))
-////                    fans_img.setColorFilter(ContextCompat.getColor(mContext,
-////                            R.color.unselected_icon_color))
-////                    fans_txt.setTextColor(ContextCompat.getColor(mContext,
-////                            R.color.unselected_icon_color))
-////                    story_img.setColorFilter(ContextCompat.getColor(mContext,
-////                            R.color.unselected_icon_color))
-////                    story_txt.setTextColor(ContextCompat.getColor(mContext,
-////                            R.color.unselected_icon_color))
-////                    ftp_img.setColorFilter(ContextCompat.getColor(mContext,
-////                            R.color.unselected_icon_color))
-////                    ftp_txt.setTextColor(ContextCompat.getColor(mContext,
-////                            R.color.unselected_icon_color))
-////                    navItemIndex = 8
-////                    fragment = TravelFragment()
-////                    loadFragment(fragment)
-////                    fans_linear.isClickable = true
-////                    travel_linear.isClickable = false
-////                    story_linear.isClickable = true
-////                    ftp_linear.isClickable = true
-////                    home1_linear.isClickable = true
-////                }
-//
-//                R.id.ic_ftp -> {
-//                    ftp_img.setColorFilter(ContextCompat.getColor(mContext,
-//                            R.color.heading_bg))
-//                    ftp_txt.setTextColor(ContextCompat.getColor(mContext,
-//                            R.color.heading_bg))
-//
-//                    story_img.setColorFilter(ContextCompat.getColor(mContext,
-//                            R.color.unselected_icon_color))
-//                    story_txt.setTextColor(ContextCompat.getColor(mContext,
-//                            R.color.unselected_icon_color))
-//
-//                    fans_img.setColorFilter(ContextCompat.getColor(mContext,
-//                            R.color.unselected_icon_color))
-//                    fans_txt.setTextColor(ContextCompat.getColor(mContext,
-//                            R.color.unselected_icon_color))
-//                    travel_img.setColorFilter(ContextCompat.getColor(mContext,
-//                            R.color.unselected_icon_color))
-//                    travel_txt.setTextColor(ContextCompat.getColor(mContext,
-//                            R.color.unselected_icon_color))
-//                    navItemIndex = 7
-//                    fragment = FTPFragment()
-//                    loadFragment(fragment)
-//                    fans_linear.isClickable = true
-//                    story_linear.isClickable = true
-//                    ftp_linear.isClickable = false
-//                    home1_linear.isClickable = true
-//                    travel_linear.isClickable = true
-//                }
-//                R.id.ic_story -> {
-//                    story_img.setColorFilter(ContextCompat.getColor(mContext,
-//                            R.color.heading_bg))
-//                    story_txt.setTextColor(ContextCompat.getColor(mContext,
-//                            R.color.heading_bg))
-//
-//                    fans_img.setColorFilter(ContextCompat.getColor(mContext,
-//                            R.color.unselected_icon_color))
-//                    fans_txt.setTextColor(ContextCompat.getColor(mContext,
-//                            R.color.unselected_icon_color))
-//
-//                    ftp_img.setColorFilter(ContextCompat.getColor(mContext,
-//                            R.color.unselected_icon_color))
-//                    ftp_txt.setTextColor(ContextCompat.getColor(mContext,
-//                            R.color.unselected_icon_color))
-//                    travel_img.setColorFilter(ContextCompat.getColor(mContext,
-//                            R.color.unselected_icon_color))
-//                    travel_txt.setTextColor(ContextCompat.getColor(mContext,
-//                            R.color.unselected_icon_color))
-//                    navItemIndex = 6
-//                    fragment = StoryFragment()
-//                    loadFragment(fragment)
-//                    fans_linear.isClickable = true
-//                    story_linear.isClickable = false
-//                    ftp_linear.isClickable = true
-//                    travel_linear.isClickable = true
-//                    home1_linear.isClickable = true
-//                }
-//
-//            }
-//
-//            true
-//        }
-
-//         *****************--------************
-//        bottomNavigation.add(MeowBottomNavigation.Model(1, R.drawable.ic_fans))
-//        bottomNavigation.add(MeowBottomNavigation.Model(2, R.drawable.ic_flight))
-//        bottomNavigation.add(MeowBottomNavigation.Model(3, R.drawable.ic_home))
-//        bottomNavigation.add(MeowBottomNavigation.Model(4, R.drawable.ic_ftp))
-//        bottomNavigation.add(MeowBottomNavigation.Model(5, R.drawable.ic_story))
-//        bottomNavigation.add(MeowBottomNavigation.Model(6, R.drawable.ic_event))
-//
-//
-//        bottomNavigation.setOnClickMenuListener {
-//            when (it.id) {
-//                1 -> {
-//                    fans_img.setColorFilter(ContextCompat.getColor(mContext,
-//                            R.color.heading_bg))
-//                    fans_txt.setTextColor(ContextCompat.getColor(mContext,
-//                            R.color.heading_bg))
-//                    story_img.setColorFilter(ContextCompat.getColor(mContext,
-//                            R.color.unselected_icon_color))
-//                    story_txt.setTextColor(ContextCompat.getColor(mContext,
-//                            R.color.unselected_icon_color))
-//                    ftp_img.setColorFilter(ContextCompat.getColor(mContext,
-//                            R.color.unselected_icon_color))
-//                    ftp_txt.setTextColor(ContextCompat.getColor(mContext,
-//                            R.color.unselected_icon_color))
-//                    travel_img.setColorFilter(ContextCompat.getColor(mContext,
-//                            R.color.unselected_icon_color))
-//                    travel_txt.setTextColor(ContextCompat.getColor(mContext,
-//                            R.color.unselected_icon_color))
-//                    navItemIndex = 3
-//                    fragment = FansFragment()
-//                    loadFragment(fragment)
-//                    fans_linear.isClickable = false
-//                    story_linear.isClickable = true
-//                    ftp_linear.isClickable = true
-//                    travel_linear.isClickable = true
-//                    home1_linear.isClickable = true
-//                }
-//                2 -> {
-//                    travel_img.setColorFilter(ContextCompat.getColor(mContext,
-//                            R.color.heading_bg))
-//                    travel_txt.setTextColor(ContextCompat.getColor(mContext,
-//                            R.color.heading_bg))
-//                    fans_img.setColorFilter(ContextCompat.getColor(mContext,
-//                            R.color.unselected_icon_color))
-//                    fans_txt.setTextColor(ContextCompat.getColor(mContext,
-//                            R.color.unselected_icon_color))
-//                    story_img.setColorFilter(ContextCompat.getColor(mContext,
-//                            R.color.unselected_icon_color))
-//                    story_txt.setTextColor(ContextCompat.getColor(mContext,
-//                            R.color.unselected_icon_color))
-//                    ftp_img.setColorFilter(ContextCompat.getColor(mContext,
-//                            R.color.unselected_icon_color))
-//                    ftp_txt.setTextColor(ContextCompat.getColor(mContext,
-//                            R.color.unselected_icon_color))
-//                    navItemIndex = 8
-//                    fragment = TravelFragment()
-//                    loadFragment(fragment)
-//                    fans_linear.isClickable = true
-//                    travel_linear.isClickable = false
-//                    story_linear.isClickable = true
-//                    ftp_linear.isClickable = true
-//                    home1_linear.isClickable = true
-//                }
-//                3 -> {
-//                    fans_img.setColorFilter(ContextCompat.getColor(mContext,
-//                            R.color.unselected_view))
-//                    fans_txt.setTextColor(ContextCompat.getColor(mContext,
-//                            R.color.unselected_view))
-//                    story_img.setColorFilter(ContextCompat.getColor(mContext,
-//                            R.color.unselected_view))
-//                    story_txt.setTextColor(ContextCompat.getColor(mContext,
-//                            R.color.unselected_view))
-//
-//                    ftp_img.setColorFilter(ContextCompat.getColor(mContext,
-//                            R.color.unselected_view))
-//                    ftp_txt.setTextColor(ContextCompat.getColor(mContext,
-//                            R.color.unselected_view))
-//                    travel_img.setColorFilter(ContextCompat.getColor(mContext,
-//                            R.color.unselected_icon_color))
-//                    travel_txt.setTextColor(ContextCompat.getColor(mContext,
-//                            R.color.unselected_icon_color))
-//                    navItemIndex = 0
-//                    CURRENT_TAG = TAG_HOME
-//                    loadHomeFragment()
-//                    fans_linear.isClickable = true
-//                    story_linear.isClickable = true
-//                    ftp_linear.isClickable = true
-//                    travel_linear.isClickable = true
-//                    home1_linear.isClickable = false
-//                }
-//                4 -> {
-//                    ftp_img.setColorFilter(ContextCompat.getColor(mContext,
-//                            R.color.heading_bg))
-//                    ftp_txt.setTextColor(ContextCompat.getColor(mContext,
-//                            R.color.heading_bg))
-//
-//                    story_img.setColorFilter(ContextCompat.getColor(mContext,
-//                            R.color.unselected_icon_color))
-//                    story_txt.setTextColor(ContextCompat.getColor(mContext,
-//                            R.color.unselected_icon_color))
-//
-//                    fans_img.setColorFilter(ContextCompat.getColor(mContext,
-//                            R.color.unselected_icon_color))
-//                    fans_txt.setTextColor(ContextCompat.getColor(mContext,
-//                            R.color.unselected_icon_color))
-//                    travel_img.setColorFilter(ContextCompat.getColor(mContext,
-//                            R.color.unselected_icon_color))
-//                    travel_txt.setTextColor(ContextCompat.getColor(mContext,
-//                            R.color.unselected_icon_color))
-//                    navItemIndex = 7
-//                    fragment = FTPFragment()
-//                    loadFragment(fragment)
-//                    fans_linear.isClickable = true
-//                    story_linear.isClickable = true
-//                    ftp_linear.isClickable = false
-//                    home1_linear.isClickable = true
-//                    travel_linear.isClickable = true
-//                }
-//                5 -> {
-//                    story_img.setColorFilter(ContextCompat.getColor(mContext,
-//                            R.color.heading_bg))
-//                    story_txt.setTextColor(ContextCompat.getColor(mContext,
-//                            R.color.heading_bg))
-//
-//                    fans_img.setColorFilter(ContextCompat.getColor(mContext,
-//                            R.color.unselected_icon_color))
-//                    fans_txt.setTextColor(ContextCompat.getColor(mContext,
-//                            R.color.unselected_icon_color))
-//
-//                    ftp_img.setColorFilter(ContextCompat.getColor(mContext,
-//                            R.color.unselected_icon_color))
-//                    ftp_txt.setTextColor(ContextCompat.getColor(mContext,
-//                            R.color.unselected_icon_color))
-//                    travel_img.setColorFilter(ContextCompat.getColor(mContext,
-//                            R.color.unselected_icon_color))
-//                    travel_txt.setTextColor(ContextCompat.getColor(mContext,
-//                            R.color.unselected_icon_color))
-//                    navItemIndex = 6
-//                    fragment = StoryFragment()
-//                    loadFragment(fragment)
-//                    fans_linear.isClickable = true
-//                    story_linear.isClickable = false
-//                    ftp_linear.isClickable = true
-//                    travel_linear.isClickable = true
-//                    home1_linear.isClickable = true
-//                }
-//                else -> false
-//
-//            }
-////            Toast.makeText(this, "$name is clicked", Toast.LENGTH_SHORT).show()
-//        }
     }
 
-    private var selectedTabPosition = DEFAULT_SELECTED_TAB_POSITION
-        set(value) {
-            field = value
-            onTabSelectedListener?.onTabSelected(value)
+    fun bottomNavigationView() {
+        bottomNavigation.add(MeowBottomNavigation.Model(1, R.drawable.ic_fans_new))
+        bottomNavigation.add(MeowBottomNavigation.Model(2, R.drawable.ic_travel_new))
+        bottomNavigation.add(MeowBottomNavigation.Model(3, R.drawable.ic_home_new))
+        bottomNavigation.add(MeowBottomNavigation.Model(4, R.drawable.ic_ftp_new))
+        bottomNavigation.add(MeowBottomNavigation.Model(5, R.drawable.ic_study))
 
-            if(value==0){
-                Toast.makeText(mContext,"this is toast message",Toast.LENGTH_SHORT).show()
+//        bottomNavigation.show(1, true)
 
-                Log.d("print value : ",value.toString());
+        bottomNavigation.setOnClickMenuListener {
+            when (it.id) {
+                1 -> {
+                    fans_img.setColorFilter(ContextCompat.getColor(mContext,
+                            R.color.heading_bg))
+                    fans_txt.setTextColor(ContextCompat.getColor(mContext,
+                            R.color.heading_bg))
+                    story_img.setColorFilter(ContextCompat.getColor(mContext,
+                            R.color.unselected_icon_color))
+                    story_txt.setTextColor(ContextCompat.getColor(mContext,
+                            R.color.unselected_icon_color))
+                    ftp_img.setColorFilter(ContextCompat.getColor(mContext,
+                            R.color.unselected_icon_color))
+                    ftp_txt.setTextColor(ContextCompat.getColor(mContext,
+                            R.color.unselected_icon_color))
+                    travel_img.setColorFilter(ContextCompat.getColor(mContext,
+                            R.color.unselected_icon_color))
+                    travel_txt.setTextColor(ContextCompat.getColor(mContext,
+                            R.color.unselected_icon_color))
+                    navItemIndex = 3
+                    fragment = FansFragment()
+                    loadFragment(fragment as FansFragment)
+                    fans_linear.isClickable = false
+                    story_linear.isClickable = true
+                    ftp_linear.isClickable = true
+                    travel_linear.isClickable = true
+                    home1_linear.isClickable = true
+                }
+                2 -> {
+                    travel_img.setColorFilter(ContextCompat.getColor(mContext,
+                            R.color.heading_bg))
+                    travel_txt.setTextColor(ContextCompat.getColor(mContext,
+                            R.color.heading_bg))
+                    fans_img.setColorFilter(ContextCompat.getColor(mContext,
+                            R.color.unselected_icon_color))
+                    fans_txt.setTextColor(ContextCompat.getColor(mContext,
+                            R.color.unselected_icon_color))
+                    story_img.setColorFilter(ContextCompat.getColor(mContext,
+                            R.color.unselected_icon_color))
+                    story_txt.setTextColor(ContextCompat.getColor(mContext,
+                            R.color.unselected_icon_color))
+                    ftp_img.setColorFilter(ContextCompat.getColor(mContext,
+                            R.color.unselected_icon_color))
+                    ftp_txt.setTextColor(ContextCompat.getColor(mContext,
+                            R.color.unselected_icon_color))
+                    navItemIndex = 8
+                    fragment = TravelFragment()
+                    loadFragment(fragment as TravelFragment)
+                    fans_linear.isClickable = true
+                    travel_linear.isClickable = false
+                    story_linear.isClickable = true
+                    ftp_linear.isClickable = true
+                    home1_linear.isClickable = true
+                }
+                3 -> {
+                    fans_img.setColorFilter(ContextCompat.getColor(mContext,
+                            R.color.unselected_view))
+                    fans_txt.setTextColor(ContextCompat.getColor(mContext,
+                            R.color.unselected_view))
+                    story_img.setColorFilter(ContextCompat.getColor(mContext,
+                            R.color.unselected_view))
+                    story_txt.setTextColor(ContextCompat.getColor(mContext,
+                            R.color.unselected_view))
 
-            }else if(value ==1){
-                val toast = Toast.makeText(mContext, "Hello Javatpoint", Toast.LENGTH_LONG)
-                toast.show()
+                    ftp_img.setColorFilter(ContextCompat.getColor(mContext,
+                            R.color.unselected_view))
+                    ftp_txt.setTextColor(ContextCompat.getColor(mContext,
+                            R.color.unselected_view))
+                    travel_img.setColorFilter(ContextCompat.getColor(mContext,
+                            R.color.unselected_icon_color))
+                    travel_txt.setTextColor(ContextCompat.getColor(mContext,
+                            R.color.unselected_icon_color))
+                    navItemIndex = 0
+                    CURRENT_TAG = TAG_HOME
+                    loadHomeFragment()
+                    fans_linear.isClickable = true
+                    story_linear.isClickable = true
+                    ftp_linear.isClickable = true
+                    travel_linear.isClickable = true
+                    home1_linear.isClickable = false
+                }
+                4 -> {
+                    ftp_img.setColorFilter(ContextCompat.getColor(mContext,
+                            R.color.heading_bg))
+                    ftp_txt.setTextColor(ContextCompat.getColor(mContext,
+                            R.color.heading_bg))
+
+                    story_img.setColorFilter(ContextCompat.getColor(mContext,
+                            R.color.unselected_icon_color))
+                    story_txt.setTextColor(ContextCompat.getColor(mContext,
+                            R.color.unselected_icon_color))
+
+                    fans_img.setColorFilter(ContextCompat.getColor(mContext,
+                            R.color.unselected_icon_color))
+                    fans_txt.setTextColor(ContextCompat.getColor(mContext,
+                            R.color.unselected_icon_color))
+                    travel_img.setColorFilter(ContextCompat.getColor(mContext,
+                            R.color.unselected_icon_color))
+                    travel_txt.setTextColor(ContextCompat.getColor(mContext,
+                            R.color.unselected_icon_color))
+                    navItemIndex = 7
+                    fragment = FTPFragment()
+                    loadFragment(fragment as FTPFragment)
+                    fans_linear.isClickable = true
+                    story_linear.isClickable = true
+                    ftp_linear.isClickable = false
+                    home1_linear.isClickable = true
+                    travel_linear.isClickable = true
+                }
+                5 -> {
+                    story_img.setColorFilter(ContextCompat.getColor(mContext,
+                            R.color.heading_bg))
+                    story_txt.setTextColor(ContextCompat.getColor(mContext,
+                            R.color.heading_bg))
+
+                    fans_img.setColorFilter(ContextCompat.getColor(mContext,
+                            R.color.unselected_icon_color))
+                    fans_txt.setTextColor(ContextCompat.getColor(mContext,
+                            R.color.unselected_icon_color))
+
+                    ftp_img.setColorFilter(ContextCompat.getColor(mContext,
+                            R.color.unselected_icon_color))
+                    ftp_txt.setTextColor(ContextCompat.getColor(mContext,
+                            R.color.unselected_icon_color))
+                    travel_img.setColorFilter(ContextCompat.getColor(mContext,
+                            R.color.unselected_icon_color))
+                    travel_txt.setTextColor(ContextCompat.getColor(mContext,
+                            R.color.unselected_icon_color))
+                    navItemIndex = 6
+                    fragment = StoryFragment()
+                    loadFragment(fragment as StoryFragment)
+                    fans_linear.isClickable = true
+                    story_linear.isClickable = false
+                    ftp_linear.isClickable = true
+                    travel_linear.isClickable = true
+                    home1_linear.isClickable = true
+                }
+
             }
+//            Toast.makeText(this, "$name is clicked", Toast.LENGTH_SHORT).show()
         }
+    }
 
     fun setListiner() {
         home1_linear.setOnClickListener(this)
@@ -562,6 +364,7 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, TravelFragm
      * selected from navigation menu
      */
     private fun loadHomeFragment() {
+        bottomNavigation.show(3, true)
         // selecting appropriate nav menu item
         selectNavMenu()
 
@@ -706,16 +509,12 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, TravelFragm
 
             override fun onDrawerClosed(drawerView: View) {
                 // Code here will be triggered once the drawer closes as we dont want anything to happen so we leave this blank
-                if (drawerView != null) {
-                    super.onDrawerClosed(drawerView)
-                }
+                super.onDrawerClosed(drawerView)
             }
 
             override fun onDrawerOpened(drawerView: View) {
                 // Code here will be triggered once the drawer open as we dont want anything to happen so we leave this blank
-                if (drawerView != null) {
-                    super.onDrawerOpened(drawerView)
-                }
+                super.onDrawerOpened(drawerView)
             }
         }
         actionBarDrawerToggle.drawerArrowDrawable.color = resources.getColor(R.color.splash_bg_color)
@@ -795,45 +594,19 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, TravelFragm
 
         return super.onOptionsItemSelected(item)
     }
-    val mFragmentManager : FragmentManager? = null
-    public fun loadFragment(fragment: Fragment?) {
+
+    private fun loadFragment(fragment: Fragment) {
         // load fragment
-//        val transaction = supportFragmentManager.beginTransaction().setCustomAnimations(0, 0)
-//        transaction.replace(R.id.frame_container, fragment!!)
-//        transaction.commit()
-
-        val fragmentTransaction = supportFragmentManager.beginTransaction()
-        fragmentTransaction.setCustomAnimations(android.R.anim.fade_in,
-                android.R.anim.fade_out)
-        fragmentTransaction.replace(R.id.frame_container, fragment!!)
-        fragmentTransaction.commitAllowingStateLoss()
-
+        val transaction = supportFragmentManager.beginTransaction().setCustomAnimations(0, 0)
+        transaction.replace(R.id.frame_container, fragment)
+        transaction.commit()
     }
 
     @SuppressLint("RestrictedApi")
     override fun onClick(v: View) {
         when (v.id) {
             R.id.home_linear -> {
-                //                home_img.setColorFilter(ContextCompat.getColor(mContext,
-                //                        R.color.sign_up));
-                //                home_txt.setTextColor(ContextCompat.getColor(mContext,
-                //                        R.color.sign_up));
-                //
-                //                history_img.setColorFilter(ContextCompat.getColor(mContext,
-                //                        R.color.unselected_icon_color));
-                //                history_txt.setTextColor(ContextCompat.getColor(mContext,
-                //                        R.color.unselected_icon_color));
-                //                profile_img.setColorFilter(ContextCompat.getColor(mContext,
-                //                        R.color.unselected_icon_color));
-                //                profile_txt.setTextColor(ContextCompat.getColor(mContext,
-                //                        R.color.unselected_icon_color));
-                //                fan_img.setColorFilter(ContextCompat.getColor(mContext,
-                //                        R.color.unselected_icon_color));
-                //                fan_txt.setTextColor(ContextCompat.getColor(mContext,
-                //                        R.color.unselected_icon_color));
-                //                navItemIndex = 0;
-                //                fragment = new HomeFragment();
-                //                loadFragment(fragment);
+
                 new_menu.visibility = View.VISIBLE
                 old_menu.visibility = View.GONE
             }
@@ -858,7 +631,7 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, TravelFragm
                         R.color.unselected_icon_color))
                 navItemIndex = 1
                 fragment = HistoryFragment()
-                loadFragment(fragment)
+                loadFragment(fragment as HistoryFragment)
             }
             R.id.profile_linear -> {
                 profile_img.setColorFilter(ContextCompat.getColor(mContext,
@@ -881,7 +654,7 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, TravelFragm
                         R.color.unselected_icon_color))
                 navItemIndex = 2
                 fragment = MyProfileFragment()
-                loadFragment(fragment)
+                loadFragment(fragment as MyProfileFragment)
             }
             R.id.fan_linear -> {
                 fan_img.setColorFilter(ContextCompat.getColor(mContext,
@@ -904,9 +677,10 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, TravelFragm
                         R.color.unselected_icon_color))
                 navItemIndex = 3
                 fragment = FansFragment()
-                loadFragment(fragment)
+                loadFragment(fragment as FansFragment)
             }
             R.id.fans_linear -> {
+
                 fans_img.setColorFilter(ContextCompat.getColor(mContext,
                         R.color.heading_bg))
                 fans_txt.setTextColor(ContextCompat.getColor(mContext,
@@ -925,7 +699,7 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, TravelFragm
                         R.color.unselected_icon_color))
                 navItemIndex = 3
                 fragment = FansFragment()
-                loadFragment(fragment)
+                loadFragment(fragment as FansFragment)
                 fans_linear.isClickable = false
                 story_linear.isClickable = true
                 ftp_linear.isClickable = true
@@ -936,7 +710,7 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, TravelFragm
                 navItemIndex = 2
                 home1_linear.isClickable = true
                 fragment = MyProfileFragment()
-                loadFragment(fragment)
+                loadFragment(fragment as MyProfileFragment)
                 drawer.closeDrawers()
             }
             R.id.home1_linear -> {
@@ -965,8 +739,6 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, TravelFragm
                 ftp_linear.isClickable = true
                 travel_linear.isClickable = true
                 home1_linear.isClickable = false
-//                bottomNavigationView.setSelectedItemId(R.id.ic_event)
-
             }
             R.id.story_linear -> {
                 story_img.setColorFilter(ContextCompat.getColor(mContext,
@@ -989,7 +761,7 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, TravelFragm
                         R.color.unselected_icon_color))
                 navItemIndex = 6
                 fragment = StoryFragment()
-                loadFragment(fragment)
+                loadFragment(fragment as StoryFragment)
                 fans_linear.isClickable = true
                 story_linear.isClickable = false
                 ftp_linear.isClickable = true
@@ -1017,7 +789,7 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, TravelFragm
                         R.color.unselected_icon_color))
                 navItemIndex = 7
                 fragment = FTPFragment()
-                loadFragment(fragment)
+                loadFragment(fragment as FTPFragment)
                 fans_linear.isClickable = true
                 story_linear.isClickable = true
                 ftp_linear.isClickable = false
@@ -1043,7 +815,7 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, TravelFragm
                         R.color.unselected_icon_color))
                 navItemIndex = 8
                 fragment = TravelFragment()
-                loadFragment(fragment)
+                loadFragment(fragment as TravelFragment)
                 fans_linear.isClickable = true
                 travel_linear.isClickable = false
                 story_linear.isClickable = true
@@ -1060,6 +832,30 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, TravelFragm
         }
     }
 
+    //    override fun onStoryCategory() {
+//        navItemIndex = 3
+//        fragment = StoryCategoryFragment()
+//        loadCategoryFragment(fragment as StoryCategoryFragment)
+//    }
+    override fun onStoryCategory(categoryId: String?, categoryName: String?) {
+        navItemIndex = 3
+        fragment = StoryCategoryFragment()
+        val bundle = Bundle()
+        bundle.putString("categoryId", categoryId)
+        bundle.putString("categoryName", categoryName)
+        val addCar = StoryCategoryFragment()
+        addCar.arguments = bundle
+        loadCategoryFragment(fragment as StoryCategoryFragment)
+    }
+
+    override fun onStoryCategoryBack() {
+        navItemIndex = 3
+        fragment = StoryFragment()
+        val transaction = supportFragmentManager.beginTransaction().setCustomAnimations(R.anim.slide_out_right, R.anim.slide_in_left)
+        transaction.replace(R.id.frame_container, fragment as StoryFragment)
+        transaction.commit()
+    }
+
     companion object {
         // index to identify current nav menu item
         var navItemIndex = 0
@@ -1067,21 +863,15 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, TravelFragm
         // tags used to attach the fragments
         private val TAG_HOME = "home"
         var CURRENT_TAG = TAG_HOME
-        val mFragmentManager : FragmentManager? = null
-//        public fun loadFragment(fragment: Fragment?) {
-//
-//            // load fragment
-//            if (mFragmentManager != null) {
-//
-//                val transaction = (mFragmentManager as FragmentManager).beginTransaction().setCustomAnimations(0, 0)
-//                transaction.replace(R.id.frame_container, fragment!!)
-//                transaction.commit()
-//            }
-//
-//        }
-        }
-
     }
 
+    private fun loadCategoryFragment(fragment: Fragment) {
+        // load fragment
 
+        val transaction = supportFragmentManager.beginTransaction().setCustomAnimations(R.anim.slide_out_right, R.anim.slide_in_left)
 
+        transaction.replace(R.id.frame_container, fragment)
+        transaction.commit()
+    }
+
+}

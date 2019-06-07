@@ -173,7 +173,7 @@
                     android:id="@+id/follows_img"
                     android:layout_width="@dimen/_15sdp"
                     android:layout_height="@dimen/_15sdp"
-                    android:src="@drawable/password"
+                    android:src="@drawable/ic_password"
                     android:layout_gravity="center_vertical"
                     android:visibility="gone"/>
                 <TextView
@@ -202,7 +202,7 @@
                     android:id="@+id/profile_image"
                     android:layout_width="@dimen/_20sdp"
                     android:layout_height="@dimen/_20sdp"
-                    android:src="@drawable/username"
+                    android:src="@drawable/proflie"
                     app:civ_border_width="1dp"
                     android:layout_gravity="center_vertical"
                     app:civ_border_color="#2a3550"/>

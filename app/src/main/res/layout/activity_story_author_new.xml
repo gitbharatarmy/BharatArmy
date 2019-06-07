@@ -84,7 +84,7 @@
                             android:layout_gravity="center"
                             android:layout_margin="@dimen/_14sdp"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/yashmittal" />
+                            android:src="@drawable/proflie" />
                     </LinearLayout>
 
                     <TextView
@@ -96,40 +96,10 @@
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="@dimen/_5sdp"
                         android:gravity="center_horizontal|center_vertical"
-                        android:text="Yash Mittal"
+                        android:text="Name"
                         android:textColor="@color/splash_bg_color"
                         android:textSize="@dimen/_14sdp" />
 
-                    <LinearLayout
-                        android:id="@+id/follow_linear"
-                        android:layout_width="@dimen/_80sdp"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_margin="@dimen/_10sdp"
-                        android:orientation="horizontal"
-                        android:background="@color/heading_bg"
-                        android:visibility="gone">
-
-                        <ImageView
-                            android:layout_width="@dimen/_15sdp"
-                            android:layout_height="@dimen/_25sdp"
-                            android:layout_gravity="left"
-                            android:layout_marginLeft="@dimen/_10sdp"
-                            android:src="@drawable/ic_user_follow"
-                            android:tint="@color/splash_bg_color" />
-
-                        <TextView
-                            style="@style/title_text_font"
-                            android:layout_width="wrap_content"
-                            android:layout_height="@dimen/_25sdp"
-                            android:layout_marginTop="@dimen/_2sdp"
-                            android:layout_marginLeft="@dimen/_10sdp"
-                            android:gravity="center_vertical"
-                            android:text="Follow"
-                            android:textColor="@color/splash_bg_color"
-                            android:textSize="@dimen/_12sdp"
-                            android:textStyle="normal" />
-                    </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -359,7 +329,10 @@
                     <RelativeLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/_10sdp">
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_marginLeft="@dimen/_15sdp"
+                        android:layout_marginRight="@dimen/_15sdp"
+                        android:layout_marginBottom="@dimen/_10sdp">
 
                         <LinearLayout
                             android:id="@+id/follow_linear_toolbar"

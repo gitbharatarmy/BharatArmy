@@ -32,13 +32,13 @@ public class FansPageAdapter extends FragmentStatePagerAdapter {
 //Returning the current tabs
         switch (position) {
             case 0:
-                AlbumFragment tab1=new AlbumFragment();
+                ImageFragment tab1 = new ImageFragment();
                 return tab1;
             case 1:
-                ImageFragment tab2 = new ImageFragment();
+                VideoFragment tab2=new VideoFragment();
                 return tab2;
             case 2:
-                VideoFragment tab3=new VideoFragment();
+                AlbumFragment tab3=new AlbumFragment();
                 return tab3;
             default:
                 return null;

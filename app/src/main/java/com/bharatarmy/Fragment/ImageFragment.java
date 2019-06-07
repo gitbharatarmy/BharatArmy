@@ -1,7 +1,10 @@
 package com.bharatarmy.Fragment;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,7 +19,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.bharatarmy.Activity.EditProfileActivity;
 import com.bharatarmy.Activity.GalleryImageDetailActivity;
+import com.bharatarmy.Activity.ImagePickerActivity;
 import com.bharatarmy.Adapter.ImageListAdapter;
 import com.bharatarmy.Interfaces.image_click;
 import com.bharatarmy.Models.ImageDetailModel;
@@ -27,7 +32,13 @@ import com.bharatarmy.Utility.EndlessRecyclerViewScrollListener;
 import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.FragmentImageBinding;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.MultiplePermissionsReport;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 
+import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -38,8 +49,8 @@ import java.util.Map;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-
-public class ImageFragment extends Fragment {
+// remove comment code 05-06-2019
+public class ImageFragment extends Fragment implements View.OnClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -64,18 +75,16 @@ public class ImageFragment extends Fragment {
     GridLayoutManager gridLayoutManager;
     boolean ispull;
     FloatingActionButton fab;
+
+    /* Upload image parameter*/
+    public static final int REQUEST_IMAGE = 100;
+    Uri uri;
+    File file = null;
+
     public ImageFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ImageFragment.
-     */
     // TODO: Rename and change types and number of parameters
     public static ImageFragment newInstance(String param1, String param2) {
         ImageFragment fragment = new ImageFragment();
@@ -100,13 +109,11 @@ public class ImageFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         fragmentImageBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_image, container, false);
 
         rootView = fragmentImageBinding.getRoot();
         mContext = getActivity().getApplicationContext();
-        fab=getActivity().findViewById(R.id.fab);
-        fab.hide();
+
         setUserVisibleHint(true);
         return rootView;
     }
@@ -118,32 +125,25 @@ public class ImageFragment extends Fragment {
             // Refresh your fragment here
             if (imageListAdapter == null) {
                 callImageGalleryData();
+
             }
+            fab = getActivity().findViewById(R.id.fab);
+            fab.setBackgroundResource(R.drawable.ic_share_arrow);
+            fab.show();
+
             setListiner();
+
+
+            ImagePickerActivity.clearCache(mContext);
         }
     }
 
 
     public void setListiner() {
         gridLayoutManager = new GridLayoutManager(mContext, 3);
-        gridLayoutManager.setOrientation(LinearLayoutManager.VERTICAL); // set Horizontal Orientation
+        gridLayoutManager.setOrientation(RecyclerView.VERTICAL); // set Horizontal Orientation
         fragmentImageBinding.imageRcyList.setLayoutManager(gridLayoutManager); // set LayoutManager to RecyclerView
-//         Retain an instance so that you can call `resetState()` for fresh searches
-//        scrollListener = new EndlessRecyclerViewScrollListener(gridLayoutManager) {
-//            @Override
-//            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-//                // Triggered only when new data needs to be appended to the list
-//                // Add whatever code is needed to append new items to the bottom of the list
-////                if (gridLayoutManager != null && gridLayoutManager.findLastCompletelyVisibleItemPosition() == imageDetailModelsList.size() - 1) {
-//                    //bottom of list!
-//                    loadNextDataFromApi(page);
-////                }
-//
-//
-//            }
-//        };
-//        // Adds the scroll listener to RecyclerView
-//        fragmentImageBinding.imageRcyList.addOnScrollListener(scrollListener);
+
 
         fragmentImageBinding.refreshView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -152,69 +152,6 @@ public class ImageFragment extends Fragment {
                 fragmentImageBinding.refreshView.setRefreshing(false);
             }
         });
-
-//        fragmentImageBinding.imageRcyList.addOnScrollListener(new RecyclerView.OnScrollListener() {
-//            @Override
-//            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-//                super.onScrollStateChanged(recyclerView, newState);
-////                pageIndex= String.valueOf(newState);
-////                callImageGalleryData();
-//
-//            }
-//
-//            @Override
-//            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-//                super.onScrolled(recyclerView, dx, dy);
-//
-////                LinearLayoutManager linearLayoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
-////                if (dy > 0) {
-//                    if (!isLoading) {
-//                        if (gridLayoutManager != null && gridLayoutManager.findLastCompletelyVisibleItemPosition() == imageDetailModelsList.size() - 1) {
-//                            //bottom of list!
-//                            pageIndex++;
-//                            callImageGalleryData();
-//                            isLoading = true;
-//                        loadMore();
-//
-//                        }
-//                    }
-////                } else if (dy < 0) {
-////                    if (!isLoading) {
-////                        if (gridLayoutManager != null && gridLayoutManager.findFirstCompletelyVisibleItemPosition() == 0) {
-////                            //bottom of list!
-////                            callImageGalleryData();
-////                            isLoading = true;
-////                        loadMore();
-////
-////                        }
-////                    }
-////                }
-//
-//            }
-//        });
-
-//        fragmentImageBinding.imageRcyList.addOnScrollListener(new RecyclerView.OnScrollListener() {
-//            @Override
-//            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-//                super.onScrollStateChanged(recyclerView, newState);
-//                if (isLoading)
-//                    return;
-//                int visibleItemCount = gridLayoutManager.getChildCount();
-//                int totalItemCount = gridLayoutManager.getItemCount();
-//                int pastVisibleItems = gridLayoutManager.findFirstVisibleItemPosition();
-//                if (pastVisibleItems + visibleItemCount >= totalItemCount) {
-//                    //Scrolled to End of list
-//                    if (imageListAdapter != null && imageListAdapter.getItemCount() == imageDetailModelsList.size() && isMoreDataAvailable) {
-//
-//                       callImageGalleryData();
-//
-//
-//                    }
-//                }
-//            }
-//
-//        });
-
 
         fragmentImageBinding.imageRcyList.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -233,34 +170,13 @@ public class ImageFragment extends Fragment {
                         ispull = false;
                         pageIndex = pageIndex + 1;
                         loadMore();
-                        isLoading = true;
+
                     }
                 }
             }
         });
 
-
-    }
-
-    // Append the next page of data into the adapter
-    // This method probably sends out a network request and appends new data items to your adapter.
-    public void loadNextDataFromApi(int offset) {
-        // Send an API request to retrieve appropriate paginated data
-        //  --> Send the request including an offset value (i.e `page`) as a query parameter.
-        //  --> Deserialize and construct new model objects from the API response
-        //  --> Append the new data objects to the existing set of items inside the array of items
-        //  --> Notify the adapter of the new items made with `notifyItemRangeInserted()`
-        pageIndex = offset;
-        callImageGalleryData();
-        // 1. First, clear the array of data
-        imageDetailModelsList.clear();
-        // 2. Notify the adapter of the update
-
-//      imageListAdapter.notifyDataSetChanged();
-
-//        imageListAdapter.notifyItemRangeChanged(imageDetailModelsList.size() - 1, imageDetailModelsList.size()); // or notifyItemRangeRemoved
-//      // 3. Reset endless scroll listener when performing a new search
-        scrollListener.resetState();
+       fab.setOnClickListener(this);
 
     }
 
@@ -295,14 +211,14 @@ public class ImageFragment extends Fragment {
                     if (imageMainModel.getData() != null) {
                         imageDetailModelsList = imageMainModel.getData();
 
-                        addOldNewValue (imageDetailModelsList);
+                        addOldNewValue(imageDetailModelsList);
                         if (imageListAdapter != null && imageDetailModelsList.size() > 0) {
                             imageListAdapter.addMoreDataToList(imageDetailModelsList);
                             // just append more data to current list
-                        } /*else if(imageListAdapter!=null && imageDetailModelsList.size()==0){
+                        } else if(imageListAdapter!=null && imageDetailModelsList.size()==0){
                             isLoading = true;
                             addOldNewValue (imageMainModel.getData());
-                        }*/else {
+                        } else {
                             fillImageGallery();
                         }
 
@@ -368,15 +284,6 @@ public class ImageFragment extends Fragment {
         Log.d("galleryImageUrl", "" + galleryImageUrl.size());
 
     }
-    public void addOldNewPullValue(List<ImageDetailModel> result) {
-        galleryImageUrl.clear();
-        for (int i = 0; i < result.size(); i++) {
-            galleryImageUrl.addAll(Collections.singleton(result.get(i).getGalleryURL()));
-        }
-        Log.d("galleryImagepullUrl", "" + galleryImageUrl.size());
-
-    }
-
 
     // Api calling GetImageGalleryData
     public void callImageGalleryPullData() {
@@ -409,7 +316,7 @@ public class ImageFragment extends Fragment {
                         imageDetailModelsList = imageMainModel.getData();
 
 //                        addOldNewPullValue (imageDetailModelsList);
-                            imageListAdapter.notifyDataSetChanged();
+                        imageListAdapter.notifyDataSetChanged();
                     }
 
                 }
@@ -429,9 +336,41 @@ public class ImageFragment extends Fragment {
 
     private Map<String, String> getImageGalleryPullData() {
         Map<String, String> map = new HashMap<>();
-        map.put("PageIndex","0");
+        map.put("PageIndex", "0");
         map.put("PageSize", "15");
         return map;
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.fab:
+
+                break;
+
+        }
+    }
+
+    public void uploadImage(){
+//        Dexter.withActivity(mContext)
+//                .withPermissions(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+//                .withListener(new MultiplePermissionsListener() {
+//                    @Override
+//                    public void onPermissionsChecked(MultiplePermissionsReport report) {
+//                        if (report.areAllPermissionsGranted()) {
+//                            showImagePickerOptions();
+//                        }
+//
+//                        if (report.isAnyPermissionPermanentlyDenied()) {
+//                            showSettingsDialog();
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
+//                        token.continuePermissionRequest();
+//                    }
+//                }).check();
     }
 }
 

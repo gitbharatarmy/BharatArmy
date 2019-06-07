@@ -6,16 +6,21 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.bharatarmy.Adapter.StoryCategoryAdapter;
 import com.bharatarmy.Adapter.StoryLsitAdapter;
 import com.bharatarmy.Interfaces.image_click;
 import com.bharatarmy.Models.ImageDetailModel;
@@ -23,10 +28,13 @@ import com.bharatarmy.Models.ImageMainModel;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.ApiHandler;
 import com.bharatarmy.Utility.Utils;
+import com.bharatarmy.VideoModule.BottomCommentDialog;
+import com.bharatarmy.VideoModule.StoryCategoryDialog;
 import com.bharatarmy.databinding.FragmentStoryBinding;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -51,6 +59,7 @@ public class StoryFragment extends Fragment {
 
     StoryLsitAdapter storyLsitAdapter;
     List<ImageDetailModel> storyDetailModelList;
+    StoryCategoryAdapter storyCategoryAdapter;
 
     int pageIndex = 0;
 
@@ -59,6 +68,8 @@ public class StoryFragment extends Fragment {
     GridLayoutManager gridLayoutManager;
     boolean ispull;
 
+    String categoryIdStr, categoryNameStr;
+    public static OnItemClick mListener;
     public StoryFragment() {
         // Required empty public constructor
     }
@@ -100,9 +111,9 @@ public class StoryFragment extends Fragment {
 
         rootView = fragmentStoryBinding.getRoot();
         mContext = getActivity().getApplicationContext();
-        fab=getActivity().findViewById(R.id.fab);
+        fab = getActivity().findViewById(R.id.fab);
         fab.hide();
-            callStoryData();
+        callStoryData();
 
         setListiner();
         return rootView;
@@ -115,13 +126,13 @@ public class StoryFragment extends Fragment {
         fragmentStoryBinding.storyRcyList.setLayoutManager(gridLayoutManager); // set LayoutManager to RecyclerView
 
 
-        fragmentStoryBinding.refreshView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                callStoryPullData();
-                fragmentStoryBinding.refreshView.setRefreshing(false);
-            }
-        });
+//        fragmentStoryBinding.refreshView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+//            @Override
+//            public void onRefresh() {
+//                callStoryPullData();
+//                fragmentStoryBinding.refreshView.setRefreshing(false);
+//            }
+//        });
 
 
         fragmentStoryBinding.storyRcyList.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -147,8 +158,8 @@ public class StoryFragment extends Fragment {
             }
         });
 
-    }
 
+    }
 
     // Api calling GetStoryData
     public void callStoryData() {
@@ -186,13 +197,12 @@ public class StoryFragment extends Fragment {
                         if (storyLsitAdapter != null && storyDetailModelList.size() > 0) {
                             storyLsitAdapter.addMoreDataToList(storyDetailModelList);
                             // just append more data to current list
-                        }else if(storyLsitAdapter!=null && storyDetailModelList.size()==0){
+                        } else if (storyLsitAdapter != null && storyDetailModelList.size() == 0) {
 //                            Utils.ping(mContext,"No more data available");
-                            Log.d("pageIndex",""+pageIndex);
+                            Log.d("pageIndex", "" + pageIndex);
                             isLoading = true;
-                            addOldNewValue (imageMainModel.getData());
-                        }
-                        else {
+                            addOldNewValue(imageMainModel.getData());
+                        } else {
                             fillStoryGallery();
                         }
 
@@ -225,6 +235,22 @@ public class StoryFragment extends Fragment {
             @Override
             public void image_more_click() {
 
+
+                String getCategoryData = String.valueOf(storyLsitAdapter.getData());
+
+                String[] splitString = getCategoryData.split("\\|");
+
+                categoryIdStr = splitString[0];
+                categoryNameStr = splitString[1];
+                // slide-up animation
+                Animation slideUp = AnimationUtils.loadAnimation(mContext, R.anim.slide_out_right);
+                    fragmentStoryBinding.storyRcyList.startAnimation(slideUp);
+//                    fragmentStoryBinding.shimmerViewContainer.setVisibility(View.GONE);
+//                    fragmentStoryBinding.refreshView.setVisibility(View.GONE);
+                    fragmentStoryBinding.storyRcyList.setVisibility(View.GONE);
+
+                mListener.onStoryCategory(categoryIdStr,categoryNameStr);
+
             }
         });
         fragmentStoryBinding.storyRcyList.setItemAnimator(new DefaultItemAnimator());
@@ -244,7 +270,6 @@ public class StoryFragment extends Fragment {
 //        }
 
     }
-
 
 
     // Api calling GetStoryPullData
@@ -298,32 +323,31 @@ public class StoryFragment extends Fragment {
 
     private Map<String, String> getStoryPullData() {
         Map<String, String> map = new HashMap<>();
-        map.put("PageIndex","0");
+        map.put("PageIndex", "0");
         map.put("PageSize", "14");
         return map;
     }
 
     public void addOldNewValue(List<ImageDetailModel> result) {
 
-        storyDetailModelList=result;
+        storyDetailModelList = result;
         storyLsitAdapter.notifyDataSetChanged();
     }
 
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-
-        try {
-            Field childFragmentManager = Fragment.class.getDeclaredField("mChildFragmentManager");
-            childFragmentManager.setAccessible(true);
-            childFragmentManager.set(this, null);
-
-        } catch (NoSuchFieldException e) {
-            throw new RuntimeException(e);
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnItemClick) {
+            mListener = (OnItemClick) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentInteractionListener");
         }
+    }
+
+    public interface OnItemClick {
+        void onStoryCategory(String categoryId,String categoryName);
+
+
     }
 }
 

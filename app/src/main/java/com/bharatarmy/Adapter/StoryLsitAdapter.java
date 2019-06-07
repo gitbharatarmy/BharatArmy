@@ -8,17 +8,22 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bharatarmy.Activity.MoreStoryActivity;
 import com.bharatarmy.Activity.StoryAuthorActivity;
+import com.bharatarmy.Activity.StoryDetailActivity;
 import com.bharatarmy.Interfaces.image_click;
 import com.bharatarmy.Models.ImageDetailModel;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.Utils;
+import com.bharatarmy.VideoModule.BottomCommentDialog;
+import com.bharatarmy.VideoModule.StoryCategoryDialog;
 import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 
@@ -87,7 +92,8 @@ public class StoryLsitAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         public TextView header_txt, type_txt, army_story_header_txt, army_story_sub_txt,
                 date_txt, views_txt, username_txt;
         ImageView type_img, profile_image, banner_img;
-        LinearLayout author_linear;
+        LinearLayout author_linear,bottom_linear;
+        RelativeLayout header_banner_rcv;
 
 
         public ItemViewHolder(@NonNull View itemView) {
@@ -106,6 +112,8 @@ public class StoryLsitAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             banner_img = (ImageView) itemView.findViewById(R.id.banner_img);
             author_linear = (LinearLayout) itemView.findViewById(R.id.author_linear);
 
+            header_banner_rcv=(RelativeLayout)itemView.findViewById(R.id.header_banner_rcv);
+            bottom_linear=(LinearLayout)itemView.findViewById(R.id.bottom_linear);
         }
     }
 
@@ -148,22 +156,82 @@ public class StoryLsitAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         Utils.setImageInImageView(detail.getAuthorImageURL(),viewHolder.profile_image,mContext);
 
 
+         viewHolder.type_txt.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View v) {
+                 dataCheck=new ArrayList<>();
+                 dataCheck.add(detail.getCategoryId()+"|"+detail.getCategoryName());
+                image_click.image_more_click();
+             }
+         });
         viewHolder.army_story_header_txt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent webviewIntent = new Intent(mContext, MoreStoryActivity.class);
+                Intent webviewIntent = new Intent(mContext, StoryDetailActivity.class);
                 webviewIntent.putExtra("Story Heading", detail.getStoryTitle());
                 webviewIntent.putExtra("StroyUrl", detail.getStoryWebURL());
-                webviewIntent.putExtra("whereTocome", "storylistadp");
+                webviewIntent.putExtra("StoryCategorytype",detail.getBASubCategoryName());
+                webviewIntent.putExtra("StoryAuthor",detail.getAuthorImageURL());
+                webviewIntent.putExtra("StoryHeaderImg",detail.getStrThumbImageName());
+                webviewIntent.putExtra("StoryId", detail.getBAStoryId());
+                webviewIntent.putExtra("StoryauthorId", detail.getAuthorId());
                 webviewIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 mContext.startActivity(webviewIntent);
-//                  ((Activity)  mcontext).overridePendingTransition(R.anim.slide_in_left,0);
+
+            }
+        });
+        viewHolder.header_banner_rcv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent webviewIntent = new Intent(mContext, StoryDetailActivity.class);
+                webviewIntent.putExtra("Story Heading", detail.getStoryTitle());
+                webviewIntent.putExtra("StroyUrl", detail.getStoryWebURL());
+                webviewIntent.putExtra("StoryCategorytype",detail.getBASubCategoryName());
+                webviewIntent.putExtra("StoryAuthor",detail.getAuthorImageURL());
+                webviewIntent.putExtra("StoryHeaderImg",detail.getStrThumbImageName());
+                webviewIntent.putExtra("StoryId", detail.getBAStoryId());
+                webviewIntent.putExtra("StoryauthorId", detail.getAuthorId());
+                webviewIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                mContext.startActivity(webviewIntent);
+
+            }
+        });
+
+        viewHolder.army_story_sub_txt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent webviewIntent = new Intent(mContext, StoryDetailActivity.class);
+                webviewIntent.putExtra("Story Heading", detail.getStoryTitle());
+                webviewIntent.putExtra("StroyUrl", detail.getStoryWebURL());
+                webviewIntent.putExtra("StoryCategorytype",detail.getBASubCategoryName());
+                webviewIntent.putExtra("StoryAuthor",detail.getAuthorImageURL());
+                webviewIntent.putExtra("StoryHeaderImg",detail.getStrThumbImageName());
+                webviewIntent.putExtra("StoryId", detail.getBAStoryId());
+                webviewIntent.putExtra("StoryauthorId", detail.getAuthorId());
+                webviewIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                mContext.startActivity(webviewIntent);
+            }
+        });
+        viewHolder.bottom_linear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent webviewIntent = new Intent(mContext, StoryDetailActivity.class);
+                webviewIntent.putExtra("Story Heading", detail.getStoryTitle());
+                webviewIntent.putExtra("StroyUrl", detail.getStoryWebURL());
+                webviewIntent.putExtra("StoryCategorytype",detail.getBASubCategoryName());
+                webviewIntent.putExtra("StoryAuthor",detail.getAuthorImageURL());
+                webviewIntent.putExtra("StoryHeaderImg",detail.getStrThumbImageName());
+                webviewIntent.putExtra("StoryId", detail.getBAStoryId());
+                webviewIntent.putExtra("StoryauthorId", detail.getAuthorId());
+                webviewIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                mContext.startActivity(webviewIntent);
             }
         });
         viewHolder.author_linear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent authorIntent=new Intent(mContext, StoryAuthorActivity.class);
+                authorIntent.putExtra("StoryauthorId", detail.getAuthorId());
                 mContext.startActivity(authorIntent);
             }
         });
