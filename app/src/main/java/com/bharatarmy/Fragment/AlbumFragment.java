@@ -114,7 +114,8 @@ public class AlbumFragment extends Fragment {
 
         rootView = albumBinding.getRoot();
         mContext = getActivity().getApplicationContext();
-
+        fab=getActivity().findViewById(R.id.fab);
+        fab.hide();
         setUserVisibleHint(true);
         return rootView;
     }
@@ -124,8 +125,7 @@ public class AlbumFragment extends Fragment {
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser && rootView != null) {
             // Refresh your fragment here
-            fab=getActivity().findViewById(R.id.fab);
-            fab.hide();
+
             if (albumListAdapter == null) {
                 callImageGalleryData();
             }

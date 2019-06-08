@@ -34,7 +34,8 @@
                     android:layout_height="@dimen/_15sdp"
                   android:layout_gravity="center_horizontal|center_vertical"
                     android:layout_marginTop="@dimen/_12sdp"
-                    android:src="@drawable/ic_left_arrow" />
+                    android:src="@drawable/ic_left_arrow2"
+                    android:tint="@color/splash_bg_color"/>
             </LinearLayout>
             <!--<ImageView-->
                 <!--android:id="@+id/back_img"-->

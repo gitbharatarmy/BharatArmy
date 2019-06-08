@@ -23,7 +23,6 @@ import com.bharatarmy.Interfaces.image_click;
 import com.bharatarmy.Models.ImageDetailModel;
 import com.bharatarmy.Models.ImageMainModel;
 import com.bharatarmy.R;
-import com.bharatarmy.TravelDesignModule.ParallaxRecyclerAdapter;
 import com.bharatarmy.Utility.ApiHandler;
 import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.ActivityStoryAuthorNewBinding;
@@ -48,7 +47,6 @@ public class StoryAuthorActivity extends AppCompatActivity implements View.OnCli
     boolean ispull;
     int authorIdStr;
 
-    ParallaxRecyclerAdapter<ImageDetailModel> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

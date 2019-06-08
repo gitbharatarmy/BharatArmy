@@ -15,14 +15,19 @@
             android:layout_height="@dimen/_60sdp"
             android:orientation="horizontal">
 
-            <ImageView
+            <LinearLayout
                 android:id="@+id/back_img"
-                android:layout_width="@dimen/_15sdp"
-                android:layout_height="@dimen/_20sdp"
-                android:layout_gravity="center_vertical"
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="@dimen/_40sdp"
+                android:orientation="horizontal"
                 android:layout_marginLeft="@dimen/_10sdp"
-                android:src="@drawable/ic_left_arrow"
-                android:tint="@color/heading_bg" />
+                android:layout_marginTop="@dimen/_5sdp">
+                <ImageView
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_15sdp"
+                    android:src="@drawable/ic_left_arrow2"
+                    android:layout_gravity="left|center_vertical" />
+            </LinearLayout>
 
         </LinearLayout>
 

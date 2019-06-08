@@ -49,9 +49,9 @@ public class TravelDetailActivity extends AppCompatActivity implements View.OnCl
         activityTravelDetailBinding = DataBindingUtil.setContentView(this, R.layout.activity_travel_detail);
         mContext = TravelDetailActivity.this;
 
-        activityTravelDetailBinding.toolbar.setTitle("Match 1");
-        setSupportActionBar(activityTravelDetailBinding.toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        activityTravelDetailBinding.toolbar.setTitle("Match 1");
+//        setSupportActionBar(activityTravelDetailBinding.toolbar);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setDataValue();
         setListiner();
 
@@ -60,6 +60,7 @@ public class TravelDetailActivity extends AppCompatActivity implements View.OnCl
 
     public void setListiner() {
       activityTravelDetailBinding.thirdLocationLinear.setOnClickListener(this);
+      activityTravelDetailBinding.backImg.setOnClickListener(this);
     }
 
 
@@ -69,6 +70,9 @@ public class TravelDetailActivity extends AppCompatActivity implements View.OnCl
             case R.id.third_location_linear:
                 Intent locationMap=new Intent(mContext,LocationMapActivity.class);
                 startActivity(locationMap);
+                break;
+            case R.id.back_img:
+                TravelDetailActivity.this.finish();
                 break;
         }
 
@@ -142,14 +146,14 @@ public class TravelDetailActivity extends AppCompatActivity implements View.OnCl
         activityTravelDetailBinding.transferDetailRcvList.setAdapter(travelTransferListAdapter);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                TravelDetailActivity.this.finish();
-                break;
-        }
-        return true;
-    }
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        switch (item.getItemId()) {
+//            case android.R.id.home:
+//                TravelDetailActivity.this.finish();
+//                break;
+//        }
+//        return true;
+//    }
 
 }

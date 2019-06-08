@@ -30,6 +30,9 @@ import com.bumptech.glide.Glide
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
+import com.leinardi.android.speeddial.SpeedDialOverlayLayout
+import com.leinardi.android.speeddial.SpeedDialView
+import io.github.yavski.fabspeeddial.FabSpeedDial
 import kotlinx.android.synthetic.main.app_bar_dashboard.*
 
 class DashboardActivity : AppCompatActivity(), View.OnClickListener, TravelFragment.OnItemClick, StoryFragment.OnItemClick, StoryCategoryFragment.OnItemClick {
@@ -71,6 +74,9 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, TravelFragm
     internal lateinit var old_menu: CardView
     internal lateinit var new_menu: CardView
     internal lateinit var filter_fab: FloatingActionButton
+    internal lateinit var speedDial: SpeedDialView
+    internal lateinit var overlay: SpeedDialOverlayLayout
+
 
     //  flag to load home fragment when user presses back key
     private val shouldLoadHomeFragOnBackPress = true
@@ -165,6 +171,12 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, TravelFragm
         filter_fab.hide()
         AppConfiguration.firstDashStr = "true"
 
+
+        overlay = findViewById<View>(R.id.overlay) as SpeedDialOverlayLayout
+        speedDial = findViewById<View>(R.id.speedDial) as SpeedDialView
+
+        speedDial.visibility=View.GONE
+        overlay.visibility=View.GONE
 
     }
 

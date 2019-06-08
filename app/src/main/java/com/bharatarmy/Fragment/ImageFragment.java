@@ -4,14 +4,19 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.content.res.AppCompatResources;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -22,6 +27,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.bharatarmy.Activity.EditProfileActivity;
 import com.bharatarmy.Activity.GalleryImageDetailActivity;
 import com.bharatarmy.Activity.ImagePickerActivity;
+import com.bharatarmy.Activity.ImageVideoUploadActivity;
 import com.bharatarmy.Adapter.ImageListAdapter;
 import com.bharatarmy.Interfaces.image_click;
 import com.bharatarmy.Models.ImageDetailModel;
@@ -37,6 +43,10 @@ import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
+import com.leinardi.android.speeddial.FabWithLabelView;
+import com.leinardi.android.speeddial.SpeedDialActionItem;
+import com.leinardi.android.speeddial.SpeedDialOverlayLayout;
+import com.leinardi.android.speeddial.SpeedDialView;
 
 import java.io.File;
 import java.io.Serializable;
@@ -46,11 +56,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import io.github.yavski.fabspeeddial.FabSpeedDial;
+import io.github.yavski.fabspeeddial.SimpleMenuListenerAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 // remove comment code 05-06-2019
-public class ImageFragment extends Fragment implements View.OnClickListener {
+public class ImageFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -76,10 +88,8 @@ public class ImageFragment extends Fragment implements View.OnClickListener {
     boolean ispull;
     FloatingActionButton fab;
 
-    /* Upload image parameter*/
-    public static final int REQUEST_IMAGE = 100;
-    Uri uri;
-    File file = null;
+    SpeedDialOverlayLayout overlayLayout;
+    SpeedDialView speedDialView;
 
     public ImageFragment() {
         // Required empty public constructor
@@ -113,8 +123,12 @@ public class ImageFragment extends Fragment implements View.OnClickListener {
 
         rootView = fragmentImageBinding.getRoot();
         mContext = getActivity().getApplicationContext();
-
         setUserVisibleHint(true);
+            initSpeedDial(savedInstanceState == null);
+        fab = getActivity().findViewById(R.id.fab);
+        fab.setBackgroundResource(R.drawable.ic_share_arrow);
+        fab.hide();
+
         return rootView;
     }
 
@@ -125,19 +139,83 @@ public class ImageFragment extends Fragment implements View.OnClickListener {
             // Refresh your fragment here
             if (imageListAdapter == null) {
                 callImageGalleryData();
-
             }
-            fab = getActivity().findViewById(R.id.fab);
-            fab.setBackgroundResource(R.drawable.ic_share_arrow);
-            fab.show();
-
             setListiner();
-
-
-            ImagePickerActivity.clearCache(mContext);
+            speedDialView = (SpeedDialView) getActivity().findViewById(R.id.speedDial);
+            overlayLayout = (SpeedDialOverlayLayout) getActivity().findViewById(R.id.overlay);
+            speedDialView.setVisibility(View.VISIBLE);ImagePickerActivity.clearCache(mContext);
         }
     }
 
+    public void initSpeedDial(boolean addActionItems) {
+        speedDialView = (SpeedDialView) getActivity().findViewById(R.id.speedDial);
+        overlayLayout = (SpeedDialOverlayLayout) getActivity().findViewById(R.id.overlay);
+        speedDialView.setVisibility(View.VISIBLE);
+        if (addActionItems) {
+            Drawable drawable = AppCompatResources.getDrawable(mContext, R.drawable.ic_video_icon);
+            FabWithLabelView fabWithvideoView = speedDialView.addActionItem(new SpeedDialActionItem.Builder(R.id
+                    .fab_no_label, drawable)
+                    .setLabel("Video Upload")
+                    .setLabelBackgroundColor(getResources().getColor(R.color.splash_bg_color))
+                    .setFabImageTintColor(getResources().getColor(R.color.splash_bg_color))
+                    .create());
+            if (fabWithvideoView != null) {
+                fabWithvideoView.setSpeedDialActionItem(fabWithvideoView.getSpeedDialActionItemBuilder()
+                        .setFabBackgroundColor(getResources().getColor(R.color.blue))
+                        .create());
+            }
+            Drawable drawableimage = AppCompatResources.getDrawable(mContext, R.drawable.ic_image_icon);
+            FabWithLabelView fabWithLabelView = speedDialView.addActionItem(new SpeedDialActionItem.Builder(R.id
+                    .fab_custom_color, drawableimage)
+                    .setLabel("Image Upload")
+                    .setLabelBackgroundColor(getResources().getColor(R.color.splash_bg_color))
+                    .setFabImageTintColor(getResources().getColor(R.color.splash_bg_color))
+                    .create());
+            if (fabWithLabelView != null) {
+                fabWithLabelView.setSpeedDialActionItem(fabWithLabelView.getSpeedDialActionItemBuilder()
+                        .setFabBackgroundColor(getResources().getColor(R.color.blue))
+                        .create());
+            }
+        }
+
+        //Set main action clicklistener.
+        speedDialView.setOnChangeListener(new SpeedDialView.OnChangeListener() {
+            @Override
+            public boolean onMainActionSelected() {
+                overlayLayout.setVisibility(View.VISIBLE);
+                return false; // True to keep the Speed Dial open
+            }
+
+            @Override
+            public void onToggleChanged(boolean isOpen) {
+                Log.d("Print value :", "Speed dial toggle state changed. Open = " + isOpen);
+            }
+        });
+
+        //Set option fabs clicklisteners.
+        speedDialView.setOnActionSelectedListener(new SpeedDialView.OnActionSelectedListener() {
+            @Override
+            public boolean onActionSelected(SpeedDialActionItem actionItem) {
+                switch (actionItem.getId()) {
+                    case R.id.fab_no_label:
+                        Intent imagevideouploadIntent = new Intent(mContext, ImageVideoUploadActivity.class);
+                        startActivity(imagevideouploadIntent);
+                        speedDialView.open(); // To close the Speed Dial with animation
+                        return true; // false will close it without animation
+
+                    case R.id.fab_custom_color:
+                        Intent imagevideouploadIntent1 = new Intent(mContext, ImageVideoUploadActivity.class);
+                        startActivity(imagevideouploadIntent1);
+                        speedDialView.open();
+                        return false; // closes without animation (same as speedDialView.close(false); return false;)
+
+                    default:
+                        break;
+                }
+                return true; // To keep the Speed Dial openspeedDial
+            }
+        });
+    }
 
     public void setListiner() {
         gridLayoutManager = new GridLayoutManager(mContext, 3);
@@ -176,8 +254,6 @@ public class ImageFragment extends Fragment implements View.OnClickListener {
             }
         });
 
-       fab.setOnClickListener(this);
-
     }
 
 
@@ -215,9 +291,9 @@ public class ImageFragment extends Fragment implements View.OnClickListener {
                         if (imageListAdapter != null && imageDetailModelsList.size() > 0) {
                             imageListAdapter.addMoreDataToList(imageDetailModelsList);
                             // just append more data to current list
-                        } else if(imageListAdapter!=null && imageDetailModelsList.size()==0){
+                        } else if (imageListAdapter != null && imageDetailModelsList.size() == 0) {
                             isLoading = true;
-                            addOldNewValue (imageMainModel.getData());
+                            addOldNewValue(imageMainModel.getData());
                         } else {
                             fillImageGallery();
                         }
@@ -341,37 +417,7 @@ public class ImageFragment extends Fragment implements View.OnClickListener {
         return map;
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.fab:
 
-                break;
-
-        }
-    }
-
-    public void uploadImage(){
-//        Dexter.withActivity(mContext)
-//                .withPermissions(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-//                .withListener(new MultiplePermissionsListener() {
-//                    @Override
-//                    public void onPermissionsChecked(MultiplePermissionsReport report) {
-//                        if (report.areAllPermissionsGranted()) {
-//                            showImagePickerOptions();
-//                        }
-//
-//                        if (report.isAnyPermissionPermanentlyDenied()) {
-//                            showSettingsDialog();
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
-//                        token.continuePermissionRequest();
-//                    }
-//                }).check();
-    }
 }
 
 
