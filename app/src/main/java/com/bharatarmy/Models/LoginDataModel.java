@@ -109,4 +109,31 @@ public class LoginDataModel {
     public void setProfilePicUrl(String profilePicUrl) {
         this.profilePicUrl = profilePicUrl;
     }
+
+
+
+//    Signup Response
+    @SerializedName("CountryISOCode")
+    @Expose
+    private String countryISOCode;
+    @SerializedName("CountryPhoneNo")
+    @Expose
+    private String countryPhoneNo;
+
+    public String getCountryISOCode() {
+        return countryISOCode;
+    }
+
+    public void setCountryISOCode(String countryISOCode) {
+        this.countryISOCode = countryISOCode;
+    }
+
+    public String getCountryPhoneNo() {
+        return countryPhoneNo;
+    }
+
+    public void setCountryPhoneNo(String countryPhoneNo) {
+        this.countryPhoneNo = countryPhoneNo;
+    }
+
 }

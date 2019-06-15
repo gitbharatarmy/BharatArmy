@@ -6,6 +6,8 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -24,6 +26,8 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
+import com.bharatarmy.Country;
+import com.bharatarmy.CountryCodePicker;
 import com.bharatarmy.Models.LogginModel;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.ApiHandler;
@@ -40,7 +44,7 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 public class SignUpActivity extends AppCompatActivity implements View.OnClickListener {
-
+    // dhaval sir nu 9574252404
     ActivitySignUpBinding activitySignUpBinding;
     Context mContext;
     String strFullName, strEmail, strCountrycode, strMobileno, strPassword, strCheck = "0",
@@ -60,6 +64,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         setListiner();
 
     }
+
     // set the All Listiner and Data
     public void setListiner() {
 //        activitySignUpBinding.ccp.setCountryForNameCode(AppConfiguration.currentCountry);
@@ -68,7 +73,12 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         activitySignUpBinding.signupBtn.setOnClickListener(this);
         activitySignUpBinding.closeTxt.setOnClickListener(this);
 
-
+        activitySignUpBinding.ccp.setOnCountryChangeListener(new CountryCodePicker.OnCountryChangeListener() {
+            @Override
+            public void onCountrySelected(Country selectedCountry) {
+                AppConfiguration.currentCountry = activitySignUpBinding.ccp.getSelectedCountryNameCode();
+            }
+        });
 
         activitySignUpBinding.termsChk.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -80,25 +90,25 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                 }
             }
         });
-            if (getIntent().getStringExtra("wheretocome").equalsIgnoreCase("OTP")) {
-                strbckFullName = getIntent().getStringExtra("signupFullname");
-                strbckEmail = getIntent().getStringExtra("signupEmail");
-                strbckCountrycode = getIntent().getStringExtra("signupCountryCode");
-                strbckMobileno = getIntent().getStringExtra("signupMobileno");
-                strbckPassword = getIntent().getStringExtra("signupPassword");
-                strbckCheck = getIntent().getStringExtra("signupCheck");
+        if (getIntent().getStringExtra("wheretocome").equalsIgnoreCase("OTP")) {
+            strbckFullName = getIntent().getStringExtra("signupFullname");
+            strbckEmail = getIntent().getStringExtra("signupEmail");
+            strbckCountrycode = getIntent().getStringExtra("signupCountryCode");
+            strbckMobileno = getIntent().getStringExtra("signupMobileno");
+            strbckPassword = getIntent().getStringExtra("signupPassword");
+            strbckCheck = getIntent().getStringExtra("signupCheck");
 
 
-                activitySignUpBinding.fulluserNameEdt.setText(strbckFullName);
-                activitySignUpBinding.emailEdt.setText(strbckEmail);
-                activitySignUpBinding.ccp.setCountryForNameCode(strbckCountrycode);
-                activitySignUpBinding.mobileEdt.setText(strbckMobileno);
-                activitySignUpBinding.userPasswordEdt.setText(strbckPassword);
+            activitySignUpBinding.fulluserNameEdt.setText(strbckFullName);
+            activitySignUpBinding.emailEdt.setText(strbckEmail);
+            activitySignUpBinding.ccp.setCountryForNameCode(strbckCountrycode);
+            activitySignUpBinding.mobileEdt.setText(strbckMobileno);
+            activitySignUpBinding.userPasswordEdt.setText(strbckPassword);
 
-                if (strbckCheck.equalsIgnoreCase("1")){
-                    activitySignUpBinding.termsChk.setChecked(true);
-                }
+            if (strbckCheck.equalsIgnoreCase("1")) {
+                activitySignUpBinding.termsChk.setChecked(true);
             }
+        }
     }
 
     // get the data user fill for singup
@@ -108,6 +118,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         strCountrycode = activitySignUpBinding.ccp.getSelectedCountryCode();
         strMobileno = activitySignUpBinding.mobileEdt.getText().toString();
         strPassword = activitySignUpBinding.userPasswordEdt.getText().toString();
+        AppConfiguration.currentCountry = activitySignUpBinding.ccp.getSelectedCountryNameCode();
 
         Log.d("selectedcode", strCountrycode);
 
@@ -120,10 +131,15 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                                 boolean status = Utils.validateUsing_libphonenumber(mContext, strCountrycode, strMobileno);
                                 if (status) {
                                     if (!strPassword.equalsIgnoreCase("")) {
-                                        if (!strCheck.equalsIgnoreCase("0")) {
-                                            getOtpVerification();
+                                        if (strPassword.length() >= 5 && strPassword.length() <= 10) {
+                                            if (!strCheck.equalsIgnoreCase("0")) {
+                                                getOtpVerification();
+                                            } else {
+                                                Utils.ping(mContext, "Check the privacy policy");
+                                            }
+
                                         } else {
-                                            Utils.ping(mContext, "Check the privacy policy");
+                                            activitySignUpBinding.userPasswordEdt.setError("Password Length must be greter than 5 or less than 10");
                                         }
                                     } else {
                                         activitySignUpBinding.userPasswordEdt.setError("Password is required");
@@ -179,7 +195,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         }
 
         Utils.showDialog(mContext);
-        ApiHandler.getApiService().getSendVerificationOTP(getOtpVerificationData(), new retrofit.Callback<LogginModel>() {
+        ApiHandler.getApiService().getValidatedBAMember(getOtpVerificationData(), new retrofit.Callback<LogginModel>() {
             @Override
             public void success(LogginModel loginModel, Response response) {
                 Utils.dismissDialog();
@@ -226,8 +242,9 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     private Map<String, String> getOtpVerificationData() {
         Map<String, String> map = new HashMap<>();
         map.put("AppUserId", "0");
+        map.put("Email", strEmail);
         map.put("PhoneNo", strMobileno);
-        map.put("CountryCode", strCountrycode);
+        map.put("CountryPhoneNo", strCountrycode);
         return map;
     }
 

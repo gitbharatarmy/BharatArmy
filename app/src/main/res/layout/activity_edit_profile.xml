@@ -12,6 +12,11 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
     <include layout="@layout/toolbar_item"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/bg_gradiant_line" />
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -66,11 +71,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/title_text_font"
-                android:textColor="@color/skip_color"
+                android:textColor="@color/heading_bg"
                 android:textSize="@dimen/_13sdp"
                 android:text="@string/upload"
                 android:gravity="center_vertical"
-                android:paddingBottom="@dimen/_5sdp"/>
+                android:paddingBottom="@dimen/_5sdp"
+                android:visibility="gone"/>
         </LinearLayout>
     </LinearLayout>
 
@@ -135,7 +141,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginLeft="@dimen/_14sdp"
             android:layout_marginRight="@dimen/_15sdp">
 
 
@@ -145,8 +151,9 @@
                 android:layout_height="@dimen/_30sdp"
                 android:text="@string/male"
                 style="@style/text_font"
+                android:paddingLeft="@dimen/_5sdp"
                 android:textColor="@color/heading_bg"
-                android:buttonTint="@color/skip_color"/>
+               android:button="@drawable/radio_indicator"/>
 
             <RadioButton
                 android:id="@+id/female_rb"
@@ -155,8 +162,9 @@
                 android:text="@string/female"
                 style="@style/text_font"
                 android:textColor="@color/heading_bg"
+                android:paddingLeft="@dimen/_5sdp"
                 android:layout_marginLeft="@dimen/_10sdp"
-                android:buttonTint="@color/skip_color"/>
+                android:button="@drawable/radio_indicator"/>
         </RadioGroup>
 
     <TextView
@@ -187,7 +195,7 @@
             style="@style/text_font"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_30sdp"
-            android:background="@android:color/transparent"
+            android:background="@color/colorGrey300"
             android:hint="@string/email"
             android:maxLines="1"
             android:inputType="textEmailAddress"
@@ -249,7 +257,8 @@
             android:textColorHint="@color/hint_txt_color"
             android:textCursorDrawable="@drawable/color_cursor"
             android:textSize="@dimen/_12sdp"
-            android:imeOptions="actionNext"/>
+            android:imeOptions="actionDone"
+            android:imeActionLabel="Ok"/>
     </LinearLayout>
 
     <LinearLayout
@@ -257,27 +266,46 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_margin="@dimen/_15sdp">
-        
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
         <Button
             android:id="@+id/save_btn"
             android:layout_width="@dimen/_90sdp"
             android:layout_height="@dimen/_30sdp"
-            android:background="@color/skip_color"
+            android:background="@color/heading_bg"
             android:text="@string/save"
             android:textColor="@color/splash_bg_color"
             android:textSize="@dimen/_15sdp"
             style="@style/text_font"/>
-
+        <View
+            android:layout_width="@dimen/_90sdp"
+            android:layout_height="@dimen/_3sdp"
+            android:background="@drawable/bg_gradiant_line" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
         <Button
             android:id="@+id/cancel_btn"
             android:layout_width="@dimen/_90sdp"
-            android:layout_height="@dimen/_30sdp"
+            android:layout_height="@dimen/_31sdp"
             android:background="@drawable/cancel_btn"
             android:text="@string/cancel"
-            android:textColor="@color/skip_color"
+            android:textColor="@color/heading_bg"
             android:textSize="@dimen/_15sdp"
             style="@style/text_font"
             android:layout_marginLeft="@dimen/_15sdp"/>
+            <View
+                android:layout_width="@dimen/_90sdp"
+                android:layout_height="@dimen/_3sdp"
+                android:background="@drawable/bg_gradiant_line"
+                android:layout_marginLeft="@dimen/_15sdp"
+                android:visibility="gone"/>
+        </LinearLayout>
     </LinearLayout>
     </LinearLayout>
 </LinearLayout>

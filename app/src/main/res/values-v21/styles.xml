@@ -139,4 +139,18 @@
         <item name="fontFamily">@font/helveticaneueltstdbdcn</item>
         <item name="android:textAllCaps">false</item>
     </style>
+
+    <style name="MyRadioButton" parent="Theme.AppCompat.Light">
+        <item name="colorControlNormal">@color/orange</item>
+        <item name="colorControlActivated">@color/green</item>
+        <item name="android:fontFamily">@font/thesansplain</item>
+    </style>
+
+    <style name="text_font">
+        <item name="android:fontFamily">@font/thesansplain</item>
+    </style>
+
+    <style name="title_text_font">
+        <item name="android:fontFamily">@font/helveticaneueltstdbdcn</item>
+    </style>
 </resources>

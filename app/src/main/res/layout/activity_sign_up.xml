@@ -172,11 +172,13 @@
                         android:inputType="textPassword"
                         android:maxLines="1"
                         android:singleLine="true"
+                        android:maxLength="10"
                         android:paddingLeft="@dimen/_5sdp"
                         android:textColor="@color/heading_bg"
                         android:textColorHint="@color/hint_txt_color"
                         android:textCursorDrawable="@drawable/color_cursor"
-                        android:textSize="@dimen/_12sdp" />
+                        android:textSize="@dimen/_12sdp"
+                        android:imeOptions="actionNext"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -255,12 +257,17 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_40sdp"
                     android:layout_marginTop="@dimen/_10sdp"
-                    android:layout_marginBottom="@dimen/_5sdp"
+
                     android:background="@color/heading_bg"
                     android:text="@string/singup"
                     android:textColor="@color/splash_bg_color"
                     android:textSize="@dimen/_15sdp" />
-
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="5dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="@drawable/bg_gradiant_line"
+                    android:layout_marginBottom="@dimen/_5sdp"/>
 
             </LinearLayout>
         </ScrollView>

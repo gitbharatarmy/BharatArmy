@@ -14,6 +14,7 @@
             android:layout_width="@dimen/_60sdp"
             android:layout_height="@dimen/_60sdp"
             android:layout_margin="@dimen/_10sdp"
+            android:scaleType="centerCrop"
             android:src="@drawable/yashmittal" />
 
         <LinearLayout
@@ -33,6 +34,19 @@
                 android:textSize="@dimen/_12sdp" />
 
             <TextView
+                android:id="@+id/selected_image_size_txt"
+                style="@style/text_font"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:paddingLeft="@dimen/_5sdp"
+                android:paddingRight="@dimen/_5sdp"
+                android:background="@drawable/size_shape"
+                android:text="10kb"
+                android:textColor="@color/normal_font_color"
+                android:textSize="@dimen/_10sdp" />
+
+            <TextView
                 android:id="@+id/selected_image_remove_txt"
                 style="@style/text_font"
                 android:layout_width="wrap_content"
@@ -43,5 +57,11 @@
                 android:textSize="@dimen/_12sdp" />
         </LinearLayout>
     </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="@dimen/_10sdp"
+        android:layout_marginRight="@dimen/_10sdp"
+        android:background="@color/colorGrey300" />
 
 </LinearLayout>

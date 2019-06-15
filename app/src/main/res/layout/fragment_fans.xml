@@ -16,8 +16,8 @@
             android:background="@color/heading_bg"
             android:elevation="@dimen/_5sdp"
             android:minHeight="?attr/actionBarSize"
-            app:tabIndicatorColor="@color/splash_bg_color"
-            app:tabIndicatorHeight="@dimen/_1sdp"
+            app:tabIndicatorColor="@color/orange"
+            app:tabIndicatorHeight="@dimen/_3sdp"
             app:tabInlineLabel="true"
             app:tabTextAppearance="@style/tab_text"
             app:tabSelectedTextColor="@color/splash_bg_color"
@@ -25,25 +25,13 @@
             app:tabGravity="fill"
             app:tabMode="fixed"/>
 
-        <!--app:tabMaxWidth="0dp"-->
-        <!--app:tabPaddingEnd="@dimen/_10sdp"-->
-        <!--app:tabPaddingStart="@dimen/_10sdp"-->
-        <View
-            android:id="@+id/view"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_5sdp"
-            android:background="@drawable/dropshadow"
-            android:visibility="gone" />
-
-
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/pager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="@dimen/_3sdp"
             android:scrollbars="vertical" />
 
-
+        <!--android:layout_marginBottom="@dimen/_3sdp"-->
     </LinearLayout>
 
 </layout>

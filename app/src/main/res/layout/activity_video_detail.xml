@@ -9,7 +9,12 @@
         tools:context=".Activity.VideoDetailActivity">
 
         <include layout="@layout/toolbar_item" />
-
+    <View
+        android:id="@+id/toolbar_bottom_view"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:layout_alignParentBottom="false"
+        android:background="@drawable/bg_gradiant_line" />
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"

@@ -28,6 +28,7 @@ import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.FragmentFtBinding;
 import com.bharatarmy.databinding.FragmentStoryBinding;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.leinardi.android.speeddial.SpeedDialView;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -59,6 +60,7 @@ public class FTPFragment extends Fragment {
     int pageIndex = 0;
     FloatingActionButton fab;
 
+    SpeedDialView speedDial;
     boolean isLoading = false;
     GridLayoutManager gridLayoutManager;
     boolean ispull;
@@ -105,6 +107,8 @@ public class FTPFragment extends Fragment {
         rootView = fragmentFtBinding.getRoot();
         mContext = getActivity().getApplicationContext();
         fab=getActivity().findViewById(R.id.fab);
+        speedDial=getActivity().findViewById(R.id.speedDial);
+        speedDial.setVisibility(View.GONE);
         fab.hide();
         callFTPData();
 

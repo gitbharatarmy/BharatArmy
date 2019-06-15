@@ -125,6 +125,7 @@ public class StoryAuthorActivity extends AppCompatActivity implements View.OnCli
 
                     activityStoryAuthorNewBinding.followLinearToolbar.setVisibility(View.VISIBLE);
                     activityStoryAuthorNewBinding.storyTitleTxt.setVisibility(View.VISIBLE);
+
                     isShow = true;
                 } else if (isShow) {
                     activityStoryAuthorNewBinding.toolbarAndroid.setBackgroundColor(ContextCompat.getColor(mContext, R.color.transparent));
@@ -133,6 +134,7 @@ public class StoryAuthorActivity extends AppCompatActivity implements View.OnCli
 //                    activityStoryAuthorNewBinding.followLinearToolbar.setVisibility(View.GONE);
 
                     activityStoryAuthorNewBinding.storyTitleTxt.setVisibility(View.GONE);
+
                     isShow = false;
                 }
             }

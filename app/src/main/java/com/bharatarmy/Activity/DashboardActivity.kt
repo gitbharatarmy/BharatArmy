@@ -32,7 +32,6 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import com.leinardi.android.speeddial.SpeedDialOverlayLayout
 import com.leinardi.android.speeddial.SpeedDialView
-import io.github.yavski.fabspeeddial.FabSpeedDial
 import kotlinx.android.synthetic.main.app_bar_dashboard.*
 
 class DashboardActivity : AppCompatActivity(), View.OnClickListener, TravelFragment.OnItemClick, StoryFragment.OnItemClick, StoryCategoryFragment.OnItemClick {
@@ -376,7 +375,9 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, TravelFragm
      * selected from navigation menu
      */
     private fun loadHomeFragment() {
+
         bottomNavigation.show(3, true)
+
         // selecting appropriate nav menu item
         selectNavMenu()
 
@@ -395,20 +396,24 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, TravelFragm
         // when switching between navigation menus
         // So using runnable, the fragment is loaded with cross fade effect
         // This effect can be seen in GMail app
-        val mPendingRunnable = Runnable {
-            // update the main content by replacing fragments
-            val fragment = homeFragment
-            val fragmentTransaction = supportFragmentManager.beginTransaction()
-            fragmentTransaction.setCustomAnimations(android.R.anim.fade_in,
-                    android.R.anim.fade_out)
-            fragmentTransaction.replace(R.id.frame_container, fragment, CURRENT_TAG)
-            fragmentTransaction.commitAllowingStateLoss()
-        }
+        Handler().postDelayed({
+//        Utils.showDialog(mContext)
+            val mPendingRunnable = Runnable {
+                // update the main content by replacing fragments
+                val fragment = homeFragment
+                val fragmentTransaction = supportFragmentManager.beginTransaction()
+                fragmentTransaction.setCustomAnimations(android.R.anim.fade_in,
+                        android.R.anim.fade_out)
+                fragmentTransaction.replace(R.id.frame_container, fragment, CURRENT_TAG)
+                fragmentTransaction.commitAllowingStateLoss()
 
-        // If mPendingRunnable is not null, then add to the message queue
-        if (mPendingRunnable != null) {
-            mHandler!!.post(mPendingRunnable)
-        }
+            }
+            // If mPendingRunnable is not null, then add to the message queue
+            if (mPendingRunnable != null) {
+                mHandler!!.post(mPendingRunnable)
+            }
+        }, 50)
+//        Utils.dismissDialog()
 
 
         //Closing drawer on item click
@@ -720,9 +725,12 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, TravelFragm
             }
             R.id.profile_image -> {
                 navItemIndex = 2
-                home1_linear.isClickable = true
-                fragment = MyProfileFragment()
-                loadFragment(fragment as MyProfileFragment)
+//                home1_linear.isClickable = true
+//                fragment = MyProfileFragment()
+//                loadFragment(fragment as MyProfileFragment)
+                val profileView = Intent(mContext, MyProfileActivity::class.java)
+                profileView.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                mContext.startActivity(profileView)
                 drawer.closeDrawers()
             }
             R.id.home1_linear -> {
@@ -844,11 +852,6 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, TravelFragm
         }
     }
 
-    //    override fun onStoryCategory() {
-//        navItemIndex = 3
-//        fragment = StoryCategoryFragment()
-//        loadCategoryFragment(fragment as StoryCategoryFragment)
-//    }
     override fun onStoryCategory(categoryId: String?, categoryName: String?) {
         navItemIndex = 3
         fragment = StoryCategoryFragment()

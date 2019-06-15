@@ -32,6 +32,7 @@ import com.bharatarmy.VideoModule.BottomCommentDialog;
 import com.bharatarmy.VideoModule.StoryCategoryDialog;
 import com.bharatarmy.databinding.FragmentStoryBinding;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.leinardi.android.speeddial.SpeedDialView;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -64,6 +65,7 @@ public class StoryFragment extends Fragment {
     int pageIndex = 0;
 
     FloatingActionButton fab;
+    SpeedDialView speedDial;
     boolean isLoading = false;
     GridLayoutManager gridLayoutManager;
     boolean ispull;
@@ -113,6 +115,8 @@ public class StoryFragment extends Fragment {
         mContext = getActivity().getApplicationContext();
         fab = getActivity().findViewById(R.id.fab);
         fab.hide();
+        speedDial=getActivity().findViewById(R.id.speedDial);
+        speedDial.setVisibility(View.GONE);
         callStoryData();
 
         setListiner();

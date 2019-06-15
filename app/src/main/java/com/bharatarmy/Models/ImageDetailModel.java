@@ -228,7 +228,7 @@ public class ImageDetailModel implements Serializable {
         this.strThumbImageName = strThumbImageName;
     }
 
-    public Integer  getBAStoryId() {
+    public Integer getBAStoryId() {
         return bAStoryId;
     }
 
@@ -721,5 +721,7 @@ public class ImageDetailModel implements Serializable {
     public void setStoryDescription(String storyDescription) {
         this.storyDescription = storyDescription;
     }
+
+
 
 }

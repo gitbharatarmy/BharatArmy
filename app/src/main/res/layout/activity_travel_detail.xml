@@ -60,6 +60,13 @@
                     android:visibility="gone"/>
             </LinearLayout>
         </androidx.appcompat.widget.Toolbar>
+        <View
+            android:id="@+id/toolbar_bottom_view"
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:layout_alignParentBottom="false"
+            android:layout_below="@+id/toolbar"
+            android:background="@drawable/bg_gradiant_line" />
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"

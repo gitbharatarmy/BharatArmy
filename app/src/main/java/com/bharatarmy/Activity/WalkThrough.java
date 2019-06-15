@@ -290,6 +290,8 @@ PrefManager prefManager;
                     .centerCrop()
                     .into(banner_img);
 
+
+
             header_txt.setText(walkthroughDataList.get(position).getHeaderText());
 
 

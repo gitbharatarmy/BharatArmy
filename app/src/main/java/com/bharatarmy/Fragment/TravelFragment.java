@@ -33,6 +33,7 @@ import com.crystal.crystalrangeseekbar.interfaces.OnRangeSeekbarChangeListener;
 import com.crystal.crystalrangeseekbar.interfaces.OnRangeSeekbarFinalValueListener;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.leinardi.android.speeddial.SpeedDialView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,6 +56,7 @@ public class TravelFragment extends Fragment {
     public static TravelListAdapter travelListAdapter;
     boolean isOpen = false;
     FloatingActionButton fab;
+    SpeedDialView speedDial;
     static String countriesDataString = "", monthDataString = "", groundDataString = "";
     public static List<TravelModel> content;
     //    final BottomSheetDialogFragment myBottomSheet = MyBottomSheetDialogFragment.newInstance("Modal Bottom Sheet");
@@ -95,6 +97,8 @@ public class TravelFragment extends Fragment {
 
         fab = getActivity().findViewById(R.id.fab);
         fab.show();
+        speedDial=getActivity().findViewById(R.id.speedDial);
+        speedDial.setVisibility(View.GONE);
         content = new ArrayList<TravelModel>();
         content.add(new TravelModel("ODI", "Wed 05 Jun, 10:30 AM(Local)",
                 "India", "South Africa", R.drawable.in_flag,

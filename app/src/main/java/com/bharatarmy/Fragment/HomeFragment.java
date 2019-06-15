@@ -36,8 +36,11 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bharatarmy.Activity.DashboardActivity;
 import com.bharatarmy.Activity.MoreStoryActivity;
+import com.bharatarmy.Activity.Splash_Screen;
 import com.bharatarmy.Activity.VideoDetailActivity;
+import com.bharatarmy.Activity.WalkThrough;
 import com.bharatarmy.Adapter.BharatArmyStoriesAdapter;
 import com.bharatarmy.Adapter.UpcomingDashboardAdapter;
 import com.bharatarmy.Interfaces.MorestoryClick;
@@ -52,6 +55,7 @@ import com.bharatarmy.Utility.AppConfiguration;
 import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.FragmentHomeBinding;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.leinardi.android.speeddial.SpeedDialView;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -90,11 +94,12 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     ProgressBar progressbar;
     ArrayList<String> image;
     String currentDateStr, nextDateStr;
-
+    private static int SPLASH_TIME_OUT = 2000;
     private TransitionDrawable mTransition;
     private int animationCounter = 1;
     private Handler imageSwitcherHandler;
     FloatingActionButton fab;
+    SpeedDialView speedDial;
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -137,6 +142,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         AppConfiguration.position = 0;
         fab=getActivity().findViewById(R.id.fab);
         fab.hide();
+        speedDial=getActivity().findViewById(R.id.speedDial);
+        speedDial.setVisibility(View.GONE);
         return rootView;
 
     }

@@ -11,7 +11,11 @@
         android:orientation="vertical">
 
         <include layout="@layout/toolbar_item" />
-
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/bg_gradiant_line" />
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"

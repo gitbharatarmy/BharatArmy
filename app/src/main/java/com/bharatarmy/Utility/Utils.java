@@ -1,5 +1,6 @@
 package com.bharatarmy.Utility;
 
+import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Dialog;
@@ -32,6 +33,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import androidx.core.content.ContextCompat;
 
 import com.bharatarmy.R;
 import com.bumptech.glide.Glide;
@@ -343,5 +346,19 @@ public class Utils {
                 .placeholder(R.drawable.progress_animation)
                 .into(view);
 
+    }
+
+    public static boolean isReadStorageGranted (Context context) {
+        int storagePermissionGranted = ContextCompat.checkSelfPermission(context,
+                Manifest.permission.READ_EXTERNAL_STORAGE);
+        return storagePermissionGranted == PackageManager.PERMISSION_GRANTED;
+    }
+
+    public static void checkPermission (Activity activity, String permissionString, int permissionCode) {
+        if ((android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.M) || activity.getApplicationContext() == null) return;
+        int existingPermissionStatus = ContextCompat.checkSelfPermission(activity.getApplicationContext(),
+                permissionString);
+        if (existingPermissionStatus == PackageManager.PERMISSION_GRANTED) return;
+        activity.requestPermissions(new String[]{permissionString}, permissionCode);
     }
 }

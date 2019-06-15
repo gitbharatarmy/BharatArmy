@@ -32,8 +32,8 @@ import java.util.List;
 import static androidx.core.content.FileProvider.getUriForFile;
 
 
-public class ImagePickerActivity extends AppCompatActivity {
-    private static final String TAG = ImagePickerActivity.class.getSimpleName();
+public class ImageEditProfilePickerActivity extends AppCompatActivity {
+    private static final String TAG = ImageEditProfilePickerActivity.class.getSimpleName();
     public static final String INTENT_IMAGE_PICKER_OPTION = "image_picker_option";
     public static final String INTENT_ASPECT_RATIO_X = "aspect_ratio_x";
     public static final String INTENT_ASPECT_RATIO_Y = "aspect_ratio_Y";
@@ -234,7 +234,7 @@ public class ImagePickerActivity extends AppCompatActivity {
         File path = new File(getExternalCacheDir(), "camera");
         if (!path.exists()) path.mkdirs();
         File image = new File(path, fileName);
-        return getUriForFile(ImagePickerActivity.this, getPackageName() + ".provider", image);
+        return getUriForFile(ImageEditProfilePickerActivity.this, getPackageName() + ".provider", image);
     }
 
     private static String queryName(ContentResolver resolver, Uri uri) {

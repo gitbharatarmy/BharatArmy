@@ -251,5 +251,12 @@
             android:textAllCaps="false"
             android:textColor="@color/splash_bg_color"
             android:textSize="@dimen/_15sdp" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:layout_alignParentBottom="true"
+                android:background="@drawable/bg_gradiant_line"
+                android:layout_marginLeft="@dimen/margin_left"
+                android:layout_marginRight="@dimen/margin_right"/>
     </LinearLayout>
 </LinearLayout></layout>

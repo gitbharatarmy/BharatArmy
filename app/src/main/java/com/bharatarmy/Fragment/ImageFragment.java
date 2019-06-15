@@ -2,31 +2,30 @@ package com.bharatarmy.Fragment;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.ColorStateList;
-import android.graphics.Color;
+import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.content.res.AppCompatResources;
-import androidx.core.content.res.ResourcesCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.bharatarmy.Activity.EditProfileActivity;
+import com.bharatarmy.Activity.GalleryActivity;
 import com.bharatarmy.Activity.GalleryImageDetailActivity;
-import com.bharatarmy.Activity.ImagePickerActivity;
+import com.bharatarmy.Activity.ImageEditProfilePickerActivity;
 import com.bharatarmy.Activity.ImageVideoUploadActivity;
 import com.bharatarmy.Adapter.ImageListAdapter;
 import com.bharatarmy.Interfaces.image_click;
@@ -48,18 +47,16 @@ import com.leinardi.android.speeddial.SpeedDialActionItem;
 import com.leinardi.android.speeddial.SpeedDialOverlayLayout;
 import com.leinardi.android.speeddial.SpeedDialView;
 
-import java.io.File;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import io.github.yavski.fabspeeddial.FabSpeedDial;
-import io.github.yavski.fabspeeddial.SimpleMenuListenerAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
+
+import static android.app.Activity.RESULT_OK;
 
 // remove comment code 05-06-2019
 public class ImageFragment extends Fragment {
@@ -88,9 +85,11 @@ public class ImageFragment extends Fragment {
     boolean ispull;
     FloatingActionButton fab;
 
+    String imageorvideoStr;
     SpeedDialOverlayLayout overlayLayout;
     SpeedDialView speedDialView;
 
+    static final int OPEN_MEDIA_PICKER = 1;  // Request code
     public ImageFragment() {
         // Required empty public constructor
     }
@@ -138,12 +137,15 @@ public class ImageFragment extends Fragment {
         if (isVisibleToUser && rootView != null) {
             // Refresh your fragment here
             if (imageListAdapter == null) {
+                fragmentImageBinding.shimmerViewContainer.startShimmerAnimation();
                 callImageGalleryData();
             }
             setListiner();
             speedDialView = (SpeedDialView) getActivity().findViewById(R.id.speedDial);
             overlayLayout = (SpeedDialOverlayLayout) getActivity().findViewById(R.id.overlay);
-            speedDialView.setVisibility(View.VISIBLE);ImagePickerActivity.clearCache(mContext);
+            speedDialView.setVisibility(View.VISIBLE);
+            ImageEditProfilePickerActivity.clearCache(mContext);
+
         }
     }
 
@@ -152,7 +154,7 @@ public class ImageFragment extends Fragment {
         overlayLayout = (SpeedDialOverlayLayout) getActivity().findViewById(R.id.overlay);
         speedDialView.setVisibility(View.VISIBLE);
         if (addActionItems) {
-            Drawable drawable = AppCompatResources.getDrawable(mContext, R.drawable.ic_video_icon);
+            Drawable drawable = AppCompatResources.getDrawable(mContext, R.drawable.video_image_d);
             FabWithLabelView fabWithvideoView = speedDialView.addActionItem(new SpeedDialActionItem.Builder(R.id
                     .fab_no_label, drawable)
                     .setLabel("Video Upload")
@@ -161,10 +163,10 @@ public class ImageFragment extends Fragment {
                     .create());
             if (fabWithvideoView != null) {
                 fabWithvideoView.setSpeedDialActionItem(fabWithvideoView.getSpeedDialActionItemBuilder()
-                        .setFabBackgroundColor(getResources().getColor(R.color.blue))
+                        .setFabBackgroundColor(getResources().getColor(R.color.heading_bg))
                         .create());
             }
-            Drawable drawableimage = AppCompatResources.getDrawable(mContext, R.drawable.ic_image_icon);
+            Drawable drawableimage = AppCompatResources.getDrawable(mContext, R.drawable.image_d);
             FabWithLabelView fabWithLabelView = speedDialView.addActionItem(new SpeedDialActionItem.Builder(R.id
                     .fab_custom_color, drawableimage)
                     .setLabel("Image Upload")
@@ -173,7 +175,7 @@ public class ImageFragment extends Fragment {
                     .create());
             if (fabWithLabelView != null) {
                 fabWithLabelView.setSpeedDialActionItem(fabWithLabelView.getSpeedDialActionItemBuilder()
-                        .setFabBackgroundColor(getResources().getColor(R.color.blue))
+                        .setFabBackgroundColor(getResources().getColor(R.color.heading_bg))
                         .create());
             }
         }
@@ -198,13 +200,48 @@ public class ImageFragment extends Fragment {
             public boolean onActionSelected(SpeedDialActionItem actionItem) {
                 switch (actionItem.getId()) {
                     case R.id.fab_no_label:
-                        Intent imagevideouploadIntent = new Intent(mContext, ImageVideoUploadActivity.class);
-                        startActivity(imagevideouploadIntent);
+                        Dexter.withActivity(getActivity())
+                                .withPermissions(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE)
+                                .withListener(new MultiplePermissionsListener() {
+                                    @Override
+                                    public void onPermissionsChecked(MultiplePermissionsReport report) {
+                                        if (report.areAllPermissionsGranted()) {
+//                                            Intent intent= new Intent(mContext, GalleryActivity.class);
+//                                            // Set the title
+//                                            intent.putExtra("title","Select media");
+//                                            // Mode 1 for both images and videos selection, 2 for images only and 3 for videos!
+//                                            intent.putExtra("mode",3);
+//                                            intent.putExtra("maxSelection",1); // Optional
+//                                            startActivityForResult(intent,OPEN_MEDIA_PICKER);
+
+//                                            Intent intent = new Intent();
+//                                            intent.setType("video/*");
+//                                            intent.setAction(Intent.ACTION_GET_CONTENT);
+//                                            startActivityForResult(Intent.createChooser(intent,"Select Video"),OPEN_MEDIA_PICKER);
+//
+                                            imageorvideoStr="video";
+                                            Intent imagevideouploadIntent1 = new Intent(mContext, ImageVideoUploadActivity.class);
+                                            imagevideouploadIntent1.putExtra("image/video",imageorvideoStr);
+                                            startActivity(imagevideouploadIntent1);
+                                        }
+
+                                        if (report.isAnyPermissionPermanentlyDenied()) {
+                                            showSettingsDialog();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
+                                        token.continuePermissionRequest();
+                                    }
+                                }).check();
                         speedDialView.open(); // To close the Speed Dial with animation
                         return true; // false will close it without animation
 
                     case R.id.fab_custom_color:
+                        imageorvideoStr="image";
                         Intent imagevideouploadIntent1 = new Intent(mContext, ImageVideoUploadActivity.class);
+                        imagevideouploadIntent1.putExtra("image/video",imageorvideoStr);
                         startActivity(imagevideouploadIntent1);
                         speedDialView.open();
                         return false; // closes without animation (same as speedDialView.close(false); return false;)
@@ -223,13 +260,13 @@ public class ImageFragment extends Fragment {
         fragmentImageBinding.imageRcyList.setLayoutManager(gridLayoutManager); // set LayoutManager to RecyclerView
 
 
-        fragmentImageBinding.refreshView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                callImageGalleryPullData();
-                fragmentImageBinding.refreshView.setRefreshing(false);
-            }
-        });
+//        fragmentImageBinding.refreshView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+//            @Override
+//            public void onRefresh() {
+//                callImageGalleryPullData();
+//                fragmentImageBinding.refreshView.setRefreshing(false);
+//            }
+//        });
 
         fragmentImageBinding.imageRcyList.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -285,6 +322,8 @@ public class ImageFragment extends Fragment {
                 if (imageMainModel.getIsValid() == 1) {
 
                     if (imageMainModel.getData() != null) {
+                        fragmentImageBinding.shimmerViewContainer.stopShimmerAnimation();
+                        fragmentImageBinding.shimmerViewContainer.setVisibility(View.GONE);
                         imageDetailModelsList = imageMainModel.getData();
 
                         addOldNewValue(imageDetailModelsList);
@@ -417,7 +456,84 @@ public class ImageFragment extends Fragment {
         return map;
     }
 
+    /**
+     * Showing Alert Dialog with Settings option
+     * Navigates user to app settings
+     * NOTE: Keep proper title and message depending on your app
+     */
+    private void showSettingsDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle(getString(R.string.dialog_permission_title));
+        builder.setMessage(getString(R.string.dialog_permission_message));
+        builder.setPositiveButton(getString(R.string.go_to_settings), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+                    openSettings();
+            }
+        });
+        builder.setNegativeButton(getString(android.R.string.cancel), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        builder.show();
 
+    }
+
+    // navigating user to app settings
+    private void openSettings() {
+        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        Uri uri = Uri.fromParts("package", getActivity().getPackageName(), null);
+        intent.setData(uri);
+        startActivityForResult(intent, 101);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // Check which request we're responding to
+//        if (requestCode == OPEN_MEDIA_PICKER) {
+//            // Make sure the request was successful
+//            if (resultCode == RESULT_OK && data != null) {
+//                ArrayList<String> selectionResult=data.getStringArrayListExtra("result");
+//            }
+//        }
+
+
+        if (resultCode == RESULT_OK) {
+            if (requestCode == OPEN_MEDIA_PICKER) {
+                Uri selectedImageUri = data.getData();
+
+                // OI FILE Manager
+               String  filemanagerstring = selectedImageUri.getPath();
+
+                if (filemanagerstring != null) {
+
+                    Intent intent = new Intent(mContext,
+                            ImageVideoUploadActivity.class);
+                   intent.setData(selectedImageUri);
+                   intent.putExtra("image/video",imageorvideoStr);
+                    startActivity(intent);
+                }
+            }
+        }
+    }
+
+    // UPDATED!
+    public String getPath(Uri uri) {
+        String[] projection = { MediaStore.Video.Media.DATA };
+        Cursor cursor = getActivity().getContentResolver().query(uri, projection, null, null, null);
+        if (cursor != null) {
+            // HERE YOU WILL GET A NULLPOINTER IF CURSOR IS NULL
+            // THIS CAN BE, IF YOU USED OI FILE MANAGER FOR PICKING THE MEDIA
+            int column_index = cursor
+                    .getColumnIndexOrThrow(MediaStore.Video.Media.DATA);
+            cursor.moveToFirst();
+            return cursor.getString(column_index);
+        } else
+            return null;
+    }
 }
 
 

@@ -43,7 +43,13 @@
 
 
     </LinearLayout>
-
+    <View
+        android:id="@+id/toolbar_bottom_view"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:layout_alignParentBottom="false"
+        android:layout_below="@+id/toolbar_linear"
+        android:background="@drawable/bg_gradiant_line" />
     <EditText
         android:id="@+id/search_edt"
         android:layout_width="match_parent"

@@ -119,7 +119,11 @@
                     android:text="@string/login_btn"
                     android:textColor="@color/splash_bg_color"
                     android:textSize="@dimen/_15sdp" />
-
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="5dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="@drawable/bg_gradiant_line" />
                 <TextView
                     android:id="@+id/forgot_txt"
                     style="@style/text_font"

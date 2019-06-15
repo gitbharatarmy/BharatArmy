@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.provider.Settings;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -62,6 +64,26 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 return false;
             }
         });
+        loginBinding.userPasswordEdt.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                password_str=loginBinding.userPasswordEdt.getText().toString();
+
+                if (!password_str.equalsIgnoreCase("")){
+
+                }
+            }
+        });
     }
 
     public void verifyLoginDetails() {
@@ -70,7 +92,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         if (!username_str.equalsIgnoreCase("") & !password_str.equalsIgnoreCase("")) {
             if (Utils.isValidEmailId(username_str)){
-                getLogin ();
+                if (password_str.length()>=5 && password_str.length()<=10){
+                    getLogin ();
+                }else{
+                    loginBinding.userPasswordEdt.setError("Password Length must be greter than 5 or less than 10");
+                }
             }else{
                 loginBinding.userNameEdt.setError("Please enter valid email address");
             }
@@ -161,6 +187,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         Utils.setPref(mContext, "PhoneVerified", String.valueOf(loginModel.getData().getIsNumberVerified()));
                         Utils.setPref(mContext,"AppUserId", String.valueOf(loginModel.getData().getId()));
                         Utils.setPref(mContext,"Gender", String.valueOf(loginModel.getData().getGender()));
+                        Utils.setPref(mContext,"CountryISOCode",loginModel.getData().getCountryISOCode());
+                        Utils.setPref(mContext,"CountryPhoneNo",loginModel.getData().getCountryPhoneNo());
+
 
 
                         if(loginModel.getData().getIsNumberVerified()==0){
@@ -193,7 +222,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private Map<String, String> getLoginData() {
         Map<String, String> map = new HashMap<>();
-        map.put("UserName", username_str);
+        map.put("Email", username_str);
         map.put("Password", password_str);
         map.put("TokenId", Utils.getPref(mContext, "registration_id"));
         return map;

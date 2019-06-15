@@ -86,7 +86,7 @@ Utils.setImageInImageView(String.valueOf(R.drawable.first_match_map),locationMap
                 Intent shareIntent = new Intent();
                 shareIntent.setAction(Intent.ACTION_SEND);
                 shareIntent.putExtra(Intent.EXTRA_TEXT, AppConfiguration.SHARETEXT);
-                shareIntent.putExtra(Intent.EXTRA_STREAM,uri=getUriForFile(mContext, getPackageName() + ".provider",file));
+                shareIntent.putExtra(Intent.EXTRA_STREAM,uri=getUriForFile(mContext, getPackageName() + ".fileprovider",file));
                 shareIntent.setType("image/*");
                 shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 startActivity(Intent.createChooser(shareIntent, "Share It"));

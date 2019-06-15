@@ -29,6 +29,7 @@ import com.bharatarmy.Utility.ApiHandler;
 import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.FragmentStoryCategoryBinding;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.leinardi.android.speeddial.SpeedDialView;
 
 
 import java.util.HashMap;
@@ -59,6 +60,7 @@ public class StoryCategoryFragment extends Fragment {
 
 
     FloatingActionButton fab;
+    SpeedDialView speedDial;
 
     GridLayoutManager gridLayoutManager;
 
@@ -109,6 +111,8 @@ public class StoryCategoryFragment extends Fragment {
         mContext = getActivity().getApplicationContext();
         fab = getActivity().findViewById(R.id.fab);
         fab.hide();
+        speedDial=getActivity().findViewById(R.id.speedDial);
+        speedDial.setVisibility(View.GONE);
         callStoryCategoryData();
 
         setListiner();

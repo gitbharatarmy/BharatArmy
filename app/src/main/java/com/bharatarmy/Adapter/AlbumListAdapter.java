@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -56,7 +57,7 @@ List<ImageDetailModel> imageDetailModelList;
         Object var3 = this.imageDetailModelList.get(position);
         ImageDetailModel $receiver = (ImageDetailModel) var3;
         boolean var5 = false;
-        holder.getMMovieName().setText((CharSequence)$receiver.getGalleryName());
+        holder.getMMovieName().setText("Cricket World Cup 2019");  //(CharSequence)$receiver.getGalleryName()
         View var10000 = holder.itemView;
         Intrinsics.checkExpressionValueIsNotNull(var10000, "holder.itemView");
 //        Picasso.with(var10000.getContext())
@@ -95,6 +96,21 @@ List<ImageDetailModel> imageDetailModelList;
         private final ImageView mImgPoster;
         @NotNull
         private final TextView mMovieName;
+//        @NotNull
+//        private final LinearLayout mTextName;
+
+//        @NotNull
+//        public LinearLayout getmTextName() {
+//            return this.mTextName;
+//        }
+
+        @NotNull
+        private final View mtopView;
+
+        @NotNull
+        public View getMtopView() {
+            return mtopView;
+        }
 
         @NotNull
         public final ConstraintLayout getMConstraintLayout() {
@@ -111,6 +127,7 @@ List<ImageDetailModel> imageDetailModelList;
             return this.mMovieName;
         }
 
+
         public ViewHolder(@NotNull View itemView) {
             super(itemView);
             Intrinsics.checkParameterIsNotNull(itemView, "itemView");
@@ -123,6 +140,14 @@ List<ImageDetailModel> imageDetailModelList;
             var10001 = itemView.findViewById(R.id.txtName);
             Intrinsics.checkExpressionValueIsNotNull(var10001, "itemView.findViewById(R.id.txtName)");
             this.mMovieName = (TextView)var10001;
+
+//            var10001 = itemView.findViewById(R.id.textLinear);
+//            Intrinsics.checkExpressionValueIsNotNull(var10001, "itemView.findViewById(R.id.txtName)");
+//            this.mTextName = (LinearLayout)var10001;
+
+            var10001 = itemView.findViewById(R.id.topView);
+            Intrinsics.checkExpressionValueIsNotNull(var10001, "itemView.findViewById(R.id.txtName)");
+            this.mtopView = (View)var10001;
         }
     }
 

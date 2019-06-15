@@ -15,7 +15,11 @@
             android:layout_height="@dimen/_190sdp"
             android:background="@color/heading_bg"
             android:orientation="vertical" />
-
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:layout_marginTop="@dimen/_190sdp"
+            android:background="@drawable/bg_gradiant_line" />
         <LinearLayout
             android:id="@+id/head_linear"
             android:layout_width="match_parent"
@@ -194,7 +198,7 @@
                 android:layout_height="@dimen/_50sdp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/_50sdp"
-                android:background="@drawable/close_cancel"
+                android:background="@drawable/floating_button"
                 android:backgroundTint="@color/heading_bg">
 
                 <TextView

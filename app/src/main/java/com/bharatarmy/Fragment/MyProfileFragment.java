@@ -111,8 +111,10 @@ public class MyProfileFragment extends Fragment implements View.OnClickListener 
             myProfileBinding.phoneShowTxt.setText(Utils.getPref(mContext,"LoginPhoneNo"));
             if (Utils.getPref(mContext,"Gender").equalsIgnoreCase("1")){
                 myProfileBinding.genderShowTxt.setText("Male");
-            }else{
+            }else if(Utils.getPref(mContext,"Gender").equalsIgnoreCase("2")){
                 myProfileBinding.genderShowTxt.setText("Female");
+            }else{
+                myProfileBinding.genderShowTxt.setText("");
             }
 
 //        Picasso.with(mContext)

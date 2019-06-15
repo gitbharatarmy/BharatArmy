@@ -16,7 +16,7 @@ import com.bharatarmy.R;
 
 
 public abstract class BaseActivity extends AppCompatActivity {
-    TextView titleText;
+    TextView titleText,text_font;
     LinearLayout BackBtn;
     ImageView shareBtn;
 

@@ -20,6 +20,7 @@ import com.bharatarmy.R;
 import com.bharatarmy.Utility.AppConfiguration;
 import com.bharatarmy.databinding.FragmentHistoryBinding;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.leinardi.android.speeddial.SpeedDialView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +42,8 @@ public class HistoryFragment extends Fragment {
     HistoryMainListAdapter historymainlistAdapter;
     List<String> invoiceList;
     FloatingActionButton fab;
+    SpeedDialView speedDial;
+
     public HistoryFragment() {
         // Required empty public constructor
     }
@@ -82,6 +85,8 @@ public class HistoryFragment extends Fragment {
         mContext = getActivity().getApplicationContext();
         fab=getActivity().findViewById(R.id.fab);
         fab.hide();
+        speedDial=getActivity().findViewById(R.id.speedDial);
+        speedDial.setVisibility(View.GONE);
         setListiner();
         setDataValue();
         return rootView;

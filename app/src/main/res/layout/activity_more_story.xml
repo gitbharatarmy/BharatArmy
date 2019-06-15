@@ -11,8 +11,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-
-        <!--<include layout="@layout/toolbar_item"/>-->
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
@@ -64,14 +62,10 @@
                     android:visibility="visible"/>
             </LinearLayout>
         </androidx.appcompat.widget.Toolbar>
-        <!--<ProgressBar-->
-            <!--android:id="@+id/progressbar1"-->
-            <!--android:layout_width="@dimen/_100sdp"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:layout_centerInParent="true"-->
-            <!--android:layout_gravity="center_vertical|center_horizontal"-->
-            <!--android:indeterminate="true"-->
-            <!--android:indeterminateDrawable="@drawable/logo"/>-->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:background="@drawable/bg_gradiant_line" />
         <ImageView
             android:id="@+id/image"
             android:layout_width="@dimen/_80sdp"

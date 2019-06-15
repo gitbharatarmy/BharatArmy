@@ -1,7 +1,9 @@
 package com.bharatarmy.Activity;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -21,22 +23,35 @@ import com.bharatarmy.Models.OtpModel;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.ApiHandler;
 import com.bharatarmy.Utility.AppConfiguration;
+import com.bharatarmy.Utility.NetworkClient;
+import com.bharatarmy.Utility.ProgressRequestBody;
 import com.bharatarmy.Utility.SmsReceiver;
 import com.bharatarmy.Utility.Utils;
+import com.bharatarmy.Utility.WebServices;
 import com.bharatarmy.databinding.ActivityOtpBinding;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Retrofit;
 
-public class OTPActivity extends AppCompatActivity implements View.OnClickListener {
+public class OTPActivity extends AppCompatActivity implements View.OnClickListener , ProgressRequestBody.UploadCallbacks {
 
     ActivityOtpBinding activityOtpBinding;
     Context mContext;
     String otpStr, finalgetOtpStr, strWheretocome, strFullName, strEmail, strCountrycode, strMobileno, strPassword, strCheck;
     String phoneNoStr, countryCodeStr;
+    ProgressDialog mDialog;
+    File file = null;
+    Uri uri,uri1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,12 +64,13 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
     }
 
     public void getIntentValue() {
-        otpStr = getIntent().getStringExtra("OTP");
-        phoneNoStr = getIntent().getStringExtra("OTPmobileno");
-        countryCodeStr = getIntent().getStringExtra("countrycode");
         strWheretocome = getIntent().getStringExtra("wheretocome");
 
         if (strWheretocome.equalsIgnoreCase("Signup")) {
+            otpStr = getIntent().getStringExtra("OTP");
+            phoneNoStr = getIntent().getStringExtra("OTPmobileno");
+            countryCodeStr = getIntent().getStringExtra("countrycode");
+
             strFullName = getIntent().getStringExtra("signupFullname");
             strEmail = getIntent().getStringExtra("signupEmail");
             strCountrycode = getIntent().getStringExtra("signupCountryCode");
@@ -62,6 +78,110 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
             strPassword = getIntent().getStringExtra("signupPassword");
             strCheck = getIntent().getStringExtra("signupCheck");
         }
+
+    }
+
+    /*use for Update profile*/
+    public void getUpdateProfile() {
+        if (!Utils.checkNetwork(mContext)) {
+            Utils.showCustomDialog(getResources().getString(R.string.internet_error), getResources().getString(R.string.internet_connection_error), OTPActivity.this);
+            return;
+        }
+        MultipartBody.Part body = null;
+        Log.d("uri",uri.toString());
+        if (uri != null) {
+
+            String filePath = Utils.getFilePathFromUri(mContext, uri);
+
+            mDialog = new ProgressDialog(mContext);
+            mDialog.setCancelable(false);
+            mDialog.setMessage("Uploading Profile Picture");
+            mDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            mDialog.setIndeterminate(false);
+            mDialog.show();
+            try {
+                file = new File(filePath);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            if (file != null) {
+                if (file.exists()) {
+                    filePath = file.getAbsolutePath();
+                }
+            }
+
+            if (file != null) {
+                if (file.exists()) {
+
+                    ProgressRequestBody fileBody = new ProgressRequestBody(file,this);
+                    body = MultipartBody.Part.createFormData("image", file.getName(), fileBody);
+
+                }
+            }
+        } else {
+            Utils.showDialog(mContext);
+            RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), "");
+
+            body = MultipartBody.Part.createFormData("file", "", requestFile);
+        }
+        Retrofit retrofit = NetworkClient.getRetrofitClient(this);
+        WebServices uploadAPIs = retrofit.create(WebServices.class);
+
+        RequestBody appuserId = RequestBody.create(MediaType.parse("text/plain"), Utils.getPref(mContext, "AppUserId"));
+        RequestBody fullname = RequestBody.create(MediaType.parse("text/plain"), getIntent().getStringExtra("EditFullName"));
+        RequestBody countryISOCode = RequestBody.create(MediaType.parse("text/plain"), AppConfiguration.currentCountry);
+        RequestBody countycode = RequestBody.create(MediaType.parse("text/plain"), getIntent().getStringExtra("countryCode"));
+        RequestBody phoneno = RequestBody.create(MediaType.parse("text/plain"),getIntent().getStringExtra("NewPhoneNumber"));
+        RequestBody gender = RequestBody.create(MediaType.parse("text/plain"), getIntent().getStringExtra("gender"));
+        RequestBody otptext = RequestBody.create(MediaType.parse("text/plain"),finalgetOtpStr);
+        RequestBody smssentId=RequestBody.create(MediaType.parse("text/plaim"),getIntent().getStringExtra("OTP"));
+//        ShowProgressDialog();
+        Call<LogginModel> responseBodyCall = uploadAPIs.updateprofile(appuserId, fullname, countryISOCode,
+                countycode, phoneno, gender,otptext,smssentId, body);
+        Log.d("File", "" + responseBodyCall);
+        responseBodyCall.enqueue(new Callback<LogginModel>() {
+
+            @Override
+            public void onResponse(Call<LogginModel> call, retrofit2.Response<LogginModel> response) {
+                if (uri != null) {
+                    mDialog.dismiss();
+                } else {
+                    Utils.dismissDialog();
+                }
+                if (response.body().getIsValid() == 1) {
+                    Utils.setPref(mContext, "LoginUserName", response.body().getData().getName());
+                    Utils.setPref(mContext, "LoginEmailId", response.body().getData().getEmail());
+                    Utils.setPref(mContext, "LoginPhoneNo", response.body().getData().getPhoneNo());
+                    Utils.setPref(mContext, "LoginProfilePic", response.body().getData().getProfilePicUrl());
+                    Utils.setPref(mContext, "EmailVerified", String.valueOf(response.body().getData().getIsEmailVerified()));
+                    Utils.setPref(mContext, "PhoneVerified", String.valueOf(response.body().getData().getIsNumberVerified()));
+                    Utils.setPref(mContext, "AppUserId", String.valueOf(response.body().getData().getId()));
+                    Utils.setPref(mContext, "Gender", String.valueOf(response.body().getData().getGender()));
+
+                    Utils.ping(mContext, "Profile Updated Successfully");
+                    Intent myprofileIntent = new Intent(mContext, MyProfileActivity.class);
+                    startActivity(myprofileIntent);
+
+                } else {
+                    Utils.ping(mContext, response.body().getMessage());
+                }
+
+
+            }
+
+            @Override
+            public void onFailure(Call<LogginModel> call, Throwable t) {
+                Log.d("failure", "message = " + t.getMessage());
+                Log.d("failure", "cause = " + t.getCause());
+                if (uri != null) {
+                    mDialog.dismiss();
+                } else {
+                    Utils.dismissDialog();
+                }
+            }
+        });
+
 
     }
 
@@ -201,7 +321,10 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
                     startActivity(mobileIntent);
                     overridePendingTransition(0, 0);
 //                    finish();
-                } else {
+                }else if (strWheretocome.equalsIgnoreCase("EditProfile")){
+                    OTPActivity.this.finish();
+                }
+                else {
                     Intent mobileIntent = new Intent(mContext, MobileVerificationNewActivity.class);
                     startActivity(mobileIntent);
                     overridePendingTransition(0, 0);
@@ -220,9 +343,18 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
         Log.d("finalOtpStr", finalgetOtpStr);
 //        Log.d("otpStr", otpStr);
 
-        if (otpStr.equalsIgnoreCase(finalgetOtpStr)) {
+//        if (otpStr.equalsIgnoreCase(finalgetOtpStr)) {
+        if (!finalgetOtpStr.equalsIgnoreCase("")) {
             if (strWheretocome.equalsIgnoreCase("Signup")) {
                 getSignUp();
+            } else if (strWheretocome.equalsIgnoreCase("EditProfile")) {
+                uri1 = getIntent().getData();
+                if (!uri1.equals("1")){
+                    uri= uri1;
+                }else{
+
+                }
+                getUpdateProfile();
             } else {
                 VerificationPhone();
             }
@@ -282,19 +414,6 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
         map.put("CountryCode", countryCodeStr);
         return map;
     }
-//       try
-//    {
-//        InputMethodManager imm=
-//                (InputMethodManager)getSystemService(INPUT_METHOD_SERVICE);
-//        imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),0);
-//    }
-//            catch(Exception e)
-//    {}
-//            if (ed.getText().toString().equals(otp_generated))
-//    {
-//        Toast.makeText(OtpVerificationActivity.this, "OTP Verified
-//                Successfully !", Toast.LENGTH_SHORT).show();
-//    }
 
     public void getSignUp() {
         if (!Utils.checkNetwork(mContext)) {
@@ -330,6 +449,8 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
                         Utils.setPref(mContext, "PhoneVerified", String.valueOf(loginModel.getData().getIsNumberVerified()));
                         Utils.setPref(mContext, "AppUserId", String.valueOf(loginModel.getData().getId()));
                         Utils.setPref(mContext, "Gender", String.valueOf(loginModel.getData().getGender()));
+                        Utils.setPref(mContext, "CountryISOCode", loginModel.getData().getCountryISOCode());
+                        Utils.setPref(mContext, "CountryPhoneNo", loginModel.getData().getCountryPhoneNo());
 
                         Intent DashboardIntent = new Intent(mContext, DashboardActivity.class);
                         AppConfiguration.position = 0;
@@ -356,9 +477,54 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
         Map<String, String> map = new HashMap<>();
         map.put("FullName", strFullName);
         map.put("Email", strEmail);
-        map.put("Code", strCountrycode);
         map.put("PhoneNo", strMobileno);
+        map.put("CountryISOCode", AppConfiguration.currentCountry);
+        map.put("CountryPhoneNo", strCountrycode);
         map.put("Password", strPassword);
+        map.put("OTPText", finalgetOtpStr);
+        map.put("SMSSentId", otpStr);
         return map;
+    }
+
+    @Override
+    public void onProgressUpdate(int percentage) {
+        mDialog.setProgress(percentage);
+    }
+
+    @Override
+    public void onError() {
+        mDialog.dismiss();
+        Utils.ping(mContext, "Try Again");
+    }
+
+    @Override
+    public void onFinish() {
+        mDialog.setProgress(100);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (strWheretocome.equalsIgnoreCase("Signup")) {
+            Intent mobileIntent = new Intent(mContext, SignUpActivity.class);
+            mobileIntent.putExtra("wheretocome", "OTP");
+            mobileIntent.putExtra("signupFullname", strFullName);
+            mobileIntent.putExtra("signupEmail", strEmail);
+            mobileIntent.putExtra("signupCountryCode", strCountrycode);
+            mobileIntent.putExtra("signupMobileno", strMobileno);
+            mobileIntent.putExtra("signupPassword", strPassword);
+            mobileIntent.putExtra("signupCheck", strCheck);
+            startActivity(mobileIntent);
+            overridePendingTransition(0, 0);
+//                    finish();
+        }else if (strWheretocome.equalsIgnoreCase("EditProfile")){
+            OTPActivity.this.finish();
+        }
+        else {
+            Intent mobileIntent = new Intent(mContext, MobileVerificationNewActivity.class);
+            startActivity(mobileIntent);
+            overridePendingTransition(0, 0);
+                    finish();
+        }
+        super.onBackPressed();
     }
 }

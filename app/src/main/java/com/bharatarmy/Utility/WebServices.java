@@ -45,12 +45,19 @@ public interface WebServices {
     @POST("/SendVerificationOTP")
     void getSendVerificationOTP(@FieldMap Map<String, String> map, Callback<LogginModel> callback);
 
+    @FormUrlEncoded
+    @POST("/ValidatedBAMember")
+    void getValidatedBAMember(@FieldMap Map<String, String> map, Callback<LogginModel> callback);
+
+
     /* image uploading with multiple parameter*/
     @Multipart
     @retrofit2.http.POST("/API/v1/UpdateProfile")
     Call<LogginModel> updateprofile(@Part("AppUserId") RequestBody userid, @Part("FullName") RequestBody fullname,
-                                       @Part("CountryCode") RequestBody countrycode, @Part("PhoneNo") RequestBody phoneno,
-                                       @Part("Gender") RequestBody gender, @Part MultipartBody.Part file);
+                                       @Part("CountryISOCode") RequestBody countryISOCode, @Part("CountryPhoneNo") RequestBody countycode,
+                                       @Part("PhoneNo") RequestBody phoneno,@Part("Gender") RequestBody gender,
+                                       @Part("OTPText") RequestBody otptext,@Part("SMSSentId") RequestBody smssentId,
+                                       @Part MultipartBody.Part file);
 
 
     @FormUrlEncoded

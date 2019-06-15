@@ -61,7 +61,11 @@
                     android:visibility="visible" />
             </LinearLayout>
         </androidx.appcompat.widget.Toolbar>
-
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/bg_gradiant_line" />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

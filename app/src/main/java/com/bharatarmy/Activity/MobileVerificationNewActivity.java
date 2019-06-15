@@ -84,6 +84,7 @@ public class MobileVerificationNewActivity extends AppCompatActivity implements 
             @Override
             public void onCountrySelected(Country selectedCountry) {
                 mobileVerificationNewBinding.codeTxt.setText("+" + selectedCountry.getPhoneCode());
+                        AppConfiguration.currentCountry=mobileVerificationNewBinding.ccp.getSelectedCountryNameCode();
             }
         });
 

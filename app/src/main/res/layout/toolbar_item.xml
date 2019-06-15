@@ -47,14 +47,35 @@
                 android:text="@string/heading"
                 android:textColor="@color/splash_bg_color"
                 android:textSize="@dimen/_14sdp" />
-            <ImageView
-                android:id="@+id/share_img"
+            <LinearLayout
+                android:id="@+id/home1_linear"
                 android:layout_width="0dp"
-                android:layout_weight="0.2"
-                android:layout_height="@dimen/_15sdp"
-                android:layout_gravity="center_vertical"
-                android:src="@drawable/ic_share"
-                android:visibility="gone"/>
+                android:layout_weight="0.4"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_alignParentRight="true"
+                android:orientation="vertical"
+                android:visibility="visible">
+
+                <ImageView
+                    android:id="@+id/share_img"
+                    android:layout_width="@dimen/_15sdp"
+                    android:layout_height="@dimen/_15sdp"
+                    android:layout_gravity="center_vertical|center_horizontal"
+                    android:src="@drawable/ic_share"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:visibility="gone"/>
+
+                <TextView
+                    style="@style/text_font"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:text="edit"
+                    android:textColor="@color/splash_bg_color"
+                    android:textSize="@dimen/_10sdp"
+                    android:visibility="gone"/>
+            </LinearLayout>
+
         </LinearLayout>
     </androidx.appcompat.widget.Toolbar>
 </LinearLayout>
