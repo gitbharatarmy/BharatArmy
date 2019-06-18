@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -125,6 +126,9 @@ public class StoryAuthorActivity extends AppCompatActivity implements View.OnCli
 
                     activityStoryAuthorNewBinding.followLinearToolbar.setVisibility(View.VISIBLE);
                     activityStoryAuthorNewBinding.storyTitleTxt.setVisibility(View.VISIBLE);
+                    ViewGroup.LayoutParams params = activityStoryAuthorNewBinding.toolbarBottomView.getLayoutParams();
+                    params.width = ViewGroup.LayoutParams.MATCH_PARENT;
+                    activityStoryAuthorNewBinding.toolbarBottomView.setLayoutParams(params);
 
                     isShow = true;
                 } else if (isShow) {
@@ -134,7 +138,6 @@ public class StoryAuthorActivity extends AppCompatActivity implements View.OnCli
 //                    activityStoryAuthorNewBinding.followLinearToolbar.setVisibility(View.GONE);
 
                     activityStoryAuthorNewBinding.storyTitleTxt.setVisibility(View.GONE);
-
                     isShow = false;
                 }
             }

@@ -11,7 +11,7 @@
 
         <androidx.appcompat.widget.Toolbar
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_60sdp"
+            android:layout_height="@dimen/_50sdp"
             android:background="@color/heading_bg">
 
             <LinearLayout
@@ -58,7 +58,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_weight="0.2"
                     android:src="@drawable/ic_share"
-                    android:visibility="visible" />
+                    android:visibility="gone" />
             </LinearLayout>
         </androidx.appcompat.widget.Toolbar>
         <View
@@ -130,12 +130,23 @@
                         android:layout_marginLeft="@dimen/_10sdp"
                         android:layout_weight="0.9">
 
-                        <ImageView
-                            android:layout_width="@dimen/_15sdp"
-                            android:layout_height="@dimen/_20sdp"
-                            android:layout_gravity="center_vertical"
-                            android:src="@drawable/ic_likes"
-                            android:tint="@color/splash_bg_color" />
+                        <!--<ImageView-->
+                            <!--android:layout_width="@dimen/_15sdp"-->
+                            <!--android:layout_height="@dimen/_20sdp"-->
+                            <!--android:layout_gravity="center_vertical"-->
+                            <!--android:src="@drawable/ic_likes"-->
+                            <!--android:tint="@color/splash_bg_color" />-->
+                        <com.like.LikeButton
+                            android:id="@+id/bottom_story_like_btn"
+                            android:layout_width="@dimen/_30sdp"
+                            android:layout_height="match_parent"
+                            app:circle_end_color="@color/heading_bg"
+                            app:circle_start_color="@color/heading_bg"
+                            app:dots_primary_color="@color/orange"
+                            app:dots_secondary_color="@color/orange"
+                            app:icon_size="22dp"
+                            app:like_drawable="@drawable/ic_thumb_up_button"
+                            app:unlike_drawable="@drawable/ic_likes" />
 
                         <TextView
                             style="@style/text_font"
@@ -196,7 +207,7 @@
                             android:layout_gravity="center_vertical|right"
                             android:gravity="center_vertical"
                             android:paddingLeft="@dimen/_5sdp"
-                            android:text="share"
+                            android:text="Share"
                             android:textColor="@color/splash_bg_color"
                             android:textSize="@dimen/_14sdp" />
                     </LinearLayout>

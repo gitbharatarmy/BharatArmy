@@ -75,6 +75,7 @@ public class GalleryImageDetailActivity extends BaseActivity implements View.OnC
         activityGalleryImageDetailBinding.nextImg.setOnClickListener(this);
         activityGalleryImageDetailBinding.shareImg.setOnClickListener(this);
         activityGalleryImageDetailBinding.commentLinear.setOnClickListener(this);
+        activityGalleryImageDetailBinding.shareArticle.setOnClickListener(this);
 
     }
 
@@ -208,6 +209,48 @@ public class GalleryImageDetailActivity extends BaseActivity implements View.OnC
                 break;
 
             case R.id.share_img:
+//                String imageUriStr = "";
+//                showPositionImage = linearLayoutManager.findFirstCompletelyVisibleItemPosition();
+//                for (int i = 0; i < imageList.size(); i++) {
+//                    if (showPositionImage == i) {
+//                        imageUriStr = imageList.get(showPositionImage);
+//                        break;
+//                    }
+//                }
+//                //Use for Internal Storage file
+//                File myDir = new File(getExternalCacheDir(), "camera");
+//                myDir.mkdirs();
+//                Random generator = new Random();
+//                int n = 10000;
+//                n = generator.nextInt(n);
+//                String fname = "Image-" + n + ".jpg";
+//                File file = new File(myDir, fname);
+//                Log.i("file", "" + file);
+//                if (file.exists())
+//                    file.delete();
+//                try {
+//                    FileOutputStream out = new FileOutputStream(file);
+//                    Utils.StringToBitMap(imageUriStr).compress(Bitmap.CompressFormat.JPEG, 90, out);
+//                    out.flush();
+//                    out.close();
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//                //share image from other application
+//                Intent shareIntent = new Intent();
+//                shareIntent.setAction(Intent.ACTION_SEND);
+//                shareIntent.putExtra(Intent.EXTRA_TEXT, AppConfiguration.SHARETEXT);
+//                shareIntent.putExtra(Intent.EXTRA_STREAM, uri = getUriForFile(mContext, getPackageName() + ".fileprovider", file));
+//                shareIntent.setType("image/*");
+//                shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+//                startActivity(Intent.createChooser(shareIntent, "Share It"));
+                break;
+            case R.id.comment_linear:
+                Intent commentIntent = new Intent(mContext, CommentActivity.class);
+                startActivity(commentIntent);
+                break;
+
+            case R.id.share_article:
                 String imageUriStr = "";
                 showPositionImage = linearLayoutManager.findFirstCompletelyVisibleItemPosition();
                 for (int i = 0; i < imageList.size(); i++) {
@@ -239,24 +282,10 @@ public class GalleryImageDetailActivity extends BaseActivity implements View.OnC
                 Intent shareIntent = new Intent();
                 shareIntent.setAction(Intent.ACTION_SEND);
                 shareIntent.putExtra(Intent.EXTRA_TEXT, AppConfiguration.SHARETEXT);
-                shareIntent.putExtra(Intent.EXTRA_STREAM, uri = getUriForFile(mContext, getPackageName() + ".fileprovider", file));
+                shareIntent.putExtra(Intent.EXTRA_STREAM, uri = getUriForFile(mContext, getPackageName() + ".provider", file));
                 shareIntent.setType("image/*");
                 shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 startActivity(Intent.createChooser(shareIntent, "Share It"));
-                break;
-            case R.id.comment_linear:
-//                BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(mContext);
-//                LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
-//
-//                View view = inflater.inflate(R.layout.comment_sheet_item, null);
-//
-//                bottomSheetDialog.setContentView(view);
-//                bottomSheetDialog.setCanceledOnTouchOutside(false);
-//                bottomSheetDialog.show();
-
-                BottomCommentDialog dialog = new BottomCommentDialog();
-                FragmentManager ft = getSupportFragmentManager();
-                dialog.show(ft, BottomCommentDialog.TAG);
                 break;
         }
     }

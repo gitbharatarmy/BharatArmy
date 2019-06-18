@@ -47,7 +47,7 @@ public class RangeSeekBarView extends View {
     private static final String TAG = RangeSeekBarView.class.getSimpleName();
 
     private int mHeightTimeLine;
-    private List<Thumb> mThumbs;
+    private List<Thumb>mThumbs;
     private List<OnRangeSeekBarListener> mListeners;
     private float mMaxWidth;
     private float mThumbWidth;
@@ -88,7 +88,7 @@ public class RangeSeekBarView extends View {
         mShadow.setColor(shadowColor);
         mShadow.setAlpha(177);
 
-        int lineColor = ContextCompat.getColor(getContext(), R.color.line_color);
+        int lineColor = ContextCompat.getColor(getContext(), R.color.orange);
         mLine.setAntiAlias(true);
         mLine.setColor(lineColor);
        // mLine.setAlpha(200);

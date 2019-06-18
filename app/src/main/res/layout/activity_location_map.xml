@@ -9,7 +9,7 @@
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_60sdp"
+        android:layout_height="@dimen/_50sdp"
         android:background="@color/heading_bg">
 
         <LinearLayout
@@ -60,8 +60,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="5dp"
-        android:layout_alignParentBottom="false"
-        android:layout_marginTop="@dimen/_60sdp"
+        android:layout_below="@+id/toolbar"
         android:background="@drawable/bg_gradiant_line" />
     <ImageView
         android:id="@+id/image_detail_img"

@@ -9,10 +9,15 @@
     android:orientation="vertical"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
     <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center_vertical|center_horizontal"
+        android:id="@+id/proflie_linear">
+    <LinearLayout
         android:layout_width="@dimen/_110sdp"
         android:layout_height="@dimen/_110sdp"
         android:layout_marginTop="@dimen/_10sdp"
-        android:layout_gravity="center_vertical|center_horizontal"
         android:background="@drawable/profile"
         android:orientation="vertical">
 
@@ -35,5 +40,5 @@
         android:layout_marginBottom="@dimen/_5sdp"
         android:textColor="@color/splash_bg_color"
         android:text="@string/full_name"/>
-
+    </LinearLayout>
 </LinearLayout>

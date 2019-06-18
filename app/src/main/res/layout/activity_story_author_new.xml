@@ -9,6 +9,13 @@
         android:orientation="vertical"
         android:weightSum="1">
 
+        <View
+            android:id="@+id/toolbar_bottom_view"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_5sdp"
+            app:layout_anchor="@id/android_appbar_layout"
+            app:layout_anchorGravity="bottom"
+            android:background="@drawable/bg_gradiant_line" />
         <com.facebook.shimmer.ShimmerFrameLayout
             android:id="@+id/shimmer_view_container"
             android:layout_width="match_parent"
@@ -23,6 +30,7 @@
             android:id="@+id/swipe_refresh_Layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/_1sdp"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <androidx.recyclerview.widget.RecyclerView
@@ -30,6 +38,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:visibility="gone"/>
+
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
         <com.google.android.material.appbar.AppBarLayout
@@ -364,11 +373,15 @@
                                 android:visibility="gone"/>
                         </LinearLayout>
                     </RelativeLayout>
+
                 </androidx.appcompat.widget.Toolbar>
 
             </com.google.android.material.appbar.CollapsingToolbarLayout>
 
+
         </com.google.android.material.appbar.AppBarLayout>
+
+
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

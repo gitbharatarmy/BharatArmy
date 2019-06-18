@@ -45,6 +45,7 @@ public class StoryCategoryFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private static final String CategoryName="categoryName";
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -96,6 +97,8 @@ public class StoryCategoryFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
 
+
+
         }
 
     }
@@ -120,6 +123,10 @@ public class StoryCategoryFragment extends Fragment {
     }
 
     public void setListiner() {
+        Bundle arguments = getArguments();
+        categoryNameStr = arguments.getString("categoryName");
+        fragmentStoryCategoryBinding.categoryName.setText(categoryNameStr);
+
         fragmentStoryCategoryBinding.shimmerViewContainer.startShimmerAnimation();
         gridLayoutManager = new GridLayoutManager(mContext, 2);
         gridLayoutManager.setOrientation(RecyclerView.VERTICAL); // set Horizontal Orientation

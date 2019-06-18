@@ -6,6 +6,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:ellipsize="marquee"
-    android:paddingLeft="@dimen/_10sdp"
+    android:padding="@dimen/_5sdp"
     android:textAlignment="inherit"
-    android:textColor="@color/normal_font_color"/>
+    android:textSize="@dimen/_13sdp"
+    android:text="@string/hello_txt"
+    android:textStyle="normal"
+    android:textColor="@color/splash_bg_color"
+    android:background="@color/transparent"/>

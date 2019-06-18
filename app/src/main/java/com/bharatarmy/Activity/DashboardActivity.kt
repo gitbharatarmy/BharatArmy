@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.view.View
 import android.view.Menu
 import android.view.MenuItem
@@ -33,6 +34,7 @@ import com.google.android.material.navigation.NavigationView
 import com.leinardi.android.speeddial.SpeedDialOverlayLayout
 import com.leinardi.android.speeddial.SpeedDialView
 import kotlinx.android.synthetic.main.app_bar_dashboard.*
+import kotlinx.android.synthetic.main.fragment_story_category.*
 
 class DashboardActivity : AppCompatActivity(), View.OnClickListener, TravelFragment.OnItemClick, StoryFragment.OnItemClick, StoryCategoryFragment.OnItemClick {
 
@@ -55,6 +57,7 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, TravelFragm
     internal lateinit var fans_img: ImageView
     internal lateinit var fan_img: ImageView
     internal lateinit var user_profile_img: ImageView
+    internal lateinit var proflie_linear:LinearLayout
     internal lateinit var story_img: ImageView
     internal lateinit var ftp_img: ImageView
     internal lateinit var travel_img: ImageView
@@ -129,6 +132,7 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, TravelFragm
         navigationView = findViewById<View>(R.id.nav_view) as NavigationView
         navHeader = navigationView.getHeaderView(0)
         user_profile_img = navHeader!!.findViewById<View>(R.id.profile_image) as ImageView
+        proflie_linear=navHeader!!.findViewById<View>(R.id.proflie_linear)as LinearLayout
         user_name_txt = navHeader!!.findViewById<View>(R.id.textView) as TextView
 
         home1_linear = findViewById<View>(R.id.home1_linear) as LinearLayout
@@ -365,6 +369,7 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, TravelFragm
                 .into(user_profile_img)
 
         user_profile_img.setOnClickListener(this)
+        proflie_linear.setOnClickListener(this)
 
         // showing dot next to notifications label
         //        navigationView.getMenu().getItem(3).setActionView(R.layout.menu_dot);
@@ -552,6 +557,8 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, TravelFragm
         if (shouldLoadHomeFragOnBackPress) {
             // checking if user is on other navigation menu
             // rather than home
+
+            overlay.visibility=View.GONE
             if (navItemIndex != 0) {
                 fans_img.setColorFilter(ContextCompat.getColor(mContext,
                         R.color.unselected_view))
@@ -733,6 +740,16 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, TravelFragm
                 mContext.startActivity(profileView)
                 drawer.closeDrawers()
             }
+            R.id.proflie_linear->{
+                navItemIndex = 2
+//                home1_linear.isClickable = true
+//                fragment = MyProfileFragment()
+//                loadFragment(fragment as MyProfileFragment)
+                val profileView = Intent(mContext, MyProfileActivity::class.java)
+                profileView.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                mContext.startActivity(profileView)
+                drawer.closeDrawers()
+            }
             R.id.home1_linear -> {
                 fans_img.setColorFilter(ContextCompat.getColor(mContext,
                         R.color.unselected_view))
@@ -854,12 +871,20 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, TravelFragm
 
     override fun onStoryCategory(categoryId: String?, categoryName: String?) {
         navItemIndex = 3
-        fragment = StoryCategoryFragment()
+//        fragment = StoryCategoryFragment()
+//        val bundle = Bundle()
+//        bundle.putString("categoryId", categoryId)
+//        bundle.putString("categoryName", categoryName)
+//        val addCar = StoryCategoryFragment()
+//       Utils.ping(mContext,"categoryId"+categoryId+"categoryName"+categoryName)
+//        addCar.arguments = bundle
+
+
+        val fragment = StoryCategoryFragment()
         val bundle = Bundle()
         bundle.putString("categoryId", categoryId)
         bundle.putString("categoryName", categoryName)
-        val addCar = StoryCategoryFragment()
-        addCar.arguments = bundle
+        fragment.setArguments(bundle)
         loadCategoryFragment(fragment as StoryCategoryFragment)
     }
 

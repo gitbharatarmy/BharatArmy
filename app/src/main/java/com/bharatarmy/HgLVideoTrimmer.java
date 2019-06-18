@@ -80,6 +80,10 @@ public class HgLVideoTrimmer extends FrameLayout {
     private boolean mResetSeekBar = true;
     private final MessageHandler mMessageHandler = new MessageHandler(this);
 
+    public HgLVideoTrimmer(Context context){
+        super(context);
+
+    }
     public HgLVideoTrimmer(@NonNull Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
@@ -187,6 +191,8 @@ public class HgLVideoTrimmer extends FrameLayout {
             @Override
             public void onSeekStop(RangeSeekBarView rangeSeekBarView, int index, float value) {
                 onStopSeekThumbs();
+
+                onSaveClicked();
             }
         });
 
@@ -232,7 +238,7 @@ public class HgLVideoTrimmer extends FrameLayout {
         mHolderTopView.setLayoutParams(lp);
 
         lp = (RelativeLayout.LayoutParams) mTimeLineView.getLayoutParams();
-        lp.setMargins(marge, 0, marge, 0);
+        lp.setMargins(marge, 100, marge, 0);
         mTimeLineView.setLayoutParams(lp);
 
         lp = (RelativeLayout.LayoutParams) mVideoProgressIndicator.getLayoutParams();
@@ -241,7 +247,7 @@ public class HgLVideoTrimmer extends FrameLayout {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.GINGERBREAD_MR1)
-    private void onSaveClicked() {
+    public void onSaveClicked() {
         if (mStartPosition <= 0 && mEndPosition >= mDuration) {
             if (mOnTrimVideoListener != null)
                 mOnTrimVideoListener.getResult(mSrc);
@@ -407,12 +413,12 @@ public class HgLVideoTrimmer extends FrameLayout {
 
     private void setTimeFrames() {
         String seconds = getContext().getString(R.string.short_seconds);
-        mTextTimeFrame.setText(String.format("%s %s - %s %s", stringForTime(mStartPosition), seconds, stringForTime(mEndPosition), seconds));
+//        mTextTimeFrame.setText(String.format("%s %s - %s %s", stringForTime(mStartPosition), seconds, stringForTime(mEndPosition), seconds));
     }
 
     private void setTimeVideo(int position) {
         String seconds = getContext().getString(R.string.short_seconds);
-        mTextTime.setText(String.format("%s %s", stringForTime(position), seconds));
+//        mTextTime.setText(String.format("%s %s", stringForTime(position), seconds));
     }
 
     private void onSeekThumbs(int index, float value) {
@@ -562,9 +568,9 @@ public class HgLVideoTrimmer extends FrameLayout {
 
             if (fileSizeInKB > 1000) {
                 long fileSizeInMB = fileSizeInKB / 1024;
-                mTextSize.setText(String.format("%s %s", fileSizeInMB, getContext().getString(R.string.megabyte)));
+//                mTextSize.setText(String.format("%s %s", fileSizeInMB, getContext().getString(R.string.megabyte)));
             } else {
-                mTextSize.setText(String.format("%s %s", fileSizeInKB, getContext().getString(R.string.kilobyte)));
+//                mTextSize.setText(String.format("%s %s", fileSizeInKB, getContext().getString(R.string.kilobyte)));
             }
         }
 

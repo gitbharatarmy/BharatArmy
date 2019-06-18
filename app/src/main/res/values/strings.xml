@@ -245,8 +245,11 @@
     <string name="Ok" translatable="false">Ok</string>
     <string name="short_seconds" translatable="false">sec</string>
     <string name="megabyte" translatable="false">MB</string>
-    <string name="kilobyte"  translatable="false">KB</string>
+    <string name="kilobyte" translatable="false">KB</string>
     <string name="trimming_progress" translatable="false">Trimming your video...</string>
     <string name="label_select_video" translatable="false">Select Video</string>
-
+    <string name="comment_time" translatable="false">\u25CF 5 minit ago</string>
+    <string name="commnet_str" translatable="false">I really would like to suggest the following application is very nice.It is very usefull and user friendly.</string>
+<string name="comment_hint" translatable="false">Write your comment here...</string>
+    <string name="comment_txt" translatable="false">I completely agree with <b>@DJ Dhaval Shah</b>.</string>
 </resources>

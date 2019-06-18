@@ -130,13 +130,13 @@ public class StoryFragment extends Fragment {
         fragmentStoryBinding.storyRcyList.setLayoutManager(gridLayoutManager); // set LayoutManager to RecyclerView
 
 
-//        fragmentStoryBinding.refreshView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-//            @Override
-//            public void onRefresh() {
-//                callStoryPullData();
-//                fragmentStoryBinding.refreshView.setRefreshing(false);
-//            }
-//        });
+        fragmentStoryBinding.refreshView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                callStoryPullData();
+                fragmentStoryBinding.refreshView.setRefreshing(false);
+            }
+        });
 
 
         fragmentStoryBinding.storyRcyList.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -245,7 +245,10 @@ public class StoryFragment extends Fragment {
                 String[] splitString = getCategoryData.split("\\|");
 
                 categoryIdStr = splitString[0];
-                categoryNameStr = splitString[1];
+                categoryNameStr = splitString[1].substring(0, splitString[1].length() - 1);
+
+
+
                 // slide-up animation
                 Animation slideUp = AnimationUtils.loadAnimation(mContext, R.anim.slide_out_right);
                     fragmentStoryBinding.storyRcyList.startAnimation(slideUp);

@@ -14,8 +14,9 @@ import android.widget.TextView;
 import androidx.fragment.app.DialogFragment;
 
 import com.bharatarmy.R;
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
-public class BottomCommentDialog extends DialogFragment {
+public class BottomCommentDialog extends BottomSheetDialogFragment {
 
     public static String TAG = "FullScreenDialog";
     EditText commentTxt;

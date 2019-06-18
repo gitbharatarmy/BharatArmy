@@ -12,7 +12,7 @@
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_60sdp"
+            android:layout_height="@dimen/_50sdp"
             android:background="@color/heading_bg"
             android:minHeight="?attr/actionBarSize"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
@@ -91,8 +91,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="5dp"
-            android:layout_alignParentBottom="false"
-            android:layout_marginTop="@dimen/_60sdp"
+            android:layout_below="@+id/toolbar"
             android:background="@drawable/bg_gradiant_line" />
 
         <RelativeLayout
@@ -166,33 +165,6 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:visibility="gone">
-                    <!--<RelativeLayout-->
-                        <!--android:layout_width="match_parent"-->
-                        <!--android:layout_height="@dimen/_200sdp">-->
-                        <!--<com.bharatarmy.VideoModule.FullscreenVideoView-->
-                            <!--android:id="@+id/fullscreenVideoView"-->
-                            <!--android:layout_width="match_parent"-->
-                            <!--android:layout_height="wrap_content"-->
-                            <!--android:layout_centerHorizontal="true"-->
-                            <!--android:layout_centerInParent="true"/>-->
-
-
-                        <!--<LinearLayout-->
-                            <!--android:id="@+id/play_Linear"-->
-                            <!--android:layout_width="wrap_content"-->
-                            <!--android:layout_height="wrap_content"-->
-                            <!--android:orientation="horizontal"-->
-                            <!--android:layout_centerHorizontal="true"-->
-                            <!--android:layout_centerVertical="true"-->
-                            <!--android:layout_margin="@dimen/_10sdp">-->
-
-                            <!--<ImageView-->
-                                <!--android:id="@+id/play_img"-->
-                                <!--android:layout_width="@dimen/_40sdp"-->
-                                <!--android:layout_height="@dimen/_40sdp"-->
-                                <!--android:src="@drawable/ic_play_video" />-->
-                        <!--</LinearLayout>-->
-                    <!--</RelativeLayout>-->
                     <com.bharatarmy.HgLVideoTrimmer
                         android:id="@+id/timeLine"
                         android:layout_width="match_parent"

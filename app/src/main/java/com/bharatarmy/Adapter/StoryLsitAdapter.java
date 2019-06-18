@@ -160,7 +160,7 @@ public class StoryLsitAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
              @Override
              public void onClick(View v) {
                  dataCheck=new ArrayList<>();
-                 dataCheck.add(detail.getCategoryId()+"|"+detail.getCategoryName());
+                 dataCheck.add(detail.getStrCategories()+"|"+detail.getBASubCategoryName());
                 image_click.image_more_click();
              }
          });

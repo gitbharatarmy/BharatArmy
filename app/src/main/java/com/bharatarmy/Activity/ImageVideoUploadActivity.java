@@ -40,6 +40,7 @@ import android.widget.MediaController;
 import android.widget.Toast;
 
 import com.bharatarmy.Adapter.SelectedImageVideoViewAdapter;
+import com.bharatarmy.HgLVideoTrimmer;
 import com.bharatarmy.Interfaces.image_click;
 import com.bharatarmy.Models.GalleryImageModel;
 import com.bharatarmy.Models.ImageDetailModel;
@@ -92,6 +93,7 @@ public class ImageVideoUploadActivity extends AppCompatActivity implements View.
     boolean paused = true;
     String path = "";
     int maxDuration = 10;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -109,97 +111,12 @@ public class ImageVideoUploadActivity extends AppCompatActivity implements View.
             activityImageVideoUploadBinding.selectedImageVideoLinear.setVisibility(View.VISIBLE);
             activityImageVideoUploadBinding.selectedVideoLinear.setVisibility(View.GONE);
 
-        } else if (imageorvideoStr.equalsIgnoreCase("video")) {
-            activityImageVideoUploadBinding.selectedImageVideoLinear.setVisibility(View.GONE);
-            activityImageVideoUploadBinding.selectedVideoLinear.setVisibility(View.VISIBLE);
-
-//            Uri videoUri = getIntent().getData();
-//            fullscreenVideoView.videoUrl(videoUri);
-//
-//
-//            activityImageVideoUploadBinding.videoView.setVideoURI(videoUri);
-////            activityImageVideoUploadBinding.videoView.start();
-//            activityImageVideoUploadBinding.videoView.seekTo(1);
-//
-//            activityImageVideoUploadBinding.playLinear.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    if(paused){
-////                        mPlayer = new MediaPlayer();
-//////                        mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-////                        mPlayer.setVideoScalingMode(android.media.MediaPlayer
-////                                .VIDEO_SCALING_MODE_SCALE_TO_FIT);
-////                        try {
-////                          mPlayer.
-////                        } catch (IllegalArgumentException e) {
-////                            Toast.makeText(getApplicationContext(), "You might not set the URI correctly!", Toast.LENGTH_LONG).show();
-////                        } catch (SecurityException e) {
-////                            Toast.makeText(getApplicationContext(), "You might not set the URI correctly!", Toast.LENGTH_LONG).show();
-////                        } catch (IllegalStateException e) {
-////                            Toast.makeText(getApplicationContext(), "You might not set the URI correctly!", Toast.LENGTH_LONG).show();
-////                        } catch (IOException e) {
-////                            e.printStackTrace();
-////                        }
-////                        try {
-////                            mPlayer.prepare();
-////                        } catch (IllegalStateException e) {
-////                            Toast.makeText(getApplicationContext(), "You might not set the URI correctly!", Toast.LENGTH_LONG).show();
-////                        } catch (IOException e) {
-////                            Toast.makeText(getApplicationContext(), "You might not set the URI correctly!", Toast.LENGTH_LONG).show();
-////                        }
-////                        mPlayer.start();
-//                        activityImageVideoUploadBinding.videoView.start();
-//                        paused = false;
-//                    }
-//                    else{
-//
-//                        activityImageVideoUploadBinding.videoView.pause();
-//                        paused = true;
-////                        if(mPlayer!=null && mPlayer.isPlaying()){
-////                            mPlayer.stop();
-////                            paused = true;
-////                        }
-//                    }
-//                }
-//            });
         }
+        activityImageVideoUploadBinding.backImg.setOnClickListener(this);
+        activityImageVideoUploadBinding.chooseFromGalleryLinear.setOnClickListener(this);
+        activityImageVideoUploadBinding.chooseFromCameraLinear.setOnClickListener(this);
+        activityImageVideoUploadBinding.submitLinear.setOnClickListener(this);
 
-
-//        if (extraIntent != null) {
-//            path = extraIntent.getStringExtra(ImageVideoUploadActivity.EXTRA_VIDEO_PATH);
-//            maxDuration = extraIntent.getIntExtra(ImageVideoUploadActivity.VIDEO_TOTAL_DURATION, 10);
-//        }
-
-//        if (mContext.getWindow().getDecorView().isShown()) {
-//
-//            //Show Your Progress Dialog
-//            //setting progressbar
-//            mProgressDialog = new ProgressDialog(this);
-//            mProgressDialog.setCancelable(false);
-//            mProgressDialog.setMessage(getString(R.string.trimming_progress));
-//        }
-
-
-        if (path != null) {
-            if (activityImageVideoUploadBinding.timeLine != null) {
-                /**
-                 * get total duration of video file
-                 */
-                Log.e("tg", "maxDuration = " + maxDuration);
-                //mVideoTrimmer.setMaxDuration(maxDuration);
-                activityImageVideoUploadBinding.timeLine.setMaxDuration(maxDuration);
-                activityImageVideoUploadBinding.timeLine.setOnTrimVideoListener(this);
-                activityImageVideoUploadBinding.timeLine.setOnHgLVideoListener(this);
-                //mVideoTrimmer.setDestinationPath("/storage/emulated/0/DCIM/CameraCustom/");
-                activityImageVideoUploadBinding.timeLine.setVideoURI(Uri.parse(path));
-                activityImageVideoUploadBinding.timeLine.setVideoInformationVisibility(true);
-            }
-
-            activityImageVideoUploadBinding.backImg.setOnClickListener(this);
-            activityImageVideoUploadBinding.chooseFromGalleryLinear.setOnClickListener(this);
-            activityImageVideoUploadBinding.chooseFromCameraLinear.setOnClickListener(this);
-            activityImageVideoUploadBinding.submitLinear.setOnClickListener(this);
-        }
     }
 
     @Override
@@ -217,7 +134,7 @@ public class ImageVideoUploadActivity extends AppCompatActivity implements View.
                                 if (report.areAllPermissionsGranted()) {
                                     if (imageorvideoStr.equalsIgnoreCase("image")) {
                                         launchCameraIntent();
-                                    }else{
+                                    } else {
                                         openVideoCapture();
                                     }
                                 }
@@ -266,7 +183,7 @@ public class ImageVideoUploadActivity extends AppCompatActivity implements View.
                                                         loadProfile();
                                                     }
                                                 });
-                                    }else{
+                                    } else {
                                         pickFromGallery();
                                     }
                                 }
@@ -346,38 +263,58 @@ public class ImageVideoUploadActivity extends AppCompatActivity implements View.
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
 
-            if (resultCode == Activity.RESULT_OK) {
-                if (requestCode == REQUEST_IMAGE) {
-                    uri = data.getParcelableExtra("path");
-                    Log.d("path", "" + uri);
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == REQUEST_IMAGE) {
+                uri = data.getParcelableExtra("path");
+                Log.d("path", "" + uri);
 
 
-                    File f = new File(uri.getPath());
-                    long findsize = f.length() / 1024;
-                    Log.d("findfilesize", "" + f.length() / 1024 + "kb" + " " + f.length() / (1024 * 1024));
-                    try {
-                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
-                    content.add(new GalleryImageModel(uri.toString(), size((int) findsize)));
-
-
-                    Log.d("FInalImageSize", "" + size((int) findsize));
-//                selectedurl.add(uri);
-//                loadProfile(selectedurl);
-                } else if (requestCode == REQUEST_VIDEO_TRIMMER) {
-                    final Uri selectedUri = data.getData();
-                    if (selectedUri != null) {
-                        path=FileUtils.getPath(this, uri);
-                        maxDuration=getMediaDuration(uri);
-
-                    }
+                File f = new File(uri.getPath());
+                long findsize = f.length() / 1024;
+                Log.d("findfilesize", "" + f.length() / 1024 + "kb" + " " + f.length() / (1024 * 1024));
+                try {
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
 
+                content.add(new GalleryImageModel(uri.toString(), size((int) findsize)));
+
+
+                Log.d("FInalImageSize", "" + size((int) findsize));
+//                selectedurl.add(uri);
+//                loadProfile(selectedurl);
+            } else if (requestCode == REQUEST_VIDEO_TRIMMER) {
+                final Uri selectedUri = data.getData();
+                if (selectedUri != null) {
+                    activityImageVideoUploadBinding.chooseLinear.setVisibility(View.GONE);
+                    activityImageVideoUploadBinding.bottomView.setVisibility(View.GONE);
+                    path = FileUtils.getPath(this, selectedUri);
+                    maxDuration = getMediaDuration(selectedUri);
+                    if (path != null) {
+                        activityImageVideoUploadBinding.selectedVideoLinear.setVisibility(View.VISIBLE);
+                        if (activityImageVideoUploadBinding.timeLine != null) {
+                            /**
+                             * get total duration of video file
+                             */
+                            Log.e("tg", "maxDuration = " + maxDuration);
+                            //mVideoTrimmer.setMaxDuration(maxDuration);
+                            activityImageVideoUploadBinding.timeLine.setMaxDuration(maxDuration);
+                            activityImageVideoUploadBinding.timeLine.setOnTrimVideoListener(this);
+                            activityImageVideoUploadBinding.timeLine.setOnHgLVideoListener(this);
+                            //mVideoTrimmer.setDestinationPath("/storage/emulated/0/DCIM/CameraCustom/");
+                            activityImageVideoUploadBinding.timeLine.setVideoURI(Uri.parse(path));
+                            activityImageVideoUploadBinding.timeLine.setVideoInformationVisibility(true);
+                        }
+                    }
+                }
+                else{
+                    activityImageVideoUploadBinding.chooseLinear.setVisibility(View.VISIBLE);
+                    activityImageVideoUploadBinding.bottomView.setVisibility(View.VISIBLE);
+                }
             }
-        else{
+
+        } else {
             Log.e("tg", "resultCode = " + resultCode + " data " + data);
         }
 
@@ -485,7 +422,9 @@ public class ImageVideoUploadActivity extends AppCompatActivity implements View.
 
     @Override
     public void onTrimStarted() {
-        mProgressDialog.show();
+//        mProgressDialog.show();
+
+//        Utils.showDialog(mContext);
     }
 
     @Override
@@ -503,11 +442,19 @@ public class ImageVideoUploadActivity extends AppCompatActivity implements View.
 
             String path = contentUri.getPath();
             File file = new File(path);
-            Log.e("tg", " path1 = " + path + " uri1 = " + Uri.fromFile(file));
-            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.fromFile(file));
-            intent.setDataAndType(Uri.fromFile(file), "video/*");
+            Uri uri;
+            if (Build.VERSION.SDK_INT < 24) {
+                uri = Uri.fromFile(file);
+            } else {
+                uri = Uri.parse(file.getPath()); // My work-around for new SDKs, causes ActivityNotFoundException in API 10.
+            }
+            Log.e("tg", "final_path1 = " + path + " uri1 = " + Uri.fromFile(file));
+
+          /*   this code for visible for trimming video in gallery
+            Intent intent = new Intent(Intent.ACTION_VIEW,uri );//Uri.fromFile(file)
+            intent.setDataAndType(uri, "video/*"); //Uri.fromFile(file)
             startActivity(intent);
-            finish();
+            finish();*/
 
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -516,7 +463,7 @@ public class ImageVideoUploadActivity extends AppCompatActivity implements View.
 
     @Override
     public void cancelAction() {
-        mProgressDialog.cancel();
+//        mProgressDialog.cancel();
         activityImageVideoUploadBinding.timeLine.destroy();
         finish();
     }
@@ -525,6 +472,7 @@ public class ImageVideoUploadActivity extends AppCompatActivity implements View.
     public void onError(String message) {
 //        mProgressDialog.cancel();
 
+//        Utils.dismissDialog();
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -568,18 +516,17 @@ public class ImageVideoUploadActivity extends AppCompatActivity implements View.
     }
 
 
-
     private void openVideoCapture() {
         Intent videoCapture = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
         startActivityForResult(videoCapture, REQUEST_VIDEO_TRIMMER);
     }
 
     private void pickFromGallery() {
-            Intent intent = new Intent();
-            intent.setTypeAndNormalize("video/*");
-            intent.setAction(Intent.ACTION_GET_CONTENT);
-            intent.addCategory(Intent.CATEGORY_OPENABLE);
-            startActivityForResult(Intent.createChooser(intent, getString(R.string.label_select_video)), REQUEST_VIDEO_TRIMMER);
+        Intent intent = new Intent();
+        intent.setTypeAndNormalize("video/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        startActivityForResult(Intent.createChooser(intent, getString(R.string.label_select_video)), REQUEST_VIDEO_TRIMMER);
     }
 
     private void startTrimActivity(@NonNull Uri uri) {
@@ -589,9 +536,9 @@ public class ImageVideoUploadActivity extends AppCompatActivity implements View.
         startActivity(intent);
     }
 
-    private int  getMediaDuration(Uri uriOfFile)  {
-        MediaPlayer mp = MediaPlayer.create(this,uriOfFile);
+    private int getMediaDuration(Uri uriOfFile) {
+        MediaPlayer mp = MediaPlayer.create(this, uriOfFile);
         int duration = mp.getDuration();
-        return  duration;
+        return duration;
     }
 }

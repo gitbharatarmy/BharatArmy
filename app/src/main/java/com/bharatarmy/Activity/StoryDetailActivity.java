@@ -7,6 +7,7 @@ import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.FragmentManager;
 
 import android.content.Context;
 import android.content.Intent;
@@ -20,6 +21,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.bharatarmy.Fragment.TravelFragment;
 import com.bharatarmy.Models.ImageMainModel;
@@ -31,6 +33,7 @@ import com.bharatarmy.TravelDesignModule.MultiSelectModel;
 import com.bharatarmy.Utility.ApiHandler;
 import com.bharatarmy.Utility.AppConfiguration;
 import com.bharatarmy.Utility.Utils;
+import com.bharatarmy.VideoModule.BottomCommentDialog;
 import com.bharatarmy.databinding.ActivityStoryDetailBinding;
 import com.bharatarmy.databinding.BottomSheetListBinding;
 import com.bumptech.glide.Glide;
@@ -86,9 +89,9 @@ public class StoryDetailActivity extends AppCompatActivity implements View.OnCli
         storyAuthor = getIntent().getStringExtra("StoryAuthor");
         storyHeaderImg = getIntent().getStringExtra("StoryHeaderImg");
         storyId = getIntent().getIntExtra("StoryId", 0);
-        storyAuthorId = getIntent().getIntExtra("StoryauthorId",0);
+        storyAuthorId = getIntent().getIntExtra("StoryauthorId", 0);
 
-        Log.d("StoryId", "" + storyId + "AuthorId :"+ storyAuthorId);
+        Log.d("StoryId", "" + storyId + "AuthorId :" + storyAuthorId);
 
         activityStoryDetailBinding.showStoryTitleTxt.setText(storyHeadingStr);
 
@@ -108,7 +111,8 @@ public class StoryDetailActivity extends AppCompatActivity implements View.OnCli
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         activityStoryDetailBinding.userImage.setOnClickListener(this);
-activityStoryDetailBinding.commentLinear.setOnClickListener(this);
+        activityStoryDetailBinding.commentLinear.setOnClickListener(this);
+        activityStoryDetailBinding.uprStoryComment.setOnClickListener(this);
 
         activityStoryDetailBinding.appbar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             boolean isShow = true;
@@ -131,12 +135,20 @@ activityStoryDetailBinding.commentLinear.setOnClickListener(this);
                     activityStoryDetailBinding.collapsingToolbar.setExpandedTitleGravity(Gravity.START);
                     activityStoryDetailBinding.userImage.setVisibility(View.GONE);
                     activityStoryDetailBinding.shareArticleLinear.setVisibility(View.VISIBLE);
+                    ViewGroup.LayoutParams params = activityStoryDetailBinding.toolbarBottomLeftView.getLayoutParams();
+                    params.width = ViewGroup.LayoutParams.MATCH_PARENT;
+                    activityStoryDetailBinding.toolbarBottomLeftView.setLayoutParams(params);
                     isShow = true;
                 } else if (isShow) {
                     activityStoryDetailBinding.toolbar.setBackgroundColor(ContextCompat.getColor(mContext, R.color.transparent));
                     activityStoryDetailBinding.collapsingToolbar.setTitle(" ");
                     activityStoryDetailBinding.userImage.setVisibility(View.VISIBLE);
                     activityStoryDetailBinding.shareArticleLinear.setVisibility(View.GONE);
+//                    ViewGroup.LayoutParams params = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0.85f);
+//                    activityStoryDetailBinding.toolbarBottomLeftView.setLayoutParams(params);
+                    ViewGroup.LayoutParams params = activityStoryDetailBinding.toolbarBottomLeftView.getLayoutParams();
+                    params.width = (int) 0.85f;
+                    activityStoryDetailBinding.toolbarBottomLeftView.setLayoutParams(params);
                     isShow = false;
                 }
 
@@ -186,12 +198,16 @@ activityStoryDetailBinding.commentLinear.setOnClickListener(this);
         switch (v.getId()) {
             case R.id.user_image:
                 Intent authorIntent = new Intent(mContext, StoryAuthorActivity.class);
-                authorIntent.putExtra("StoryauthorId",storyAuthorId);
+                authorIntent.putExtra("StoryauthorId", storyAuthorId);
                 mContext.startActivity(authorIntent);
                 break;
             case R.id.comment_linear:
-//                BottomSheetDialogFragment bottomSheetDialogFragment = new MyBottomSheetDialogFragment();
-//                bottomSheetDialogFragment.show(getSupportFragmentManager(), "Bottom Sheet Dialog Fragment");
+                Intent bottomcommentIntent = new Intent(mContext, CommentActivity.class);
+                startActivity(bottomcommentIntent);
+                break;
+            case R.id.upr_story_comment:
+                Intent uprcommentIntent = new Intent(mContext, CommentActivity.class);
+                startActivity(uprcommentIntent);
                 break;
         }
     }
@@ -273,9 +289,6 @@ activityStoryDetailBinding.commentLinear.setOnClickListener(this);
         View rootView;
         Context mContext;
 
-
-
-
         @Override
         public void onCreate(@Nullable Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
@@ -293,7 +306,6 @@ activityStoryDetailBinding.commentLinear.setOnClickListener(this);
 
             return rootView;
         }
-
 
 
     }

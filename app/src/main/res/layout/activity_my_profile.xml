@@ -15,7 +15,7 @@
         android:orientation="vertical">
         <androidx.appcompat.widget.Toolbar
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_60sdp"
+            android:layout_height="@dimen/_50sdp"
             android:background="@color/heading_bg"
             app:titleTextAppearance="@style/ToolbarTitle"
             android:minHeight="?attr/actionBarSize"
@@ -81,7 +81,6 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="5dp"
-            android:layout_alignParentBottom="true"
             android:background="@drawable/bg_gradiant_line" />
         <LinearLayout
             android:id="@+id/main_linear"

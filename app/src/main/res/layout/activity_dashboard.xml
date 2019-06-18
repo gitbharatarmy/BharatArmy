@@ -30,7 +30,25 @@
             app:headerLayout="@layout/nav_header_dashboard"
             app:menu="@menu/activity_dashboard_drawer"
             app:itemIconTint="@color/drawer_item"
-            app:itemTextColor="@color/drawer_item"/>
+            app:itemTextColor="@color/drawer_item">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/choose_linear"
+                android:layout_below="@+id/toolbar"
+                android:layout_marginBottom="-90dp">
+
+            <ImageView
+                android:layout_width="@dimen/_230sdp"
+                android:layout_height="@dimen/_230sdp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginLeft="-100dp"
+                android:alpha=".7"
+                android:src="@drawable/chakr_image" />
+            </RelativeLayout>
+        </com.google.android.material.navigation.NavigationView>
 
 
     </androidx.drawerlayout.widget.DrawerLayout>

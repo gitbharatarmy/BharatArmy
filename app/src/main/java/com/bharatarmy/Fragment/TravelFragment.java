@@ -96,7 +96,7 @@ public class TravelFragment extends Fragment {
         mContext = getActivity().getApplicationContext();
 
         fab = getActivity().findViewById(R.id.fab);
-        fab.show();
+        fab.hide();
         speedDial=getActivity().findViewById(R.id.speedDial);
         speedDial.setVisibility(View.GONE);
         content = new ArrayList<TravelModel>();
