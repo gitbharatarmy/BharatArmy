@@ -122,12 +122,12 @@ public class ImageFragment extends Fragment {
 
         rootView = fragmentImageBinding.getRoot();
         mContext = getActivity().getApplicationContext();
-        setUserVisibleHint(true);
+
             initSpeedDial(savedInstanceState == null);
         fab = getActivity().findViewById(R.id.fab);
         fab.setBackgroundResource(R.drawable.ic_share_arrow);
         fab.hide();
-
+        setUserVisibleHint(true);
         return rootView;
     }
 
@@ -206,19 +206,6 @@ public class ImageFragment extends Fragment {
                                     @Override
                                     public void onPermissionsChecked(MultiplePermissionsReport report) {
                                         if (report.areAllPermissionsGranted()) {
-//                                            Intent intent= new Intent(mContext, GalleryActivity.class);
-//                                            // Set the title
-//                                            intent.putExtra("title","Select media");
-//                                            // Mode 1 for both images and videos selection, 2 for images only and 3 for videos!
-//                                            intent.putExtra("mode",3);
-//                                            intent.putExtra("maxSelection",1); // Optional
-//                                            startActivityForResult(intent,OPEN_MEDIA_PICKER);
-
-//                                            Intent intent = new Intent();
-//                                            intent.setType("video/*");
-//                                            intent.setAction(Intent.ACTION_GET_CONTENT);
-//                                            startActivityForResult(Intent.createChooser(intent,"Select Video"),OPEN_MEDIA_PICKER);
-//
                                             imageorvideoStr="video";
                                             Intent imagevideouploadIntent1 = new Intent(mContext, ImageVideoUploadActivity.class);
                                             imagevideouploadIntent1.putExtra("image/video",imageorvideoStr);

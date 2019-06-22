@@ -9,8 +9,10 @@ import android.util.Log
 import android.view.View
 import android.view.Menu
 import android.view.MenuItem
+import android.view.MotionEvent
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.ScrollView
 import android.widget.TextView
 
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -78,6 +80,7 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, TravelFragm
     internal lateinit var filter_fab: FloatingActionButton
     internal lateinit var speedDial: SpeedDialView
     internal lateinit var overlay: SpeedDialOverlayLayout
+    internal  lateinit var main_page_scrollview:ScrollView
 
 
     //  flag to load home fragment when user presses back key
@@ -135,6 +138,8 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, TravelFragm
         proflie_linear=navHeader!!.findViewById<View>(R.id.proflie_linear)as LinearLayout
         user_name_txt = navHeader!!.findViewById<View>(R.id.textView) as TextView
 
+
+
         home1_linear = findViewById<View>(R.id.home1_linear) as LinearLayout
         home_linear = findViewById<View>(R.id.home_linear) as LinearLayout
         history_linear = findViewById<View>(R.id.history_linear) as LinearLayout
@@ -180,6 +185,10 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, TravelFragm
 
         speedDial.visibility=View.GONE
         overlay.visibility=View.GONE
+
+
+        main_page_scrollview=findViewById<View>(R.id.main_page_scrollview)as ScrollView
+
 
     }
 
@@ -345,6 +354,8 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, TravelFragm
         story_linear.setOnClickListener(this)
         ftp_linear.setOnClickListener(this)
         travel_linear.setOnClickListener(this)
+
+        main_page_scrollview.setOnTouchListener { v, event -> false }
     }
 
     fun showHide() {
@@ -471,7 +482,10 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, TravelFragm
                 }
                 R.id.nav_contactus -> {
                     navItemIndex = 4
+                    val contactusIntent = Intent(mContext, ContactusActivity::class.java)
+                    mContext.startActivity(contactusIntent)
                     drawer.closeDrawers()
+                    home1_linear.isClickable = true
                 }
                 R.id.nav_rateus -> {
                     navItemIndex = 5
@@ -559,6 +573,7 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, TravelFragm
             // rather than home
 
             overlay.visibility=View.GONE
+            speedDial.visibility=View.GONE
             if (navItemIndex != 0) {
                 fans_img.setColorFilter(ContextCompat.getColor(mContext,
                         R.color.unselected_view))

@@ -183,7 +183,6 @@ public class StoryDetailActivity extends AppCompatActivity implements View.OnCli
     }
 
     @Override
-
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
@@ -283,30 +282,4 @@ public class StoryDetailActivity extends AppCompatActivity implements View.OnCli
 
     }
 
-    public static class MyBottomSheetDialogFragment extends BottomSheetDialogFragment {
-        BottomSheetListBinding bottomSheetListBinding;
-
-        View rootView;
-        Context mContext;
-
-        @Override
-        public void onCreate(@Nullable Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, final ViewGroup container,
-                                 Bundle savedInstanceState) {
-
-            bottomSheetListBinding = DataBindingUtil.inflate(inflater, R.layout.comment_sheet_item, container, false);
-
-            rootView = bottomSheetListBinding.getRoot();
-            mContext = getActivity().getApplicationContext();
-
-
-            return rootView;
-        }
-
-
-    }
 }

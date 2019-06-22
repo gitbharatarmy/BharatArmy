@@ -1,22 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
+
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+
         tools:context=".Fragment.ImageFragment">
-        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            android:id="@+id/refreshView"
+
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/shimmer_view_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/_1sdp"
-            android:layout_marginRight="@dimen/_2sdp"
-            android:layout_marginBottom="@dimen/_20sdp">
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/video_rcyList"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+            android:orientation="vertical">
+
+            <include layout="@layout/video_dataholder_item" />
+        </com.facebook.shimmer.ShimmerFrameLayout>
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/refreshView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+            <!--android:layout_marginLeft="@dimen/_5sdp"-->
+            <!--android:layout_marginRight="@dimen/_5sdp"-->
+            <!--android:layout_marginTop="@dimen/_5sdp"-->
+        <androidx.recyclerview.widget.RecyclerView xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/video_rcvList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
     </LinearLayout>
 </layout>

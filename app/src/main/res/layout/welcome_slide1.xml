@@ -13,34 +13,34 @@
         android:orientation="vertical"
         android:visibility="visible">
 
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
-                <ImageView
-                    android:id="@+id/walkthrough_banner_img"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_470sdp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/become_member" />
-                <TextView
-                    android:id="@+id/heading_txt"
-                    style="@style/title_text_font"
-                    android:layout_width="@dimen/_130sdp"
-                    android:layout_height="@dimen/_30sdp"
-                    android:text="Bharat Army"
-                    android:textAllCaps="true"
-                    android:gravity="center"
-                    android:layout_marginRight="@dimen/_20sdp"
-                    android:layout_marginLeft="@dimen/_20sdp"
-                    android:layout_centerHorizontal="true"
-                    android:layout_alignParentBottom="true"
-                    android:textColor="@color/splash_bg_color"
-                    android:background="@drawable/linear_bg"
-                    android:textSize="@dimen/_11sdp"
-                    android:textStyle="normal" />
-            </RelativeLayout>
+            <ImageView
+                android:id="@+id/walkthrough_banner_img"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_470sdp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/become_member" />
+            <TextView
+                android:id="@+id/heading_txt"
+                style="@style/title_text_font"
+                android:layout_width="@dimen/_130sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:text="Bharat Army"
+                android:textAllCaps="true"
+                android:gravity="center"
+                android:layout_marginRight="@dimen/_20sdp"
+                android:layout_marginLeft="@dimen/_20sdp"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentBottom="true"
+                android:textColor="@color/splash_bg_color"
+                android:background="@drawable/linear_bg"
+                android:textSize="@dimen/_11sdp"
+                android:textStyle="normal" />
+        </RelativeLayout>
 
-        </LinearLayout>
+    </LinearLayout>
 
 </RelativeLayout>

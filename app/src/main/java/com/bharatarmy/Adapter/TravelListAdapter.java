@@ -74,14 +74,14 @@ public class TravelListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder holder, int position) {
         if (holder.getItemViewType() == ITEM) {
             TravelModel travelDetail = travelModelArrayList.get(position - 1);
-            ((ItemViewHolder) holder).match_type_txt.setText(travelDetail.getMatch_type());
-            ((ItemViewHolder) holder).travel_date_txt.setText(travelDetail.getMatch_date());
-            ((ItemViewHolder) holder).first_match_txt.setText(travelDetail.getMatch_first_Country());
-            ((ItemViewHolder) holder).second_match_txt.setText(travelDetail.getMatch_Second_country());
-            ((ItemViewHolder) holder).match_address_txt.setText(travelDetail.getMatch_location());
-
-            ((ItemViewHolder) holder).first_match_flag_img.setImageResource(travelDetail.getMatch_first_country_flag());
-            ((ItemViewHolder) holder).second_match_flag_img.setImageResource(travelDetail.getMatch_second_country_flag());
+//            ((ItemViewHolder) holder).match_type_txt.setText(travelDetail.getMatch_type());
+//            ((ItemViewHolder) holder).travel_date_txt.setText(travelDetail.getMatch_date());
+//            ((ItemViewHolder) holder).first_match_txt.setText(travelDetail.getMatch_first_Country());
+//            ((ItemViewHolder) holder).second_match_txt.setText(travelDetail.getMatch_Second_country());
+//            ((ItemViewHolder) holder).match_address_txt.setText(travelDetail.getMatch_location());
+//
+//            ((ItemViewHolder) holder).first_match_flag_img.setImageResource(travelDetail.getMatch_first_country_flag());
+//            ((ItemViewHolder) holder).second_match_flag_img.setImageResource(travelDetail.getMatch_second_country_flag());
 
             ((ItemViewHolder) holder).third_linear.setOnClickListener(new View.OnClickListener() {
                 @Override

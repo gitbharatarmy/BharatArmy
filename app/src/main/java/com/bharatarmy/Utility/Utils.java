@@ -343,7 +343,7 @@ public class Utils {
     public static void setImageInImageView(String imageUrl,ImageView view,Context mContext){
         Picasso.with(mContext)
                 .load(imageUrl)
-                .placeholder(R.drawable.progress_animation)
+                .placeholder(R.drawable.loader)
                 .into(view);
 
     }

@@ -73,6 +73,11 @@ public interface WebServices {
     void getBAGallery(@FieldMap Map<String, String> map, Callback<ImageMainModel> callback);
 
     @FormUrlEncoded
+    @POST("/BAVideoGallery")
+    void getBAVideoGallery(@FieldMap Map<String, String> map, Callback<ImageMainModel> callback);
+
+
+    @FormUrlEncoded
     @POST("/GetBAStories")
     void getBAStories(@FieldMap Map<String, String> map, Callback<ImageMainModel> callback);
 
@@ -83,4 +88,8 @@ public interface WebServices {
     @FormUrlEncoded
     @POST("/GetStoryDetail")
     void getStoryDetail(@FieldMap Map<String, String> map, Callback<ImageMainModel> callback);
+
+    @FormUrlEncoded
+    @POST("/GetFTPDetail")
+    void getFTPDetail(@FieldMap Map<String, String> map, Callback<ImageMainModel> callback);
 }

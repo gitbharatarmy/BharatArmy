@@ -20,9 +20,11 @@ import android.widget.ProgressBar;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.bharatarmy.Activity.VideoDetailActivity;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.Utils;
 import com.bumptech.glide.Glide;
+import com.universalvideoview.UniversalVideoView;
 
 import java.io.File;
 import java.io.IOException;
@@ -294,6 +296,7 @@ public class FullscreenVideoView extends FrameLayout {
     public void toggleFullscreen() {
         if (orientationHelper != null) {
             orientationHelper.toggleFullscreen();
+
         }
     }
 
@@ -313,4 +316,8 @@ public class FullscreenVideoView extends FrameLayout {
                     videoMediaPlayer.getVideoHeight());
         }
     }
+
+
+
+
 }

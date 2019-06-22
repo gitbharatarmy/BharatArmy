@@ -8,13 +8,16 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bharatarmy.Interfaces.image_click;
+import com.bharatarmy.Models.ImageDetailModel;
 import com.bharatarmy.R;
+import com.bharatarmy.Utility.Utils;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
@@ -25,12 +28,14 @@ public class VideoListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private final int VIEW_TYPE_ITEM = 0;
     private final int VIEW_TYPE_LOADING = 1;
 
-    public List<String> mItemList;
+
+    public List<ImageDetailModel> mItemList;
     Context mContext;
     image_click image_click;
     private ArrayList<String> dataCheck;
 
-    public VideoListAdapter(Context mContext, List<String> itemList, image_click image_click) {
+
+    public VideoListAdapter(Context mContext, List<ImageDetailModel> itemList, image_click image_click) {
         this.mContext = mContext;
         this.mItemList = itemList;
         this.image_click = image_click;
@@ -75,19 +80,18 @@ public class VideoListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         return mItemList.get(position) == null ? VIEW_TYPE_LOADING : VIEW_TYPE_ITEM;
     }
 
-
     private class ItemViewHolder extends RecyclerView.ViewHolder {
 
+        ImageView imageView;
+        TextView videoName, video_size_txt;
 
-        ImageView play_img,videoView;
-RelativeLayout videoLayout;
 
         public ItemViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            videoView = itemView.findViewById(R.id.video_img);
-            play_img = itemView.findViewById(R.id.play_img);
-            videoLayout=itemView.findViewById(R.id.video_layout);
+            imageView = itemView.findViewById(R.id.video_img);
+            videoName = itemView.findViewById(R.id.txtName);
+            video_size_txt = itemView.findViewById(R.id.video_size_txt);
 
         }
     }
@@ -107,23 +111,22 @@ RelativeLayout videoLayout;
 
     }
 
-    private void populateItemRows(final ItemViewHolder viewHolder, final int position) {
+    private void populateItemRows(ItemViewHolder viewHolder, final int position) {
 
-        final String item = mItemList.get(position);
-//        Glide.with(mContext)
-//                .load(item)
-//                .placeholder(R.drawable.progress_animation)
-//                .into(viewHolder.videoView);
+        final ImageDetailModel detail = mItemList.get(position);
 
-        viewHolder.videoLayout.setOnClickListener(new View.OnClickListener() {
+        Utils.setImageInImageView(detail.getVideoImageURL(), viewHolder.imageView, mContext);
+        viewHolder.videoName.setText(detail.getVideoName());
+        viewHolder.video_size_txt.setText(detail.getVideoLength());
+
+        viewHolder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dataCheck = new ArrayList<String>();
-                dataCheck.add(mItemList.get(position));
+                dataCheck.add(detail.getVideoFileURL()+"|"+detail.getVideoName());
                 image_click.image_more_click();
             }
         });
-
 
     }
 
@@ -131,5 +134,10 @@ RelativeLayout videoLayout;
         return dataCheck;
     }
 
+
+    public void addMoreDataToList(List<ImageDetailModel> result) {
+        mItemList.addAll(result);
+        notifyDataSetChanged();
+    }
 }
 

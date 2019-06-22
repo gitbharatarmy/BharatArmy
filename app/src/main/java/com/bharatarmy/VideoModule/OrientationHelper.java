@@ -34,7 +34,7 @@ public class OrientationHelper extends OrientationEventListener {
     private LandscapeOrientation landscapeOrientation = LandscapeOrientation.SENSOR;
     private PortraitOrientation portraitOrientation = PortraitOrientation.DEFAULT;
     private boolean shouldEnterPortrait;
-
+    private VideoFullViewCallback videoViewCallback;
     public OrientationHelper(Context context, FullscreenVideoView fullscreenVideoView) {
         super(context);
         videoView = fullscreenVideoView;
@@ -45,13 +45,16 @@ public class OrientationHelper extends OrientationEventListener {
         // Update isLandscape flag
         isLandscape = true;
 
+        if (videoViewCallback != null) {
+            videoViewCallback.onFullScaleChange();
+        }
         // Fullscreen active
         videoView.onOrientationChanged();
 
         // Change the screen orientation to SENSOR_LANDSCAPE
         setOrientation(landscapeOrientation.getValue());
 
-//        UiUtils.hideOtherViews(getParent());
+        UiUtils.hideOtherViews(getParent());
 
         // Save the video player original width and height
         originalWidth = videoView.getWidth();
@@ -120,6 +123,7 @@ public class OrientationHelper extends OrientationEventListener {
     private void toggleToolbarVisibility(boolean visible) {
         if (videoView.getContext() instanceof AppCompatActivity) {
             toggleSupportActionBarVisibility(visible);
+
         }
         if (videoView.getContext() instanceof Activity) {
             toggleActionBarVisibility(visible);
@@ -221,5 +225,16 @@ public class OrientationHelper extends OrientationEventListener {
 
     public boolean isLandscape() {
         return isLandscape;
+    }
+
+
+
+    public interface VideoFullViewCallback {
+        void onFullScaleChange();
+
+    }
+
+    public void setVideoViewCallback(VideoFullViewCallback callback) {
+        this.videoViewCallback = callback;
     }
 }

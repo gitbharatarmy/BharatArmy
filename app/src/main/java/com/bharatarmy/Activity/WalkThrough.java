@@ -29,6 +29,8 @@ import com.bharatarmy.Utility.Utils;
 import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -286,14 +288,13 @@ PrefManager prefManager;
 
             Glide.with(mContext)
                     .load(walkthroughDataList.get(position).getBannerImageURL())
-                    .placeholder(R.drawable.progress_animation)
+                    .placeholder(R.drawable.loader)
                     .centerCrop()
                     .into(banner_img);
 
 
 
             header_txt.setText(walkthroughDataList.get(position).getHeaderText());
-
 
             container.addView(view);
 

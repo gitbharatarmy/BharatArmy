@@ -47,7 +47,7 @@ public class VideoSurfaceView extends SurfaceView {
             lp.height = (int) (((float) videoHeight / videoWidth) * screenWidth);
         }
         // Change the gravity to center
-        lp.gravity = Gravity.CENTER;
+        lp.gravity = Gravity.TOP;
         // Commit the layout parameters
         setLayoutParams(lp);
     }

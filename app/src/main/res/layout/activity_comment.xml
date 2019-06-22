@@ -127,7 +127,7 @@
 
                         <EditText
                             android:id="@+id/comment_edt"
-                            style="@style/title_text_font"
+                            style="@style/text_font"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="0.85"

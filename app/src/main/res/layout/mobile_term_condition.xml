@@ -60,12 +60,17 @@
                     android:textStyle="bold" />
 
             </LinearLayout>
-
+            <View
+                android:id="@+id/top_gradiant_view"
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+             android:layout_below="@+id/toolbar_linear"
+                android:background="@drawable/bg_gradiant_line" />
             <com.bharatarmy.Utility.meghWebView
                 android:id="@+id/webView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_below="@+id/toolbar_linear"
+                android:layout_below="@+id/top_gradiant_view"
                 tools:ignore="WebViewLayout" />
 
             <ImageView

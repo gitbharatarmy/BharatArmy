@@ -3,14 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#CC000000"
+    android:background="@color/transparent"
     android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/_20sdp"
         android:orientation="horizontal"
-        android:paddingTop="6dp">
+        android:paddingTop="@dimen/_3sdp">
 
         <ImageButton
             android:id="@+id/start_pause_media_button"
@@ -58,7 +58,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:paddingEnd="4dp"
-            android:paddingStart="8dp"
+            android:paddingStart="4dp"
             android:paddingTop="4dp"
             android:paddingBottom="4dp"
             android:textColor="@color/white"
@@ -95,7 +95,7 @@
             android:contentDescription="@string/cd_fullscreen_media_button"
             android:paddingBottom="4dp"
             android:paddingEnd="8dp"
-            android:paddingStart="5dp"
+            android:paddingStart="1dp"
             android:paddingTop="4dp" />
     </LinearLayout>
 </LinearLayout>

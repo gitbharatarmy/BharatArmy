@@ -14,12 +14,11 @@
         android:id="@+id/parentContsraint"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
+        <!--android:background="@drawable/curve_shape"-->
         <ImageView
             android:id="@+id/imgSource"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:background="@drawable/curve_shape"
             android:scaleType="centerCrop"
             android:src="@drawable/ajif"
             app:layout_constraintDimensionRatio="1:1"

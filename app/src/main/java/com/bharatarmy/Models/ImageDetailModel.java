@@ -723,5 +723,108 @@ public class ImageDetailModel implements Serializable {
     }
 
 
+//    Video Gallery
+    @SerializedName("BAVideoGalleryId")
+    @Expose
+    private Integer bAVideoGalleryId;
+    @SerializedName("VideoName")
+    @Expose
+    private String videoName;
+    @SerializedName("VideoImage")
+    @Expose
+    private String videoImage;
+    @SerializedName("VideoImageURL")
+    @Expose
+    private String videoImageURL;
+    @SerializedName("VideoFile")
+    @Expose
+    private String videoFile;
+    @SerializedName("VideoFileURL")
+    @Expose
+    private String videoFileURL;
+    @SerializedName("VideoLength")
+    @Expose
+    private String videoLength;
+
+    public Integer getBAVideoGalleryId() {
+        return bAVideoGalleryId;
+    }
+
+    public void setBAVideoGalleryId(Integer bAVideoGalleryId) {
+        this.bAVideoGalleryId = bAVideoGalleryId;
+    }
+
+    public String getVideoName() {
+        return videoName;
+    }
+
+    public void setVideoName(String videoName) {
+        this.videoName = videoName;
+    }
+
+    public String getVideoImage() {
+        return videoImage;
+    }
+
+    public void setVideoImage(String videoImage) {
+        this.videoImage = videoImage;
+    }
+
+    public String getVideoImageURL() {
+        return videoImageURL;
+    }
+
+    public void setVideoImageURL(String videoImageURL) {
+        this.videoImageURL = videoImageURL;
+    }
+
+    public String getVideoFile() {
+        return videoFile;
+    }
+
+    public void setVideoFile(String videoFile) {
+        this.videoFile = videoFile;
+    }
+
+    public String getVideoFileURL() {
+        return videoFileURL;
+    }
+
+    public void setVideoFileURL(String videoFileURL) {
+        this.videoFileURL = videoFileURL;
+    }
+
+    public String getVideoLength() {
+        return videoLength;
+    }
+
+    public void setVideoLength(String videoLength) {
+        this.videoLength = videoLength;
+    }
+
+
+    //FTP Detail
+    @SerializedName("FTPId")
+    @Expose
+    private Integer fTPId;
+    @SerializedName("Description")
+    @Expose
+    private String description;
+
+    public Integer getFTPId() {
+        return fTPId;
+    }
+
+    public void setFTPId(Integer fTPId) {
+        this.fTPId = fTPId;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
 }

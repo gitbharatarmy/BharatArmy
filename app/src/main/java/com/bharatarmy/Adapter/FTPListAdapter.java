@@ -86,7 +86,7 @@ public class FTPListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         public TextView header_txt, army_upcoming_header_txt, army_upcoming_sub_txt,
                 date_txt, location_txt, army_upcoming_pra_txt, linear1_txt, linear2_txt, linear3_txt;
         ImageView banner_img, header_img, date_img, location_img;
-        LinearLayout lable_linear;
+        LinearLayout lable_linear,ftp_main_linear;
 
 
         public ItemViewHolder(@NonNull View itemView) {
@@ -108,7 +108,7 @@ public class FTPListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             location_img = (ImageView) itemView.findViewById(R.id.location_img);
 
             lable_linear = (LinearLayout) itemView.findViewById(R.id.lable_linear);
-
+            ftp_main_linear=(LinearLayout)itemView.findViewById(R.id.ftp_main_linear);
 
         }
     }
@@ -137,7 +137,7 @@ public class FTPListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         viewHolder.location_txt.setText(detail.getTourLocation());
         viewHolder.army_upcoming_pra_txt.setText(detail.getTourShortDescription());
 
-        viewHolder.army_upcoming_header_txt.setOnClickListener(new View.OnClickListener() {
+        viewHolder.ftp_main_linear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent ftpIntent =new Intent(mContext, FTPDetailsActivity.class);
@@ -146,6 +146,10 @@ public class FTPListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 ftpIntent.putExtra("ftpshortdesc",detail.getTourShortDescription());
                 ftpIntent.putExtra("ftptourdesc",detail.getTourDescription());
                 ftpIntent.putExtra("ftpbannerimg",detail.getFutureTourThumbImageURL());
+                ftpIntent.putExtra("str1",detail.getStr1());
+                ftpIntent.putExtra("str2",detail.getStr2());
+                ftpIntent.putExtra("str3",detail.getStr3());
+                ftpIntent.putExtra("ftpId",detail.getFutureTourId());
                 mContext.startActivity(ftpIntent);
             }
         });

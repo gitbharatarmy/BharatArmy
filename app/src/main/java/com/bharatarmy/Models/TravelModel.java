@@ -1,87 +1,77 @@
 package com.bharatarmy.Models;
 
 public class TravelModel {
-    public String match_type;
-    public String match_date;
-    public String match_first_Country;
-    public String match_Second_country;
-    public int match_first_country_flag;
-    public int match_second_country_flag;
-    public String match_location;
-    public int match_map;
+    String match_image;
+    String match_title;
+    String match_shortDesc;
 
-        public TravelModel(String match_type, String match_date, String match_first_Country, String match_Second_country, int match_first_country_flag, int match_second_country_flag, String match_location,int match_map) {
-            this.match_type = match_type;
-            this.match_date = match_date;
-            this.match_first_Country = match_first_Country;
-            this.match_Second_country = match_Second_country;
-            this.match_first_country_flag = match_first_country_flag;
-            this.match_second_country_flag = match_second_country_flag;
-            this.match_location = match_location;
-            this.match_map=match_map;
-        }
+    int popularcity_image;
+    String popularcity_name;
 
-    public String getMatch_type() {
-        return match_type;
+    String popularcity_image_count;
+
+    public  TravelModel(String match_image,String match_title,String match_shortDesc){
+        this.match_image=match_image;
+        this.match_title=match_title;
+        this.match_shortDesc=match_shortDesc;
     }
 
-    public void setMatch_type(String match_type) {
-        this.match_type = match_type;
+
+    public String getMatch_image() {
+        return match_image;
     }
 
-    public String getMatch_date() {
-        return match_date;
+    public void setMatch_image(String match_image) {
+        this.match_image = match_image;
     }
 
-    public void setMatch_date(String match_date) {
-        this.match_date = match_date;
+    public String getMatch_title() {
+        return match_title;
     }
 
-    public String getMatch_first_Country() {
-        return match_first_Country;
+    public void setMatch_title(String match_title) {
+        this.match_title = match_title;
     }
 
-    public void setMatch_first_Country(String match_first_Country) {
-        this.match_first_Country = match_first_Country;
+    public String getMatch_shortDesc() {
+        return match_shortDesc;
     }
 
-    public String getMatch_Second_country() {
-        return match_Second_country;
+    public void setMatch_shortDesc(String match_shortDesc) {
+        this.match_shortDesc = match_shortDesc;
     }
 
-    public void setMatch_Second_country(String match_Second_country) {
-        this.match_Second_country = match_Second_country;
+
+
+
+    public TravelModel(int popularcity_image,String popularcity_name,String popularcity_image_count){
+        this.popularcity_image=popularcity_image;
+        this.popularcity_name=popularcity_name;
+        this.popularcity_image_count=popularcity_image_count;
     }
 
-    public int getMatch_first_country_flag() {
-        return match_first_country_flag;
+
+    public int getPopularcity_image() {
+        return popularcity_image;
     }
 
-    public void setMatch_first_country_flag(int match_first_country_flag) {
-        this.match_first_country_flag = match_first_country_flag;
+    public void setPopularcity_image(int popularcity_image) {
+        this.popularcity_image = popularcity_image;
     }
 
-    public int getMatch_second_country_flag() {
-        return match_second_country_flag;
+    public String getPopularcity_name() {
+        return popularcity_name;
     }
 
-    public void setMatch_second_country_flag(int match_second_country_flag) {
-        this.match_second_country_flag = match_second_country_flag;
+    public void setPopularcity_name(String popularcity_name) {
+        this.popularcity_name = popularcity_name;
     }
 
-    public String getMatch_location() {
-        return match_location;
+    public String getPopularcity_image_count() {
+        return popularcity_image_count;
     }
 
-    public void setMatch_location(String match_location) {
-        this.match_location = match_location;
-    }
-
-    public int getMatch_map() {
-        return match_map;
-    }
-
-    public void setMatch_map(int match_map) {
-        this.match_map = match_map;
+    public void setPopularcity_image_count(String popularcity_image_count) {
+        this.popularcity_image_count = popularcity_image_count;
     }
 }
