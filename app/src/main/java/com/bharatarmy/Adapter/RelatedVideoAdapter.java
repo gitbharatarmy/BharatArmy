@@ -1,6 +1,5 @@
 package com.bharatarmy.Adapter;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -10,25 +9,153 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bharatarmy.Activity.MoreStoryActivity;
-import com.bharatarmy.Interfaces.MorestoryClick;
+import com.bharatarmy.Activity.CommentActivity;
 import com.bharatarmy.Interfaces.image_click;
 import com.bharatarmy.Models.ImageDetailModel;
-import com.bharatarmy.Models.StoryDashboardData;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.Utils;
-import com.squareup.picasso.Picasso;
-
+import com.like.LikeButton;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RelatedVideoAdapter extends RecyclerView.Adapter<RelatedVideoAdapter.MyViewHolder> {
+public class RelatedVideoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+
+    private static final int HEADER = 0;
+    private static final int ITEM = 1;
+
+    Context mContext;
+    List<ImageDetailModel> relatedVideoList;
+    image_click morestoryClick;
+    private ArrayList<String> dataCheck;
+    String videoName;
+
+    public RelatedVideoAdapter(Context mContext, List<ImageDetailModel> relatedVideoList, String videoNameStr, image_click morestoryClick) {
+        this.mContext = mContext;
+        this.relatedVideoList = relatedVideoList;
+        this.morestoryClick = morestoryClick;
+        this.videoName=videoNameStr;
+    }
+
+
+    @Override
+    public int getItemViewType(int position) {
+        return position == 0 ? HEADER : ITEM;
+    }
+
+    @Override
+    public int getItemCount() {
+        return relatedVideoList.size() + 1;
+    }
+
+    @NonNull
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View v;
+        LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
+        switch (viewType) {
+            case HEADER:
+                v = layoutInflater.inflate(R.layout.related_video_header, parent, false);
+                return new HeaderViewHolder(v);
+            default:
+                v = layoutInflater.inflate(R.layout.related_video_adapter_item, parent, false);
+                return new ItemViewHolder(v);
+        }
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder holder, int position) {
+        if (holder.getItemViewType() == ITEM) {
+            final ImageDetailModel relatedVideoDetail = relatedVideoList.get(position - 1);
+
+
+            Utils.setImageInImageView(relatedVideoDetail.getVideoImageURL(), ((ItemViewHolder) holder).related_video_img, mContext);
+
+            ((ItemViewHolder) holder).video_size_txt.setText(relatedVideoDetail.getVideoLength());
+            ((ItemViewHolder) holder).show_video_title_txt.setText(relatedVideoDetail.getVideoName());
+
+
+            ((ItemViewHolder) holder).related_video_img.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dataCheck = new ArrayList<String>();
+                    dataCheck.add(relatedVideoDetail.getVideoFileURL() + "|" + relatedVideoDetail.getVideoName());
+                    morestoryClick.image_more_click();
+                }
+            });
+
+        } else if (holder.getItemViewType() == HEADER) {
+            ((HeaderViewHolder) holder).show_video_Main_title_txt.setText(videoName);
+            ((HeaderViewHolder) holder).video_comment.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent videoIntent=new Intent(mContext, CommentActivity.class);
+                    mContext.startActivity(videoIntent);
+                }
+            });
+        }
+    }
+
+
+    static class HeaderViewHolder extends RecyclerView.ViewHolder {
+        TextView show_video_Main_title_txt, total_like_txt, total_comment_txt, total_video_view_txt;
+        LikeButton video_like_btn;
+        LinearLayout video_comment;
+
+        HeaderViewHolder(View itemView) {
+            super(itemView);
+            show_video_Main_title_txt = (TextView) itemView.findViewById(R.id.show_video_Main_title_txt);
+
+
+            total_like_txt = (TextView) itemView.findViewById(R.id.total_like_txt);
+            video_like_btn = (LikeButton) itemView.findViewById(R.id.video_like_btn);
+
+            video_comment = (LinearLayout) itemView.findViewById(R.id.video_comment);
+            total_comment_txt = (TextView) itemView.findViewById(R.id.total_comment_txt);
+
+            total_video_view_txt = (TextView) itemView.findViewById(R.id.total_video_view_txt);
+
+        }
+    }
+
+    static class ItemViewHolder extends RecyclerView.ViewHolder {
+
+        ImageView related_video_img;
+        TextView video_size_txt, show_video_title_txt;
+        LinearLayout ba_recommended_linear;
+
+
+        ItemViewHolder(View itemView) {
+            super(itemView);
+            related_video_img = (ImageView) itemView.findViewById(R.id.related_video_img);
+            video_size_txt = (TextView) itemView.findViewById(R.id.video_size_txt);
+            show_video_title_txt = (TextView) itemView.findViewById(R.id.show_video_title_txt);
+            ba_recommended_linear = (LinearLayout) itemView.findViewById(R.id.ba_recommended_linear);
+        }
+
+    }
+
+    public ArrayList<String> getData() {
+        return dataCheck;
+    }
+}
+
+
+
+
+
+
+/*RecyclerView.Adapter<RelatedVideoAdapter.MyViewHolder> {
     Context mcontext;
     List<ImageDetailModel> relatedVideoList;
     image_click morestoryClick;
     private ArrayList<String> dataCheck;
+
+    private final int VIEW_TYPE_HEADER = 0;
+    private final int VIEW_TYPE_ITEM = 1;
+
 
     public RelatedVideoAdapter(Context mContext, List<ImageDetailModel> relatedVideoList, image_click morestoryClick) {
         this.mcontext = mContext;
@@ -65,11 +192,11 @@ public class RelatedVideoAdapter extends RecyclerView.Adapter<RelatedVideoAdapte
 
         final ImageDetailModel relatedVideoDetail = relatedVideoList.get(position);
 
-        if (relatedVideoList.get(position).equals(0)) {
-            holder.ba_recommended_linear.setVisibility(View.VISIBLE);
-        }else{
-            holder.ba_recommended_linear.setVisibility(View.GONE);
-        }
+     if (relatedVideoDetail.getbARelated().equalsIgnoreCase("true")){
+         holder.ba_recommended_linear.setVisibility(View.VISIBLE);
+     }else{
+         holder.ba_recommended_linear.setVisibility(View.GONE);
+     }
 
         Utils.setImageInImageView(relatedVideoDetail.getVideoImageURL(), holder.related_video_img, mcontext);
 
@@ -109,6 +236,6 @@ public class RelatedVideoAdapter extends RecyclerView.Adapter<RelatedVideoAdapte
     public ArrayList<String> getData() {
         return dataCheck;
     }
-}
+}*/
 
 

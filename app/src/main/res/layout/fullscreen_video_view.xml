@@ -2,12 +2,12 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/transparent">
+    android:background="@color/black_dialog">
 
     <com.bharatarmy.VideoModule.VideoSurfaceView
         android:id="@+id/surface_view"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_200sdp"
+        android:layout_height="match_parent"
         android:background="@color/transparent"/>
     <View
         android:id="@+id/toolbar_bottom_left_view"

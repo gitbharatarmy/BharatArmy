@@ -91,7 +91,8 @@
             android:configChanges="orientation|screenSize|keyboardHidden" />
         <activity
             android:name=".Activity.VideoDetailActivity"
-            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:configChanges="orientation|screenSize"
+            android:resizeableActivity="true"
             android:supportsPictureInPicture="true"
             android:theme="@style/AppTheme" />
         <activity

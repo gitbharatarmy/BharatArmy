@@ -3,6 +3,7 @@ package com.bharatarmy.VideoModule;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Color;
+import android.graphics.PixelFormat;
 import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -28,7 +29,6 @@ import com.universalvideoview.UniversalVideoView;
 
 import java.io.File;
 import java.io.IOException;
-
 
 
 public class FullscreenVideoView extends FrameLayout {
@@ -126,7 +126,7 @@ public class FullscreenVideoView extends FrameLayout {
         layoutInflater.inflate(R.layout.fullscreen_video_view, this, true);
         surfaceView = findViewById(R.id.surface_view);
         progressBar = findViewById(R.id.progress_bar);
-        imageProgressBar=findViewById(R.id.image);
+        imageProgressBar = findViewById(R.id.image);
         controller = findViewById(R.id.video_controller);
     }
 
@@ -201,7 +201,7 @@ public class FullscreenVideoView extends FrameLayout {
 
         if (surfaceHolder != null) {
             surfaceHolder.removeCallback(surfaceHolderCallback);
-            surfaceHolder.getSurface().release();
+            surfaceHolder.getSurface().release(); //release
         }
 
         if (surfaceView != null) {
@@ -215,7 +215,7 @@ public class FullscreenVideoView extends FrameLayout {
         surfaceHolder = null;
         surfaceView = null;
         progressBar = null;
-        imageProgressBar=null;
+        imageProgressBar = null;
 
         setOnKeyListener(null);
         setOnTouchListener(null);
@@ -236,7 +236,9 @@ public class FullscreenVideoView extends FrameLayout {
                 } else {
                     videoMediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
                 }
-
+                surfaceView.getHolder().setFormat(PixelFormat.TRANSPARENT);
+                surfaceView.getHolder().setFormat(PixelFormat.OPAQUE);
+                videoMediaPlayer.reset();
                 videoMediaPlayer.setDataSource(videoPath);
                 videoMediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                     @Override
@@ -316,8 +318,6 @@ public class FullscreenVideoView extends FrameLayout {
                     videoMediaPlayer.getVideoHeight());
         }
     }
-
-
 
 
 }

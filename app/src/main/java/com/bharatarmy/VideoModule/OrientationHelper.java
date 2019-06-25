@@ -5,6 +5,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.provider.Settings;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Display;
 import android.view.OrientationEventListener;
 import android.view.View;
@@ -54,11 +55,12 @@ public class OrientationHelper extends OrientationEventListener {
         // Change the screen orientation to SENSOR_LANDSCAPE
         setOrientation(landscapeOrientation.getValue());
 
-        UiUtils.hideOtherViews(getParent());
+//        UiUtils.hideOtherViews(getParent());
 
         // Save the video player original width and height
         originalWidth = videoView.getWidth();
         originalHeight = videoView.getHeight();
+        Log.d("height ,width","originalHeight :"+originalHeight+"originalWidth :"+originalWidth);
         updateLayoutParams();
 
         // Hide the supportToolbar
@@ -78,8 +80,8 @@ public class OrientationHelper extends OrientationEventListener {
         Display display = windowManager.getDefaultDisplay();
         DisplayMetrics realMetrics = new DisplayMetrics();
         display.getRealMetrics(realMetrics);
-        params.width = realMetrics.widthPixels;
-        params.height = realMetrics.heightPixels;
+        params.width =params.MATCH_PARENT;
+        params.height = params.MATCH_PARENT;
         videoView.setLayoutParams(params);
     }
 
@@ -96,6 +98,7 @@ public class OrientationHelper extends OrientationEventListener {
         UiUtils.showOtherViews(getParent());
 
         ViewGroup.LayoutParams params = videoView.getLayoutParams();
+        Log.d("height ,width","originalHeight :"+originalHeight+"originalWidth :"+originalWidth);
         params.width = originalWidth;
         params.height = originalHeight;
         videoView.setLayoutParams(params);

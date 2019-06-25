@@ -117,6 +117,7 @@ public class VideoFragment extends Fragment {
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser && rootView != null) {
             // Refresh your fragment here
+
             if (videoListAdapter == null) {
                 fragmentVideoBinding.shimmerViewContainer.startShimmerAnimation();
 
@@ -264,7 +265,7 @@ public class VideoFragment extends Fragment {
 
     private void loadMore() {
 
-        callVideoGalleryData();
+//        callVideoGalleryData();
 
 
     }

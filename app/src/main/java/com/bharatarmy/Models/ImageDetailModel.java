@@ -745,6 +745,9 @@ public class ImageDetailModel implements Serializable {
     @SerializedName("VideoLength")
     @Expose
     private String videoLength;
+    @SerializedName("BARelated")
+    @Expose
+    private String bARelated;
 
     public Integer getBAVideoGalleryId() {
         return bAVideoGalleryId;
@@ -802,6 +805,13 @@ public class ImageDetailModel implements Serializable {
         this.videoLength = videoLength;
     }
 
+    public String getbARelated() {
+        return bARelated;
+    }
+
+    public void setbARelated(String bARelated) {
+        this.bARelated = bARelated;
+    }
 
     //FTP Detail
     @SerializedName("FTPId")
