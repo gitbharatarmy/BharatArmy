@@ -24,6 +24,9 @@ public class ImageDetailModel implements Serializable {
     @SerializedName("Width")
     @Expose
     private Integer width;
+    @SerializedName("IsBARecommanded")
+    @Expose
+    private Integer isBARecommanded;
 
     public Integer getBAGalleryId() {
         return bAGalleryId;
@@ -71,6 +74,14 @@ public class ImageDetailModel implements Serializable {
 
     public void setWidth(Integer width) {
         this.width = width;
+    }
+
+    public Integer getIsBARecommanded() {
+        return isBARecommanded;
+    }
+
+    public void setIsBARecommanded(Integer isBARecommanded) {
+        this.isBARecommanded = isBARecommanded;
     }
 
     //Story Detail Model

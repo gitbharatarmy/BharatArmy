@@ -13,6 +13,7 @@ import android.util.Rational;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -35,8 +36,7 @@ import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.VideoModule.FullscreenVideoView;
 import com.bharatarmy.VideoModule.OrientationHelper;
 import com.cooltechworks.views.shimmer.ShimmerRecyclerView;
-import com.universalvideoview.UniversalMediaController;
-import com.universalvideoview.UniversalVideoView;
+
 
 import java.util.HashMap;
 import java.util.List;
@@ -47,7 +47,7 @@ import retrofit.client.Response;
 
 
 //    change code and design 21/06/2019
-public class VideoDetailActivity extends AppCompatActivity implements View.OnClickListener, UniversalVideoView.VideoViewCallback, OrientationHelper.VideoFullViewCallback {
+public class VideoDetailActivity extends AppCompatActivity implements View.OnClickListener {
     // ActivityVideoDetailBinding videoDetailBinding;
     Context mContext;
     String videoUrlStr, videoNameStr, whereToComeStr, theWord;
@@ -61,19 +61,9 @@ public class VideoDetailActivity extends AppCompatActivity implements View.OnCli
     List<ImageDetailModel> videoDetailModelsList;
     String imageClickData;
 
-//    private final PictureInPictureParams.Builder pictureInPictureParamsBuilder =
-//            new PictureInPictureParams.Builder();
-
-    //Univarsal
-    private int mSeekPosition;
-    private int cachedHeight;
-    private boolean isFullscreen;
 
     View mBottomLayout;
-    View mVideoLayout;
 
-    UniversalVideoView mVideoView;
-    UniversalMediaController mMediaController;
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,20 +86,13 @@ public class VideoDetailActivity extends AppCompatActivity implements View.OnCli
         related_video_rcyList = (ShimmerRecyclerView) findViewById(R.id.related_video_rcyList);
         related_video_rcyList.showShimmerAdapter();
         picturemode_linear = (LinearLayout) findViewById(R.id.picturemode_linear);
-
-
-//        mVideoLayout = findViewById(R.id.video_play_layout);
         mBottomLayout = findViewById(R.id.bottom_layout);
-//        mVideoView = (UniversalVideoView) findViewById(R.id.videoView);
-//        mMediaController = (UniversalMediaController) findViewById(R.id.media_controller);
-//        mVideoView.setMediaController(mMediaController);
-//        setVideoAreaSize();
-//        mVideoView.setVideoViewCallback(this);
-//
-//        if (mSeekPosition > 0) {
-//            mVideoView.seekTo(mSeekPosition);
-//        }
-//        mVideoView.start();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            picturemode_linear.setVisibility(View.VISIBLE);
+        }else{
+            picturemode_linear.setVisibility(View.GONE);
+        }
     }
 
     public void setDataValue() {
@@ -126,13 +109,6 @@ public class VideoDetailActivity extends AppCompatActivity implements View.OnCli
     public void setListiner() {
         backImg.setOnClickListener(this);
         picturemode_linear.setOnClickListener(this);
-
-//        mVideoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-//            @Override
-//            public void onCompletion(MediaPlayer mp) {
-//                Log.d("VideoDetailActivity", "onCompletion ");
-//            }
-//        });
     }
 
     @Override
@@ -142,25 +118,27 @@ public class VideoDetailActivity extends AppCompatActivity implements View.OnCli
                 VideoDetailActivity.this.finish();
                 break;
             case R.id.picturemode_linear:
-//                pictureInPictureMode();
+                pictureInPictureMode();
                 break;
         }
     }
 
-//    private void pictureInPictureMode() {
-//        Rational aspectRatio = new Rational(fullscreenVideoView.getWidth(), fullscreenVideoView.getHeight());
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//            pictureInPictureParamsBuilder.setAspectRatio(aspectRatio).build();
-//            enterPictureInPictureMode(pictureInPictureParamsBuilder.build());
-//        }
-//
-//    }
-//
+    private void pictureInPictureMode() {
+        Rational aspectRatio = new Rational(fullscreenVideoView.getWidth(), fullscreenVideoView.getHeight());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            PictureInPictureParams.Builder pictureInPictureParamsBuilder =
+                    new PictureInPictureParams.Builder();
+            pictureInPictureParamsBuilder.setAspectRatio(aspectRatio).build();
+            enterPictureInPictureMode(pictureInPictureParamsBuilder.build());
+        }
+
+    }
+
 //    @Override
 //    public void onUserLeaveHint() {
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
 //            if (!isInPictureInPictureMode()) {
-//                Rational aspectRatio = new Rational(fullscreenVideoView.getWidth(), fullscreenVideoView.getHeight());
+//                Rational aspectRatio = new Rational(fullscreenVideoView.getWidth(),fullscreenVideoView.getHeight());
 //                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 //                    pictureInPictureParamsBuilder.setAspectRatio(aspectRatio).build();
 //                    enterPictureInPictureMode(pictureInPictureParamsBuilder.build());
@@ -172,109 +150,7 @@ public class VideoDetailActivity extends AppCompatActivity implements View.OnCli
 
     @Override
     public void onBackPressed() {
-        if (this.isFullscreen) {
-//            videoDetailBinding.videoView.setFullscreen(false);
-        } else {
             super.onBackPressed();
-        }
-    }
-
-    private void setVideoAreaSize() {
-    mVideoLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                int width = mVideoLayout.getWidth();
-                cachedHeight = (int) (width * 405f / 720f);
-//                cachedHeight = (int) (width * 3f / 4f);
-//                cachedHeight = (int) (width * 9f / 16f);
-                ViewGroup.LayoutParams videoLayoutParams = mVideoLayout.getLayoutParams();
-                videoLayoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
-                videoLayoutParams.height = cachedHeight;
-                mVideoLayout.setLayoutParams(videoLayoutParams);
-                mVideoView.setVideoPath(videoUrlStr);
-                mVideoView.requestFocus();
-            }
-        });
-    }
-
-//    @Override
-//    protected void onSaveInstanceState(Bundle outState) {
-//        super.onSaveInstanceState(outState);
-////        Log.d("saveVideo", "onSaveInstanceState Position=" + videoDetailBinding.videoView.getCurrentPosition());
-//        outState.putInt(SEEK_POSITION_KEY, mSeekPosition);
-//
-//        outState.putString("videoName",videoNameStr);
-////        outState.putParcelable("data",videoDetailModelsList);
-//    }
-//
-//    @Override
-//    protected void onRestoreInstanceState(Bundle outState) {
-//        super.onRestoreInstanceState(outState);
-//        mSeekPosition = outState.getInt(SEEK_POSITION_KEY);
-//        Log.d("restoreVideo", "onRestoreInstanceState Position=" + mSeekPosition);
-//        videoNameStr = outState.getString("videoName");
-//    }
-
-    @Override
-    public void onScaleChange(boolean isFullscreen) {
-        this.isFullscreen = isFullscreen;
-        if (isFullscreen) {
-            ViewGroup.LayoutParams layoutParams = mVideoLayout.getLayoutParams();
-            layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
-            layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT;
-            mVideoLayout.setLayoutParams(layoutParams);
-            mBottomLayout.setVisibility(View.GONE);
-
-        } else {
-            ViewGroup.LayoutParams layoutParams = mVideoLayout.getLayoutParams();
-            layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
-            layoutParams.height = this.cachedHeight;
-            mVideoLayout.setLayoutParams(layoutParams);
-            mBottomLayout.setVisibility(View.VISIBLE);
-        }
-
-        switchTitleBar(!isFullscreen);
-    }
-
-    @Override
-    public void onPause(MediaPlayer mediaPlayer) {
-
-    }
-
-    @Override
-    public void onStart(MediaPlayer mediaPlayer) {
-
-    }
-
-    @Override
-    public void onBufferingStart(MediaPlayer mediaPlayer) {
-
-    }
-
-    @Override
-    public void onBufferingEnd(MediaPlayer mediaPlayer) {
-
-    }
-
-    private void switchTitleBar(boolean show) {
-        ActionBar supportActionBar = getSupportActionBar();
-        if (supportActionBar != null) {
-            if (show) {
-                supportActionBar.show();
-            } else {
-                supportActionBar.hide();
-            }
-        }
-    }
-
-
-    @Override
-    public void onFullScaleChange() {
-//        if (textView.isShown()){
-//            textView.setVisibility(View.GONE);
-//        }else{
-//            textView.setVisibility(View.VISIBLE);
-//        }
     }
 
 
@@ -358,7 +234,6 @@ public class VideoDetailActivity extends AppCompatActivity implements View.OnCli
                         .addSeekForwardButton();
             }
         });
-        related_video_rcyList.setAdapter(relatedVideoAdapter);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(mContext, RecyclerView.VERTICAL, false);
         related_video_rcyList.setLayoutManager(mLayoutManager);
         related_video_rcyList.setItemAnimator(new DefaultItemAnimator());

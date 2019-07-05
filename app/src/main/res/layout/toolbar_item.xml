@@ -48,7 +48,7 @@
                 android:textColor="@color/splash_bg_color"
                 android:textSize="@dimen/_14sdp" />
             <LinearLayout
-                android:id="@+id/home1_linear"
+                android:id="@+id/share_linear"
                 android:layout_width="0dp"
                 android:layout_weight="0.4"
                 android:layout_height="@dimen/_40sdp"

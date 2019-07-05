@@ -30,7 +30,7 @@ import java.util.List;
 import kotlin.jvm.internal.Intrinsics;
 import kotlin.jvm.internal.StringCompanionObject;
 
-public class AlbumListAdapter  extends RecyclerView.Adapter {
+public class AlbumListAdapter extends RecyclerView.Adapter {
     private final ConstraintSet set = new ConstraintSet();
     private final RequestOptions requestOptions = (new RequestOptions()).placeholder(R.drawable.progress_animation);
 Context mContext;

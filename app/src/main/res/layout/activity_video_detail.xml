@@ -20,7 +20,9 @@
             android:layout_height="@dimen/_200sdp"
             android:layout_alignParentTop="true"
             android:layout_centerInParent="true"
-            android:layout_centerHorizontal="true" />
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"/>
         <!--<FrameLayout-->
             <!--android:id="@+id/video_play_layout"-->
             <!--android:layout_width="fill_parent"-->
@@ -70,8 +72,9 @@
             <ImageView
                 android:layout_width="@dimen/_20sdp"
                 android:layout_height="@dimen/_15sdp"
-                android:layout_gravity="left|center_vertical"
-                android:src="@drawable/ic_left_arrow2"
+                android:layout_gravity="right|center_vertical"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:src="@drawable/pip"
                 android:tint="@color/black" />
         </LinearLayout>
     </RelativeLayout>

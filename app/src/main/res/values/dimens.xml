@@ -51,6 +51,7 @@
 
     <!--Travel-->
     <dimen name="detail_backdrop_height">@dimen/_300sdp</dimen>
+    <dimen name="detail_travelbackdrop_height">@dimen/_400sdp</dimen>
     <dimen name="card_margin">16dp</dimen>
     <dimen name="font_size_heading">25sp</dimen>
     <dimen name="font_size_subheading">18sp</dimen>
@@ -80,6 +81,9 @@
     <dimen name="text_22">22sp</dimen>
     <dimen name="text_24">24sp</dimen>
     <dimen name="text_48">48sp</dimen>
+
+    <dimen name="title_txt">@dimen/_22sdp</dimen>
+    <dimen name="category_txt">@dimen/_11sdp</dimen>
 
     <dimen name="action_button_size">56dp</dimen>
 

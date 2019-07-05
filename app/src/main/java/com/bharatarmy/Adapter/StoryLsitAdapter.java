@@ -12,20 +12,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bharatarmy.Activity.MoreStoryActivity;
 import com.bharatarmy.Activity.StoryAuthorActivity;
 import com.bharatarmy.Activity.StoryDetailActivity;
 import com.bharatarmy.Interfaces.image_click;
 import com.bharatarmy.Models.ImageDetailModel;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.Utils;
-import com.bharatarmy.VideoModule.BottomCommentDialog;
-import com.bharatarmy.VideoModule.StoryCategoryDialog;
-import com.bumptech.glide.Glide;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -232,6 +226,7 @@ public class StoryLsitAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             public void onClick(View v) {
                 Intent authorIntent=new Intent(mContext, StoryAuthorActivity.class);
                 authorIntent.putExtra("StoryauthorId", detail.getAuthorId());
+                authorIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 mContext.startActivity(authorIntent);
             }
         });

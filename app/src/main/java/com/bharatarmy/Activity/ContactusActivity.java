@@ -41,7 +41,7 @@ public class ContactusActivity extends BaseActivity implements OnMapReadyCallbac
         mapFragment.getMapAsync(new OnMapReadyCallback() {
             @Override
             public void onMapReady(GoogleMap googleMap) {
-                googleMap.setMapType(GoogleMap.MAP_TYPE_TERRAIN);
+                googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
 
                 googleMap.addMarker(new MarkerOptions()
                         .position(new LatLng(37.4233438, -122.0728817))

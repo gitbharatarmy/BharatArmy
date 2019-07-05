@@ -1,50 +1,26 @@
 package com.bharatarmy.Fragment;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
-import android.util.TypedValue;
-import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.LinearLayout;
-import android.widget.ScrollView;
-import android.widget.TextView;
-
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bharatarmy.Adapter.TravelListAdapter;
 import com.bharatarmy.Adapter.TravelMainPageAdapter;
 import com.bharatarmy.Adapter.TravelPopularCItyAdapter;
 import com.bharatarmy.Adapter.UltraPagerAdapter;
-import com.bharatarmy.Adapter.UpcomingDashboardAdapter;
-import com.bharatarmy.Interfaces.image_click;
 import com.bharatarmy.Models.TravelModel;
 import com.bharatarmy.R;
-import com.bharatarmy.TravelDesignModule.MultiSelectDialog;
-import com.bharatarmy.TravelDesignModule.MultiSelectModel;
-import com.bharatarmy.Utility.Utils;
-import com.bharatarmy.databinding.BottomSheetListBinding;
+import com.bharatarmy.Utility.AppConfiguration;
 import com.bharatarmy.databinding.FragmentTravelBinding;
-import com.crystal.crystalrangeseekbar.interfaces.OnRangeSeekbarChangeListener;
-import com.crystal.crystalrangeseekbar.interfaces.OnRangeSeekbarFinalValueListener;
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.leinardi.android.speeddial.SpeedDialView;
-import com.tmall.ultraviewpager.UltraViewPager;
-import com.tmall.ultraviewpager.transformer.UltraScaleTransformer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,13 +43,14 @@ public class TravelFragment extends Fragment {
     SpeedDialView speedDial;
     public static List<TravelModel> content;
     public static List<TravelModel> popularcityarrayList;
+    public static List<TravelModel> popularPackageList;
 
     UltraPagerAdapter ultraPagerAdapter;
     TravelPopularCItyAdapter popularCItyAdapter;
     TravelMainPageAdapter travelMainPageAdapter;
 
 
-    ScrollView    main_page_scrollview;
+//    ScrollView main_page_scrollview;
 
     public TravelFragment() {
         // Required empty public constructor
@@ -111,45 +88,59 @@ public class TravelFragment extends Fragment {
         speedDial = getActivity().findViewById(R.id.speedDial);
         speedDial.setVisibility(View.GONE);
 
-        main_page_scrollview=getActivity().findViewById(R.id.main_page_scrollview);
+//        main_page_scrollview=getActivity().findViewById(R.id.main_page_scrollview);
 
 
-        main_page_scrollview.setOnTouchListener( new View.OnTouchListener() {
-
-            @Override
-            public boolean onTouch(View v, MotionEvent event)
-            {
-
-                return true;
-            }
-        });
+//        main_page_scrollview.setOnTouchListener( new View.OnTouchListener() {
+//
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event)
+//            {
+//
+//                return true;
+//            }
+//        });
 
         content = new ArrayList<TravelModel>();
-        content.add(new TravelModel("https://www.bharatarmy.com//Docs/ee5d232c-9.jpg",
+        content.add(new TravelModel(AppConfiguration.IMAGE_URL+"ee5d232c-9.jpg",
                 "Bharat Army Tour to West Indies", "The Bharat Army head to the Caribbean in 2019 after the Cricket World Cup t"));
-        content.add(new TravelModel("https://www.bharatarmy.com//Docs/ef4df304-b.jpg",
+        content.add(new TravelModel(AppConfiguration.IMAGE_URL+"ef4df304-b.jpg",
                 "South Africa tour of India, October 2019", "Catch all the action from the stands as two top test teams compete against"));
-        content.add(new TravelModel("https://www.bharatarmy.com//Docs/e35eee60-7.jpg",
+        content.add(new TravelModel(AppConfiguration.IMAGE_URL+"e35eee60-7.jpg",
                 "Bangladesh Tour of India, November 2019", "A full series involving the modern day rivalry  - India and Bangladesh. Wit"));
-        content.add(new TravelModel("https://www.bharatarmy.com//Docs/76b0e612-9.jpg",
+        content.add(new TravelModel(AppConfiguration.IMAGE_URL+"76b0e612-9.jpg",
                 "Windies Tour of India, December 2019", "Be a part of the Windies tour of India involving 3 ODIs and 3 T20s and chee"));
-        content.add(new TravelModel("https://www.bharatarmy.com//Docs/71210037-f.jpg",
+        content.add(new TravelModel(AppConfiguration.IMAGE_URL+"71210037-f.jpg",
                 "T20 World Cup 2020", "Australia is going to host T20 Cricket World Cup in 2020. Register your int"));
 
 
 
         popularcityarrayList=new ArrayList<TravelModel>();
+        popularcityarrayList.add(new TravelModel(AppConfiguration.IMAGE_URL+"mumbai.jpg",
+                "Mumbai", "Lorem ipsum dolor sit amet, consectetur adipiscing elit."));
+        popularcityarrayList.add(new TravelModel(AppConfiguration.IMAGE_URL+"dehli.jpg",
+                "Delhi", "Lorem ipsum dolor sit amet, consectetur adipiscing elit."));
+        popularcityarrayList.add(new TravelModel(AppConfiguration.IMAGE_URL+"ahmedabad.jpg",
+                "Ahemedabad", "Lorem ipsum dolor sit amet, consectetur adipiscing elit."));
+        popularcityarrayList.add(new TravelModel(AppConfiguration.IMAGE_URL+"indore.jpg",
+                "Indore", "Lorem ipsum dolor sit amet, consectetur adipiscing elit."));
+        popularcityarrayList.add(new TravelModel(AppConfiguration.IMAGE_URL+"dehradun.jpg",
+                "Dehradun", "Lorem ipsum dolor sit amet, consectetur adipiscing elit."));
 
-        popularcityarrayList.add(new TravelModel(R.drawable.ahmedabad,
-                "Ahemedabad", "140 photos"));
-        popularcityarrayList.add(new TravelModel(R.drawable.indore,
-                "Indore", "200 photos"));
-        popularcityarrayList.add(new TravelModel(R.drawable.mumbai,
-                "Mumbai", "80 photos"));
-        popularcityarrayList.add(new TravelModel(R.drawable.dehli,
-                "Delhi", "150 photos"));
-        popularcityarrayList.add(new TravelModel(R.drawable.dehradun,
-                "Dehradun", "100 photos"));
+
+        popularPackageList=new ArrayList<TravelModel>();
+
+        popularPackageList.add(new TravelModel("xyz","Australian Double Dhamaka: Honeymoon & adventure at one shot",AppConfiguration.IMAGE_URL+"aus1.jpg",
+                "Jet Boat Ride from Main Beach.Bungy jumping from 165 ft distance at Cairns.Great Barrier Reef Experience",
+                "1k","900","true"));
+
+        popularPackageList.add(new TravelModel("xyz","Explore the best of Australia with your soulmate",AppConfiguration.IMAGE_URL+"aus2.jpg",
+                "Grand Barossa Valley Day Tour.Happy day out at the Kangaroo Island with a fun tour amidst natural highlights.Eureka Skydeck 88.Sydney Harbour Jet Boat Thrill Ride: 30 Minutes ",
+                "2k","500","false"));
+
+        popularPackageList.add(new TravelModel("xyz","Celebrate love in the Australian lands",AppConfiguration.IMAGE_URL+"aus3.jpg",
+                "Delicious dinner cruise during sunset at Sydney Harbour exposed to amazing vistas and views around the arena.Super Pass: Film World, Sea World & Wet'n'Wild Water World.Morning Whale Watching Cruise.Car hire for Great Ocean Road",
+                "5k","1000","false"));
 
         setDataValue();
         return rootView;
@@ -157,33 +148,9 @@ public class TravelFragment extends Fragment {
 
     public void setDataValue() {
 
-        Utils.setImageInImageView("https://www.bharatarmy.com/Docs/back-testimonial.png",travelBinding.backgroundImage,mContext);
+//        Utils.setImageInImageView("https://www.bharatarmy.com/Docs/back-testimonial.png",travelBinding.backgroundImage,mContext);
 
-//        travelBinding.ultraViewpager.setScrollMode(UltraViewPager.ScrollMode.HORIZONTAL);
-//        ultraPagerAdapter = new UltraPagerAdapter(true, mContext,content);
-//        travelBinding.ultraViewpager.setAdapter(ultraPagerAdapter);
-//        travelBinding.ultraViewpager.setCurrentItem(1);
-//        travelBinding.ultraViewpager.setMultiScreen(0.77f);
-//        travelBinding.ultraViewpager.setItemRatio(1.0f);
-//        travelBinding.ultraViewpager.setRatio(1.5f);
-//        travelBinding.ultraViewpager.setMaxHeight(600);
-//        travelBinding.ultraViewpager.setAutoMeasureHeight(false);
-//        travelBinding.ultraViewpager.setPageTransformer(false, new UltraScaleTransformer());
-//        travelBinding.ultraViewpager.initIndicator();
-//          //set style of indicators
-//        travelBinding.ultraViewpager.getIndicator()
-//                .setOrientation(UltraViewPager.Orientation.HORIZONTAL)
-//                .setFocusIcon(Utils.DrawableToBitMap(R.drawable.selected_new,mContext))
-//                .setNormalIcon(Utils.DrawableToBitMap(R.drawable.unselected_new,mContext))
-//                .setRadius((int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 5, getResources().getDisplayMetrics()));
-//                //set the alignment
-//        travelBinding.ultraViewpager.getIndicator().setGravity(Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM);
-//         //construct built-in indicator, and add it to  UltraViewPager
-//        travelBinding.ultraViewpager.getIndicator().build();
-//
-//
-//
-        travelMainPageAdapter = new TravelMainPageAdapter(mContext, content,popularcityarrayList);
+        travelMainPageAdapter = new TravelMainPageAdapter(mContext, content,popularcityarrayList,popularPackageList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(mContext, RecyclerView.VERTICAL, false);
         travelBinding.mainScreenPageRcv.setLayoutManager(mLayoutManager);
         travelBinding.mainScreenPageRcv.setItemAnimator(new DefaultItemAnimator());

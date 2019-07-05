@@ -77,17 +77,27 @@ public class RelatedVideoAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             ((ItemViewHolder) holder).show_video_title_txt.setText(relatedVideoDetail.getVideoName());
 
 
+            if (relatedVideoDetail.getIsBARecommanded().equals(1)){
+                ((ItemViewHolder) holder).recommended_image.setVisibility(View.VISIBLE);
+            }else{
+                ((ItemViewHolder) holder).recommended_image.setVisibility(View.GONE);
+            }
+
             ((ItemViewHolder) holder).related_video_img.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    videoName=relatedVideoDetail.getVideoName();
                     dataCheck = new ArrayList<String>();
                     dataCheck.add(relatedVideoDetail.getVideoFileURL() + "|" + relatedVideoDetail.getVideoName());
                     morestoryClick.image_more_click();
+
+                    notifyDataSetChanged();
                 }
             });
 
         } else if (holder.getItemViewType() == HEADER) {
             ((HeaderViewHolder) holder).show_video_Main_title_txt.setText(videoName);
+            ((HeaderViewHolder)holder).type_txt.setText("Bharat Ke Saath");
             ((HeaderViewHolder) holder).video_comment.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -100,7 +110,7 @@ public class RelatedVideoAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
 
     static class HeaderViewHolder extends RecyclerView.ViewHolder {
-        TextView show_video_Main_title_txt, total_like_txt, total_comment_txt, total_video_view_txt;
+        TextView show_video_Main_title_txt, total_like_txt, total_comment_txt, total_video_view_txt,type_txt;
         LikeButton video_like_btn;
         LinearLayout video_comment;
 
@@ -116,13 +126,14 @@ public class RelatedVideoAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             total_comment_txt = (TextView) itemView.findViewById(R.id.total_comment_txt);
 
             total_video_view_txt = (TextView) itemView.findViewById(R.id.total_video_view_txt);
+            type_txt=(TextView)itemView.findViewById(R.id.type_txt);
 
         }
     }
 
     static class ItemViewHolder extends RecyclerView.ViewHolder {
 
-        ImageView related_video_img;
+        ImageView related_video_img,recommended_image;
         TextView video_size_txt, show_video_title_txt;
         LinearLayout ba_recommended_linear;
 
@@ -133,6 +144,7 @@ public class RelatedVideoAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             video_size_txt = (TextView) itemView.findViewById(R.id.video_size_txt);
             show_video_title_txt = (TextView) itemView.findViewById(R.id.show_video_title_txt);
             ba_recommended_linear = (LinearLayout) itemView.findViewById(R.id.ba_recommended_linear);
+            recommended_image=(ImageView)itemView.findViewById(R.id.recommended_image);
         }
 
     }

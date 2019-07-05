@@ -17,45 +17,50 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bharatarmy.Activity.LocationMapActivity;
-import com.bharatarmy.Activity.TravelDetailActivity;
-import com.bharatarmy.Interfaces.image_click;
 import com.bharatarmy.Models.TravelModel;
 import com.bharatarmy.R;
-import com.bharatarmy.Utility.AppConfiguration;
 import com.bharatarmy.Utility.Utils;
 import com.tmall.ultraviewpager.UltraViewPager;
 import com.tmall.ultraviewpager.transformer.UltraScaleTransformer;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 public class TravelMainPageAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private static final int HEADER = 0;
     private static final int ITEM = 1;
+    private static final int FOOTER =2;
     List<TravelModel> popularcityarrayList;
+    List<TravelModel> popularPackageList;
     List<TravelModel> content;
     Context mContext;
     UltraPagerAdapter ultraPagerAdapter;
     TravelPopularCItyAdapter popularCItyAdapter;
+    PopularPackageAdapter popularPackageAdapter;
 
-    public TravelMainPageAdapter(Context mContext, List<TravelModel> content, List<TravelModel> popularcityarrayList) {
+    public TravelMainPageAdapter(Context mContext, List<TravelModel> content, List<TravelModel> popularcityarrayList, List<TravelModel> popularPackageList) {
         this.mContext = mContext;
         this.content = content;
         this.popularcityarrayList = popularcityarrayList;
+        this.popularPackageList=popularPackageList;
     }
 
     @Override
     public int getItemViewType(int position) {
-        return position == 0 ? HEADER : ITEM;
+        if (position==0){
+            return HEADER;
+        }else if (position==1){
+            return ITEM;
+        }else {
+            return FOOTER;
+        }
+
+//        return position == 0 ? HEADER : ITEM;
     }
 
     @Override
     public int getItemCount() {
-        return 2;
+        return 3;
     }
 
     @NonNull
@@ -67,9 +72,12 @@ public class TravelMainPageAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             case HEADER:
                 v = layoutInflater.inflate(R.layout.travel_ultrapage_main, parent, false);
                 return new TravelMainPageAdapter.HeaderViewHolder(v);
-            default:
+            case ITEM:
                 v = layoutInflater.inflate(R.layout.travel_popularcity_main_item, parent, false);
                 return new TravelMainPageAdapter.ItemViewHolder(v);
+            default:
+                v = layoutInflater.inflate(R.layout.travel_popular_package, parent, false);
+                return new TravelMainPageAdapter.FooterViewHolder(v);
         }
     }
 
@@ -108,6 +116,14 @@ public class TravelMainPageAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             //construct built-in indicator, and add it to  UltraViewPager
             ((HeaderViewHolder) holder).ultra_viewpager.getIndicator().build();
 
+        } else if (holder.getItemViewType()==FOOTER){
+            ((FooterViewHolder) holder).tour_package_list_rcv.setHasFixedSize(true);
+            ((FooterViewHolder) holder).tour_package_list_rcv.setNestedScrollingEnabled(false);
+            popularPackageAdapter = new PopularPackageAdapter(mContext, popularPackageList);
+            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(mContext, RecyclerView.VERTICAL, false);
+            ((FooterViewHolder) holder).tour_package_list_rcv.setLayoutManager(mLayoutManager);
+            ((FooterViewHolder) holder).tour_package_list_rcv.setItemAnimator(new DefaultItemAnimator());
+            ((FooterViewHolder) holder).tour_package_list_rcv.setAdapter(popularPackageAdapter);
         }
     }
 
@@ -128,6 +144,17 @@ public class TravelMainPageAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         ItemViewHolder(View itemView) {
             super(itemView);
             tour_city_list_rcv=(RecyclerView)itemView.findViewById(R.id.tour_city_list_rcv);
+        }
+
+    }
+
+    static class FooterViewHolder extends RecyclerView.ViewHolder {
+
+        RecyclerView tour_package_list_rcv;
+
+        FooterViewHolder(View itemView) {
+            super(itemView);
+            tour_package_list_rcv=(RecyclerView)itemView.findViewById(R.id.tour_package_list_rcv);
         }
 
     }

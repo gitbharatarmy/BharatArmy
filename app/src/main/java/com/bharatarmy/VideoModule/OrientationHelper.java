@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
 
 
 import androidx.appcompat.app.ActionBar;
@@ -73,16 +74,21 @@ public class OrientationHelper extends OrientationEventListener {
     private void updateLayoutParams() {
         ViewGroup.LayoutParams params = videoView.getLayoutParams();
         Context context = videoView.getContext();
-        WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-        if (windowManager == null) {
-            return;
-        }
-        Display display = windowManager.getDefaultDisplay();
-        DisplayMetrics realMetrics = new DisplayMetrics();
-        display.getRealMetrics(realMetrics);
+//        WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+//        if (windowManager == null) {
+//            return;
+//        }
+//        Display display = windowManager.getDefaultDisplay();
+//        DisplayMetrics realMetrics = new DisplayMetrics();
+//        display.getRealMetrics(realMetrics);
+////
+////        params.width =realMetrics.widthPixels;
+////        params.height = realMetrics.heightPixels;
         params.width =params.MATCH_PARENT;
         params.height = params.MATCH_PARENT;
         videoView.setLayoutParams(params);
+
+
     }
 
     public void exitFullscreen() {

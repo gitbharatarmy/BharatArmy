@@ -22,14 +22,15 @@ import com.bharatarmy.databinding.ActivityCommentBinding;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CommentActivity extends BaseActivity implements View.OnClickListener {
+public class CommentActivity extends AppCompatActivity implements View.OnClickListener {
 
     ActivityCommentBinding activityCommentBinding;
     Context mContext;
     String selecteditem;
     ArrayList<String> arrayList;
     CommentListAdapter commentListAdapter;
-    public  List<GalleryImageModel> content;
+    public List<GalleryImageModel> content;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,8 +40,8 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
 
         setDataValue();
         setListiner();
-        setTitleText("Comment");
-        setBackButton(CommentActivity.this);
+//        setTitleText("Comment");
+//        setBackButton(CommentActivity.this);
     }
 
     public void setListiner() {
@@ -58,10 +59,19 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
 
             }
         });
+
+        activityCommentBinding.backImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CommentActivity.this.finish();
+            }
+        });
     }
 
 
     public void setDataValue() {
+        activityCommentBinding.toolbarTitleTxt.setText("Comment");
+
 
         // Spinner Drop down elements
         List<String> categories = new ArrayList<String>();
@@ -72,7 +82,7 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
 
 
         // Creating adapter for spinner
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,R.layout.spinner_list_item, categories);
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, R.layout.spinner_list_item, categories);
 
         // Drop down layout style - list view with radio button
         dataAdapter.setDropDownViewResource(R.layout.spinner_list_item);
@@ -80,26 +90,26 @@ public class CommentActivity extends BaseActivity implements View.OnClickListene
         // attaching data adapter to spinner
         activityCommentBinding.commentFilterSpinner.setAdapter(dataAdapter);
 
-        String sourceString ="I completely agree with" +"<b>" + "@DJ Dhaval Shah" + "</b> ";
+        String sourceString = "I completely agree with" + "<b>" + "@DJ Dhaval Shah" + "</b> ";
         //commentList fill
         content = new ArrayList<>();
-        content.add(new GalleryImageModel("DJ Dhaval Shah","5 minit ago",
+        content.add(new GalleryImageModel("DJ Dhaval Shah", "5 minit ago",
                 "I really would like to suggest the following application is very nice.It is very usefull and user friendly.",
-                "You like","200"));
+                "You like", "200"));
 
-        content.add(new GalleryImageModel("Viral Mavani","15 minit ago",
+        content.add(new GalleryImageModel("Viral Mavani", "15 minit ago",
                 sourceString,
-                "Like ?","20"));
+                "Like ?", "20"));
 
-        content.add(new GalleryImageModel("Designer Dharshan","Last week",
+        content.add(new GalleryImageModel("Designer Dharshan", "Last week",
                 "I really would like to suggest the following application is very nice.It is very usefull and user friendly.",
-                "You like","2k"));
+                "You like", "2k"));
 
-        content.add(new GalleryImageModel("Mohit Oberoi","yesterday",
+        content.add(new GalleryImageModel("Mohit Oberoi", "yesterday",
                 "Very Nice and usefull application.",
-                "You like","1k"));
+                "You like", "1k"));
 
-        commentListAdapter = new CommentListAdapter(mContext,content);
+        commentListAdapter = new CommentListAdapter(mContext, content);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(mContext, RecyclerView.VERTICAL, false);
         activityCommentBinding.commentRcv.setLayoutManager(mLayoutManager);
         activityCommentBinding.commentRcv.setItemAnimator(new DefaultItemAnimator());

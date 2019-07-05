@@ -5,8 +5,7 @@
         android:id="@+id/main_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="50dp"
-        android:layout_marginBottom="70dp">
+        android:layout_marginTop="50dp">
 
         <ImageView
             android:id="@+id/background_image"
@@ -14,111 +13,23 @@
             android:layout_height="@dimen/_250sdp"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
+            android:layout_marginTop="-50dp"
             android:layout_marginRight="-90dp"
-            android:alpha=".7"
-            android:src="@drawable/chakr_image" />
+            android:src="@drawable/travel_chhkr" />
 
-
-        <!--<ImageView-->
-            <!--android:layout_width="@dimen/_250sdp"-->
-            <!--android:layout_height="@dimen/_250sdp"-->
-            <!--android:layout_alignParentLeft="true"-->
-            <!--android:layout_alignParentBottom="true"-->
-            <!--android:layout_marginLeft="-90dp"-->
-            <!--android:alpha=".7"-->
-            <!--android:src="@drawable/chakr_image" />-->
         <LinearLayout
             android:layout_alignParentTop="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/mudit"
-            >
+            android:id="@+id/mudit">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/main_screen_page_rcv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_15sdp"/>
+            android:layout_marginTop="@dimen/_15sdp" />
         </LinearLayout>
 
-        <!--<ScrollView-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content">-->
-
-            <!--<LinearLayout-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:orientation="vertical">-->
-
-                <!--<com.tmall.ultraviewpager.UltraViewPager-->
-                    <!--android:id="@+id/ultra_viewpager"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_marginTop="@dimen/_40sdp" />-->
-
-                <!--<LinearLayout-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_marginLeft="@dimen/_1sdp"-->
-                    <!--android:layout_marginTop="@dimen/_10sdp"-->
-                    <!--android:layout_marginRight="@dimen/_1sdp"-->
-                    <!--android:orientation="horizontal"-->
-                    <!--android:weightSum="1">-->
-
-
-                    <!--<TextView-->
-                        <!--android:id="@+id/travel_tour_city_txt"-->
-                        <!--style="@style/title_text_font"-->
-                        <!--android:layout_width="0dp"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:layout_weight="0.6"-->
-                        <!--android:gravity="center_vertical"-->
-
-                        <!--android:padding="@dimen/_5sdp"-->
-                        <!--android:text="@string/travel_sub_title"-->
-                        <!--android:textColor="@color/heading_bg"-->
-                        <!--android:textSize="@dimen/_13sdp" />-->
-
-                    <!--<LinearLayout-->
-                        <!--android:layout_width="0dp"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:layout_marginRight="@dimen/_5sdp"-->
-                        <!--android:layout_weight="0.4"-->
-                        <!--android:orientation="horizontal">-->
-
-                        <!--<TextView-->
-                            <!--android:id="@+id/travel_tour_city_more_txt"-->
-                            <!--style="@style/title_text_font"-->
-                            <!--android:layout_width="0dp"-->
-                            <!--android:layout_height="wrap_content"-->
-                            <!--android:layout_weight="0.6"-->
-                            <!--android:gravity="center_vertical|right"-->
-                            <!--android:padding="@dimen/_5sdp"-->
-                            <!--android:text="@string/more_city"-->
-                            <!--android:textColor="@color/gray"-->
-                            <!--android:textSize="@dimen/_14sdp" />-->
-
-                        <!--<ImageView-->
-                            <!--android:layout_width="@dimen/_15sdp"-->
-                            <!--android:layout_height="@dimen/_15sdp"-->
-                            <!--android:layout_gravity="center_vertical"-->
-                            <!--android:layout_marginRight="@dimen/_5sdp"-->
-                            <!--android:src="@drawable/ic_right_arrow_angle"-->
-                            <!--android:tint="@color/gray" />-->
-                    <!--</LinearLayout>-->
-                <!--</LinearLayout>-->
-
-                <!--<androidx.recyclerview.widget.RecyclerView-->
-                    <!--android:id="@+id/tour_city_list_rcv"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_marginLeft="@dimen/_1sdp"-->
-                    <!--android:layout_marginTop="@dimen/_10sdp" />-->
-
-            <!--</LinearLayout>-->
-
-
-        <!--</ScrollView>-->
     </RelativeLayout>
 </layout>
 

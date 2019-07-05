@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="@dimen/_150sdp"
+    android:layout_width="match_parent"
     android:layout_height="@dimen/_235sdp"
-    android:layout_marginTop="@dimen/_2sdp"
+    android:layout_marginTop="@dimen/_3sdp"
     android:layout_marginLeft="@dimen/_1sdp"
     android:layout_marginRight="@dimen/_1sdp"
     android:orientation="vertical">
@@ -12,7 +12,10 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/_225sdp"
 
-        android:layout_margin="@dimen/_5sdp"
+        android:layout_marginLeft="@dimen/_3sdp"
+        android:layout_marginRight="@dimen/_3sdp"
+
+
         card_view:cardCornerRadius="1dp"
         card_view:cardElevation="3dp"
         card_view:cardMaxElevation="6dp">

@@ -150,6 +150,7 @@ public class FTPListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 ftpIntent.putExtra("str2",detail.getStr2());
                 ftpIntent.putExtra("str3",detail.getStr3());
                 ftpIntent.putExtra("ftpId",detail.getFutureTourId());
+                ftpIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 mContext.startActivity(ftpIntent);
             }
         });

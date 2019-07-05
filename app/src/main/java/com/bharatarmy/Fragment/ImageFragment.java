@@ -229,7 +229,8 @@ public class ImageFragment extends Fragment {
                         imageorvideoStr="image";
                         Intent imagevideouploadIntent1 = new Intent(mContext, ImageVideoUploadActivity.class);
                         imagevideouploadIntent1.putExtra("image/video",imageorvideoStr);
-                        startActivity(imagevideouploadIntent1);
+                        imagevideouploadIntent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        mContext.startActivity(imagevideouploadIntent1);
                         speedDialView.open();
                         return false; // closes without animation (same as speedDialView.close(false); return false;)
 

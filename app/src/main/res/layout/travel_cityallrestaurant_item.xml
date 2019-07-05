@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/restaurant_cardclick"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="@dimen/_5sdp"
+    android:layout_marginTop="@dimen/_10sdp"
+    android:layout_marginRight="@dimen/_5sdp"
+    android:layout_marginBottom="@dimen/_5sdp"
+    android:orientation="vertical"
+    app:cardCornerRadius="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/restaurant_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/restaurant_img"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_100sdp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ajif" />
+
+            <View
+                android:id="@+id/topView"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_below="@id/restaurant_img"
+                android:background="@drawable/bg_gradiant_line"
+                android:visibility="visible" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/topView"
+                android:background="@color/heading_bg"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/restaurantname_txt"
+                    style="@style/title_text_font"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="2"
+                    android:paddingLeft="@dimen/_10sdp"
+                    android:paddingTop="@dimen/_10sdp"
+                    android:paddingRight="@dimen/_10sdp"
+                    android:text="BHARAT ARMY STORIES"
+                    android:textColor="@color/splash_bg_color"
+                    android:textSize="@dimen/_13sdp" />
+
+                <TextView
+                    android:id="@+id/restaurant_location_txt"
+                    style="@style/title_text_font"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/_10sdp"
+                    android:paddingRight="@dimen/_10sdp"
+                    android:text="@string/bharat_army_story"
+                    android:textColor="@color/splash_bg_color"
+                    android:textSize="@dimen/_9sdp" />
+
+                <com.whinc.widget.ratingbar.RatingBar
+                    android:id="@+id/ratingBar"
+                    android:layout_width="@dimen/_50sdp"
+                    android:layout_height="@dimen/_16sdp"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_marginBottom="@dimen/_7sdp"
+                    app:rb_click_rating="true"
+                    app:rb_count="3"
+                    app:rb_empty="@drawable/empty"
+                    app:rb_fill="@drawable/fill"
+                    app:rb_max_count="5"
+                    app:rb_space="0dp"
+                    app:rb_touch_rating="true" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1">
+
+                        <TextView
+                            style="@style/text_font"
+                            android:layout_width="@dimen/_60sdp"
+                            android:layout_height="@dimen/_20sdp"
+                            android:layout_gravity="center_horizontal"
+                            android:background="@drawable/book_btn"
+                            android:gravity="center_horizontal|center_vertical"
+                            android:maxLines="1"
+                            android:paddingLeft="@dimen/_2sdp"
+                            android:text="Book"
+                            android:textColor="@color/splash_bg_color"
+                            android:textSize="@dimen/_11sdp" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_100sdp"
+                android:visibility="visible"
+                android:background="@drawable/dropshadow">
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/_20sdp"
+                android:orientation="horizontal"
+                android:layout_marginRight="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_83sdp"
+                android:layout_alignParentRight="true"
+                android:visibility="visible">
+
+                <ImageView
+                    android:id="@+id/veg_img"
+                    android:layout_width="@dimen/_12sdp"
+                    android:layout_height="@dimen/_12sdp"
+                    android:src="@drawable/veg"
+                    android:visibility="visible" />
+
+                <ImageView
+                    android:id="@+id/nonveg_img"
+                    android:layout_width="@dimen/_12sdp"
+                    android:layout_height="@dimen/_12sdp"
+                    android:layout_marginLeft="@dimen/_5sdp"
+                    android:src="@drawable/nonveg"
+                    android:visibility="visible" />
+            </LinearLayout>
+            <ImageView
+                android:id="@+id/recommended_image"
+                android:layout_width="@dimen/_35sdp"
+                android:layout_height="@dimen/_50sdp"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="@dimen/_55sdp"
+                android:layout_marginRight="@dimen/_7sdp"
+                android:scaleType="centerInside"
+                android:src="@drawable/bal"
+                android:visibility="gone" />
+
+        </RelativeLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

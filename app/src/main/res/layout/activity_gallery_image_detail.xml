@@ -198,7 +198,7 @@
                             android:layout_height="@dimen/_20sdp"
                             android:layout_gravity="center_vertical"
                             android:layout_marginLeft="@dimen/_10sdp"
-                            android:src="@drawable/ic_menu_share"
+                            android:src="@drawable/ic_share"
                             android:tint="@color/splash_bg_color" />
 
                         <TextView

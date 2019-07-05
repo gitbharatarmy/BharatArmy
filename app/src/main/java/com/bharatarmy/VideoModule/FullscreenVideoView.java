@@ -25,7 +25,6 @@ import com.bharatarmy.Activity.VideoDetailActivity;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.Utils;
 import com.bumptech.glide.Glide;
-import com.universalvideoview.UniversalVideoView;
 
 import java.io.File;
 import java.io.IOException;

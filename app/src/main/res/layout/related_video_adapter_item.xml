@@ -117,7 +117,7 @@
                 android:id="@+id/show_video_title_txt"
                 style="@style/text_font"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:maxLines="2"
                 android:paddingLeft="@dimen/_10sdp"
@@ -126,6 +126,24 @@
                 android:text="World Cup 2019: Bring o.."
                 android:textColor="@color/splash_bg_color"
                 android:textSize="@dimen/_12sdp" />
+
+
+            <ImageView
+                android:id="@+id/recommended_image"
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="@dimen/_55sdp"
+                android:layout_gravity="right"
+                android:scaleType="centerInside"
+                android:src="@drawable/bal"
+                android:layout_marginRight="@dimen/_7sdp"/>
         </LinearLayout>
+
     </LinearLayout>
+
+    <View
+        android:id="@+id/toolbar_bottom_left_view"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:layout_gravity="bottom"
+        android:background="@drawable/bg_gradiant_line" />
 </androidx.cardview.widget.CardView>

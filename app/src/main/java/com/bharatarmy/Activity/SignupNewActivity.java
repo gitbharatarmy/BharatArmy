@@ -409,7 +409,7 @@ public class SignupNewActivity extends AppCompatActivity implements View.OnClick
 //                    float value = ((Float) (animation.getAnimatedValue()))
 //                            .floatValue();
 //                    // Set translation of your view here. Position can be calculated
-//                    // out of value. This code should move the view in a half circle.
+//                    // out of value. This code should move the view in a half brandcircle.
 //                    imageView.setTranslationX((float)(150.0 * Math.sin(value*Math.PI)));
 //                    imageView.setTranslationY((float)(150.0 * Math.cos(value*Math.PI)));
 //                }

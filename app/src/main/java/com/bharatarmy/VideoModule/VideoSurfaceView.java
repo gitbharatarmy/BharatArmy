@@ -5,6 +5,7 @@ import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.SurfaceView;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 public class VideoSurfaceView extends SurfaceView {
@@ -27,11 +28,16 @@ public class VideoSurfaceView extends SurfaceView {
         resetLayoutParams();
         previousHeight = getLayoutParams().height;
         previousWidth = getLayoutParams().width;
-        // Get the Display Metrics
-        DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
+        // Get the Display Metrics      code comment by megha 25/06/2019
+       /* DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
         // Get the width of the screen
         int screenWidth = displayMetrics.widthPixels;
-        int screenHeight = displayMetrics.heightPixels;
+        int screenHeight = displayMetrics.heightPixels;*/
+
+       // change by megha 25/06/2019 because full screen display
+        int screenWidth = ViewGroup.LayoutParams.MATCH_PARENT;
+        int screenHeight = ViewGroup.LayoutParams.MATCH_PARENT;
+
         // Get the SurfaceView layout parameters
         FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) getLayoutParams();
         if ((float) videoHeight / screenHeight > (float) videoWidth / screenWidth) {

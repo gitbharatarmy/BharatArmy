@@ -25,6 +25,7 @@
     <color name="orange">#f05123</color>
     <color name="green">#1b5732</color>
     <color name="blue">#002d5d</color>
+    <color name="red">#FF0000</color>
     <color name="unselected_view">#828282</color>
 
     <!-- new history screen color-->

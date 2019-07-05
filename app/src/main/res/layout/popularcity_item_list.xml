@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="@dimen/_180sdp"
-    android:layout_height="@dimen/_180sdp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/citycard_click"
+    android:layout_width="@dimen/_150sdp"
+    android:layout_height="@dimen/_130sdp"
     android:orientation="vertical"
     app:cardCornerRadius="5dp"
     android:elevation="6dp"
     android:layout_marginTop="@dimen/_3sdp"
-    android:layout_marginLeft="@dimen/_15sdp">
+    android:layout_marginLeft="@dimen/_12sdp">
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -38,7 +39,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_marginLeft="@dimen/_5sdp"
-                android:layout_marginTop="@dimen/_27sdp"
+                android:layout_marginTop="@dimen/_45sdp"
                 android:layout_marginRight="@dimen/_5sdp"
                 android:ellipsize="end"
                 android:maxLines="1"
@@ -57,19 +58,20 @@
                 android:scaleType="centerCrop"
                 android:src="@drawable/bg_gradiant_line"
                 android:visibility="gone"/>
-            <TextView
-                android:id="@+id/travel_popularcity_pic_count_txt"
-                style="@style/text_font"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_gravity="bottom"
-                android:layout_marginLeft="@dimen/_10sdp"
-                android:layout_marginRight="@dimen/_10sdp"
-                android:maxLines="2"
-                android:text="Bharat Army"
-                android:textColor="@color/splash_bg_color"
-                android:textSize="@dimen/_10sdp"/>
+
+                <TextView
+                    android:id="@+id/travel_popularcity_pic_count_txt"
+                    style="@style/title_text_font"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_gravity="bottom"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_marginRight="@dimen/_10sdp"
+                    android:maxLines="2"
+                    android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+                    android:textColor="@color/splash_bg_color"
+                    android:textSize="@dimen/_9sdp" />
             </LinearLayout>
         </RelativeLayout>
     </RelativeLayout>

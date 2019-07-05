@@ -60,7 +60,8 @@
                 android:layout_width="@dimen/_20sdp"
                 android:layout_height="@dimen/_15sdp"
                 android:layout_margin="@dimen/_5sdp"
-                android:src="@drawable/ic_left_arrow" />
+                android:src="@drawable/ic_left_arrow2"
+                android:tint="@color/splash_bg_color"/>
         </LinearLayout>
 
         <LinearLayout

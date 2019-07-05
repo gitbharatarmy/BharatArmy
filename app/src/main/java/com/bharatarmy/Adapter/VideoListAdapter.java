@@ -82,7 +82,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     private class ItemViewHolder extends RecyclerView.ViewHolder {
 
-        ImageView imageView;
+        ImageView imageView,recommended_image;
         TextView videoName, video_size_txt;
 
 
@@ -92,7 +92,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             imageView = itemView.findViewById(R.id.video_img);
             videoName = itemView.findViewById(R.id.txtName);
             video_size_txt = itemView.findViewById(R.id.video_size_txt);
-
+            recommended_image=itemView.findViewById(R.id.recommended_image);
         }
     }
 
@@ -118,6 +118,12 @@ public class VideoListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         Utils.setImageInImageView(detail.getVideoImageURL(), viewHolder.imageView, mContext);
         viewHolder.videoName.setText(detail.getVideoName());
         viewHolder.video_size_txt.setText(detail.getVideoLength());
+
+        if (detail.getIsBARecommanded().equals(1)){
+            viewHolder.recommended_image.setVisibility(View.VISIBLE);
+        }else{
+            viewHolder.recommended_image.setVisibility(View.GONE);
+        }
 
         viewHolder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
