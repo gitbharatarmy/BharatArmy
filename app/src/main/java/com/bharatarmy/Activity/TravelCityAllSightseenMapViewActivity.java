@@ -18,12 +18,12 @@ import android.util.Log;
 import android.view.View;
 
 import com.bharatarmy.Adapter.TravelcityrestaurantmaplistAdapter;
-import com.bharatarmy.Adapter.TravelpopularcityhotelmaplistAdapter;
+import com.bharatarmy.Adapter.TravelcitysightseenmaplistAdapter;
 import com.bharatarmy.Interfaces.image_click;
 import com.bharatarmy.Models.TravelModel;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.AppConfiguration;
-import com.bharatarmy.databinding.ActivityTravelCityRestaurantMapViewBinding;
+import com.bharatarmy.databinding.ActivityTravelCityAllSightseenMapViewBinding;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -38,26 +38,26 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TravelCityRestaurantMapViewActivity extends AppCompatActivity implements OnMapReadyCallback, View.OnClickListener {
+public class TravelCityAllSightseenMapViewActivity extends AppCompatActivity implements OnMapReadyCallback, View.OnClickListener {
     private static final int TAG_CODE_PERMISSION_LOCATION = 134;
-    ActivityTravelCityRestaurantMapViewBinding activityTravelCityRestaurantMapViewBinding;
+    ActivityTravelCityAllSightseenMapViewBinding activityTravelCityAllSightseenMapViewBinding;
     Context mContext;
     GoogleMap googleMapj;
     SupportMapFragment mapFragment;
     List<LatLng> list;
 
-    ArrayList<TravelModel> cityRestaurantList;
-    TravelcityrestaurantmaplistAdapter travelcityrestaurantmaplistAdapter;
+    ArrayList<TravelModel> citySightseenList;
+    TravelcitysightseenmaplistAdapter travelcitysightseenmaplistAdapter;
     String headerStr;
 
-    Marker markerseven,markerlotus,marker180degree,markerhornby,markerlakeview,markerpeshwa;
+    Marker marker1,marker2,marker3,marker4,marker5,marker6;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        activityTravelCityRestaurantMapViewBinding = DataBindingUtil.setContentView(this, R.layout.activity_travel_city_restaurant_map_view);
+        activityTravelCityAllSightseenMapViewBinding = DataBindingUtil.setContentView(this, R.layout.activity_travel_city_all_sightseen_map_view);
 
-        mContext = TravelCityRestaurantMapViewActivity.this;
+        mContext = TravelCityAllSightseenMapViewActivity.this;
 
         init();
         setListiner();
@@ -67,17 +67,17 @@ public class TravelCityRestaurantMapViewActivity extends AppCompatActivity imple
 
     public void init() {
         headerStr=getIntent().getStringExtra("cityName");
-        activityTravelCityRestaurantMapViewBinding.toolbarTitleTxt.setText("Mumbai - Restaurant");
+        activityTravelCityAllSightseenMapViewBinding.toolbarTitleTxt.setText("Mumbai - SightSeen");
 
-        activityTravelCityRestaurantMapViewBinding.cityRestaurantRcv.showShimmerAdapter();
+        activityTravelCityAllSightseenMapViewBinding.citySightseenRcv.showShimmerAdapter();
         mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
     }
 
     public void setListiner() {
-        activityTravelCityRestaurantMapViewBinding.backImg.setOnClickListener(this);
-activityTravelCityRestaurantMapViewBinding.listImg.setOnClickListener(this);
+        activityTravelCityAllSightseenMapViewBinding.backImg.setOnClickListener(this);
+activityTravelCityAllSightseenMapViewBinding.listImg.setOnClickListener(this);
 
     }
 
@@ -86,11 +86,11 @@ activityTravelCityRestaurantMapViewBinding.listImg.setOnClickListener(this);
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.back_img:
-                TravelCityRestaurantMapViewActivity.this.finish();
+                TravelCityAllSightseenMapViewActivity.this.finish();
                 overridePendingTransition(R.anim.slide_out_down,R.anim.slide_out_down);
                 break;
             case R.id.list_img:
-                TravelCityRestaurantMapViewActivity.this.finish();
+                TravelCityAllSightseenMapViewActivity.this.finish();
                 overridePendingTransition(R.anim.slide_out_down,R.anim.slide_out_down);
                 break;
         }
@@ -116,39 +116,39 @@ activityTravelCityRestaurantMapViewBinding.listImg.setOnClickListener(this);
             googleMapj.moveCamera(center);
             googleMapj.animateCamera(zoom);
 
-            markerseven = googleMapj.addMarker(new MarkerOptions()
-                    .position(new LatLng(18.9938, 72.8242))
+            marker1 = googleMapj.addMarker(new MarkerOptions()
+                    .position(new LatLng(18.941482, 72.823679))
                     .anchor(0.9f, 0.9f)
                     .title("Taj Mahal Hotel")
                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
 //            marker.showInfoWindow();
 
-            markerlotus= googleMapj.addMarker(new MarkerOptions()
-                    .position(new LatLng(19.1018, 72.8259))
+            marker2= googleMapj.addMarker(new MarkerOptions()
+                    .position(new LatLng(18.941482, 72.823679))
                     .anchor(0.9f, 0.9f)
                     .title("Hotel Hyatt")
                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
 
-            marker180degree= googleMapj.addMarker(new MarkerOptions()
-                    .position(new LatLng(18.9934, 72.8207))
+            marker3= googleMapj.addMarker(new MarkerOptions()
+                    .position(new LatLng(18.941482, 72.823679))
                     .anchor(0.9f, 0.9f)
                     .title("Four Season Hotel")
                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
 
-            markerhornby= googleMapj.addMarker(new MarkerOptions()
-                    .position(new LatLng(19.1055, 72.8625))
+            marker4= googleMapj.addMarker(new MarkerOptions()
+                    .position(new LatLng(18.941482, 72.823679))
                     .anchor(0.9f, 0.9f)
                     .title("The Leela")
                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
 
-            markerlakeview=googleMapj.addMarker(new MarkerOptions()
-                    .position(new LatLng(18.9277, 72.8212))
+            marker5=googleMapj.addMarker(new MarkerOptions()
+                    .position(new LatLng( 18.941482,  72.823679))
                     .anchor(0.9f, 0.9f)
                     .title("JW Marriott Juhu")
                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
 
-            markerpeshwa= googleMapj.addMarker(new MarkerOptions()
-                    .position(new LatLng(19.1019, 72.8263))
+            marker6= googleMapj.addMarker(new MarkerOptions()
+                    .position(new LatLng(18.941482, 72.823679))
                     .anchor(0.9f, 0.9f)
                     .title("JW Marriott Juhu")
                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
@@ -156,7 +156,7 @@ activityTravelCityRestaurantMapViewBinding.listImg.setOnClickListener(this);
             googleMapj.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
                 @Override
                 public boolean onMarkerClick(Marker marker) {
-                    Intent cityHotelDetail=new Intent(mContext,TravelCityRestaurantDetailActivity.class);
+                    Intent cityHotelDetail=new Intent(mContext,TravelCitySightseenDetailActivity.class);
                     startActivity(cityHotelDetail);
                     return true;
                 }
@@ -170,38 +170,38 @@ activityTravelCityRestaurantMapViewBinding.listImg.setOnClickListener(this);
     }
 
     public void setDataList() {
-        cityRestaurantList = new ArrayList<TravelModel>();
+        citySightseenList = new ArrayList<TravelModel>();
 
-        cityRestaurantList.add(new TravelModel("Seven Kitchens Mumbai", AppConfiguration.IMAGE_URL + "seven_kitchen.jpg", "4.3",
-                "Luxurious hotel dining room with huge windows and a menu of dishes from around the world."));
+        citySightseenList.add(new TravelModel("Marine drive", AppConfiguration.IMAGE_URL + "marinedrive.jpg", "4",
+                "Marine Drive is one of the most beautifully laid boulevards in southern part of Mumbai. Scroll further and figure out more information about this natural bay."));
 
-        cityRestaurantList.add(new TravelModel("180 Degrees Mumbai",AppConfiguration.IMAGE_URL + "180_degree.jpg", "4.7",
-                "European, Middle East and Asian dishes are prepared in the open kitchen in this hotel outlet."));
+        citySightseenList.add(new TravelModel("Bandra Worli Sea Link",AppConfiguration.IMAGE_URL + "bandra_warli.jpg", "3",
+                "Bandra Worli Sea Link is one of the few bridges that is a cable-stayed with pre-stressed concrete-steel viaducts to hold it in place."));
 
-        cityRestaurantList.add(new TravelModel("Hornby's Pavilion Mumbai",AppConfiguration.IMAGE_URL + "Hornby's_Pavilion.jpg", "4.7",
-                "Upscale hotel's 24-hour restaurant serving international and Indian buffets and a la carte."));
+        citySightseenList.add(new TravelModel("Gateway of India",AppConfiguration.IMAGE_URL + "gate_way_of_india.jpg", "5",
+                "The Gateway of India is one of India's most unique landmarks situated in the city of Mumbai. The colossal structure was constructed in 1924. Located at the tip of Apollo Bunder, the gateway overlooks the Mumbai harbor, bordered by the Arabian Sea in the Colaba district."));
 
-        cityRestaurantList.add(new TravelModel("Lake View Cafe Mumbai",AppConfiguration.IMAGE_URL + "lake_view.jpg",  "4.7",
-                "TLake View Café presents an enviable culinary theatre featuring an extensive Asian and Indian selection with the experience accentuated by the warm and engaging ambassadors, delivering a memorable experience each time."));
+        citySightseenList.add(new TravelModel("Global Vipassana Pagoda",AppConfiguration.IMAGE_URL + "global_vipassana_pagoda.jpg",  "3",
+                "Global Vipassana Pagoda is an expression of our gratitude towards the Buddha who strived for incalculable aeons to reach Supreme Enlightenment."));
 
-        cityRestaurantList.add(new TravelModel("The Peshwa Pavilion Mumbai",AppConfiguration.IMAGE_URL + "peshwa.jpg", "4.7",
-                "The Peshwa Pavilion has carved a niche for itself in the hearts of people and gives you a spellbound experience."));
+        citySightseenList.add(new TravelModel("Water Kingdom",AppConfiguration.IMAGE_URL + "water_kingdom.jpg", "4",
+                "Water Kingdom Mumbai. Perhaps the biggest one in India and the oldest in Mumbai, the Water Kingdom gets a footfall of about 1.8 million people."));
 
-        cityRestaurantList.add(new TravelModel("Lotus Cafe Mumbai",AppConfiguration.IMAGE_URL + "lotus.jpg", "4.7",
-                "Lotus Cafe, named after its beautiful Lotus pond and operational round the clock, is well known in the city for its elaborate buffet spread-an excellent blend of international cuisine." ));
+        citySightseenList.add(new TravelModel("Elephanta Caves Island Tour",AppConfiguration.IMAGE_URL + "elephanta.jpg", "3",
+                "Tour the Elephanta Caves or “City of Caves,” on a unique island close to Bombay." ));
 
 
-        travelcityrestaurantmaplistAdapter = new TravelcityrestaurantmaplistAdapter(mContext, cityRestaurantList, new image_click() {
+        travelcitysightseenmaplistAdapter = new TravelcitysightseenmaplistAdapter(mContext, citySightseenList, new image_click() {
             @Override
             public void image_more_click() {
-                String getHotelData = String.valueOf(travelcityrestaurantmaplistAdapter.getData());
+                String getHotelData = String.valueOf(travelcitysightseenmaplistAdapter.getData());
 
                 getHotelData = getHotelData.substring(1, getHotelData.length() - 1);
                 Log.d("hotelCLickPosition :", getHotelData);
 
                 if (getHotelData.equalsIgnoreCase("0")) {
                     CameraUpdate center =
-                            CameraUpdateFactory.newLatLng(new LatLng(18.9938, 72.8242));
+                            CameraUpdateFactory.newLatLng(new LatLng(18.941482, 72.823679));
                     CameraUpdate zoom = CameraUpdateFactory.zoomTo(18);
 
                     googleMapj.moveCamera(center);
@@ -210,21 +210,21 @@ activityTravelCityRestaurantMapViewBinding.listImg.setOnClickListener(this);
                 }
                 else if(getHotelData.equalsIgnoreCase("1")){
                     CameraUpdate center =
-                            CameraUpdateFactory.newLatLng(new LatLng(19.1055, 72.8625));
+                            CameraUpdateFactory.newLatLng(new LatLng(18.941482, 72.823679));
                     CameraUpdate zoom = CameraUpdateFactory.zoomTo(18);
 
                     googleMapj.moveCamera(center);
                     googleMapj.animateCamera(zoom);
                 }else if(getHotelData.equalsIgnoreCase("2")){
                     CameraUpdate center =
-                            CameraUpdateFactory.newLatLng(new LatLng(18.9934, 72.8207));
+                            CameraUpdateFactory.newLatLng(new LatLng(18.941482, 72.823679));
                     CameraUpdate zoom = CameraUpdateFactory.zoomTo(18);
 
                     googleMapj.moveCamera(center);
                     googleMapj.animateCamera(zoom);
                 }else if(getHotelData.equalsIgnoreCase("3")){
                     CameraUpdate center =
-                            CameraUpdateFactory.newLatLng(new LatLng(19.1055, 72.8625));
+                            CameraUpdateFactory.newLatLng(new LatLng(18.941482, 72.823679));
                     CameraUpdate zoom = CameraUpdateFactory.zoomTo(18);
 
                     googleMapj.moveCamera(center);
@@ -232,7 +232,7 @@ activityTravelCityRestaurantMapViewBinding.listImg.setOnClickListener(this);
                 }
                 else if(getHotelData.equalsIgnoreCase("4")){
                     CameraUpdate center =
-                            CameraUpdateFactory.newLatLng(new LatLng(18.9277, 72.8212));
+                            CameraUpdateFactory.newLatLng(new LatLng(18.941482,  72.823679));
                     CameraUpdate zoom = CameraUpdateFactory.zoomTo(18);
 
                     googleMapj.moveCamera(center);
@@ -240,7 +240,7 @@ activityTravelCityRestaurantMapViewBinding.listImg.setOnClickListener(this);
 
                 }else if(getHotelData.equalsIgnoreCase("5")){
                     CameraUpdate center =
-                            CameraUpdateFactory.newLatLng(new LatLng(19.1018, 72.8259));
+                            CameraUpdateFactory.newLatLng(new LatLng(18.941482, 72.823679));
                     CameraUpdate zoom = CameraUpdateFactory.zoomTo(18);
 
                     googleMapj.moveCamera(center);
@@ -251,17 +251,12 @@ activityTravelCityRestaurantMapViewBinding.listImg.setOnClickListener(this);
             }
         });
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(mContext, RecyclerView.HORIZONTAL, false);
-        activityTravelCityRestaurantMapViewBinding.cityRestaurantRcv.setLayoutManager(mLayoutManager);
-        activityTravelCityRestaurantMapViewBinding.cityRestaurantRcv.setItemAnimator(new DefaultItemAnimator());
-        activityTravelCityRestaurantMapViewBinding.cityRestaurantRcv.setAdapter(travelcityrestaurantmaplistAdapter);
-        activityTravelCityRestaurantMapViewBinding.cityRestaurantRcv.hideShimmerAdapter();
+        activityTravelCityAllSightseenMapViewBinding.citySightseenRcv.setLayoutManager(mLayoutManager);
+        activityTravelCityAllSightseenMapViewBinding.citySightseenRcv.setItemAnimator(new DefaultItemAnimator());
+        activityTravelCityAllSightseenMapViewBinding.citySightseenRcv.setAdapter(travelcitysightseenmaplistAdapter);
+        activityTravelCityAllSightseenMapViewBinding.citySightseenRcv.hideShimmerAdapter();
 
     }
 
-    // method definition
-    public BitmapDescriptor getMarkerIcon(String color) {
-        float[] hsv = new float[3];
-        Color.colorToHSV(Color.parseColor(color), hsv);
-        return BitmapDescriptorFactory.defaultMarker(hsv[0]);
-    }
+
 }

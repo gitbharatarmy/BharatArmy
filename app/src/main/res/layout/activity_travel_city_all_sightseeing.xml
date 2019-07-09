@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
-
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.bharatarmy.Activity.TravelCityAllHotelsActivity"
-        tools:showIn="@layout/activity_travel_city_all_hotels">
+        tools:context="com.bharatarmy.Activity.TravelCityAllSightseeingActivity"
+        tools:showIn="@layout/activity_travel_city_all_sightseeing">
         <ImageView
             android:id="@+id/background_image"
             android:layout_width="@dimen/_250sdp"
@@ -72,7 +71,7 @@
                         android:gravity="center_vertical"
                         android:maxLines="1"
                         android:paddingLeft="@dimen/_5sdp"
-                        android:text="Restaurant in Mumbai"
+                        android:text="Sightseeing in Mumbai"
                         android:textAllCaps="true"
                         android:textColor="@color/splash_bg_color"
                         android:textSize="@dimen/_12sdp" />
@@ -223,12 +222,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/filter_card"
+            android:orientation="vertical"
             android:layout_marginLeft="@dimen/_6sdp"
-            android:layout_marginRight="@dimen/_6sdp"
-            android:orientation="vertical">
+            android:layout_marginRight="@dimen/_6sdp">
 
             <com.cooltechworks.views.shimmer.ShimmerRecyclerView
-                android:id="@+id/city_allrestaurantlistview_rcv"
+                android:id="@+id/city_allsightseenlistview_rcv"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:shimmer_demo_angle="10"

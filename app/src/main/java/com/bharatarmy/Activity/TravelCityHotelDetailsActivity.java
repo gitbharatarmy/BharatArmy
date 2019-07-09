@@ -71,14 +71,13 @@ public class TravelCityHotelDetailsActivity extends AppCompatActivity implements
     }
 
     public void init() {
-    }
-
-    public void setListiner() {
         setSupportActionBar(activityTravelCityHotelDetailsBinding.htabToolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+    }
 
+    public void setListiner() {
         activityTravelCityHotelDetailsBinding.htabAppbar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             boolean isShow = true;
             int scrollRange = -1;

@@ -6,6 +6,7 @@ import com.bharatarmy.Models.ImageMainModel;
 import com.bharatarmy.Models.LogginModel;
 import com.bharatarmy.Models.LoginDataModel;
 import com.bharatarmy.Models.OtpModel;
+import com.bharatarmy.Models.TravelMainModel;
 
 import java.util.Map;
 
@@ -92,4 +93,8 @@ public interface WebServices {
     @FormUrlEncoded
     @POST("/GetFTPDetail")
     void getFTPDetail(@FieldMap Map<String, String> map, Callback<ImageMainModel> callback);
+
+    @FormUrlEncoded
+    @POST("/GetItineraryDetailByDayNo")
+    void getItineraryDetailByDayNo(@FieldMap Map<String, String> map, Callback<TravelMainModel> callback);
 }

@@ -92,12 +92,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            app:behavior_overlapTop="@dimen/_64sdp">
+            app:behavior_overlapTop="@dimen/_64sdp"
+            android:layout_marginBottom="@dimen/_10sdp">
 
             <com.cooltechworks.views.shimmer.ShimmerRecyclerView
                 android:id="@+id/city_detail_rcv"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginLeft="@dimen/_15sdp"
                 android:layout_marginRight="@dimen/_15sdp"
                 app:shimmer_demo_angle="10"

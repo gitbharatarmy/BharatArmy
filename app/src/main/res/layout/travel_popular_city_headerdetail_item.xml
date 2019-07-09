@@ -154,7 +154,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.25"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
                     <LinearLayout
                         android:id="@+id/package_linear"
@@ -186,7 +187,7 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.25"
+                    android:layout_weight="0.33"
                     android:orientation="vertical">
 
                     <LinearLayout
@@ -219,14 +220,14 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.25"
+                    android:layout_weight="0.33"
                     android:orientation="vertical">
 
                     <LinearLayout
                         android:id="@+id/sightseen_linear"
                         android:layout_width="@dimen/_40sdp"
                         android:layout_height="@dimen/_40sdp"
-                        android:layout_marginLeft="@dimen/_15sdp"
+                        android:layout_gravity="center_horizontal"
                         android:background="@drawable/sightseen_shape"
                         android:orientation="vertical">
 
@@ -254,7 +255,7 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.25"
+                    android:layout_weight="0.33"
                     android:orientation="vertical"
                     android:visibility="visible">
 

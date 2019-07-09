@@ -8,6 +8,25 @@
         <item name="android:statusBarColor">@color/heading_bg</item>
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
     </style>
+    <!--<style name="DatePickerDialogCustom" parent="@style/Theme.AppCompat.Dialog">-->
+        <!--<item name="android:datePickerStyle">@style/DatePickerCustom</item>-->
+    <!--</style>-->
+
+    <!--<style name="DatePickerCustom" parent="@android:style/Widget.Material.DatePicker">-->
+        <!--<item name="android:headerBackground">@color/heading_bg</item>-->
+    <!--</style>-->
+
+    <style name="CustomDatePickerStyle" parent="@android:style/Widget.Material.Light.DatePicker">
+        <item name="android:headerBackground">@color/heading_bg</item>
+        <item name="android:calendarTextColor">@color/colorPrimaryDark</item>
+        <item name="android:dayOfWeekBackground">@color/gray</item>
+        <item name="android:yearListSelectorColor">@color/normal_font_color</item>
+        <item name="android:buttonBarPositiveButtonStyle">@color/heading_bg</item>
+        <item name="android:buttonBarNegativeButtonStyle">@drawable/curvetricolorbg</item>
+
+
+    </style>
+
 
     <style name="MyThemeVideo" parent="Theme.AppCompat.Light">
         <item name="android:windowNoTitle">true</item>

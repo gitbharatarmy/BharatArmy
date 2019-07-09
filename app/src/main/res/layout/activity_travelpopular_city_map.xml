@@ -59,13 +59,14 @@
                         android:textSize="@dimen/_12sdp" />
 
                     <ImageView
-                        android:id="@+id/share_img"
+                        android:id="@+id/list_img"
                         android:layout_width="0dp"
                         android:layout_height="@dimen/_15sdp"
                         android:layout_gravity="center_vertical"
                         android:layout_weight="0.2"
-                        android:src="@drawable/ic_share"
-                        android:visibility="gone" />
+                        android:src="@drawable/list"
+                        android:visibility="visible"
+                        android:tint="@color/splash_bg_color"/>
                 </LinearLayout>
             </androidx.appcompat.widget.Toolbar>
 

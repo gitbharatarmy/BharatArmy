@@ -5,8 +5,8 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.bharatarmy.Activity.ContactusActivity"
-        tools:showIn="@layout/activity_travelpopular_city_map">
+        tools:context="com.bharatarmy.Activity.TravelCityAllSightseenMapViewActivity"
+        tools:showIn="@layout/activity_travel_city_all_sightseen_map_view">
 
         <LinearLayout
             android:id="@+id/toolbar_linear"
@@ -94,7 +94,7 @@
             android:layout_marginLeft="@dimen/_5sdp">
 
             <com.cooltechworks.views.shimmer.ShimmerRecyclerView
-                android:id="@+id/city_restaurant_rcv"
+                android:id="@+id/city_sightseen_rcv"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:shimmer_demo_angle="10"

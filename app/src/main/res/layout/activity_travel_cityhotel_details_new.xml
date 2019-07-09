@@ -43,14 +43,16 @@
                         android:layout_alignParentBottom="true"
                         android:layout_centerHorizontal="true"
                         android:orientation="horizontal"></LinearLayout>
+
                     <View
                         android:id="@+id/toolbar_top_left_view"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_3sdp"
-            android:layout_alignParentBottom="true"
+                        android:layout_alignParentBottom="true"
                         android:background="@drawable/bg_gradiant_line"
                         android:visibility="visible" />
                 </RelativeLayout>
+
 
                 <androidx.appcompat.widget.Toolbar
                     android:id="@+id/htab_toolbar"
@@ -231,6 +233,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
                     android:orientation="vertical">
+
                     <View
                         android:id="@+id/toolbar_bottom_left_view"
                         android:layout_width="match_parent"
@@ -238,7 +241,8 @@
                         android:layout_alignParentBottom="false"
                         android:layout_gravity="center_vertical"
                         android:background="@drawable/bg_gradiant_line"
-                        android:visibility="gone"/>
+                        android:visibility="gone" />
+
                     <com.google.android.material.tabs.TabLayout
                         android:id="@+id/htab_tabs"
                         android:layout_width="match_parent"

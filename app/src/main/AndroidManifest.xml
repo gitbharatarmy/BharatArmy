@@ -26,9 +26,35 @@
         android:largeHeap="true"
         android:roundIcon="@drawable/app_logo"
         android:supportsRtl="true">
-        <activity android:name=".Activity.TravelCityRestaurantMapViewActivity"
+        <activity android:name=".Activity.TravelBookActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme">
+
+        </activity>
+        <activity
+            android:name=".Activity.TravelPacakagePlaceDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".Activity.TravelPackageActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".Activity.TravelCitySightseenDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".Activity.TravelCityAllSightseenMapViewActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".Activity.TravelCityAllSightseeingActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".Activity.TravelCityRestaurantMapViewActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".Activity.TravelCityRestaurantDetailActivity"
             android:screenOrientation="portrait"

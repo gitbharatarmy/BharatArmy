@@ -76,7 +76,7 @@ String headerStr;
 
     public void setListiner() {
         activityTravelpopularCityMapBinding.backImg.setOnClickListener(this);
-
+activityTravelpopularCityMapBinding.listImg.setOnClickListener(this);
 
     }
 
@@ -85,6 +85,10 @@ String headerStr;
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.back_img:
+                TravelpopularCityHotelMapViewActivity.this.finish();
+                overridePendingTransition(R.anim.slide_out_down,R.anim.slide_out_down);
+                break;
+            case R.id.list_img:
                 TravelpopularCityHotelMapViewActivity.this.finish();
                 overridePendingTransition(R.anim.slide_out_down,R.anim.slide_out_down);
                 break;

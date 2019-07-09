@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/citycard_click"
+    android:layout_width="@dimen/_150sdp"
+    android:layout_height="@dimen/_190sdp"
+    android:orientation="vertical"
+    app:cardCornerRadius="5dp"
+    android:elevation="1dp"
+    android:layout_marginTop="@dimen/_3sdp"
+    android:layout_marginLeft="@dimen/_12sdp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="1">
+
+        <ImageView
+            android:id="@+id/city_sightseen_image"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.5"
+            android:scaleType="centerCrop"/>
+        <View
+            android:id="@+id/view_gradiant"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_1sdp"
+            android:background="@drawable/bg_gradiant_line"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.5"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/city_sightseenname_txt"
+                style="@style/title_text_font"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/_5sdp"
+                android:paddingRight="@dimen/_5sdp"
+                android:paddingTop="@dimen/_3sdp"
+                android:text="Mumbai"
+                android:textColor="@color/heading_bg"
+                android:textSize="@dimen/_12sdp" />
+
+            <TextView
+                android:id="@+id/city_sightseendesc_txt"
+                style="@style/text_font"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:paddingLeft="@dimen/_5sdp"
+                android:paddingRight="@dimen/_5sdp"
+                android:paddingBottom="@dimen/_3sdp"
+                android:maxLines="3"
+                android:ellipsize="end"
+                android:text="Mumbai (formerly called Bombay) is a densely populated city on India’s west coast. A financial center, it's India's largest city. On the Mumbai Harbour waterfront stands the iconic Gateway of India stone arch, built by the British Raj in 1924. Offshore, nearby Elephanta Island holds ancient cave temples dedicated to the Hindu god Shiva. The city's also famous as the heart of the Bollywood film industry."
+                android:textColor="@color/normal_font_color"
+                android:textSize="@dimen/_10sdp" />
+
+
+            <TextView
+                android:id="@+id/viewdetail_btn"
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="@dimen/_15sdp"
+                android:background="@drawable/curve_btn"
+                android:text="More"
+                android:textColor="@color/splash_bg_color"
+                android:textSize="@dimen/_6sdp"
+                android:layout_marginRight="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:layout_marginBottom="@dimen/_3sdp"
+                android:gravity="center_horizontal|center_vertical"
+                android:layout_gravity="right"
+                style="@style/text_font"/>
+
+        </LinearLayout>
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

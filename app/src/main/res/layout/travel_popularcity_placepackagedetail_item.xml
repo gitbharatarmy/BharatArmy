@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/package_cardclick"
+    android:id="@+id/place_cardclick"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="@dimen/_12sdp"
-    android:layout_marginTop="@dimen/_3sdp"
-    android:layout_marginRight="@dimen/_13sdp"
-    android:layout_marginBottom="@dimen/_23sdp"
+    android:layout_marginTop="@dimen/_13sdp"
     android:orientation="vertical"
     app:cardCornerRadius="10dp">
 
@@ -22,7 +19,7 @@
             android:layout_height="match_parent">
 
             <ImageView
-                android:id="@+id/travel_popular_package_banner_img"
+                android:id="@+id/travel_popularcityplace_package_banner_img"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_130sdp"
                 android:scaleType="centerCrop"
@@ -37,7 +34,7 @@
                 android:id="@+id/topView"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_3sdp"
-                android:layout_below="@id/travel_popular_package_banner_img"
+                android:layout_below="@id/travel_popularcityplace_package_banner_img"
                 android:background="@drawable/bg_gradiant_line"
                 android:visibility="visible" />
 
@@ -112,7 +109,7 @@
                 </LinearLayout>
 
                 <TextView
-                    android:id="@+id/packageplacename_txt"
+                    android:id="@+id/packagecityplacename_txt"
                     style="@style/title_text_font"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -121,12 +118,12 @@
                     android:paddingLeft="@dimen/_10sdp"
                     android:paddingRight="@dimen/_10sdp"
                     android:paddingBottom="@dimen/_5sdp"
-                    android:text="BHARAT ARMY STORIES"
+                    android:text="@string/place_title"
                     android:textColor="@color/heading_bg"
                     android:textSize="@dimen/_16sdp" />
 
                 <TextView
-                    android:id="@+id/show_package_tour_description_txt"
+                    android:id="@+id/packagecityplacedesc_txt"
                     style="@style/text_font"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -134,7 +131,7 @@
                     android:maxLines="3"
                     android:paddingLeft="@dimen/_10sdp"
                     android:paddingRight="@dimen/_10sdp"
-                    android:text="World Cup 2019: Bring o.. \n World Cup 2019: Bring o.. \nWorld Cup 2019: Bring o.."
+                    android:text="Jet Boat Ride from Main Beach.Bungy jumping from 165 ft distance at Cairns.Great Barrier Reef Experience"
                     android:textColor="@color/normal_font_color"
                     android:textSize="@dimen/_10sdp" />
 
@@ -149,7 +146,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
-                   android:layout_marginLeft="@dimen/_12sdp"
+                    android:layout_marginLeft="@dimen/_12sdp"
                     android:paddingTop="@dimen/_5sdp"
                     android:paddingRight="@dimen/_7sdp"
                     android:paddingBottom="@dimen/_5sdp"
@@ -167,7 +164,6 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/_10sdp"
-
                         android:layout_marginBottom="@dimen/_10sdp"
                         android:layout_weight="0.7"
                         android:fillViewport="true"
@@ -257,8 +253,6 @@
 
                         </LinearLayout>
 
-
-
                     </HorizontalScrollView>
 
                     <LinearLayout
@@ -270,7 +264,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
-
                             android:layout_marginRight="@dimen/_10sdp"
                             android:layout_marginBottom="@dimen/_10sdp"
                             android:background="@drawable/book_btn"

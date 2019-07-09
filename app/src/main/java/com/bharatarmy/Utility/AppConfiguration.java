@@ -14,4 +14,5 @@ public class AppConfiguration {
     public static String wheretocomemobile;
     public static String currentCountry;
     public static String firstDashStr;
+    public static String tabPosition;
 }

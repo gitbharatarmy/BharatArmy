@@ -2,6 +2,7 @@ package com.bharatarmy.Adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,8 +11,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bharatarmy.Activity.TravelPackageActivity;
 import com.bharatarmy.Models.TravelModel;
 import com.bharatarmy.R;
 import com.squareup.picasso.Picasso;
@@ -33,6 +36,7 @@ public class PopularPackageAdapter extends RecyclerView.Adapter<PopularPackageAd
         ImageView travel_popular_package_banner_img;
 //        LinearLayout recommended_Linear;
         TextView packageplacename_txt,show_package_tour_description_txt;
+        CardView package_cardclick;
         public MyViewHolder(View view) {
             super(view);
             travel_popular_package_banner_img=(ImageView)view.findViewById(R.id.travel_popular_package_banner_img);
@@ -40,6 +44,7 @@ public class PopularPackageAdapter extends RecyclerView.Adapter<PopularPackageAd
 //            show_package_tour_subtitle_txt=(TextView)view.findViewById(R.id.show_package_tour_subtitle_txt);
             show_package_tour_description_txt=(TextView)view.findViewById(R.id.show_package_tour_description_txt);
 //            recommended_Linear=(LinearLayout)view.findViewById(R.id.recommended_Linear);
+            package_cardclick=(CardView)view.findViewById(R.id.package_cardclick);
         }
     }
 
@@ -68,6 +73,15 @@ public class PopularPackageAdapter extends RecyclerView.Adapter<PopularPackageAd
 //        }else{
 //            holder.recommended_Linear.setVisibility(View.GONE);
 //        }
+
+        holder.package_cardclick.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent pacakgeIntent=new Intent(mContext, TravelPackageActivity.class);
+                pacakgeIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                mContext.startActivity(pacakgeIntent);
+            }
+        });
 
     }
 

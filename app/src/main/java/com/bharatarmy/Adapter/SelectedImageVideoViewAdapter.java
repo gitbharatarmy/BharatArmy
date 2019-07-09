@@ -14,9 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bharatarmy.Interfaces.image_click;
 import com.bharatarmy.Models.GalleryImageModel;
-import com.bharatarmy.Models.ImageDetailModel;
-import com.bharatarmy.Models.ImageMainModel;
-import com.bharatarmy.Models.TravelDetailModel;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.Utils;
 import com.squareup.picasso.Picasso;

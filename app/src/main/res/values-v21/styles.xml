@@ -7,12 +7,31 @@
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-        <!--<item name="windowActionBar">false</item>-->
-        <!--<item name="windowNoTitle">true</item>-->
-        <!--<item name="colorAccent">@android:color/transparent</item>-->
-        <!--<item name="android:statusBarColor">@android:color/transparent</item>-->
-        <!--<item name="colorPrimary">@android:color/transparent</item>-->
-        <!--<item name="android:windowFullscreen">true</item>-->
+
+    </style>
+    <!--<style name="DatePickerDialogCustom" parent="@style/Theme.AppCompat.Dialog">-->
+        <!--<item name="android:datePickerStyle">@style/DatePickerCustom</item>-->
+    <!--</style>-->
+
+    <!--<style name="DatePickerCustom" parent="@android:style/Widget.Material.DatePicker">-->
+        <!--<item name="android:headerBackground">@color/heading_bg</item>-->
+        <!--<item name="android:colorControlActivated">@color/heading_bg</item>-->
+        <!--<item name="android:textColorPrimaryInverse">@color/white</item>-->
+    <!--</style>-->
+
+    <style name="CustomDatePickerDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorAccent">@color/heading_bg</item>
+        <item name="android:datePickerStyle">@style/CustomDatePickerStyle</item>
+        <item name="android:colorAccent">@color/colorPrimaryDark</item>
+    </style>
+
+    <style name="CustomDatePickerStyle" parent="@android:style/Widget.Material.Light.DatePicker">
+        <item name="android:headerBackground">@color/heading_bg</item>
+        <item name="android:calendarTextColor">@color/colorPrimaryDark</item>
+        <item name="android:dayOfWeekBackground">@color/gray</item>
+        <item name="android:yearListSelectorColor">@color/normal_font_color</item>
+     <item name="android:buttonBarPositiveButtonStyle">@color/heading_bg</item>
+        <item name="android:buttonBarNegativeButtonStyle">@drawable/curvetricolorbg</item>
     </style>
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">

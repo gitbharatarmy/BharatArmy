@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    tools:context=".Fragment.PackageTabFragment">
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/pacakge_day_rcv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        app:shimmer_demo_angle="10"
+        app:shimmer_demo_layout="@layout/layout_demo_grid"
+        app:shimmer_demo_layout_manager_type="linear_horizontal"
+        app:shimmer_demo_shimmer_color="#21ffffff"/>
+
+</LinearLayout>
+</layout>

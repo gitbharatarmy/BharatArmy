@@ -88,19 +88,6 @@ public class TravelFragment extends Fragment {
         speedDial = getActivity().findViewById(R.id.speedDial);
         speedDial.setVisibility(View.GONE);
 
-//        main_page_scrollview=getActivity().findViewById(R.id.main_page_scrollview);
-
-
-//        main_page_scrollview.setOnTouchListener( new View.OnTouchListener() {
-//
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event)
-//            {
-//
-//                return true;
-//            }
-//        });
-
         content = new ArrayList<TravelModel>();
         content.add(new TravelModel(AppConfiguration.IMAGE_URL+"ee5d232c-9.jpg",
                 "Bharat Army Tour to West Indies", "The Bharat Army head to the Caribbean in 2019 after the Cricket World Cup t"));
