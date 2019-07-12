@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/bottom_sheet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#fff"
+        android:orientation="vertical"
+        android:padding="@dimen/_5sdp"
+        app:behavior_hideable="true"
+        app:behavior_peekHeight="@dimen/_500sdp"
+        app:layout_behavior="android.support.design.widget.BottomSheetBehavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginTop="@dimen/_3sdp"
+            android:layout_marginLeft="@dimen/_5sdp"
+            android:layout_marginRight="@dimen/_5sdp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/_5sdp"
+                android:layout_weight="0.9"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/title_text_font"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/_2sdp"
+                    android:text="Offers for you!"
+                    android:textColor="@color/heading_bg"
+                    android:textSize="@dimen/_15sdp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/close_dialoglinear"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.1">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_10sdp"
+
+                    android:src="@drawable/close"
+                    android:layout_gravity="center_vertical|right" />
+            </LinearLayout>
+
+        </LinearLayout>
+        <View
+            android:id="@+id/top_gradiant_view"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_2sdp"
+            android:layout_below="@+id/toolbar"
+            android:layout_marginLeft="@dimen/_5sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginRight="@dimen/_5sdp"
+            android:background="@drawable/bg_gradiant_line" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/_5sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginRight="@dimen/_5sdp"
+            android:layout_weight="1"
+            android:background="@drawable/rectangle_line"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/_5sdp"
+                android:layout_weight="0.7"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/text_font"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/_2sdp"
+                    android:text="Best Deal Available"
+                    android:textColor="@color/unselected_view"
+                    android:textSize="@dimen/_9sdp" />
+
+                <TextView
+                    style="@style/title_text_font"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/_2sdp"
+                    android:text="Supremeoff"
+                    android:textAllCaps="true"
+                    android:textColor="@color/heading_bg"
+                    android:textSize="@dimen/_15sdp" />
+
+                <TextView
+                    style="@style/text_font"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/_5sdp"
+                    android:paddingLeft="@dimen/_2sdp"
+                    android:text="Exclusive Online offer.Book Online and get Rs.6000 Off. Valid only for bookings made on BA website or APP."
+                    android:textColor="@color/unselected_view"
+                    android:textSize="@dimen/_10sdp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.3">
+
+                <TextView
+                    style="@style/title_text_font"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:text="₹ 31,351"
+                    android:textAllCaps="true"
+                    android:textColor="@color/heading_bg"
+                    android:textSize="@dimen/_15sdp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/_5sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginRight="@dimen/_5sdp"
+            android:layout_weight="1"
+            android:background="@drawable/rectangle_line"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/_5sdp"
+                android:layout_weight="0.7"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/title_text_font"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/_2sdp"
+                    android:text="Wallet amount Available"
+                    android:textColor="@color/heading_bg"
+                    android:textSize="@dimen/_15sdp" />
+
+                <TextView
+                    style="@style/text_font"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/_5sdp"
+                    android:paddingLeft="@dimen/_2sdp"
+                    android:text="Save more using BA Wallet. Login now to avail discounts."
+                    android:textColor="@color/unselected_view"
+                    android:textSize="@dimen/_10sdp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.3"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/title_text_font"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:text="Login"
+                    android:textColor="@color/heading_bg"
+                    android:textSize="@dimen/_12sdp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <View
+            android:id="@+id/bottom_gradiant_view"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_2sdp"
+            android:layout_below="@+id/toolbar"
+            android:layout_marginLeft="@dimen/_5sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginRight="@dimen/_5sdp"
+            android:background="@drawable/bg_gradiant_line" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/_5sdp"
+            android:layout_marginRight="@dimen/_5sdp"
+            android:layout_marginBottom="@dimen/_5sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_margin="@dimen/_5sdp"
+                android:layout_weight="0.7"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/title_text_font"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/_2sdp"
+                    android:text="Total Savings"
+                    android:textColor="@color/heading_bg"
+                    android:textSize="@dimen/_15sdp" />
+
+                <TextView
+                    style="@style/text_font"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:paddingLeft="@dimen/_2sdp"
+                    android:text="per person"
+                    android:textColor="@color/unselected_view"
+                    android:textSize="@dimen/_10sdp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.3">
+
+                <TextView
+                    style="@style/title_text_font"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:text="₹ 31,351"
+                    android:textAllCaps="true"
+                    android:textColor="@color/heading_bg"
+                    android:textSize="@dimen/_15sdp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </LinearLayout>
+</layout>

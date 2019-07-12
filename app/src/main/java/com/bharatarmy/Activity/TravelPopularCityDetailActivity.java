@@ -13,10 +13,6 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-
-import com.bharatarmy.Adapter.TravelMatchDetailAdapter;
 import com.bharatarmy.Adapter.TravelPopularCityDetailAdapter;
 import com.bharatarmy.Models.TravelModel;
 import com.bharatarmy.R;
@@ -32,7 +28,7 @@ public class TravelPopularCityDetailActivity extends AppCompatActivity {
     ActivityTravelPopularCityDetailBinding activityTravelPopularCityDetailBinding;
     Context mContext;
 
-    ArrayList<TravelModel> cityPlaceList;
+    ArrayList<TravelModel> popularPackageList;
 
     TravelPopularCityDetailAdapter travelPopularCityDetailAdapter;
 
@@ -90,21 +86,20 @@ public class TravelPopularCityDetailActivity extends AppCompatActivity {
     }
 
     public void setDataList() {
-        cityPlaceList = new ArrayList<TravelModel>();
-        cityPlaceList.add(new TravelModel("Marine drive",
-                "https://www.holidify.com/images/compressed/attractions/attr_1817.jpg",
-                "4.3", "Starting from the north of Nariman Point and ending at the famous Chowpatty beach, the Marine Drive is a 3km long arc shaped road along the sea coast of South Mumbai. The coast lines the Arabian sea and is the best place to watch the sunset in Mumbai."));
-        cityPlaceList.add(new TravelModel("Gateway of India",
-                "South Africa tour of India, October 2019", "Catch all the action from the stands as two top test teams compete against"));
-        cityPlaceList.add(new TravelModel("https://www.bharatarmy.com//Docs/e35eee60-7.jpg",
-                "Bangladesh Tour of India, November 2019", "A full series involving the modern day rivalry  - India and Bangladesh. Wit"));
-        cityPlaceList.add(new TravelModel("https://www.bharatarmy.com//Docs/76b0e612-9.jpg",
-                "Windies Tour of India, December 2019", "Be a part of the Windies tour of India involving 3 ODIs and 3 T20s and chee"));
-        cityPlaceList.add(new TravelModel("https://www.bharatarmy.com//Docs/71210037-f.jpg",
-                "T20 World Cup 2020", "Australia is going to host T20 Cricket World Cup in 2020. Register your int"));
+        popularPackageList = new ArrayList<TravelModel>();
+        popularPackageList.add(new TravelModel("xyz","Australian Double Dhamaka: Honeymoon & adventure at one shot",AppConfiguration.IMAGE_URL+"aus1.jpg",
+                "Jet Boat Ride from Main Beach.Bungy jumping from 165 ft distance at Cairns.Great Barrier Reef Experience",
+                "1k","900","true"));
 
+        popularPackageList.add(new TravelModel("xyz","Explore the best of Australia with your soulmate",AppConfiguration.IMAGE_URL+"aus2.jpg",
+                "Grand Barossa Valley Day Tour.Happy day out at the Kangaroo Island with a fun tour amidst natural highlights.Eureka Skydeck 88.Sydney Harbour Jet Boat Thrill Ride: 30 Minutes ",
+                "2k","500","false"));
 
-        travelPopularCityDetailAdapter = new TravelPopularCityDetailAdapter(mContext, cityPlaceList);
+        popularPackageList.add(new TravelModel("xyz","Celebrate love in the Australian lands",AppConfiguration.IMAGE_URL+"aus3.jpg",
+                "Delicious dinner cruise during sunset at Sydney Harbour exposed to amazing vistas and views around the arena.Super Pass: Film World, Sea World & Wet'n'Wild Water World.Morning Whale Watching Cruise.Car hire for Great Ocean Road",
+                "5k","1000","false"));
+
+        travelPopularCityDetailAdapter = new TravelPopularCityDetailAdapter(mContext, popularPackageList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(mContext, RecyclerView.VERTICAL, false);
         activityTravelPopularCityDetailBinding.cityDetailRcv.setLayoutManager(mLayoutManager);
         activityTravelPopularCityDetailBinding.cityDetailRcv.setItemAnimator(new DefaultItemAnimator());

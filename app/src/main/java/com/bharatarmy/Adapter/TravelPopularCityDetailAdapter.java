@@ -2,6 +2,7 @@ package com.bharatarmy.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,11 +32,11 @@ public class TravelPopularCityDetailAdapter extends RecyclerView.Adapter<Recycle
     private static final int FOOTER = 2;
     Context mContext;
 
-    ArrayList<TravelModel> cityPlaceList;
+    ArrayList<TravelModel> popularPackageList;
 
-    public TravelPopularCityDetailAdapter(Context mContext, ArrayList<TravelModel> cityPlaceList) {
+    public TravelPopularCityDetailAdapter(Context mContext, ArrayList<TravelModel> popularPackageList) {
         this.mContext = mContext;
-        this.cityPlaceList = cityPlaceList;
+        this.popularPackageList = popularPackageList;
     }
 
     @Override
@@ -51,7 +52,7 @@ public class TravelPopularCityDetailAdapter extends RecyclerView.Adapter<Recycle
 
     @Override
     public int getItemCount() {
-        return cityPlaceList.size() + 1;
+        return popularPackageList.size() + 1;
     }
 
     @NonNull
@@ -71,7 +72,8 @@ public class TravelPopularCityDetailAdapter extends RecyclerView.Adapter<Recycle
 
     @Override
     public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder holder, int position) {
-//        TravelModel cityplaceDetail=cityPlaceList.get(position-1);
+//        TravelModel cityplaceDetail=popularPackageList.get(position-1);
+
 
         if (holder.getItemViewType() == ITEM) {
             Utils.setImageInImageView(AppConfiguration.IMAGE_URL+"mumbai.jpg",((ItemViewHolder) holder).travel_popularcityplace_package_banner_img,mContext);
@@ -80,7 +82,7 @@ public class TravelPopularCityDetailAdapter extends RecyclerView.Adapter<Recycle
                 @Override
                 public void onClick(View v) {
                     Intent cityplacePacakgeIntent=new Intent(mContext, TravelPackageActivity.class);
-                    cityplacePacakgeIntent.putExtra("placeName",cityPlaceList.get(position).getPopularcity_name());
+                    cityplacePacakgeIntent.putExtra("placeName",popularPackageList.get(position).getTourCityName());
                     cityplacePacakgeIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     mContext.startActivity(cityplacePacakgeIntent);
                 }
@@ -91,7 +93,7 @@ public class TravelPopularCityDetailAdapter extends RecyclerView.Adapter<Recycle
                 @Override
                 public void onClick(View v) {
                     Intent cityAllHotelIntent=new Intent(mContext, TravelCityAllHotelsActivity.class);
-                    cityAllHotelIntent.putExtra("cityName",cityPlaceList.get(position).getPopularcity_name());
+                    cityAllHotelIntent.putExtra("cityName",popularPackageList.get(position).getTourCountryName());
                     cityAllHotelIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     mContext.startActivity(cityAllHotelIntent);
                 }
@@ -100,7 +102,7 @@ public class TravelPopularCityDetailAdapter extends RecyclerView.Adapter<Recycle
                 @Override
                 public void onClick(View v) {
                     Intent cityAllRestaurantIntent=new Intent(mContext, TravelCityAllRestaurantsActivity.class);
-                    cityAllRestaurantIntent.putExtra("cityName",cityPlaceList.get(position).getPopularcity_name());
+                    cityAllRestaurantIntent.putExtra("cityName",popularPackageList.get(position).getTourCountryName());
                     cityAllRestaurantIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     mContext.startActivity(cityAllRestaurantIntent);
                 }
@@ -109,7 +111,7 @@ public class TravelPopularCityDetailAdapter extends RecyclerView.Adapter<Recycle
                 @Override
                 public void onClick(View v) {
                     Intent cityAllSightseenIntent=new Intent(mContext, TravelCityAllSightseeingActivity.class);
-                    cityAllSightseenIntent.putExtra("cityName",cityPlaceList.get(position).getPopularcity_name());
+                    cityAllSightseenIntent.putExtra("cityName",popularPackageList.get(position).getTourCountryName());
                     cityAllSightseenIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     mContext.startActivity(cityAllSightseenIntent);
                 }

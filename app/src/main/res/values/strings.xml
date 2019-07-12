@@ -222,6 +222,8 @@
     <string name="Mins" translatable="false">Mins</string>
     <string name="Secs" translatable="false">Secs</string>
     <string name="_8" translatable="false">8</string>
+    <string name="adult_detail" translatable="false">12 yrs &amp; above</string>
+    <string name="child_detail" translatable="false">2 - 12yrs</string>
 
     <string name="view_more" translatable="false"><u>View More</u></string>
     <string name="add_cart" translatable="false">ADD TO CART</string>
@@ -229,6 +231,28 @@
     <string name="hospitality_header" translatable="false">Hospitality</string>
     <string name="transfer_header" translatable="false">Transfer</string>
 
+    <string name="privacy_detail" translatable="false"> \u25CF Please note that after the finalization of the Tour service Cost, if there are any Hike in entrance fees of monuments  museums, Taxes, fuel cost or guide charges – by Govt of India, the same would be charged as extra. \n \u25CF TourMyIndia.com act only in the capacity of agent for the hotels, airlines, transporters, railways &amp; contractors providing other services &amp; all exchange orders, receipts, contracts &amp; tickets issued by us are issued subject to terms &amp; conditions under which these services are provided by them.</string>
+
+    <string name="inclusions_detail" translatable="false">- 10 nights accommodations
+- Half board (full breakfast and dinner)
+- Transfer from the airport to the first hotel and from the last hotel back to the airport (subject to arrival on the 11th of July and departure on the 21st of July)
+- All touring, entrance fees, outreach activities and lecture material
+- Air-conditioned bus and licensed tour guide
+- Arise welcome pack</string>
+    <string name="exclusion_detail" translatable="false">-Airfare to and from Israel
+- Travel/health insurance (highly recommended)
+- Entry visa if needed
+- Personal spending money
+- Lunches (except where specified)
+- 100 USD for tipping bus driver, guide and hotel staff (will be collected on the first evening)</string>
+
+
+    <string name="cancellation_detail" translatable="false">In the event of cancellation of tour  travel services due to any avoidable  unavoidable reasons we must be notified of the same in writing. Cancellation charges will be effective from the date we receive advice in writing, and cancellation charges would be as follows:
+
+45 days prior to arrival: 10% of the Tour / service cost
+15 days prior to arrival: 25% of the Tour / service cost
+07 days prior to arrival: 50% of the Tour / service cost
+48 hours prior to arrival OR No Show: No Refund</string>
     <string name="visit_people" translatable="false"><b>40+</b></string>
     <string name="text" translatable="false">
     <font size="5">DAY</font>

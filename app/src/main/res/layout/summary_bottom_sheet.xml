@@ -1,0 +1,575 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/bottomSheetLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/splash_bg_color"
+        app:behavior_hideable="false"
+        app:behavior_peekHeight="2000dp"
+        app:layout_behavior="@string/bottom_sheet_behavior">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/summary_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_50sdp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:orientation="horizontal"
+                android:weightSum="3">
+
+                <LinearLayout
+                    android:id="@+id/back_img"
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:orientation="horizontal"
+                    android:layout_marginLeft="@dimen/_5sdp">
+                    <ImageView
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_15sdp"
+                        android:src="@drawable/ic_left_arrow2"
+                        android:layout_gravity="left|center_vertical"
+                        android:tint="@color/heading_bg"/>
+                </LinearLayout>
+
+                <TextView
+                    style="@style/title_text_font"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/_2sdp"
+                    android:text="Summary"
+                    android:textColor="@color/heading_bg"
+                    android:textSize="@dimen/_15sdp" />
+            </LinearLayout>
+        </androidx.appcompat.widget.Toolbar>
+
+
+        <View
+            android:id="@+id/top_gradiant_view"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_2sdp"
+          android:layout_below="@+id/summary_toolbar"
+            android:background="@drawable/bg_gradiant_line" />
+
+        <ScrollView
+            android:id="@+id/summary_scroll"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/top_gradiant_view"
+            android:scrollbars="none"
+            android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/summary_scroll"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+
+            android:orientation="vertical"
+            android:visibility="visible">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_5sdp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/title_text_font"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/_2sdp"
+                    android:text="Your Experience Includes"
+                    android:textColor="@color/heading_bg"
+                    android:textSize="@dimen/_12sdp" />
+
+
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginBottom="@dimen/_5sdp"
+                    android:layout_weight="0.73"
+                    android:fillViewport="true"
+                    android:measureAllChildren="false"
+                    android:scrollbars="none">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="3">
+
+
+                        <LinearLayout
+                            android:layout_width="@dimen/_30sdp"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:id="@+id/hotel_linear"
+                                android:layout_width="@dimen/_27sdp"
+                                android:layout_height="@dimen/_27sdp"
+                                android:layout_gravity="center_horizontal"
+                                android:background="@drawable/circle_graidant"
+                                android:orientation="vertical">
+
+                                <ImageView
+                                    android:layout_width="@dimen/_14sdp"
+                                    android:layout_height="@dimen/_14sdp"
+                                    android:layout_margin="@dimen/_6sdp"
+                                    android:src="@drawable/travel_hotel"
+                                    android:tint="@color/heading_bg" />
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="@dimen/_30sdp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/_3sdp"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:id="@+id/sightseen_linear"
+                                android:layout_width="@dimen/_27sdp"
+                                android:layout_height="@dimen/_27sdp"
+                                android:layout_gravity="center_horizontal"
+                                android:background="@drawable/circle_graidant"
+                                android:orientation="vertical">
+
+                                <ImageView
+                                    android:layout_width="@dimen/_14sdp"
+                                    android:layout_height="@dimen/_14sdp"
+                                    android:layout_gravity="center_horizontal|center_vertical"
+                                    android:layout_margin="@dimen/_6sdp"
+                                    android:src="@drawable/lunch"
+                                    android:tint="@color/heading_bg" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="@dimen/_30sdp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/_3sdp"
+                            android:orientation="vertical"
+                            android:visibility="visible">
+
+                            <LinearLayout
+                                android:id="@+id/restaurant_linear"
+                                android:layout_width="@dimen/_27sdp"
+                                android:layout_height="@dimen/_27sdp"
+                                android:layout_gravity="center_horizontal"
+                                android:background="@drawable/circle_graidant"
+                                android:orientation="vertical">
+
+                                <ImageView
+                                    android:layout_width="@dimen/_14sdp"
+                                    android:layout_height="@dimen/_14sdp"
+                                    android:layout_margin="@dimen/_6sdp"
+                                    android:src="@drawable/dinner"
+                                    android:tint="@color/heading_bg" />
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+
+                </HorizontalScrollView>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_marginRight="@dimen/_5sdp"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:layout_weight="0.9"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/title_text_font"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="@dimen/_2sdp"
+                        android:text="Offers for you!"
+                        android:textColor="@color/heading_bg"
+                        android:textSize="@dimen/_12sdp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/close_dialoglinear"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.1"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_10sdp"
+
+                        android:src="@drawable/close"
+                        android:layout_gravity="center_vertical|right" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginRight="@dimen/_5sdp"
+                android:layout_weight="1"
+                android:background="@drawable/rectangle_line"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:layout_weight="0.7"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/text_font"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="@dimen/_2sdp"
+                        android:text="Best Deal Available"
+                        android:textColor="@color/unselected_view"
+                        android:textSize="@dimen/_9sdp" />
+
+                    <TextView
+                        style="@style/title_text_font"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="@dimen/_2sdp"
+                        android:text="Supremeoff"
+                        android:textAllCaps="true"
+                        android:textColor="@color/heading_bg"
+                        android:textSize="@dimen/_15sdp" />
+
+                    <TextView
+                        style="@style/text_font"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/_5sdp"
+                        android:paddingLeft="@dimen/_2sdp"
+                        android:text="Exclusive Online offer.Book Online and get Rs.6000 Off. Valid only for bookings made on BA website or APP."
+                        android:textColor="@color/unselected_view"
+                        android:textSize="@dimen/_10sdp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.3">
+
+                    <TextView
+                        style="@style/title_text_font"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical|center_horizontal"
+                        android:text="₹ 31,351"
+                        android:textAllCaps="true"
+                        android:textColor="@color/heading_bg"
+                        android:textSize="@dimen/_15sdp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginRight="@dimen/_5sdp"
+                android:layout_weight="1"
+                android:background="@drawable/rectangle_line"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:layout_weight="0.7"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/title_text_font"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="@dimen/_2sdp"
+                        android:text="Wallet amount Available"
+                        android:textColor="@color/heading_bg"
+                        android:textSize="@dimen/_15sdp" />
+
+                    <TextView
+                        style="@style/text_font"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/_5sdp"
+                        android:paddingLeft="@dimen/_2sdp"
+                        android:text="Save more using BA Wallet. Login now to avail discounts."
+                        android:textColor="@color/unselected_view"
+                        android:textSize="@dimen/_10sdp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.3"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/title_text_font"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical|center_horizontal"
+                        android:text="Login"
+                        android:textColor="@color/heading_bg"
+                        android:textSize="@dimen/_12sdp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+            </LinearLayout>
+            <View
+                android:id="@+id/bottom_gradiant_view"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_2sdp"
+                android:layout_below="@+id/toolbar"
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginRight="@dimen/_5sdp"
+                android:background="@drawable/bg_gradiant_line"
+                android:visibility="gone"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:layout_marginRight="@dimen/_5sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:layout_weight="0.7"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/title_text_font"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="@dimen/_2sdp"
+                        android:text="Total Savings"
+                        android:textColor="@color/heading_bg"
+                        android:textSize="@dimen/_15sdp" />
+
+                    <TextView
+                        style="@style/text_font"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:paddingLeft="@dimen/_2sdp"
+                        android:text="per person"
+                        android:textColor="@color/unselected_view"
+                        android:textSize="@dimen/_10sdp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.3">
+
+                    <TextView
+                        style="@style/title_text_font"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical|center_horizontal"
+                        android:text="₹ 31,351"
+                        android:textAllCaps="true"
+                        android:textColor="@color/heading_bg"
+                        android:textSize="@dimen/_15sdp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:id="@+id/privacypoilcy_linear"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_35sdp"
+                    android:orientation="horizontal"
+                    android:layout_weight="1">
+                <TextView
+                    style="@style/title_text_font"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.9"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/_2sdp"
+                    android:text="Privacy Policy"
+                    android:textColor="@color/heading_bg"
+                    android:textSize="@dimen/_12sdp" />
+
+                    <ImageView
+                        android:id="@+id/privacyexpand_collapse_img"
+                        android:layout_width="0dp"
+                        android:layout_weight="0.1"
+                        android:layout_height="@dimen/_12sdp"
+                        android:src="@drawable/expands"/>
+
+                </LinearLayout>
+                <TextView
+                    android:id="@+id/privacypolicy_txt"
+                    style="@style/text_font"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:paddingLeft="@dimen/_2sdp"
+                    android:text="@string/privacy_detail"
+                    android:textColor="@color/normal_font_color"
+                    android:textSize="@dimen/_11sdp" />
+                <LinearLayout
+                    android:id="@+id/cancelpoilcy_linear"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:orientation="horizontal"
+                    android:layout_weight="1">
+                <TextView
+                    style="@style/title_text_font"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.9"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/_2sdp"
+                    android:text="Cancellation Policy"
+                    android:textColor="@color/heading_bg"
+                    android:textSize="@dimen/_12sdp" />
+                    <ImageView
+                        android:id="@+id/cancelexpand_collapse_img"
+                        android:layout_width="0dp"
+                        android:layout_weight="0.1"
+                        android:layout_height="@dimen/_12sdp"
+                        android:src="@drawable/expands"/>
+
+                </LinearLayout>
+                <TextView
+                    android:id="@+id/cancellationpolicy_txt"
+                    style="@style/text_font"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/_2sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:text="@string/cancellation_detail"
+                    android:textColor="@color/normal_font_color"
+                    android:textSize="@dimen/_11sdp" />
+                <LinearLayout
+                    android:id="@+id/inclusionpoilcy_linear"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:orientation="horizontal"
+                    android:layout_weight="1">
+                <TextView
+                    style="@style/title_text_font"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.9"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/_2sdp"
+                    android:text="Inclusions"
+                    android:textColor="@color/heading_bg"
+                    android:textSize="@dimen/_12sdp" />
+                <ImageView
+                    android:id="@+id/inclusionexpand_collapse_img"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.1"
+                    android:layout_height="@dimen/_12sdp"
+                    android:src="@drawable/expands"/>
+                </LinearLayout>
+                <TextView
+                    android:id="@+id/inclusiondetail_txt"
+                    style="@style/text_font"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/_2sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:text="@string/inclusions_detail"
+                    android:textColor="@color/normal_font_color"
+                    android:textSize="@dimen/_11sdp" />
+                <LinearLayout
+                    android:id="@+id/exclusionpoilcy_linear"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:orientation="horizontal"
+                    android:layout_weight="1">
+                <TextView
+                    style="@style/title_text_font"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.9"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/_2sdp"
+                    android:text="Exclusion"
+                    android:textColor="@color/heading_bg"
+                    android:textSize="@dimen/_12sdp" />
+                    <ImageView
+                        android:id="@+id/exlusionexpand_collapse_img"
+                        android:layout_width="0dp"
+                        android:layout_weight="0.1"
+                        android:layout_height="@dimen/_12sdp"
+                        android:src="@drawable/expands"/>
+                </LinearLayout>
+                <TextView
+                    android:id="@+id/exclusiondetail_txt"
+                    style="@style/text_font"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/_2sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginBottom="@dimen/_25sdp"
+                    android:text="@string/exclusion_detail"
+                    android:textColor="@color/normal_font_color"
+                    android:textSize="@dimen/_11sdp" />
+
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+
+        </ScrollView>
+    </RelativeLayout>

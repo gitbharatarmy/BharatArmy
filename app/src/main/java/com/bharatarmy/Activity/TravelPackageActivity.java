@@ -1,5 +1,6 @@
 package com.bharatarmy.Activity;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
@@ -8,6 +9,7 @@ import androidx.databinding.DataBindingUtil;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.Spannable;
@@ -22,6 +24,8 @@ import android.view.View;
 
 import com.bharatarmy.Adapter.PackagePageAdapter;
 import com.bharatarmy.Adapter.TravelPacakgeTabAdapter;
+import com.bharatarmy.Fragment.MyOffersBottomSheetDialogFragment;
+import com.bharatarmy.Fragment.PacakgeSummaryBottomSheetDialogFragment;
 import com.bharatarmy.Models.TravelDetailModel;
 import com.bharatarmy.Models.TravelMainModel;
 import com.bharatarmy.R;
@@ -30,6 +34,8 @@ import com.bharatarmy.Utility.AppConfiguration;
 import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.ActivityTravelPackageBinding;
 import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.HashMap;
@@ -44,9 +50,9 @@ public class TravelPackageActivity extends AppCompatActivity {
     Context mContext;
     PackagePageAdapter packagePageAdapter;
     List<TravelDetailModel> travelPacakgeTabList;
-
+    BottomSheetDialogFragment bottomSheetDialogFragment;
+    private BottomSheetBehavior mBottomSheetBehavior;
     @Override
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activityTravelPackageBinding = DataBindingUtil.setContentView(this, R.layout.activity_travel_package);
@@ -63,6 +69,9 @@ public class TravelPackageActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         activityTravelPackageBinding.shimmerViewContainer.startShimmerAnimation();
+        activityTravelPackageBinding.oldpriceTxt.setPaintFlags(activityTravelPackageBinding.oldpriceTxt.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+
+//        mBottomSheetBehavior = BottomSheetBehavior.from(findViewById(R.id.bottomSheetLayout));
     }
 
     public void setLisitner() {
@@ -108,6 +117,17 @@ public class TravelPackageActivity extends AppCompatActivity {
                 startActivity(bookIntent);
             }
         });
+        activityTravelPackageBinding.summaryLinear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bottomSheetDialogFragment = new PacakgeSummaryBottomSheetDialogFragment();
+                //show it
+                bottomSheetDialogFragment.setCancelable(false);
+                bottomSheetDialogFragment.show(getSupportFragmentManager(), bottomSheetDialogFragment.getTag());
+            }
+        });
+
+
     }
 
     public void setTabLayoutList() {

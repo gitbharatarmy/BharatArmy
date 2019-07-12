@@ -28,7 +28,7 @@ public class TravelMatchDetailActivity extends AppCompatActivity implements View
 
     ActivityTravelMatchDetailBinding travelMatchDetailBinding;
     Context mContext;
-    String bgImageStr,tourMatchNameStr;
+    String bgImageStr,tourMatchNameStr="";
     TravelMatchDetailAdapter travelMatchDetailAdapter;
     ArrayList<TravelModel> arrayList;
 
@@ -51,9 +51,9 @@ public class TravelMatchDetailActivity extends AppCompatActivity implements View
         Utils.setImageInImageView("https://cdn.drivebird.com/user-content/140000000001/2017/09/627c6d094ccd59cdcf10035482d7497f.jpg",
                 travelMatchDetailBinding.mainMatchBgImage, mContext);
 
-        if (!tourMatchNameStr.equalsIgnoreCase("")){
-            travelMatchDetailBinding.tourNameTxt.setText(tourMatchNameStr);
-        }
+//        if (!tourMatchNameStr.equalsIgnoreCase("")){
+//            travelMatchDetailBinding.tourNameTxt.setText(tourMatchNameStr);
+//        }
 
         Utils.setImageInImageView("https://www.bharatarmy.com/Content/images/flags-mini/in.png",travelMatchDetailBinding.firstCountryflagImage,mContext);
         Utils.setImageInImageView("https://www.bharatarmy.com/Content/images/flags-mini/sou.png",travelMatchDetailBinding.secondCountryflagImage,mContext);

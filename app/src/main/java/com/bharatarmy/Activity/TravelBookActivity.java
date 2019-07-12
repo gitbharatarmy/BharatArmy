@@ -1,37 +1,53 @@
 package com.bharatarmy.Activity;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Paint;
 import android.icu.text.DateFormat;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.DatePicker;
 
+import com.bharatarmy.Fragment.MyOffersBottomSheetDialogFragment;
+import com.bharatarmy.Models.TravelModel;
 import com.bharatarmy.R;
 import com.bharatarmy.databinding.ActivityTravelBookBinding;
+import com.bharatarmy.databinding.OffersBottomSheetBinding;
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 
 public class TravelBookActivity extends AppCompatActivity implements View.OnClickListener {
 
     ActivityTravelBookBinding activityTravelBookBinding;
     Context mContext;
     String titleNameStr;
-    private int mYear, mMonth, mDay, mHour, mMinute,storemonth,storeyear;
+    private int mYear, mMonth, mDay;
     DatePickerDialog datePickerDialog;
     String selectedDateStr;
-   ;
+    ArrayList<TravelModel> monthdetail;
+    int adultcount=0;
+    int childcount=0;
+    int infantscount=0;
+    BottomSheetDialogFragment bottomSheetDialogFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,20 +62,17 @@ public class TravelBookActivity extends AppCompatActivity implements View.OnClic
 
     public void init() {
         titleNameStr = getIntent().getStringExtra("pacakgeName");
-
         activityTravelBookBinding.bookpacakgeTitletxt.setText(titleNameStr);
 
         // Get Current Date
-
         Calendar c = Calendar.getInstance();
         mYear = c.get(Calendar.YEAR);
         mMonth = c.get(Calendar.MONTH);
         mDay = c.get(Calendar.DAY_OF_MONTH);
 
-        setDateLinear(mDay,mYear,mMonth,0);
+        setDateLinear(mDay, mYear, mMonth, 0);
 
-
-
+        activityTravelBookBinding.oldpriceTxt.setPaintFlags(activityTravelBookBinding.oldpriceTxt.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
 
     }
 
@@ -72,6 +85,13 @@ public class TravelBookActivity extends AppCompatActivity implements View.OnClic
         activityTravelBookBinding.fourthDayLinear.setOnClickListener(this);
         activityTravelBookBinding.fiveDayLinear.setOnClickListener(this);
         activityTravelBookBinding.sixDayLinear.setOnClickListener(this);
+        activityTravelBookBinding.adultaddTxt.setOnClickListener(this);
+        activityTravelBookBinding.adultremoveTxt.setOnClickListener(this);
+        activityTravelBookBinding.childaddTxt.setOnClickListener(this);
+        activityTravelBookBinding.childremoveTxt.setOnClickListener(this);
+        activityTravelBookBinding.infantsaddTxt.setOnClickListener(this);
+        activityTravelBookBinding.infantsremoveTxt.setOnClickListener(this);
+        activityTravelBookBinding.callLinear.setOnClickListener(this);
     }
 
     public void setDayDateList() {
@@ -107,11 +127,85 @@ public class TravelBookActivity extends AppCompatActivity implements View.OnClic
             case R.id.six_day_linear:
                 sixdateLinear();
                 break;
+            case R.id.adultremove_txt:
+                if (adultcount!=1){
+                    adultcount=adultcount-1;
+                    if (adultcount<=9){
+                        activityTravelBookBinding.adultcountTxt.setText("0"+String.valueOf(adultcount));
+                    }else{
+                        activityTravelBookBinding.adultcountTxt.setText(String.valueOf(adultcount));
+                    }
+
+                }else{
+                    activityTravelBookBinding.adultremoveTxt.setClickable(false);
+                }
+
+                break;
+            case R.id.adultadd_txt:
+                activityTravelBookBinding.adultremoveTxt.setClickable(true);
+                adultcount=adultcount+1;
+                if (adultcount<=9){
+                    activityTravelBookBinding.adultcountTxt.setText("0"+String.valueOf(adultcount));
+                }else{
+                    activityTravelBookBinding.adultcountTxt.setText(String.valueOf(adultcount));
+                }
+
+                break;
+            case R.id.childremove_txt:
+                if (childcount!=0){
+                    childcount=childcount-1;
+                    if (childcount<=9){
+                        activityTravelBookBinding.childcountTxt.setText("0"+String.valueOf(childcount));
+                    }else{
+                        activityTravelBookBinding.childcountTxt.setText(String.valueOf(childcount));
+                    }
+
+                }else{
+                    activityTravelBookBinding.childremoveTxt.setClickable(false);
+                }
+                break;
+            case R.id.childadd_txt:
+                activityTravelBookBinding.childremoveTxt.setClickable(true);
+                childcount=childcount+1;
+                if (childcount<=9){
+                    activityTravelBookBinding.childcountTxt.setText("0"+String.valueOf(childcount));
+                }else{
+                    activityTravelBookBinding.childcountTxt.setText(String.valueOf(childcount));
+                }
+                break;
+            case R.id.infantsremove_txt:
+                if (infantscount!=0){
+                    infantscount=infantscount-1;
+                    if (infantscount<=9){
+                        activityTravelBookBinding.infantscountTxt.setText("0"+String.valueOf(infantscount));
+                    }else{
+                        activityTravelBookBinding.infantscountTxt.setText(String.valueOf(infantscount));
+                    }
+
+                }else{
+                    activityTravelBookBinding.infantsremoveTxt.setClickable(false);
+                }
+                break;
+            case R.id.infantsadd_txt:
+                activityTravelBookBinding.infantsremoveTxt.setClickable(true);
+                infantscount=infantscount+1;
+                if (infantscount<=9){
+                    activityTravelBookBinding.infantscountTxt.setText("0"+String.valueOf(infantscount));
+                }else{
+                    activityTravelBookBinding.infantscountTxt.setText(String.valueOf(infantscount));
+                }
+                break;
+            case R.id.call_linear:
+//               bottomSheetDialogFragment = new MyOffersBottomSheetDialogFragment();
+//                //show it
+//                bottomSheetDialogFragment.show(getSupportFragmentManager(), bottomSheetDialogFragment.getTag());
+                break;
         }
     }
 
 
     public void setDateList() {
+
         datePickerDialog = new DatePickerDialog(mContext, R.style.CustomDatePickerDialogTheme,
                 new DatePickerDialog.OnDateSetListener() {
 
@@ -119,22 +213,23 @@ public class TravelBookActivity extends AppCompatActivity implements View.OnClic
                     public void onDateSet(DatePicker view, int year,
                                           int monthOfYear, int dayOfMonth) {
 
-                        mDay=dayOfMonth;
-                        mYear=year;
-                        mMonth=monthOfYear;
+                        mDay = dayOfMonth;
+                        mYear = year;
+                        mMonth = monthOfYear;
 
                         Log.d("date :", dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
-                        setDateLinear(dayOfMonth,year,monthOfYear,1);
+                        setDateLinear(dayOfMonth, year, monthOfYear, 1);
 
                     }
                 }, mYear, mMonth, mDay);
+        datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
         datePickerDialog.show();
     }
 
     public void firstdateLinear() {
-        mMonth=storemonth+1;
-        mYear=storeyear;
-        mDay= Integer.parseInt(activityTravelBookBinding.firstdayDateTxt.getText().toString());
+        mMonth= Integer.parseInt(monthdetail.get(0).getCityHotelAmenitiesImage())-1;
+        mYear= Integer.parseInt(monthdetail.get(0).getCityHotelAmenitiesName());
+        mDay = Integer.parseInt(activityTravelBookBinding.firstdayDateTxt.getText().toString());
         activityTravelBookBinding.firstDayLinear.setBackground(getResources().getDrawable(R.drawable.curvetricolorbg));
         activityTravelBookBinding.firstdayDateTxt.setTextColor(getResources().getColor(R.color.splash_bg_color));
         activityTravelBookBinding.firstdayTxt.setTextColor(getResources().getColor(R.color.splash_bg_color));
@@ -161,9 +256,9 @@ public class TravelBookActivity extends AppCompatActivity implements View.OnClic
     }
 
     public void seconddateLinear() {
-        mMonth=storemonth+1;
-        mYear=storeyear;
-        mDay= Integer.parseInt(activityTravelBookBinding.seconddayDateTxt.getText().toString());
+        mMonth= Integer.parseInt(monthdetail.get(1).getCityHotelAmenitiesImage())-1;
+        mYear= Integer.parseInt(monthdetail.get(1).getCityHotelAmenitiesName());
+        mDay = Integer.parseInt(activityTravelBookBinding.seconddayDateTxt.getText().toString());
         activityTravelBookBinding.firstDayLinear.setBackground(getResources().getDrawable(R.drawable.daybg));
         activityTravelBookBinding.firstdayDateTxt.setTextColor(getResources().getColor(R.color.unselected_view));
         activityTravelBookBinding.firstdayTxt.setTextColor(getResources().getColor(R.color.unselected_view));
@@ -190,9 +285,9 @@ public class TravelBookActivity extends AppCompatActivity implements View.OnClic
     }
 
     public void thirddateLinear() {
-        mMonth=storemonth+1;
-        mYear=storeyear;
-        mDay= Integer.parseInt(activityTravelBookBinding.thirddayDateTxt.getText().toString());
+        mMonth= Integer.parseInt(monthdetail.get(2).getCityHotelAmenitiesImage())-1;
+        mYear= Integer.parseInt(monthdetail.get(2).getCityHotelAmenitiesName());
+        mDay = Integer.parseInt(activityTravelBookBinding.thirddayDateTxt.getText().toString());
         activityTravelBookBinding.firstDayLinear.setBackground(getResources().getDrawable(R.drawable.daybg));
         activityTravelBookBinding.firstdayDateTxt.setTextColor(getResources().getColor(R.color.unselected_view));
         activityTravelBookBinding.firstdayTxt.setTextColor(getResources().getColor(R.color.unselected_view));
@@ -219,9 +314,9 @@ public class TravelBookActivity extends AppCompatActivity implements View.OnClic
     }
 
     public void fourthdateLinear() {
-        mMonth=storemonth+1;
-        mYear=storeyear;
-        mDay= Integer.parseInt(activityTravelBookBinding.fourthdayDateTxt.getText().toString());
+        mMonth= Integer.parseInt(monthdetail.get(3).getCityHotelAmenitiesImage())-1;
+        mYear= Integer.parseInt(monthdetail.get(3).getCityHotelAmenitiesName());
+        mDay = Integer.parseInt(activityTravelBookBinding.fourthdayDateTxt.getText().toString());
         activityTravelBookBinding.firstDayLinear.setBackground(getResources().getDrawable(R.drawable.daybg));
         activityTravelBookBinding.firstdayDateTxt.setTextColor(getResources().getColor(R.color.unselected_view));
         activityTravelBookBinding.firstdayTxt.setTextColor(getResources().getColor(R.color.unselected_view));
@@ -248,9 +343,9 @@ public class TravelBookActivity extends AppCompatActivity implements View.OnClic
     }
 
     public void fivedateLinear() {
-        mMonth=storemonth+1;
-        mYear=storeyear;
-        mDay= Integer.parseInt(activityTravelBookBinding.fivedayDateTxt.getText().toString());
+        mMonth= Integer.parseInt(monthdetail.get(4).getCityHotelAmenitiesImage())-1;
+        mYear= Integer.parseInt(monthdetail.get(4).getCityHotelAmenitiesName());
+        mDay = Integer.parseInt(activityTravelBookBinding.fivedayDateTxt.getText().toString());
         activityTravelBookBinding.firstDayLinear.setBackground(getResources().getDrawable(R.drawable.daybg));
         activityTravelBookBinding.firstdayDateTxt.setTextColor(getResources().getColor(R.color.unselected_view));
         activityTravelBookBinding.firstdayTxt.setTextColor(getResources().getColor(R.color.unselected_view));
@@ -277,9 +372,9 @@ public class TravelBookActivity extends AppCompatActivity implements View.OnClic
     }
 
     public void sixdateLinear() {
-        mMonth=storemonth+1;
-        mYear=storeyear;
-        mDay= Integer.parseInt(activityTravelBookBinding.sixdayDateTxt.getText().toString());
+        mMonth= Integer.parseInt(monthdetail.get(5).getCityHotelAmenitiesImage())-1;
+        mYear= Integer.parseInt(monthdetail.get(5).getCityHotelAmenitiesName());
+        mDay = Integer.parseInt(activityTravelBookBinding.sixdayDateTxt.getText().toString());
         activityTravelBookBinding.firstDayLinear.setBackground(getResources().getDrawable(R.drawable.daybg));
         activityTravelBookBinding.firstdayDateTxt.setTextColor(getResources().getColor(R.color.unselected_view));
         activityTravelBookBinding.firstdayTxt.setTextColor(getResources().getColor(R.color.unselected_view));
@@ -305,50 +400,52 @@ public class TravelBookActivity extends AppCompatActivity implements View.OnClic
         activityTravelBookBinding.sixdayTxt.setTextColor(getResources().getColor(R.color.splash_bg_color));
     }
 
-    public void setDateLinear(int mDay,int mYear,int mMonth,int where){
-        storemonth=mMonth;
-        storeyear=mYear;
+    public void setDateLinear(int mDay, int mYear, int mMonth, int where) {
+
         if (mDay <= 9) {
-            selectedDateStr  =String.valueOf( "0" + mDay);
+            selectedDateStr = String.valueOf("0" + mDay);
         } else {
             selectedDateStr = String.valueOf(mDay);
         }
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
-        calendar.set(mYear,mMonth,mDay);
+        calendar.set(mYear, mMonth, mDay);
 
         String[] days = new String[7];
-        for(int i = 0; i < 7;i++){
+        for (int i = 0; i < 7; i++) {
             days[i] = format.format(calendar.getTime());
-            calendar.add(Calendar.DATE  , 1);
+            calendar.add(Calendar.DATE, 1);
             Log.d("Days" + i, "date :" + days[i]);
         }
 
-        String[] datedays=new String[7];
-        for (int k=0;k<days.length;k++){
+        String[] datedays = new String[7];
+        for (int k = 0; k < days.length; k++) {
             Date date = null;
             try {
                 date = format.parse(days[k]);
                 SimpleDateFormat outFormat = new SimpleDateFormat("EEE");
-                datedays[k]=outFormat.format(date);
+                datedays[k] = outFormat.format(date);
                 Log.d("Days" + k, "date :" + datedays[k]);
             } catch (ParseException e) {
                 e.printStackTrace();
             }
         }
 
+        monthdetail = new ArrayList<TravelModel>();
 
-        for (int i=0;i<days.length;i++){
+        for (int i = 0; i < days.length; i++) {
+            activityTravelBookBinding.firstdayDateTxt.setText(days[0].substring(0, 2));
+            activityTravelBookBinding.seconddayDateTxt.setText(days[1].substring(0, 2));
+            activityTravelBookBinding.thirddayDateTxt.setText(days[2].substring(0, 2));
+            activityTravelBookBinding.fourthdayDateTxt.setText(days[3].substring(0, 2));
+            activityTravelBookBinding.fivedayDateTxt.setText(days[4].substring(0, 2));
+            activityTravelBookBinding.sixdayDateTxt.setText(days[5].substring(0, 2));
 
-            activityTravelBookBinding.firstdayDateTxt.setText(days[0].substring(0,2));
-            activityTravelBookBinding.seconddayDateTxt.setText(days[1].substring(0,2));
-            activityTravelBookBinding.thirddayDateTxt.setText(days[2].substring(0,2));
-            activityTravelBookBinding.fourthdayDateTxt.setText(days[3].substring(0,2));
-            activityTravelBookBinding.fivedayDateTxt.setText(days[4].substring(0,2));
-            activityTravelBookBinding.sixdayDateTxt.setText(days[5].substring(0,2));
+            monthdetail.add(new TravelModel(days[i].substring(3,5),days[i].substring(6,10)));
         }
 
-        for (int i=0;i<datedays.length;i++){
+
+        for (int i = 0; i < datedays.length; i++) {
             activityTravelBookBinding.firstdayTxt.setText(datedays[0]);
             activityTravelBookBinding.seconddayTxt.setText(datedays[1]);
             activityTravelBookBinding.thirddayTxt.setText(datedays[2]);
@@ -359,4 +456,9 @@ public class TravelBookActivity extends AppCompatActivity implements View.OnClic
 
         activityTravelBookBinding.firstDayLinear.performClick();
     }
+
+
+
+
+
 }

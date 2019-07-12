@@ -43,6 +43,32 @@ public class TravelModel {
     String cityHotelAmenitiesName;
 
 
+    int changeMonth;
+    int changeYear;
+
+    public TravelModel(){}
+
+    public TravelModel(int changeMonth,int changeYear){
+        this.changeMonth=changeMonth;
+        this.changeYear=changeYear;
+    }
+
+    public int getChangeMonth() {
+        return changeMonth;
+    }
+
+    public void setChangeMonth(int changeMonth) {
+        this.changeMonth = changeMonth;
+    }
+
+    public int getChangeYear() {
+        return changeYear;
+    }
+
+    public void setChangeYear(int changeYear) {
+        this.changeYear = changeYear;
+    }
+
     public String getMatch_image() {
         return match_image;
     }
