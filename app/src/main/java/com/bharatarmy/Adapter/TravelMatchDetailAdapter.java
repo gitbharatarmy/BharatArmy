@@ -6,6 +6,7 @@ import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -14,82 +15,159 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bharatarmy.Models.TravelModel;
 import com.bharatarmy.R;
+import com.bharatarmy.TravelDesignModule.RoundishImageView;
 import com.bharatarmy.Utility.Utils;
+import com.github.siyamed.shapeimageview.RoundedImageView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
-public class TravelMatchDetailAdapter extends RecyclerView.Adapter<TravelMatchDetailAdapter.MyViewHolder> {
-    Context mContext;
-    ArrayList<TravelModel> arrayList;
+public class TravelMatchDetailAdapter extends BaseExpandableListAdapter {
 
+    private Context _context;
+    private List<String> _listDataHeader; // header titles
+    // child data in format of header title, child title
+    private HashMap<String, List<String>> listChildData;
+    private ArrayList<String> staffattendaceModel = new ArrayList<>();
 
-    public TravelMatchDetailAdapter(Context mContext, ArrayList<TravelModel> arrayList) {
-        this.mContext = mContext;
-        this.arrayList = arrayList;
+    public TravelMatchDetailAdapter(Context context, List<String> listDataHeader,
+                                    HashMap<String, List<String>> listChildData) {
+        this._context = context;
+        this._listDataHeader = listDataHeader;
+        this.listChildData = listChildData;
     }
-
-
-    public class MyViewHolder extends RecyclerView.ViewHolder {
-        ImageView Firstcountry_flagImage, Secondcountry_flagImage, left_bg_img;
-        LinearLayout left_bg_Linear;
-
-        public MyViewHolder(View view) {
-            super(view);
-            Firstcountry_flagImage = (ImageView) view.findViewById(R.id.firstcountry_flagImage);
-            Secondcountry_flagImage = (ImageView) view.findViewById(R.id.secondcountry_flagImage);
-            left_bg_Linear = (LinearLayout) view.findViewById(R.id.left_bg_Linear);
-            left_bg_img = (ImageView) view.findViewById(R.id.left_bg_img);
-        }
-    }
-
 
     @Override
-
-    public TravelMatchDetailAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.travel_match_detail_item_list_new, parent, false);
-
-
-        return new TravelMatchDetailAdapter.MyViewHolder(itemView);
+    public List<String> getChild(int groupPosition, int childPosititon) {
+        return this.listChildData.get(this._listDataHeader.get(groupPosition));
     }
 
-    @SuppressLint("ResourceAsColor")
     @Override
-    public void onBindViewHolder(TravelMatchDetailAdapter.MyViewHolder holder, int position) {
+    public long getChildId(int groupPosition, int childPosition) {
+        return childPosition;
+    }
 
-        TravelModel matchDetail = arrayList.get(position);
-        Utils.setImageInImageView("https://www.bharatarmy.com/Content/images/flags-mini/in.png", holder.Firstcountry_flagImage, mContext);
-        Utils.setImageInImageView("https://www.bharatarmy.com/Content/images/flags-mini/sou.png", holder.Secondcountry_flagImage, mContext);
+    @Override
+    public View getChildView(int groupPosition, final int childPosition,
+                             boolean isLastChild, View convertView, ViewGroup parent) {
 
-        if (matchDetail.getPosition() != 0) {
+        List<String> childData = getChild(groupPosition, 0);
 
-            ViewGroup.LayoutParams params = holder.left_bg_Linear.getLayoutParams();
-// Changes the height and width to the specified *pixels*
-            params.height = 210;
-            params.width = 210;
 
-            holder.left_bg_Linear.setLayoutParams(params);
-            holder.left_bg_img.setImageResource(R.drawable.right_bg);
+        if (convertView == null) {
+            LayoutInflater infalInflater = (LayoutInflater) this._context
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            convertView = infalInflater.inflate(R.layout.travel_match_childdetail_item_list, null);
         }
 
+
+//        TextView txtSubject;
+//        txtSubject = (TextView) convertView.findViewById(R.id.txtSubject);
+//        messageId = childData.get(childPosition).getMessageID();
+//        FromId = childData.get(childPosition).getFromID();
+//        Toid = childData.get(childPosition).getToID();
+//        messageDate = childData.get(childPosition).getMeetingDate();
+//        messageSubject = childData.get(childPosition).getSubjectLine();
+//        messageMessageLine = childData.get(childPosition).getDescription();
+//
+//        if (childData.get(childPosition).getReadStatus().equalsIgnoreCase("Pending")) {
+//
+//            staffattendaceModel.add(messageId + "|" + FromId + "|" + Toid + "|" + messageDate + "|" + messageSubject + "|" + messageMessageLine);
+//            Log.d("stringArray", staffattendaceModel.toString());
+//            onInboxRead.readMessageStatus();
+//        }
+//        txtSubject.setText(childData.get(childPosition).getDescription());
+        return convertView;
     }
 
     @Override
-    public long getItemId(int position) {
-// return specific item's id here
-        return position;
+    public int getChildrenCount(int groupPosition) {
+        return this.listChildData.get(this._listDataHeader.get(groupPosition)).size();
     }
 
     @Override
-    public int getItemViewType(int position) {
-        return position;
+    public Object getGroup(int groupPosition) {
+        return this._listDataHeader.get(groupPosition);
     }
 
     @Override
-    public int getItemCount() {
-        return arrayList.size();
+    public int getGroupCount() {
+        return this._listDataHeader.size();
     }
+
+    @Override
+    public long getGroupId(int groupPosition) {
+        return groupPosition;
+    }
+
+    @Override
+    public View getGroupView(int groupPosition, boolean isExpanded,
+                             View convertView, ViewGroup parent) {
+        String[] headerTitle = getGroup(groupPosition).toString().split("\\|");
+
+        String headerTitle1 = headerTitle[0];
+//        String headerTitle2 = headerTitle[1];
+//        String headerTitle3 = headerTitle[2];
+//        String headerTitle4 = headerTitle[3];
+
+
+        if (convertView == null) {
+            LayoutInflater infalInflater = (LayoutInflater) this._context
+                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            convertView = infalInflater.inflate(R.layout.travel_match_groupdetail_item_list, null);
+        }
+
+        RoundishImageView main_match_image;
+
+        main_match_image=(RoundishImageView) convertView.findViewById(R.id.main_match_image);
+
+        Utils.setImageInImageView("https://www.bharatarmy.com/Docs/match02.jpg",main_match_image,_context);
+
+//        TextView Student_name_inbox_txt, date_inbox_txt, subject_inbox_txt, view_inbox_txt;
+//        Student_name_inbox_txt = (TextView) convertView.findViewById(R.id.Student_name_inbox_txt);
+//        date_inbox_txt = (TextView) convertView.findViewById(R.id.date_inbox_txt);
+//        subject_inbox_txt = (TextView) convertView.findViewById(R.id.subject_inbox_txt);
+//        view_inbox_txt = (TextView) convertView.findViewById(R.id.view_inbox_txt);
+//
+//        Student_name_inbox_txt.setText(headerTitle1);
+//        date_inbox_txt.setText(headerTitle2);
+//        subject_inbox_txt.setText(headerTitle3);
+//
+//        if (headerTitle4.equalsIgnoreCase("Pending")) {
+//            Student_name_inbox_txt.setTypeface(null, Typeface.BOLD);
+//            date_inbox_txt.setTypeface(null, Typeface.BOLD);
+//            subject_inbox_txt.setTypeface(null, Typeface.BOLD);
+//            view_inbox_txt.setTypeface(null, Typeface.BOLD);
+//        } else {
+//            Student_name_inbox_txt.setTypeface(null, Typeface.NORMAL);
+//            date_inbox_txt.setTypeface(null, Typeface.NORMAL);
+//            subject_inbox_txt.setTypeface(null, Typeface.NORMAL);
+//            view_inbox_txt.setTypeface(null, Typeface.NORMAL);
+//        }
+//        if (isExpanded) {
+//            view_inbox_txt.setTextColor(_context.getResources().getColor(R.color.present_header));
+//        } else {
+//            view_inbox_txt.setTextColor(_context.getResources().getColor(R.color.absent_header));
+//        }
+//
+
+        return convertView;
+    }
+
+    @Override
+    public boolean hasStableIds() {
+        return false;
+    }
+
+    @Override
+    public boolean isChildSelectable(int groupPosition, int childPosition) {
+        return true;
+    }
+
+    public ArrayList<String> getData() {
+        return staffattendaceModel;
+    }
+
 }
-

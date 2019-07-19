@@ -112,7 +112,8 @@ dependencies {
     implementation "androidx.core:core-ktx:+"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
-
+//    use for round corner imageview
+    implementation 'com.github.siyamed:android-shape-imageview:0.9.+@aar'
 }
 apply plugin: 'com.google.gms.google-services'
 repositories {

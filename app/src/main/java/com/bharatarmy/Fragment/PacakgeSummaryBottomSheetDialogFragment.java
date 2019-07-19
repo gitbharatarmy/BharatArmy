@@ -30,14 +30,13 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import java.lang.reflect.Field;
 
 
-
 public class PacakgeSummaryBottomSheetDialogFragment extends BottomSheetDialogFragment {
     View rootView;
     Context mContext;
     LinearLayout back_img;
     TextView privacypolicy_txt, cancellationpolicy_txt, inclusiondetail_txt, exclusiondetail_txt;
-    ImageView privacyexpand_collapse_img,exlusionexpand_collapse_img,inclusionexpand_collapse_img,cancelexpand_collapse_img;
-LinearLayout privacypoilcy_linear,cancelpoilcy_linear,inclusionpoilcy_linear,exclusionpoilcy_linear;
+    ImageView privacyexpand_collapse_img, exlusionexpand_collapse_img, inclusionexpand_collapse_img, cancelexpand_collapse_img;
+    LinearLayout privacypoilcy_linear, cancelpoilcy_linear, inclusionpoilcy_linear, exclusionpoilcy_linear;
 
     @Override
     public void setupDialog(Dialog dialog, int style) {
@@ -49,15 +48,15 @@ LinearLayout privacypoilcy_linear,cancelpoilcy_linear,inclusionpoilcy_linear,exc
         inclusiondetail_txt = (TextView) bottomSheetDialog.findViewById(R.id.inclusiondetail_txt);
         exclusiondetail_txt = (TextView) bottomSheetDialog.findViewById(R.id.exclusiondetail_txt);
 
-        privacyexpand_collapse_img=(ImageView)bottomSheetDialog.findViewById(R.id.privacyexpand_collapse_img);
-        exlusionexpand_collapse_img=(ImageView)bottomSheetDialog.findViewById(R.id.exlusionexpand_collapse_img);
-        inclusionexpand_collapse_img=(ImageView)bottomSheetDialog.findViewById(R.id.inclusionexpand_collapse_img);
-        cancelexpand_collapse_img=(ImageView)bottomSheetDialog.findViewById(R.id.cancelexpand_collapse_img);
+        privacyexpand_collapse_img = (ImageView) bottomSheetDialog.findViewById(R.id.privacyexpand_collapse_img);
+        exlusionexpand_collapse_img = (ImageView) bottomSheetDialog.findViewById(R.id.exlusionexpand_collapse_img);
+        inclusionexpand_collapse_img = (ImageView) bottomSheetDialog.findViewById(R.id.inclusionexpand_collapse_img);
+        cancelexpand_collapse_img = (ImageView) bottomSheetDialog.findViewById(R.id.cancelexpand_collapse_img);
 
-        privacypoilcy_linear=(LinearLayout)bottomSheetDialog.findViewById(R.id.privacypoilcy_linear);
-        cancelpoilcy_linear=(LinearLayout)bottomSheetDialog.findViewById(R.id.cancelpoilcy_linear);
-        inclusionpoilcy_linear=(LinearLayout)bottomSheetDialog.findViewById(R.id.inclusionpoilcy_linear);
-        exclusionpoilcy_linear=(LinearLayout)bottomSheetDialog.findViewById(R.id.exclusionpoilcy_linear);
+        privacypoilcy_linear = (LinearLayout) bottomSheetDialog.findViewById(R.id.privacypoilcy_linear);
+        cancelpoilcy_linear = (LinearLayout) bottomSheetDialog.findViewById(R.id.cancelpoilcy_linear);
+        inclusionpoilcy_linear = (LinearLayout) bottomSheetDialog.findViewById(R.id.inclusionpoilcy_linear);
+        exclusionpoilcy_linear = (LinearLayout) bottomSheetDialog.findViewById(R.id.exclusionpoilcy_linear);
         back_img = (LinearLayout) bottomSheetDialog.findViewById(R.id.back_img);
 
         String privacyDescription = "Please note that after the finalization of the Tour service Cost.\n" +
@@ -169,57 +168,64 @@ LinearLayout privacypoilcy_linear,cancelpoilcy_linear,inclusionpoilcy_linear,exc
         privacypoilcy_linear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (privacypolicy_txt.isShown()){
+                if (privacypolicy_txt.isShown()) {
                     privacypolicy_txt.setVisibility(View.GONE);
-                    privacyexpand_collapse_img.setImageDrawable(getResources().getDrawable(R.drawable.collapse));
-                }else{
+//                    privacyexpand_collapse_img.setText("+");
+                    privacyexpand_collapse_img.setImageDrawable(getResources().getDrawable(R.drawable.summary_plus));
+                } else {
                     privacypolicy_txt.setVisibility(View.VISIBLE);
-                    privacyexpand_collapse_img.setImageDrawable(getResources().getDrawable(R.drawable.expands));
+//                    privacyexpand_collapse_img.setText("-");
+                    privacyexpand_collapse_img.setImageDrawable(getResources().getDrawable(R.drawable.summary_minus));
                 }
             }
         });
+
         cancelpoilcy_linear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (cancellationpolicy_txt.isShown()){
+                if (cancellationpolicy_txt.isShown()) {
                     cancellationpolicy_txt.setVisibility(View.GONE);
-                    cancelexpand_collapse_img.setImageDrawable(getResources().getDrawable(R.drawable.collapse));
-                }else{
+                    cancelexpand_collapse_img.setImageDrawable(getResources().getDrawable(R.drawable.summary_plus));
+                } else {
                     cancellationpolicy_txt.setVisibility(View.VISIBLE);
-                    cancelexpand_collapse_img.setImageDrawable(getResources().getDrawable(R.drawable.expands));
+                    cancelexpand_collapse_img.setImageDrawable(getResources().getDrawable(R.drawable.summary_minus));
                 }
             }
         });
+
         inclusionpoilcy_linear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (inclusiondetail_txt.isShown()){
+                if (inclusiondetail_txt.isShown()) {
                     inclusiondetail_txt.setVisibility(View.GONE);
-                    inclusionexpand_collapse_img.setImageDrawable(getResources().getDrawable(R.drawable.collapse));
-                }else{
+                    inclusionexpand_collapse_img.setImageDrawable(getResources().getDrawable(R.drawable.summary_plus));
+                } else {
                     inclusiondetail_txt.setVisibility(View.VISIBLE);
-                    inclusionexpand_collapse_img.setImageDrawable(getResources().getDrawable(R.drawable.expands));
+                    inclusionexpand_collapse_img.setImageDrawable(getResources().getDrawable(R.drawable.summary_minus));
                 }
             }
         });
+
         exclusionpoilcy_linear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (exclusiondetail_txt.isShown()){
+                if (exclusiondetail_txt.isShown()) {
                     exclusiondetail_txt.setVisibility(View.GONE);
-                    LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.MATCH_PARENT);
-                    params.setMargins(0,50,0,70);
+                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+                    params.setMargins(0, 70, 0, 70);
                     exclusionpoilcy_linear.setLayoutParams(params);
-                    exlusionexpand_collapse_img.setImageDrawable(getResources().getDrawable(R.drawable.collapse));
-                }else{
+                    exlusionexpand_collapse_img.setImageDrawable(getResources().getDrawable(R.drawable.summary_plus));
+                } else {
                     exclusiondetail_txt.setVisibility(View.VISIBLE);
-                    LinearLayout.LayoutParams params=new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.MATCH_PARENT);
-                    params.setMargins(0,50,0,10);
+                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+                    params.setMargins(0, 70, 0, 10);
                     exclusionpoilcy_linear.setLayoutParams(params);
-                    exlusionexpand_collapse_img.setImageDrawable(getResources().getDrawable(R.drawable.expands));
+                    exlusionexpand_collapse_img.setImageDrawable(getResources().getDrawable(R.drawable.summary_minus));
                 }
             }
         });
+
+
         try {
             Field behaviorField = bottomSheetDialog.getClass().getDeclaredField("behavior");
             behaviorField.setAccessible(true);

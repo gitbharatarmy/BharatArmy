@@ -23,8 +23,6 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.bharatarmy.Adapter.PackagePageAdapter;
-import com.bharatarmy.Adapter.TravelPacakgeTabAdapter;
-import com.bharatarmy.Fragment.MyOffersBottomSheetDialogFragment;
 import com.bharatarmy.Fragment.PacakgeSummaryBottomSheetDialogFragment;
 import com.bharatarmy.Models.TravelDetailModel;
 import com.bharatarmy.Models.TravelMainModel;

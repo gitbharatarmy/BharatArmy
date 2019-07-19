@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/teamselectedLinear"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/_50sdp"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:id="@+id/team_flag"
+        android:layout_width="@dimen/_40sdp"
+        android:layout_height="@dimen/_40sdp"
+        android:layout_marginLeft="@dimen/_5sdp"
+        android:layout_marginRight="@dimen/_5sdp"
+        android:layout_gravity="center_vertical"
+        android:src="@drawable/in_flag"/>
+
+    <TextView
+        android:id="@+id/match_team_txt"
+        android:layout_width="@dimen/_200sdp"
+        android:layout_height="match_parent"
+        style="@style/text_font"
+        android:textColor="@color/normal_font_color"
+        android:text="India"
+        android:textSize="@dimen/_13sdp"
+        android:gravity="center_vertical"
+        android:layout_marginLeft="@dimen/_5sdp"/>
+
+    <CheckBox
+        android:id="@+id/selected_chk"
+        android:layout_width="@dimen/_18sdp"
+        android:layout_height="@dimen/_18sdp"
+        android:button="@drawable/round_checkbox_indicator"/>
+</LinearLayout>

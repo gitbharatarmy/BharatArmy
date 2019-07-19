@@ -71,6 +71,7 @@
             </LinearLayout>
         </androidx.appcompat.widget.Toolbar>
 
+
         <RelativeLayout
             android:id="@+id/travel_bottom_linear"
             android:layout_width="match_parent"
@@ -166,16 +167,17 @@
                     android:layout_marginLeft="@dimen/_15sdp"
                     android:layout_marginRight="@dimen/_15sdp"/>
 
-                <com.cooltechworks.views.shimmer.ShimmerRecyclerView xmlns:app="http://schemas.android.com/apk/res-auto"
-                    android:id="@+id/match_traveldetail_rcyList"
+                <ExpandableListView
+                    android:id="@+id/lvExpmatch"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    app:shimmer_demo_angle="10"
-                    app:shimmer_demo_layout="@layout/layout_demo_grid"
-                    app:shimmer_demo_layout_manager_type="linear_horizontal"
-                    app:shimmer_demo_shimmer_color="#21ffffff"
-                    android:layout_marginLeft="@dimen/_15sdp"
-                    android:layout_marginRight="@dimen/_3sdp"/>
+              android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_marginRight="@dimen/_10sdp"
+                    android:childDivider="@android:color/transparent"
+                    android:divider="@android:color/white"
+                    android:dividerHeight="1dp"
+                    android:groupIndicator="@null"
+                    android:scrollbars="none" />
 
             </LinearLayout>
 

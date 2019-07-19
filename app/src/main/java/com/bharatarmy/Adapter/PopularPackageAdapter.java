@@ -14,6 +14,7 @@ import android.widget.TextView;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bharatarmy.Activity.TravelBookActivity;
 import com.bharatarmy.Activity.TravelPackageActivity;
 import com.bharatarmy.Models.TravelModel;
 import com.bharatarmy.R;
@@ -35,6 +36,7 @@ public class PopularPackageAdapter extends RecyclerView.Adapter<PopularPackageAd
     public class MyViewHolder extends RecyclerView.ViewHolder {
         ImageView travel_popular_package_banner_img;
 //        LinearLayout recommended_Linear;
+        LinearLayout book_linear;
         TextView packageplacename_txt,show_package_tour_description_txt;
         CardView package_cardclick;
         public MyViewHolder(View view) {
@@ -45,6 +47,8 @@ public class PopularPackageAdapter extends RecyclerView.Adapter<PopularPackageAd
             show_package_tour_description_txt=(TextView)view.findViewById(R.id.show_package_tour_description_txt);
 //            recommended_Linear=(LinearLayout)view.findViewById(R.id.recommended_Linear);
             package_cardclick=(CardView)view.findViewById(R.id.package_cardclick);
+
+            book_linear=(LinearLayout)view.findViewById(R.id.book_linear);
         }
     }
 
@@ -83,6 +87,15 @@ public class PopularPackageAdapter extends RecyclerView.Adapter<PopularPackageAd
             }
         });
 
+        holder.book_linear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent bookIntent=new Intent(mContext, TravelBookActivity.class);
+                bookIntent.putExtra("pacakgeName","Australian Double Dhamaka: Honeymoon and adventure at one shot");
+                bookIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                mContext.startActivity(bookIntent);
+            }
+        });
     }
 
     @Override

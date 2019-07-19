@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/site_cardclick"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/_10sdp"
+    android:layout_marginBottom="@dimen/_5sdp"
+    android:orientation="vertical"
+    app:cardCornerRadius="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/site_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/site_img"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_130sdp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ajif" />
+
+            <View
+                android:id="@+id/topView"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_below="@id/site_img"
+                android:background="@drawable/bg_gradiant_line"
+                android:visibility="visible" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/topView"
+                android:background="@color/splash_bg_color"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+               android:layout_margin="@dimen/_10sdp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/sitename_txt"
+                        style="@style/title_text_font"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+
+                        android:ellipsize="end"
+                        android:maxLines="2"
+                        android:text="BHARAT ARMY STORIES"
+                        android:textColor="@color/heading_bg"
+                        android:textSize="@dimen/_16sdp" />
+
+                    <TextView
+                        android:id="@+id/site_location_txt"
+                        style="@style/title_text_font"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:text="@string/bharat_army_story"
+                        android:textColor="@color/heading_bg"
+                        android:textSize="@dimen/_9sdp"
+                        android:visibility="visible" />
+
+                    <com.whinc.widget.ratingbar.RatingBar
+                        android:id="@+id/ratingBar"
+                        android:layout_width="@dimen/_50sdp"
+                        android:layout_height="@dimen/_16sdp"
+                        app:rb_click_rating="true"
+                        app:rb_count="3"
+                        app:rb_empty="@drawable/empty"
+                        app:rb_fill="@drawable/fill"
+                        app:rb_max_count="5"
+                        app:rb_space="0dp"
+                        app:rb_touch_rating="true" />
+
+                    <TextView
+                        android:id="@+id/sitedesc_txt"
+                        style="@style/text_font"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:ellipsize="end"
+                        android:maxLines="2"
+                        android:paddingBottom="@dimen/_3sdp"
+                        android:text="@string/sightseen_detail"
+                        android:textColor="@color/normal_font_color"
+                        android:textSize="@dimen/_10sdp" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/recommended_image"
+                android:layout_width="@dimen/_35sdp"
+                android:layout_height="@dimen/_50sdp"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="@dimen/_55sdp"
+                android:layout_marginRight="@dimen/_7sdp"
+                android:scaleType="centerInside"
+                android:src="@drawable/bal"
+                android:visibility="gone" />
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
+</layout>

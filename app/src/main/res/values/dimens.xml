@@ -109,4 +109,6 @@
     <!-- VIDEO TRIMMER-->
     <dimen name="progress_video_line_height">2dp</dimen>
     <dimen name="frames_video_height">40dip</dimen>
+
+    <dimen name="round_corner_radius">20dp</dimen>
 </resources>

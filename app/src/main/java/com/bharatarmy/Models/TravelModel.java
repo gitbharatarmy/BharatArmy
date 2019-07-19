@@ -46,9 +46,35 @@ public class TravelModel {
     int changeMonth;
     int changeYear;
 
+
+    int matchteamFlag;
+    String matchteamVenues;
+
     public TravelModel(){}
 
-    public TravelModel(int changeMonth,int changeYear){
+
+    public TravelModel(int matchteamFlag,String matchteamVenues){
+        this.matchteamFlag=matchteamFlag;
+        this.matchteamVenues=matchteamVenues;
+    }
+
+    public int getMatchteamFlag() {
+        return matchteamFlag;
+    }
+
+    public void setMatchteamFlag(int matchteamFlag) {
+        this.matchteamFlag = matchteamFlag;
+    }
+
+    public String getMatchteamVenues() {
+        return matchteamVenues;
+    }
+
+    public void setMatchteamVenues(String matchteamVenues) {
+        this.matchteamVenues = matchteamVenues;
+    }
+
+    public TravelModel(int changeMonth, int changeYear){
         this.changeMonth=changeMonth;
         this.changeYear=changeYear;
     }

@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/hotel_cardclick"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/_10sdp"
+    android:layout_marginBottom="@dimen/_5sdp"
+    android:orientation="vertical"
+    app:cardCornerRadius="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/hotel_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/hotel_img"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_130sdp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ajif" />
+
+            <View
+                android:id="@+id/topView"
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_below="@id/hotel_img"
+                android:background="@drawable/bg_gradiant_line"
+                android:visibility="visible" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/topView"
+                android:background="@color/splash_bg_color"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_marginRight="@dimen/_10sdp"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="@dimen/_9sdp"
+                        android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/hotelname_txt"
+                        style="@style/title_text_font"
+                        android:layout_width="0dp"
+                        android:layout_weight="0.9"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:maxLines="2"
+                        android:text="BHARAT ARMY STORIES BHARAT ARMY STORIES"
+                        android:textColor="@color/heading_bg"
+                        android:textSize="@dimen/_16sdp" />
+                        <TextView
+                            style="@style/title_text_font"
+                            android:layout_width="0dp"
+                            android:layout_weight="0.1"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="right"
+                            android:gravity="right|center_vertical"
+                            android:text="per pax"
+                            android:textAllCaps="true"
+                            android:textColor="@color/orange"
+                            android:textSize="@dimen/_6sdp" />
+
+                    </LinearLayout>
+                    <TextView
+                        android:id="@+id/hotel_location_txt"
+                        style="@style/title_text_font"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+
+                        android:text="@string/bharat_army_story"
+                        android:textColor="@color/heading_bg"
+                        android:textSize="@dimen/_9sdp"
+                        android:visibility="visible" />
+
+                    <com.whinc.widget.ratingbar.RatingBar
+                        android:id="@+id/ratingBar"
+                        android:layout_width="@dimen/_50sdp"
+                        android:layout_height="@dimen/_16sdp"
+                        app:rb_click_rating="true"
+                        app:rb_count="3"
+                        app:rb_empty="@drawable/empty"
+                        app:rb_fill="@drawable/fill"
+                        app:rb_max_count="5"
+                        app:rb_space="0dp"
+                        app:rb_touch_rating="true" />
+
+                    <TextView
+                        android:id="@+id/travel_cityhoteldesc_txt"
+                        style="@style/text_font"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:ellipsize="end"
+                        android:maxLines="2"
+                        android:paddingBottom="@dimen/_3sdp"
+                        android:text="Jamsetji Nusserwanji Tata, founder of the Tata Group, opened the Taj Mahal Palace, a hotel in Mumbai (formerly called Bombay) overlooking the Arabian Sea, on 16 December 1903. It was the first Taj property and the first Taj hotel. There are several anecdotal stories about why Tata opened the Taj hotel."
+                        android:textColor="@color/normal_font_color"
+                        android:textSize="@dimen/_10sdp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_1sdp"
+                        android:layout_marginTop="@dimen/_1sdp"
+                        android:background="@drawable/line_shape" />
+
+                    <TextView
+                        style="@style/title_text_font"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:paddingTop="@dimen/_5sdp"
+                        android:paddingRight="@dimen/_7sdp"
+                        android:paddingBottom="@dimen/_5sdp"
+                        android:text="Amenities"
+                        android:textColor="@color/unselected_view"
+                        android:textSize="@dimen/_7sdp"
+                        android:visibility="visible" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/_3sdp"
+                        android:orientation="horizontal"
+                        android:weightSum="1">
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/amenities"
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/_30sdp"
+                            android:layout_weight="0.5" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.5">
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent">
+
+                                <LinearLayout
+                                    android:id="@+id/book_linear"
+                                    android:layout_width="@dimen/_90sdp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_marginBottom="@dimen/_10sdp"
+                                    android:background="@drawable/book_btn"
+                                    android:orientation="horizontal"
+                                    android:visibility="visible">
+
+                                    <TextView
+                                        android:id="@+id/book_txt"
+                                        style="@style/text_font"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="@dimen/_25sdp"
+                                        android:layout_gravity="center_horizontal|center_vertical"
+                                        android:layout_marginRight="@dimen/_2sdp"
+                                        android:gravity="center_horizontal|center_vertical"
+                                        android:text="Book Now"
+                                        android:textColor="@color/splash_bg_color"
+                                        android:textSize="@dimen/_12sdp"
+                                        android:textStyle="normal" />
+
+                                </LinearLayout>
+                            </RelativeLayout>
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="@dimen/_114sdp"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:background="@drawable/curve_shape"
+                android:orientation="horizontal"
+                android:visibility="visible">
+
+                <TextView
+                    android:id="@+id/packageprice_txt"
+                    style="@style/title_text_font"
+                    android:layout_width="@dimen/_90sdp"
+                    android:layout_height="@dimen/_25sdp"
+                    android:layout_gravity="center_horizontal|center_vertical"
+                    android:layout_marginRight="@dimen/_2sdp"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:paddingLeft="@dimen/_2sdp"
+                    android:paddingTop="@dimen/_3sdp"
+                    android:paddingRight="@dimen/_5sdp"
+                    android:paddingBottom="@dimen/_2sdp"
+                    android:text="₹ 10000"
+                    android:textColor="@color/splash_bg_color"
+                    android:textSize="@dimen/_15sdp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/recommended_image"
+                android:layout_width="@dimen/_35sdp"
+                android:layout_height="@dimen/_50sdp"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="@dimen/_55sdp"
+                android:layout_marginRight="@dimen/_7sdp"
+                android:scaleType="centerInside"
+                android:src="@drawable/bal"
+                android:visibility="gone" />
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

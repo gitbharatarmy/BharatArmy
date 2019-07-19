@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bharatarmy.Activity.TravelBookActivity;
 import com.bharatarmy.Activity.TravelCityAllHotelsActivity;
 import com.bharatarmy.Activity.TravelCityAllRestaurantsActivity;
 import com.bharatarmy.Activity.TravelCityAllSightseeingActivity;
@@ -72,22 +73,29 @@ public class TravelPopularCityDetailAdapter extends RecyclerView.Adapter<Recycle
 
     @Override
     public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder holder, int position) {
-//        TravelModel cityplaceDetail=popularPackageList.get(position-1);
-
-
         if (holder.getItemViewType() == ITEM) {
+            TravelModel cityplaceDetail=popularPackageList.get(position-1);
             Utils.setImageInImageView(AppConfiguration.IMAGE_URL+"mumbai.jpg",((ItemViewHolder) holder).travel_popularcityplace_package_banner_img,mContext);
 
             ((ItemViewHolder)holder).place_cardclick.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent cityplacePacakgeIntent=new Intent(mContext, TravelPackageActivity.class);
-                    cityplacePacakgeIntent.putExtra("placeName",popularPackageList.get(position).getTourCityName());
+                    cityplacePacakgeIntent.putExtra("placeName",cityplaceDetail.getTourCityName());
                     cityplacePacakgeIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     mContext.startActivity(cityplacePacakgeIntent);
                 }
             });
 
+            ((ItemViewHolder)holder).book_linear.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent bookIntent=new Intent(mContext, TravelBookActivity.class);
+                    bookIntent.putExtra("pacakgeName","Australian Double Dhamaka: Honeymoon and adventure at one shot");
+                    bookIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    mContext.startActivity(bookIntent);
+                }
+            });
         } else if (holder.getItemViewType() == HEADER) {
             ((HeaderViewHolder) holder).hotel_linear.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -132,13 +140,14 @@ public class TravelPopularCityDetailAdapter extends RecyclerView.Adapter<Recycle
     }
 
     static class ItemViewHolder extends RecyclerView.ViewHolder {
-
+LinearLayout book_linear;
 ImageView travel_popularcityplace_package_banner_img;
 CardView place_cardclick;
         ItemViewHolder(View itemView) {
             super(itemView);
             travel_popularcityplace_package_banner_img=(ImageView)itemView.findViewById(R.id.travel_popularcityplace_package_banner_img);
             place_cardclick=(CardView)itemView.findViewById(R.id.place_cardclick);
+            book_linear=(LinearLayout)itemView.findViewById(R.id.book_linear);
         }
 
     }

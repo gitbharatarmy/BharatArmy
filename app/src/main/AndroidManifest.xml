@@ -31,6 +31,12 @@
             android:theme="@style/AppTheme">
 
         </activity>
+
+        <activity android:name=".Activity.LoginDialogActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme">
+
+        </activity>
         <activity
             android:name=".Activity.TravelPacakagePlaceDetailActivity"
             android:screenOrientation="portrait"
