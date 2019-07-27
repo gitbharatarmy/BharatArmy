@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/_250sdp"
+    android:layout_height="@dimen/_290sdp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@drawable/match_detail_curveshape"
+    android:elevation="3dp"
+    app:cardMaxElevation="6dp"
+    android:layout_margin="@dimen/_5sdp"
+   >
+    <!--android:elevation="3dp"-->
+    <!--app:cardMaxElevation="6dp"-->
+    <!--app:cardUseCompatPadding="true"-->
+    <RelativeLayout
+        android:id="@+id/banner_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+    <com.bharatarmy.RoundishImageView
+        android:id="@+id/banner_img"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_160sdp"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
+        android:src="@drawable/australia_tour"
+        app:cornerRadius="@dimen/round_corner_radius"
+        app:roundedCorners="topRight" />
+        <LinearLayout
+            android:layout_width="@dimen/_25sdp"
+            android:layout_height="@dimen/_25sdp"
+            android:orientation="horizontal"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/white_circle"
+            android:layout_marginRight="@dimen/_5sdp"
+            android:layout_marginTop="@dimen/_5sdp">
+
+            <ImageView
+                android:id="@+id/header_img"
+                android:layout_width="@dimen/_13sdp"
+                android:layout_height="@dimen/_13sdp"
+         android:layout_gravity="center_vertical|center_horizontal"
+                android:layout_marginLeft="@dimen/_8sdp"
+                android:src="@drawable/ic_ftp_new"
+                android:tint="@color/heading_bg"
+                android:visibility="visible"/>
+
+        </LinearLayout>
+    </RelativeLayout>
+    <LinearLayout
+        android:id="@+id/lable_linear"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_30sdp"
+        android:layout_marginLeft="@dimen/_5sdp"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/linear1_txt"
+            style="@style/title_text_font"
+            android:layout_width="@dimen/_30sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:layout_gravity="center"
+            android:background="@drawable/tag_shape"
+            android:gravity="center_vertical|center"
+            android:padding="@dimen/_5sdp"
+            android:text="IPL"
+            android:textColor="@color/splash_bg_color"
+            android:textSize="@dimen/_9sdp"
+            android:visibility="visible" />
+
+        <TextView
+            android:id="@+id/linear2_txt"
+            style="@style/title_text_font"
+            android:layout_width="@dimen/_35sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/_5sdp"
+            android:background="@drawable/tag_shape"
+            android:gravity="center_vertical|center"
+            android:padding="@dimen/_5sdp"
+            android:text="IPL"
+            android:textColor="@color/splash_bg_color"
+            android:textSize="@dimen/_11sdp"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/linear3_txt"
+            style="@style/title_text_font"
+            android:layout_width="@dimen/_35sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/_5sdp"
+            android:background="@drawable/tag_shape"
+            android:gravity="center_vertical|center"
+            android:padding="@dimen/_5sdp"
+            android:text="IPL"
+            android:textColor="@color/splash_bg_color"
+            android:textSize="@dimen/_11sdp"
+            android:visibility="gone" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/army_upcoming_header_txt"
+        style="@style/title_text_font"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/_5sdp"
+        android:layout_marginTop="@dimen/_1sdp"
+        android:layout_marginRight="@dimen/_5sdp"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:paddingRight="@dimen/_5sdp"
+        android:text="BHARAT ARMY STORIES \n"
+        android:textColor="@color/heading_bg"
+        android:textSize="@dimen/_15sdp" />
+
+
+    <TextView
+        android:id="@+id/army_upcoming_sub_txt"
+        style="@style/text_font"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/_5sdp"
+        android:layout_marginRight="@dimen/_5sdp"
+        android:layout_marginBottom="@dimen/_5sdp"
+        android:gravity="center_vertical"
+        android:paddingRight="@dimen/_5sdp"
+        android:text="@string/bharat_army_story"
+        android:textColor="@color/normal_font_color"
+        android:textSize="@dimen/_10sdp"
+        android:visibility="gone"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_20sdp"
+        android:layout_marginLeft="@dimen/_5sdp"
+        android:orientation="horizontal"
+        android:visibility="visible">
+
+        <ImageView
+            android:id="@+id/date_img"
+            android:layout_width="@dimen/_15sdp"
+            android:layout_height="@dimen/_12sdp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/ic_calendar"
+            android:tint="@color/skip_color"/>
+
+        <TextView
+            android:id="@+id/date_txt"
+            style="@style/title_text_font"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_20sdp"
+            android:layout_marginRight="@dimen/_5sdp"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/_2sdp"
+            android:text="Jul 2019 - Aug 2019"
+            android:textColor="@color/skip_color"
+            android:textSize="@dimen/_10sdp" />
+
+        <ImageView
+            android:id="@+id/location_img"
+            android:layout_width="@dimen/_15sdp"
+            android:layout_height="@dimen/_12sdp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/ic_location"
+            android:tint="@color/skip_color"/>
+
+        <TextView
+            android:id="@+id/location_txt"
+            style="@style/title_text_font"
+            android:layout_width="@dimen/_130sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:layout_marginRight="@dimen/_5sdp"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/_2sdp"
+            android:text="India"
+            android:textColor="@color/skip_color"
+            android:textSize="@dimen/_10sdp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_30sdp"
+        android:layout_marginLeft="@dimen/_5sdp"
+        android:layout_marginTop="@dimen/_1sdp"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_1sdp"
+        android:layout_marginLeft="@dimen/_7sdp"
+        android:layout_marginRight="@dimen/_5sdp"
+        android:layout_marginBottom="@dimen/_7sdp"
+        android:orientation="horizontal">
+        <!--style="@style/text_font"-->
+        <TextView
+            android:id="@+id/army_upcoming_pra_txt"
+            style="@style/text_font"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:maxLines="2"
+            android:paddingRight="@dimen/_5sdp"
+            android:text="@string/bharat_army_story"
+            android:textColor="@color/normal_font_color"
+            android:textSize="@dimen/_11sdp" />
+    </LinearLayout>
+</LinearLayout>
+</layout>

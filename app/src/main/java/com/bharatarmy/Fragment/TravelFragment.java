@@ -15,10 +15,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bharatarmy.Adapter.TravelMainPageAdapter;
 import com.bharatarmy.Adapter.TravelPopularCItyAdapter;
 import com.bharatarmy.Adapter.UltraPagerAdapter;
+import com.bharatarmy.Interfaces.MorestoryClick;
 import com.bharatarmy.Models.TravelModel;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.AppConfiguration;
 import com.bharatarmy.databinding.FragmentTravelBinding;
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.leinardi.android.speeddial.SpeedDialView;
 
@@ -48,7 +50,7 @@ public class TravelFragment extends Fragment {
     UltraPagerAdapter ultraPagerAdapter;
     TravelPopularCItyAdapter popularCItyAdapter;
     TravelMainPageAdapter travelMainPageAdapter;
-
+    BottomSheetDialogFragment bottomSheetDialogFragment;
 
 //    ScrollView main_page_scrollview;
 
@@ -137,7 +139,23 @@ public class TravelFragment extends Fragment {
 
 //        Utils.setImageInImageView("https://www.bharatarmy.com/Docs/back-testimonial.png",travelBinding.backgroundImage,mContext);
 
-        travelMainPageAdapter = new TravelMainPageAdapter(mContext, content,popularcityarrayList,popularPackageList);
+        travelMainPageAdapter = new TravelMainPageAdapter(mContext, content,popularcityarrayList,popularPackageList, new MorestoryClick() {
+            @Override
+            public void getmorestoryClick() {
+                String filterName= String.valueOf(travelMainPageAdapter.getData());
+                filterName= filterName.substring(1, filterName.length()-1);
+                if (filterName.equalsIgnoreCase("city")){
+                    bottomSheetDialogFragment = new TravelCityFilterFragment();
+                    //show it
+                    bottomSheetDialogFragment.show(getChildFragmentManager(), bottomSheetDialogFragment.getTag());
+                }else{
+                    bottomSheetDialogFragment = new TravelPacakgeFilterFragment();
+                    //show it
+                    bottomSheetDialogFragment.show(getChildFragmentManager(), bottomSheetDialogFragment.getTag());
+                }
+
+            }
+        });
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(mContext, RecyclerView.VERTICAL, false);
         travelBinding.mainScreenPageRcv.setLayoutManager(mLayoutManager);
         travelBinding.mainScreenPageRcv.setItemAnimator(new DefaultItemAnimator());

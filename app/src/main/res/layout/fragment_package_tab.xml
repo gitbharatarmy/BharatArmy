@@ -8,16 +8,25 @@
     android:orientation="vertical"
     tools:context=".Fragment.PackageTabFragment">
 
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmer_view_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginRight="@dimen/_10sdp"
+        android:orientation="vertical"
+        android:visibility="visible">
 
+        <include layout="@layout/package_tab_dataholder" />
+
+    </com.facebook.shimmer.ShimmerFrameLayout>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/pacakge_day_rcv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
-        app:shimmer_demo_angle="10"
-        app:shimmer_demo_layout="@layout/layout_demo_grid"
-        app:shimmer_demo_layout_manager_type="linear_horizontal"
-        app:shimmer_demo_shimmer_color="#21ffffff"/>
+        android:visibility="gone"/>
 
 </LinearLayout>
 </layout>

@@ -46,6 +46,7 @@
                 android:textSize="@dimen/_13sdp" />
 
             <ImageView
+                android:id="@+id/pacakage_filterImage"
                 android:layout_width="@dimen/_18sdp"
                 android:layout_height="@dimen/_10sdp"
                 android:layout_gravity="center_vertical"

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
-    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
@@ -10,19 +10,71 @@
         android:fillViewport="true"
         android:orientation="vertical"
         android:scrollbars="none">
-
+        <ImageView
+            android:id="@+id/background_image"
+            android:layout_width="@dimen/_250sdp"
+            android:layout_height="@dimen/_250sdp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="-50dp"
+            android:layout_marginRight="-90dp"
+            android:src="@drawable/travel_chhkr" />
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fillViewport="true"
+            android:scrollbars="none">
         <LinearLayout
             android:id="@+id/home_top_linear"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:visibility="visible">
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:id="@+id/shimmer_view_containerhome"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="vertical"
+                android:layout_marginTop="@dimen/_50sdp">
+
+                <include layout="@layout/data_placeholder_layout" />
+
+
+            </com.facebook.shimmer.ShimmerFrameLayout>
+            <RelativeLayout
+                android:id="@+id/homebanner_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipChildren="false"
+                android:layout_marginTop="@dimen/_50sdp"
+                android:visibility="gone">
+
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/main_page_dealsRcv"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_150sdp"/>
+
+                <androidx.viewpager.widget.ViewPager
+                    android:id="@+id/cardViewPager"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_140sdp"
+                    android:layout_marginLeft="@dimen/_15sdp"
+                    android:layout_marginRight="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_110sdp"
+                    android:layout_marginBottom="@dimen/_5sdp"
+                    android:clipChildren="false"
+                    android:overScrollMode="never"/>
+
+            </RelativeLayout>
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@android:color/transparent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="gone">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -169,21 +221,60 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/splash_bg_color"
-                android:orientation="vertical">
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:layout_width="@dimen/_3sdp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/vertical_line"
+                    android:orientation="vertical"
+                    android:layout_marginLeft="@dimen/_18sdp"/>
 
-                <TextView
-                    android:id="@+id/upcoming_txt"
-                    style="@style/title_text_font"
-                    android:layout_width="match_parent"
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical|center"
-                    android:paddingTop="@dimen/_5sdp"
-                    android:text="@string/upcoming"
-                    android:textColor="@color/heading_bg"
-                    android:textSize="@dimen/_13sdp" />
+                    android:orientation="vertical">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <TextView
+                        android:id="@+id/upcoming_txt"
+                            style="@style/title_text_font"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/_5sdp"
+                            android:layout_marginRight="@dimen/_5sdp"
+                            android:gravity="center_vertical|left"
+                            android:textAllCaps="true"
+                            android:text="@string/upcoming"
+                            android:textColor="@color/heading_bg"
+                            android:textSize="@dimen/_13sdp"  />
+                    </LinearLayout>
+                    <TextView
+                        android:id="@+id/army_popularcity_subtitle_txt"
+                        style="@style/title_text_font"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_5sdp"
+                        android:gravity="center_vertical|left"
+                        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+                        android:textColor="@color/gray"
+                        android:textSize="@dimen/_9sdp" />
+                </LinearLayout>
 
-                <include layout="@layout/star_line_view" />
+                <!--<TextView-->
+                    <!--android:id="@+id/upcoming_txt"-->
+                    <!--style="@style/title_text_font"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:gravity="center_vertical|center"-->
+                    <!--android:paddingTop="@dimen/_5sdp"-->
+                    <!--android:text="@string/upcoming"-->
+                    <!--android:textColor="@color/heading_bg"-->
+                    <!--android:textSize="@dimen/_13sdp" />-->
+
+                <!--<include layout="@layout/star_line_view" />-->
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -236,8 +327,10 @@
                 android:id="@+id/upcoming_rcyList"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginLeft="@dimen/_12sdp"
                 android:layout_marginRight="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
                 app:shimmer_demo_angle="10"
                 app:shimmer_demo_layout="@layout/layout_demo_grid"
                 app:shimmer_demo_layout_manager_type="linear_horizontal"
@@ -382,23 +475,25 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/splash_bg_color"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
 
-                <TextView
-                    android:id="@+id/army_story_txt"
-                    style="@style/title_text_font"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_4sdp"
-                    android:gravity="center_vertical|center_horizontal"
-                    android:paddingTop="@dimen/_5sdp"
-                    android:text="@string/bharat_army_story"
-                    android:textColor="@color/heading_bg"
-                    android:textSize="@dimen/_13sdp" />
+                <!--<TextView-->
+                    <!--android:id="@+id/army_story_txt"-->
+                    <!--style="@style/title_text_font"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginTop="@dimen/_4sdp"-->
+                    <!--android:gravity="center_vertical|center_horizontal"-->
+                    <!--android:paddingTop="@dimen/_5sdp"-->
+                    <!--android:text="@string/bharat_army_story"-->
+                    <!--android:textColor="@color/heading_bg"-->
+                    <!--android:textSize="@dimen/_13sdp" />-->
 
                 <include layout="@layout/star_line_view" />
 
             </LinearLayout>
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -407,13 +502,60 @@
                 android:background="@color/splash_bg_color"
                 android:orientation="vertical">
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="@dimen/_10sdp">
+                    <LinearLayout
+                        android:layout_width="@dimen/_3sdp"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/vertical_line"
+                        android:orientation="vertical"
+                        android:layout_marginLeft="@dimen/_18sdp"/>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+                            <TextView
+                                android:id="@+id/army_story_txt"
+                                style="@style/title_text_font"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/_5sdp"
+                                android:layout_marginRight="@dimen/_5sdp"
+                                android:gravity="center_vertical|left"
+                                android:textAllCaps="true"
+                                android:text="@string/bharat_army_story"
+                                android:textColor="@color/heading_bg"
+                                android:textSize="@dimen/_13sdp"   />
+                        </LinearLayout>
+                        <TextView
+                            android:id="@+id/army_story_desc_txt"
+                            style="@style/title_text_font"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/_5sdp"
+                            android:gravity="center_vertical|left"
+                            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+                            android:textColor="@color/gray"
+                            android:textSize="@dimen/_9sdp" />
+                    </LinearLayout>
+                </LinearLayout>
                 <com.cooltechworks.views.shimmer.ShimmerRecyclerView xmlns:app="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/army_story_rcyList"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_marginLeft="@dimen/_12sdp"
                     android:layout_marginRight="@dimen/_10sdp"
                     android:layout_marginBottom="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
                     app:shimmer_demo_angle="10"
                     app:shimmer_demo_layout="@layout/layout_demo_grid"
                     app:shimmer_demo_layout_manager_type="linear_horizontal"
@@ -429,10 +571,7 @@
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
-    </ScrollView>
-    <!--<ScrollView -->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--tools:context=".Fragment.HomeFragment">-->
-    <!--</ScrollView>-->
+        </ScrollView>
+    </RelativeLayout>
+
 </layout>

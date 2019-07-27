@@ -46,6 +46,8 @@ public class TimerActivity extends AppCompatActivity {
         scroll_view = (HorizontalScrollView) findViewById(R.id.scroll_view);
         background = (ImageView) findViewById(R.id.background);
 
+
+
         pagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
 
         viewPager.setPageTransformer(true, new CrossfadePageTransformer());

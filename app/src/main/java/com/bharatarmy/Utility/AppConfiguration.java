@@ -15,4 +15,5 @@ public class AppConfiguration {
     public static String currentCountry;
     public static String firstDashStr;
     public static String tabPosition;
+    public static boolean tabselected=true;
 }

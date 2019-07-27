@@ -36,6 +36,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.tabs.TabLayout;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -50,6 +51,8 @@ public class TravelPackageActivity extends AppCompatActivity {
     List<TravelDetailModel> travelPacakgeTabList;
     BottomSheetDialogFragment bottomSheetDialogFragment;
     private BottomSheetBehavior mBottomSheetBehavior;
+
+    ArrayList<Integer> tabno=new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,13 +63,14 @@ public class TravelPackageActivity extends AppCompatActivity {
         setTabLayoutList();
 
     }
+
     public void init() {
         setSupportActionBar(activityTravelPackageBinding.tabToolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        getSupportActionBar().setDisplayShowHomeEnabled(false);
 
-        activityTravelPackageBinding.shimmerViewContainer.startShimmerAnimation();
+//        activityTravelPackageBinding.shimmerViewContainer.startShimmerAnimation();
         activityTravelPackageBinding.oldpriceTxt.setPaintFlags(activityTravelPackageBinding.oldpriceTxt.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
 
 //        mBottomSheetBehavior = BottomSheetBehavior.from(findViewById(R.id.bottomSheetLayout));
@@ -87,7 +91,7 @@ public class TravelPackageActivity extends AppCompatActivity {
                 if (scrollRange + verticalOffset == 0) {
                     activityTravelPackageBinding.tabToolbar.setBackgroundColor(ContextCompat.getColor(mContext, R.color.heading_bg));
                     activityTravelPackageBinding.tablayoutLinear.setBackgroundColor(ContextCompat.getColor(mContext, R.color.splash_bg_color));
-                    activityTravelPackageBinding.tabToolbar.setTitle("Australian Double Dhamaka: Honeymoon and adventure at one shot");
+                    activityTravelPackageBinding.htabCollapseToolbar.setTitle("Australian Double Dhamaka: Honeymoon and adventure at one shot");
                     Typeface typeface = ResourcesCompat.getFont(mContext, R.font.helveticaneueltstdbdcn);
                     activityTravelPackageBinding.htabCollapseToolbar.setCollapsedTitleTypeface(typeface);
                     activityTravelPackageBinding.htabCollapseToolbar.setExpandedTitleTypeface(typeface);
@@ -99,6 +103,7 @@ public class TravelPackageActivity extends AppCompatActivity {
                     activityTravelPackageBinding.tabToolbar.setBackgroundColor(ContextCompat.getColor(mContext, R.color.transparent));
                     activityTravelPackageBinding.tablayoutLinear.setBackgroundColor(ContextCompat.getColor(mContext, R.color.splash_bg_color));
                     activityTravelPackageBinding.tabToolbar.setTitle(" ");
+                    activityTravelPackageBinding.htabCollapseToolbar.setTitle(" ");
                     activityTravelPackageBinding.toolbarBottomLeftView.setVisibility(View.GONE);
                     isShow = false;
                 }
@@ -109,8 +114,8 @@ public class TravelPackageActivity extends AppCompatActivity {
         activityTravelPackageBinding.bookTxt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent bookIntent=new Intent(mContext,TravelBookActivity.class);
-                bookIntent.putExtra("pacakgeName","Australian Double Dhamaka: Honeymoon and adventure at one shot");
+                Intent bookIntent = new Intent(mContext, TravelBookActivity.class);
+                bookIntent.putExtra("pacakgeName", "Australian Double Dhamaka: Honeymoon and adventure at one shot");
                 bookIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(bookIntent);
             }
@@ -124,7 +129,12 @@ public class TravelPackageActivity extends AppCompatActivity {
                 bottomSheetDialogFragment.show(getSupportFragmentManager(), bottomSheetDialogFragment.getTag());
             }
         });
-
+        activityTravelPackageBinding.backImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TravelPackageActivity.this.finish();
+            }
+        });
 
     }
 
@@ -136,24 +146,41 @@ public class TravelPackageActivity extends AppCompatActivity {
                 wordtoSpan.setSpan(new RelativeSizeSpan(1.5f), 5, wordtoSpan.length(), 0); // set size
                 wordtoSpan.setSpan(new StyleSpan(Typeface.NORMAL), 0, wordtoSpan.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 wordtoSpan.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.heading_bg)), 5, wordtoSpan.length(), 0);// set color
-                activityTravelPackageBinding.tabLayoutDays.addTab(activityTravelPackageBinding.tabLayoutDays.newTab().setText(wordtoSpan));
-            } else if(i<9){
+                activityTravelPackageBinding.tabLayoutDays.addTab(activityTravelPackageBinding.tabLayoutDays.newTab().setText(wordtoSpan),true);
+            } else if (i < 9) {
                 activityTravelPackageBinding.tabLayoutDays.addTab(activityTravelPackageBinding.tabLayoutDays.newTab().setText(" 0" + String.valueOf(i + 1)));
-            }else{
+            } else {
                 activityTravelPackageBinding.tabLayoutDays.addTab(activityTravelPackageBinding.tabLayoutDays.newTab().setText(String.valueOf(i + 1)));
             }
         }
-        AppConfiguration.tabPosition="1";
-        callTabPacakgeDetailData();
+        AppConfiguration.tabPosition = "1";
+//        callTabPacakgeDetailData();
+
+        packagePageAdapter = new PackagePageAdapter(getSupportFragmentManager(),
+                activityTravelPackageBinding.tabLayoutDays.getTabCount());
+        activityTravelPackageBinding.daytabViewpager.setOffscreenPageLimit(0);
+        activityTravelPackageBinding.daytabViewpager.setAdapter(packagePageAdapter);
 
         activityTravelPackageBinding.daytabViewpager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(
                 activityTravelPackageBinding.tabLayoutDays));
-
+        tabno.add(1);
+        Log.d("tabno : ",""+tabno);
         activityTravelPackageBinding.tabLayoutDays.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                AppConfiguration.tabPosition= String.valueOf(tab.getPosition()+1);
-                callTabPacakgeDetailData();
+                    if (!tabno.contains(tab.getPosition()+1)){
+                        tabno.add(tab.getPosition()+1);
+                        Log.d("tabno : ",""+tabno);
+                        AppConfiguration.tabselected=true;
+                    }else{
+                        AppConfiguration.tabselected=false;
+                    }
+                Log.d("tabselected" ,""+AppConfiguration.tabselected);
+
+                AppConfiguration.tabPosition = String.valueOf(tab.getPosition() + 1);
+                Log.d("tabposition" , AppConfiguration.tabPosition);
+
+//                activityTravelPackageBinding.tabLayoutDays.setupWithViewPager(activityTravelPackageBinding.daytabViewpager);
                 tab.setText(String.valueOf(" DAY" + "\n" + tab.getText()));
                 activityTravelPackageBinding.daytabViewpager.setCurrentItem(tab.getPosition());
                 Spannable wordtoSpan = new SpannableString(String.valueOf(tab.getText()));
@@ -162,6 +189,7 @@ public class TravelPackageActivity extends AppCompatActivity {
                 wordtoSpan.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.heading_bg)), 5, wordtoSpan.length(), 0);// set color
                 wordtoSpan.setSpan(new StyleSpan(Typeface.NORMAL), 0, wordtoSpan.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                 tab.setText(wordtoSpan);
+//                callTabPacakgeDetailData();
             }
 
             @Override
@@ -178,12 +206,11 @@ public class TravelPackageActivity extends AppCompatActivity {
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-
+                AppConfiguration.tabselected=false;
             }
         });
 
     }
-
 
 
     @Override
@@ -199,7 +226,7 @@ public class TravelPackageActivity extends AppCompatActivity {
     // Api calling GetTabPacakgeDetailData
     public void callTabPacakgeDetailData() {
         if (!Utils.checkNetwork(mContext)) {
-            Utils.showCustomDialog(getResources().getString(R.string.internet_error), getResources().getString(R.string.internet_connection_error),TravelPackageActivity.this);
+            Utils.showCustomDialog(getResources().getString(R.string.internet_error), getResources().getString(R.string.internet_connection_error), TravelPackageActivity.this);
             return;
         }
 
@@ -227,16 +254,17 @@ public class TravelPackageActivity extends AppCompatActivity {
                         travelPacakgeTabList = travelMainModel.getData();
 //                        fragmentPackageTabBinding.pacakgeDayRcv.hideShimmerAdapter();
 //                        setDataList();
-                   if (packagePageAdapter==null){
-                       packagePageAdapter = new PackagePageAdapter(getSupportFragmentManager(),
-                               activityTravelPackageBinding.tabLayoutDays.getTabCount(),travelPacakgeTabList);
-                       activityTravelPackageBinding.daytabViewpager.setAdapter(packagePageAdapter);
-                   }else{
-                       packagePageAdapter.notifyDataSetChanged();
 
-                   }
-activityTravelPackageBinding.shimmerViewContainer.stopShimmerAnimation();
-                   activityTravelPackageBinding.shimmerViewContainer.setVisibility(View.GONE);
+
+//                        packagePageAdapter.notifyDataSetChanged();
+//                        if (packagePageAdapter == null) {
+//                            packagePageAdapter.notifyDataSetChanged();
+//                        } else {
+//                            packagePageAdapter.notifyDataSetChanged();
+//
+//                        }
+                        activityTravelPackageBinding.shimmerViewContainer.stopShimmerAnimation();
+                        activityTravelPackageBinding.shimmerViewContainer.setVisibility(View.GONE);
                     }
 
                 }
@@ -261,4 +289,6 @@ activityTravelPackageBinding.shimmerViewContainer.stopShimmerAnimation();
         map.put("DayNo", AppConfiguration.tabPosition);
         return map;
     }
+
+
 }

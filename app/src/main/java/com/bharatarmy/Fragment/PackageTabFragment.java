@@ -1,7 +1,6 @@
 package com.bharatarmy.Fragment;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.databinding.DataBindingUtil;
@@ -10,26 +9,23 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.bharatarmy.Activity.StoryDetailActivity;
 import com.bharatarmy.Adapter.TravelPacakgeTabAdapter;
 import com.bharatarmy.Models.ImageDetailModel;
 import com.bharatarmy.Models.TravelDetailModel;
 import com.bharatarmy.Models.TravelMainModel;
-import com.bharatarmy.Models.TravelModel;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.ApiHandler;
 import com.bharatarmy.Utility.AppConfiguration;
 import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.FragmentPackageTabBinding;
 
-import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,14 +40,15 @@ public class PackageTabFragment extends Fragment {
     Context mContext;
     TravelPacakgeTabAdapter travelPacakgeTabAdapter;
     List<TravelDetailModel> travelPacakgeTabList;
-
+  HashMap<Integer,List<TravelDetailModel>> storeData = new HashMap<>();
+  int count=0;
     public PackageTabFragment() {
     }
 
-    public static PackageTabFragment newInstance(List<TravelDetailModel> travelPacakgeTabList) {
+    public static PackageTabFragment newInstance() {//List<TravelDetailModel> travelPacakgeTabList
         PackageTabFragment pane = new PackageTabFragment();
         Bundle args = new Bundle();
-        args.putSerializable("List", (Serializable) travelPacakgeTabList);
+//        args.putSerializable("List", (Serializable) travelPacakgeTabList);
         pane.setArguments(args);
         return pane;
     }
@@ -80,7 +77,18 @@ public class PackageTabFragment extends Fragment {
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser && rootView != null) {
-            setDataList();
+//            setDataList();
+//            if (AppConfiguration.tabselected==true){
+//            using sharedpreffrence daywise done
+
+            fragmentPackageTabBinding.pacakgeDayRcv.setVisibility(View.GONE);
+            fragmentPackageTabBinding.shimmerViewContainer.setVisibility(View.VISIBLE);
+                fragmentPackageTabBinding.shimmerViewContainer.startShimmerAnimation();
+                callTabPacakgeDetailData();
+//            }else{
+//
+//            }
+
         }
     }
 
@@ -113,7 +121,12 @@ public class PackageTabFragment extends Fragment {
 
                     if (travelMainModel.getData() != null) {
                         travelPacakgeTabList = travelMainModel.getData();
+                        fragmentPackageTabBinding.shimmerViewContainer.stopShimmerAnimation();
+                        fragmentPackageTabBinding.shimmerViewContainer.setVisibility(View.GONE);
+                        fragmentPackageTabBinding.pacakgeDayRcv.setVisibility(View.VISIBLE);
                         setDataList();
+
+
                     }
 
                 }
@@ -140,15 +153,12 @@ public class PackageTabFragment extends Fragment {
     }
 
     public void setDataList() {
-
-        travelPacakgeTabList= (List<TravelDetailModel>) getArguments().getSerializable("List");
-        Log.d("size :",""+travelPacakgeTabList.size());
         travelPacakgeTabAdapter = new TravelPacakgeTabAdapter(mContext, travelPacakgeTabList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(mContext, RecyclerView.VERTICAL, false);
         fragmentPackageTabBinding.pacakgeDayRcv.setLayoutManager(mLayoutManager);
         fragmentPackageTabBinding.pacakgeDayRcv.setItemAnimator(new DefaultItemAnimator());
         fragmentPackageTabBinding.pacakgeDayRcv.setAdapter(travelPacakgeTabAdapter);
-        travelPacakgeTabAdapter.notifyDataSetChanged();
+//        travelPacakgeTabAdapter.notifyDataSetChanged();
 
     }
 }

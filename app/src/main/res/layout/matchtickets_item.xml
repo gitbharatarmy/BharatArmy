@@ -17,7 +17,7 @@
         android:orientation="horizontal"
         android:visibility="visible">
 
-        <com.bharatarmy.TravelDesignModule.RoundishImageView
+        <com.bharatarmy.RoundishImageView
             app:cornerRadius="@dimen/round_corner_radius"
             app:roundedCorners="bottomLeft"
             android:layout_width="@dimen/_70sdp"

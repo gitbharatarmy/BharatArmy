@@ -50,6 +50,61 @@ public class TravelModel {
     int matchteamFlag;
     String matchteamVenues;
 
+    String bg_iamge;
+    String bg_name;
+    String main_titleName;
+    String main_desc;
+    String button_name;
+
+
+    public TravelModel(String bg_iamge,String bg_name,String main_titleName,String main_desc,String button_name){
+        this.bg_iamge=bg_iamge;
+        this.bg_name=bg_name;
+        this.main_titleName=main_titleName;
+        this.main_desc=main_desc;
+        this.button_name=button_name;
+    }
+
+    public String getBg_iamge() {
+        return bg_iamge;
+    }
+
+    public void setBg_iamge(String bg_iamge) {
+        this.bg_iamge = bg_iamge;
+    }
+
+    public String getBg_name() {
+        return bg_name;
+    }
+
+    public void setBg_name(String bg_name) {
+        this.bg_name = bg_name;
+    }
+
+    public String getMain_titleName() {
+        return main_titleName;
+    }
+
+    public void setMain_titleName(String main_titleName) {
+        this.main_titleName = main_titleName;
+    }
+
+    public String getMain_desc() {
+        return main_desc;
+    }
+
+    public void setMain_desc(String main_desc) {
+        this.main_desc = main_desc;
+    }
+
+    public String getButton_name() {
+        return button_name;
+    }
+
+    public void setButton_name(String button_name) {
+        this.button_name = button_name;
+    }
+
     public TravelModel(){}
 
 

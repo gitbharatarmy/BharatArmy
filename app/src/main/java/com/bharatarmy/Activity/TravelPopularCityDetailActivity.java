@@ -13,6 +13,8 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.MenuItem;
+import android.view.View;
+
 import com.bharatarmy.Adapter.TravelPopularCityDetailAdapter;
 import com.bharatarmy.Models.TravelModel;
 import com.bharatarmy.R;
@@ -47,13 +49,20 @@ public class TravelPopularCityDetailActivity extends AppCompatActivity {
     public void init() {
         setSupportActionBar(activityTravelPopularCityDetailBinding.toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        getSupportActionBar().setDisplayShowHomeEnabled(false);
 
         Utils.setImageInImageView(AppConfiguration.IMAGE_URL+"mumbai.jpg",activityTravelPopularCityDetailBinding.backdrop,mContext);
     }
 
     public void setListiner() {
+        activityTravelPopularCityDetailBinding.backImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TravelPopularCityDetailActivity.this.finish();
+            }
+        });
+
         activityTravelPopularCityDetailBinding.appbar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             boolean isShow = true;
             int scrollRange = -1;

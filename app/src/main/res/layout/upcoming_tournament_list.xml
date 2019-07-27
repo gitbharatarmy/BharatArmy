@@ -1,21 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="@dimen/_250sdp"
-    android:layout_height="@dimen/_320sdp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/home_page_card_shape"
+    android:elevation="50dp"
     android:orientation="vertical">
 
-    <androidx.cardview.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/_300sdp"
-        android:layout_margin="@dimen/_5sdp"
-        android:background="@color/splash_bg_color"
-        card_view:cardCornerRadius="1dp"
-        card_view:cardElevation="6dp"
-        card_view:cardMaxElevation="10dp">
+    <!--<androidx.cardview.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="@dimen/_300sdp"-->
+        <!--android:background="@color/splash_bg_color"-->
+        <!--card_view:cardElevation="6dp"-->
+        <!--card_view:cardMaxElevation="10dp"-->
+        <!--android:layout_margin="@dimen/_3sdp">-->
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical"
             android:paddingLeft="1dp"
             android:paddingTop="1dp"
@@ -23,15 +26,18 @@
 
             <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:background="@drawable/match_detail_curveshape">
 
-                <ImageView
+                <com.bharatarmy.RoundishImageView
                     android:id="@+id/banner_img"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_160sdp"
+                    android:adjustViewBounds="true"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/ajif" />
-
+                    android:src="@drawable/australia_tour"
+                    app:cornerRadius="@dimen/round_corner_radius"
+                    app:roundedCorners="topRight" />
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/_20sdp"
@@ -153,32 +159,55 @@
                 android:paddingRight="@dimen/_5sdp"
                 android:text="@string/bharat_army_story"
                 android:textColor="@color/normal_font_color"
-                android:textSize="@dimen/_10sdp" />
+                android:textSize="@dimen/_10sdp"
+                android:visibility="gone"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_30sdp"
+                android:layout_height="@dimen/_25sdp"
                 android:layout_marginLeft="@dimen/_5sdp"
                 android:orientation="horizontal"
-                android:visibility="gone">
+                android:visibility="visible">
 
                 <ImageView
                     android:id="@+id/date_img"
                     android:layout_width="@dimen/_20sdp"
-                    android:layout_height="@dimen/_20sdp"
+                    android:layout_height="@dimen/_15sdp"
                     android:layout_gravity="center_vertical"
-                    android:src="@drawable/ic_password" />
+
+                    android:src="@drawable/ic_calendar"
+                    android:tint="@color/skip_color"/>
 
                 <TextView
                     android:id="@+id/date_txt"
                     style="@style/text_font"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_30sdp"
+                    android:layout_width="@dimen/_130sdp"
+                    android:layout_height="@dimen/_20sdp"
                     android:layout_marginRight="@dimen/_5sdp"
                     android:gravity="center_vertical"
                     android:paddingLeft="@dimen/_2sdp"
-                    android:text="06 Feb 19"
-                    android:textColor="@color/gray"
+                    android:text="Jul 2019 - Aug 2019"
+                    android:textColor="@color/skip_color"
+                    android:textSize="@dimen/_12sdp" />
+
+                <ImageView
+                    android:id="@+id/location_img"
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_15sdp"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/ic_location"
+                    android:tint="@color/skip_color"/>
+
+                <TextView
+                    android:id="@+id/location_txt"
+                    style="@style/text_font"
+                    android:layout_width="@dimen/_130sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:layout_marginRight="@dimen/_5sdp"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/_2sdp"
+                    android:text="India"
+                    android:textColor="@color/skip_color"
                     android:textSize="@dimen/_12sdp" />
             </LinearLayout>
 
@@ -190,24 +219,7 @@
                 android:orientation="horizontal"
                 android:visibility="gone">
 
-                <ImageView
-                    android:id="@+id/location_img"
-                    android:layout_width="@dimen/_20sdp"
-                    android:layout_height="@dimen/_20sdp"
-                    android:layout_gravity="center_vertical"
-                    android:src="@drawable/ic_location" />
 
-                <TextView
-                    android:id="@+id/location_txt"
-                    style="@style/text_font"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_30sdp"
-                    android:layout_marginRight="@dimen/_5sdp"
-                    android:gravity="center_vertical"
-                    android:paddingLeft="@dimen/_2sdp"
-                    android:text="06 Feb 19"
-                    android:textColor="@color/gray"
-                    android:textSize="@dimen/_12sdp" />
             </LinearLayout>
 
             <LinearLayout
@@ -275,6 +287,6 @@
 
 
         </LinearLayout>
-    </androidx.cardview.widget.CardView>
+    <!--</androidx.cardview.widget.CardView>-->
 
 </LinearLayout>

@@ -14,7 +14,7 @@ public class PackagePageAdapter extends FragmentStatePagerAdapter {
     Fragment fragment = null;
     List<TravelDetailModel> travelPacakgeTabList;
 
-    public PackagePageAdapter(FragmentManager fm, int NumOfTabs, List<TravelDetailModel> travelPacakgeTabList) {
+    public PackagePageAdapter(FragmentManager fm, int NumOfTabs) { //, String travelPacakgeTabList
         super(fm);
         this.mNumOfTabs = NumOfTabs;
         this.travelPacakgeTabList=travelPacakgeTabList;
@@ -25,7 +25,7 @@ public class PackagePageAdapter extends FragmentStatePagerAdapter {
 
         for (int i = 0; i < mNumOfTabs ; i++) {
             if (i == position) {
-                fragment =PackageTabFragment.newInstance(travelPacakgeTabList);
+                fragment =PackageTabFragment.newInstance();//, String travelPacakgeTabList
                 break;
             }
         }

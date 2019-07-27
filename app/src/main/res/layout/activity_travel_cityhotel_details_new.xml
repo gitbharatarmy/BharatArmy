@@ -23,9 +23,15 @@
                 android:layout_height="@dimen/_433sdp"
                 android:background="@color/splash_bg_color"
                 android:fitsSystemWindows="true"
-                app:contentScrim="?attr/colorPrimary"
+                app:collapsedTitleGravity="left"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
-                app:titleEnabled="false">
+                app:titleEnabled="true"
+                app:collapsedTitleTextAppearance="@style/TextAppearance.AppCompat.Title.Collapse"
+                app:contentInsetStart="0dp"
+                app:contentScrim="?attr/colorPrimary"
+                app:expandedTitleMarginEnd="2dp"
+                app:expandedTitleMarginStart="0dp"
+                app:expandedTitleTextAppearance="@style/TextAppearance.AppCompat.Title.Expand">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -60,8 +66,26 @@
                     android:layout_height="?attr/actionBarSize"
                     android:layout_gravity="top"
                     android:layout_marginBottom="50dp"
+                    app:contentInsetLeft="0dp"
+                    app:contentInsetRight="@dimen/_20sdp"
+                    app:contentInsetStartWithNavigation="0dp"
                     app:layout_collapseMode="pin"
-                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+                    <LinearLayout
+                        android:id="@+id/back_img"
+                        android:layout_width="@dimen/_40sdp"
+                        android:layout_height="@dimen/_40sdp"
+                        android:orientation="horizontal"
+                        android:layout_gravity="top"
+                        android:layout_marginLeft="@dimen/_15sdp">
+                        <ImageView
+                            android:layout_width="@dimen/_20sdp"
+                            android:layout_height="@dimen/_15sdp"
+                            android:src="@drawable/ic_left_arrow2"
+                            android:layout_gravity="left|center_vertical"
+                            android:tint="@color/splash_bg_color"/>
+                    </LinearLayout>
+                </androidx.appcompat.widget.Toolbar>
 
                 <LinearLayout
                     android:id="@+id/title_linear"
@@ -79,8 +103,6 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:weightSum="1">
-
-
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"

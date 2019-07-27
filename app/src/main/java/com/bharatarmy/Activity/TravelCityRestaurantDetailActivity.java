@@ -57,8 +57,8 @@ Context mContext;
     public void setListiner() {
         setSupportActionBar(activityTravelCityRestaurantDetailBinding.toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        getSupportActionBar().setDisplayShowHomeEnabled(false);
 
         activityTravelCityRestaurantDetailBinding.appbar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             boolean isShow = true;
@@ -89,7 +89,7 @@ Context mContext;
 
             }
         });
-
+activityTravelCityRestaurantDetailBinding.backImg.setOnClickListener(this);
 
     }
 
@@ -134,7 +134,7 @@ Context mContext;
 
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.back_linear:
+            case R.id.back_img:
                 TravelCityRestaurantDetailActivity.this.finish();
                 break;
         }

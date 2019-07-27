@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<layout>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -36,6 +37,8 @@
                     android:layout_height="@dimen/_80sdp"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentRight="true"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginBottom="@dimen/_5sdp"
                     android:src="@drawable/travel_chhkr" />
 
                 <LinearLayout
@@ -179,7 +182,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
-                        android:maxLines="3"
+                        android:maxLines="2"
                         android:paddingRight="@dimen/_5sdp"
                         android:text="Jarlsberg lancashire edam. Dolcelatte hard cheese brie st. agur blue
     cheese caerphilly bavarian bergkase cheese and biscuits mascarpone."
@@ -225,6 +228,8 @@
                     android:layout_height="@dimen/_80sdp"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentRight="true"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginBottom="@dimen/_5sdp"
                     android:src="@drawable/travel_chhkr" />
 
                 <LinearLayout
@@ -259,7 +264,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:ellipsize="end"
-                        android:maxLines="3"
+                        android:maxLines="2"
                         android:paddingTop="@dimen/_5sdp"
                         android:text=" Checkout of your hotel. Borad your flight to Melbourne. Check-in to your new hotel."
                         android:textColor="@color/heading_bg"
@@ -275,6 +280,6 @@
         </androidx.cardview.widget.CardView>
     </LinearLayout>
 </androidx.cardview.widget.CardView>
-
+</layout>
 
 

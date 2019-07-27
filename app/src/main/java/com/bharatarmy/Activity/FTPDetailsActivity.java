@@ -68,8 +68,8 @@ public class FTPDetailsActivity extends AppCompatActivity implements View.OnClic
         ftpdetailsBinding.shimmerViewContainer.startShimmerAnimation();
         setSupportActionBar(ftpdetailsBinding.toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        getSupportActionBar().setDisplayShowHomeEnabled(false);
 
 
         if (!ftpstr1.equalsIgnoreCase("")) {
@@ -112,6 +112,7 @@ public class FTPDetailsActivity extends AppCompatActivity implements View.OnClic
     public void setListiner() {
         ftpdetailsBinding.inquriyBtn.setOnClickListener(this);
         ftpdetailsBinding.ftpComment.setOnClickListener(this);
+        ftpdetailsBinding.backImg.setOnClickListener(this);
 
         ftpdetailsBinding.appbar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             boolean isShow = true;
@@ -156,6 +157,9 @@ public class FTPDetailsActivity extends AppCompatActivity implements View.OnClic
             case R.id.ftp_comment:
                 Intent bottomcommentIntent = new Intent(mContext, CommentActivity.class);
                 startActivity(bottomcommentIntent);
+                break;
+            case R.id.back_img:
+                FTPDetailsActivity.this.finish();
                 break;
 
         }

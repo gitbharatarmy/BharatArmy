@@ -1,4 +1,4 @@
-package com.bharatarmy.TravelDesignModule;
+package com.bharatarmy;
 
 import android.content.Context;
 import android.content.res.TypedArray;

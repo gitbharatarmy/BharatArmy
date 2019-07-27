@@ -2,6 +2,7 @@ package com.bharatarmy.Utility;
 
 import com.bharatarmy.Models.DashboardModel;
 import com.bharatarmy.Models.GetWalkthroughModel;
+import com.bharatarmy.Models.HomeTemplateModel;
 import com.bharatarmy.Models.ImageMainModel;
 import com.bharatarmy.Models.LogginModel;
 import com.bharatarmy.Models.LoginDataModel;
@@ -37,6 +38,10 @@ public interface WebServices {
     @FormUrlEncoded
     @POST("/GetDashboard")
     void getDashboard(@FieldMap Map<String, String> map, Callback<DashboardModel> callback);
+
+    @FormUrlEncoded
+    @POST("/GetHomeBanners")
+    void getHomeBanners(@FieldMap Map<String, String> map, Callback<HomeTemplateModel> callback);
 
     @FormUrlEncoded
     @POST("/GetUserDetails")

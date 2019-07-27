@@ -29,7 +29,7 @@
                 android:orientation="horizontal"
                 android:visibility="gone">
 
-                <com.bharatarmy.TravelDesignModule.RoundishImageView
+                <com.bharatarmy.RoundishImageView
                     android:id="@+id/main_match_image"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_80sdp"
@@ -100,7 +100,7 @@
                         android:textSize="@dimen/_13sdp" />
 
 
-                    <com.bharatarmy.TravelDesignModule.RoundishImageView
+                    <com.bharatarmy.RoundishImageView
                         android:layout_width="@dimen/_20sdp"
                         android:layout_height="@dimen/_15sdp"
                         android:layout_marginLeft="@dimen/_3sdp"
@@ -122,7 +122,7 @@
                         android:textColor="@color/heading_bg"
                         android:textSize="@dimen/_13sdp" />
 
-                    <com.bharatarmy.TravelDesignModule.RoundishImageView
+                    <com.bharatarmy.RoundishImageView
                         android:layout_width="@dimen/_20sdp"
                         android:layout_height="@dimen/_15sdp"
                         android:layout_marginLeft="@dimen/_3sdp"

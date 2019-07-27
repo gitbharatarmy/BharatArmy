@@ -2,15 +2,18 @@ package com.bharatarmy.Fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.TransitionDrawable;
 import android.media.MediaPlayer;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -22,6 +25,7 @@ import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.VideoView;
 import android.widget.ViewSwitcher;
@@ -34,7 +38,13 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.LinearSnapHelper;
+import androidx.recyclerview.widget.OrientationHelper;
+import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.SnapHelper;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
 import com.bharatarmy.Activity.DashboardActivity;
 import com.bharatarmy.Activity.MoreStoryActivity;
@@ -42,20 +52,31 @@ import com.bharatarmy.Activity.Splash_Screen;
 import com.bharatarmy.Activity.VideoDetailActivity;
 import com.bharatarmy.Activity.WalkThrough;
 import com.bharatarmy.Adapter.BharatArmyStoriesAdapter;
+import com.bharatarmy.Adapter.MainPageChildAdapter;
+import com.bharatarmy.Adapter.MainPageDealsAdapter;
+import com.bharatarmy.Adapter.MyBgpageAdapter;
+import com.bharatarmy.Adapter.MyPagerAdapter;
 import com.bharatarmy.Adapter.UpcomingDashboardAdapter;
+import com.bharatarmy.AlphaPageTransformer;
 import com.bharatarmy.Interfaces.MorestoryClick;
 import com.bharatarmy.Models.DashboardDataModel;
 import com.bharatarmy.Models.DashboardModel;
+import com.bharatarmy.Models.HomeTemplateDetailModel;
+import com.bharatarmy.Models.HomeTemplateModel;
 import com.bharatarmy.Models.StoryDashboardData;
+import com.bharatarmy.Models.TravelModel;
 import com.bharatarmy.Models.UpcommingDashboardModel;
 import com.bharatarmy.R;
 import com.bharatarmy.CountDownClockHome;
 import com.bharatarmy.Utility.ApiHandler;
 import com.bharatarmy.Utility.AppConfiguration;
+import com.bharatarmy.Utility.SnapHelperOneByOne;
 import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.FragmentHomeBinding;
+import com.bumptech.glide.Glide;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.leinardi.android.speeddial.SpeedDialView;
+import com.takusemba.multisnaprecyclerview.MultiSnapRecyclerView;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -68,7 +89,10 @@ import java.util.Map;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
+import static androidx.recyclerview.widget.RecyclerView.SCROLL_STATE_DRAGGING;
+import static androidx.recyclerview.widget.RecyclerView.SCROLL_STATE_IDLE;
 
+// change the code backup 22/07/2019  & 27/07/2019
 public class HomeFragment extends Fragment implements View.OnClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -85,6 +109,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     DashboardDataModel getDashboardDataModel;
     UpcomingDashboardAdapter upcomingDashboardAdapter;
     BharatArmyStoriesAdapter bharatArmyStoriesAdapter;
+
+    HomeTemplateModel gethomeTemplateModel;
+    List<HomeTemplateDetailModel> homeTemplateDetailModelList;
+
     List<UpcommingDashboardModel> upcommingDashboardModelList;
     List<StoryDashboardData> storyDashboardDataList;
     AlertDialog alertDialogAndroid;
@@ -100,6 +128,17 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private Handler imageSwitcherHandler;
     FloatingActionButton fab;
     SpeedDialView speedDial;
+
+
+    ArrayList<TravelModel> mainPageArrayList;
+    int mNextSelectedScreen,mCurrentSelectedScreen=0;
+//    private MyImageViewPagerAdapter myImageViewPagerAdapter;
+    ArrayList<TravelModel> homedetailList;
+    MainPageChildAdapter mainPageChildAdapter;
+
+    RecyclerView deals_detailRcv;
+    MainPageDealsAdapter mainPageDealsAdapter;
+
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -140,9 +179,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         rootView = fragmentHomeBinding.getRoot();
         mContext = getActivity().getApplicationContext();
         AppConfiguration.position = 0;
-        fab=getActivity().findViewById(R.id.fab);
+        fab = getActivity().findViewById(R.id.fab);
         fab.hide();
-        speedDial=getActivity().findViewById(R.id.speedDial);
+        speedDial = getActivity().findViewById(R.id.speedDial);
         speedDial.setVisibility(View.GONE);
         return rootView;
 
@@ -156,6 +195,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         if (!Utils.checkNetwork(mContext)) {
             Utils.showCustomDialog(getResources().getString(R.string.internet_error), getResources().getString(R.string.internet_connection_error), getActivity());
         } else {
+            fragmentHomeBinding.shimmerViewContainerhome.startShimmerAnimation();
+            callHomeBannerData();
             callDashboardData();
         }
         setListiner();
@@ -180,22 +221,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             final Date finalEndDate = endDate;
 //                    Calculate the difference in millisecond between two dates
             diffInMilis[0] = finalEndDate.getTime() - startDate.getTime();
-        }catch (ParseException ex){
+        } catch (ParseException ex) {
 
         }
-//        fragmentHomeBinding.timerProgramCountdown.startCountDown(diffInMilis[0]);
-
-//        fragmentHomeBinding.timerProgramCountdown.setCountdownListener(new CountDownClock.CountdownCallBack() {
-//            @Override
-//            public void countdownAboutToFinish() {
-//
-//            }
-//
-//            @Override
-//            public void countdownFinished() {
-//                fragmentHomeBinding.timerProgramCountdown.resetCountdownTimer();
-//            }
-//        });
 
         fragmentHomeBinding.timerProgramCountdown.startCountDown(diffInMilis[0]);
         fragmentHomeBinding.timerProgramCountdown.setCountdownListener(new CountDownClockHome.CountdownCallBack() {
@@ -336,11 +364,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 //                        getDashboardDataModel.getUpcomming().get(j).setStr3(splitStr[j]);
 //                    }
 
-                    if (splitStr.length==3){
+                    if (splitStr.length == 3) {
                         getDashboardDataModel.getUpcomming().get(i).setStr1(splitStr[0]);
                         getDashboardDataModel.getUpcomming().get(i).setStr2(splitStr[1]);
                         getDashboardDataModel.getUpcomming().get(i).setStr3(splitStr[2]);
-                    }else{
+                    } else {
                         getDashboardDataModel.getUpcomming().get(i).setStr1(splitStr[0]);
                         getDashboardDataModel.getUpcomming().get(i).setStr2(splitStr[1]);
                     }
@@ -376,6 +404,72 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             fragmentHomeBinding.armyStoryRcyList.setItemAnimator(new DefaultItemAnimator());
             fragmentHomeBinding.armyStoryRcyList.setAdapter(bharatArmyStoriesAdapter);
         }
+
+
+        fragmentHomeBinding.mainPageDealsRcv.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return true;
+            }
+        });
+
+
+    }
+    // Api calling GetHomeBannerData
+    public void callHomeBannerData() {
+        if (!Utils.checkNetwork(mContext)) {
+            Utils.showCustomDialog(getResources().getString(R.string.internet_error), getResources().getString(R.string.internet_connection_error), getActivity());
+            return;
+        }
+
+//        Utils.showDialog(mContext);
+
+        ApiHandler.getApiService().getHomeBanners(getHomeBannerData(), new retrofit.Callback<HomeTemplateModel>() {
+            @Override
+            public void success(HomeTemplateModel homeTemplateModel, Response response) {
+                Utils.dismissDialog();
+                if (homeTemplateModel == null) {
+                    Utils.ping(mContext, getString(R.string.something_wrong));
+                    return;
+                }
+                if (homeTemplateModel.getIsValid() == null) {
+                    Utils.ping(mContext, getString(R.string.something_wrong));
+                    return;
+                }
+                if (homeTemplateModel.getIsValid() == 0) {
+                    Utils.ping(mContext, getString(R.string.false_msg));
+                    return;
+                }
+                if (homeTemplateModel.getIsValid() == 1) {
+                    if (homeTemplateModel.getData() != null) {
+                        homeTemplateDetailModelList = homeTemplateModel.getData();
+                        fragmentHomeBinding.shimmerViewContainerhome.stopShimmerAnimation();
+                        fragmentHomeBinding.shimmerViewContainerhome.setVisibility(View.GONE);
+
+                        fragmentHomeBinding.homebannerLayout.setVisibility(View.VISIBLE);
+                        fillHomeBanner();
+
+                    }
+
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Utils.dismissDialog();
+                error.printStackTrace();
+                error.getMessage();
+                Utils.ping(mContext, getString(R.string.something_wrong));
+            }
+        });
+
+
+    }
+
+    private Map<String, String> getHomeBannerData() {
+        Map<String, String> map = new HashMap<>();
+        map.put("MemberId","0");
+        return map;
     }
 
     @Override
@@ -386,7 +480,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 Intent webviewIntent = new Intent(mContext, MoreStoryActivity.class);
                 webviewIntent.putExtra("Story Heading", "Ab Jeetega India");
                 webviewIntent.putExtra("StroyUrl", "http://ajif.in/");
-                webviewIntent.putExtra("whereTocome","aboutus");
+                webviewIntent.putExtra("whereTocome", "aboutus");
                 webviewIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 mContext.startActivity(webviewIntent);
                 break;
@@ -402,90 +496,61 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    public void DisplayAdvertise() {
-        LayoutInflater lInflater = (LayoutInflater) mContext
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        final View layout = lInflater.inflate(R.layout.advertise_list, null);
 
-        AlertDialog.Builder alertDialogBuilderUserInput = new AlertDialog.Builder(getActivity());
-        alertDialogBuilderUserInput.setView(layout);
+    public void fillHomeBanner(){
+        fragmentHomeBinding.mainPageDealsRcv.setAdapter(new MyBgpageAdapter(homeTemplateDetailModelList,mContext));
 
-        alertDialogAndroid = alertDialogBuilderUserInput.create();
-        alertDialogAndroid.setCancelable(false);
-        alertDialogAndroid.show();
-        Window window = alertDialogAndroid.getWindow();
-        window.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        WindowManager.LayoutParams wlp = window.getAttributes();
+        fragmentHomeBinding.cardViewPager.setOffscreenPageLimit(3);
+        fragmentHomeBinding.cardViewPager.setPageMargin(40);
+        fragmentHomeBinding.cardViewPager.setPageTransformer(true, new AlphaPageTransformer());
+        fragmentHomeBinding.cardViewPager.setAdapter(new MyPagerAdapter(homeTemplateDetailModelList, mContext));
 
-        wlp.gravity = Gravity.CENTER_HORIZONTAL;
-        wlp.flags = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
-        window.setAttributes(wlp);
-        alertDialogAndroid.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-        alertDialogAndroid.show();
-
-        close_btn = layout.findViewById(R.id.close_btn);
-        videoView = layout.findViewById(R.id.play_video);
-        progressbar = layout.findViewById(R.id.progressbar);
-        videoView.setVideoPath("https://s3.ap-south-1.amazonaws.com/balatestvideos/TestVideo1.mp4");
-        progressbar.setVisibility(View.VISIBLE);
-        videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+        fragmentHomeBinding.cardViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onPrepared(MediaPlayer mp) {
-                // TODO Auto-generated method stub
-                mp.start();
-                mp.setOnVideoSizeChangedListener(new MediaPlayer.OnVideoSizeChangedListener() {
-                    @Override
-                    public void onVideoSizeChanged(MediaPlayer mp, int arg1,
-                                                   int arg2) {
-                        // TODO Auto-generated method stub
-                        progressbar.setVisibility(View.GONE);
-                        // start a video
-                        videoView.start();
-                        mp.start();
+            public void onPageScrolled(int position, float positionOffset, int i1) {
+                if (position == mCurrentSelectedScreen) {
+                    // We are moving to next screen on right side
+                    if (positionOffset > 0.5) {
+                        // Closer to next screen than to current
+                        if (position + 1 != mNextSelectedScreen) {
+                            mNextSelectedScreen = position + 1;
+                            fragmentHomeBinding.mainPageDealsRcv.setCurrentItem(mNextSelectedScreen, true);
+                        }
+                    } else {
+                        // Closer to current screen than to next
+                        if (position != mNextSelectedScreen) {
+                            mNextSelectedScreen = position;
+                            fragmentHomeBinding.mainPageDealsRcv.setCurrentItem(mNextSelectedScreen, true);
+                        }
                     }
-                });
+                } else {
+                    // We are moving to next screen left side
+                    if (positionOffset > 0.5) {
+                        // Closer to current screen than to next
+                        if (position + 1 != mNextSelectedScreen) {
+                            mNextSelectedScreen = position + 1;
+                            fragmentHomeBinding.mainPageDealsRcv.setCurrentItem(mNextSelectedScreen, true);
+                        }
+                    } else {
+                        // Closer to next screen than to current
+                        if (position != mNextSelectedScreen) {
+                            mNextSelectedScreen = position;
+                            fragmentHomeBinding.mainPageDealsRcv.setCurrentItem(mNextSelectedScreen, true);
+                        }
+                    }
+                }
             }
-        });
 
-        close_btn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                alertDialogAndroid.dismiss();
+            public void onPageSelected(int i) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int i) {
+
             }
         });
-
-
     }
 
-    public void DisplayAboutUs() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.DialogSlideAnim);
-
-        LayoutInflater inflater = getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.know_more_list, null);
-
-        // Specify alert dialog is not cancelable/not ignorable
-        builder.setCancelable(false);
-
-        // Set the custom layout as alert dialog view
-        builder.setView(dialogView);
-
-        // Create the alert dialog
-        final AlertDialog dialog = builder.create();
-
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-        // Display the custom alert dialog on interface
-        dialog.show();
-
-        close_btn = (TextView) dialog.findViewById(R.id.close_txt);
-        aboutuse_sub_title_txt = (TextView) dialog.findViewById(R.id.aboutuse_sub_title_txt);
-
-        close_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-
-        aboutuse_sub_title_txt.setText(getDashboardDataModel.getCommonData().getPageHeaderDesc());
-    }
 }

@@ -17,7 +17,7 @@
         android:orientation="horizontal"
         android:visibility="visible">
 
-        <com.bharatarmy.TravelDesignModule.RoundishImageView
+        <com.bharatarmy.RoundishImageView
             android:layout_width="@dimen/_70sdp"
             android:layout_height="@dimen/_70sdp"
             android:adjustViewBounds="true"
@@ -144,7 +144,7 @@
         android:orientation="horizontal"
         android:visibility="visible">
 
-        <com.bharatarmy.TravelDesignModule.RoundishImageView
+        <com.bharatarmy.RoundishImageView
             android:id="@+id/hospitalityMainImage"
             android:layout_width="@dimen/_100sdp"
             android:layout_height="@dimen/_150sdp"

@@ -53,9 +53,10 @@ public class TravelCitySightseenDetailActivity extends AppCompatActivity impleme
     public void setListiner() {
         setSupportActionBar(activityTravelCitySightseenDetailBinding.toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        getSupportActionBar().setDisplayShowHomeEnabled(false);
 
+        activityTravelCitySightseenDetailBinding.backImg.setOnClickListener(this);
         activityTravelCitySightseenDetailBinding.appbar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             boolean isShow = true;
             int scrollRange = -1;
@@ -130,7 +131,7 @@ public class TravelCitySightseenDetailActivity extends AppCompatActivity impleme
 
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.back_linear:
+            case R.id.back_img:
                 TravelCitySightseenDetailActivity.this.finish();
                 break;
         }

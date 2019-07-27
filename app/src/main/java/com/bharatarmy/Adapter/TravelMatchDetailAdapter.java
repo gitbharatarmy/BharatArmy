@@ -1,24 +1,14 @@
 package com.bharatarmy.Adapter;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.bharatarmy.Models.TravelModel;
 import com.bharatarmy.R;
-import com.bharatarmy.TravelDesignModule.RoundishImageView;
+import com.bharatarmy.RoundishImageView;
 import com.bharatarmy.Utility.Utils;
-import com.github.siyamed.shapeimageview.RoundedImageView;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.HashMap;

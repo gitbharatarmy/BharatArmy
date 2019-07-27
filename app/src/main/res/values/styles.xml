@@ -151,7 +151,7 @@
     
     <style name="TextAppearance.AppCompat.Title.Collapse">
         <item name="android:fontFamily">@font/helveticaneueltstdbdcn</item>
-        <item name="android:textSize">@dimen/_16sdp</item>
+        <item name="android:textSize">@dimen/_15sdp</item>
         <item name="android:textColor">@color/splash_bg_color</item>
     </style>
 

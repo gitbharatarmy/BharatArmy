@@ -56,8 +56,8 @@ public class TravelPacakagePlaceDetailActivity extends AppCompatActivity impleme
     public void setListiner() {
         setSupportActionBar(activityTravelPacakagePlaceDetailBinding.toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        getSupportActionBar().setDisplayShowHomeEnabled(false);
 
         activityTravelPacakagePlaceDetailBinding.appbar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             boolean isShow = true;
@@ -89,7 +89,7 @@ public class TravelPacakagePlaceDetailActivity extends AppCompatActivity impleme
             }
         });
 
-
+activityTravelPacakagePlaceDetailBinding.backImg.setOnClickListener(this);
     }
 
 
@@ -133,7 +133,7 @@ public class TravelPacakagePlaceDetailActivity extends AppCompatActivity impleme
 
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.back_linear:
+            case R.id.back_img:
                 TravelPacakagePlaceDetailActivity.this.finish();
                 break;
         }

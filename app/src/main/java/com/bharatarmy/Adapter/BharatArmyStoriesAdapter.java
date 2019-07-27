@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bharatarmy.Activity.MoreStoryActivity;
@@ -18,6 +19,7 @@ import com.bharatarmy.Interfaces.MorestoryClick;
 import com.bharatarmy.Models.StoryDashboardData;
 import com.bharatarmy.Models.UpcommingDashboardModel;
 import com.bharatarmy.R;
+import com.bharatarmy.databinding.BharatArmyStoriesListNewBinding;
 import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
@@ -39,25 +41,27 @@ public class BharatArmyStoriesAdapter extends RecyclerView.Adapter<BharatArmySto
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView header_txt, type_txt, army_story_header_txt, army_story_sub_txt,
-                date_txt, views_txt, username_txt;
-        ImageView type_img, profile_image,banner_img;
+//        public TextView header_txt, type_txt, army_story_header_txt, army_story_sub_txt,
+//                date_txt, views_txt, username_txt;
+//        ImageView type_img, profile_image,banner_img;
 
+BharatArmyStoriesListNewBinding bharatArmyStoriesListNewBinding;
 
-        public MyViewHolder(View view) {
-            super(view);
+        public MyViewHolder(BharatArmyStoriesListNewBinding bharatArmyStoriesListNewBinding) {
+            super(bharatArmyStoriesListNewBinding.getRoot());
 
-            header_txt = (TextView) view.findViewById(R.id.header_txt);
-            army_story_header_txt = (TextView) view.findViewById(R.id.army_story_header_txt);
-            army_story_sub_txt = (TextView) view.findViewById(R.id.army_story_sub_txt);
-            date_txt = (TextView) view.findViewById(R.id.date_txt);
-            views_txt = (TextView) view.findViewById(R.id.views_txt);
-            type_txt = (TextView) view.findViewById(R.id.type_txt);
-            username_txt = (TextView) view.findViewById(R.id.username_txt);
-
-            type_img = (ImageView) view.findViewById(R.id.type_img);
-            profile_image = (ImageView) view.findViewById(R.id.profile_image);
-            banner_img=(ImageView)view.findViewById(R.id.banner_img);
+            this.bharatArmyStoriesListNewBinding=bharatArmyStoriesListNewBinding;
+//            header_txt = (TextView) view.findViewById(R.id.header_txt);
+//            army_story_header_txt = (TextView) view.findViewById(R.id.army_story_header_txt);
+//            army_story_sub_txt = (TextView) view.findViewById(R.id.army_story_sub_txt);
+//            date_txt = (TextView) view.findViewById(R.id.date_txt);
+//            views_txt = (TextView) view.findViewById(R.id.views_txt);
+//            type_txt = (TextView) view.findViewById(R.id.type_txt);
+//            username_txt = (TextView) view.findViewById(R.id.username_txt);
+//
+//            type_img = (ImageView) view.findViewById(R.id.type_img);
+//            profile_image = (ImageView) view.findViewById(R.id.profile_image);
+//            banner_img=(ImageView)view.findViewById(R.id.banner_img);
 
         }
     }
@@ -65,10 +69,8 @@ public class BharatArmyStoriesAdapter extends RecyclerView.Adapter<BharatArmySto
 
     @Override
     public BharatArmyStoriesAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.bharat_army_stories_list, parent, false);
-
-        return new BharatArmyStoriesAdapter.MyViewHolder(itemView);
+        BharatArmyStoriesListNewBinding bharatArmyStoriesListNewBinding= DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),R.layout.bharat_army_stories_list_new,parent,false);
+        return new BharatArmyStoriesAdapter.MyViewHolder(bharatArmyStoriesListNewBinding);
     }
 
     @SuppressLint("ResourceAsColor")
@@ -77,26 +79,26 @@ public class BharatArmyStoriesAdapter extends RecyclerView.Adapter<BharatArmySto
 
         final StoryDashboardData storiesData = storyDashboardDataList.get(position);
 
-        holder.header_txt.setText(storiesData.getCategoryName());
-        holder.type_txt.setText(storiesData.getBASubCategoryName());
-        holder.army_story_header_txt.setText(storiesData.getStoryTitle());
-        holder.army_story_sub_txt.setText(storiesData.getShortDescription());
-        holder.date_txt.setText(storiesData.getStrStoryAdded());
-        holder.views_txt.setText(storiesData.getStrViewCount());
-        holder.username_txt.setText(storiesData.getAuthorName());
+//        holder.bharatArmyStoriesListNewBinding.header_txt.setText(storiesData.getCategoryName());
+        holder.bharatArmyStoriesListNewBinding.typeTxt.setText(storiesData.getBASubCategoryName());
+        holder.bharatArmyStoriesListNewBinding.armyStoryHeaderTxt.setText(storiesData.getStoryTitle());
+        holder.bharatArmyStoriesListNewBinding.armyStorySubTxt.setText(storiesData.getShortDescription());
+        holder.bharatArmyStoriesListNewBinding.dateTxt.setText(storiesData.getStrStoryAdded());
+        holder.bharatArmyStoriesListNewBinding.viewsTxt.setText(storiesData.getStrViewCount());
+        holder.bharatArmyStoriesListNewBinding.usernameTxt.setText(storiesData.getAuthorName());
 
 
         Picasso.with(mcontext)
                 .load(storiesData.getStrThumbImageName())
                 .placeholder(R.drawable.progress_animation)
-                .into(holder.banner_img);
+                .into(holder.bharatArmyStoriesListNewBinding.bannerImg);
         Picasso.with(mcontext)
                 .load(storiesData.getAuthorImageURL())
-                .into(holder.profile_image);
+                .into(holder.bharatArmyStoriesListNewBinding.profileImage);
 
 
 
-        holder.army_story_header_txt.setOnClickListener(new View.OnClickListener() {
+        holder.bharatArmyStoriesListNewBinding.armyStoryHeaderTxt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                   Intent webviewIntent=new Intent(mcontext, MoreStoryActivity.class);

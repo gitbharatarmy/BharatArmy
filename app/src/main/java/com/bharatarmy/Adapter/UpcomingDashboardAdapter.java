@@ -10,12 +10,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bharatarmy.Activity.FTPDetailsActivity;
 import com.bharatarmy.Models.UpcommingDashboardModel;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.Utils;
+import com.bharatarmy.databinding.UpcomingTournamentListNewBinding;
 import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 
@@ -36,30 +38,35 @@ public class UpcomingDashboardAdapter extends RecyclerView.Adapter<UpcomingDashb
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView header_txt, army_upcoming_header_txt, army_upcoming_sub_txt,
-                date_txt, location_txt, army_upcoming_pra_txt, linear1_txt, linear2_txt, linear3_txt;
-        ImageView banner_img, header_img, date_img, location_img;
-        LinearLayout lable_linear;
 
-        public MyViewHolder(View view) {
-            super(view);
+        UpcomingTournamentListNewBinding upcomingTournamentListNewBinding;
 
-            header_txt = (TextView) view.findViewById(R.id.header_txt);
-            army_upcoming_header_txt = (TextView) view.findViewById(R.id.army_upcoming_header_txt);
-            army_upcoming_sub_txt = (TextView) view.findViewById(R.id.army_upcoming_sub_txt);
-            date_txt = (TextView) view.findViewById(R.id.date_txt);
-            location_txt = (TextView) view.findViewById(R.id.location_txt);
-            army_upcoming_pra_txt = (TextView) view.findViewById(R.id.army_upcoming_pra_txt);
-            linear1_txt = (TextView) view.findViewById(R.id.linear1_txt);
-            linear2_txt = (TextView) view.findViewById(R.id.linear2_txt);
-            linear3_txt = (TextView) view.findViewById(R.id.linear3_txt);
+//        public TextView header_txt, army_upcoming_header_txt, army_upcoming_sub_txt,
+//                date_txt, location_txt, army_upcoming_pra_txt, linear1_txt, linear2_txt, linear3_txt;
+//        ImageView banner_img, header_img, date_img, location_img;
+//        LinearLayout lable_linear;
 
-            banner_img = (ImageView) view.findViewById(R.id.banner_img);
-            header_img = (ImageView) view.findViewById(R.id.header_img);
-            date_img = (ImageView) view.findViewById(R.id.date_img);
-            location_img = (ImageView) view.findViewById(R.id.location_img);
+        public MyViewHolder(UpcomingTournamentListNewBinding upcomingTournamentListNewBinding) {
+            super(upcomingTournamentListNewBinding.getRoot());
 
-            lable_linear = (LinearLayout) view.findViewById(R.id.lable_linear);
+            this.upcomingTournamentListNewBinding=upcomingTournamentListNewBinding;
+
+//            header_txt = (TextView) view.findViewById(R.id.header_txt);
+//            army_upcoming_header_txt = (TextView) view.findViewById(R.id.army_upcoming_header_txt);
+//            army_upcoming_sub_txt = (TextView) view.findViewById(R.id.army_upcoming_sub_txt);
+//            date_txt = (TextView) view.findViewById(R.id.date_txt);
+//            location_txt = (TextView) view.findViewById(R.id.location_txt);
+//            army_upcoming_pra_txt = (TextView) view.findViewById(R.id.army_upcoming_pra_txt);
+//            linear1_txt = (TextView) view.findViewById(R.id.linear1_txt);
+//            linear2_txt = (TextView) view.findViewById(R.id.linear2_txt);
+//            linear3_txt = (TextView) view.findViewById(R.id.linear3_txt);
+//
+//            banner_img = (ImageView) view.findViewById(R.id.banner_img);
+//            header_img = (ImageView) view.findViewById(R.id.header_img);
+//            date_img = (ImageView) view.findViewById(R.id.date_img);
+//            location_img = (ImageView) view.findViewById(R.id.location_img);
+//
+//            lable_linear = (LinearLayout) view.findViewById(R.id.lable_linear);
 
 
 
@@ -71,10 +78,8 @@ public class UpcomingDashboardAdapter extends RecyclerView.Adapter<UpcomingDashb
 
     @Override
     public UpcomingDashboardAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.upcoming_tournament_list, parent, false);
-
-        return new UpcomingDashboardAdapter.MyViewHolder(itemView);
+      UpcomingTournamentListNewBinding upcomingTournamentListNewBinding= DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),R.layout.upcoming_tournament_list_new,parent,false);
+      return new UpcomingDashboardAdapter.MyViewHolder(upcomingTournamentListNewBinding);
     }
 
     @SuppressLint("ResourceAsColor")
@@ -85,48 +90,48 @@ public class UpcomingDashboardAdapter extends RecyclerView.Adapter<UpcomingDashb
 
         final UpcommingDashboardModel upcomingData = upcomingDataList.get(position);
 
-        holder.header_txt.setText(upcomingData.getCategoryName());
-        holder.army_upcoming_header_txt.setText(upcomingData.getTourName());
-        holder.army_upcoming_sub_txt.setText(upcomingData.getSubCategoryId());
-        holder.location_txt.setText(upcomingData.getTourLocation());
-        holder.army_upcoming_pra_txt.setText(upcomingData.getTourShortDescription());
+//       Utils.setImageInImageView(upcomingData.getCategoryName(),holder.upcomingTournamentListNewBinding.headerImg,mcontext);
+        holder.upcomingTournamentListNewBinding.armyUpcomingHeaderTxt.setText(upcomingData.getTourName());
+        holder.upcomingTournamentListNewBinding.armyUpcomingSubTxt.setText(upcomingData.getSubCategoryId());
+        holder.upcomingTournamentListNewBinding.locationTxt.setText(upcomingData.getTourLocation());
+        holder.upcomingTournamentListNewBinding.armyUpcomingPraTxt.setText(upcomingData.getTourShortDescription());
 
 //        Picasso.with(mcontext)
 //                .load(upcomingData.getFutureTourThumbImageURL())
 //                .placeholder(R.drawable.progress_animation)
 //                .into(holder.banner_img);
 
-        Utils.setImageInImageView(upcomingData.getFutureTourThumbImageURL(),holder.banner_img,mcontext);
+        Utils.setImageInImageView(upcomingData.getFutureTourThumbImageURL(),holder.upcomingTournamentListNewBinding.bannerImg,mcontext);
 
         if (!upcomingData.getStr1().equalsIgnoreCase("")) {
-            holder.linear1_txt.setVisibility(View.VISIBLE);
-            holder.linear1_txt.setText(upcomingData.getStr1());
+            holder.upcomingTournamentListNewBinding.linear1Txt.setVisibility(View.VISIBLE);
+            holder.upcomingTournamentListNewBinding.linear1Txt.setText(upcomingData.getStr1());
         } else {
-            holder.linear1_txt.setVisibility(View.GONE);
+            holder.upcomingTournamentListNewBinding.linear1Txt.setVisibility(View.GONE);
         }
 
         if (!upcomingData.getStr2().equalsIgnoreCase("")) {
             if (!upcomingData.getStr2().equalsIgnoreCase("1")) {
-                holder.linear2_txt.setVisibility(View.VISIBLE);
-                holder.linear2_txt.setText(upcomingData.getStr2());
+                holder.upcomingTournamentListNewBinding.linear2Txt.setVisibility(View.VISIBLE);
+                holder.upcomingTournamentListNewBinding.linear2Txt.setText(upcomingData.getStr2());
             } else {
-                holder.linear2_txt.setVisibility(View.GONE);
+                holder.upcomingTournamentListNewBinding.linear2Txt.setVisibility(View.GONE);
             }
         } else {
-            holder.linear2_txt.setVisibility(View.GONE);
+            holder.upcomingTournamentListNewBinding.linear2Txt.setVisibility(View.GONE);
         }
 
         if (!upcomingData.getStr3().equalsIgnoreCase("")) {
             if (!upcomingData.getStr3().equalsIgnoreCase("1")) {
-                holder.linear3_txt.setVisibility(View.VISIBLE);
-                holder.linear3_txt.setText(upcomingData.getStr3());
+                holder.upcomingTournamentListNewBinding.linear3Txt.setVisibility(View.VISIBLE);
+                holder.upcomingTournamentListNewBinding.linear3Txt.setText(upcomingData.getStr3());
             } else {
-                holder.linear3_txt.setVisibility(View.GONE);
+                holder.upcomingTournamentListNewBinding.linear3Txt.setVisibility(View.GONE);
             }
         } else {
-            holder.linear3_txt.setVisibility(View.GONE);
+            holder.upcomingTournamentListNewBinding.linear3Txt.setVisibility(View.GONE);
         }
-  holder.army_upcoming_header_txt.setOnClickListener(new View.OnClickListener() {
+  holder.upcomingTournamentListNewBinding.armyUpcomingHeaderTxt.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
           Intent ftpIntent =new Intent(mcontext, FTPDetailsActivity.class);

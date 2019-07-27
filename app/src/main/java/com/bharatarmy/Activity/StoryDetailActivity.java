@@ -86,12 +86,13 @@ public class StoryDetailActivity extends AppCompatActivity implements View.OnCli
         activityStoryDetailBinding.shimmerViewContainer.startShimmerAnimation();
         setSupportActionBar(activityStoryDetailBinding.toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        getSupportActionBar().setDisplayShowHomeEnabled(false);
 
         activityStoryDetailBinding.userImage.setOnClickListener(this);
         activityStoryDetailBinding.commentLinear.setOnClickListener(this);
         activityStoryDetailBinding.uprStoryComment.setOnClickListener(this);
+        activityStoryDetailBinding.backImg.setOnClickListener(this);
 
         activityStoryDetailBinding.appbar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             boolean isShow = true;
@@ -186,6 +187,9 @@ public class StoryDetailActivity extends AppCompatActivity implements View.OnCli
             case R.id.upr_story_comment:
                 Intent uprcommentIntent = new Intent(mContext, CommentActivity.class);
                 startActivity(uprcommentIntent);
+                break;
+            case  R.id.back_img:
+                StoryDetailActivity.this.finish();
                 break;
         }
     }

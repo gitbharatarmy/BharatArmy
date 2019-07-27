@@ -73,8 +73,8 @@ public class TravelCityHotelDetailsActivity extends AppCompatActivity implements
     public void init() {
         setSupportActionBar(activityTravelCityHotelDetailsBinding.htabToolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        getSupportActionBar().setDisplayShowHomeEnabled(false);
     }
 
     public void setListiner() {
@@ -92,13 +92,14 @@ public class TravelCityHotelDetailsActivity extends AppCompatActivity implements
                 if (scrollRange + verticalOffset == 0) {
                     activityTravelCityHotelDetailsBinding.htabToolbar.setBackgroundColor(ContextCompat.getColor(mContext, R.color.heading_bg));
                     activityTravelCityHotelDetailsBinding.tablayoutLinear.setBackgroundColor(ContextCompat.getColor(mContext,R.color.splash_bg_color));
-                    activityTravelCityHotelDetailsBinding.htabToolbar.setTitle("Taj Mahal Hotel");
+                    activityTravelCityHotelDetailsBinding.htabCollapseToolbar.setTitle("Taj Mahal Hotel");
                     Typeface typeface = ResourcesCompat.getFont(mContext, R.font.helveticaneueltstdbdcn);
                     activityTravelCityHotelDetailsBinding.htabCollapseToolbar.setCollapsedTitleTypeface(typeface);
                     activityTravelCityHotelDetailsBinding.htabCollapseToolbar.setExpandedTitleTypeface(typeface);
                     activityTravelCityHotelDetailsBinding.htabCollapseToolbar.setCollapsedTitleGravity(Gravity.START);
                     activityTravelCityHotelDetailsBinding.htabCollapseToolbar.setExpandedTitleGravity(Gravity.START);
                     activityTravelCityHotelDetailsBinding.titleLinear.setVisibility(View.GONE);
+//                    activityTravelCityHotelDetailsBinding.backImg.setVisibility(View.VISIBLE);
 
                     activityTravelCityHotelDetailsBinding.toolbarBottomLeftView.setVisibility(View.VISIBLE);
                     isShow = true;
@@ -106,8 +107,9 @@ public class TravelCityHotelDetailsActivity extends AppCompatActivity implements
                     activityTravelCityHotelDetailsBinding.htabToolbar.setBackgroundColor(ContextCompat.getColor(mContext, R.color.transparent));
                     activityTravelCityHotelDetailsBinding.tablayoutLinear.setBackgroundColor(ContextCompat.getColor(mContext,R.color.splash_bg_color));
                     activityTravelCityHotelDetailsBinding.htabToolbar.setTitle(" ");
+//                    activityTravelCityHotelDetailsBinding.backImg.setVisibility(View.VISIBLE);
                     activityTravelCityHotelDetailsBinding.titleLinear.setVisibility(View.VISIBLE);
-
+                    activityTravelCityHotelDetailsBinding.htabCollapseToolbar.setTitle(" ");
                     activityTravelCityHotelDetailsBinding.toolbarBottomLeftView.setVisibility(View.GONE);
                     isShow = false;
                 }
@@ -139,6 +141,8 @@ public class TravelCityHotelDetailsActivity extends AppCompatActivity implements
 
             }
         });
+
+        activityTravelCityHotelDetailsBinding.backImg.setOnClickListener(this);
     }
 
 
@@ -180,7 +184,7 @@ public class TravelCityHotelDetailsActivity extends AppCompatActivity implements
 
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.back_linear:
+            case R.id.back_img:
                 TravelCityHotelDetailsActivity.this.finish();
                 break;
         }
