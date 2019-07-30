@@ -15,10 +15,14 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bharatarmy.Activity.MoreStoryActivity;
+import com.bharatarmy.Activity.StoryAuthorActivity;
+import com.bharatarmy.Activity.StoryDetailActivity;
 import com.bharatarmy.Interfaces.MorestoryClick;
+import com.bharatarmy.Interfaces.image_click;
 import com.bharatarmy.Models.StoryDashboardData;
 import com.bharatarmy.Models.UpcommingDashboardModel;
 import com.bharatarmy.R;
+import com.bharatarmy.Utility.AppConfiguration;
 import com.bharatarmy.databinding.BharatArmyStoriesListNewBinding;
 import com.squareup.picasso.Picasso;
 
@@ -31,19 +35,16 @@ import java.util.regex.PatternSyntaxException;
 public class BharatArmyStoriesAdapter extends RecyclerView.Adapter<BharatArmyStoriesAdapter.MyViewHolder> {
     Context mcontext;
     List<StoryDashboardData> storyDashboardDataList;
-    MorestoryClick morestoryClick;
+    image_click image_click;
     private ArrayList<String> dataCheck = new ArrayList<String>();
 
-    public BharatArmyStoriesAdapter(Context mContext, List<StoryDashboardData> storyDashboardDataList, MorestoryClick morestoryClick) {
+    public BharatArmyStoriesAdapter(Context mContext, List<StoryDashboardData> storyDashboardDataList, image_click image_click) {
         this.mcontext = mContext;
         this.storyDashboardDataList = storyDashboardDataList;
-        this.morestoryClick = morestoryClick;
+        this.image_click = image_click;
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-//        public TextView header_txt, type_txt, army_story_header_txt, army_story_sub_txt,
-//                date_txt, views_txt, username_txt;
-//        ImageView type_img, profile_image,banner_img;
 
 BharatArmyStoriesListNewBinding bharatArmyStoriesListNewBinding;
 
@@ -51,17 +52,6 @@ BharatArmyStoriesListNewBinding bharatArmyStoriesListNewBinding;
             super(bharatArmyStoriesListNewBinding.getRoot());
 
             this.bharatArmyStoriesListNewBinding=bharatArmyStoriesListNewBinding;
-//            header_txt = (TextView) view.findViewById(R.id.header_txt);
-//            army_story_header_txt = (TextView) view.findViewById(R.id.army_story_header_txt);
-//            army_story_sub_txt = (TextView) view.findViewById(R.id.army_story_sub_txt);
-//            date_txt = (TextView) view.findViewById(R.id.date_txt);
-//            views_txt = (TextView) view.findViewById(R.id.views_txt);
-//            type_txt = (TextView) view.findViewById(R.id.type_txt);
-//            username_txt = (TextView) view.findViewById(R.id.username_txt);
-//
-//            type_img = (ImageView) view.findViewById(R.id.type_img);
-//            profile_image = (ImageView) view.findViewById(R.id.profile_image);
-//            banner_img=(ImageView)view.findViewById(R.id.banner_img);
 
         }
     }
@@ -101,16 +91,49 @@ BharatArmyStoriesListNewBinding bharatArmyStoriesListNewBinding;
         holder.bharatArmyStoriesListNewBinding.armyStoryHeaderTxt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                  Intent webviewIntent=new Intent(mcontext, MoreStoryActivity.class);
-                  webviewIntent.putExtra("Story Heading",storiesData.getStoryTitle());
-                  webviewIntent.putExtra("StroyUrl",storiesData.getStoryWebURL());
-                  webviewIntent.putExtra("whereTocome","bharatarmystoryadp");
+                  Intent webviewIntent=new Intent(mcontext, StoryDetailActivity.class);
+                webviewIntent.putExtra("Story Heading", storiesData.getStoryTitle());
+                webviewIntent.putExtra("StroyUrl", storiesData.getStoryWebURL());
+                webviewIntent.putExtra("StoryCategorytype",storiesData.getBASubCategoryName());
+                webviewIntent.putExtra("StoryAuthor",storiesData.getAuthorImageURL());
+                webviewIntent.putExtra("StoryHeaderImg",storiesData.getStrThumbImageName());
+                webviewIntent.putExtra("StoryId", storiesData.getBAStoryId());
+                webviewIntent.putExtra("StoryauthorId", storiesData.getAuthorId());
                   webviewIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                   mcontext.startActivity(webviewIntent);
 //                  ((Activity)  mcontext).overridePendingTransition(R.anim.slide_in_left,0);
             }
         });
+        holder.bharatArmyStoriesListNewBinding.authorLinear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent authorIntent=new Intent(mcontext, StoryAuthorActivity.class);
+                authorIntent.putExtra("StoryauthorId", storiesData.getAuthorId());
+                authorIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                mcontext.startActivity(authorIntent);
+            }
+        });
+        holder.bharatArmyStoriesListNewBinding.typeTxt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dataCheck=new ArrayList<>();
+                dataCheck.add(storiesData.getStrCategories()+"|"+storiesData.getBASubCategoryName());
+                image_click.image_more_click();
+            }
+        });
 
+        holder.bharatArmyStoriesListNewBinding.shareImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent shareIntent = new Intent();
+                shareIntent.setAction(Intent.ACTION_SEND);
+                shareIntent.putExtra(Intent.EXTRA_SUBJECT, AppConfiguration.SHARETEXT);
+                shareIntent.putExtra(Intent.EXTRA_TEXT, storiesData.getStoryURL() + "\n\n" + AppConfiguration.SHARETEXT);
+                shareIntent.setType("text/plain");
+                shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION|Intent.FLAG_ACTIVITY_NEW_TASK);
+                mcontext.startActivity(Intent.createChooser(shareIntent, "Share It"));
+            }
+        });
     }
 
     @Override

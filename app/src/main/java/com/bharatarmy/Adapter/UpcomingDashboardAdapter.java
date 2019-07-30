@@ -41,36 +41,11 @@ public class UpcomingDashboardAdapter extends RecyclerView.Adapter<UpcomingDashb
 
         UpcomingTournamentListNewBinding upcomingTournamentListNewBinding;
 
-//        public TextView header_txt, army_upcoming_header_txt, army_upcoming_sub_txt,
-//                date_txt, location_txt, army_upcoming_pra_txt, linear1_txt, linear2_txt, linear3_txt;
-//        ImageView banner_img, header_img, date_img, location_img;
-//        LinearLayout lable_linear;
 
         public MyViewHolder(UpcomingTournamentListNewBinding upcomingTournamentListNewBinding) {
             super(upcomingTournamentListNewBinding.getRoot());
 
             this.upcomingTournamentListNewBinding=upcomingTournamentListNewBinding;
-
-//            header_txt = (TextView) view.findViewById(R.id.header_txt);
-//            army_upcoming_header_txt = (TextView) view.findViewById(R.id.army_upcoming_header_txt);
-//            army_upcoming_sub_txt = (TextView) view.findViewById(R.id.army_upcoming_sub_txt);
-//            date_txt = (TextView) view.findViewById(R.id.date_txt);
-//            location_txt = (TextView) view.findViewById(R.id.location_txt);
-//            army_upcoming_pra_txt = (TextView) view.findViewById(R.id.army_upcoming_pra_txt);
-//            linear1_txt = (TextView) view.findViewById(R.id.linear1_txt);
-//            linear2_txt = (TextView) view.findViewById(R.id.linear2_txt);
-//            linear3_txt = (TextView) view.findViewById(R.id.linear3_txt);
-//
-//            banner_img = (ImageView) view.findViewById(R.id.banner_img);
-//            header_img = (ImageView) view.findViewById(R.id.header_img);
-//            date_img = (ImageView) view.findViewById(R.id.date_img);
-//            location_img = (ImageView) view.findViewById(R.id.location_img);
-//
-//            lable_linear = (LinearLayout) view.findViewById(R.id.lable_linear);
-
-
-
-
 
         }
     }
@@ -90,16 +65,11 @@ public class UpcomingDashboardAdapter extends RecyclerView.Adapter<UpcomingDashb
 
         final UpcommingDashboardModel upcomingData = upcomingDataList.get(position);
 
-//       Utils.setImageInImageView(upcomingData.getCategoryName(),holder.upcomingTournamentListNewBinding.headerImg,mcontext);
         holder.upcomingTournamentListNewBinding.armyUpcomingHeaderTxt.setText(upcomingData.getTourName());
         holder.upcomingTournamentListNewBinding.armyUpcomingSubTxt.setText(upcomingData.getSubCategoryId());
         holder.upcomingTournamentListNewBinding.locationTxt.setText(upcomingData.getTourLocation());
         holder.upcomingTournamentListNewBinding.armyUpcomingPraTxt.setText(upcomingData.getTourShortDescription());
 
-//        Picasso.with(mcontext)
-//                .load(upcomingData.getFutureTourThumbImageURL())
-//                .placeholder(R.drawable.progress_animation)
-//                .into(holder.banner_img);
 
         Utils.setImageInImageView(upcomingData.getFutureTourThumbImageURL(),holder.upcomingTournamentListNewBinding.bannerImg,mcontext);
 
@@ -140,6 +110,10 @@ public class UpcomingDashboardAdapter extends RecyclerView.Adapter<UpcomingDashb
           ftpIntent.putExtra("ftpshortdesc",upcomingData.getTourShortDescription());
           ftpIntent.putExtra("ftptourdesc",upcomingData.getTourDescription());
           ftpIntent.putExtra("ftpbannerimg",upcomingData.getFutureTourThumbImageURL());
+          ftpIntent.putExtra("str1",upcomingData.getStr1());
+          ftpIntent.putExtra("str2",upcomingData.getStr2());
+          ftpIntent.putExtra("str3",upcomingData.getStr3());
+          ftpIntent.putExtra("ftpId",upcomingData.getFutureTourId());
           ftpIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
           mcontext.startActivity(ftpIntent);
       }

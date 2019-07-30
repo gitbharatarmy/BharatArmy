@@ -43,6 +43,9 @@ public class StoryDashboardData {
     @SerializedName("AuthorName")
     @Expose
     private String authorName;
+    @SerializedName("AuthorId")
+    @Expose
+    private Integer authorId;
     @SerializedName("AuthorImage")
     @Expose
     private String authorImage;
@@ -254,5 +257,13 @@ public class StoryDashboardData {
 
     public void setStrThumbImageName(String strThumbImageName) {
         this.strThumbImageName = strThumbImageName;
+    }
+
+    public Integer getAuthorId() {
+        return authorId;
+    }
+
+    public void setAuthorId(Integer authorId) {
+        this.authorId = authorId;
     }
 }

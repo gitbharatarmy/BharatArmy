@@ -63,7 +63,7 @@ public class StoryFragment extends Fragment {
     GridLayoutManager gridLayoutManager;
     boolean ispull;
 
-    String categoryIdStr, categoryNameStr;
+    String categoryIdStr, categoryNameStr,wheretocome;
     public static OnItemClick mListener;
     public StoryFragment() {
         // Required empty public constructor
@@ -240,7 +240,7 @@ public class StoryFragment extends Fragment {
                 categoryIdStr = splitString[0];
                 categoryNameStr = splitString[1].substring(0, splitString[1].length() - 1);
 
-
+                Log.d("categoryIdSTr :",categoryIdStr+" categoryNameStr :"+categoryNameStr);
 
                 // slide-up animation
                 Animation slideUp = AnimationUtils.loadAnimation(mContext, R.anim.slide_out_right);
@@ -248,8 +248,8 @@ public class StoryFragment extends Fragment {
 //                    fragmentStoryBinding.shimmerViewContainer.setVisibility(View.GONE);
 //                    fragmentStoryBinding.refreshView.setVisibility(View.GONE);
                     fragmentStoryBinding.storyRcyList.setVisibility(View.GONE);
-
-                mListener.onStoryCategory(categoryIdStr,categoryNameStr);
+                wheretocome="Story";
+                mListener.onStoryCategory(categoryIdStr,categoryNameStr,wheretocome);
 
             }
         });
@@ -345,7 +345,7 @@ public class StoryFragment extends Fragment {
     }
 
     public interface OnItemClick {
-        void onStoryCategory(String categoryId,String categoryName);
+        void onStoryCategory(String categoryId,String categoryName,String wheretocome);
 
 
     }

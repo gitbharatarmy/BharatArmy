@@ -12,6 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bharatarmy.Activity.MoreStoryActivity;
@@ -21,6 +22,8 @@ import com.bharatarmy.Interfaces.image_click;
 import com.bharatarmy.Models.ImageDetailModel;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.Utils;
+import com.bharatarmy.databinding.ItemLoadingBinding;
+import com.bharatarmy.databinding.StoryAuthorListBinding;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -48,11 +51,13 @@ public class StoryAuthorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (viewType == VIEW_TYPE_ITEM) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.story_author_list, parent, false);
-            return new ItemViewHolder(view);
+            StoryAuthorListBinding storyAuthorListBinding= DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
+                    R.layout.story_author_list,parent,false);
+            return new StoryAuthorAdapter.ItemViewHolder(storyAuthorListBinding);
         } else {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_loading, parent, false);
-            return new LoadingViewHolder(view);
+            ItemLoadingBinding itemLoadingBinding=DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
+                    R.layout.item_loading,parent,false);
+            return new StoryAuthorAdapter.LoadingViewHolder(itemLoadingBinding);
         }
     }
 
@@ -85,40 +90,23 @@ public class StoryAuthorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     private class ItemViewHolder extends RecyclerView.ViewHolder {
 
-        public TextView header_txt, type_txt, army_story_header_txt, army_story_sub_txt,
-                date_txt, views_txt, username_txt;
-        ImageView type_img, profile_image, banner_img;
-        LinearLayout author_linear,bottom_linear;
-        RelativeLayout header_banner_rcv;
+        StoryAuthorListBinding storyAuthorListBinding;
 
+        public ItemViewHolder(@NonNull StoryAuthorListBinding storyAuthorListBinding) {
+            super(storyAuthorListBinding.getRoot());
 
-        public ItemViewHolder(@NonNull View itemView) {
-            super(itemView);
+            this.storyAuthorListBinding=storyAuthorListBinding;
 
-            header_txt = (TextView) itemView.findViewById(R.id.header_txt);
-            army_story_header_txt = (TextView) itemView.findViewById(R.id.army_story_header_txt);
-            army_story_sub_txt = (TextView) itemView.findViewById(R.id.army_story_sub_txt);
-            date_txt = (TextView) itemView.findViewById(R.id.date_txt);
-            views_txt = (TextView) itemView.findViewById(R.id.views_txt);
-            type_txt = (TextView) itemView.findViewById(R.id.type_txt);
-//            username_txt = (TextView) itemView.findViewById(R.id.username_txt);
-
-            type_img = (ImageView) itemView.findViewById(R.id.type_img);
-//            profile_image = (ImageView) itemView.findViewById(R.id.profile_image);
-            banner_img = (ImageView) itemView.findViewById(R.id.banner_img);
-            author_linear = (LinearLayout) itemView.findViewById(R.id.author_linear);
-            header_banner_rcv=(RelativeLayout) itemView.findViewById(R.id.header_banner_rcv);
-            bottom_linear=(LinearLayout)itemView.findViewById(R.id.bottom_linear);
         }
     }
 
     private class LoadingViewHolder extends RecyclerView.ViewHolder {
 
-        ProgressBar progressBar;
+        ItemLoadingBinding itemLoadingBinding;
+        public LoadingViewHolder(@NonNull ItemLoadingBinding itemLoadingBinding) {
+            super(itemLoadingBinding.getRoot());
 
-        public LoadingViewHolder(@NonNull View itemView) {
-            super(itemView);
-            progressBar = itemView.findViewById(R.id.progressBar);
+            this.itemLoadingBinding=itemLoadingBinding;
         }
     }
 
@@ -130,23 +118,19 @@ public class StoryAuthorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     private void populateItemRows(ItemViewHolder viewHolder, final int position) {
 
         final ImageDetailModel detail = mItemList.get(position);
-        viewHolder.header_txt.setText(detail.getCategoryName());
-        viewHolder.type_txt.setText(detail.getBASubCategoryName());
-        viewHolder.army_story_header_txt.setText(detail.getStoryTitle());
-        viewHolder.army_story_sub_txt.setText(detail.getShortDescription());
-        viewHolder.date_txt.setText(detail.getStrStoryAdded());
-        viewHolder.views_txt.setText(detail.getStrViewCount());
-//        viewHolder.username_txt.setText(detail.getAuthorName());
+
+//        Utils.setImageInImageView(detail.getCategoryImage(),viewHolder.storyAuthorListBinding.headerImg,mContext);
 
 
-//        Picasso.with(mContext)
-//                .load(detail.getStrThumbImageName())
-//                .placeholder(R.drawable.progress_animation)
-//                .into(viewHolder.banner_img);
+        viewHolder.storyAuthorListBinding.typeTxt.setText(detail.getBASubCategoryName());
+        viewHolder.storyAuthorListBinding.armyStoryHeaderTxt.setText(detail.getStoryTitle());
+        viewHolder.storyAuthorListBinding.armyStorySubTxt.setText(detail.getShortDescription());
+        viewHolder.storyAuthorListBinding.dateTxt.setText(detail.getStrStoryAdded());
+        viewHolder.storyAuthorListBinding.viewsTxt.setText(detail.getStrViewCount());
 
-        Utils.setImageInImageView(detail.getStrThumbImageName(),viewHolder.banner_img,mContext);
-
-        viewHolder.army_story_header_txt.setOnClickListener(new View.OnClickListener() {
+        Utils.setImageInImageView(detail.getStrThumbImageName(),viewHolder.storyAuthorListBinding.bannerImg,mContext);
+        
+        viewHolder.storyAuthorListBinding.armyStoryHeaderTxt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent webviewIntent = new Intent(mContext, StoryDetailActivity.class);
@@ -162,7 +146,7 @@ public class StoryAuthorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
             }
         });
-        viewHolder.header_banner_rcv.setOnClickListener(new View.OnClickListener() {
+        viewHolder.storyAuthorListBinding.headerBannerRcv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent webviewIntent = new Intent(mContext, StoryDetailActivity.class);
@@ -179,7 +163,7 @@ public class StoryAuthorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
             }
         });
 
-        viewHolder.army_story_sub_txt.setOnClickListener(new View.OnClickListener() {
+        viewHolder.storyAuthorListBinding.armyStorySubTxt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent webviewIntent = new Intent(mContext, StoryDetailActivity.class);
@@ -194,7 +178,7 @@ public class StoryAuthorAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 mContext.startActivity(webviewIntent);
             }
         });
-        viewHolder.bottom_linear.setOnClickListener(new View.OnClickListener() {
+        viewHolder.storyAuthorListBinding.bottomLinear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent webviewIntent = new Intent(mContext, StoryDetailActivity.class);

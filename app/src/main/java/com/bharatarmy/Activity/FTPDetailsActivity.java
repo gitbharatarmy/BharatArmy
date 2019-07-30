@@ -100,13 +100,6 @@ public class FTPDetailsActivity extends AppCompatActivity implements View.OnClic
 
         }
         callFTPDetailData();
-
-
-//        ftpdetailsBinding.ftpDetailView.getSettings().setJavaScriptEnabled(true);
-//        ftpdetailsBinding.ftpDetailView.loadDataWithBaseURL("", ftptourdescStr, "text/html", "UTF-8", "");
-//        ftpdetailsBinding.shimmerViewContainer.stopShimmerAnimation();
-
-
     }
 
     public void setListiner() {
@@ -205,7 +198,6 @@ public class FTPDetailsActivity extends AppCompatActivity implements View.OnClic
 
                     if (imageMainModel.getData() != null) {
                         ftpDetailDataList = imageMainModel;
-
                         setAPIValue();
                     }
 

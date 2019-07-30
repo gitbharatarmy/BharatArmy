@@ -117,7 +117,7 @@
                 android:layout_marginLeft="@dimen/_15sdp"
                 android:layout_marginRight="@dimen/_15sdp"
                 app:shimmer_demo_angle="10"
-                app:shimmer_demo_layout="@layout/layout_demo_grid"
+                app:shimmer_demo_layout="@layout/upcoming_storie_data_holder"
                 app:shimmer_demo_layout_manager_type="linear_vertical"
                 app:shimmer_demo_shimmer_color="#21ffffff"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior"

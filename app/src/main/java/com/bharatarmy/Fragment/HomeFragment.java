@@ -59,6 +59,7 @@ import com.bharatarmy.Adapter.MyPagerAdapter;
 import com.bharatarmy.Adapter.UpcomingDashboardAdapter;
 import com.bharatarmy.AlphaPageTransformer;
 import com.bharatarmy.Interfaces.MorestoryClick;
+import com.bharatarmy.Interfaces.image_click;
 import com.bharatarmy.Models.DashboardDataModel;
 import com.bharatarmy.Models.DashboardModel;
 import com.bharatarmy.Models.HomeTemplateDetailModel;
@@ -89,8 +90,6 @@ import java.util.Map;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-import static androidx.recyclerview.widget.RecyclerView.SCROLL_STATE_DRAGGING;
-import static androidx.recyclerview.widget.RecyclerView.SCROLL_STATE_IDLE;
 
 // change the code backup 22/07/2019  & 27/07/2019
 public class HomeFragment extends Fragment implements View.OnClickListener {
@@ -109,35 +108,17 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     DashboardDataModel getDashboardDataModel;
     UpcomingDashboardAdapter upcomingDashboardAdapter;
     BharatArmyStoriesAdapter bharatArmyStoriesAdapter;
-
-    HomeTemplateModel gethomeTemplateModel;
     List<HomeTemplateDetailModel> homeTemplateDetailModelList;
-
+    String categoryIdStr, categoryNameStr, wheretocome;
     List<UpcommingDashboardModel> upcommingDashboardModelList;
     List<StoryDashboardData> storyDashboardDataList;
-    AlertDialog alertDialogAndroid;
-    TextView close_btn, aboutuse_sub_title_txt;
-    Button closeBtn;
-    VideoView videoView;
-    ProgressBar progressbar;
-    ArrayList<String> image;
-    String currentDateStr, nextDateStr;
-    private static int SPLASH_TIME_OUT = 2000;
     private TransitionDrawable mTransition;
     private int animationCounter = 1;
     private Handler imageSwitcherHandler;
     FloatingActionButton fab;
     SpeedDialView speedDial;
-
-
-    ArrayList<TravelModel> mainPageArrayList;
-    int mNextSelectedScreen,mCurrentSelectedScreen=0;
-//    private MyImageViewPagerAdapter myImageViewPagerAdapter;
-    ArrayList<TravelModel> homedetailList;
-    MainPageChildAdapter mainPageChildAdapter;
-
-    RecyclerView deals_detailRcv;
-    MainPageDealsAdapter mainPageDealsAdapter;
+    int mNextSelectedScreen, mCurrentSelectedScreen = 0;
+    public static OnItemClick mListener;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -358,12 +339,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 if (data.contains(",")) {
                     String[] splitStr = data.split(",");
 
-//                    for (int j=0;j<splitStr.length;j++){
-//                        getDashboardDataModel.getUpcomming().get(j).setStr1(splitStr[j]);
-//                        getDashboardDataModel.getUpcomming().get(j).setStr2(splitStr[j]);
-//                        getDashboardDataModel.getUpcomming().get(j).setStr3(splitStr[j]);
-//                    }
-
                     if (splitStr.length == 3) {
                         getDashboardDataModel.getUpcomming().get(i).setStr1(splitStr[0]);
                         getDashboardDataModel.getUpcomming().get(i).setStr2(splitStr[1]);
@@ -394,9 +369,25 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         }
         if (getDashboardDataModel.getStories() != null) {
             storyDashboardDataList = getDashboardDataModel.getStories();
-            bharatArmyStoriesAdapter = new BharatArmyStoriesAdapter(mContext, storyDashboardDataList, new MorestoryClick() {
+            bharatArmyStoriesAdapter = new BharatArmyStoriesAdapter(mContext, storyDashboardDataList, new image_click() {
                 @Override
-                public void getmorestoryClick() {
+                public void image_more_click() {
+                    String getCategoryData = String.valueOf(bharatArmyStoriesAdapter.getDatas());
+
+                    String[] splitString = getCategoryData.split("\\|");
+
+                    categoryIdStr = splitString[0];
+                    categoryNameStr = splitString[1].substring(0, splitString[1].length() - 1);
+
+                    Log.d("categoryIdSTr :", categoryIdStr + " categoryNameStr :" + categoryNameStr);
+
+                    // slide-up animation
+                    Animation slideUp = AnimationUtils.loadAnimation(mContext, R.anim.slide_out_right);
+                    fragmentHomeBinding.armyStoryRcyList.startAnimation(slideUp);
+
+                    fragmentHomeBinding.armyStoryRcyList.setVisibility(View.GONE);
+                    wheretocome = "home";
+                    mListener.onStoryCategory(categoryIdStr, categoryNameStr, wheretocome);
                 }
             });
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
@@ -415,6 +406,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
 
     }
+
     // Api calling GetHomeBannerData
     public void callHomeBannerData() {
         if (!Utils.checkNetwork(mContext)) {
@@ -468,7 +460,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
     private Map<String, String> getHomeBannerData() {
         Map<String, String> map = new HashMap<>();
-        map.put("MemberId","0");
+        map.put("MemberId", "0");
         return map;
     }
 
@@ -497,11 +489,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     }
 
 
-    public void fillHomeBanner(){
-        fragmentHomeBinding.mainPageDealsRcv.setAdapter(new MyBgpageAdapter(homeTemplateDetailModelList,mContext));
+    public void fillHomeBanner() {
+        fragmentHomeBinding.mainPageDealsRcv.setAdapter(new MyBgpageAdapter(homeTemplateDetailModelList, mContext));
 
         fragmentHomeBinding.cardViewPager.setOffscreenPageLimit(3);
-        fragmentHomeBinding.cardViewPager.setPageMargin(40);
+        fragmentHomeBinding.cardViewPager.setPageMargin(10);
         fragmentHomeBinding.cardViewPager.setPageTransformer(true, new AlphaPageTransformer());
         fragmentHomeBinding.cardViewPager.setAdapter(new MyPagerAdapter(homeTemplateDetailModelList, mContext));
 
@@ -553,4 +545,19 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         });
     }
 
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnItemClick) {
+            mListener = (OnItemClick) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
+    }
+
+    public interface OnItemClick {
+        void onStoryCategory(String categoryId, String categoryName, String wheretocome);
+
+
+    }
 }

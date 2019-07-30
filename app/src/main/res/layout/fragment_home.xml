@@ -58,9 +58,9 @@
                 <androidx.viewpager.widget.ViewPager
                     android:id="@+id/cardViewPager"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_140sdp"
-                    android:layout_marginLeft="@dimen/_15sdp"
-                    android:layout_marginRight="@dimen/_20sdp"
+                    android:layout_height="@dimen/_130sdp"
+                    android:layout_marginLeft="@dimen/_13sdp"
+                    android:layout_marginRight="@dimen/_30sdp"
                     android:layout_marginTop="@dimen/_110sdp"
                     android:layout_marginBottom="@dimen/_5sdp"
                     android:clipChildren="false"
@@ -249,7 +249,7 @@
                             android:textAllCaps="true"
                             android:text="@string/upcoming"
                             android:textColor="@color/heading_bg"
-                            android:textSize="@dimen/_13sdp"  />
+                            android:textSize="@dimen/_15sdp"  />
                     </LinearLayout>
                     <TextView
                         android:id="@+id/army_popularcity_subtitle_txt"
@@ -260,7 +260,7 @@
                         android:gravity="center_vertical|left"
                         android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
                         android:textColor="@color/gray"
-                        android:textSize="@dimen/_9sdp" />
+                        android:textSize="@dimen/_10sdp" />
                 </LinearLayout>
 
                 <!--<TextView-->
@@ -327,12 +327,12 @@
                 android:id="@+id/upcoming_rcyList"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="@dimen/_12sdp"
+                android:layout_marginLeft="@dimen/_17sdp"
                 android:layout_marginRight="@dimen/_10sdp"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:layout_marginBottom="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_marginBottom="@dimen/_15sdp"
                 app:shimmer_demo_angle="10"
-                app:shimmer_demo_layout="@layout/layout_demo_grid"
+                app:shimmer_demo_layout="@layout/upcoming_storie_data_holder"
                 app:shimmer_demo_layout_manager_type="linear_horizontal"
                 app:shimmer_demo_shimmer_color="#21ffffff" />
 
@@ -506,7 +506,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_marginTop="@dimen/_10sdp">
+                    android:layout_marginTop="@dimen/_15sdp">
                     <LinearLayout
                         android:layout_width="@dimen/_3sdp"
                         android:layout_height="match_parent"
@@ -534,7 +534,7 @@
                                 android:textAllCaps="true"
                                 android:text="@string/bharat_army_story"
                                 android:textColor="@color/heading_bg"
-                                android:textSize="@dimen/_13sdp"   />
+                                android:textSize="@dimen/_15sdp"   />
                         </LinearLayout>
                         <TextView
                             android:id="@+id/army_story_desc_txt"
@@ -545,19 +545,19 @@
                             android:gravity="center_vertical|left"
                             android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
                             android:textColor="@color/gray"
-                            android:textSize="@dimen/_9sdp" />
+                            android:textSize="@dimen/_10sdp" />
                     </LinearLayout>
                 </LinearLayout>
                 <com.cooltechworks.views.shimmer.ShimmerRecyclerView xmlns:app="http://schemas.android.com/apk/res-auto"
                     android:id="@+id/army_story_rcyList"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="@dimen/_12sdp"
+                    android:layout_marginLeft="@dimen/_17sdp"
                     android:layout_marginRight="@dimen/_10sdp"
-                    android:layout_marginBottom="@dimen/_10sdp"
-                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginBottom="@dimen/_15sdp"
+                    android:layout_marginTop="@dimen/_15sdp"
                     app:shimmer_demo_angle="10"
-                    app:shimmer_demo_layout="@layout/layout_demo_grid"
+                    app:shimmer_demo_layout="@layout/storie_data_holder"
                     app:shimmer_demo_layout_manager_type="linear_horizontal"
                     app:shimmer_demo_shimmer_color="#21ffffff" />
                 <!--<android.support.v7.widget.RecyclerView-->

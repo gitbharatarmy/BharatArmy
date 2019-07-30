@@ -2,35 +2,28 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_marginLeft="10dp"
     android:layout_marginRight="10dp"
-    android:layout_marginBottom="10dp"
-    >
+    android:layout_marginBottom="10dp">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/padding_10"
-        android:orientation="vertical">
+
         <View
             android:layout_width="match_parent"
-            android:layout_height="@dimen/placeholderTextHeight"
+            android:layout_height="@dimen/_140sdp"
             android:background="@color/demo_dark_transparent" />
+    <View
+        android:layout_width="@dimen/_60sdp"
+        android:layout_height="@dimen/_20sdp"
+        android:background="@color/gray"
+        android:layout_marginTop="@dimen/_70sdp"
+        android:layout_marginLeft="@dimen/_30sdp"/>
         <View
             android:layout_width="match_parent"
-            android:layout_height="@dimen/placeholderTextHeight"
-            android:layout_marginTop="5dp"
-            android:background="@color/demo_dark_transparent" />
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/placeholderTextHeight"
-            android:layout_marginTop="5dp"
-            android:background="@color/demo_dark_transparent" />
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/placeholderTextHeight"
-            android:layout_marginTop="5dp"
-            android:background="@color/demo_dark_transparent" />
-    </LinearLayout>
+            android:layout_height="@dimen/_100sdp"
+            android:layout_marginTop="@dimen/_110sdp"
+            android:layout_marginLeft="@dimen/_30sdp"
+            android:layout_marginRight="@dimen/_30sdp"
+            android:background="@drawable/pic_dataholder_shape"/>
+
 </RelativeLayout>

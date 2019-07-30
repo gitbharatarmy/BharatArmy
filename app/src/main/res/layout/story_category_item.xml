@@ -35,7 +35,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <include layout="@layout/ftp_dataholder_item" />
+            <include layout="@layout/storydetail_dataholder_item" />
         </com.facebook.shimmer.ShimmerFrameLayout>
             <androidx.recyclerview.widget.RecyclerView xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/story_category_rcyList"

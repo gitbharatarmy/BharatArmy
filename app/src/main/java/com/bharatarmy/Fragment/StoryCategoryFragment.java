@@ -66,7 +66,7 @@ public class StoryCategoryFragment extends Fragment {
     GridLayoutManager gridLayoutManager;
 
     private static final long DURATION = 500;
-    String categoryIdStr, categoryNameStr;
+    String categoryIdStr, categoryNameStr,wheretocome;
 
     public StoryCategoryFragment() {
         // Required empty public constructor
@@ -124,7 +124,9 @@ public class StoryCategoryFragment extends Fragment {
 
     public void setListiner() {
         Bundle arguments = getArguments();
+        categoryIdStr=arguments.getString("categoryId");
         categoryNameStr = arguments.getString("categoryName");
+        wheretocome=arguments.getString("wheretocome");
         fragmentStoryCategoryBinding.categoryName.setText(categoryNameStr);
 
         fragmentStoryCategoryBinding.shimmerViewContainer.startShimmerAnimation();
@@ -140,9 +142,11 @@ public class StoryCategoryFragment extends Fragment {
                 fragmentStoryCategoryBinding.categoryLinear.startAnimation(slideUp);
                 fragmentStoryCategoryBinding.storyCategoryRcyList.startAnimation(slideUp);
                 fragmentStoryCategoryBinding.storyCategoryRcyList.setVisibility(View.GONE);
-                mListener.onStoryCategoryBack();
+                mListener.onStoryCategoryBack(wheretocome);
             }
         });
+
+
     }
 
 
@@ -229,7 +233,7 @@ public class StoryCategoryFragment extends Fragment {
     }
 
     public interface OnItemClick {
-        void onStoryCategoryBack();
+        void onStoryCategoryBack(String wheretocome);
 
 
     }
