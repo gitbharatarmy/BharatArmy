@@ -42,6 +42,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     String username_str, password_str;
     private String android_id;
     String token;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,7 +59,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         loginBinding.userPasswordEdt.setOnEditorActionListener(new EditText.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId==EditorInfo.IME_ACTION_DONE){
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
                     verifyLoginDetails();
                 }
                 return false;
@@ -77,9 +78,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             @Override
             public void afterTextChanged(Editable s) {
-                password_str=loginBinding.userPasswordEdt.getText().toString();
+                password_str = loginBinding.userPasswordEdt.getText().toString();
 
-                if (!password_str.equalsIgnoreCase("")){
+                if (!password_str.equalsIgnoreCase("")) {
 
                 }
             }
@@ -91,13 +92,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         password_str = loginBinding.userPasswordEdt.getText().toString();
 
         if (!username_str.equalsIgnoreCase("") & !password_str.equalsIgnoreCase("")) {
-            if (Utils.isValidEmailId(username_str)){
-                if (password_str.length()>=5 && password_str.length()<=10){
-                    getLogin ();
-                }else{
+            if (Utils.isValidEmailId(username_str)) {
+                if (password_str.length() >= 5 && password_str.length() <= 10) {
+                    getLogin();
+                } else {
                     loginBinding.userPasswordEdt.setError("Password Length must be greter than 5 or less than 10");
                 }
-            }else{
+            } else {
                 loginBinding.userNameEdt.setError("Please enter valid email address");
             }
 
@@ -108,7 +109,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     }
 
-    public void getFCMTOken(){
+    public void getFCMTOken() {
         android_id = Settings.Secure.getString(LoginActivity.this.getContentResolver(),
                 Settings.Secure.ANDROID_ID);
         Log.d("deviceID", android_id);
@@ -126,11 +127,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         // Get new Instance ID token
                         token = task.getResult().getToken();
 
-                        Log.d("token",token);
+                        Log.d("token", token);
                         //getting old saved token
                         String old_token = Utils.getPref(getApplicationContext(), "registration_id");
 
-                        if(!old_token.equalsIgnoreCase(token)){
+                        if (!old_token.equalsIgnoreCase(token)) {
                             Utils.setPref(getApplicationContext(), "registration_id", token);
                             // sendRegistrationToServer(refreshedToken);
                         }
@@ -139,12 +140,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     }
                 });
     }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.sign_up_txt:
                 Intent signupIntent = new Intent(mContext, SignUpActivity.class);
-                signupIntent.putExtra("wheretocome","login_dialog_item");
+                signupIntent.putExtra("wheretocome", "login_dialog_item");
                 startActivity(signupIntent);
                 break;
             case R.id.loggin_btn:
@@ -174,7 +176,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     return;
                 }
                 if (loginModel.getIsValid() == 0) {
-                    Utils.ping(mContext,loginModel.getMessage());
+                    Utils.ping(mContext, loginModel.getMessage());
                     return;
                 }
                 if (loginModel.getIsValid() == 1) {
@@ -185,20 +187,19 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         Utils.setPref(mContext, "LoginProfilePic", String.valueOf(loginModel.getData().getProfilePicUrl()));
                         Utils.setPref(mContext, "EmailVerified", String.valueOf(loginModel.getData().getIsEmailVerified()));
                         Utils.setPref(mContext, "PhoneVerified", String.valueOf(loginModel.getData().getIsNumberVerified()));
-                        Utils.setPref(mContext,"AppUserId", String.valueOf(loginModel.getData().getId()));
-                        Utils.setPref(mContext,"Gender", String.valueOf(loginModel.getData().getGender()));
-                        Utils.setPref(mContext,"CountryISOCode",loginModel.getData().getCountryISOCode());
-                        Utils.setPref(mContext,"CountryPhoneNo",loginModel.getData().getCountryPhoneNo());
+                        Utils.setPref(mContext, "AppUserId", String.valueOf(loginModel.getData().getId()));
+                        Utils.setPref(mContext, "Gender", String.valueOf(loginModel.getData().getGender()));
+                        Utils.setPref(mContext, "CountryISOCode", loginModel.getData().getCountryISOCode());
+                        Utils.setPref(mContext, "CountryPhoneNo", loginModel.getData().getCountryPhoneNo());
+                        Utils.setPref(mContext, "IsBAAdmin", String.valueOf(loginModel.getData().getIsBAAdmin()));
 
-
-
-                        if(loginModel.getData().getIsNumberVerified()==0){
-                            Intent otpIntent=new Intent(mContext,MobileVerificationNewActivity.class);
-                            AppConfiguration.wheretocomemobile="Login";
+                        if (loginModel.getData().getIsNumberVerified() == 0) {
+                            Intent otpIntent = new Intent(mContext, MobileVerificationNewActivity.class);
+                            AppConfiguration.wheretocomemobile = "Login";
                             startActivity(otpIntent);
 //                            overridePendingTransition(R.anim.slide_in_left,0);
                             finish();
-                        }else {
+                        } else {
                             Intent DashboardIntent = new Intent(mContext, DashboardActivity.class);
                             startActivity(DashboardIntent);
 //                            overridePendingTransition(R.anim.slide_in_left,0);

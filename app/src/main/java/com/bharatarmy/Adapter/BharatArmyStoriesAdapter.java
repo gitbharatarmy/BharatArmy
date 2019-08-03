@@ -59,7 +59,8 @@ BharatArmyStoriesListNewBinding bharatArmyStoriesListNewBinding;
 
     @Override
     public BharatArmyStoriesAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        BharatArmyStoriesListNewBinding bharatArmyStoriesListNewBinding= DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),R.layout.bharat_army_stories_list_new,parent,false);
+        BharatArmyStoriesListNewBinding bharatArmyStoriesListNewBinding= DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
+                R.layout.bharat_army_stories_list_new,parent,false);
         return new BharatArmyStoriesAdapter.MyViewHolder(bharatArmyStoriesListNewBinding);
     }
 
@@ -88,7 +89,7 @@ BharatArmyStoriesListNewBinding bharatArmyStoriesListNewBinding;
 
 
 
-        holder.bharatArmyStoriesListNewBinding.armyStoryHeaderTxt.setOnClickListener(new View.OnClickListener() {
+        holder.bharatArmyStoriesListNewBinding.storyCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                   Intent webviewIntent=new Intent(mcontext, StoryDetailActivity.class);

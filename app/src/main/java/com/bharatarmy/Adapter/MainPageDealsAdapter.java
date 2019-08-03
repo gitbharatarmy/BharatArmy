@@ -2,19 +2,11 @@ package com.bharatarmy.Adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.SnapHelper;
-
-import com.bharatarmy.Interfaces.MorestoryClick;
 import com.bharatarmy.Models.TravelModel;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.Utils;
@@ -26,22 +18,12 @@ public class MainPageDealsAdapter extends RecyclerView.Adapter<MainPageDealsAdap
     Context mContext;
     ArrayList<TravelModel> mainPageArrayList;
     ArrayList<TravelModel> homedetailList;
-    MainPageChildAdapter mainPageChildAdapter;
-    MorestoryClick morestoryClick;
-    int review_position=0;
-    ArrayList<String> scrollposition=new ArrayList<>();
 
     public MainPageDealsAdapter(Context mContext, ArrayList<TravelModel> homedetailList) {
         this.mContext=mContext;
         this.homedetailList=homedetailList;
     }
 
-//    public MainPageDealsAdapter(Context mContext, ArrayList<TravelModel> mainPageArrayList, ArrayList<TravelModel> homedetailList, MorestoryClick morestoryClick) {
-//        this.mContext = mContext;
-//        this.mainPageArrayList = mainPageArrayList;
-//        this.homedetailList = homedetailList;
-//        this.morestoryClick=morestoryClick;
-//    }
 
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
@@ -74,41 +56,6 @@ public class MainPageDealsAdapter extends RecyclerView.Adapter<MainPageDealsAdap
         holder.demoRevItemBinding.itemHeadingTxt.setText(detail.getMain_titleName());
         holder.demoRevItemBinding.itemDescTxt.setText(detail.getMain_desc());
         holder.demoRevItemBinding.bookTxt.setText(detail.getButton_name());
-
-//        mainPageChildAdapter = new MainPageChildAdapter(mContext, homedetailList);
-//        SnapHelper mSnapHelper = new LinearSnapHelper();
-//        mSnapHelper.attachToRecyclerView(holder.demoRevItemBinding.dealsDetailRcv);
-//        holder.demoRevItemBinding.dealsDetailRcv.setOnFlingListener(null);
-//        LinearLayoutManager layoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
-//        holder.demoRevItemBinding.dealsDetailRcv.setLayoutManager(layoutManager);
-//        holder.demoRevItemBinding.dealsDetailRcv.setAdapter(mainPageChildAdapter);
-//
-//        holder.demoRevItemBinding.dealsDetailRcv.addOnScrollListener(new RecyclerView.OnScrollListener() {
-//            @Override
-//            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-//                super.onScrollStateChanged(recyclerView, newState);
-//                if (newState == RecyclerView.SCROLL_STATE_DRAGGING) {
-//                    //Dragging
-//                } else if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-//                    review_position = layoutManager.findFirstCompletelyVisibleItemPosition();
-//                    Log.d("currentposition", ""+review_position);
-////                        int viewposition=review_position;
-////                        fragmentHomeBinding.mainPageDealsRcv.setCurrentItem(review_position,true);
-//                    scrollposition.add(String.valueOf(review_position));
-//                    morestoryClick.getmorestoryClick();
-//                }
-//            }
-//
-////                @Override
-////                public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-////                    super.onScrolled(recyclerView, dx, dy);
-////                    int firstVisibleItem = layoutManager.findFirstCompletelyVisibleItemPosition();
-////                    Log.d("firstVisibleItem", ""+firstVisibleItem);
-////                    fragmentHomeBinding.mainPageDealsRcv.setCurrentItem(firstVisibleItem,true);
-////                }
-//        });
-
-
     }
 
     @Override
@@ -125,9 +72,6 @@ public class MainPageDealsAdapter extends RecyclerView.Adapter<MainPageDealsAdap
     @Override
     public int getItemCount() {
         return mainPageArrayList.size();
-    }
-    public ArrayList<String> getDatas() {
-        return scrollposition;
     }
 }
 

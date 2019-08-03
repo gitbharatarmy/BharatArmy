@@ -8,12 +8,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.Utils;
+import com.bharatarmy.databinding.MatchAddrcyItemBinding;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,27 +34,30 @@ public class MatchIncludesAdapter extends RecyclerView.Adapter<MatchIncludesAdap
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        LinearLayout ticketLinear, hospitalityLinear, addtoticketscart1Linear,
-                removetoticketscart1Linear,addtohospitalitycart1Linear,removetohospitalitycart1Linear;
-        ImageView ticketscart_addimage,hospitalityMainImage,hospitality_addImage;
+//        LinearLayout ticketLinear, hospitalityLinear, addtoticketscart1Linear,
+//                removetoticketscart1Linear,addtohospitalitycart1Linear,removetohospitalitycart1Linear;
+//        ImageView ticketscart_addimage,hospitalityMainImage,hospitality_addImage;
+//
+//        RecyclerView exprienceRcv;
 
-        RecyclerView exprienceRcv;
+        MatchAddrcyItemBinding matchAddrcyItemBinding;
 
-        public MyViewHolder(View view) {
-            super(view);
+        public MyViewHolder(MatchAddrcyItemBinding matchAddrcyItemBinding) {
+            super(matchAddrcyItemBinding.getRoot());
 
-            ticketLinear = (LinearLayout) view.findViewById(R.id.ticketLinear);
-            hospitalityLinear = (LinearLayout) view.findViewById(R.id.hospitalityLinear);
-            addtoticketscart1Linear = (LinearLayout) view.findViewById(R.id.addtoticketscart1Linear);
-            removetoticketscart1Linear = (LinearLayout) view.findViewById(R.id.removetoticketscart1Linear);
-            addtohospitalitycart1Linear=(LinearLayout)view.findViewById(R.id.addtohospitalitycart1Linear);
-            removetohospitalitycart1Linear=(LinearLayout)view.findViewById(R.id.removetohospitalitycart1Linear);
-
-            exprienceRcv = (RecyclerView) view.findViewById(R.id.exprienceRcv);
-
-            ticketscart_addimage = (ImageView) view.findViewById(R.id.ticketscart_addimage);
-            hospitalityMainImage=(ImageView)view.findViewById(R.id.hospitalityMainImage);
-            hospitality_addImage=(ImageView)view.findViewById(R.id.hospitality_addImage);
+            this.matchAddrcyItemBinding=matchAddrcyItemBinding;
+//            ticketLinear = (LinearLayout) view.findViewById(R.id.ticketLinear);
+//            hospitalityLinear = (LinearLayout) view.findViewById(R.id.hospitalityLinear);
+//            addtoticketscart1Linear = (LinearLayout) view.findViewById(R.id.addtoticketscart1Linear);
+//            removetoticketscart1Linear = (LinearLayout) view.findViewById(R.id.removetoticketscart1Linear);
+//            addtohospitalitycart1Linear=(LinearLayout)view.findViewById(R.id.addtohospitalitycart1Linear);
+//            removetohospitalitycart1Linear=(LinearLayout)view.findViewById(R.id.removetohospitalitycart1Linear);
+//
+//            exprienceRcv = (RecyclerView) view.findViewById(R.id.exprienceRcv);
+//
+//            ticketscart_addimage = (ImageView) view.findViewById(R.id.ticketscart_addimage);
+//            hospitalityMainImage=(ImageView)view.findViewById(R.id.hospitalityMainImage);
+//            hospitality_addImage=(ImageView)view.findViewById(R.id.hospitality_addImage);
 
         }
     }
@@ -60,10 +65,14 @@ public class MatchIncludesAdapter extends RecyclerView.Adapter<MatchIncludesAdap
 
     @Override
     public MatchIncludesAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.match_addrcy_item, parent, false);
+//        View itemView = LayoutInflater.from(parent.getContext())
+//                .inflate(R.layout.match_addrcy_item, parent, false);
+//
+//        return new MatchIncludesAdapter.MyViewHolder(itemView);
 
-        return new MatchIncludesAdapter.MyViewHolder(itemView);
+        MatchAddrcyItemBinding matchAddrcyItemBinding= DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
+                R.layout.match_addrcy_item,parent,false);
+        return new MatchIncludesAdapter.MyViewHolder(matchAddrcyItemBinding);
     }
 
     @SuppressLint("ResourceAsColor")
@@ -72,58 +81,58 @@ public class MatchIncludesAdapter extends RecyclerView.Adapter<MatchIncludesAdap
     public void onBindViewHolder(MatchIncludesAdapter.MyViewHolder holder, int position) {
 
         if (includesNameStr.equalsIgnoreCase("tickets")) {
-            holder.ticketLinear.setVisibility(View.VISIBLE);
-            holder.hospitalityLinear.setVisibility(View.GONE);
+            holder.matchAddrcyItemBinding.ticketLinear.setVisibility(View.VISIBLE);
+            holder.matchAddrcyItemBinding.hospitalityLinear.setVisibility(View.GONE);
 
-            holder.addtoticketscart1Linear.setOnClickListener(new View.OnClickListener() {
+            holder.matchAddrcyItemBinding.addtoticketscart1Linear.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    holder.ticketscart_addimage.setImageResource(R.drawable.fill_selected_checkbox);
-                    holder.ticketLinear.setBackground(mContext.getResources().getDrawable(R.drawable.travel_match_selectedchild_curveshape));
-                    holder.removetoticketscart1Linear.setVisibility(View.VISIBLE);
-                    holder.addtoticketscart1Linear.setVisibility(View.GONE);
+                    holder.matchAddrcyItemBinding.ticketscartAddimage.setImageResource(R.drawable.fill_selected_checkbox);
+                    holder.matchAddrcyItemBinding.ticketLinear.setBackground(mContext.getResources().getDrawable(R.drawable.travel_match_selectedchild_curveshape));
+                    holder.matchAddrcyItemBinding.removetoticketscart1Linear.setVisibility(View.VISIBLE);
+                    holder.matchAddrcyItemBinding.addtoticketscart1Linear.setVisibility(View.GONE);
                 }
             });
-            holder.removetoticketscart1Linear.setOnClickListener(new View.OnClickListener() {
+            holder.matchAddrcyItemBinding.removetoticketscart1Linear.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    holder.ticketscart_addimage.setImageResource(R.drawable.ic_blank_check);
-                    holder.ticketLinear.setBackground(mContext.getResources().getDrawable(R.drawable.travel_match_child_curveshape));
-                    holder.removetoticketscart1Linear.setVisibility(View.GONE);
-                    holder.addtoticketscart1Linear.setVisibility(View.VISIBLE);
+                    holder.matchAddrcyItemBinding.ticketscartAddimage.setImageResource(R.drawable.ic_blank_check);
+                    holder.matchAddrcyItemBinding.ticketLinear.setBackground(mContext.getResources().getDrawable(R.drawable.travel_match_child_curveshape));
+                    holder.matchAddrcyItemBinding.removetoticketscart1Linear.setVisibility(View.GONE);
+                    holder.matchAddrcyItemBinding.addtoticketscart1Linear.setVisibility(View.VISIBLE);
                 }
             });
 
         } else {
-            holder.hospitalityLinear.setVisibility(View.VISIBLE);
-            holder.ticketLinear.setVisibility(View.GONE);
+            holder.matchAddrcyItemBinding.hospitalityLinear.setVisibility(View.VISIBLE);
+            holder.matchAddrcyItemBinding.ticketLinear.setVisibility(View.GONE);
 
-            Utils.setImageInImageView("https://www.bharatarmy.com/Docs/e4acae00-e.jpg",holder.hospitalityMainImage,mContext);
+            Utils.setImageInImageView("https://www.bharatarmy.com/Docs/e4acae00-e.jpg",holder.matchAddrcyItemBinding.hospitalityMainImage,mContext);
 
             experienceList = new ArrayList<>();
             experienceList.add("1");
             matchExperienceAddAdapter = new MatchExperienceAddAdapter(mContext, experienceList);
             RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(mContext, RecyclerView.HORIZONTAL, false);
-            holder.exprienceRcv.setLayoutManager(mLayoutManager);
-            holder.exprienceRcv.setItemAnimator(new DefaultItemAnimator());
-            holder.exprienceRcv.setAdapter(matchExperienceAddAdapter);
+            holder.matchAddrcyItemBinding.exprienceRcv.setLayoutManager(mLayoutManager);
+            holder.matchAddrcyItemBinding.exprienceRcv.setItemAnimator(new DefaultItemAnimator());
+            holder.matchAddrcyItemBinding.exprienceRcv.setAdapter(matchExperienceAddAdapter);
 
-            holder.addtohospitalitycart1Linear.setOnClickListener(new View.OnClickListener() {
+            holder.matchAddrcyItemBinding.addtohospitalitycart1Linear.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    holder.hospitality_addImage.setImageResource(R.drawable.fill_selected_checkbox);
-                    holder.hospitalityLinear.setBackground(mContext.getResources().getDrawable(R.drawable.travel_match_selectedchild_curveshape));
-                    holder.removetohospitalitycart1Linear.setVisibility(View.VISIBLE);
-                    holder.addtohospitalitycart1Linear.setVisibility(View.GONE);
+                    holder.matchAddrcyItemBinding.hospitalityAddImage.setImageResource(R.drawable.fill_selected_checkbox);
+                    holder.matchAddrcyItemBinding.hospitalityLinear.setBackground(mContext.getResources().getDrawable(R.drawable.travel_match_selectedchild_curveshape));
+                    holder.matchAddrcyItemBinding.removetohospitalitycart1Linear.setVisibility(View.VISIBLE);
+                    holder.matchAddrcyItemBinding.addtohospitalitycart1Linear.setVisibility(View.GONE);
                 }
             });
-            holder.removetohospitalitycart1Linear.setOnClickListener(new View.OnClickListener() {
+            holder.matchAddrcyItemBinding.removetohospitalitycart1Linear.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    holder.hospitality_addImage.setImageResource(R.drawable.ic_blank_check);
-                    holder.hospitalityLinear.setBackground(mContext.getResources().getDrawable(R.drawable.travel_match_child_curveshape));
-                    holder.removetohospitalitycart1Linear.setVisibility(View.GONE);
-                    holder.addtohospitalitycart1Linear.setVisibility(View.VISIBLE);
+                    holder.matchAddrcyItemBinding.hospitalityAddImage.setImageResource(R.drawable.ic_blank_check);
+                    holder.matchAddrcyItemBinding.hospitalityLinear.setBackground(mContext.getResources().getDrawable(R.drawable.travel_match_child_curveshape));
+                    holder.matchAddrcyItemBinding.removetohospitalitycart1Linear.setVisibility(View.GONE);
+                    holder.matchAddrcyItemBinding.addtohospitalitycart1Linear.setVisibility(View.VISIBLE);
                 }
             });
         }

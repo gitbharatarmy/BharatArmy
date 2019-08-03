@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/match_detail_curveshape"
+    android:orientation="vertical"
+    android:weightSum="3">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_50sdp"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/inquiry_dialog_topshape">
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/toolbar_title_txt"
+            style="@style/title_text_font"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_alignParentLeft="true"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:maxLines="1"
+            android:text="Member List"
+            android:textAllCaps="true"
+            android:textColor="@color/splash_bg_color"
+            android:textSize="@dimen/_14sdp" />
+<LinearLayout
+    android:id="@+id/close_linear"
+    android:layout_width="@dimen/_35sdp"
+    android:layout_height="@dimen/_25sdp"
+    android:background="@drawable/match_singleside_curveshape"
+    android:layout_alignParentRight="true"
+    android:layout_centerVertical="true"
+    android:layout_marginRight="@dimen/_10sdp">
+    <TextView
+        style="@style/title_text_font"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="x"
+        android:textAllCaps="true"
+        android:textColor="@color/heading_bg"
+  android:paddingLeft="@dimen/_14sdp"
+        android:paddingTop="@dimen/_7sdp"
+        android:textSize="@dimen/_12sdp" />
+</LinearLayout>
+</RelativeLayout>
+    </androidx.appcompat.widget.Toolbar>
+    <View
+        android:id="@+id/top_gradiant_view"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_2sdp"
+        android:layout_below="@id/toolbar"
+        android:background="@drawable/bg_gradiant_line"/>
+        <LinearLayout
+            android:id="@+id/inquiry_rcvlinear"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_130sdp"
+            android:layout_below="@+id/top_gradiant_view"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:orientation="vertical">
+
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:id="@+id/shimmer_view_containerdialog"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <include layout="@layout/inquiry_assign_dataholder" />
+            </com.facebook.shimmer.ShimmerFrameLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/inquiry_assign_rcv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"/>
+        </LinearLayout>
+    <View
+        android:id="@+id/bottom_gradiant_view"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_2sdp"
+        android:layout_below="@id/inquiry_rcvlinear"
+        android:background="@drawable/bg_gradiant_line"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_50sdp"
+        android:layout_below="@id/bottom_gradiant_view"
+        android:background="@drawable/inquiry_dialog_bottomshape">
+
+        <LinearLayout
+            android:id="@+id/submit_linear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+           android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/curve_shape">
+
+            <TextView
+                android:layout_width="@dimen/_65sdp"
+                android:layout_height="@dimen/_25sdp"
+                android:text="Submit"
+                android:textAllCaps="false"
+                android:gravity="center_horizontal|center_vertical"
+                android:textSize="@dimen/_12sdp"
+                android:textColor="@color/splash_bg_color"
+                style="@style/title_text_font"
+                />
+        </LinearLayout>
+    </RelativeLayout>
+</RelativeLayout>

@@ -24,6 +24,7 @@ import com.bharatarmy.Models.ImageDetailModel;
 import com.bharatarmy.Models.ImageMainModel;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.ApiHandler;
+import com.bharatarmy.Utility.AppConfiguration;
 import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.FragmentFtBinding;
 import com.bharatarmy.databinding.FragmentStoryBinding;
@@ -245,7 +246,7 @@ public class FTPFragment extends Fragment {
     private Map<String, String> getFTPData() {
         Map<String, String> map = new HashMap<>();
         map.put("PageIndex", String.valueOf(pageIndex));
-        map.put("PageSize", "14");
+        map.put("PageSize", AppConfiguration.pageSize);
         return map;
     }
 

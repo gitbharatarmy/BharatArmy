@@ -11,10 +11,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bharatarmy.Models.StoryDashboardData;
 import com.bharatarmy.Models.TravelModel;
 import com.bharatarmy.R;
+import com.bharatarmy.databinding.MatchFilterTeamItemBinding;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,26 +34,22 @@ int row_index;
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView match_team_txt;
-        ImageView team_flag,selected_img;
-       CheckBox selected_chk;
-       LinearLayout teamselectedLinear;
-        public MyViewHolder(View view) {
-            super(view);
-            team_flag=(ImageView)view.findViewById(R.id.team_flag);
-            match_team_txt=(TextView)view.findViewById(R.id.match_team_txt);
-            selected_chk=(CheckBox) view.findViewById(R.id.selected_chk);
-            teamselectedLinear=(LinearLayout)view.findViewById(R.id.teamselectedLinear);
+        MatchFilterTeamItemBinding matchFilterTeamItemBinding;
+
+        public MyViewHolder(MatchFilterTeamItemBinding matchFilterTeamItemBinding) {
+            super(matchFilterTeamItemBinding.getRoot());
+
+            this.matchFilterTeamItemBinding=matchFilterTeamItemBinding;
         }
     }
 
 
     @Override
     public MatchFilterTeamAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.match_filter_team_item, parent, false);
 
-        return new MatchFilterTeamAdapter.MyViewHolder(itemView);
+        MatchFilterTeamItemBinding matchFilterTeamItemBinding= DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
+                R.layout.match_filter_team_item,parent,false);
+        return new MatchFilterTeamAdapter.MyViewHolder(matchFilterTeamItemBinding);
     }
 
     @SuppressLint("ResourceAsColor")
@@ -60,17 +58,17 @@ int row_index;
 
         final TravelModel teamdetail = matchTeamFlagList.get(position);
 
-        holder.team_flag.setImageResource(teamdetail.getMatchteamFlag());
-        holder.match_team_txt.setText(teamdetail.getMatchteamVenues());
+        holder.matchFilterTeamItemBinding.teamFlag.setImageResource(teamdetail.getMatchteamFlag());
+        holder.matchFilterTeamItemBinding.matchTeamTxt.setText(teamdetail.getMatchteamVenues());
 
 
-        holder.teamselectedLinear.setOnClickListener(new View.OnClickListener() {
+        holder.matchFilterTeamItemBinding.teamselectedLinear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (holder.selected_chk.isChecked()){
-                    holder.selected_chk.setChecked(false);
+                if (holder.matchFilterTeamItemBinding.selectedChk.isChecked()){
+                    holder.matchFilterTeamItemBinding.selectedChk.setChecked(false);
                 }else{
-                    holder.selected_chk.setChecked(true);
+                    holder.matchFilterTeamItemBinding.selectedChk.setChecked(true);
                 }
 
             }

@@ -90,7 +90,7 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, TravelFragm
         toolbar = findViewById<View>(R.id.toolbar) as Toolbar
         mHandler = Handler()
         setSupportActionBar(toolbar)
-        //toolbar.setNavigationIcon(null);
+//        toolbar.setNavigationIcon(null);
         supportActionBar!!.title = ""
 
         //initilize control
@@ -102,7 +102,7 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, TravelFragm
 
         setListiner()
         // initializing navigation menu
-        setUpNavigationView()
+//        setUpNavigationView()
 
         if (savedInstanceState == null) {
             navItemIndex = 0
@@ -135,8 +135,9 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, TravelFragm
         bottomNavigation.add(MeowBottomNavigation.Model(1, R.drawable.ic_fans_new))
         bottomNavigation.add(MeowBottomNavigation.Model(2, R.drawable.ic_travel_new))
         bottomNavigation.add(MeowBottomNavigation.Model(3, R.drawable.ic_home_new))
-        bottomNavigation.add(MeowBottomNavigation.Model(4, R.drawable.ic_ftp_new))
-        bottomNavigation.add(MeowBottomNavigation.Model(5, R.drawable.ic_study))
+//        bottomNavigation.add(MeowBottomNavigation.Model(4, R.drawable.ic_ftp_new))
+        bottomNavigation.add(MeowBottomNavigation.Model(4, R.drawable.ic_study))
+        bottomNavigation.add(MeowBottomNavigation.Model(5,R.drawable.ic_more))
         bottomNavigation.setOnClickMenuListener {
             when (it.id) {
                 1 -> {
@@ -156,15 +157,18 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, TravelFragm
                 }
                 4 -> {
 
-                    navItemIndex = 7
-                    fragment = FTPFragment()
-                    loadFragment(fragment as FTPFragment)
-                }
-                5 -> {
-
+//                    navItemIndex = 7
+//                    fragment = FTPFragment()
+//                    loadFragment(fragment as FTPFragment)
                     navItemIndex = 6
                     fragment = StoryFragment()
                     loadFragment(fragment as StoryFragment)
+                }
+                5 -> {
+                    navItemIndex = 7
+                    fragment = MoreFragment()
+                    loadFragment(fragment as MoreFragment)
+
                 }
 
             }

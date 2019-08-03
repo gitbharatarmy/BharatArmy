@@ -1,17 +1,21 @@
 package com.bharatarmy.Adapter;
 
 import android.content.Context;
+import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bharatarmy.Models.TravelModel;
 import com.bharatarmy.R;
+import com.bharatarmy.databinding.HotelAmenitiesListItemBinding;
+import com.bharatarmy.databinding.HotelDetailHeaderItemBinding;
 import com.cooltechworks.views.shimmer.ShimmerRecyclerView;
 
 import java.util.ArrayList;
@@ -52,15 +56,16 @@ public class CityHotelAmenitiesAdapter extends RecyclerView.Adapter<RecyclerView
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v;
-        LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         switch (viewType) {
             case HEADER:
-                v = layoutInflater.inflate(R.layout.hotel_detail_header_item, parent, false);
-                return new CityHotelAmenitiesAdapter.HeaderViewHolder(v);
+                HotelDetailHeaderItemBinding hotelDetailHeaderItemBinding= DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
+                        R.layout.hotel_detail_header_item,parent,false);
+                return new CityHotelAmenitiesAdapter.HeaderViewHolder(hotelDetailHeaderItemBinding);
+
             default:
-                v = layoutInflater.inflate(R.layout.hotel_amenities_list_item, parent, false);
-                return new CityHotelAmenitiesAdapter.ItemViewHolder(v);
+               HotelAmenitiesListItemBinding hotelAmenitiesListItemBinding=DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
+                       R.layout.hotel_amenities_list_item,parent,false);
+               return new CityHotelAmenitiesAdapter.ItemViewHolder(hotelAmenitiesListItemBinding);
         }
     }
 
@@ -72,8 +77,8 @@ public class CityHotelAmenitiesAdapter extends RecyclerView.Adapter<RecyclerView
             cityHotelAmenitiesListAdapter = new CityHotelAmenitiesListAdapter(mContext, cityHotelAmenitiesList);
             GridLayoutManager gridLayoutManager = new GridLayoutManager(mContext, 2);
             gridLayoutManager.setOrientation(RecyclerView.VERTICAL); // set Horizontal Orientation
-            ((ItemViewHolder) holder).amenitiesListrcv.setLayoutManager(gridLayoutManager); // set LayoutManager to RecyclerView
-            ((ItemViewHolder) holder).amenitiesListrcv.setAdapter(cityHotelAmenitiesListAdapter);
+            ((ItemViewHolder) holder).hotelAmenitiesListItemBinding.amenitiesListrcv.setLayoutManager(gridLayoutManager); // set LayoutManager to RecyclerView
+            ((ItemViewHolder) holder).hotelAmenitiesListItemBinding.amenitiesListrcv.setAdapter(cityHotelAmenitiesListAdapter);
 
         } else if (holder.getItemViewType() == HEADER) {
 
@@ -82,22 +87,23 @@ public class CityHotelAmenitiesAdapter extends RecyclerView.Adapter<RecyclerView
 
 
     static class HeaderViewHolder extends RecyclerView.ViewHolder {
-        TextView travel_cityhoteldesc_txt;
+        HotelDetailHeaderItemBinding hotelDetailHeaderItemBinding;
 
-        HeaderViewHolder(View itemView) {
-            super(itemView);
-            travel_cityhoteldesc_txt = (TextView) itemView.findViewById(R.id.travel_cityhoteldesc_txt);
+        HeaderViewHolder(HotelDetailHeaderItemBinding hotelDetailHeaderItemBinding) {
+            super(hotelDetailHeaderItemBinding.getRoot());
 
+            this.hotelDetailHeaderItemBinding=hotelDetailHeaderItemBinding;
         }
     }
 
     static class ItemViewHolder extends RecyclerView.ViewHolder {
 
-       ShimmerRecyclerView amenitiesListrcv;
+HotelAmenitiesListItemBinding hotelAmenitiesListItemBinding;
 
-        ItemViewHolder(View itemView) {
-            super(itemView);
-            amenitiesListrcv=(ShimmerRecyclerView) itemView.findViewById(R.id.amenitiesListrcv);
+        ItemViewHolder(HotelAmenitiesListItemBinding hotelAmenitiesListItemBinding) {
+            super(hotelAmenitiesListItemBinding.getRoot());
+
+            this.hotelAmenitiesListItemBinding=hotelAmenitiesListItemBinding;
         }
 
     }

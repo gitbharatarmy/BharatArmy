@@ -35,8 +35,10 @@
 
     <integer name="add_remove_duration">450</integer>
     <dimen name="google_1x">8dp</dimen>
-
-
+    <!--More Screen Dimens-->
+<dimen name="more_rowTop">@dimen/_15sdp</dimen>
+<dimen name="more_rowLeft">@dimen/_15sdp</dimen>
+    <dimen name="more_rowRight">@dimen/_15sdp</dimen>
     <!--walkthorugh-->
     <!--Welcome sliding page  -->
     <dimen name="welcome_images_size">360.0dip</dimen>

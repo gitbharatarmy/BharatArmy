@@ -8,12 +8,15 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
+import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bharatarmy.Interfaces.image_click;
 import com.bharatarmy.Models.ImageDetailModel;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.Utils;
+import com.bharatarmy.databinding.ImageListBinding;
+import com.bharatarmy.databinding.ItemLoadingBinding;
 import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 
@@ -35,18 +38,20 @@ public class ImageListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public ImageListAdapter(Context mContext, List<ImageDetailModel> itemList, image_click image_click) {
         this.mContext = mContext;
         this.mItemList = itemList;
-        this.image_click=image_click;
+        this.image_click = image_click;
     }
 
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         if (viewType == VIEW_TYPE_ITEM) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.image_list, parent, false);
-            return new ItemViewHolder(view);
+            ImageListBinding imageListBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
+                    R.layout.image_list, parent, false);
+            return new ImageListAdapter.ItemViewHolder(imageListBinding);
         } else {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_loading, parent, false);
-            return new LoadingViewHolder(view);
+            ItemLoadingBinding itemLoadingBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
+                    R.layout.item_loading, parent, false);
+            return new ImageListAdapter.LoadingViewHolder(itemLoadingBinding);
         }
     }
 
@@ -79,24 +84,22 @@ public class ImageListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     private class ItemViewHolder extends RecyclerView.ViewHolder {
 
-        ImageView imageView;
+        ImageListBinding imageListBinding;
 
-
-        public ItemViewHolder(@NonNull View itemView) {
-            super(itemView);
-
-            imageView = itemView.findViewById(R.id.fans_image);
+        public ItemViewHolder(@NonNull ImageListBinding imageListBinding) {
+            super(imageListBinding.getRoot());
+            this.imageListBinding = imageListBinding;
 
         }
     }
 
     private class LoadingViewHolder extends RecyclerView.ViewHolder {
+        ItemLoadingBinding itemLoadingBinding;
 
-        ProgressBar progressBar;
 
-        public LoadingViewHolder(@NonNull View itemView) {
-            super(itemView);
-            progressBar = itemView.findViewById(R.id.progressBar);
+        public LoadingViewHolder(@NonNull ItemLoadingBinding itemLoadingBinding) {
+            super(itemLoadingBinding.getRoot());
+            this.itemLoadingBinding = itemLoadingBinding;
         }
     }
 
@@ -107,16 +110,11 @@ public class ImageListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     private void populateItemRows(ItemViewHolder viewHolder, final int position) {
 
-       final ImageDetailModel detail= mItemList.get(position);
-//        viewHolder.tvItem.setText(item);
-//        Picasso.with(mContext)
-//                .load(detail.getGalleryURL())
-//                .placeholder(R.drawable.progress_animation)
-//                .into(viewHolder.imageView);
+        final ImageDetailModel detail = mItemList.get(position);
 
-        Utils.setImageInImageView(detail.getGalleryURL(),viewHolder.imageView,mContext);
+        Utils.setImageInImageView(detail.getGalleryURL(), viewHolder.imageListBinding.fansImage, mContext);
 
-        viewHolder.imageView.setOnClickListener(new View.OnClickListener() {
+        viewHolder.imageListBinding.fansImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dataCheck = new ArrayList<String>();
@@ -132,7 +130,7 @@ public class ImageListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     }
 
 
-    public void addMoreDataToList(List<ImageDetailModel> result){
+    public void addMoreDataToList(List<ImageDetailModel> result) {
         mItemList.addAll(result);
         notifyDataSetChanged();
     }

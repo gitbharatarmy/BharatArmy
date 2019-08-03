@@ -263,18 +263,6 @@
                         android:textSize="@dimen/_10sdp" />
                 </LinearLayout>
 
-                <!--<TextView-->
-                    <!--android:id="@+id/upcoming_txt"-->
-                    <!--style="@style/title_text_font"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:gravity="center_vertical|center"-->
-                    <!--android:paddingTop="@dimen/_5sdp"-->
-                    <!--android:text="@string/upcoming"-->
-                    <!--android:textColor="@color/heading_bg"-->
-                    <!--android:textSize="@dimen/_13sdp" />-->
-
-                <!--<include layout="@layout/star_line_view" />-->
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -336,13 +324,7 @@
                 app:shimmer_demo_layout_manager_type="linear_horizontal"
                 app:shimmer_demo_shimmer_color="#21ffffff" />
 
-            <!--<android.support.v7.widget.RecyclerView-->
-            <!--android:id="@+id/upcoming_rcyList"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:layout_marginLeft="@dimen/_10sdp"-->
-            <!--android:layout_marginRight="@dimen/_10sdp"-->
-            <!--android:layout_marginBottom="@dimen/_10sdp"/>-->
+
         </LinearLayout>
 
         <LinearLayout

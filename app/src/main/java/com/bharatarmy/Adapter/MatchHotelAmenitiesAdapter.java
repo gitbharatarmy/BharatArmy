@@ -31,11 +31,9 @@ public class MatchHotelAmenitiesAdapter extends RecyclerView.Adapter<MatchHotelA
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         MatchHotelAmenitiesItemBinding matchHotelAmenitiesItemBinding;
-//        ImageView amenities_image;
+
         public MyViewHolder(MatchHotelAmenitiesItemBinding matchHotelAmenitiesItemBinding) {
             super(matchHotelAmenitiesItemBinding.getRoot());
-//            amenities_image=(ImageView)view.findViewById(R.id.amenities_image);
-
             this.matchHotelAmenitiesItemBinding=matchHotelAmenitiesItemBinding;
         }
     }
@@ -43,11 +41,6 @@ public class MatchHotelAmenitiesAdapter extends RecyclerView.Adapter<MatchHotelA
 
     @Override
     public MatchHotelAmenitiesAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-//        View itemView = LayoutInflater.from(parent.getContext())
-//                .inflate(R.layout.match_hotel_amenities_item, parent, false);
-//
-//        return new MatchHotelAmenitiesAdapter.MyViewHolder(itemView);
-
         MatchHotelAmenitiesItemBinding matchHotelAmenitiesItemBinding= DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),R.layout.match_hotel_amenities_item,parent,false);
         return new MyViewHolder(matchHotelAmenitiesItemBinding);
     }
@@ -57,7 +50,6 @@ public class MatchHotelAmenitiesAdapter extends RecyclerView.Adapter<MatchHotelA
 
     public void onBindViewHolder(MatchHotelAmenitiesAdapter.MyViewHolder holder, int position) {
         TravelModel amenitiesdetail= matchHotelAmenitiesList.get(position);
-//        Utils.setImageInImageView(amenitiesdetail.getCityHotelAmenitiesImage(),holder.amenities_image,mContext);
 
         Utils.setImageInImageView(amenitiesdetail.getCityHotelAmenitiesImage(),holder.matchHotelAmenitiesItemBinding.amenitiesImage,mContext);
     }

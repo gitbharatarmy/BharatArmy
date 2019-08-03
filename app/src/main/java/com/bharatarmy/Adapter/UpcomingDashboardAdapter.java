@@ -101,7 +101,7 @@ public class UpcomingDashboardAdapter extends RecyclerView.Adapter<UpcomingDashb
         } else {
             holder.upcomingTournamentListNewBinding.linear3Txt.setVisibility(View.GONE);
         }
-  holder.upcomingTournamentListNewBinding.armyUpcomingHeaderTxt.setOnClickListener(new View.OnClickListener() {
+  holder.upcomingTournamentListNewBinding.upcomingCard.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
           Intent ftpIntent =new Intent(mcontext, FTPDetailsActivity.class);

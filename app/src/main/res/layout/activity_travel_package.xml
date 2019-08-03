@@ -128,7 +128,8 @@
                         app:tabPaddingBottom="@dimen/_5sdp"
                         app:tabPaddingTop="@dimen/_5sdp"
                         app:tabSelectedTextColor="@color/orange"
-                        app:tabTextColor="@color/normal_font_color" />
+                        app:tabTextColor="@color/normal_font_color"
+                        android:clipToPadding="true"/>
                 </LinearLayout>
             </com.google.android.material.appbar.CollapsingToolbarLayout>
         </com.google.android.material.appbar.AppBarLayout>

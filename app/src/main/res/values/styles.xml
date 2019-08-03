@@ -224,6 +224,11 @@
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">14sp</item>
     </style>
+
+    <style name="MyPopupMenu" parent="@style/Widget.AppCompat.PopupMenu">
+        <item name="android:dropDownHorizontalOffset">-20dp</item>
+        <item name="android:dropDownVerticalOffset">4dp</item>
+    </style>
 </resources>
 
 

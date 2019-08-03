@@ -24,6 +24,7 @@ import com.bharatarmy.Models.ImageDetailModel;
 import com.bharatarmy.Models.ImageMainModel;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.ApiHandler;
+import com.bharatarmy.Utility.AppConfiguration;
 import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.FragmentStoryBinding;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -223,7 +224,7 @@ public class StoryFragment extends Fragment {
     private Map<String, String> getStoryData() {
         Map<String, String> map = new HashMap<>();
         map.put("PageIndex", String.valueOf(pageIndex));
-        map.put("PageSize", "14");
+        map.put("PageSize", AppConfiguration.pageSize);
         return map;
     }
 
@@ -245,8 +246,6 @@ public class StoryFragment extends Fragment {
                 // slide-up animation
                 Animation slideUp = AnimationUtils.loadAnimation(mContext, R.anim.slide_out_right);
                     fragmentStoryBinding.storyRcyList.startAnimation(slideUp);
-//                    fragmentStoryBinding.shimmerViewContainer.setVisibility(View.GONE);
-//                    fragmentStoryBinding.refreshView.setVisibility(View.GONE);
                     fragmentStoryBinding.storyRcyList.setVisibility(View.GONE);
                 wheretocome="Story";
                 mListener.onStoryCategory(categoryIdStr,categoryNameStr,wheretocome);

@@ -34,6 +34,11 @@ public class LoginDataModel {
     @SerializedName("ProfilePicUrl")
     @Expose
     private String profilePicUrl;
+
+    @SerializedName("IsBAAdmin")
+    @Expose
+    private Integer isBAAdmin;
+
     public String getEmail() {
         return email;
     }
@@ -110,9 +115,15 @@ public class LoginDataModel {
         this.profilePicUrl = profilePicUrl;
     }
 
+    public Integer getIsBAAdmin() {
+        return isBAAdmin;
+    }
 
+    public void setIsBAAdmin(Integer isBAAdmin) {
+        this.isBAAdmin = isBAAdmin;
+    }
 
-//    Signup Response
+    //    Signup Response
     @SerializedName("CountryISOCode")
     @Expose
     private String countryISOCode;

@@ -111,7 +111,7 @@
      android:layout_below="@id/container"
         android:layout_marginTop="-20dp"
         android:layout_marginRight="@dimen/_20sdp"
-        android:background="@drawable/curve_shape"
+        android:background="@drawable/home_bookbtn_shape"
         android:visibility="visible">
 
         <TextView

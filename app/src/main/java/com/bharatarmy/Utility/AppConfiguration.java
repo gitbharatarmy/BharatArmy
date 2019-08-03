@@ -16,4 +16,7 @@ public class AppConfiguration {
     public static String firstDashStr;
     public static String tabPosition;
     public static boolean tabselected=true;
+    public static String  pageSize="14";
+    public static String inquiryId;
+    public static int selectedposition;
 }

@@ -1,6 +1,7 @@
 package com.bharatarmy.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
@@ -12,6 +13,8 @@ import android.widget.TextView;
 
 import androidx.viewpager.widget.PagerAdapter;
 
+import com.bharatarmy.Activity.RegisterInterestActivity;
+import com.bharatarmy.Activity.TravelMatchDetailActivity;
 import com.bharatarmy.Models.HomeTemplateDetailModel;
 import com.bharatarmy.Models.TravelModel;
 import com.bharatarmy.R;
@@ -51,7 +54,14 @@ public class MyPagerAdapter extends PagerAdapter {
             book_linear.setVisibility(View.GONE);
             bottom_gradiant_view.setVisibility(View.GONE);
             Utils.setImageInImageView(homeTemplateDetailModelList.get(position).getSecondHeaderImageUrl(), image, mContext);
-
+            template2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent registerIntent=new Intent(mContext, RegisterInterestActivity.class);
+                    registerIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    mContext.startActivity(registerIntent);
+                }
+            });
         } else {
             template1.setVisibility(View.VISIBLE);
             template2.setVisibility(View.GONE);
@@ -70,6 +80,15 @@ public class MyPagerAdapter extends PagerAdapter {
                 tag_txt.setText(homeTemplateDetailModelList.get(position).getSecondHeaderTag());
 
             }
+
+            book_linear.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent registerIntent=new Intent(mContext, TravelMatchDetailActivity.class);
+                    registerIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    mContext.startActivity(registerIntent);
+                }
+            });
 
 
         }

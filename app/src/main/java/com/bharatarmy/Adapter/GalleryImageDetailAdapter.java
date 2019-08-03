@@ -2,17 +2,21 @@ package com.bharatarmy.Adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.alexvasilkov.gestures.views.GestureImageView;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.Utils;
+import com.bharatarmy.databinding.GalleryImageDetailListBinding;
+
 import java.util.List;
 
 
@@ -44,13 +48,17 @@ public class GalleryImageDetailAdapter extends RecyclerView.Adapter<GalleryImage
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        private ImageView galleryimageListImg;
-        private GestureImageView fullimage;
 
-       public MyViewHolder(View view) {
-            super(view);
-            galleryimageListImg = (ImageView) view.findViewById(R.id.image_detail_img);
-            fullimage=(GestureImageView)view.findViewById(R.id.image_full);
+        GalleryImageDetailListBinding galleryImageDetailListBinding;
+
+//        private ImageView galleryimageListImg;
+//        private GestureImageView fullimage;
+
+       public MyViewHolder(GalleryImageDetailListBinding galleryImageDetailListBinding) {
+            super(galleryImageDetailListBinding.getRoot());
+            this.galleryImageDetailListBinding=galleryImageDetailListBinding;
+//            galleryimageListImg = (ImageView) view.findViewById(R.id.image_detail_img);
+//            fullimage=(GestureImageView)view.findViewById(R.id.image_full);
 
         }
     }
@@ -58,30 +66,20 @@ public class GalleryImageDetailAdapter extends RecyclerView.Adapter<GalleryImage
 
     @Override
     public GalleryImageDetailAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.gallery_image_detail_list, parent, false);
-
-        return new GalleryImageDetailAdapter.MyViewHolder(itemView);
+//        View itemView = LayoutInflater.from(parent.getContext())
+//                .inflate(R.layout.gallery_image_detail_list, parent, false);
+//
+//        return new GalleryImageDetailAdapter.MyViewHolder(itemView);
+        GalleryImageDetailListBinding galleryImageDetailListBinding= DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
+                R.layout.gallery_image_detail_list,parent,false);
+        return new GalleryImageDetailAdapter.MyViewHolder(galleryImageDetailListBinding);
     }
 
     @SuppressLint("ResourceAsColor")
     @Override
     public void onBindViewHolder(GalleryImageDetailAdapter.MyViewHolder holder, int position) {
-
-//        ImageDetailModel item= imageList.get(position);
-//        Glide.with(mContext)
-//                .load(imageList.get(position))
-//                .placeholder(R.drawable.progress_animation)
-//                .into(holder.galleryimageListImg);
-
-//
-//        Picasso.with(mContext)
-//                .load(imageList.get(position))
-//                .placeholder(R.drawable.progress_animation)
-//                .into(holder.fullimage);
-
-        Utils.setImageInImageView(imageList.get(position),holder.fullimage,mContext);
-        holder.fullimage.getPositionAnimator().enter(holder.galleryimageListImg, false);
+        Utils.setImageInImageView(imageList.get(position),holder.galleryImageDetailListBinding.imageFull,mContext);
+        holder.galleryImageDetailListBinding.imageFull.getPositionAnimator().enter(holder.galleryImageDetailListBinding.imageDetailImg, false);
 
 
     }

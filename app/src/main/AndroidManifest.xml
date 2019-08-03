@@ -26,16 +26,21 @@
         android:largeHeap="true"
         android:roundIcon="@drawable/app_logo"
         android:supportsRtl="true">
-        <activity android:name=".Activity.ViewPagerActivity"
+        <activity android:name=".Activity.InquriyActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme">
-
-
-        </activity>
+            android:theme="@style/AppTheme" ></activity>
+        <activity
+            android:name=".Activity.RegisterInterestActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".Activity.ViewPagerActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".Activity.DemoActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".Activity.TravelBookActivity"
             android:screenOrientation="portrait"

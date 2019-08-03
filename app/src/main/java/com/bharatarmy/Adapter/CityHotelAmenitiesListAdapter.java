@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bharatarmy.Activity.MoreStoryActivity;
@@ -18,6 +19,7 @@ import com.bharatarmy.Models.StoryDashboardData;
 import com.bharatarmy.Models.TravelModel;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.Utils;
+import com.bharatarmy.databinding.HotelAmenitiesItemBinding;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -34,25 +36,27 @@ public class CityHotelAmenitiesListAdapter extends RecyclerView.Adapter<CityHote
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-ImageView amenities_image;
-TextView amenities_nameTxt;
+//ImageView amenities_image;
+//TextView amenities_nameTxt;
+
+        HotelAmenitiesItemBinding hotelAmenitiesItemBinding;
 
 
+        public MyViewHolder(HotelAmenitiesItemBinding hotelAmenitiesItemBinding) {
+            super(hotelAmenitiesItemBinding.getRoot());
+//            amenities_image=(ImageView)view.findViewById(R.id.amenities_image);
+//            amenities_nameTxt=(TextView)view.findViewById(R.id.amenities_nameTxt);
 
-        public MyViewHolder(View view) {
-            super(view);
-            amenities_image=(ImageView)view.findViewById(R.id.amenities_image);
-            amenities_nameTxt=(TextView)view.findViewById(R.id.amenities_nameTxt);
+            this.hotelAmenitiesItemBinding=hotelAmenitiesItemBinding;
         }
     }
 
 
     @Override
     public CityHotelAmenitiesListAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.hotel_amenities_item, parent, false);
-
-        return new CityHotelAmenitiesListAdapter.MyViewHolder(itemView);
+       HotelAmenitiesItemBinding hotelAmenitiesItemBinding= DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
+               R.layout.hotel_amenities_item,parent,false);
+       return new CityHotelAmenitiesListAdapter.MyViewHolder(hotelAmenitiesItemBinding);
     }
 
     @SuppressLint("ResourceAsColor")
@@ -60,8 +64,8 @@ TextView amenities_nameTxt;
     public void onBindViewHolder(CityHotelAmenitiesListAdapter.MyViewHolder holder, int position) {
 TravelModel amenitiesDetail=cityHotelAmenitiesList.get(position);
 
-        Utils.setImageInImageView(amenitiesDetail.getCityHotelAmenitiesImage(),holder.amenities_image,mContext);
-holder.amenities_nameTxt.setText(amenitiesDetail.getCityHotelAmenitiesName());
+        Utils.setImageInImageView(amenitiesDetail.getCityHotelAmenitiesImage(),holder.hotelAmenitiesItemBinding.amenitiesImage,mContext);
+holder.hotelAmenitiesItemBinding.amenitiesNameTxt.setText(amenitiesDetail.getCityHotelAmenitiesName());
     }
 
     @Override

@@ -6,6 +6,7 @@ import com.bharatarmy.Models.HomeTemplateModel;
 import com.bharatarmy.Models.ImageMainModel;
 import com.bharatarmy.Models.LogginModel;
 import com.bharatarmy.Models.LoginDataModel;
+import com.bharatarmy.Models.MoreDataModel;
 import com.bharatarmy.Models.OtpModel;
 import com.bharatarmy.Models.TravelMainModel;
 
@@ -102,4 +103,20 @@ public interface WebServices {
     @FormUrlEncoded
     @POST("/GetItineraryDetailByDayNo")
     void getItineraryDetailByDayNo(@FieldMap Map<String, String> map, Callback<TravelMainModel> callback);
+
+    @FormUrlEncoded
+    @POST("/GetTournamntInquiry")
+    void getTournamntInquiry(@FieldMap Map<String, String> map, Callback<MoreDataModel> callback);
+
+    @FormUrlEncoded
+    @POST("/GetInquiryDetail")
+    void getInquiryDetail(@FieldMap Map<String, String> map, Callback<MoreDataModel> callback);
+
+    @FormUrlEncoded
+    @POST("/GetInquiryAssignUser")
+    void getInquiryAssignUser(@FieldMap Map<String, String> map, Callback<MoreDataModel> callback);
+
+    @FormUrlEncoded
+    @POST("/AssingUsertoInquiry")
+    void getAssingUsertoInquiry(@FieldMap Map<String, String> map, Callback<MoreDataModel> callback);
 }
