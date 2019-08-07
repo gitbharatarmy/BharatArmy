@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.ContentUris;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
@@ -28,6 +29,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.util.Patterns;
 import android.util.TypedValue;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -37,8 +39,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 
+import com.bharatarmy.Activity.InquriyActivity;
+import com.bharatarmy.Activity.RegisterInterestActivity;
 import com.bharatarmy.R;
 import com.bumptech.glide.Glide;
 import com.google.i18n.phonenumbers.NumberParseException;
@@ -294,7 +299,6 @@ public class Utils {
     }
 
 
-
     public static boolean isValidPhoneNumber(CharSequence phoneNumber) {
         if (!TextUtils.isEmpty(phoneNumber)) {
             return Patterns.PHONE.matcher(phoneNumber).matches();
@@ -330,20 +334,19 @@ public class Utils {
         return anImage;
     }
 
-    public static boolean appInstalledOrNot(String uri,Context mContext) {
+    public static boolean appInstalledOrNot(String uri, Context mContext) {
         PackageManager pm = mContext.getPackageManager();
         boolean app_installed;
         try {
             pm.getPackageInfo(uri, PackageManager.GET_ACTIVITIES);
             app_installed = true;
-        }
-        catch (PackageManager.NameNotFoundException e) {
+        } catch (PackageManager.NameNotFoundException e) {
             app_installed = false;
         }
         return app_installed;
     }
 
-    public static void setImageInImageView(String imageUrl,ImageView view,Context mContext){
+    public static void setImageInImageView(String imageUrl, ImageView view, Context mContext) {
         Picasso.with(mContext)
                 .load(imageUrl)
                 .placeholder(R.drawable.loader)
@@ -351,14 +354,15 @@ public class Utils {
 
     }
 
-    public static boolean isReadStorageGranted (Context context) {
+    public static boolean isReadStorageGranted(Context context) {
         int storagePermissionGranted = ContextCompat.checkSelfPermission(context,
                 Manifest.permission.READ_EXTERNAL_STORAGE);
         return storagePermissionGranted == PackageManager.PERMISSION_GRANTED;
     }
 
-    public static void checkPermission (Activity activity, String permissionString, int permissionCode) {
-        if ((android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.M) || activity.getApplicationContext() == null) return;
+    public static void checkPermission(Activity activity, String permissionString, int permissionCode) {
+        if ((android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.M) || activity.getApplicationContext() == null)
+            return;
         int existingPermissionStatus = ContextCompat.checkSelfPermission(activity.getApplicationContext(),
                 permissionString);
         if (existingPermissionStatus == PackageManager.PERMISSION_GRANTED) return;
@@ -368,7 +372,6 @@ public class Utils {
     public static int dpToPx(int dp) {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, Resources.getSystem().getDisplayMetrics());
     }
-
 
 
     public static void showUpdateDialog(final Activity activity) {
@@ -382,22 +385,47 @@ public class Utils {
 
 
         Button update = (Button) dialog.findViewById(R.id.update_btn);
-        TextView notnow_txt=(TextView)dialog.findViewById(R.id.notnow_txt);
+        TextView notnow_txt = (TextView) dialog.findViewById(R.id.notnow_txt);
 
-       update.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View v) {
-               dialog.dismiss();
-           }
-       });
+        update.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
 
-       notnow_txt.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View v) {
-               dialog.dismiss();
-           }
-       });
+        notnow_txt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
         dialog.show();
     }
 
+    public static void showThanyouDialog(final Activity activity,String wheretocome) {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity);
+        LayoutInflater inflater = activity.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.thankyou_dialog_item, null);
+        dialogBuilder.setView(dialogView);
+        AlertDialog alertDialog = dialogBuilder.create();
+        alertDialog.setCanceledOnTouchOutside(false);
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        TextView hometxt = (TextView) dialogView.findViewById(R.id.home_txt);
+        hometxt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+//                if (wheretocome.equalsIgnoreCase("Inquriy")){
+//                    Intent i=new Intent(activity, InquriyActivity.class);
+//                    activity.startActivity(i);
+//                }else{
+//                    Intent i=new Intent(activity, RegisterInterestActivity.class);
+//                    activity.startActivity(i);
+//                }
+
+            }
+        });
+        alertDialog.show();
+    }
 }

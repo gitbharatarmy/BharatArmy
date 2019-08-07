@@ -88,7 +88,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setContentTitle("Bharat Army")//
                 .setContentText(remoteMessage.getData().get("body"))//remoteMessage.getNotification().getBody()
                 .setContentIntent(pendingNotificationIntent)
-                .setAutoCancel(true).build();
+                .setAutoCancel(true)
+                .setLargeIcon(Utils.DrawableToBitMap(R.drawable.proflie,ctx))
+                .setStyle(new NotificationCompat.BigPictureStyle()
+                        .bigPicture(Utils.DrawableToBitMap(R.drawable.proflie,ctx))
+                        .bigLargeIcon(null))
+                .build();
 
         noti.flags |= Notification.FLAG_ONLY_ALERT_ONCE;
         noti.flags |= Notification.FLAG_AUTO_CANCEL;

@@ -3,36 +3,30 @@ package com.bharatarmy.Activity;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.PopupMenu;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bharatarmy.Adapter.InquiryAssignAdapter;
+import com.bharatarmy.Adapter.InquiryFilterListAdapter;
 import com.bharatarmy.Adapter.InquiryListAdapter;
-import com.bharatarmy.Adapter.UpcomingDashboardAdapter;
 import com.bharatarmy.Fragment.InquiryChildInformationFragment;
 import com.bharatarmy.Fragment.InquiryFilterFragment;
-import com.bharatarmy.Fragment.PacakgeSummaryBottomSheetDialogFragment;
 import com.bharatarmy.Interfaces.MorestoryClick;
 import com.bharatarmy.Interfaces.image_click;
-import com.bharatarmy.Models.ImageDetailModel;
-import com.bharatarmy.Models.LogginModel;
+import com.bharatarmy.Models.InquiryOtherDataModel;
 import com.bharatarmy.Models.MoreDataModel;
 import com.bharatarmy.Models.MoreDetailDataModel;
-import com.bharatarmy.Models.UpcommingDashboardModel;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.ApiHandler;
 import com.bharatarmy.Utility.AppConfiguration;
@@ -43,6 +37,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -53,18 +48,23 @@ import retrofit.client.Response;
 public class InquriyActivity extends AppCompatActivity implements View.OnClickListener {
     ActivityInquriyBinding activityInquriyBinding;
     Context mContext;
-    InquiryListAdapter inquiryListAdapter;
+    String orderstatusStr = "", ordertypeStr = "";
+    InquiryListAdapter inquiryListAdapter, inquiryafterfilterListAdapter;
+
+    InquiryFilterListAdapter inquiryFilterListAdapter;
     List<MoreDetailDataModel> moreDetailDataModelList;
-    int pageindex = 0;
+
     boolean isLoading = false;
     LinearLayoutManager mLayoutManager;
     BottomSheetDialogFragment bottomSheetDialogFragment, bottomSheet1DialogFragment;
     InquiryAssignAdapter inquiryAssignAdapter;
     List<MoreDetailDataModel> assignmemberlist;
+    InquiryOtherDataModel filtertaglist;
+    int selectedposition = -1;
     RecyclerView inquiry_assign_rcv;
     ShimmerFrameLayout shimmer_view_containerdialog;
     String assignmemberId;
-
+    List<MoreDetailDataModel> galleryImageUrl = new ArrayList<>();
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,7 +83,8 @@ public class InquriyActivity extends AppCompatActivity implements View.OnClickLi
         activityInquriyBinding.inquriyListRcv.setLayoutManager(mLayoutManager);
         activityInquriyBinding.inquriyListRcv.setItemAnimator(new DefaultItemAnimator());
         activityInquriyBinding.shimmerViewContainer.startShimmerAnimation();
-
+        AppConfiguration.whereToCall = "Main";
+        AppConfiguration.pageindex = 0;
     }
 
     public void setListiner() {
@@ -103,9 +104,10 @@ public class InquriyActivity extends AppCompatActivity implements View.OnClickLi
 
                 if (!isLoading) {
                     if (moreDetailDataModelList != null) {
-                        if (mLayoutManager != null && mLayoutManager.findLastCompletelyVisibleItemPosition() == moreDetailDataModelList.size() - 1) {
+                        if (mLayoutManager != null&& mLayoutManager.findLastCompletelyVisibleItemPosition() == moreDetailDataModelList.size()-1) {
                             //bottom of list!
-                            pageindex = pageindex + 1;
+                            AppConfiguration.pageindex = AppConfiguration.pageindex + 1;
+                            Log.d("pageIndexonScroll :", ""+AppConfiguration.pageindex);
                             loadMore();
 
                         }
@@ -120,10 +122,36 @@ public class InquriyActivity extends AppCompatActivity implements View.OnClickLi
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.back_img:
+                AppConfiguration.ordertypefilterarray.clear();
+                AppConfiguration.inquirystatusfilterarray.clear();
                 InquriyActivity.this.finish();
                 break;
             case R.id.fab_linear:
-                bottomSheetDialogFragment = new InquiryFilterFragment();
+                bottomSheetDialogFragment = new InquiryFilterFragment(filtertaglist, new image_click() {
+                    @Override
+                    public void image_more_click() {
+                        ordertypeStr = "";
+                        orderstatusStr = "";
+                        AppConfiguration.pageindex = 0;
+                        recreate();
+                        bottomSheetDialogFragment.dismiss();
+                    }
+                }, new MorestoryClick() {
+                    @Override
+                    public void getmorestoryClick() {
+                        orderstatusStr = AppConfiguration.inquirystatusfilterarray.toString().substring(1, AppConfiguration.inquirystatusfilterarray.toString().length() - 1);
+
+                        ordertypeStr = AppConfiguration.ordertypefilterarray.toString().substring(1, AppConfiguration.ordertypefilterarray.toString().length() - 1);
+
+                        Log.d("orderstatusStr :", orderstatusStr + "ordertypeStr" + ordertypeStr);
+                        activityInquriyBinding.shimmerViewContainer.setVisibility(View.VISIBLE);
+                        activityInquriyBinding.inquriyListRcv.setVisibility(View.GONE);
+                        activityInquriyBinding.shimmerViewContainer.startShimmerAnimation();
+moreDetailDataModelList.clear();
+                        callInquriyfilterData();
+                        bottomSheetDialogFragment.dismiss();
+                    }
+                });
                 //show it
                 bottomSheetDialogFragment.setCancelable(false);
                 bottomSheetDialogFragment.show(getSupportFragmentManager(), bottomSheetDialogFragment.getTag());
@@ -160,7 +188,9 @@ public class InquriyActivity extends AppCompatActivity implements View.OnClickLi
                     if (moreDataModel.getData() != null) {
 
                         moreDetailDataModelList = moreDataModel.getData();
+                        filtertaglist = moreDataModel.getOtherData();
 
+                        Log.d("moreDetailDataModelList", "" + moreDetailDataModelList.size());
                         activityInquriyBinding.shimmerViewContainer.stopShimmerAnimation();
                         activityInquriyBinding.shimmerViewContainer.setVisibility(View.GONE);
                         activityInquriyBinding.inquriyListRcv.setVisibility(View.VISIBLE);
@@ -169,15 +199,14 @@ public class InquriyActivity extends AppCompatActivity implements View.OnClickLi
                             inquiryListAdapter.addMoreDataToList(moreDetailDataModelList);
                             // just append more data to current list
                         } else if (inquiryListAdapter != null && moreDetailDataModelList.size() == 0) {
+//                            Utils.ping(mContext,"No more data available");
+                            Log.d("pageIndex", "" + AppConfiguration.pageindex);
                             isLoading = true;
                             addOldNewValue(moreDetailDataModelList);
                         } else {
                             fillInquiryData();
                         }
-
-
                     }
-
                 }
             }
 
@@ -195,8 +224,10 @@ public class InquriyActivity extends AppCompatActivity implements View.OnClickLi
     private Map<String, String> getInquriyData() {
         Map<String, String> map = new HashMap<>();
         map.put("PageSize", AppConfiguration.pageSize);
-        map.put("PageIndex", String.valueOf(pageindex));
+        map.put("PageIndex", String.valueOf(AppConfiguration.pageindex));
         map.put("MemberId", Utils.getPref(mContext, "AppUserId"));
+        map.put("ordertype", ordertypeStr);
+        map.put("orderstatus", orderstatusStr);
         return map;
     }
 
@@ -229,10 +260,10 @@ public class InquriyActivity extends AppCompatActivity implements View.OnClickLi
                 submit_linear.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Log.d("assignmemberId :" , ""+AppConfiguration.selectedposition);
+                        Log.d("assignmemberId :", "" + AppConfiguration.selectedposition);
                         callInquriyAssignData();
-
                         alertDialog.dismiss();
+                        showThankyouDialog();
                     }
                 });
                 callInquriyAssignUserData();
@@ -253,14 +284,22 @@ public class InquriyActivity extends AppCompatActivity implements View.OnClickLi
 
 
         activityInquriyBinding.inquriyListRcv.setAdapter(inquiryListAdapter);
+        inquiryListAdapter.notifyDataSetChanged();
     }
 
+
     private void loadMore() {
-        callInquriyData();
+        if (AppConfiguration.whereToCall.equalsIgnoreCase("filter")){
+            callInquriyfilterData();
+        }else{
+            callInquriyData();
+        }
+
     }
 
     public void addOldNewValue(List<MoreDetailDataModel> result) {
-        Log.d("resultSize", "" + result.size());
+        galleryImageUrl.addAll(result);
+        Log.d("resultSize", "" + galleryImageUrl.size());
 
     }
 
@@ -302,7 +341,13 @@ public class InquriyActivity extends AppCompatActivity implements View.OnClickLi
                         shimmer_view_containerdialog.stopShimmerAnimation();
                         shimmer_view_containerdialog.setVisibility(View.GONE);
                         inquiry_assign_rcv.setVisibility(View.VISIBLE);
-                        inquiryAssignAdapter = new InquiryAssignAdapter(mContext, assignmemberlist, new MorestoryClick() {
+                        for (int i = 0; i < assignmemberlist.size(); i++) {
+                            if (assignmemberlist.get(i).getIsSelected().equals(1)) {
+                                selectedposition = i;
+                            }
+                        }
+                        Log.d("selectedposition : ", "" + selectedposition);
+                        inquiryAssignAdapter = new InquiryAssignAdapter(mContext, assignmemberlist, selectedposition, new MorestoryClick() {
                             @Override
                             public void getmorestoryClick() {
 
@@ -333,7 +378,7 @@ public class InquriyActivity extends AppCompatActivity implements View.OnClickLi
 
     private Map<String, String> getInquriyAssignUserData() {
         Map<String, String> map = new HashMap<>();
-
+        map.put("InquiryId", AppConfiguration.inquiryId);
         return map;
     }
 
@@ -368,7 +413,7 @@ public class InquriyActivity extends AppCompatActivity implements View.OnClickLi
                         shimmer_view_containerdialog.stopShimmerAnimation();
                         shimmer_view_containerdialog.setVisibility(View.GONE);
                         inquiry_assign_rcv.setVisibility(View.VISIBLE);
-                        inquiryAssignAdapter = new InquiryAssignAdapter(mContext, assignmemberlist, new MorestoryClick() {
+                        inquiryAssignAdapter = new InquiryAssignAdapter(mContext, assignmemberlist, selectedposition, new MorestoryClick() {
                             @Override
                             public void getmorestoryClick() {
 
@@ -401,5 +446,186 @@ public class InquriyActivity extends AppCompatActivity implements View.OnClickLi
         map.put("InquiryId", AppConfiguration.inquiryId);
         map.put("AssignMemberId", String.valueOf(AppConfiguration.selectedposition));
         return map;
+    }
+
+
+    public void showThankyouDialog() {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(mContext);
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.thankyou_dialog_item, null);
+        dialogBuilder.setView(dialogView);
+        AlertDialog alertDialog = dialogBuilder.create();
+        alertDialog.setCanceledOnTouchOutside(false);
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        TextView hometxt = (TextView) dialogView.findViewById(R.id.home_txt);
+        hometxt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+                bottomSheet1DialogFragment.dismiss();
+
+            }
+        });
+        alertDialog.show();
+    }
+
+
+//    public void selecteTournamentDialog(){
+//        multiSelectDialog = new MultiSelectDialog()
+//                .title(getResources().getString(R.string.multi_select_dialog_title)) //setting title for dialog
+//                .titleSize(25)
+//                .positiveText("Done")
+//                .negativeText("Cancel")
+//                .setMinSelectionLimit(0)
+//                .setMaxSelectionLimit(listOfCountries.size())
+//                .preSelectIDsList(alreadySelectedCountries) //List of ids that you need to be selected
+//                .multiSelectList(listOfCountries) // the multi select model list with ids and name
+//                .onSubmit(new MultiSelectDialog.SubmitCallbackListener() {
+//                    @Override
+//                    public void onSelected(ArrayList<Integer> selectedIds, ArrayList<String> selectedNames, String dataString) {
+//                        //will return list of selected IDS
+//                        for (int i = 0; i < selectedIds.size(); i++) {
+//                            Toast.makeText(mContext, "Selected Ids : " + selectedIds.get(i) + "\n" +
+//                                    "Selected Names : " + selectedNames.get(i) + "\n" +
+//                                    "DataString : " + dataString, Toast.LENGTH_SHORT).show();
+//                        }
+//
+//
+//                    }
+//
+//                    @Override
+//                    public void onCancel() {
+//                        Log.d("dialog","Dialog cancelled");
+//
+//                    }
+//                });
+//    }
+
+
+    public void callInquriyfilterData() {
+        if (!Utils.checkNetwork(mContext)) {
+            Utils.showCustomDialog(getResources().getString(R.string.internet_error), getResources().getString(R.string.internet_connection_error), InquriyActivity.this);
+            return;
+        }
+
+//        Utils.showDialog(mContext);
+        ApiHandler.getApiService().getTournamntInquiry(getInquriyfilterData(), new retrofit.Callback<MoreDataModel>() {
+            @Override
+            public void success(MoreDataModel moreDataModel, Response response) {
+                Utils.dismissDialog();
+
+                if (moreDataModel == null) {
+                    Utils.ping(mContext, getString(R.string.something_wrong));
+                    return;
+                }
+                if (moreDataModel.getIsValid() == null) {
+                    Utils.ping(mContext, getString(R.string.something_wrong));
+                    return;
+                }
+                if (moreDataModel.getIsValid() == 0) {
+                    Utils.ping(mContext, moreDataModel.getMessage());
+                    return;
+                }
+                if (moreDataModel.getIsValid() == 1) {
+                    if (moreDataModel.getData() != null) {
+
+                        moreDetailDataModelList = moreDataModel.getData();
+
+                        activityInquriyBinding.shimmerViewContainer.stopShimmerAnimation();
+                        activityInquriyBinding.shimmerViewContainer.setVisibility(View.GONE);
+                        activityInquriyBinding.inquriyListRcv.setVisibility(View.VISIBLE);
+
+
+                        if (inquiryFilterListAdapter != null && moreDetailDataModelList.size() > 0) {
+                            inquiryFilterListAdapter.addMoreDataToList(moreDetailDataModelList);
+                            // just append more data to current list
+                        } else if (inquiryFilterListAdapter != null && moreDetailDataModelList.size() == 0) {
+                            isLoading = true;
+                            addOldNewValue(moreDetailDataModelList);
+                        } else {
+                            fillInquiryfilterData();
+                        }
+
+
+                    }
+
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Utils.dismissDialog();
+                error.printStackTrace();
+                error.getMessage();
+                Log.d("retrofit error :" , error.getMessage());
+                Utils.ping(mContext, getString(R.string.something_wrong));
+            }
+        });
+
+    }
+
+    private Map<String, String> getInquriyfilterData() {
+        Map<String, String> map = new HashMap<>();
+        map.put("PageSize", AppConfiguration.pageSize);
+        map.put("PageIndex", String.valueOf(AppConfiguration.pageindex));
+        map.put("MemberId", Utils.getPref(mContext, "AppUserId"));
+        map.put("ordertype", ordertypeStr);
+        map.put("orderstatus", orderstatusStr);
+        return map;
+    }
+
+    public void fillInquiryfilterData() {
+
+        inquiryFilterListAdapter = new InquiryFilterListAdapter(mContext, moreDetailDataModelList, new image_click() {
+            @Override
+            public void image_more_click() {
+
+                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(mContext);
+                LayoutInflater inflater = getLayoutInflater();
+                View dialogView = inflater.inflate(R.layout.inquiry_assign_dialog_item, null);
+                dialogBuilder.setView(dialogView);
+                AlertDialog alertDialog = dialogBuilder.create();
+                alertDialog.setCanceledOnTouchOutside(false);
+                alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+                shimmer_view_containerdialog = (ShimmerFrameLayout) dialogView.findViewById(R.id.shimmer_view_containerdialog);
+                inquiry_assign_rcv = (RecyclerView) dialogView.findViewById(R.id.inquiry_assign_rcv);
+                LinearLayout submit_linear = (LinearLayout) dialogView.findViewById(R.id.submit_linear);
+                LinearLayout close_linear = (LinearLayout) dialogView.findViewById(R.id.close_linear);
+                shimmer_view_containerdialog.startShimmerAnimation();
+
+                close_linear.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        alertDialog.dismiss();
+                    }
+                });
+
+                submit_linear.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Log.d("assignmemberId :", "" + AppConfiguration.selectedposition);
+                        callInquriyAssignData();
+                        alertDialog.dismiss();
+                        showThankyouDialog();
+                    }
+                });
+                callInquriyAssignUserData();
+
+                alertDialog.show();
+
+
+            }
+        }, new MorestoryClick() {
+            @Override
+            public void getmorestoryClick() {
+                bottomSheet1DialogFragment = new InquiryChildInformationFragment();
+                //show it
+//                bottomSheet1DialogFragment.setCancelable(false);
+                bottomSheet1DialogFragment.show(getSupportFragmentManager(), bottomSheet1DialogFragment.getTag());
+            }
+        });
+
+
+        activityInquriyBinding.inquriyListRcv.setAdapter(inquiryFilterListAdapter);
     }
 }

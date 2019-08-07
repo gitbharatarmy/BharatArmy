@@ -476,7 +476,9 @@ private String email;
     @SerializedName("IsBAAdmin")
     @Expose
     private Integer isBAAdmin;
-
+    @SerializedName("IsSelected")
+    @Expose
+    private Integer isSelected;
     public String getEmail() {
         return email;
     }
@@ -571,5 +573,14 @@ private String email;
 
     public void setIsBAAdmin(Integer isBAAdmin) {
         this.isBAAdmin = isBAAdmin;
+    }
+
+
+    public Integer getIsSelected() {
+        return isSelected;
+    }
+
+    public void setIsSelected(Integer isSelected) {
+        this.isSelected = isSelected;
     }
 }

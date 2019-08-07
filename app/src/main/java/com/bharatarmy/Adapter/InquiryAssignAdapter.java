@@ -16,7 +16,6 @@ import com.bharatarmy.R;
 import com.bharatarmy.Utility.AppConfiguration;
 import com.bharatarmy.databinding.InquiryAssignlistItemBinding;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class InquiryAssignAdapter extends RecyclerView.Adapter<InquiryAssignAdapter.MyViewHolder> {
@@ -24,11 +23,13 @@ public class InquiryAssignAdapter extends RecyclerView.Adapter<InquiryAssignAdap
     List<MoreDetailDataModel> assignmemberlist;
     MorestoryClick morestoryClick;
     private int lastSelectedPosition = -1;
+    int selectedposition;
 
-    public InquiryAssignAdapter(Context mContext, List<MoreDetailDataModel> assignmemberlist, MorestoryClick morestoryClick) {
-        this.mContext=mContext;
-        this.assignmemberlist=assignmemberlist;
-        this.morestoryClick=morestoryClick;
+    public InquiryAssignAdapter(Context mContext, List<MoreDetailDataModel> assignmemberlist, int selectedposition, MorestoryClick morestoryClick) {
+        this.mContext = mContext;
+        this.assignmemberlist = assignmemberlist;
+        this.morestoryClick = morestoryClick;
+        this.selectedposition=selectedposition;
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
@@ -37,23 +38,6 @@ public class InquiryAssignAdapter extends RecyclerView.Adapter<InquiryAssignAdap
         public MyViewHolder(InquiryAssignlistItemBinding inquiryAssignlistItemBinding) {
             super(inquiryAssignlistItemBinding.getRoot());
             this.inquiryAssignlistItemBinding = inquiryAssignlistItemBinding;
-
-            inquiryAssignlistItemBinding.assignListlinear.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    lastSelectedPosition = getAdapterPosition();
-                    Log.d("selectedposition : ",""+lastSelectedPosition);
-                    notifyDataSetChanged();
-                    AppConfiguration.selectedposition= lastSelectedPosition;
-
-                    for (int i = 0; i < assignmemberlist.size(); i++) {
-                        if (lastSelectedPosition==i) {
-                            AppConfiguration.selectedposition=assignmemberlist.get(i).getId();
-                        }
-
-                    }
-                }
-            });
         }
     }
 
@@ -74,45 +58,44 @@ public class InquiryAssignAdapter extends RecyclerView.Adapter<InquiryAssignAdap
         holder.inquiryAssignlistItemBinding.assignnameTxt.setText(detailDataModel.getName());
         holder.inquiryAssignlistItemBinding.assignemailTxt.setText(detailDataModel.getEmail());
 
-        holder.inquiryAssignlistItemBinding.selectedChk.setChecked(lastSelectedPosition == position);
+        if (selectedposition==position){
+            holder.inquiryAssignlistItemBinding.selectedChk.setChecked(true);
+            AppConfiguration.selectedposition = detailDataModel.getId();
+            Log.d("selectedId : ", "" + AppConfiguration.selectedposition);
+        }else
+        {
+            holder.inquiryAssignlistItemBinding.selectedChk.setChecked(false);
+        }
+
+        holder.inquiryAssignlistItemBinding.assignListlinear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectedposition=position;
+                notifyDataSetChanged();
+            }
+        });
+
+        holder.inquiryAssignlistItemBinding.selectedChk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectedposition=position;
+                notifyDataSetChanged();
+            }
+        });
 
 
-
-//        holder.inquiryAssignlistItemBinding.selectedChk.setChecked(assignmemberlist.get(position).isSelected());
-//        holder.checkBox.setTag(new Integer(position));
+//        if (detailDataModel.getIsSelected().equals(1)){
+//            lastSelectedPosition=detailDataModel.getIsSelected();
+//        }else{
 //
-//        //for default check in first item
-//        if(position == 0 && fonts.get(0).isSelected() && holder.checkBox.isChecked())
-//        {
-//            lastChecked = holder.checkBox;
-//            lastCheckedPos = 0;
 //        }
 //
-//        holder.checkBox.setOnClickListener(new View.OnClickListener()
-//        {
-//            @Override
-//            public void onClick(View v)
-//            {
-//                CheckBox cb = (CheckBox)v;
-//                int clickedPos = ((Integer)cb.getTag()).intValue();
-//
-//                if(cb.isChecked)
-//                {
-//                    if(lastChecked != null)
-//                    {
-//                        lastChecked.setChecked(false);
-//                        fonts.get(lastCheckedPos).setSelected(false);
-//                    }
-//
-//                    lastChecked = cb;
-//                    lastCheckedPos = clickedPos;
-//                }
-//                else
-//                    lastChecked = null;
-//
-//                fonts.get(clickedPos).setSelected(cb.isChecked);
-//            }
-//        });
+//        holder.inquiryAssignlistItemBinding.selectedChk.setChecked(lastSelectedPosition == position);
+
+
+
+
+
     }
 
     @Override

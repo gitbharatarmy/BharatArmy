@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
@@ -24,16 +25,20 @@ import com.bharatarmy.Models.MoreDetailDataModel;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.AppConfiguration;
 import com.bharatarmy.databinding.InquiryListItemBinding;
+import com.bharatarmy.databinding.ItemLoadingBinding;
+import com.bharatarmy.databinding.StoryItemListBinding;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import java.util.List;
 
-public class InquiryListAdapter extends RecyclerView.Adapter<InquiryListAdapter.MyViewHolder> {
+public class InquiryListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     Context mContext;
     List<MoreDetailDataModel> moreDetailDataModelList;
     BottomSheetDialogFragment bottomSheetDialogFragment, bottomSheet1DialogFragment;
     MorestoryClick morestoryClick;
     image_click image_click;
+    private final int VIEW_TYPE_ITEM = 0;
+    private final int VIEW_TYPE_LOADING = 1;
 
     public InquiryListAdapter(Context mContext, List<MoreDetailDataModel> moreDetailDataModelList, image_click image_click, MorestoryClick morestoryClick) {
         this.mContext = mContext;
@@ -52,109 +57,110 @@ public class InquiryListAdapter extends RecyclerView.Adapter<InquiryListAdapter.
         }
     }
 
+    private class LoadingViewHolder extends RecyclerView.ViewHolder {
 
-    @Override
-    public InquiryListAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        InquiryListItemBinding inquiryListItemBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
-                R.layout.inquiry_list_item, parent, false);
-        return new InquiryListAdapter.MyViewHolder(inquiryListItemBinding);
+        ItemLoadingBinding itemLoadingBinding;
+        public LoadingViewHolder(@NonNull ItemLoadingBinding itemLoadingBinding) {
+            super(itemLoadingBinding.getRoot());
+
+            this.itemLoadingBinding=itemLoadingBinding;
+        }
     }
 
-    @SuppressLint("ResourceAsColor")
+    @NonNull
     @Override
-    public void onBindViewHolder(InquiryListAdapter.MyViewHolder holder, int position) {
-        MoreDetailDataModel detailDataModel = moreDetailDataModelList.get(position);
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        if (viewType == VIEW_TYPE_ITEM) {
+            InquiryListItemBinding inquiryListItemBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
+                    R.layout.inquiry_list_item, parent, false);
+            return new InquiryListAdapter.MyViewHolder(inquiryListItemBinding);
+        } else {
+            ItemLoadingBinding itemLoadingBinding=DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
+                    R.layout.item_loading,parent,false);
+            return new InquiryListAdapter.LoadingViewHolder(itemLoadingBinding);
+        }
+    }
+    @Override
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
 
-        holder.inquiryListItemBinding.inquirytypeTxt.setText(detailDataModel.getStrInquiryTypePrefix());
-        holder.inquiryListItemBinding.inquiryuserNametxt.setText(detailDataModel.getCustomerName());
-        holder.inquiryListItemBinding.userEmailtxt.setText(detailDataModel.getCustomerEmail());
-        holder.inquiryListItemBinding.userNotxt.setText(detailDataModel.getCustomerPhoneNo());
-        holder.inquiryListItemBinding.inquirystatusTxt.setText(detailDataModel.getStrOrderStatus());
+        if (holder instanceof MyViewHolder) {
+            MoreDetailDataModel detailDataModel = moreDetailDataModelList.get(position);
 
-        GradientDrawable bgShape = (GradientDrawable) holder.inquiryListItemBinding.inquirytypeLinear.getBackground();
-        bgShape.setColor(Color.parseColor(detailDataModel.getStrInquiryTypeColor()));
+         ((MyViewHolder) holder).inquiryListItemBinding.inquirytypeTxt.setText(detailDataModel.getStrInquiryTypePrefix());
+            ((MyViewHolder) holder).inquiryListItemBinding.inquiryuserNametxt.setText(detailDataModel.getCustomerName());
+            ((MyViewHolder) holder).inquiryListItemBinding.userEmailtxt.setText(detailDataModel.getCustomerEmail());
+            ((MyViewHolder) holder).inquiryListItemBinding.userNotxt.setText(detailDataModel.getCustomerPhoneNo());
+            ((MyViewHolder) holder).inquiryListItemBinding.inquirystatusTxt.setText(detailDataModel.getStrOrderStatus());
 
-        holder.inquiryListItemBinding.inquirytypeTxt.setTextColor(Color.parseColor(detailDataModel.getStrInquiryTypeFontColor()));
+            GradientDrawable bgShape = (GradientDrawable)((MyViewHolder) holder).inquiryListItemBinding.inquirytypeLinear.getBackground();
+            bgShape.setColor(Color.parseColor(detailDataModel.getStrInquiryTypeColor()));
 
-        holder.inquiryListItemBinding.inquiryCard.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AppConfiguration.inquiryId = String.valueOf(detailDataModel.getOrderId());
-                morestoryClick.getmorestoryClick();
-            }
-        });
-        holder.inquiryListItemBinding.settingLinear.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AppConfiguration.inquiryId = String.valueOf(detailDataModel.getOrderId());
-                PopupMenu popup = new PopupMenu(mContext, v, Gravity.END,0,R.style.MyPopupMenu);
-                MenuInflater inflater = popup.getMenuInflater();
-                inflater.inflate(R.menu.inquiry_item_menu, popup.getMenu());
+            ((MyViewHolder) holder).inquiryListItemBinding.inquirytypeTxt.setTextColor(Color.parseColor(detailDataModel.getStrInquiryTypeFontColor()));
 
-                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        switch (item.getItemId()) {
-                            case R.id.view_item:
-                                AppConfiguration.inquiryId = String.valueOf(detailDataModel.getOrderId());
-                                morestoryClick.getmorestoryClick();
-                                return true;
-                            case R.id.assign_item:
-                                image_click.image_more_click();
+            ((MyViewHolder) holder).inquiryListItemBinding.inquiryCard.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    AppConfiguration.inquiryId = String.valueOf(detailDataModel.getOrderId());
+                    morestoryClick.getmorestoryClick();
+                }
+            });
+            ((MyViewHolder) holder).inquiryListItemBinding.settingLinear.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    AppConfiguration.inquiryId = String.valueOf(detailDataModel.getOrderId());
+                    PopupMenu popup = new PopupMenu(mContext, v, Gravity.END,0,R.style.MyPopupMenu);
+                    MenuInflater inflater = popup.getMenuInflater();
+                    inflater.inflate(R.menu.inquiry_item_menu, popup.getMenu());
 
-                                return true;
-                            default:
-                                return false;
+                    popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(MenuItem item) {
+                            switch (item.getItemId()) {
+                                case R.id.view_item:
+                                    AppConfiguration.inquiryId = String.valueOf(detailDataModel.getOrderId());
+                                    morestoryClick.getmorestoryClick();
+                                    return true;
+                                case R.id.assign_item:
+                                    image_click.image_more_click();
+
+                                    return true;
+                                default:
+                                    return false;
+                            }
                         }
-                    }
                     });
-                popup.show();
+                    popup.show();
 
                 }
             });
+        } else if (holder instanceof LoadingViewHolder) {
+
         }
 
-        @Override
+    }
+    public void onBindViewHolder(InquiryListAdapter.MyViewHolder holder, int position) {
 
-        public long getItemId ( int position){
-// return specific item's id here
-            return position;
         }
+
+
 
         @Override
         public int getItemViewType ( int position){
-            return position;
+            return moreDetailDataModelList.get(position) == null ? VIEW_TYPE_LOADING : VIEW_TYPE_ITEM;
         }
 
 
         @Override
 
         public int getItemCount () {
-            return moreDetailDataModelList.size();
+            return moreDetailDataModelList == null ? 0 : moreDetailDataModelList.size();
         }
 
-        public void addMoreDataToList (List < MoreDetailDataModel > result) {
+        public void addMoreDataToList (List<MoreDetailDataModel> result) {
             moreDetailDataModelList.addAll(result);
             notifyDataSetChanged();
         }
 
-//    @Override
-//    public boolean onMenuItemClick(MenuItem item) {
-//        switch (item.getItemId()){
-//            case R.id.view_item:
-//image_click.image_more_click();
-////                bottomSheet1DialogFragment = new InquiryChildInformationFragment();
-////                //show it
-//////                bottomSheet1DialogFragment.setCancelable(false);
-////                bottomSheet1DialogFragment.show(((InquriyActivity)mContext).getSupportFragmentManager(), bottomSheet1DialogFragment.getTag());
-//                return true;
-//            case R.id.assign_item:
-//                return true;
-//                default:
-//                    return false;
-//        }
-
-//    }
 
     }
 

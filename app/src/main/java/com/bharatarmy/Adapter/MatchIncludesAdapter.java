@@ -34,11 +34,6 @@ public class MatchIncludesAdapter extends RecyclerView.Adapter<MatchIncludesAdap
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-//        LinearLayout ticketLinear, hospitalityLinear, addtoticketscart1Linear,
-//                removetoticketscart1Linear,addtohospitalitycart1Linear,removetohospitalitycart1Linear;
-//        ImageView ticketscart_addimage,hospitalityMainImage,hospitality_addImage;
-//
-//        RecyclerView exprienceRcv;
 
         MatchAddrcyItemBinding matchAddrcyItemBinding;
 
@@ -46,18 +41,7 @@ public class MatchIncludesAdapter extends RecyclerView.Adapter<MatchIncludesAdap
             super(matchAddrcyItemBinding.getRoot());
 
             this.matchAddrcyItemBinding=matchAddrcyItemBinding;
-//            ticketLinear = (LinearLayout) view.findViewById(R.id.ticketLinear);
-//            hospitalityLinear = (LinearLayout) view.findViewById(R.id.hospitalityLinear);
-//            addtoticketscart1Linear = (LinearLayout) view.findViewById(R.id.addtoticketscart1Linear);
-//            removetoticketscart1Linear = (LinearLayout) view.findViewById(R.id.removetoticketscart1Linear);
-//            addtohospitalitycart1Linear=(LinearLayout)view.findViewById(R.id.addtohospitalitycart1Linear);
-//            removetohospitalitycart1Linear=(LinearLayout)view.findViewById(R.id.removetohospitalitycart1Linear);
-//
-//            exprienceRcv = (RecyclerView) view.findViewById(R.id.exprienceRcv);
-//
-//            ticketscart_addimage = (ImageView) view.findViewById(R.id.ticketscart_addimage);
-//            hospitalityMainImage=(ImageView)view.findViewById(R.id.hospitalityMainImage);
-//            hospitality_addImage=(ImageView)view.findViewById(R.id.hospitality_addImage);
+
 
         }
     }
@@ -65,10 +49,6 @@ public class MatchIncludesAdapter extends RecyclerView.Adapter<MatchIncludesAdap
 
     @Override
     public MatchIncludesAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-//        View itemView = LayoutInflater.from(parent.getContext())
-//                .inflate(R.layout.match_addrcy_item, parent, false);
-//
-//        return new MatchIncludesAdapter.MyViewHolder(itemView);
 
         MatchAddrcyItemBinding matchAddrcyItemBinding= DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
                 R.layout.match_addrcy_item,parent,false);

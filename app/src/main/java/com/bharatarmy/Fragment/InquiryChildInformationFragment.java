@@ -13,8 +13,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
-import com.bharatarmy.Activity.InquriyActivity;
 import com.bharatarmy.Adapter.InquiryAssignAdapter;
 import com.bharatarmy.Adapter.TournamentDetailAdapter;
 import com.bharatarmy.Interfaces.MorestoryClick;
@@ -36,6 +36,8 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 
+
+
 public class InquiryChildInformationFragment extends BottomSheetDialogFragment {
     View rootView;
     Context mContext;
@@ -47,6 +49,8 @@ public class InquiryChildInformationFragment extends BottomSheetDialogFragment {
     List<MoreDetailDataModel> assignmemberlist;
     InquiryAssignAdapter inquiryAssignAdapter;
     ShimmerFrameLayout shimmer_view_containerdialog;
+
+    int selectedposition=-1;
     @Override
     public void setupDialog(Dialog dialog, int style) {
         BottomSheetDialog bottomSheetDialog = (BottomSheetDialog) dialog;
@@ -94,10 +98,13 @@ public class InquiryChildInformationFragment extends BottomSheetDialogFragment {
                 submit_linear.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Log.d("assignmemberId :" , ""+AppConfiguration.selectedposition);
+                        Log.d("assignmemberId :" , ""+ selectedposition);
                         callInquriyAssignData();
 
                         alertDialog.dismiss();
+
+                        showThankyouDialog();
+//                        Utils.showThanyouDialog(getActivity(),"Inquriy");
                     }
                 });
                 callInquriyAssignUserData();
@@ -210,7 +217,14 @@ public class InquiryChildInformationFragment extends BottomSheetDialogFragment {
                         shimmer_view_containerdialog.stopShimmerAnimation();
                         shimmer_view_containerdialog.setVisibility(View.GONE);
                         inquiry_assign_rcv.setVisibility(View.VISIBLE);
-                        inquiryAssignAdapter=new InquiryAssignAdapter(mContext,assignmemberlist, new MorestoryClick() {
+                        for (int i=0;i<assignmemberlist.size();i++) {
+                            if (assignmemberlist.get(i).getIsSelected().equals(1)){
+                                selectedposition=i;
+
+                            }
+                        }
+                        Log.d("selectedposition : ", "" + selectedposition);
+                        inquiryAssignAdapter=new InquiryAssignAdapter(mContext,assignmemberlist, selectedposition, new MorestoryClick() {
                             @Override
                             public void getmorestoryClick() {
                             }
@@ -239,7 +253,7 @@ public class InquiryChildInformationFragment extends BottomSheetDialogFragment {
 
     private Map<String, String> getInquriyAssignUserData() {
         Map<String, String> map = new HashMap<>();
-
+        map.put("InquiryId",AppConfiguration.inquiryId);
         return map;
     }
 
@@ -274,7 +288,7 @@ public class InquiryChildInformationFragment extends BottomSheetDialogFragment {
                         shimmer_view_containerdialog.stopShimmerAnimation();
                         shimmer_view_containerdialog.setVisibility(View.GONE);
                         inquiry_assign_rcv.setVisibility(View.VISIBLE);
-                        inquiryAssignAdapter = new InquiryAssignAdapter(mContext, assignmemberlist, new MorestoryClick() {
+                        inquiryAssignAdapter = new InquiryAssignAdapter(mContext, assignmemberlist, selectedposition, new MorestoryClick() {
                             @Override
                             public void getmorestoryClick() {
 
@@ -307,6 +321,26 @@ public class InquiryChildInformationFragment extends BottomSheetDialogFragment {
         map.put("InquiryId", AppConfiguration.inquiryId);
         map.put("AssignMemberId", String.valueOf(AppConfiguration.selectedposition));
         return map;
+    }
+
+    public void showThankyouDialog() {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(mContext);
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.thankyou_dialog_item, null);
+        dialogBuilder.setView(dialogView);
+        AlertDialog alertDialog = dialogBuilder.create();
+        alertDialog.setCanceledOnTouchOutside(false);
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        TextView hometxt = (TextView) dialogView.findViewById(R.id.home_txt);
+        hometxt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+                dismiss();
+
+            }
+        });
+        alertDialog.show();
     }
 }
 

@@ -1,5 +1,7 @@
 package com.bharatarmy.Utility;
 
+import java.util.ArrayList;
+
 public class AppConfiguration {
     public static final String BASEURL = "http://beta.bharatarmy.com/API/v1/";
 
@@ -19,4 +21,8 @@ public class AppConfiguration {
     public static String  pageSize="14";
     public static String inquiryId;
     public static int selectedposition;
+    public static ArrayList<String> ordertypefilterarray = new ArrayList<>();
+    public static ArrayList<String> inquirystatusfilterarray = new ArrayList<>();
+    public static String whereToCall;
+    public static int pageindex;
 }

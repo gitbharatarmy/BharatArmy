@@ -23,7 +23,7 @@ public class MoreDataModel {
     private Object otherValue;
     @SerializedName("OtherData")
     @Expose
-    private Object otherData;
+    private InquiryOtherDataModel otherData;
 
     public String getMessage() {
         return message;
@@ -65,11 +65,11 @@ public class MoreDataModel {
         this.otherValue = otherValue;
     }
 
-    public Object getOtherData() {
+    public InquiryOtherDataModel getOtherData() {
         return otherData;
     }
 
-    public void setOtherData(Object otherData) {
+    public void setOtherData(InquiryOtherDataModel otherData) {
         this.otherData = otherData;
     }
 }

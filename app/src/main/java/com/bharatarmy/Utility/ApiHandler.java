@@ -21,9 +21,9 @@ public class ApiHandler {
     public static WebServices getApiService() {
         if (apiService == null) {
             OkHttpClient okHttpClient = new OkHttpClient();
-            okHttpClient.setConnectTimeout(70 * 1000, TimeUnit.MILLISECONDS);
-            okHttpClient.setWriteTimeout(70 * 1000, TimeUnit.MILLISECONDS);
-            okHttpClient.setReadTimeout(70 * 1000, TimeUnit.MILLISECONDS);
+            okHttpClient.setConnectTimeout(6, TimeUnit.MINUTES);
+            okHttpClient.setWriteTimeout(6, TimeUnit.MINUTES);
+            okHttpClient.setReadTimeout(6, TimeUnit.MINUTES);
 
 
             RestAdapter restAdapter = new RestAdapter.Builder()

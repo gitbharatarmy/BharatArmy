@@ -168,8 +168,6 @@ public class MoreFragment extends Fragment implements View.OnClickListener {
                                 Utils.ping(mContext, "You are logout suceessfully");
                                 Intent ilogin = new Intent(mContext, LoginActivity.class);
                                 startActivity(ilogin);
-
-
                             }
                         });
                 alertDialog2.setNegativeButton("NO",

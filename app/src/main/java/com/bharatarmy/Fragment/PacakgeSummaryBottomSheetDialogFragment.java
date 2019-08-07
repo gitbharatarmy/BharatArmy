@@ -31,7 +31,6 @@ import java.lang.reflect.Field;
 
 
 public class PacakgeSummaryBottomSheetDialogFragment extends BottomSheetDialogFragment {
-    View rootView;
     Context mContext;
     LinearLayout back_img;
     TextView privacypolicy_txt, cancellationpolicy_txt, inclusiondetail_txt, exclusiondetail_txt;

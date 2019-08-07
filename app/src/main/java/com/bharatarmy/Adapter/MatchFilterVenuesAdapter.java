@@ -33,18 +33,14 @@ public class MatchFilterVenuesAdapter extends RecyclerView.Adapter<MatchFilterVe
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-//        TextView match_venues_txt;
-//        CheckBox selected_chk;
-//        LinearLayout match_venues_Linear;
+
 
         MatchFilterVenuesItemBinding matchFilterVenuesItemBinding;
 
         public MyViewHolder(MatchFilterVenuesItemBinding matchFilterVenuesItemBinding) {
             super(matchFilterVenuesItemBinding.getRoot());
             this.matchFilterVenuesItemBinding=matchFilterVenuesItemBinding;
-//            match_venues_txt=(TextView)view.findViewById(R.id.match_venues_txt);
-//            selected_chk=(CheckBox) view.findViewById(R.id.selected_chk);
-//            match_venues_Linear=(LinearLayout)view.findViewById(R.id.match_venues_Linear);
+
         }
     }
 

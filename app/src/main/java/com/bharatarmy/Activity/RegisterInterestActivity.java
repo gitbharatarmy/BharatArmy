@@ -84,22 +84,24 @@ public class RegisterInterestActivity extends AppCompatActivity implements View.
                 bottomSheetDialogFragment.show(getSupportFragmentManager(), bottomSheetDialogFragment.getTag());
                 break;
             case  R.id.submit_linear:
-                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(mContext);
-                LayoutInflater inflater = this.getLayoutInflater();
-                View dialogView = inflater.inflate(R.layout.thankyou_dialog_item, null);
-                dialogBuilder.setView(dialogView);
-                AlertDialog alertDialog = dialogBuilder.create();
-                alertDialog.setCanceledOnTouchOutside(false);
-                alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-                TextView hometxt=(TextView)dialogView.findViewById(R.id.home_txt);
-                hometxt.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        alertDialog.dismiss();
-                        finish();
-                    }
-                });
-                alertDialog.show();
+//                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(mContext);
+//                LayoutInflater inflater = this.getLayoutInflater();
+//                View dialogView = inflater.inflate(R.layout.thankyou_dialog_item, null);
+//                dialogBuilder.setView(dialogView);
+//                AlertDialog alertDialog = dialogBuilder.create();
+//                alertDialog.setCanceledOnTouchOutside(false);
+//                alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+//                TextView hometxt=(TextView)dialogView.findViewById(R.id.home_txt);
+//                hometxt.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        alertDialog.dismiss();
+//                        finish();
+//                    }
+//                });
+//                alertDialog.show();
+
+                Utils.showThanyouDialog(RegisterInterestActivity.this,"RegisterInterest");
                 break;
         }
 

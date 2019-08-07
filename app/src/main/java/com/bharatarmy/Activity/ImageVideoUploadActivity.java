@@ -391,6 +391,10 @@ public class ImageVideoUploadActivity extends AppCompatActivity implements View.
                     .setAutoCancel(true)
                     .setContentIntent(pendingIntent)
                     .setTicker(aMessage)
+                    .setLargeIcon(Utils.DrawableToBitMap(R.drawable.proflie,context))
+                    .setStyle(new NotificationCompat.BigPictureStyle()
+                            .bigPicture(Utils.DrawableToBitMap(R.drawable.proflie,context))
+                            .bigLargeIcon(null))
                     .setProgress(100, 50, true)
                     .setVibrate(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
         } else {
@@ -405,6 +409,10 @@ public class ImageVideoUploadActivity extends AppCompatActivity implements View.
                     .setAutoCancel(true)
                     .setContentIntent(pendingIntent)
                     .setTicker(aMessage)
+                    .setLargeIcon(Utils.DrawableToBitMap(R.drawable.proflie,context))
+                    .setStyle(new NotificationCompat.BigPictureStyle()
+                            .bigPicture(Utils.DrawableToBitMap(R.drawable.proflie,context))
+                            .bigLargeIcon(null))
                     .setVibrate(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400})
                     .setPriority(Notification.PRIORITY_HIGH);
         }
