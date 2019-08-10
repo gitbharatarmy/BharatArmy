@@ -13,15 +13,20 @@ import androidx.viewpager.widget.ViewPager;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.StyleSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.bharatarmy.Adapter.FilterPageAdapter;
+import com.bharatarmy.Interfaces.MorestoryClick;
+import com.bharatarmy.Models.RegisterIntrestFilterDataModel;
 import com.bharatarmy.R;
 import com.bharatarmy.databinding.FragmentRegisterInterestFilterBinding;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.tabs.TabLayout;
+
+import java.util.ArrayList;
 
 
 public class RegisterInterestFilterFragment extends BottomSheetDialogFragment implements ViewPager.OnPageChangeListener{
@@ -29,14 +34,14 @@ public class RegisterInterestFilterFragment extends BottomSheetDialogFragment im
     View rootView;
     Context mContext;
     FilterPageAdapter filterPageAdapter;
+    RegisterIntrestFilterDataModel registerIntrestFilterDataMode;
+    MorestoryClick morestoryClick;
 
-
-    static RegisterInterestFilterFragment newInstance() {
-        RegisterInterestFilterFragment f = new RegisterInterestFilterFragment();
-        Bundle args = new Bundle();
-        f.setArguments(args);
-        return f;
+    public RegisterInterestFilterFragment(RegisterIntrestFilterDataModel registerIntrestFilterDataModel, MorestoryClick morestoryClick) {
+        this.morestoryClick=morestoryClick;
+        this.registerIntrestFilterDataMode=registerIntrestFilterDataModel;
     }
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -69,7 +74,9 @@ public class RegisterInterestFilterFragment extends BottomSheetDialogFragment im
         fragmentRegisterInterestFilterBinding.tabLayoutRegisterfilter.setTabMode(TabLayout.MODE_FIXED);
         fragmentRegisterInterestFilterBinding.tabLayoutRegisterfilter.setTabGravity(TabLayout.GRAVITY_FILL);
 
-        filterPageAdapter = new FilterPageAdapter(getChildFragmentManager(), fragmentRegisterInterestFilterBinding.tabLayoutRegisterfilter.getTabCount());
+        filterPageAdapter = new FilterPageAdapter(getChildFragmentManager(),
+                fragmentRegisterInterestFilterBinding.tabLayoutRegisterfilter.getTabCount(),
+                registerIntrestFilterDataMode);
         fragmentRegisterInterestFilterBinding.filterpager.setOffscreenPageLimit(0);
         fragmentRegisterInterestFilterBinding.filterpager.setAdapter(filterPageAdapter);
 
@@ -87,6 +94,9 @@ public class RegisterInterestFilterFragment extends BottomSheetDialogFragment im
             @Override
             public void onClick(View v) {
                 dismiss();
+morestoryClick.getmorestoryClick();
+
+
             }
         });
 

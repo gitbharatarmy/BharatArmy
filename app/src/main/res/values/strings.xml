@@ -44,6 +44,7 @@
     <string name="close" translatable="false">Back to login</string>
     <string name="termStr" translatable="false"></string>
 
+    <string name="close_str" translatable="false"><u>close</u></string>
     <!--Home Fragment  String-->
     <string name="know_more" translatable="false">Know More</string>
     <string name="upcoming" translatable="false">UPCOMING TOURNAMENTS &amp; SERIES</string>

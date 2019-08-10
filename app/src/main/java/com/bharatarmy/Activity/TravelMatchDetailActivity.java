@@ -143,9 +143,9 @@ public class TravelMatchDetailActivity extends AppCompatActivity implements View
                 TravelMatchDetailActivity.this.finish();
                 break;
             case R.id.fab_linear:
-                bottomSheetDialogFragment = new MatchFilterFragment();
-                //show it
-                bottomSheetDialogFragment.show(getSupportFragmentManager(), bottomSheetDialogFragment.getTag());
+//                bottomSheetDialogFragment = new MatchFilterFragment();
+//                //show it
+//                bottomSheetDialogFragment.show(getSupportFragmentManager(), bottomSheetDialogFragment.getTag());
                 break;
 
         }

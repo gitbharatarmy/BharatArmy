@@ -40,6 +40,9 @@ public class HomeTemplateDetailModel {
     @SerializedName("SecondHaderButtonFontColor")
     @Expose
     private String secondHaderButtonFontColor;
+    @SerializedName("ReferenceId")
+    @Expose
+    private String referenceId;
 
     public String getMainHeaderText() {
         return mainHeaderText;
@@ -135,6 +138,230 @@ public class HomeTemplateDetailModel {
 
     public void setSecondHaderButtonFontColor(String secondHaderButtonFontColor) {
         this.secondHaderButtonFontColor = secondHaderButtonFontColor;
+    }
+
+    public String getReferenceId() {
+        return referenceId;
+    }
+
+    public void setReferenceId(String referenceId) {
+        this.referenceId = referenceId;
+    }
+
+//    ****************** Register Interest Detail **************************
+
+//   String
+
+    @SerializedName("ObjFromCountry")
+    @Expose
+    private ObjFromCountry objFromCountry;
+    @SerializedName("ObjToCountry")
+    @Expose
+    private ObjToCountry objToCountry;
+    @SerializedName("strMatchDateTime")
+    @Expose
+    private String strMatchDateTime;
+    @SerializedName("strMatchDateWithoutTime")
+    @Expose
+    private String strMatchDateWithoutTime;
+    @SerializedName("strMatchType")
+    @Expose
+    private String strMatchType;
+    @SerializedName("strItemText")
+    @Expose
+    private String strItemText;
+    @SerializedName("TournamentMatchId")
+    @Expose
+    private Integer tournamentMatchId;
+    @SerializedName("TournamentId")
+    @Expose
+    private Integer tournamentId;
+    @SerializedName("MatchTypeId")
+    @Expose
+    private Integer matchTypeId;
+    @SerializedName("FromCountryId")
+    @Expose
+    private Integer fromCountryId;
+    @SerializedName("DbFromCountryName")
+    @Expose
+    private String dbFromCountryName;
+    @SerializedName("ToCountryId")
+    @Expose
+    private Integer toCountryId;
+    @SerializedName("DbToCountryName")
+    @Expose
+    private String dbToCountryName;
+    @SerializedName("MatchUTCDate")
+    @Expose
+    private String matchUTCDate;
+    @SerializedName("TourName")
+    @Expose
+    private String tourName;
+    @SerializedName("StadiumId")
+    @Expose
+    private Integer stadiumId;
+    @SerializedName("StadiumName")
+    @Expose
+    private String stadiumName;
+    @SerializedName("MatchNo")
+    @Expose
+    private Integer matchNo;
+    @SerializedName("CheckboxStatus")
+    @Expose
+    private String check;
+
+
+
+    public ObjFromCountry getObjFromCountry() {
+        return objFromCountry;
+    }
+
+    public void setObjFromCountry(ObjFromCountry objFromCountry) {
+        this.objFromCountry = objFromCountry;
+    }
+
+    public ObjToCountry getObjToCountry() {
+        return objToCountry;
+    }
+
+    public void setObjToCountry(ObjToCountry objToCountry) {
+        this.objToCountry = objToCountry;
+    }
+
+    public String getStrMatchDateTime() {
+        return strMatchDateTime;
+    }
+
+    public void setStrMatchDateTime(String strMatchDateTime) {
+        this.strMatchDateTime = strMatchDateTime;
+    }
+
+    public String getStrMatchDateWithoutTime() {
+        return strMatchDateWithoutTime;
+    }
+
+    public void setStrMatchDateWithoutTime(String strMatchDateWithoutTime) {
+        this.strMatchDateWithoutTime = strMatchDateWithoutTime;
+    }
+
+    public String getStrMatchType() {
+        return strMatchType;
+    }
+
+    public void setStrMatchType(String strMatchType) {
+        this.strMatchType = strMatchType;
+    }
+
+    public String getStrItemText() {
+        return strItemText;
+    }
+
+    public void setStrItemText(String strItemText) {
+        this.strItemText = strItemText;
+    }
+
+    public Integer getTournamentMatchId() {
+        return tournamentMatchId;
+    }
+
+    public void setTournamentMatchId(Integer tournamentMatchId) {
+        this.tournamentMatchId = tournamentMatchId;
+    }
+
+    public Integer getTournamentId() {
+        return tournamentId;
+    }
+
+    public void setTournamentId(Integer tournamentId) {
+        this.tournamentId = tournamentId;
+    }
+
+    public Integer getMatchTypeId() {
+        return matchTypeId;
+    }
+
+    public void setMatchTypeId(Integer matchTypeId) {
+        this.matchTypeId = matchTypeId;
+    }
+
+    public Integer getFromCountryId() {
+        return fromCountryId;
+    }
+
+    public void setFromCountryId(Integer fromCountryId) {
+        this.fromCountryId = fromCountryId;
+    }
+
+    public String getDbFromCountryName() {
+        return dbFromCountryName;
+    }
+
+    public void setDbFromCountryName(String dbFromCountryName) {
+        this.dbFromCountryName = dbFromCountryName;
+    }
+
+    public Integer getToCountryId() {
+        return toCountryId;
+    }
+
+    public void setToCountryId(Integer toCountryId) {
+        this.toCountryId = toCountryId;
+    }
+
+    public String getDbToCountryName() {
+        return dbToCountryName;
+    }
+
+    public void setDbToCountryName(String dbToCountryName) {
+        this.dbToCountryName = dbToCountryName;
+    }
+
+    public String getMatchUTCDate() {
+        return matchUTCDate;
+    }
+
+    public void setMatchUTCDate(String matchUTCDate) {
+        this.matchUTCDate = matchUTCDate;
+    }
+
+    public String getTourName() {
+        return tourName;
+    }
+
+    public void setTourName(String tourName) {
+        this.tourName = tourName;
+    }
+
+    public Integer getStadiumId() {
+        return stadiumId;
+    }
+
+    public void setStadiumId(Integer stadiumId) {
+        this.stadiumId = stadiumId;
+    }
+
+    public String getStadiumName() {
+        return stadiumName;
+    }
+
+    public void setStadiumName(String stadiumName) {
+        this.stadiumName = stadiumName;
+    }
+
+    public Integer getMatchNo() {
+        return matchNo;
+    }
+
+    public void setMatchNo(Integer matchNo) {
+        this.matchNo = matchNo;
+    }
+
+    public String getCheck() {
+        return check;
+    }
+
+    public void setCheck(String check) {
+        this.check = check;
     }
 
 }

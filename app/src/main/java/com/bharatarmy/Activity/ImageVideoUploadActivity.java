@@ -25,6 +25,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.AudioManager;
 import android.media.Image;
 import android.media.MediaPlayer;
@@ -368,6 +369,9 @@ public class ImageVideoUploadActivity extends AppCompatActivity implements View.
         Intent intent;
         PendingIntent pendingIntent;
         NotificationCompat.Builder builder;
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(),
+                R.drawable.proflie);
+
         if (notifManager == null) {
             notifManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         }
@@ -391,10 +395,10 @@ public class ImageVideoUploadActivity extends AppCompatActivity implements View.
                     .setAutoCancel(true)
                     .setContentIntent(pendingIntent)
                     .setTicker(aMessage)
-                    .setLargeIcon(Utils.DrawableToBitMap(R.drawable.proflie,context))
+                    .setLargeIcon(bitmap)
                     .setStyle(new NotificationCompat.BigPictureStyle()
-                            .bigPicture(Utils.DrawableToBitMap(R.drawable.proflie,context))
-                            .bigLargeIcon(null))
+                            .bigPicture(bitmap)
+                            .bigLargeIcon(bitmap))
                     .setProgress(100, 50, true)
                     .setVibrate(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
         } else {
@@ -409,10 +413,10 @@ public class ImageVideoUploadActivity extends AppCompatActivity implements View.
                     .setAutoCancel(true)
                     .setContentIntent(pendingIntent)
                     .setTicker(aMessage)
-                    .setLargeIcon(Utils.DrawableToBitMap(R.drawable.proflie,context))
+                    .setLargeIcon(bitmap)
                     .setStyle(new NotificationCompat.BigPictureStyle()
-                            .bigPicture(Utils.DrawableToBitMap(R.drawable.proflie,context))
-                            .bigLargeIcon(null))
+                            .bigPicture(bitmap)
+                            .bigLargeIcon(bitmap))
                     .setVibrate(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400})
                     .setPriority(Notification.PRIORITY_HIGH);
         }

@@ -25,4 +25,12 @@ public class AppConfiguration {
     public static ArrayList<String> inquirystatusfilterarray = new ArrayList<>();
     public static String whereToCall;
     public static int pageindex;
+
+
+    public static String registerNameStr;
+    public static String registerEmailStr;
+    public static String registerMobileStr;
+    public static String registerCountryDialcodeStr;
+    public static String registerCountryCodeStr;
+
 }

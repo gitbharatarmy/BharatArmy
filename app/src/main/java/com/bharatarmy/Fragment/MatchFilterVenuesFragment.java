@@ -1,7 +1,6 @@
 package com.bharatarmy.Fragment;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.databinding.DataBindingUtil;
@@ -14,14 +13,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.bharatarmy.Adapter.MatchFilterTeamAdapter;
 import com.bharatarmy.Adapter.MatchFilterVenuesAdapter;
+import com.bharatarmy.Models.InquiryStatusModel;
+import com.bharatarmy.Models.RegisterIntrestFilterDataModel;
 import com.bharatarmy.Models.TravelModel;
 import com.bharatarmy.R;
-import com.bharatarmy.databinding.FragmentMatchFilterTeamBinding;
 import com.bharatarmy.databinding.FragmentMatchFilterVenuesBinding;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class MatchFilterVenuesFragment extends Fragment {
@@ -37,23 +37,27 @@ public class MatchFilterVenuesFragment extends Fragment {
     FragmentMatchFilterVenuesBinding fragmentMatchFilterVenuesBinding;
     private View rootView;
     private Context mContext;
-    ArrayList<TravelModel> matchTeamVenueList;;
+
     MatchFilterVenuesAdapter matchFilterVenuesAdapter;
-    
-    public MatchFilterVenuesFragment() {
+    RegisterIntrestFilterDataModel registerIntrestFilterDataMode;
+    List<InquiryStatusModel> teamVenuelist;
+
+
+    public MatchFilterVenuesFragment(RegisterIntrestFilterDataModel registerIntrestFilterDataMode) {
         // Required empty public constructor
+        this.registerIntrestFilterDataMode=registerIntrestFilterDataMode;
     }
 
 
-    // TODO: Rename and change types and number of parameters
-    public static MatchFilterVenuesFragment newInstance(String param1, String param2) {
-        MatchFilterVenuesFragment fragment = new MatchFilterVenuesFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+//    // TODO: Rename and change types and number of parameters
+//    public static MatchFilterVenuesFragment newInstance(String param1, String param2) {
+//        MatchFilterVenuesFragment fragment = new MatchFilterVenuesFragment(registerIntrestFilterDataMode);
+//        Bundle args = new Bundle();
+//        args.putString(ARG_PARAM1, param1);
+//        args.putString(ARG_PARAM2, param2);
+//        fragment.setArguments(args);
+//        return fragment;
+//    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -87,21 +91,22 @@ public class MatchFilterVenuesFragment extends Fragment {
     }
 
     public void setDataValue(){
-        matchTeamVenueList = new ArrayList<TravelModel>();
-        matchTeamVenueList.add(new TravelModel(R.drawable.flag_afghanistan, "Bistol Country Ground"));
-        matchTeamVenueList.add(new TravelModel(R.drawable.flag_australia, "Cardiff Wales Stadium"));
-        matchTeamVenueList.add(new TravelModel(R.drawable.flag_bangladesh, "Edgbaston"));
-        matchTeamVenueList.add(new TravelModel(R.drawable.flag_united_kingdom, "Emirates Riverside"));
-        matchTeamVenueList.add(new TravelModel(R.drawable.in_flag, "Headingley"));
-        matchTeamVenueList.add(new TravelModel(R.drawable.nz_flag, "Lord's"));
-        matchTeamVenueList.add(new TravelModel(R.drawable.pk_flag, "Old Trafford"));
-        matchTeamVenueList.add(new TravelModel(R.drawable.south_flag, "The Ageas Bowl"));
-        matchTeamVenueList.add(new TravelModel(R.drawable.flag_sri_lanka, "The Country Ground"));
-        matchTeamVenueList.add(new TravelModel(R.drawable.wl, "The Oval"));
-        matchTeamVenueList.add(new TravelModel(R.drawable.wl, "Trent Bridge"));
 
+        teamVenuelist=registerIntrestFilterDataMode.getStadiums();
+        for (int i=0;i<teamVenuelist.size();i++){
+            if (teamVenuelist.get(i).getVenueSelected()!=null){
+                if (teamVenuelist.get(i).getVenueSelected().equalsIgnoreCase("1")){
+                    teamVenuelist.get(i).setVenueSelected("1");
+                }else{
+                    teamVenuelist.get(i).setVenueSelected("0");
+                }
+            }else{
+                teamVenuelist.get(i).setVenueSelected("0");
+            }
 
-        matchFilterVenuesAdapter = new MatchFilterVenuesAdapter(mContext, matchTeamVenueList);
+        }
+        teamVenuelist=registerIntrestFilterDataMode.getStadiums();
+        matchFilterVenuesAdapter = new MatchFilterVenuesAdapter(mContext, teamVenuelist);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(mContext, RecyclerView.VERTICAL, false);
         fragmentMatchFilterVenuesBinding.venuesRcv.setLayoutManager(mLayoutManager);
         fragmentMatchFilterVenuesBinding.venuesRcv.setItemAnimator(new DefaultItemAnimator());

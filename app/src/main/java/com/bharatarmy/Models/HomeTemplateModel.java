@@ -23,7 +23,7 @@ public class HomeTemplateModel {
     private Object otherValue;
     @SerializedName("OtherData")
     @Expose
-    private Object otherData;
+    private RegisterIntrestFilterDataModel otherData;
 
     public Object getMessage() {
         return message;
@@ -65,12 +65,11 @@ public class HomeTemplateModel {
         this.otherValue = otherValue;
     }
 
-    public Object getOtherData() {
+    public RegisterIntrestFilterDataModel getOtherData() {
         return otherData;
     }
 
-    public void setOtherData(Object otherData) {
+    public void setOtherData(RegisterIntrestFilterDataModel otherData) {
         this.otherData = otherData;
     }
-
 }

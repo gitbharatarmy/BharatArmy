@@ -14,22 +14,25 @@ import android.widget.TextView;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bharatarmy.Models.InquiryStatusModel;
+import com.bharatarmy.Models.RegisterIntrestFilterDataModel;
 import com.bharatarmy.Models.TravelModel;
 import com.bharatarmy.R;
 import com.bharatarmy.databinding.MatchFilterVenuesItemBinding;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MatchFilterVenuesAdapter extends RecyclerView.Adapter<MatchFilterVenuesAdapter.MyViewHolder> {
     Context mContext;
-    ArrayList<TravelModel> matchTeamVenueList;
+
     int row_index;
     private ArrayList<String> dataCheck = new ArrayList<String>();
+    List<InquiryStatusModel> matchTeamVenueList;
 
-
-    public MatchFilterVenuesAdapter(Context mContext, ArrayList<TravelModel> matchTeamVenueList) {
-        this.mContext=mContext;
-        this.matchTeamVenueList=matchTeamVenueList;
+    public MatchFilterVenuesAdapter(Context mContext, List<InquiryStatusModel> matchTeamVenueList) {
+        this.mContext = mContext;
+        this.matchTeamVenueList = matchTeamVenueList;
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
@@ -39,7 +42,7 @@ public class MatchFilterVenuesAdapter extends RecyclerView.Adapter<MatchFilterVe
 
         public MyViewHolder(MatchFilterVenuesItemBinding matchFilterVenuesItemBinding) {
             super(matchFilterVenuesItemBinding.getRoot());
-            this.matchFilterVenuesItemBinding=matchFilterVenuesItemBinding;
+            this.matchFilterVenuesItemBinding = matchFilterVenuesItemBinding;
 
         }
     }
@@ -47,32 +50,48 @@ public class MatchFilterVenuesAdapter extends RecyclerView.Adapter<MatchFilterVe
 
     @Override
     public MatchFilterVenuesAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
- MatchFilterVenuesItemBinding matchFilterVenuesItemBinding= DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
-         R.layout.match_filter_venues_item,parent,false);
- return new MatchFilterVenuesAdapter.MyViewHolder(matchFilterVenuesItemBinding);
+        MatchFilterVenuesItemBinding matchFilterVenuesItemBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
+                R.layout.match_filter_venues_item, parent, false);
+        return new MatchFilterVenuesAdapter.MyViewHolder(matchFilterVenuesItemBinding);
     }
 
     @SuppressLint("ResourceAsColor")
     @Override
     public void onBindViewHolder(MatchFilterVenuesAdapter.MyViewHolder holder, int position) {
-
-        final TravelModel venuesdetail = matchTeamVenueList.get(position);
-
-
-        holder.matchFilterVenuesItemBinding.matchVenuesTxt.setText(venuesdetail.getMatchteamVenues());
+        final InquiryStatusModel venuedetail = matchTeamVenueList.get(position);
+        holder.matchFilterVenuesItemBinding.matchVenuesTxt.setText(venuedetail.getLabel());
 
         holder.matchFilterVenuesItemBinding.matchVenuesLinear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (holder.matchFilterVenuesItemBinding.selectedChk.isChecked()){
+                if (holder.matchFilterVenuesItemBinding.selectedChk.isChecked()) {
                     holder.matchFilterVenuesItemBinding.selectedChk.setChecked(false);
-                }else{
+                    venuedetail.setVenueSelected("0");
+                } else {
                     holder.matchFilterVenuesItemBinding.selectedChk.setChecked(true);
+                    venuedetail.setVenueSelected("1");
                 }
 
             }
         });
+        holder.matchFilterVenuesItemBinding.selectedChk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (holder.matchFilterVenuesItemBinding.selectedChk.isChecked()) {
+                    holder.matchFilterVenuesItemBinding.selectedChk.setChecked(true);
+                    venuedetail.setVenueSelected("1");
+                } else {
+                    holder.matchFilterVenuesItemBinding.selectedChk.setChecked(false);
+                    venuedetail.setVenueSelected("0");
+                }
 
+            }
+        });
+        if (venuedetail.getVenueSelected().equalsIgnoreCase("1")) {
+            holder.matchFilterVenuesItemBinding.selectedChk.setChecked(true);
+        } else {
+            holder.matchFilterVenuesItemBinding.selectedChk.setChecked(false);
+        }
     }
 
     @Override

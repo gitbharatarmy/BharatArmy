@@ -1,7 +1,6 @@
 package com.bharatarmy.Fragment;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.databinding.DataBindingUtil;
@@ -10,21 +9,21 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.bharatarmy.Activity.ImageEditProfilePickerActivity;
 import com.bharatarmy.Adapter.MatchFilterTeamAdapter;
-import com.bharatarmy.Adapter.TravelMatchDetailRecyclerAdapter;
+import com.bharatarmy.Models.InquiryStatusModel;
+import com.bharatarmy.Models.RegisterIntrestFilterDataModel;
 import com.bharatarmy.Models.TravelModel;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.AppConfiguration;
 import com.bharatarmy.databinding.FragmentMatchFilterTeamBinding;
-import com.leinardi.android.speeddial.SpeedDialOverlayLayout;
-import com.leinardi.android.speeddial.SpeedDialView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class MatchFilterTeamFragment extends Fragment {
@@ -40,22 +39,28 @@ public class MatchFilterTeamFragment extends Fragment {
     FragmentMatchFilterTeamBinding fragmentMatchFilterTeamBinding;
     private View rootView;
     private Context mContext;
-    ArrayList<TravelModel> matchTeamFlagList;;
+  List<InquiryStatusModel> matchteamList;
     MatchFilterTeamAdapter matchFilterTeamAdapter;
-    public MatchFilterTeamFragment() {
+    RegisterIntrestFilterDataModel registerIntrestFilterDataMode;
+
+
+
+    public MatchFilterTeamFragment(RegisterIntrestFilterDataModel registerIntrestFilterDataMode) {
         // Required empty public constructor
+
+        this.registerIntrestFilterDataMode= registerIntrestFilterDataMode;
     }
 
 
-    // TODO: Rename and change types and number of parameters
-    public static MatchFilterTeamFragment newInstance(String param1, String param2) {
-        MatchFilterTeamFragment fragment = new MatchFilterTeamFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+//    // TODO: Rename and change types and number of parameters
+//    public static MatchFilterTeamFragment newInstance(String param1, String param2) {
+//        MatchFilterTeamFragment fragment = new MatchFilterTeamFragment(registerIntrestFilterDataMode);
+//        Bundle args = new Bundle();
+//        args.putString(ARG_PARAM1, param1);
+//        args.putString(ARG_PARAM2, param2);
+//        fragment.setArguments(args);
+//        return fragment;
+//    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -88,22 +93,22 @@ public class MatchFilterTeamFragment extends Fragment {
         }
     }
 
-
     public void setDataValue(){
-        matchTeamFlagList = new ArrayList<TravelModel>();
-        matchTeamFlagList.add(new TravelModel(R.drawable.flag_afghanistan, "Afghaanistan"));
-        matchTeamFlagList.add(new TravelModel(R.drawable.flag_australia, "Australia"));
-        matchTeamFlagList.add(new TravelModel(R.drawable.flag_bangladesh, "Bangladesh"));
-        matchTeamFlagList.add(new TravelModel(R.drawable.flag_united_kingdom, "England"));
-        matchTeamFlagList.add(new TravelModel(R.drawable.in_flag, "India"));
-        matchTeamFlagList.add(new TravelModel(R.drawable.nz_flag, "New Zealand"));
-        matchTeamFlagList.add(new TravelModel(R.drawable.pk_flag, "Pakistan"));
-        matchTeamFlagList.add(new TravelModel(R.drawable.south_flag, "South Africa"));
-        matchTeamFlagList.add(new TravelModel(R.drawable.flag_sri_lanka, "Sri Lanka"));
-        matchTeamFlagList.add(new TravelModel(R.drawable.wl, "West Indies"));
+        matchteamList=registerIntrestFilterDataMode.getCountries();
+        for (int i=0;i<matchteamList.size();i++){
+            if (matchteamList.get(i).getTeamSelected()!=null){
+                if (matchteamList.get(i).getTeamSelected().equalsIgnoreCase("1")){
+                    matchteamList.get(i).setTeamSelected("1");
+                }else{
+                    matchteamList.get(i).setTeamSelected("0");
+                }
+            }else{
+                matchteamList.get(i).setTeamSelected("0");
+            }
 
-
-        matchFilterTeamAdapter = new MatchFilterTeamAdapter(mContext, matchTeamFlagList);
+        }
+        matchteamList=registerIntrestFilterDataMode.getCountries();
+        matchFilterTeamAdapter = new MatchFilterTeamAdapter(mContext, matchteamList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(mContext, RecyclerView.VERTICAL, false);
         fragmentMatchFilterTeamBinding.teamsRcv.setLayoutManager(mLayoutManager);
         fragmentMatchFilterTeamBinding.teamsRcv.setItemAnimator(new DefaultItemAnimator());

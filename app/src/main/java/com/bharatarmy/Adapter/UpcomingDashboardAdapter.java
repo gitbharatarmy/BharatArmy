@@ -53,7 +53,8 @@ public class UpcomingDashboardAdapter extends RecyclerView.Adapter<UpcomingDashb
 
     @Override
     public UpcomingDashboardAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-      UpcomingTournamentListNewBinding upcomingTournamentListNewBinding= DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),R.layout.upcoming_tournament_list_new,parent,false);
+      UpcomingTournamentListNewBinding upcomingTournamentListNewBinding= DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
+              R.layout.upcoming_tournament_list_new,parent,false);
       return new UpcomingDashboardAdapter.MyViewHolder(upcomingTournamentListNewBinding);
     }
 

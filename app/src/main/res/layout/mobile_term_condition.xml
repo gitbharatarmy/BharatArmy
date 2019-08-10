@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
@@ -10,28 +9,27 @@
     android:gravity="center"
     android:background="@android:color/transparent">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center_vertical"
-        android:layout_marginLeft="@dimen/_20sdp"
-        android:layout_marginTop="@dimen/_40sdp"
-        android:layout_marginRight="@dimen/_20sdp"
-        android:layout_marginBottom="@dimen/_40sdp"
-        android:background="@android:color/transparent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_40sdp"
+            android:layout_marginRight="@dimen/_20sdp"
+            android:layout_marginBottom="@dimen/_40sdp">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/splash_bg_color"
+            android:background="@drawable/match_detail_curveshape"
             android:orientation="vertical">
             <!--com.bharatarmy.Utility.megh-->
             <LinearLayout
                 android:id="@+id/toolbar_linear"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_40sdp"
-                android:background="@color/heading_bg"
                 android:orientation="horizontal"
+                android:background="@drawable/terms_dialog_topview"
                 android:weightSum="1">
 
                 <TextView
@@ -51,9 +49,8 @@
                     android:layout_width="0dp"
                     android:layout_height="@dimen/_25sdp"
                     android:layout_weight="0.3"
-                    android:background="@color/heading_bg"
                     android:gravity="right"
-                    android:paddingRight="@dimen/_10sdp"
+                    android:paddingRight="@dimen/_15sdp"
                     android:text="x"
                     android:textColor="@color/splash_bg_color"
                     android:textSize="@dimen/_16sdp"
@@ -71,7 +68,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@+id/top_gradiant_view"
-                tools:ignore="WebViewLayout" />
+                tools:ignore="WebViewLayout"
+               android:layout_marginLeft="@dimen/_5sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:layout_marginRight="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_2sdp"/>
 
             <ImageView
                 android:id="@+id/image"

@@ -45,6 +45,9 @@ import java.util.Map;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
+//https://stackoverflow.com/questions/31000964/how-to-implement-setonscrolllistener-in-recyclerview
+// use for bottom progressbar link
+//https://github.com/kprathap23/Android/blob/master/EndlessRecyclerView/app/src/main/java/com/pratap/endlessrecyclerview/WallpaperActivity.java
 public class InquriyActivity extends AppCompatActivity implements View.OnClickListener {
     ActivityInquriyBinding activityInquriyBinding;
     Context mContext;
@@ -64,7 +67,9 @@ public class InquriyActivity extends AppCompatActivity implements View.OnClickLi
     RecyclerView inquiry_assign_rcv;
     ShimmerFrameLayout shimmer_view_containerdialog;
     String assignmemberId;
-    List<MoreDetailDataModel> galleryImageUrl = new ArrayList<>();
+    List<MoreDetailDataModel> allinquiryData = new ArrayList<>();
+    List<MoreDetailDataModel> allfilterinquiryData = new ArrayList<>();
+
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,13 +109,25 @@ public class InquriyActivity extends AppCompatActivity implements View.OnClickLi
 
                 if (!isLoading) {
                     if (moreDetailDataModelList != null) {
-                        if (mLayoutManager != null&& mLayoutManager.findLastCompletelyVisibleItemPosition() == moreDetailDataModelList.size()-1) {
-                            //bottom of list!
-                            AppConfiguration.pageindex = AppConfiguration.pageindex + 1;
-                            Log.d("pageIndexonScroll :", ""+AppConfiguration.pageindex);
-                            loadMore();
+                        if (AppConfiguration.whereToCall.equalsIgnoreCase("Main")) {
+                            if (mLayoutManager != null && mLayoutManager.findLastCompletelyVisibleItemPosition() == allinquiryData.size() - 1) {
+                                //bottom of list!
+                                AppConfiguration.pageindex = AppConfiguration.pageindex + 1;
+                                Log.d("pageIndexonScroll :", "" + AppConfiguration.pageindex);
+                                loadMore();
 
+                            }
+                        } else {
+                            if (mLayoutManager != null && mLayoutManager.findLastCompletelyVisibleItemPosition() == allfilterinquiryData.size() - 1) {
+                                //bottom of list!
+                                AppConfiguration.pageindex = AppConfiguration.pageindex + 1;
+                                Log.d("pageIndexonScroll :", "" + AppConfiguration.pageindex);
+                                loadMore();
+
+                            }
                         }
+
+
                     }
                 }
             }
@@ -147,7 +164,7 @@ public class InquriyActivity extends AppCompatActivity implements View.OnClickLi
                         activityInquriyBinding.shimmerViewContainer.setVisibility(View.VISIBLE);
                         activityInquriyBinding.inquriyListRcv.setVisibility(View.GONE);
                         activityInquriyBinding.shimmerViewContainer.startShimmerAnimation();
-moreDetailDataModelList.clear();
+                        moreDetailDataModelList.clear();
                         callInquriyfilterData();
                         bottomSheetDialogFragment.dismiss();
                     }
@@ -289,25 +306,32 @@ moreDetailDataModelList.clear();
 
 
     private void loadMore() {
-        if (AppConfiguration.whereToCall.equalsIgnoreCase("filter")){
+        if (AppConfiguration.whereToCall.equalsIgnoreCase("filter")) {
             callInquriyfilterData();
-        }else{
+        } else {
             callInquriyData();
         }
 
     }
 
     public void addOldNewValue(List<MoreDetailDataModel> result) {
-        galleryImageUrl.addAll(result);
-        Log.d("resultSize", "" + galleryImageUrl.size());
+        allinquiryData.addAll(result);
+        Log.d("resultSize", "" + allinquiryData.size());
+
+    }
+
+    public void addOldNewValuefilterData(List<MoreDetailDataModel> result) {
+        allfilterinquiryData.addAll(result);
+        Log.d("filterresultSize", "" + allfilterinquiryData.size());
 
     }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-
-        bottomSheet1DialogFragment.dismiss();
+        if (bottomSheet1DialogFragment != null) {
+            bottomSheet1DialogFragment.dismiss();
+        }
     }
 
     public void callInquriyAssignUserData() {
@@ -534,14 +558,14 @@ moreDetailDataModelList.clear();
                         activityInquriyBinding.shimmerViewContainer.stopShimmerAnimation();
                         activityInquriyBinding.shimmerViewContainer.setVisibility(View.GONE);
                         activityInquriyBinding.inquriyListRcv.setVisibility(View.VISIBLE);
-
+                        addOldNewValuefilterData(moreDetailDataModelList);
 
                         if (inquiryFilterListAdapter != null && moreDetailDataModelList.size() > 0) {
                             inquiryFilterListAdapter.addMoreDataToList(moreDetailDataModelList);
                             // just append more data to current list
                         } else if (inquiryFilterListAdapter != null && moreDetailDataModelList.size() == 0) {
                             isLoading = true;
-                            addOldNewValue(moreDetailDataModelList);
+                            addOldNewValuefilterData(moreDetailDataModelList);
                         } else {
                             fillInquiryfilterData();
                         }
@@ -557,7 +581,7 @@ moreDetailDataModelList.clear();
                 Utils.dismissDialog();
                 error.printStackTrace();
                 error.getMessage();
-                Log.d("retrofit error :" , error.getMessage());
+                Log.d("retrofit error :", error.getMessage());
                 Utils.ping(mContext, getString(R.string.something_wrong));
             }
         });

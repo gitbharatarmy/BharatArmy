@@ -6,16 +6,18 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 
 import com.bharatarmy.Fragment.MatchFilterTeamFragment;
 import com.bharatarmy.Fragment.MatchFilterVenuesFragment;
+import com.bharatarmy.Models.RegisterIntrestFilterDataModel;
 
 public class FilterPageAdapter extends FragmentStatePagerAdapter {
     //integer to count number of tabs
     int tabCount;
-
+    RegisterIntrestFilterDataModel registerIntrestFilterDataMode;
     //Constructor to the class
-    public FilterPageAdapter(FragmentManager fm, int tabCount) {
+    public FilterPageAdapter(FragmentManager fm, int tabCount, RegisterIntrestFilterDataModel registerIntrestFilterDataMode) {
         super(fm);
 //Initializing tab count
         this.tabCount = tabCount;
+        this.registerIntrestFilterDataMode=registerIntrestFilterDataMode;
     }
 
     //Overriding method getItem
@@ -24,10 +26,10 @@ public class FilterPageAdapter extends FragmentStatePagerAdapter {
 //Returning the current tabs
         switch (position) {
             case 0:
-                MatchFilterTeamFragment tab1 = new MatchFilterTeamFragment();
+                MatchFilterTeamFragment tab1 = new MatchFilterTeamFragment(registerIntrestFilterDataMode);
                 return tab1;
             case 1:
-                MatchFilterVenuesFragment tab2=new MatchFilterVenuesFragment();
+                MatchFilterVenuesFragment tab2=new MatchFilterVenuesFragment(registerIntrestFilterDataMode);
                 return tab2;
             default:
                 return null;

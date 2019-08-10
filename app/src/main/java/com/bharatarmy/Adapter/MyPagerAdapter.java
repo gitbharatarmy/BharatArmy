@@ -58,6 +58,7 @@ public class MyPagerAdapter extends PagerAdapter {
                 @Override
                 public void onClick(View v) {
                     Intent registerIntent=new Intent(mContext, RegisterInterestActivity.class);
+                    registerIntent.putExtra("tournamentId",homeTemplateDetailModelList.get(position).getReferenceId());
                     registerIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     mContext.startActivity(registerIntent);
                 }

@@ -23,6 +23,7 @@ import com.bharatarmy.Models.StoryDashboardData;
 import com.bharatarmy.Models.UpcommingDashboardModel;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.AppConfiguration;
+import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.BharatArmyStoriesListNewBinding;
 import com.squareup.picasso.Picasso;
 
@@ -78,14 +79,15 @@ BharatArmyStoriesListNewBinding bharatArmyStoriesListNewBinding;
         holder.bharatArmyStoriesListNewBinding.viewsTxt.setText(storiesData.getStrViewCount());
         holder.bharatArmyStoriesListNewBinding.usernameTxt.setText(storiesData.getAuthorName());
 
-
-        Picasso.with(mcontext)
-                .load(storiesData.getStrThumbImageName())
-                .placeholder(R.drawable.progress_animation)
-                .into(holder.bharatArmyStoriesListNewBinding.bannerImg);
-        Picasso.with(mcontext)
-                .load(storiesData.getAuthorImageURL())
-                .into(holder.bharatArmyStoriesListNewBinding.profileImage);
+        Utils.setImageInImageView(storiesData.getStrThumbImageName(),holder.bharatArmyStoriesListNewBinding.bannerImg,mcontext);
+//        Picasso.with(mcontext)
+//                .load(storiesData.getStrThumbImageName())
+//                .placeholder(R.drawable.progress_animation)
+//                .into(holder.bharatArmyStoriesListNewBinding.bannerImg);
+        Utils.setImageInImageView(storiesData.getAuthorImageURL(),holder.bharatArmyStoriesListNewBinding.profileImage,mcontext);
+//        Picasso.with(mcontext)
+//                .load(storiesData.getAuthorImageURL())
+//                .into(holder.bharatArmyStoriesListNewBinding.profileImage);
 
 
 

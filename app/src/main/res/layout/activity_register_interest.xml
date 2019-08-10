@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
-
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
@@ -87,11 +86,20 @@
                 android:layout_marginRight="@dimen/_15sdp"
                 android:orientation="vertical">
 
+                <LinearLayout
+                    android:id="@+id/shimmer_view_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                <include layout="@layout/register_interest_dataholder" />
+                </LinearLayout>
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/registerinterestRcv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/_60sdp"/>
+                    android:layout_marginBottom="@dimen/_60sdp"
+                    android:visibility="gone"/>
             </LinearLayout>
 
             <LinearLayout
@@ -104,7 +112,8 @@
                 android:layout_marginBottom="@dimen/_75sdp"
                 android:background="@drawable/fab_border"
                 android:orientation="vertical"
-                android:padding="1dp">
+                android:padding="1dp"
+                android:visibility="gone">
 
                 <ImageView
                     android:layout_width="@dimen/_15sdp"
@@ -131,7 +140,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/_20sdp"
-                android:background="@drawable/curve_shape">
+                android:background="@drawable/curve_shape"
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="wrap_content"

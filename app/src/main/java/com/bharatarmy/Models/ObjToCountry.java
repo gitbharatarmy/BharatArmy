@@ -5,43 +5,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class InquiryStatusModel {
-    @SerializedName("value")
-    @Expose
-    private String value;
-    @SerializedName("label")
-    @Expose
-    private String label;
-
-    @SerializedName("VenueSelected")
-    @Expose
-    private String venueSelected;
-
-    public String getValue() {
-        return value;
-    }
-
-    public void setValue(String value) {
-        this.value = value;
-    }
-
-    public String getLabel() {
-        return label;
-    }
-
-    public void setLabel(String label) {
-        this.label = label;
-    }
-    public String getVenueSelected() {
-        return venueSelected;
-    }
-
-    public void setVenueSelected(String venueSelected) {
-        this.venueSelected = venueSelected;
-    }
-
-//    *************  RegisterInterest Fitler Country **************
-
+public class ObjToCountry {
     @SerializedName("ID")
     @Expose
     private Integer iD;
@@ -54,9 +18,6 @@ public class InquiryStatusModel {
     @SerializedName("StateMasters")
     @Expose
     private List<Object> stateMasters = null;
-    @SerializedName("CountryFlagUrl")
-    @Expose
-    private String countryFlagUrl;
     @SerializedName("CountryId")
     @Expose
     private Integer countryId;
@@ -71,10 +32,10 @@ public class InquiryStatusModel {
     private Integer isDisplay;
     @SerializedName("url")
     @Expose
-    private String url;
-    @SerializedName("TeamSelected")
+    private Object url;
+    @SerializedName("CountryFlagUrl")
     @Expose
-    private String teamSelected;
+    private String countryFlagUrl;
     public Integer getID() {
         return iD;
     }
@@ -105,14 +66,6 @@ public class InquiryStatusModel {
 
     public void setStateMasters(List<Object> stateMasters) {
         this.stateMasters = stateMasters;
-    }
-
-    public String getCountryFlagUrl() {
-        return countryFlagUrl;
-    }
-
-    public void setCountryFlagUrl(String countryFlagUrl) {
-        this.countryFlagUrl = countryFlagUrl;
     }
 
     public Integer getCountryId() {
@@ -147,21 +100,19 @@ public class InquiryStatusModel {
         this.isDisplay = isDisplay;
     }
 
-    public String getUrl() {
+    public Object getUrl() {
         return url;
     }
 
-    public void setUrl(String url) {
+    public void setUrl(Object url) {
         this.url = url;
     }
 
-    public String getTeamSelected() {
-        return teamSelected;
+    public String getCountryFlagUrl() {
+        return countryFlagUrl;
     }
 
-    public void setTeamSelected(String teamSelected) {
-        this.teamSelected = teamSelected;
+    public void setCountryFlagUrl(String countryFlagUrl) {
+        this.countryFlagUrl = countryFlagUrl;
     }
-
-
 }

@@ -77,19 +77,23 @@
                         android:orientation="horizontal">
 
                         <TextView
-                            android:id="@+id/packageprice_txt"
+                            android:id="@+id/tournamenttype_txt"
                             style="@style/title_text_font"
-                            android:layout_width="@dimen/_20sdp"
+                            android:layout_width="wrap_content"
                             android:layout_height="@dimen/_15sdp"
-                            android:background="@drawable/match_detail_bluecurveshape"
+                            android:background="@drawable/tag_shape"
                             android:gravity="center_vertical|center_horizontal"
                             android:text="T20"
                             android:textColor="@color/splash_bg_color"
                             android:textSize="@dimen/_7sdp"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            android:paddingLeft="@dimen/_7sdp"
+                            android:paddingRight="@dimen/_7sdp"
+                            android:paddingBottom="@dimen/_3sdp"
+                            android:paddingTop="@dimen/_3sdp"/>
 
                         <TextView
-                            android:id="@+id/packageplacename_txt"
+                            android:id="@+id/tournamenttime_txt"
                             style="@style/title_text_font"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -109,6 +113,7 @@
                         android:orientation="horizontal">
 
                         <TextView
+                            android:id="@+id/fromCountry_txt"
                             style="@style/title_text_font"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
@@ -121,6 +126,7 @@
 
 
                         <com.bharatarmy.RoundishImageView
+                            android:id="@+id/fromCountry_img"
                             android:layout_width="@dimen/_20sdp"
                             android:layout_height="@dimen/_15sdp"
                             android:layout_marginLeft="@dimen/_3sdp"
@@ -138,11 +144,12 @@
                             android:ellipsize="end"
                             android:gravity="center_horizontal|center_vertical"
                             android:maxLines="2"
-                            android:text="vs"
+                            android:text="v"
                             android:textColor="@color/heading_bg"
                             android:textSize="@dimen/_13sdp" />
 
                         <com.bharatarmy.RoundishImageView
+                            android:id="@+id/toCountry_img"
                             android:layout_width="@dimen/_20sdp"
                             android:layout_height="@dimen/_15sdp"
                             android:layout_marginLeft="@dimen/_3sdp"
@@ -154,6 +161,7 @@
                             app:roundedCorners="topLeft|topRight|bottomLeft|bottomRight" />
 
                         <TextView
+                            android:id="@+id/toCountry_txt"
                             style="@style/title_text_font"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -175,6 +183,7 @@
                         android:orientation="horizontal">
 
                         <TextView
+                            android:id="@+id/matchno_stadiumname_txt"
                             style="@style/text_font"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"

@@ -53,7 +53,7 @@
             <androidx.viewpager.widget.ViewPager
                 android:id="@+id/main_page_dealsRcv"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_150sdp"/>
+                android:layout_height="@dimen/_170sdp"/>
 
                 <androidx.viewpager.widget.ViewPager
                     android:id="@+id/cardViewPager"
@@ -62,7 +62,7 @@
                     android:layout_marginLeft="@dimen/_13sdp"
                     android:layout_marginRight="@dimen/_30sdp"
                     android:layout_marginTop="@dimen/_110sdp"
-                    android:layout_marginBottom="@dimen/_5sdp"
+                    android:layout_marginBottom="@dimen/_15sdp"
                     android:clipChildren="false"
                     android:overScrollMode="never"/>
 

@@ -2,12 +2,10 @@ package com.bharatarmy.Fragment;
 
 import android.content.Context;
 import android.graphics.Typeface;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import android.text.Spannable;
@@ -17,11 +15,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.bharatarmy.Adapter.FansPageAdapter;
 import com.bharatarmy.Adapter.FilterPageAdapter;
 import com.bharatarmy.R;
 import com.bharatarmy.databinding.FragmentMatchFilterBinding;
-import com.bharatarmy.databinding.OffersBottomSheetBinding;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.tabs.TabLayout;
 
@@ -71,9 +67,10 @@ public class MatchFilterFragment extends BottomSheetDialogFragment implements Vi
         fragmentMatchFilterBinding.tabLayoutFilter.setTabMode(TabLayout.MODE_FIXED);
         fragmentMatchFilterBinding.tabLayoutFilter.setTabGravity(TabLayout.GRAVITY_FILL);
 
-        filterPageAdapter = new FilterPageAdapter(getChildFragmentManager(), fragmentMatchFilterBinding.tabLayoutFilter.getTabCount());
-        fragmentMatchFilterBinding.filterpager.setOffscreenPageLimit(0);
-        fragmentMatchFilterBinding.filterpager.setAdapter(filterPageAdapter);
+//        filterPageAdapter = new FilterPageAdapter(getChildFragmentManager(), fragmentMatchFilterBinding.tabLayoutFilter.getTabCount(),
+//                registerIntrestFilterDataMode);
+//        fragmentMatchFilterBinding.filterpager.setOffscreenPageLimit(0);
+//        fragmentMatchFilterBinding.filterpager.setAdapter(filterPageAdapter);
 
     }
 

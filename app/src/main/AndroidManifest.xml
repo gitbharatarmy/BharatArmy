@@ -40,7 +40,9 @@
         <activity
             android:name=".Activity.DemoActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme" >
+
+        </activity>
         <activity
             android:name=".Activity.TravelBookActivity"
             android:screenOrientation="portrait"
@@ -212,7 +214,8 @@
             android:name=".Activity.DashboardActivity"
             android:label="@string/title_activity_dashboard"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme"
+            android:launchMode="singleTop"/>
         <activity
             android:name=".Activity.SignUpActivity"
             android:screenOrientation="portrait"

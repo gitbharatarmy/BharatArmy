@@ -13,6 +13,8 @@ public class InquiryOtherDataModel {
     @Expose
     private List<InquiryOrderTypeModel> types = null;
 
+
+
     public List<InquiryStatusModel> getStatus() {
         return status;
     }

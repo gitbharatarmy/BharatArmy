@@ -13,9 +13,13 @@ import android.widget.TextView;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bharatarmy.Models.InquiryStatusModel;
 import com.bharatarmy.Models.StoryDashboardData;
 import com.bharatarmy.Models.TravelModel;
 import com.bharatarmy.R;
+import com.bharatarmy.Utility.AppConfiguration;
+import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.MatchFilterTeamItemBinding;
 
 import java.util.ArrayList;
@@ -23,14 +27,14 @@ import java.util.List;
 
 public class MatchFilterTeamAdapter extends RecyclerView.Adapter<MatchFilterTeamAdapter.MyViewHolder> {
     Context mContext;
-    ArrayList<TravelModel> matchTeamFlagList;
-int row_index;
+    List<InquiryStatusModel> matchTeamList;
+
     private ArrayList<String> dataCheck = new ArrayList<String>();
 
 
-    public MatchFilterTeamAdapter(Context mContext, ArrayList<TravelModel> matchTeamFlagList) {
+    public MatchFilterTeamAdapter(Context mContext, List<InquiryStatusModel> matchTeamList) {
         this.mContext=mContext;
-        this.matchTeamFlagList=matchTeamFlagList;
+        this.matchTeamList=matchTeamList;
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
@@ -56,10 +60,10 @@ int row_index;
     @Override
     public void onBindViewHolder(MatchFilterTeamAdapter.MyViewHolder holder, int position) {
 
-        final TravelModel teamdetail = matchTeamFlagList.get(position);
+        final InquiryStatusModel teamdetail = matchTeamList.get(position);
 
-        holder.matchFilterTeamItemBinding.teamFlag.setImageResource(teamdetail.getMatchteamFlag());
-        holder.matchFilterTeamItemBinding.matchTeamTxt.setText(teamdetail.getMatchteamVenues());
+        Utils.setImageInImageView(teamdetail.getCountryFlagUrl(),holder.matchFilterTeamItemBinding.teamFlag,mContext);
+        holder.matchFilterTeamItemBinding.matchTeamTxt.setText(teamdetail.getCountryName());
 
 
         holder.matchFilterTeamItemBinding.teamselectedLinear.setOnClickListener(new View.OnClickListener() {
@@ -67,12 +71,36 @@ int row_index;
             public void onClick(View v) {
                 if (holder.matchFilterTeamItemBinding.selectedChk.isChecked()){
                     holder.matchFilterTeamItemBinding.selectedChk.setChecked(false);
+                    teamdetail.setTeamSelected("0");
                 }else{
                     holder.matchFilterTeamItemBinding.selectedChk.setChecked(true);
+                    teamdetail.setTeamSelected("1");
+
                 }
 
             }
         });
+
+        holder.matchFilterTeamItemBinding.selectedChk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (holder.matchFilterTeamItemBinding.selectedChk.isChecked()){
+                    holder.matchFilterTeamItemBinding.selectedChk.setChecked(true);
+                    teamdetail.setTeamSelected("1");
+                }else{
+                    holder.matchFilterTeamItemBinding.selectedChk.setChecked(false);
+                    teamdetail.setTeamSelected("0");
+
+                }
+
+            }
+        });
+
+        if (teamdetail.getTeamSelected().equalsIgnoreCase("1")){
+            holder.matchFilterTeamItemBinding.selectedChk.setChecked(true);
+        }else{
+            holder.matchFilterTeamItemBinding.selectedChk.setChecked(false);
+        }
 
     }
 
@@ -89,7 +117,7 @@ int row_index;
 
     @Override
     public int getItemCount() {
-        return matchTeamFlagList.size();
+        return matchTeamList.size();
     }
 
 

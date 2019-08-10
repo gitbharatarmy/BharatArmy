@@ -45,6 +45,14 @@ public interface WebServices {
     void getHomeBanners(@FieldMap Map<String, String> map, Callback<HomeTemplateModel> callback);
 
     @FormUrlEncoded
+    @POST("/GetTournamentFixtures")
+    void getTournamentFixtures(@FieldMap Map<String, String> map, Callback<HomeTemplateModel> callback);
+
+    @FormUrlEncoded
+    @POST("/SaveRegisterInterest")
+    void getSaveRegisterInterest(@FieldMap Map<String, String> map, Callback<LogginModel> callback);
+
+    @FormUrlEncoded
     @POST("/GetUserDetails")
     void getUserDetails(@FieldMap Map<String, String> map, Callback<LogginModel> callback);
 

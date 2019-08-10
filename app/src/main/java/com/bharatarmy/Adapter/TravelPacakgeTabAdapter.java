@@ -67,7 +67,8 @@ public class TravelPacakgeTabAdapter extends RecyclerView.Adapter<TravelPacakgeT
 
     @Override
     public TravelPacakgeTabAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        TravelpacakgeTabItemBinding travelpacakgeTabItemBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.travelpacakge_tab_item, parent, false);
+        TravelpacakgeTabItemBinding travelpacakgeTabItemBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
+                R.layout.travelpacakge_tab_item, parent, false);
         return new TravelPacakgeTabAdapter.MyViewHolder(travelpacakgeTabItemBinding);
     }
 
