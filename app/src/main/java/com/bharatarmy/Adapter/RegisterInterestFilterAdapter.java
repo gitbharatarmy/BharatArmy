@@ -12,10 +12,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bharatarmy.Interfaces.MorestoryClick;
 import com.bharatarmy.Models.HomeTemplateDetailModel;
+import com.bharatarmy.Models.RegisterIntrestFilterDataModel;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.RegisterInterestchildItemBinding;
 import com.bharatarmy.databinding.RegisterInteresttitleItemBinding;
+import com.google.android.flexbox.AlignItems;
+import com.google.android.flexbox.FlexWrap;
+import com.google.android.flexbox.FlexboxLayoutManager;
+import com.google.android.flexbox.JustifyContent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,9 +34,11 @@ public class RegisterInterestFilterAdapter extends RecyclerView.Adapter<Recycler
     String titleNameStr, nooft20Str, noofodiStr, nooftestStr;
     MorestoryClick morestoryClick;
     private ArrayList<String> dataCheck = new ArrayList<String>();
+    RegisterIntrestFilterDataModel registerIntrestFilterDataModel;
+    RegisterIntetestCountryFlagAdapter registerIntetestCountryFlagAdapter;
     
-    public RegisterInterestFilterAdapter(Context mContext, List<HomeTemplateDetailModel> tournamentDetailModel, String titleNameStr,
-                                  String nooft20Str, String noofodiStr, String nooftestStr, MorestoryClick morestoryClick) {
+    public RegisterInterestFilterAdapter(Context mContext, List<HomeTemplateDetailModel> tournamentDetailModel, RegisterIntrestFilterDataModel registerIntrestFilterDataModel, String titleNameStr,
+                                         String nooft20Str, String noofodiStr, String nooftestStr, MorestoryClick morestoryClick) {
         this.mContext = mContext;
         this.titleNameStr = titleNameStr;
         this.tournamentDetailModelList = tournamentDetailModel;
@@ -39,6 +46,7 @@ public class RegisterInterestFilterAdapter extends RecyclerView.Adapter<Recycler
         this.noofodiStr = noofodiStr;
         this.nooftestStr = nooftestStr;
         this.morestoryClick = morestoryClick;
+        this.registerIntrestFilterDataModel =registerIntrestFilterDataModel;
     }
 
     static class MyItemViewHolder extends RecyclerView.ViewHolder {
@@ -164,27 +172,18 @@ public class RegisterInterestFilterAdapter extends RecyclerView.Adapter<Recycler
                 ((RegisterInterestFilterAdapter.MyItemViewHolder) holder).registerInterestchildItemBinding.selectedChk.setChecked(false);
             }
         } else if (holder.getItemViewType() == HEADER) {
-            Utils.setImageInImageView("https://www.bharatarmy.com/Content/images/flags-mini/in.png", ((RegisterInterestFilterAdapter.HeaderViewHolder) holder).registerInteresttitleItemBinding.firstCountryflagImage, mContext);
-            Utils.setImageInImageView("https://www.bharatarmy.com/Content/images/flags-mini/sou.png", ((RegisterInterestFilterAdapter.HeaderViewHolder) holder).registerInteresttitleItemBinding.secondCountryflagImage, mContext);
+//            Utils.setImageInImageView("https://www.bharatarmy.com/Content/images/flags-mini/in.png", ((RegisterInterestFilterAdapter.HeaderViewHolder) holder).registerInteresttitleItemBinding.firstCountryflagImage, mContext);
+//            Utils.setImageInImageView("https://www.bharatarmy.com/Content/images/flags-mini/sou.png", ((RegisterInterestFilterAdapter.HeaderViewHolder) holder).registerInteresttitleItemBinding.secondCountryflagImage, mContext);
             ((RegisterInterestFilterAdapter.HeaderViewHolder) holder).registerInteresttitleItemBinding.titleTxtView.setText(titleNameStr);
             ((RegisterInterestFilterAdapter.HeaderViewHolder) holder).registerInteresttitleItemBinding.tourNameTxt.setText(tournamentDetailModelList.get(position).getTourName());
+            registerIntetestCountryFlagAdapter = new RegisterIntetestCountryFlagAdapter(mContext, registerIntrestFilterDataModel);
+            FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(mContext);
+            layoutManager.setFlexWrap(FlexWrap.WRAP);
+            layoutManager.setAlignItems(AlignItems.BASELINE);
+            layoutManager.setJustifyContent(JustifyContent.FLEX_START);
+            ((RegisterInterestFilterAdapter.HeaderViewHolder) holder).registerInteresttitleItemBinding.registerInterestFlagRcv.setLayoutManager(layoutManager); // set LayoutManager to RecyclerView
+            ((RegisterInterestFilterAdapter.HeaderViewHolder) holder).registerInteresttitleItemBinding.registerInterestFlagRcv.setAdapter(registerIntetestCountryFlagAdapter);
 
-//            if (!noofodiStr.equalsIgnoreCase("0")) {
-//                ((HeaderViewHolder) holder).registerInteresttitleItemBinding.matchODIcount1Txt.setText(noofodiStr+" ODI,");
-//            } else {
-//                ((HeaderViewHolder) holder).registerInteresttitleItemBinding.matchODIcount1Txt.setVisibility(View.GONE);
-//            }
-//            if (!nooft20Str.equalsIgnoreCase("0")) {
-//                ((HeaderViewHolder) holder).registerInteresttitleItemBinding.matchT20countTxt.setText(nooft20Str+" T20");
-//            } else {
-//                ((HeaderViewHolder) holder).registerInteresttitleItemBinding.matchODIcount1Txt.setVisibility(View.GONE);
-//            }
-//
-//            if (!nooftestStr.equalsIgnoreCase("0")) {
-//                ((HeaderViewHolder) holder).registerInteresttitleItemBinding.matchTESTcount2Txt.setText(nooftestStr+" TEST,");
-//            } else {
-//                ((HeaderViewHolder) holder).registerInteresttitleItemBinding.matchTESTcount2Txt.setVisibility(View.GONE);
-//            }
         }
 
     }

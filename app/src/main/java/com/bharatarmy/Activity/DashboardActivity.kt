@@ -187,10 +187,10 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, TravelFragm
 
 
         // Loading profile image
-        Glide.with(this)
-                .load(Utils.getPref(mContext, "LoginProfilePic"))
-                .thumbnail(0.5f)
-                .into(user_profile_img)
+//        Glide.with(this)
+//                .load(Utils.getPref(mContext, "LoginProfilePic"))
+//                .thumbnail(0.5f)
+//                .into(user_profile_img)
 
         user_profile_img.setOnClickListener(this)
         proflie_linear.setOnClickListener(this)

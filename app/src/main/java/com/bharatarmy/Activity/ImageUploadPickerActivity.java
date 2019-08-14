@@ -160,9 +160,7 @@ public class ImageUploadPickerActivity extends AppCompatActivity {
             case REQUEST_IMAGE_CAPTURE:
                 if (resultCode == RESULT_OK) {
                     cropImage(getCacheImagePath(fileName));
-//                    Uri destinationUri = Uri.fromFile(new File(getCacheDir(), queryName(getContentResolver(), getCacheImagePath(fileName))));
-//
-//                    setResultOk(destinationUri);
+
                 } else {
                     setResultCancelled();
                 }

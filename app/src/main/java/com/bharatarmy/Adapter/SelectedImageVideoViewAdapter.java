@@ -10,12 +10,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bharatarmy.Interfaces.image_click;
 import com.bharatarmy.Models.GalleryImageModel;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.Utils;
+import com.bharatarmy.databinding.SelectedImageVideoListItemBinding;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -40,46 +42,44 @@ public class SelectedImageVideoViewAdapter extends RecyclerView.Adapter<Selected
 
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        ImageView selected_image;
-        TextView selected_image_name_txt, selected_image_remove_txt, selected_image_size_txt;
+//        ImageView selected_image;
+//        TextView selected_image_name_txt, selected_image_remove_txt, selected_image_size_txt;
+           SelectedImageVideoListItemBinding selectedImageVideoListItemBinding;
 
-        public MyViewHolder(View view) {
-            super(view);
+        public MyViewHolder(SelectedImageVideoListItemBinding selectedImageVideoListItemBinding) {
+            super(selectedImageVideoListItemBinding.getRoot());
 
-            selected_image = (ImageView) view.findViewById(R.id.selected_image);
-            selected_image_name_txt = (TextView) view.findViewById(R.id.selected_image_name_txt);
-            selected_image_remove_txt = (TextView) view.findViewById(R.id.selected_image_remove_txt);
-            selected_image_size_txt = (TextView) view.findViewById(R.id.selected_image_size_txt);
+this.selectedImageVideoListItemBinding=selectedImageVideoListItemBinding;
         }
     }
 
 
     @Override
     public SelectedImageVideoViewAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.selected_image_video_list_item, parent, false);
 
-        return new SelectedImageVideoViewAdapter.MyViewHolder(itemView);
+
+        SelectedImageVideoListItemBinding selectedImageVideoListItemBinding= DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
+                R.layout.selected_image_video_list_item,parent,false);
+        return new SelectedImageVideoViewAdapter.MyViewHolder(selectedImageVideoListItemBinding);
     }
 
     @SuppressLint("ResourceAsColor")
     @Override
     public void onBindViewHolder(SelectedImageVideoViewAdapter.MyViewHolder holder, final int position) {
-//        file:///data/user/0/com.bharatarmy/cache/1559995995507.jpg
-//        Log.d("DisplayImages", urlList.get(position).toString());
-        Utils.setImageInImageView(imageDetailModel.get(position).getImageUri(), holder.selected_image, mContext);
+
+        Utils.setImageInImageView(imageDetailModel.get(position).getImageUri(), holder.selectedImageVideoListItemBinding.selectedImage, mContext);
 
         File file = new File(imageDetailModel.get(position).getImageUri());
         String name = file.getName();
 
-        holder.selected_image_size_txt.setText(imageDetailModel.get(position).getImageSize());
-        holder.selected_image_name_txt.setText(name);
+        holder.selectedImageVideoListItemBinding.selectedImageSizeTxt.setText(imageDetailModel.get(position).getImageSize());
+        holder.selectedImageVideoListItemBinding.selectedImageNameTxt.setText(name);
 
-        holder.selected_image_remove_txt.setOnClickListener(new View.OnClickListener() {
+        holder.selectedImageVideoListItemBinding.selectedImageRemoveTxt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dataCheck = new ArrayList<>();
-                dataCheck.add(imageDetailModel.get(position).toString());
+                dataCheck.add(imageDetailModel.get(position).getImageUri().toString());
                 image_click.image_more_click();
             }
         });

@@ -1,47 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.nex3z.flowlayout.FlowLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/bottomSheetLayout"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
-    app:flFlow="true"
-    app:flChildSpacing="auto"
-    app:flChildSpacingForLastRow="align"
-    app:flRowSpacing="8dp">
-
-
+    android:orientation="horizontal"
+    android:layout_margin="@dimen/_5sdp">
 
     <LinearLayout
-        android:id="@+id/inquiry_typelinear"
+        android:id="@+id/pending_statuslinear"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_3sdp"
+        android:layout_marginBottom="@dimen/_3sdp"
         android:orientation="horizontal">
-        <TextView
-        android:id="@+id/inquiry_txt"
-        style="@style/text_font"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/_35sdp"
-        android:layout_marginLeft="@dimen/_15sdp"
-        android:layout_marginRight="@dimen/_1sdp"
-        android:gravity="center_vertical"
-        android:text="Inquiry"
-        android:textColor="@color/unselected_view"
-        android:textSize="@dimen/_13sdp" />
 
         <TextView
-        android:id="@+id/closetxt"
-        style="@style/text_font"
-        android:layout_width="@dimen/_10sdp"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="@dimen/_7sdp"
-        android:layout_marginRight="@dimen/_15sdp"
-        android:gravity="center_vertical|center_horizontal"
-        android:text="x"
-        android:textAllCaps="true"
-        android:textColor="@color/gray"
-        android:textSize="@dimen/_11sdp"
-        android:visibility="gone" />
-        </LinearLayout>
+            android:id="@+id/pending_txt"
+            style="@style/text_font"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_35sdp"
+            android:layout_marginLeft="@dimen/_16sdp"
+            android:layout_marginRight="@dimen/_1sdp"
+            android:gravity="center_vertical"
+            android:tag="0"
+            android:text="Pending"
+            android:textColor="@color/unselected_view"
+            android:textSize="@dimen/_13sdp" />
 
-</com.nex3z.flowlayout.FlowLayout>
+        <TextView
+            android:id="@+id/pendingclosetxt"
+            style="@style/text_font"
+            android:layout_width="@dimen/_10sdp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/_7sdp"
+            android:layout_marginRight="@dimen/_16sdp"
+            android:gravity="center_vertical|center_horizontal"
+            android:text="x"
+            android:textAllCaps="true"
+            android:textColor="@color/gray"
+            android:textSize="@dimen/_11sdp"
+            android:visibility="gone" />
+    </LinearLayout>
+</LinearLayout>

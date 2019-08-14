@@ -45,12 +45,12 @@ public class RegisterInterestActivity extends AppCompatActivity implements View.
     ActivityRegisterInterestBinding activityRegisterInterestBinding;
     Context mContext;
     String titleNameStr, tournamentIdStr, nooftestStr, noofodiStr, nooft20Str,
-       memberIdStr,nameStr,emailStr,mobilenoStr,countrydialcodeStr,countrycodeStr,matchidStr;
+            memberIdStr, nameStr, emailStr, mobilenoStr, countrydialcodeStr, countrycodeStr, matchidStr;
     BottomSheetDialogFragment bottomSheetDialogFragment;
     int countT20, countODI, countTEST;
 
     List<HomeTemplateDetailModel> tournamentDetailModel;
-    ArrayList<HomeTemplateDetailModel> tournamentfilterDetailModel,tournamentfiltervenuewithteamDetailModel;
+    ArrayList<HomeTemplateDetailModel> tournamentfilterDetailModel, tournamentfiltervenuewithteamDetailModel;
 
     RegisterIntrestAdapter registerIntrestAdapter;
     RegisterInterestFilterAdapter registerInterestFilterAdapter;
@@ -113,11 +113,11 @@ public class RegisterInterestActivity extends AppCompatActivity implements View.
                 ArrayList<String> selectedtournamentId = new ArrayList<>();
                 for (int i = 0; i < tournamentDetailModel.size(); i++) {
                     if (tournamentDetailModel.get(i).getCheck().equalsIgnoreCase("1")) {
-                        selectedtournamentId.add(String.valueOf(tournamentDetailModel.get(i).getTournamentId()));
+                        selectedtournamentId.add(String.valueOf(tournamentDetailModel.get(i).getTournamentMatchId()));
                         Log.d("selectedtournamentId :", selectedtournamentId.toString());
                     }
                 }
-                if (selectedtournamentId.size()!=0){
+                if (selectedtournamentId.size() != 0) {
                     String tournamentIdStr;
                     tournamentIdStr = "";
                     for (String s : selectedtournamentId) {
@@ -126,49 +126,49 @@ public class RegisterInterestActivity extends AppCompatActivity implements View.
                     Log.d("tournamentIdStr", tournamentIdStr);
                     tournamentIdStr = tournamentIdStr.substring(1, tournamentIdStr.length());
                     Log.d("finalstatusStr", tournamentIdStr);
-                    matchidStr=tournamentIdStr;
-                    if (!Utils.getPref(mContext,"AppUserId").equalsIgnoreCase("")){
-                        memberIdStr=Utils.getPref(mContext,"AppUserId");
-                        nameStr=Utils.getPref(mContext, "LoginUserName");
-                        emailStr=Utils.getPref(mContext, "LoginEmailId");
-                        mobilenoStr=Utils.getPref(mContext, "LoginPhoneNo");
-                        countrycodeStr=Utils.getPref(mContext, "CountryISOCode");
-                        countrydialcodeStr= Utils.getPref(mContext, "CountryPhoneNo");
+                    matchidStr = tournamentIdStr;
+                    if (!Utils.getPref(mContext, "AppUserId").equalsIgnoreCase("")) {
+                        memberIdStr = Utils.getPref(mContext, "AppUserId");
+                        nameStr = Utils.getPref(mContext, "LoginUserName");
+                        emailStr = Utils.getPref(mContext, "LoginEmailId");
+                        mobilenoStr = Utils.getPref(mContext, "LoginPhoneNo");
+                        countrycodeStr = Utils.getPref(mContext, "CountryISOCode");
+                        countrydialcodeStr = Utils.getPref(mContext, "CountryPhoneNo");
 
-                       if (!memberIdStr.equalsIgnoreCase("")&& !nameStr.equalsIgnoreCase("")&&
-                           !emailStr.equalsIgnoreCase("")&&!mobilenoStr.equalsIgnoreCase("")&&
-                           !mobilenoStr.equalsIgnoreCase("")&&!countrydialcodeStr.equalsIgnoreCase("")&&
-                           !countrycodeStr.equalsIgnoreCase("")){
-                           callSaveInterestDetailData();
-                       }else{
-                           Utils.ping(mContext,"blank filed not allowed");
-                       }
+                        if (!memberIdStr.equalsIgnoreCase("") && !nameStr.equalsIgnoreCase("") &&
+                                !emailStr.equalsIgnoreCase("") && !mobilenoStr.equalsIgnoreCase("") &&
+                                !mobilenoStr.equalsIgnoreCase("") && !countrydialcodeStr.equalsIgnoreCase("") &&
+                                !countrycodeStr.equalsIgnoreCase("")) {
+                            callSaveInterestDetailData();
+                        } else {
+                            Utils.ping(mContext, "blank filed not allowed");
+                        }
 
-                    }else{
+                    } else {
                         Utils.showSubmitRegisterDialog(RegisterInterestActivity.this, "RegisterInterest", new submit_click() {
                             @Override
                             public void getsubmitClick() {
-                                memberIdStr="0";
-                                nameStr= AppConfiguration.registerNameStr;
-                                emailStr=AppConfiguration.registerEmailStr;
-                                mobilenoStr=AppConfiguration.registerMobileStr;
-                                countrycodeStr=AppConfiguration.registerCountryCodeStr;
-                                countrydialcodeStr= AppConfiguration.registerCountryDialcodeStr;
-                                if (!memberIdStr.equalsIgnoreCase("")&& !nameStr.equalsIgnoreCase("")&&
-                                        !emailStr.equalsIgnoreCase("")&&!mobilenoStr.equalsIgnoreCase("")&&
-                                        !mobilenoStr.equalsIgnoreCase("")&&!countrydialcodeStr.equalsIgnoreCase("")&&
-                                        !countrycodeStr.equalsIgnoreCase("")){
+                                memberIdStr = "0";
+                                nameStr = AppConfiguration.registerNameStr;
+                                emailStr = AppConfiguration.registerEmailStr;
+                                mobilenoStr = AppConfiguration.registerMobileStr;
+                                countrycodeStr = AppConfiguration.registerCountryCodeStr;
+                                countrydialcodeStr = AppConfiguration.registerCountryDialcodeStr;
+                                if (!memberIdStr.equalsIgnoreCase("") && !nameStr.equalsIgnoreCase("") &&
+                                        !emailStr.equalsIgnoreCase("") && !mobilenoStr.equalsIgnoreCase("") &&
+                                        !mobilenoStr.equalsIgnoreCase("") && !countrydialcodeStr.equalsIgnoreCase("") &&
+                                        !countrycodeStr.equalsIgnoreCase("")) {
                                     callSaveInterestDetailData();
-                                }else{
-                                    Utils.ping(mContext,"blank filed not allowed");
+                                } else {
+                                    Utils.ping(mContext, "blank filed not allowed");
                                 }
 
                             }
                         });
                     }
 
-                }else{
-                    Utils.ping(mContext,"Please select atleast one match");
+                } else {
+                    Utils.ping(mContext, "Please select atleast one match");
                 }
 
                 break;
@@ -210,13 +210,13 @@ public class RegisterInterestActivity extends AppCompatActivity implements View.
                         activityRegisterInterestBinding.registerinterestRcv.setVisibility(View.VISIBLE);
                         activityRegisterInterestBinding.fabLinear.setVisibility(View.VISIBLE);
                         activityRegisterInterestBinding.submitLinear.setVisibility(View.VISIBLE);
+
+
+                        if (tournamentmodel.getOtherData() != null) {
+                            registerIntrestFilterDataModel = tournamentmodel.getOtherData();
+                        }
                         settournamentscheduleListValue();
                     }
-
-                    if (tournamentmodel.getOtherData() != null) {
-                        registerIntrestFilterDataModel = tournamentmodel.getOtherData();
-                    }
-
                 }
             }
 
@@ -262,7 +262,7 @@ public class RegisterInterestActivity extends AppCompatActivity implements View.
             tournamentDetailModel.get(k).setCheck("0");
         }
 
-        registerIntrestAdapter = new RegisterIntrestAdapter(mContext, tournamentDetailModel,
+        registerIntrestAdapter = new RegisterIntrestAdapter(mContext, tournamentDetailModel,registerIntrestFilterDataModel,
                 titleNameStr, nooft20Str, noofodiStr, nooftestStr, new MorestoryClick() {
             @Override
             public void getmorestoryClick() {
@@ -315,16 +315,16 @@ public class RegisterInterestActivity extends AppCompatActivity implements View.
                 }
             }
         }
-        tournamentfiltervenuewithteamDetailModel=new ArrayList<>();
-        if (selectedtournamentVenuename.size()!=0) {
+        tournamentfiltervenuewithteamDetailModel = new ArrayList<>();
+        if (selectedtournamentVenuename.size() != 0) {
             for (int k = 0; k < selectedtournamentVenuename.size(); k++) {
-                if (tournamentfilterDetailModel.size()!=0) {
+                if (tournamentfilterDetailModel.size() != 0) {
                     for (int i = 0; i < tournamentfilterDetailModel.size(); i++) {
                         if (selectedtournamentVenuename.get(k).trim().equalsIgnoreCase(tournamentfilterDetailModel.get(i).getStadiumName().trim())) {
                             tournamentfiltervenuewithteamDetailModel.add(tournamentfilterDetailModel.get(i));
                         }
                     }
-                }else{
+                } else {
                     for (int i = 0; i < tournamentDetailModel.size(); i++) {
                         if (selectedtournamentVenuename.get(k).trim().equalsIgnoreCase(tournamentDetailModel.get(i).getStadiumName().trim())) {
                             tournamentfiltervenuewithteamDetailModel.add(tournamentDetailModel.get(i));
@@ -332,14 +332,14 @@ public class RegisterInterestActivity extends AppCompatActivity implements View.
                     }
                 }
             }
-        }else {
-            if (tournamentfilterDetailModel.size()!=0){
+        } else {
+            if (tournamentfilterDetailModel.size() != 0) {
                 for (int k = 0; k < tournamentfilterDetailModel.size(); k++) {
                     tournamentfilterDetailModel.get(k).setCheck("0");
                 }
                 activityRegisterInterestBinding.registerinterestRcv.setVisibility(View.VISIBLE);
                 activityRegisterInterestBinding.shimmerViewContainer.setVisibility(View.GONE);
-                registerInterestFilterAdapter = new RegisterInterestFilterAdapter(mContext, tournamentfilterDetailModel,
+                registerInterestFilterAdapter = new RegisterInterestFilterAdapter(mContext, tournamentfilterDetailModel,registerIntrestFilterDataModel,
                         titleNameStr, nooft20Str, noofodiStr, nooftestStr, new MorestoryClick() {
                     @Override
                     public void getmorestoryClick() {
@@ -362,7 +362,7 @@ public class RegisterInterestActivity extends AppCompatActivity implements View.
             }
             activityRegisterInterestBinding.registerinterestRcv.setVisibility(View.VISIBLE);
             activityRegisterInterestBinding.shimmerViewContainer.setVisibility(View.GONE);
-            registerInterestFilterAdapter = new RegisterInterestFilterAdapter(mContext, tournamentfiltervenuewithteamDetailModel,
+            registerInterestFilterAdapter = new RegisterInterestFilterAdapter(mContext, tournamentfiltervenuewithteamDetailModel,registerIntrestFilterDataModel,
                     titleNameStr, nooft20Str, noofodiStr, nooftestStr, new MorestoryClick() {
                 @Override
                 public void getmorestoryClick() {
@@ -375,11 +375,10 @@ public class RegisterInterestActivity extends AppCompatActivity implements View.
             activityRegisterInterestBinding.registerinterestRcv.setAdapter(registerInterestFilterAdapter);
             registerInterestFilterAdapter.notifyDataSetChanged();
 
-        }else {
+        } else {
         }
 
     }
-
 
 
     // Api calling SaveInterestDetailData
@@ -422,7 +421,7 @@ public class RegisterInterestActivity extends AppCompatActivity implements View.
                             @Override
                             public void onClick(View v) {
                                 alertDialog.dismiss();
-finish();
+                                finish();
                             }
                         });
                         alertDialog.show();
@@ -446,13 +445,13 @@ finish();
     private Map<String, String> getSaveInterestDetailData() {
         Map<String, String> map = new HashMap<>();
         map.put("TournamentId", tournamentIdStr);
-        map.put("MemberId",memberIdStr);
-        map.put("Name",nameStr);
-        map.put("Email",emailStr);
-        map.put("MobileNo",mobilenoStr);
-        map.put("CountryDialcode",countrydialcodeStr);
-        map.put("CountryCode",countrycodeStr);
-        map.put("MatchIds",matchidStr);
+        map.put("MemberId", memberIdStr);
+        map.put("Name", nameStr);
+        map.put("Email", emailStr);
+        map.put("MobileNo", mobilenoStr);
+        map.put("CountryDialcode", countrydialcodeStr);
+        map.put("CountryCode", countrycodeStr);
+        map.put("MatchIds", matchidStr);
         return map;
     }
 }

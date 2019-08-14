@@ -1,43 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="wrap_content">
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_5sdp"
         android:layout_marginBottom="@dimen/_5sdp"
         android:orientation="horizontal">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/rectangle_blue_line">
-
-            <ImageView
-                android:id="@+id/first_countryflag_image"
-                android:layout_width="@dimen/_20sdp"
-                android:layout_height="@dimen/_15sdp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/in_flag"
-                android:layout_margin="@dimen/_1sdp"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/_7sdp"
-            android:background="@drawable/rectangle_blue_line">
-
-            <ImageView
-                android:id="@+id/second_countryflag_image"
-                android:layout_width="@dimen/_20sdp"
-                android:layout_height="@dimen/_15sdp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/south_flag"
-                android:layout_margin="@dimen/_1sdp"/>
-        </LinearLayout>
+            android:id="@+id/register_interest_flagRcv"
+            app:layoutManager="com.google.android.flexbox.FlexboxLayoutManager"/>
     </LinearLayout>
 <LinearLayout
     android:layout_width="match_parent"

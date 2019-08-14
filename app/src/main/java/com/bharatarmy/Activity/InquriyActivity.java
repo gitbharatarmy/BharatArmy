@@ -156,6 +156,23 @@ public class InquriyActivity extends AppCompatActivity implements View.OnClickLi
                 }, new MorestoryClick() {
                     @Override
                     public void getmorestoryClick() {
+//                        ArrayList<String> selectedtournamentId = new ArrayList<>();
+//                        for (int i = 0; i < filtertaglist.getTypes().size(); i++) {
+//                            if (filtertaglist.getTypes().get(i).getClickstatus().equalsIgnoreCase("1")) {
+//                                selectedtournamentId.add(String.valueOf(filtertaglist.getTypes().get(i).getValue()));
+//                                Log.d("selectedtournamentId :", selectedtournamentId.toString());
+//                            }
+//                        }
+//                        if (selectedtournamentId.size() != 0) {
+//                            String tournamentIdStr;
+//                            tournamentIdStr = "";
+//                            for (String s : selectedtournamentId) {
+//                                tournamentIdStr = tournamentIdStr + "," + s;
+//                            }
+//                            Log.d("tournamentIdStr", tournamentIdStr);
+//                            tournamentIdStr = tournamentIdStr.substring(1, tournamentIdStr.length());
+//                            Log.d("finalstatusStr", tournamentIdStr);
+//                        }
                         orderstatusStr = AppConfiguration.inquirystatusfilterarray.toString().substring(1, AppConfiguration.inquirystatusfilterarray.toString().length() - 1);
 
                         ordertypeStr = AppConfiguration.ordertypefilterarray.toString().substring(1, AppConfiguration.ordertypefilterarray.toString().length() - 1);
@@ -208,6 +225,7 @@ public class InquriyActivity extends AppCompatActivity implements View.OnClickLi
                         filtertaglist = moreDataModel.getOtherData();
 
                         Log.d("moreDetailDataModelList", "" + moreDetailDataModelList.size());
+                        Log.d("filtertaglist", "" + filtertaglist.getTypes().size());
                         activityInquriyBinding.shimmerViewContainer.stopShimmerAnimation();
                         activityInquriyBinding.shimmerViewContainer.setVisibility(View.GONE);
                         activityInquriyBinding.inquriyListRcv.setVisibility(View.VISIBLE);

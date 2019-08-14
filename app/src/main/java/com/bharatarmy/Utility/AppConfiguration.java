@@ -1,5 +1,7 @@
 package com.bharatarmy.Utility;
 
+import android.net.Uri;
+
 import java.util.ArrayList;
 
 public class AppConfiguration {
@@ -32,5 +34,9 @@ public class AppConfiguration {
     public static String registerMobileStr;
     public static String registerCountryDialcodeStr;
     public static String registerCountryCodeStr;
+    public static String imagevideoStr;
+    public static  ArrayList<Uri> files = new ArrayList<>();
+    public static ArrayList<String> uploadcompletefilename=new ArrayList<>();
+    public static ArrayList<String> uploadfailedfilename =new ArrayList<>();
 
 }

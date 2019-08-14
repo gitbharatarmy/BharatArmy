@@ -14,16 +14,23 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bharatarmy.Interfaces.MorestoryClick;
 import com.bharatarmy.Models.HomeTemplateDetailModel;
+import com.bharatarmy.Models.RegisterIntrestFilterDataModel;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.RegisterInterestchildItemBinding;
 import com.bharatarmy.databinding.RegisterInteresttitleItemBinding;
 import com.cooltechworks.views.shimmer.ShimmerRecyclerView;
+import com.google.android.flexbox.AlignItems;
+import com.google.android.flexbox.FlexWrap;
+import com.google.android.flexbox.FlexboxLayout;
+import com.google.android.flexbox.FlexboxLayoutManager;
+import com.google.android.flexbox.JustifyContent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +44,10 @@ public class RegisterIntrestAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     String titleNameStr, nooft20Str, noofodiStr, nooftestStr;
     MorestoryClick morestoryClick;
     private ArrayList<String> dataCheck = new ArrayList<String>();
-    public RegisterIntrestAdapter(Context mContext, List<HomeTemplateDetailModel> tournamentDetailModel, String titleNameStr,
+    RegisterIntrestFilterDataModel registerIntrestFilterDataModel;
+    RegisterIntetestCountryFlagAdapter registerIntetestCountryFlagAdapter;
+
+    public RegisterIntrestAdapter(Context mContext, List<HomeTemplateDetailModel> tournamentDetailModel, RegisterIntrestFilterDataModel registerIntrestFilterDataModel, String titleNameStr,
                                   String nooft20Str, String noofodiStr, String nooftestStr, MorestoryClick morestoryClick) {
         this.mContext = mContext;
         this.titleNameStr = titleNameStr;
@@ -46,6 +56,7 @@ public class RegisterIntrestAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         this.noofodiStr = noofodiStr;
         this.nooftestStr = nooftestStr;
         this.morestoryClick = morestoryClick;
+        this.registerIntrestFilterDataModel = registerIntrestFilterDataModel;
     }
 
     static class MyItemViewHolder extends RecyclerView.ViewHolder {
@@ -138,7 +149,7 @@ public class RegisterIntrestAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                         ((MyItemViewHolder) holder).registerInterestchildItemBinding.bottomGradiantView.setVisibility(View.GONE);
                         ((MyItemViewHolder) holder).registerInterestchildItemBinding.selectedChk.setChecked(true);
                         tournamentDetail.setCheck("1");
-                        dataCheck.add(String.valueOf(tournamentDetail.getTournamentId()));
+                        dataCheck.add(String.valueOf(tournamentDetail.getTournamentMatchId()));
                     }
 
                 }
@@ -155,7 +166,7 @@ public class RegisterIntrestAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                         ((MyItemViewHolder) holder).registerInterestchildItemBinding.selectedChk.setChecked(true);
 
                         tournamentDetail.setCheck("1");
-                        dataCheck.add(String.valueOf(tournamentDetail.getTournamentId()));
+                        dataCheck.add(String.valueOf(tournamentDetail.getTournamentMatchId()));
                     } else {
                         ((MyItemViewHolder) holder).registerInterestchildItemBinding.mainContainer
                                 .setBackground(mContext.getResources().getDrawable(R.drawable.match_groupdetail_curveshape));
@@ -171,10 +182,16 @@ public class RegisterIntrestAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 ((MyItemViewHolder) holder).registerInterestchildItemBinding.selectedChk.setChecked(false);
             }
         } else if (holder.getItemViewType() == HEADER) {
-            Utils.setImageInImageView("https://www.bharatarmy.com/Content/images/flags-mini/in.png", ((HeaderViewHolder) holder).registerInteresttitleItemBinding.firstCountryflagImage, mContext);
-            Utils.setImageInImageView("https://www.bharatarmy.com/Content/images/flags-mini/sou.png", ((HeaderViewHolder) holder).registerInteresttitleItemBinding.secondCountryflagImage, mContext);
             ((HeaderViewHolder) holder).registerInteresttitleItemBinding.titleTxtView.setText(titleNameStr);
             ((HeaderViewHolder) holder).registerInteresttitleItemBinding.tourNameTxt.setText(tournamentDetailModelList.get(position).getTourName());
+
+            registerIntetestCountryFlagAdapter = new RegisterIntetestCountryFlagAdapter(mContext, registerIntrestFilterDataModel);
+            FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(mContext);
+            layoutManager.setFlexWrap(FlexWrap.WRAP);
+            layoutManager.setAlignItems(AlignItems.BASELINE);
+            layoutManager.setJustifyContent(JustifyContent.FLEX_START);
+            ((HeaderViewHolder) holder).registerInteresttitleItemBinding.registerInterestFlagRcv.setLayoutManager(layoutManager); // set LayoutManager to RecyclerView
+            ((HeaderViewHolder) holder).registerInteresttitleItemBinding.registerInterestFlagRcv.setAdapter(registerIntetestCountryFlagAdapter);
 
 //            if (!noofodiStr.equalsIgnoreCase("0")) {
 //                ((HeaderViewHolder) holder).registerInteresttitleItemBinding.matchODIcount1Txt.setText(noofodiStr+" ODI,");
@@ -191,7 +208,7 @@ public class RegisterIntrestAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 //                ((HeaderViewHolder) holder).registerInteresttitleItemBinding.matchTESTcount2Txt.setText(nooftestStr+" TEST,");
 //            } else {
 //                ((HeaderViewHolder) holder).registerInteresttitleItemBinding.matchTESTcount2Txt.setVisibility(View.GONE);
-//            }
+//            }((HeaderViewHolder)holder).registerInteresttitleItemBinding.registerInterestFlagRcv
         }
 
     }

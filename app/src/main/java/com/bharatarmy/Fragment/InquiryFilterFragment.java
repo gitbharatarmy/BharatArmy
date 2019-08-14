@@ -1,5 +1,6 @@
 package com.bharatarmy.Fragment;
 
+
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -11,6 +12,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.bharatarmy.Adapter.InquiryOrderTypeAdapter;
+import com.bharatarmy.Adapter.RegisterIntrestAdapter;
 import com.bharatarmy.Interfaces.MorestoryClick;
 import com.bharatarmy.Interfaces.image_click;
 import com.bharatarmy.Models.InquiryOrderTypeModel;
@@ -19,28 +24,34 @@ import com.bharatarmy.Models.InquiryStatusModel;
 import com.bharatarmy.R;
 import com.bharatarmy.TravelDesignModule.MultiSelectDialog;
 import com.bharatarmy.Utility.AppConfiguration;
+import com.google.android.flexbox.AlignItems;
+import com.google.android.flexbox.FlexWrap;
+import com.google.android.flexbox.FlexboxLayoutManager;
+import com.google.android.flexbox.JustifyContent;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 //https://github.com/nex3z/FlowLayout  use for textview layout
 
-public class InquiryFilterFragment extends BottomSheetDialogFragment {
+public class InquiryFilterFragment extends BottomSheetDialogFragment{
     View rootView;
     Context mContext;
     BottomSheetDialog bottomSheetDialog;
+    String fromselecteddateinput;
     LinearLayout back_img, add_tournamentlinear, ordersub_linear, inquirystatussub_linear, daterangesub_linear,
             tournamentsub_linear, customoptionsub_linear, fromdate_linear, todate_linear,
             expand_orderLinear, expand_inquirystatusLinear, expand_daterangeLinear,
             expand_tournamentLinear, customoption_Linear, inquiry_typelinear, banktransfer_typelinear,
             payonline_typelinear, ftp_typelinear, registerinterest_typelinear, pending_statuslinear,
-            assignlinear, ongoinglinear, completedlinear, rejectedlinear, notrespondlinear, apply_filter;
+            assignlinear, ongoinglinear, completedlinear, rejectedlinear, notrespondlinear, apply_filter,
+            inquirystatus_linear, ordertype_linear, daterange_linear, tournament_linear;
     TextView fromdatedisplay_txt, daymonth_txt, datemonth_txt, todatedisplay_txt, todatemonth_txt, todaymonth_txt,
             inquiry_txt, closetxt, banktransfer_txt, banktransferclosetxt, payonline_txt, payonlineclosetxt,
             ftp_txt, ftpclosetxt, interest_txt, registerclosetxt, pending_txt, pendingclosetxt, assign_txt,
@@ -54,18 +65,21 @@ public class InquiryFilterFragment extends BottomSheetDialogFragment {
 
     String selectedfromDateStr, selectedtoDateStr, filterfromdate, filtertodate;
 
-//    ArrayList<String> AppConfiguration.ordertypefilterarray = new ArrayList<>();
-//    ArrayList<String> AppConfiguration.inquirystatusfilterarray = new ArrayList<>();
     MorestoryClick morestoryClick;
     InquiryOtherDataModel filtertaglist;
     List<InquiryStatusModel> inquiryStatusModelList;
     List<InquiryOrderTypeModel> inquiryOrderTypeModelList;
-image_click image_click;
+    image_click image_click;
 
+
+    InquiryOrderTypeAdapter inquiryOrderTypeAdapter;
+    RecyclerView ordertype_rcv;
+
+    Calendar toc;
     public InquiryFilterFragment(InquiryOtherDataModel filtertaglist, image_click image_click, MorestoryClick morestoryClick) {
         this.morestoryClick = morestoryClick;
-        this.filtertaglist=filtertaglist;
-this.image_click=image_click;
+        this.filtertaglist = filtertaglist;
+        this.image_click = image_click;
     }
 
     @Override
@@ -112,6 +126,11 @@ this.image_click=image_click;
         notrespondlinear = (LinearLayout) bottomSheetDialog.findViewById(R.id.notrespondlinear);
         apply_filter = (LinearLayout) bottomSheetDialog.findViewById(R.id.apply_filter);
 
+        inquirystatus_linear = (LinearLayout) bottomSheetDialog.findViewById(R.id.inquirystatus_linear);
+        ordertype_linear = (LinearLayout) bottomSheetDialog.findViewById(R.id.ordertype_linear);
+        daterange_linear = (LinearLayout) bottomSheetDialog.findViewById(R.id.daterange_linear);
+        tournament_linear = (LinearLayout) bottomSheetDialog.findViewById(R.id.tournament_linear);
+
         fromdatedisplay_txt = (TextView) bottomSheetDialog.findViewById(R.id.fromdatedisplay_txt);
         daymonth_txt = (TextView) bottomSheetDialog.findViewById(R.id.daymonth_txt);
         datemonth_txt = (TextView) bottomSheetDialog.findViewById(R.id.datemonth_txt);
@@ -150,9 +169,11 @@ this.image_click=image_click;
         expand_tournamentImg = (ImageView) bottomSheetDialog.findViewById(R.id.expand_tournamentImg);
         customoption_Img = (ImageView) bottomSheetDialog.findViewById(R.id.customoption_Img);
 
-        inquiryStatusModelList=filtertaglist.getStatus();
-        inquiryOrderTypeModelList=filtertaglist.getTypes();
+        ordertype_rcv=(RecyclerView)bottomSheetDialog.findViewById(R.id.ordertype_rcv);
 
+        inquiryStatusModelList = filtertaglist.getStatus();
+        inquiryOrderTypeModelList = filtertaglist.getTypes();
+        Log.d("inquiryOrderTypeModelList", "" + inquiryOrderTypeModelList.size());
         // Get Current Date
         Calendar fromc = Calendar.getInstance();
         frommYear = fromc.get(Calendar.YEAR);
@@ -160,11 +181,15 @@ this.image_click=image_click;
         frommDay = fromc.get(Calendar.DAY_OF_MONTH);
         setFromDateLinear(frommDay, frommYear, frommMonth + 1, 1);
 
-        Calendar toc = Calendar.getInstance();
+        toc = Calendar.getInstance();
         tomYear = toc.get(Calendar.YEAR);
         tomMonth = toc.get(Calendar.MONTH);
         tomDay = toc.get(Calendar.DAY_OF_MONTH);
+
+
         setToDateLinear(tomDay, tomYear, tomMonth + 1, 1);
+
+        setFilterDataList();
     }
 
 
@@ -175,7 +200,7 @@ this.image_click=image_click;
                 dismiss();
             }
         });
-        expand_orderLinear.setOnClickListener(new View.OnClickListener() {
+        ordertype_linear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (ordersub_linear.isShown()) {
@@ -187,7 +212,7 @@ this.image_click=image_click;
                 }
             }
         });
-        expand_inquirystatusLinear.setOnClickListener(new View.OnClickListener() {
+        inquirystatus_linear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (inquirystatussub_linear.isShown()) {
@@ -199,7 +224,7 @@ this.image_click=image_click;
                 }
             }
         });
-        expand_daterangeLinear.setOnClickListener(new View.OnClickListener() {
+        daterange_linear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (daterangesub_linear.isShown()) {
@@ -211,7 +236,7 @@ this.image_click=image_click;
                 }
             }
         });
-        expand_tournamentLinear.setOnClickListener(new View.OnClickListener() {
+        tournament_linear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (tournamentsub_linear.isShown()) {
@@ -258,13 +283,20 @@ this.image_click=image_click;
 
                                 Log.d("date :", dayOfMonth + "-" + (monthOfYear + 1) + "-" + year);
                                 setFromDateLinear(dayOfMonth, year, monthOfYear + 1, 1);
-
+                                toc = Calendar.getInstance();
+                            toc.set(Calendar.YEAR,frommYear);
+                             toc.set(Calendar.MONTH,frommMonth);
+                               toc.set(Calendar.DAY_OF_MONTH,frommDay);
                             }
                         }, frommYear, frommMonth, frommDay);
-                fromdatePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
+
+                fromselecteddateinput = frommDay + "-" + frommMonth + "-" + frommYear;
+                fromdatePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis() - 1000);
                 fromdatePickerDialog.show();
             }
         });
+
+
         todate_linear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -284,8 +316,13 @@ this.image_click=image_click;
 
                             }
                         }, tomYear, tomMonth, tomDay);
-                todatePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
+                todatePickerDialog.getDatePicker().setMinDate(toc.getTimeInMillis());//System.currentTimeMillis() - 1000
+                todatePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis() - 1000);
                 todatePickerDialog.show();
+
+
+
+
             }
         });
 
@@ -295,7 +332,7 @@ this.image_click=image_click;
                 inquiry_typelinear.setBackground(getResources().getDrawable(R.drawable.inquiryfilter_selected_shape));
                 inquiry_txt.setTextColor(getResources().getColor(R.color.skip_color));
                 closetxt.setVisibility(View.VISIBLE);
-               AppConfiguration.ordertypefilterarray.add(inquiry_txt.getTag().toString());
+                AppConfiguration.ordertypefilterarray.add(inquiry_txt.getTag().toString());
             }
         });
         closetxt.setOnClickListener(new View.OnClickListener() {
@@ -305,7 +342,7 @@ this.image_click=image_click;
                 inquiry_txt.setTextColor(getResources().getColor(R.color.unselected_view));
                 closetxt.setVisibility(View.GONE);
 
-                for (int i = 0; i <AppConfiguration.ordertypefilterarray.size(); i++) {
+                for (int i = 0; i < AppConfiguration.ordertypefilterarray.size(); i++) {
                     if (AppConfiguration.ordertypefilterarray.get(i).equalsIgnoreCase("1")) {
                         AppConfiguration.ordertypefilterarray.remove(AppConfiguration.ordertypefilterarray.get(i));
                     }
@@ -540,8 +577,8 @@ this.image_click=image_click;
                 Log.d("ordertypearray :", AppConfiguration.ordertypefilterarray.toString());
                 Log.d("inquirystatusarray :", AppConfiguration.inquirystatusfilterarray.toString());
                 Log.d("filterfromdate :", filterfromdate + " filtertodate :" + filtertodate);
-                AppConfiguration.whereToCall="filter";
-              AppConfiguration.pageindex=0;
+                AppConfiguration.whereToCall = "filter";
+                AppConfiguration.pageindex = 0;
                 morestoryClick.getmorestoryClick();
             }
         });
@@ -553,10 +590,10 @@ this.image_click=image_click;
                 filterfromdate = "";
                 filtertodate = "";
                 removeSelction();
-                Log.d("statusfilterarray :",""+AppConfiguration.inquirystatusfilterarray);
-                Log.d("ordertypefilterarray :",""+AppConfiguration.ordertypefilterarray);
-AppConfiguration.whereToCall="Clear";
-image_click.image_more_click();
+                Log.d("statusfilterarray :", "" + AppConfiguration.inquirystatusfilterarray);
+                Log.d("ordertypefilterarray :", "" + AppConfiguration.ordertypefilterarray);
+                AppConfiguration.whereToCall = "Clear";
+                image_click.image_more_click();
             }
         });
     }
@@ -636,8 +673,8 @@ image_click.image_more_click();
     }
 
 
-    public void removeSelction(){
-        AppConfiguration.pageindex=0;
+    public void removeSelction() {
+        AppConfiguration.pageindex = 0;
         inquiry_typelinear.setBackground(null);
         inquiry_txt.setTextColor(getResources().getColor(R.color.unselected_view));
         closetxt.setVisibility(View.GONE);
@@ -683,58 +720,59 @@ image_click.image_more_click();
         notrespondclosetxt.setVisibility(View.GONE);
 
     }
-    public void preSelection(){
 
-        if (AppConfiguration.ordertypefilterarray.size()>0){
-            for (int i=0;i<AppConfiguration.ordertypefilterarray.size();i++){
-                    if (AppConfiguration.ordertypefilterarray.get(i).equalsIgnoreCase("1")){
-                        inquiry_typelinear.setBackground(getResources().getDrawable(R.drawable.inquiryfilter_selected_shape));
-                        inquiry_txt.setTextColor(getResources().getColor(R.color.skip_color));
-                        closetxt.setVisibility(View.VISIBLE);
-                    }  else if(AppConfiguration.ordertypefilterarray.get(i).equalsIgnoreCase("2")) {
-                        banktransfer_typelinear.setBackground(getResources().getDrawable(R.drawable.inquiryfilter_selected_shape));
-                        banktransfer_txt.setTextColor(getResources().getColor(R.color.skip_color));
-                        banktransferclosetxt.setVisibility(View.VISIBLE);
-                    }else if(AppConfiguration.ordertypefilterarray.get(i).equalsIgnoreCase("3")) {
-                        payonline_typelinear.setBackground(getResources().getDrawable(R.drawable.inquiryfilter_selected_shape));
-                        payonline_txt.setTextColor(getResources().getColor(R.color.skip_color));
-                        payonlineclosetxt.setVisibility(View.VISIBLE);
-                    }else if(AppConfiguration.ordertypefilterarray.get(i).equalsIgnoreCase("4")) {
-                        ftp_typelinear.setBackground(getResources().getDrawable(R.drawable.inquiryfilter_selected_shape));
-                        ftp_txt.setTextColor(getResources().getColor(R.color.skip_color));
-                        ftpclosetxt.setVisibility(View.VISIBLE);
-                    }else if(AppConfiguration.ordertypefilterarray.get(i).equalsIgnoreCase("5")) {
-                        registerinterest_typelinear.setBackground(getResources().getDrawable(R.drawable.inquiryfilter_selected_shape));
-                        interest_txt.setTextColor(getResources().getColor(R.color.skip_color));
-                        registerclosetxt.setVisibility(View.VISIBLE);
-                    }
+    public void preSelection() {
+
+        if (AppConfiguration.ordertypefilterarray.size() > 0) {
+            for (int i = 0; i < AppConfiguration.ordertypefilterarray.size(); i++) {
+                if (AppConfiguration.ordertypefilterarray.get(i).equalsIgnoreCase("1")) {
+                    inquiry_typelinear.setBackground(getResources().getDrawable(R.drawable.inquiryfilter_selected_shape));
+                    inquiry_txt.setTextColor(getResources().getColor(R.color.skip_color));
+                    closetxt.setVisibility(View.VISIBLE);
+                } else if (AppConfiguration.ordertypefilterarray.get(i).equalsIgnoreCase("2")) {
+                    banktransfer_typelinear.setBackground(getResources().getDrawable(R.drawable.inquiryfilter_selected_shape));
+                    banktransfer_txt.setTextColor(getResources().getColor(R.color.skip_color));
+                    banktransferclosetxt.setVisibility(View.VISIBLE);
+                } else if (AppConfiguration.ordertypefilterarray.get(i).equalsIgnoreCase("3")) {
+                    payonline_typelinear.setBackground(getResources().getDrawable(R.drawable.inquiryfilter_selected_shape));
+                    payonline_txt.setTextColor(getResources().getColor(R.color.skip_color));
+                    payonlineclosetxt.setVisibility(View.VISIBLE);
+                } else if (AppConfiguration.ordertypefilterarray.get(i).equalsIgnoreCase("4")) {
+                    ftp_typelinear.setBackground(getResources().getDrawable(R.drawable.inquiryfilter_selected_shape));
+                    ftp_txt.setTextColor(getResources().getColor(R.color.skip_color));
+                    ftpclosetxt.setVisibility(View.VISIBLE);
+                } else if (AppConfiguration.ordertypefilterarray.get(i).equalsIgnoreCase("5")) {
+                    registerinterest_typelinear.setBackground(getResources().getDrawable(R.drawable.inquiryfilter_selected_shape));
+                    interest_txt.setTextColor(getResources().getColor(R.color.skip_color));
+                    registerclosetxt.setVisibility(View.VISIBLE);
+                }
             }
 
         }
 
-        if(AppConfiguration.inquirystatusfilterarray.size()>0){
-            for (int i=0;i<AppConfiguration.inquirystatusfilterarray.size();i++){
-                if (AppConfiguration.inquirystatusfilterarray.get(i).equalsIgnoreCase("0")){
+        if (AppConfiguration.inquirystatusfilterarray.size() > 0) {
+            for (int i = 0; i < AppConfiguration.inquirystatusfilterarray.size(); i++) {
+                if (AppConfiguration.inquirystatusfilterarray.get(i).equalsIgnoreCase("0")) {
                     pending_statuslinear.setBackground(getResources().getDrawable(R.drawable.inquiryfilter_selected_shape));
                     pending_txt.setTextColor(getResources().getColor(R.color.skip_color));
                     pendingclosetxt.setVisibility(View.VISIBLE);
-                }else if(AppConfiguration.inquirystatusfilterarray.get(i).equalsIgnoreCase("1")){
+                } else if (AppConfiguration.inquirystatusfilterarray.get(i).equalsIgnoreCase("1")) {
                     assignlinear.setBackground(getResources().getDrawable(R.drawable.inquiryfilter_selected_shape));
                     assign_txt.setTextColor(getResources().getColor(R.color.skip_color));
                     assignclosetxt.setVisibility(View.VISIBLE);
-                }else if(AppConfiguration.inquirystatusfilterarray.get(i).equalsIgnoreCase("2")){
+                } else if (AppConfiguration.inquirystatusfilterarray.get(i).equalsIgnoreCase("2")) {
                     ongoinglinear.setBackground(getResources().getDrawable(R.drawable.inquiryfilter_selected_shape));
                     ongoing_txt.setTextColor(getResources().getColor(R.color.skip_color));
                     ongoingclosetxt.setVisibility(View.VISIBLE);
-                }else if(AppConfiguration.inquirystatusfilterarray.get(i).equalsIgnoreCase("3")){
+                } else if (AppConfiguration.inquirystatusfilterarray.get(i).equalsIgnoreCase("3")) {
                     completedlinear.setBackground(getResources().getDrawable(R.drawable.inquiryfilter_selected_shape));
                     completed_txt.setTextColor(getResources().getColor(R.color.skip_color));
                     completedclosetxt.setVisibility(View.VISIBLE);
-                }else if(AppConfiguration.inquirystatusfilterarray.get(i).equalsIgnoreCase("4")){
+                } else if (AppConfiguration.inquirystatusfilterarray.get(i).equalsIgnoreCase("4")) {
                     rejectedlinear.setBackground(getResources().getDrawable(R.drawable.inquiryfilter_selected_shape));
                     rejected_txt.setTextColor(getResources().getColor(R.color.skip_color));
                     rejectedclosetxt.setVisibility(View.VISIBLE);
-                }else if(AppConfiguration.inquirystatusfilterarray.get(i).equalsIgnoreCase("5")){
+                } else if (AppConfiguration.inquirystatusfilterarray.get(i).equalsIgnoreCase("5")) {
                     notrespondlinear.setBackground(getResources().getDrawable(R.drawable.inquiryfilter_selected_shape));
                     notrespond_txt.setTextColor(getResources().getColor(R.color.skip_color));
                     notrespondclosetxt.setVisibility(View.VISIBLE);
@@ -742,5 +780,19 @@ image_click.image_more_click();
             }
         }
 
+
+
+
+    }
+
+
+    public void setFilterDataList(){
+        inquiryOrderTypeAdapter=new InquiryOrderTypeAdapter(mContext,inquiryOrderTypeModelList);
+                FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(mContext);
+        layoutManager.setFlexWrap(FlexWrap.WRAP);
+        layoutManager.setAlignItems(AlignItems.BASELINE);
+        layoutManager.setJustifyContent(JustifyContent.FLEX_START);
+        ordertype_rcv .setLayoutManager(layoutManager); // set LayoutManager to RecyclerView
+        ordertype_rcv.setAdapter(inquiryOrderTypeAdapter);
     }
 }

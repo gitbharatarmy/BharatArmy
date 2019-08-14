@@ -10,6 +10,7 @@ import com.bharatarmy.Models.MoreDataModel;
 import com.bharatarmy.Models.OtpModel;
 import com.bharatarmy.Models.TravelMainModel;
 
+import java.util.List;
 import java.util.Map;
 
 import okhttp3.MultipartBody;
@@ -21,6 +22,7 @@ import retrofit.http.FormUrlEncoded;
 import retrofit.http.POST;
 
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.Multipart;
 import retrofit2.http.Part;
 import retrofit2.http.PartMap;
@@ -73,6 +75,11 @@ public interface WebServices {
                                        @Part("PhoneNo") RequestBody phoneno,@Part("Gender") RequestBody gender,
                                        @Part("OTPText") RequestBody otptext,@Part("SMSSentId") RequestBody smssentId,
                                        @Part MultipartBody.Part file);
+
+    @Multipart
+    @retrofit2.http.POST("/API/v1/UploadFiles")
+    Call<LogginModel> uploadfiles(@Part MultipartBody.Part file); //@Part("FileTypeId") RequestBody userid,
+    //if we pass array of imagethen use MultipartBody.Part[] file
 
 
     @FormUrlEncoded

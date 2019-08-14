@@ -12,9 +12,10 @@
         android:orientation="vertical"
         android:layout_gravity="center_vertical">
         <ImageView
+            android:id="@+id/updateapp_img"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_90sdp"
-            android:src="@drawable/app_logo"
+            android:src="@drawable/logo"
             android:layout_gravity="center"
             android:layout_marginTop="@dimen/_140sdp"/>
 

@@ -25,6 +25,7 @@ import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.Patterns;
 import android.util.TypedValue;
@@ -400,7 +401,11 @@ public class Utils {
 
         Button update = (Button) dialog.findViewById(R.id.update_btn);
         TextView notnow_txt = (TextView) dialog.findViewById(R.id.notnow_txt);
+        ImageView updateapp_img=(ImageView)dialog.findViewById(R.id.updateapp_img);
 
+        Glide.with(activity)
+                .load(R.drawable.logo)
+                .into(updateapp_img);
         update.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -619,4 +624,13 @@ public class Utils {
             image.setVisibility(View.GONE);
         }
     }
+
+    public static int calculateNoOfColumns(Context context, float columnWidthDp) { // For example columnWidthdp=180
+        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+        float screenWidthDp = displayMetrics.widthPixels / displayMetrics.density;
+        int noOfColumns = (int) (screenWidthDp / columnWidthDp + 0.5); // +0.5 for correct rounding to int.
+        Log.d("noofcolumns : ", ""+noOfColumns);
+        return noOfColumns;
+    }
+
 }

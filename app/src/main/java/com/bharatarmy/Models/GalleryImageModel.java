@@ -4,6 +4,8 @@ public class GalleryImageModel {
 
     String imageUri;
     String imageSize;
+    String uploadcompelet;
+    String uploadfail;
 
     String commentuserName;
     String commenttime;
@@ -11,10 +13,12 @@ public class GalleryImageModel {
     String commentLikes;
     String commentLikesTotal;
 
-    public GalleryImageModel(String imageUri, String imageSize) {
+
+    public GalleryImageModel(String imageUri, String imageSize,String uploadcompelet,String uploadfail) {
         this.imageUri = imageUri;
         this.imageSize = imageSize;
-
+        this.uploadcompelet=uploadcompelet;
+        this.uploadfail=uploadfail;
     }
 
     public String getImageUri() {

@@ -10,6 +10,9 @@ public class InquiryOrderTypeModel {
     @SerializedName("label")
     @Expose
     private String label;
+    @SerializedName("ClickStatus")
+    @Expose
+    private String clickstatus;
 
     public String getValue() {
         return value;
@@ -25,5 +28,13 @@ public class InquiryOrderTypeModel {
 
     public void setLabel(String label) {
         this.label = label;
+    }
+
+    public String getClickstatus() {
+        return clickstatus;
+    }
+
+    public void setClickstatus(String clickstatus) {
+        this.clickstatus = clickstatus;
     }
 }

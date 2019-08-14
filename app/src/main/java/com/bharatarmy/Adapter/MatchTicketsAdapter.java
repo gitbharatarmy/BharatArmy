@@ -44,10 +44,7 @@ MatchticketsItemBinding matchticketsItemBinding;
             super(matchticketsItemBinding.getRoot());
 
             this.matchticketsItemBinding=matchticketsItemBinding;
-//            ticketLinear = (LinearLayout) view.findViewById(R.id.ticketLinear);
-//            addtoticketscart1Linear = (LinearLayout) view.findViewById(R.id.addtoticketscart1Linear);
-//            removetoticketscart1Linear = (LinearLayout) view.findViewById(R.id.removetoticketscart1Linear);
-//            ticketscart_addimage = (ImageView) view.findViewById(R.id.ticketscart_addimage);
+
 
         }
     }
@@ -55,10 +52,7 @@ MatchticketsItemBinding matchticketsItemBinding;
 
     @Override
     public MatchTicketsAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-//        View itemView = LayoutInflater.from(parent.getContext())
-//                .inflate(R.layout.matchtickets_item, parent, false);
-//
-//        return new MatchTicketsAdapter.MyViewHolder(itemView);
+
         MatchticketsItemBinding matchticketsItemBinding= DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
                 R.layout.matchtickets_item,parent,false);
         return new MatchTicketsAdapter.MyViewHolder(matchticketsItemBinding);
