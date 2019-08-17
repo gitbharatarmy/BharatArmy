@@ -21,6 +21,22 @@ public class GalleryImageModel {
         this.uploadfail=uploadfail;
     }
 
+    public String getUploadcompelet() {
+        return uploadcompelet;
+    }
+
+    public void setUploadcompelet(String uploadcompelet) {
+        this.uploadcompelet = uploadcompelet;
+    }
+
+    public String getUploadfail() {
+        return uploadfail;
+    }
+
+    public void setUploadfail(String uploadfail) {
+        this.uploadfail = uploadfail;
+    }
+
     public String getImageUri() {
         return imageUri;
     }

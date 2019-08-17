@@ -27,15 +27,19 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bharatarmy.Adapter.SelectedImageVideoViewAdapter;
@@ -63,11 +67,15 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import gun0912.tedbottompicker.TedBottomPicker;
 import gun0912.tedbottompicker.TedBottomSheetDialogFragment;
+
+import static androidx.core.content.FileProvider.getUriForFile;
 
 
 public class ImageVideoUploadActivity extends AppCompatActivity implements View.OnClickListener, OnTrimVideoListener, OnHgLVideoListener {
@@ -77,22 +85,22 @@ public class ImageVideoUploadActivity extends AppCompatActivity implements View.
     public static final int REQUEST_IMAGE = 100;
     private NotificationManager notifManager;
     final int NOTIFY_ID = 0; // ID of notification
-    Uri uri, selectedUri;
-
+    Uri uri, selectedUri,imageUri;
+    public static final int REQUEST_IMAGE_CAPTURE = 0;
     private List<Uri> selectedUriList;
 
     SelectedImageVideoViewAdapter selectedImageVideoViewAdapter;
     LinearLayoutManager linearLayoutManager;
 
-    public  List<GalleryImageModel> content;
-
-    String imageorvideoStr="";
+    public List<GalleryImageModel> content=new ArrayList<>();
+File Camerafile;
+    String imageorvideoStr = "";
     private static final int REQUEST_VIDEO_TRIMMER = 0x01;
     private static final int REQUEST_STORAGE_READ_ACCESS_PERMISSION = 101;
     static final String EXTRA_VIDEO_PATH = "EXTRA_VIDEO_PATH";
     static final String VIDEO_TOTAL_DURATION = "VIDEO_TOTAL_DURATION";
     private ProgressDialog mProgressDialog;
-
+    public  String fileName;
 
     static MediaPlayer mPlayer;
     boolean paused = true;
@@ -113,11 +121,12 @@ public class ImageVideoUploadActivity extends AppCompatActivity implements View.
                             Toast.LENGTH_LONG).show();
 
 
+//                    setListiner();
                 } else {
                     Toast.makeText(mContext, "Upload failed",
                             Toast.LENGTH_LONG).show();
-
-
+                    Utils.setPref(mContext, "failedtoupload", "true");
+//                    setListiner();
                 }
             }
         }
@@ -134,12 +143,122 @@ public class ImageVideoUploadActivity extends AppCompatActivity implements View.
     }
 
     public void setListiner() {
-        if (!Utils.getPref(mContext,"image/video").equalsIgnoreCase("")){
-            imageorvideoStr=Utils.getPref(mContext,"image/video");
-        }else{
+//        if (Utils.getPref(mContext, "cometonotification").equalsIgnoreCase("cometonotification")) {
+//            if (!Utils.getPref(mContext, "image/video").equalsIgnoreCase("")) {
+//                imageorvideoStr = Utils.getPref(mContext, "image/video");
+//                content=new ArrayList<>();
+//                Type arrayListType = new TypeToken<ArrayList<String>>() {
+//                }.getType();
+//                Gson gson = new Gson();
+//                List<String> yourList = gson.fromJson(Utils.getPref(mContext, "uploadcompletefile"), arrayListType);
+//
+//                Log.d("uploadfilearray :", "" + yourList);
+//
+//                Type arrayListType1 = new TypeToken<ArrayList<GalleryImageModel>>() {
+//                }.getType();
+//                Gson gson1 = new Gson();
+//                List<GalleryImageModel> galleryimage = gson1.fromJson(Utils.getPref(mContext, "gallerylist"), arrayListType1);
+//                for (int i = 0; i < yourList.size(); i++) {
+//                    for (int j = 0; j < galleryimage.size(); j++) {
+//                        if (yourList.get(i).equalsIgnoreCase(Utils.getFilePathFromUri(mContext, Uri.parse(galleryimage.get(j).getImageUri())))) {
+//                                galleryimage.get(j).setUploadcompelet("1");
+//                            content.add(galleryimage.get(j));
+//                            Log.d("updategallerylist :", content.toString());
+//                        }else{
+//                            galleryimage.get(j).setUploadcompelet("0");
+//                            content.add(galleryimage.get(j));
+//                            Log.d("updategallerylist :", content.toString());
+//                        }
+//
+//                    }
+//                }
+//
+//                if (content != null) {
+//                    selectedImageVideoViewAdapter = new SelectedImageVideoViewAdapter(mContext, content, new image_click() {
+//                        @Override
+//                        public void image_more_click() {
+//                            String getSelectedImageremove = selectedImageVideoViewAdapter.getDatas().toString();
+//                            Log.d("removePic", getSelectedImageremove);
+//                            getSelectedImageremove = getSelectedImageremove.substring(1, getSelectedImageremove.length() - 1);
+//
+//                            for (int i = 0; i < content.size(); i++) {
+//                                if (content.get(i).getImageUri().equalsIgnoreCase(getSelectedImageremove)) {
+//                                    content.remove(i);
+//                                    selectedImageVideoViewAdapter.notifyDataSetChanged();
+//                                }
+//                            }
+//                        }
+//                    });//,onTouchListener
+//                    linearLayoutManager = new LinearLayoutManager(mContext, RecyclerView.VERTICAL, false);
+//                    activityImageVideoUploadBinding.selectedImagesView.setLayoutManager(linearLayoutManager);
+//                    activityImageVideoUploadBinding.selectedImagesView.setItemAnimator(new DefaultItemAnimator());
+//                    activityImageVideoUploadBinding.selectedImagesView.setAdapter(selectedImageVideoViewAdapter);
+//                    selectedImageVideoViewAdapter.notifyDataSetChanged();
+//                }
+//
+//            }
+//        } else if (Utils.getPref(mContext, "cometonotification").equalsIgnoreCase("service")) {
+//            imageorvideoStr = Utils.getPref(mContext, "image/video");
+//            content = new ArrayList<>();
+//            Type arrayListType = new TypeToken<ArrayList<String>>() {
+//            }.getType();
+//            Gson gson = new Gson();
+//            List<String> yourList = gson.fromJson(Utils.getPref(mContext, "uploadcompletefile"), arrayListType);
+//
+//            Log.d("uploadfilearray :", "" + yourList);
+//
+//            Type arrayListType1 = new TypeToken<ArrayList<GalleryImageModel>>() {
+//            }.getType();
+//            Gson gson1 = new Gson();
+//            List<GalleryImageModel> galleryimage = gson1.fromJson(Utils.getPref(mContext, "gallerylist"), arrayListType1);
+//            Log.d("galleryimagelist :", "" + galleryimage);
+//            for (int i = 0; i < yourList.size(); i++) {
+//                for (int j = 0; j < galleryimage.size(); j++) {
+////                    if (yourList.get(i).equalsIgnoreCase(Utils.getFilePathFromUri(mContext, Uri.parse(galleryimage.get(j).getImageUri())))) {
+////                        galleryimage.get(j).setUploadcompelet("1");
+////                        content.add(galleryimage.get(j));
+////
+////                        Log.d("updategallerylist :", content.toString());
+////                    }
+//                    if (yourList.get(i).equalsIgnoreCase(Utils.getFilePathFromUri(mContext, Uri.parse(galleryimage.get(j).getImageUri())))) {
+//                        galleryimage.get(j).setUploadcompelet("1");
+//                        content.add(galleryimage.get(j));
+//                        Log.d("updategallerylist :", content.toString());
+//                    }else{
+//                        galleryimage.get(j).setUploadcompelet("0");
+//                        content.add(galleryimage.get(j));
+//                        Log.d("updategallerylist :", content.toString());
+//                    }
+//                }
+//            }
+//
+//            if (content != null) {
+//                selectedImageVideoViewAdapter = new SelectedImageVideoViewAdapter(mContext, content, new image_click() {
+//                    @Override
+//                    public void image_more_click() {
+//                        String getSelectedImageremove = selectedImageVideoViewAdapter.getDatas().toString();
+//                        Log.d("removePic", getSelectedImageremove);
+//                        getSelectedImageremove = getSelectedImageremove.substring(1, getSelectedImageremove.length() - 1);
+//
+//                        for (int i = 0; i < content.size(); i++) {
+//                            if (content.get(i).getImageUri().equalsIgnoreCase(getSelectedImageremove)) {
+//                                content.remove(i);
+//                                selectedImageVideoViewAdapter.notifyDataSetChanged();
+//                            }
+//                        }
+//                    }
+//                });//,onTouchListener
+//                linearLayoutManager = new LinearLayoutManager(mContext, RecyclerView.VERTICAL, false);
+//                activityImageVideoUploadBinding.selectedImagesView.setLayoutManager(linearLayoutManager);
+//                activityImageVideoUploadBinding.selectedImagesView.setItemAnimator(new DefaultItemAnimator());
+//                activityImageVideoUploadBinding.selectedImagesView.setAdapter(selectedImageVideoViewAdapter);
+//                selectedImageVideoViewAdapter.notifyDataSetChanged();
+//            }
+//        } else {
             imageorvideoStr = getIntent().getStringExtra("image/video");
-            Utils.setPref(mContext,"image/video",imageorvideoStr);
-        }
+            Utils.setPref(mContext, "image/video", imageorvideoStr);
+//        }
+
 
         if (imageorvideoStr.equalsIgnoreCase("image")) {
             activityImageVideoUploadBinding.selectedImageVideoLinear.setVisibility(View.VISIBLE);
@@ -167,8 +286,8 @@ public class ImageVideoUploadActivity extends AppCompatActivity implements View.
                             public void onPermissionsChecked(MultiplePermissionsReport report) {
                                 if (report.areAllPermissionsGranted()) {
                                     if (imageorvideoStr.equalsIgnoreCase("image")) {
-                                        launchCameraIntent();
-//                                        openImageCapture();
+//                                        launchCameraIntent();
+                                        openImageCapture();
                                     } else {
                                         openVideoCapture();
                                     }
@@ -209,11 +328,11 @@ public class ImageVideoUploadActivity extends AppCompatActivity implements View.
                                                     public void onImagesSelected(List<Uri> uriList) {
                                                         // here is selected image uri list
 //                                                    loadProfile(uriList);
-                                                        content = new ArrayList<GalleryImageModel>();
+//                                                        content = new ArrayList<GalleryImageModel>();
                                                         for (int i = 0; i < uriList.size(); i++) {
                                                             File f = new File(uriList.get(i).getPath());
                                                             long findsize = f.length() / 1024;
-                                                            content.add(new GalleryImageModel(uriList.get(i).toString(), size((int) findsize),"",""));
+                                                            content.add(new GalleryImageModel(uriList.get(i).toString(), size((int) findsize), "", ""));
                                                         }
                                                         loadProfile();
                                                     }
@@ -237,26 +356,53 @@ public class ImageVideoUploadActivity extends AppCompatActivity implements View.
             case R.id.submit_linear:
                 final ArrayList<Uri> files = new ArrayList<>(); //These are the uris for the files to be uploaded
                 AppConfiguration.files = new ArrayList<>();
+                Utils.setPref(mContext,"gallerylist","");
+                Utils.setPref(mContext,"uploadcompletefile","");
                 Uri filepath;
                 int counter = 0;
                 boolean connected = Utils.checkNetwork(mContext);
                 if (connected == true) {
                     if (content != null) {
                         for (int i = 0; i < content.size(); i++) {
-//                            if (counter==i && counter<content.size()){
-//                                filepath =Uri.parse(content.get(i).getImageUri());
-//                                Intent intent = new Intent(this, UploadService.class);
-//                                intent.putExtra(UploadService.FILEPATH,filepath);
-//                                startService(intent);
-//                                counter++;
-//                            }
-
                             AppConfiguration.files.add(Uri.parse(content.get(i).getImageUri()));
                         }
+                        Gson gson = new Gson();
+                        String valuesString = gson.toJson(content);
+                        Utils.setPref(mContext, "gallerylist", valuesString);
+                        Log.d("gallerylist", valuesString.toString());
+                        Utils.setPref(getApplicationContext(), "uploadcompletefile", "");
+                        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(ImageVideoUploadActivity.this);
+                        LayoutInflater inflater = getLayoutInflater();
+                        View dialogView = inflater.inflate(R.layout.thankyou_dialog_item, null);
+                        dialogBuilder.setView(dialogView);
+                        AlertDialog alertDialog = dialogBuilder.create();
+                        alertDialog.setCanceledOnTouchOutside(false);
+                        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+                        TextView hometxt = (TextView) dialogView.findViewById(R.id.home_txt);
+                        hometxt.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+
+//                                finish();
+
+                                try {
+//                                    alertDialog.dismiss();
+                                } catch (Exception e) {
+
+                                }
+                            }
+                        });
+                        try {
+//                            alertDialog.show();
+                        } catch (Exception e) {
+
+                        }
+
                         Intent intent = new Intent(this, UploadService.class);
                         startService(intent);
 
-                        createNotification("Upload Image", mContext,1);
+                        createNotification("Upload Image", mContext, 1);
+
 
 
                     } else {
@@ -333,22 +479,30 @@ public class ImageVideoUploadActivity extends AppCompatActivity implements View.
             if (requestCode == REQUEST_IMAGE) {
 //                getImageUri(mContext, (Bitmap) data.getExtras().get("data"));
 
-                uri = data.getParcelableExtra("path");
+//                uri = data.getParcelableExtra("path");
+//
+imageUri= Uri.fromFile(getCacheFileImagePath(fileName));
 
-
-                File f = new File(uri.getPath());
-                long findsize = f.length() / 1024;
-                Log.d("findfilesize", "" + f.length() / 1024 + "kb" + " " + f.length() / (1024 * 1024));
-                try {
-                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                Log.d("URI",imageUri.toString());
+//                File f = new File(Camerafile);
+                long findsize = Camerafile.length() / 1024;
+                Log.d("findfilesize", "" + Camerafile.length() / 1024 + "kb" + " " + Camerafile.length() / (1024 * 1024));
+//                try {
+//                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
 //                content = new ArrayList<GalleryImageModel>();
-                content.add(new GalleryImageModel(uri.toString(), size((int) findsize),"",""));
+                content.add(new GalleryImageModel(imageUri.toString(), size((int) findsize), "", ""));
 
                 loadProfile();
                 Log.d("FInalImageSize", "" + size((int) findsize));
+
+
+
+//                Bundle extras = data.getExtras();
+
+
 
             } else if (requestCode == REQUEST_VIDEO_TRIMMER) {
                 selectedUri = data.getData();
@@ -377,7 +531,7 @@ public class ImageVideoUploadActivity extends AppCompatActivity implements View.
                             File f = new File(path);
                             long findsize = f.length() / 1024;
                             content = new ArrayList<GalleryImageModel>();
-                            content.add(new GalleryImageModel(path, size((int) findsize),"",""));
+                            content.add(new GalleryImageModel(path, size((int) findsize), "", ""));
                         }
                     }
                 } else {
@@ -408,7 +562,6 @@ public class ImageVideoUploadActivity extends AppCompatActivity implements View.
     private void loadProfile() {
         activityImageVideoUploadBinding.cameraUnselectLinear.setVisibility(View.GONE);
         activityImageVideoUploadBinding.selectedImageVideoLinear.setVisibility(View.VISIBLE);
-
 
 
         selectedImageVideoViewAdapter = new SelectedImageVideoViewAdapter(mContext, content, new image_click() {
@@ -536,9 +689,48 @@ public class ImageVideoUploadActivity extends AppCompatActivity implements View.
         startActivityForResult(videoCapture, REQUEST_VIDEO_TRIMMER);
     }
 
+
+
+
+//    file:///data/user/0/com.bharatarmy/cache/1566033242675.jpg
     private void openImageCapture() {
-        Intent imageCapture = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-        startActivityForResult(imageCapture, REQUEST_IMAGE);
+            Dexter.withActivity(this)
+                    .withPermissions(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    .withListener(new MultiplePermissionsListener() {
+                        @Override
+                        public void onPermissionsChecked(MultiplePermissionsReport report) {
+                            if (report.areAllPermissionsGranted()) {
+                                fileName = System.currentTimeMillis() + ".jpg";
+                                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, getCacheImagePath(fileName));
+                                if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+                                    startActivityForResult(takePictureIntent, REQUEST_IMAGE);
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
+                            token.continuePermissionRequest();
+                        }
+                    }).check();
+    }
+
+    private Uri getCacheImagePath(String fileName) {
+        File path = new File(getExternalCacheDir(), "camera");
+        Camerafile=path;
+        if (!path.exists()) path.mkdirs();
+        File image = new File(path, fileName);
+
+        Log.d("imageFile : ",""+image);
+
+        return getUriForFile(ImageVideoUploadActivity.this, getPackageName() + ".provider", image);
+    }
+
+    private File getCacheFileImagePath(String fileName) {
+        File path = new File(getExternalCacheDir(), "camera");
+        Camerafile=path;
+       return path;
     }
 
     public Uri getImageUri(Context inContext, Bitmap inImage) {
@@ -584,7 +776,7 @@ public class ImageVideoUploadActivity extends AppCompatActivity implements View.
         unregisterReceiver(receiver);
     }
 
-    public void createNotification(String aMessage, Context context,int progress) {
+    public void createNotification(String aMessage, Context context, int progress) {
 
         String id = context.getString(R.string.default_notification_channel_id); // default_channel_id
         String title = context.getString(R.string.default_notification_channel_title); // Default Channel
@@ -607,8 +799,10 @@ public class ImageVideoUploadActivity extends AppCompatActivity implements View.
                 notifManager.createNotificationChannel(mChannel);
             }
             builder = new NotificationCompat.Builder(context, id);
-            intent = new Intent(context, ImageVideoUploadActivity.class);
-intent.putExtra("image/video",Utils.getPref(mContext,"image/video"));
+            intent = new Intent(context, MyMediaActivity.class);
+            Utils.setPref(mContext, "cometonotification", "cometonotification");
+            intent.putExtra("image/video", Utils.getPref(mContext, "image/video"));
+            intent.putExtra("cometonotification", Utils.getPref(mContext, "cometonotification"));
             pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
             builder.setContentTitle(aMessage)                            // required
                     .setSmallIcon(R.drawable.app_logo)   // required
@@ -616,7 +810,7 @@ intent.putExtra("image/video",Utils.getPref(mContext,"image/video"));
                     .setDefaults(Notification.DEFAULT_VIBRATE)
                     .setVibrate(new long[]{-1}) //new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400}
                     .setOngoing(true)
-                    .setAutoCancel(true)
+                    .setAutoCancel(false)
                     .setContentIntent(pendingIntent)
                     .setTicker(aMessage)
 //                    .setLargeIcon(bitmap)
@@ -625,13 +819,15 @@ intent.putExtra("image/video",Utils.getPref(mContext,"image/video"));
 //                            .bigLargeIcon(bitmap))
                     .setProgress(100, progress, false)
 
-            .setPriority(Notification.PRIORITY_HIGH);
+                    .setPriority(Notification.PRIORITY_HIGH);
 
 //                    .setVibrate(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
         } else {
             builder = new NotificationCompat.Builder(context, id);
-            intent = new Intent(context, ImageVideoUploadActivity.class);
-            intent.putExtra("image/video",Utils.getPref(mContext,"image/video"));
+            intent = new Intent(context, MyMediaActivity.class);
+            Utils.setPref(mContext, "cometonotification", "cometonotification");
+            intent.putExtra("image/video", Utils.getPref(mContext, "image/video"));
+            intent.putExtra("cometonotification", Utils.getPref(mContext, "cometonotification"));
 //            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
             builder.setContentTitle(aMessage)                            // required
@@ -640,7 +836,7 @@ intent.putExtra("image/video",Utils.getPref(mContext,"image/video"));
                     .setDefaults(Notification.DEFAULT_VIBRATE)
                     .setVibrate(new long[]{-1}) //new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400}
                     .setOngoing(true)
-                    .setAutoCancel(true)
+                    .setAutoCancel(false)
                     .setContentIntent(pendingIntent)
                     .setTicker(aMessage)
 //                    .setLargeIcon(bitmap)
@@ -652,7 +848,7 @@ intent.putExtra("image/video",Utils.getPref(mContext,"image/video"));
         }
         Notification notification = builder.build();
 
-        notification.flags|=Notification.FLAG_AUTO_CANCEL|Notification.FLAG_ONGOING_EVENT;
+        notification.flags |=  Notification.FLAG_ONGOING_EVENT;//Notification.FLAG_AUTO_CANCEL |
         notifManager.notify(NOTIFY_ID, notification);
 
 //        new Handler().postDelayed(new Runnable() {

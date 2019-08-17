@@ -241,6 +241,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/media_linear"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_33sdp"
                         android:layout_marginTop="@dimen/more_rowTop"

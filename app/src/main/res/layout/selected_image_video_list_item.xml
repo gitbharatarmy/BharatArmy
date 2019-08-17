@@ -19,29 +19,11 @@
                     android:id="@+id/selected_image"
                     android:layout_width="@dimen/_60sdp"
                     android:layout_height="@dimen/_60sdp"
-                    android:layout_margin="@dimen/_10sdp"
+                    android:layout_margin="@dimen/_5sdp"
                     android:scaleType="centerCrop"
                     android:src="@drawable/yashmittal" />
 
-                <LinearLayout
-                    android:id="@+id/uploadsucces_linear"
-                    android:layout_width="@dimen/_60sdp"
-                    android:layout_height="@dimen/_60sdp"
-                    android:layout_margin="@dimen/_10sdp"
-                    android:background="@color/black_translucent"
-                    android:orientation="horizontal"
-                    android:visibility="gone">
 
-
-                    <ImageView
-                        android:id="@+id/upload_img"
-                        android:layout_width="@dimen/_15sdp"
-                        android:layout_height="@dimen/_15sdp"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="@dimen/_22sdp"
-                        android:src="@drawable/ic_upload_retry"/>
-
-                </LinearLayout>
             </RelativeLayout>
 
             <RelativeLayout
@@ -85,7 +67,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_alignParentRight="true"
-                    android:layout_marginRight="@dimen/_10sdp">
+                    android:layout_marginRight="@dimen/_10sdp"
+                    android:layout_marginLeft="@dimen/_10sdp">
 
                     <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
                         xmlns:app="http://schemas.android.com/apk/res-auto"

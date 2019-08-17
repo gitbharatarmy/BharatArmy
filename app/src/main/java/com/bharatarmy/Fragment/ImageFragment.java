@@ -207,8 +207,10 @@ public class ImageFragment extends Fragment {
                                     public void onPermissionsChecked(MultiplePermissionsReport report) {
                                         if (report.areAllPermissionsGranted()) {
                                             imageorvideoStr="video";
+                                            Utils.setPref(mContext, "cometonotification", "module");
                                             Intent imagevideouploadIntent1 = new Intent(mContext, ImageVideoUploadActivity.class);
                                             imagevideouploadIntent1.putExtra("image/video",imageorvideoStr);
+
                                             startActivity(imagevideouploadIntent1);
                                         }
 
@@ -227,6 +229,7 @@ public class ImageFragment extends Fragment {
 
                     case R.id.fab_custom_color:
                         imageorvideoStr="image";
+                        Utils.setPref(mContext, "cometonotification", "module");
                         Intent imagevideouploadIntent1 = new Intent(mContext, ImageVideoUploadActivity.class);
                         imagevideouploadIntent1.putExtra("image/video",imageorvideoStr);
                         imagevideouploadIntent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

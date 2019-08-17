@@ -36,6 +36,7 @@ public class AppConfiguration {
     public static String registerCountryCodeStr;
     public static String imagevideoStr;
     public static  ArrayList<Uri> files = new ArrayList<>();
+    public static  ArrayList<Uri> returnuploadfiles=new ArrayList<>();
     public static ArrayList<String> uploadcompletefilename=new ArrayList<>();
     public static ArrayList<String> uploadfailedfilename =new ArrayList<>();
 

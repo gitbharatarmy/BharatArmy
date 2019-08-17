@@ -4,6 +4,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.Dialog;
 import android.content.ContentUris;
 import android.content.Context;
@@ -435,7 +436,7 @@ public class Utils {
             @Override
             public void onClick(View v) {
                 alertDialog.dismiss();
-
+           activity.finish();
             }
         });
         alertDialog.show();
@@ -632,5 +633,13 @@ public class Utils {
         Log.d("noofcolumns : ", ""+noOfColumns);
         return noOfColumns;
     }
-
+    public static boolean isMyServiceRunning(Context context) {
+        ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if ("com.bharatarmy.UploadServiceReturn".equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

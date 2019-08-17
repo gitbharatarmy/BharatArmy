@@ -421,7 +421,7 @@ public class RegisterInterestActivity extends AppCompatActivity implements View.
                             @Override
                             public void onClick(View v) {
                                 alertDialog.dismiss();
-                                finish();
+
                             }
                         });
                         alertDialog.show();

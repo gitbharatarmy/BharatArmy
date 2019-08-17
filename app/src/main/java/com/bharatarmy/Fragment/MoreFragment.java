@@ -26,6 +26,7 @@ import com.bharatarmy.Activity.ContactusActivity;
 import com.bharatarmy.Activity.InquriyActivity;
 import com.bharatarmy.Activity.LoginActivity;
 import com.bharatarmy.Activity.MoreStoryActivity;
+import com.bharatarmy.Activity.MyMediaActivity;
 import com.bharatarmy.Activity.MyProfileActivity;
 import com.bharatarmy.Adapter.StoryCategoryAdapter;
 import com.bharatarmy.Adapter.StoryLsitAdapter;
@@ -117,6 +118,7 @@ public class MoreFragment extends Fragment implements View.OnClickListener {
         fragmentMoreBinding.contactusLinear.setOnClickListener(this);
         fragmentMoreBinding.logoutLinear.setOnClickListener(this);
         fragmentMoreBinding.inquiryLinear.setOnClickListener(this);
+        fragmentMoreBinding.mediaLinear.setOnClickListener(this);
     }
 
     @Override
@@ -146,7 +148,6 @@ public class MoreFragment extends Fragment implements View.OnClickListener {
                 startActivity(inquriy);
                 break;
             case R.id.logout_linear:
-
                 AlertDialog.Builder alertDialog2 = new AlertDialog.Builder(getActivity());
                 alertDialog2.setTitle("Logout Confirm");
                 alertDialog2.setMessage("Are you sure you want logout?");
@@ -180,6 +181,11 @@ public class MoreFragment extends Fragment implements View.OnClickListener {
                         });
                 alertDialog2.show();
             break;
+            case R.id.media_linear:
+                Intent media=new Intent(mContext, MyMediaActivity.class);
+                media.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(media);
+                break;
         }
     }
 }

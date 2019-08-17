@@ -83,6 +83,20 @@ this.selectedImageVideoListItemBinding=selectedImageVideoListItemBinding;
                 image_click.image_more_click();
             }
         });
+
+
+//        if (!imageDetailModel.get(position).getUploadcompelet().equalsIgnoreCase("")){
+//            if (imageDetailModel.get(position).getUploadcompelet().equalsIgnoreCase("1")){
+//                holder.selectedImageVideoListItemBinding.uploadsuccesLinear.setVisibility(View.VISIBLE);
+//                holder.selectedImageVideoListItemBinding.uploadImg.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_check_mark));
+//            }else{
+//                holder.selectedImageVideoListItemBinding.uploadsuccesLinear.setVisibility(View.VISIBLE);
+//                holder.selectedImageVideoListItemBinding.uploadImg.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_upload_retry));
+//            }
+//        }else{
+//            holder.selectedImageVideoListItemBinding.uploadsuccesLinear.setVisibility(View.GONE);
+//
+//        }
     }
 
     @Override
