@@ -19,6 +19,7 @@ import androidx.core.app.NotificationCompat;
 
 import com.bharatarmy.Activity.ImageVideoUploadActivity;
 import com.bharatarmy.Activity.MyMediaActivity;
+import com.bharatarmy.Models.GalleryImageModel;
 import com.bharatarmy.Models.LogginModel;
 import com.bharatarmy.Utility.AppConfiguration;
 import com.bharatarmy.Utility.NetworkClient;
@@ -26,8 +27,12 @@ import com.bharatarmy.Utility.ProgressRequestBody;
 import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.Utility.WebServices;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.File;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import okhttp3.MediaType;
@@ -70,96 +75,100 @@ public class UploadService extends IntentService implements ProgressRequestBody.
     @Override
     protected void onHandleIntent(Intent intent) {
 
-
-        if (AppConfiguration.files != null) {
+        if (AppConfiguration.files != null && AppConfiguration.files.size() > 0) {
 
             Log.d("listis", "" + AppConfiguration.files.toString());
-        }
-        connected = Utils.checkNetwork(getApplicationContext());
-        Log.d("connected :", "" + connected);
-
-        div = 100 / AppConfiguration.files.size();
-        Log.d("progress", "" + div);
-        for (int i = 0; i < AppConfiguration.files.size(); i++) {
-            if (counter == i && counter < AppConfiguration.files.size()) {
-                filepath = AppConfiguration.files.get(i);
+            if (AppConfiguration.files.size() > 0) {
+                div = 100 / AppConfiguration.files.size();
+                Log.d("progress", "" + div);
             }
-        }
+
+            connected = Utils.checkNetwork(getApplicationContext());
+            Log.d("connected :", "" + connected);
+
+            for (int i = 0; i < AppConfiguration.files.size(); i++) {
+                if (counter == i && counter < AppConfiguration.files.size()) {
+                    filepath = AppConfiguration.files.get(i);
+                }
+            }
 
 
-        if (Utils.getPref(getApplicationContext(), "image/video").equalsIgnoreCase("video")) {
-            filePath = String.valueOf(filepath);
-        } else {
-            filePath = Utils.getFilePathFromUri(this, filepath);
-        }
-        File file = new File(filePath);
-        ProgressRequestBody fileBody = new ProgressRequestBody(file, this);
-        MultipartBody.Part body = MultipartBody.Part.createFormData("image", file.getName(), fileBody);
-        Retrofit retrofit = NetworkClient.getRetrofitClient(this);
-        WebServices uploadAPIs = retrofit.create(WebServices.class);
-        Call<LogginModel> call = uploadAPIs.uploadfiles(body);
+            if (Utils.getPref(getApplicationContext(), "image/video").equalsIgnoreCase("video")) {
+                filePath = String.valueOf(filepath);
+            } else {
+                filePath = Utils.getFilePathFromUri(this, filepath);
+            }
+            File file = new File(filePath);
+            ProgressRequestBody fileBody = new ProgressRequestBody(file, this);
+            MultipartBody.Part body = MultipartBody.Part.createFormData("image", file.getName(), fileBody);
+            Retrofit retrofit = NetworkClient.getRetrofitClient(this);
+            WebServices uploadAPIs = retrofit.create(WebServices.class);
+            Call<LogginModel> call = uploadAPIs.uploadfiles(body);
 
-        call.enqueue(new Callback<LogginModel>() {
+            call.enqueue(new Callback<LogginModel>() {
 
-            @Override
-            public void onResponse(Call<LogginModel> call, Response<LogginModel> response) {
+                @Override
+                public void onResponse(Call<LogginModel> call, Response<LogginModel> response) {
 
-                Log.d("response : ", response.message().toString());
-                FILENAME = response.message().toString();
-                if (response.message().equalsIgnoreCase("OK")) {
-                    result = Activity.RESULT_OK;
+                    Log.d("response : ", response.message().toString());
+                    FILENAME = response.message().toString();
+                    if (response.message().equalsIgnoreCase("OK")) {
+                        result = Activity.RESULT_OK;
 //                        publishResults(FILENAME, result);
-                    AppConfiguration.uploadcompletefilename.add(filePath);
-                    Log.d("uploadcompletefile :", AppConfiguration.uploadcompletefilename.toString());
-                    progress = progress + div;
-                    createNotification("Uploading", getApplicationContext(), progress);
-                    Log.d("counter : ", "" + counter + "arraysize :" + AppConfiguration.files.size());
+                        AppConfiguration.uploadcompletefilename.add(filePath);
+                        Log.d("uploadcompletefile :", AppConfiguration.uploadcompletefilename.toString());
+                        progress = progress + div;
+                        createNotification("Uploading", getApplicationContext(), progress);
+                        Log.d("counter : ", "" + counter + "arraysize :" + AppConfiguration.files.size());
 
-                    Gson gson = new Gson();
-                    String uploadfilevaluesString = gson.toJson(AppConfiguration.uploadcompletefilename);
-                    Utils.setPref(getApplicationContext(), "uploadcompletefile", uploadfilevaluesString);
-                    Utils.setPref(getApplicationContext(), "cometonotification", "service");
+                        Gson gson = new Gson();
+                        String uploadfilevaluesString = gson.toJson(AppConfiguration.uploadcompletefilename);
+                        Utils.setPref(getApplicationContext(), "uploadcompletefile", uploadfilevaluesString);
+                        Utils.setPref(getApplicationContext(), "cometonotification", "service");
 
-                    if (counter != AppConfiguration.files.size() - 1) {
-                        counter++;
+                        if (counter != AppConfiguration.files.size() - 1) {
+                            counter++;
+                            UploadService.this.onHandleIntent(intent);
+                        } else {
+                            stopService(intent);
+//                            Utils.ping(getApplicationContext(),"Upload complete");
+//                        notifManager.cancel(NOTIFY_ID);
+                            publishResults(FILENAME, result);
+                        }
+
+                    }
+
+                    Log.d("result", "" + result);
+                }
+
+                @Override
+                public void onFailure(Call<LogginModel> call, Throwable t) {
+                    Log.d("error : ", t.toString());
+                    result = Activity.RESULT_CANCELED;
+
+
+//                    Utils.ping(getApplicationContext(), "Upload failed");
+                    if (counter != AppConfiguration.files.size()) {
                         UploadService.this.onHandleIntent(intent);
                     } else {
+                        AppConfiguration.uploadfailedfilename.add(filePath);
+                        Log.d("uploadfailfile :", AppConfiguration.uploadfailedfilename.toString());
+
+                        Gson gson = new Gson();
+                        String uploadfailedevaluesString = gson.toJson(AppConfiguration.uploadfailedfilename);
+                        Utils.setPref(getApplicationContext(), "uploadfailedfile", uploadfailedevaluesString);
+                        Utils.setPref(getApplicationContext(), "cometonotification", "service");
+
                         stopService(intent);
-//                            Utils.ping(getApplicationContext(),"Upload complete");
+//                        notifManager.cancelAll();
+
                         publishResults(FILENAME, result);
                     }
 
                 }
+            });
+        }
 
-                Log.d("result", "" + result);
-            }
-
-            @Override
-            public void onFailure(Call<LogginModel> call, Throwable t) {
-                Log.d("error : ", t.toString());
-                result = Activity.RESULT_CANCELED;
-
-
-                Utils.ping(getApplicationContext(), "Upload failed");
-                if (counter != AppConfiguration.files.size()) {
-                    UploadService.this.onHandleIntent(intent);
-                } else {
-                    AppConfiguration.uploadfailedfilename.add(filePath);
-                    Log.d("uploadfailfile :", AppConfiguration.uploadfailedfilename.toString());
-
-                    Gson gson = new Gson();
-                    String uploadfailedevaluesString = gson.toJson(AppConfiguration.uploadfailedfilename);
-                    Utils.setPref(getApplicationContext(), "uploadfailedfile", uploadfailedevaluesString);
-                    Utils.setPref(getApplicationContext(), "cometonotification", "service");
-
-                    stopService(intent);
-//                        notifManager.cancelAll();
-
-                    publishResults(FILENAME, result);
-                }
-
-            }
-        });
     }
 
     private void publishResults(String outputPath, int result) {
@@ -217,7 +226,7 @@ public class UploadService extends IntentService implements ProgressRequestBody.
             builder.setContentTitle(aMessage)                            // required
                     .setSmallIcon(R.drawable.app_logo)   // required
                     .setContentText(context.getString(R.string.app_name)) // required
-                    .setAutoCancel(false)
+                    .setAutoCancel(true)
                     .setDefaults(Notification.DEFAULT_VIBRATE)
                     .setVibrate(new long[]{-1}) //new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400}
                     .setOngoing(true)
@@ -240,7 +249,7 @@ public class UploadService extends IntentService implements ProgressRequestBody.
                     .setSmallIcon(R.drawable.app_logo)   // required
                     .setContentText(context.getString(R.string.app_name)) // required
                     .setOngoing(true)
-                    .setAutoCancel(false)
+                    .setAutoCancel(true)
                     .setDefaults(Notification.DEFAULT_VIBRATE)
                     .setVibrate(new long[]{-1}) //new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400}
                     .setContentIntent(pendingIntent)
@@ -266,8 +275,9 @@ public class UploadService extends IntentService implements ProgressRequestBody.
 //        }, 60000);
     }
 
-
-    public interface handleclicktoupdatelist {
-        void gethandleclicktoupdatelist();
+    @Override
+    public void onTaskRemoved(Intent rootIntent) {
+        NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager.cancel(NOTIFY_ID);
     }
 }

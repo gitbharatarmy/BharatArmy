@@ -33,6 +33,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.provider.Settings;
@@ -85,22 +86,22 @@ public class ImageVideoUploadActivity extends AppCompatActivity implements View.
     public static final int REQUEST_IMAGE = 100;
     private NotificationManager notifManager;
     final int NOTIFY_ID = 0; // ID of notification
-    Uri uri, selectedUri,imageUri;
+    Uri uri, selectedUri, imageUri;
     public static final int REQUEST_IMAGE_CAPTURE = 0;
     private List<Uri> selectedUriList;
 
     SelectedImageVideoViewAdapter selectedImageVideoViewAdapter;
     LinearLayoutManager linearLayoutManager;
 
-    public List<GalleryImageModel> content=new ArrayList<>();
-File Camerafile;
+    public List<GalleryImageModel> content = new ArrayList<>();
+    File Camerafile;
     String imageorvideoStr = "";
     private static final int REQUEST_VIDEO_TRIMMER = 0x01;
     private static final int REQUEST_STORAGE_READ_ACCESS_PERMISSION = 101;
     static final String EXTRA_VIDEO_PATH = "EXTRA_VIDEO_PATH";
     static final String VIDEO_TOTAL_DURATION = "VIDEO_TOTAL_DURATION";
     private ProgressDialog mProgressDialog;
-    public  String fileName;
+    public String fileName;
 
     static MediaPlayer mPlayer;
     boolean paused = true;
@@ -255,8 +256,8 @@ File Camerafile;
 //                selectedImageVideoViewAdapter.notifyDataSetChanged();
 //            }
 //        } else {
-            imageorvideoStr = getIntent().getStringExtra("image/video");
-            Utils.setPref(mContext, "image/video", imageorvideoStr);
+        imageorvideoStr = getIntent().getStringExtra("image/video");
+        Utils.setPref(mContext, "image/video", imageorvideoStr);
 //        }
 
 
@@ -287,7 +288,12 @@ File Camerafile;
                                 if (report.areAllPermissionsGranted()) {
                                     if (imageorvideoStr.equalsIgnoreCase("image")) {
 //                                        launchCameraIntent();
-                                        openImageCapture();
+                                        if (content.size() < 10) {
+                                            openImageCapture();
+                                        } else {
+                                            Utils.ping(mContext, "max limit 10");
+                                        }
+
                                     } else {
                                         openVideoCapture();
                                     }
@@ -311,32 +317,36 @@ File Camerafile;
                             public void onPermissionsChecked(MultiplePermissionsReport report) {
                                 if (report.areAllPermissionsGranted()) {
                                     if (imageorvideoStr.equalsIgnoreCase("image")) {
-                                        TedBottomPicker.with(ImageVideoUploadActivity.this)
-                                                .setPeekHeight(1600)
-                                                .showTitle(false)
-                                                .setCompleteButtonText("Done")
-                                                .setEmptySelectionText("No Select")
-                                                .setSelectedUriList(selectedUriList)
-                                                .setSelectMinCount(1)
-                                                .setSelectMaxCount(10)
-                                                .showCameraTile(false)
-                                                .setTitle("Select Images")
-                                                .setTitleBackgroundResId(R.color.heading_bg)
-                                                .setSelectedForeground(R.drawable.ic_checked)
-                                                .showMultiImage(new TedBottomSheetDialogFragment.OnMultiImageSelectedListener() {
-                                                    @Override
-                                                    public void onImagesSelected(List<Uri> uriList) {
-                                                        // here is selected image uri list
+                                        if (content.size() < 10) {
+                                            TedBottomPicker.with(ImageVideoUploadActivity.this)
+                                                    .setPeekHeight(1600)
+                                                    .showTitle(false)
+                                                    .setCompleteButtonText("Done")
+                                                    .setEmptySelectionText("No Select")
+                                                    .setSelectedUriList(selectedUriList)
+                                                    .setSelectMinCount(1)
+                                                    .setSelectMaxCount(10 - content.size())
+                                                    .showCameraTile(false)
+                                                    .setTitle("Select Images")
+                                                    .setTitleBackgroundResId(R.color.heading_bg)
+                                                    .setSelectedForeground(R.drawable.ic_checked)
+                                                    .showMultiImage(new TedBottomSheetDialogFragment.OnMultiImageSelectedListener() {
+                                                        @Override
+                                                        public void onImagesSelected(List<Uri> uriList) {
+                                                            // here is selected image uri list
 //                                                    loadProfile(uriList);
 //                                                        content = new ArrayList<GalleryImageModel>();
-                                                        for (int i = 0; i < uriList.size(); i++) {
-                                                            File f = new File(uriList.get(i).getPath());
-                                                            long findsize = f.length() / 1024;
-                                                            content.add(new GalleryImageModel(uriList.get(i).toString(), size((int) findsize), "", ""));
+                                                            for (int i = 0; i < uriList.size(); i++) {
+                                                                File f = new File(uriList.get(i).getPath());
+                                                                long findsize = f.length() / 1024;
+                                                                content.add(new GalleryImageModel(uriList.get(i).toString(), size((int) findsize), "", ""));
+                                                            }
+                                                            loadProfile();
                                                         }
-                                                        loadProfile();
-                                                    }
-                                                });
+                                                    });
+                                        } else {
+                                            Utils.ping(mContext, "max limit 10");
+                                        }
                                     } else {
                                         pickFromGallery();
                                     }
@@ -356,8 +366,8 @@ File Camerafile;
             case R.id.submit_linear:
                 final ArrayList<Uri> files = new ArrayList<>(); //These are the uris for the files to be uploaded
                 AppConfiguration.files = new ArrayList<>();
-                Utils.setPref(mContext,"gallerylist","");
-                Utils.setPref(mContext,"uploadcompletefile","");
+                Utils.setPref(mContext, "gallerylist", "");
+                Utils.setPref(mContext, "uploadcompletefile", "");
                 Uri filepath;
                 int counter = 0;
                 boolean connected = Utils.checkNetwork(mContext);
@@ -371,6 +381,7 @@ File Camerafile;
                         Utils.setPref(mContext, "gallerylist", valuesString);
                         Log.d("gallerylist", valuesString.toString());
                         Utils.setPref(getApplicationContext(), "uploadcompletefile", "");
+
                         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(ImageVideoUploadActivity.this);
                         LayoutInflater inflater = getLayoutInflater();
                         View dialogView = inflater.inflate(R.layout.thankyou_dialog_item, null);
@@ -386,14 +397,15 @@ File Camerafile;
 //                                finish();
 
                                 try {
-//                                    alertDialog.dismiss();
+                                    alertDialog.dismiss();
+                                    finish();
                                 } catch (Exception e) {
 
                                 }
                             }
                         });
                         try {
-//                            alertDialog.show();
+                            alertDialog.show();
                         } catch (Exception e) {
 
                         }
@@ -402,7 +414,6 @@ File Camerafile;
                         startService(intent);
 
                         createNotification("Upload Image", mContext, 1);
-
 
 
                     } else {
@@ -481,10 +492,9 @@ File Camerafile;
 
 //                uri = data.getParcelableExtra("path");
 //
-imageUri= Uri.fromFile(getCacheFileImagePath(fileName));
 
-                Log.d("URI",imageUri.toString());
-//                File f = new File(Camerafile);
+                imageUri = Uri.fromFile(getCacheFileImagePath(fileName));
+                Log.d("URI", imageUri.toString());
                 long findsize = Camerafile.length() / 1024;
                 Log.d("findfilesize", "" + Camerafile.length() / 1024 + "kb" + " " + Camerafile.length() / (1024 * 1024));
 //                try {
@@ -497,12 +507,6 @@ imageUri= Uri.fromFile(getCacheFileImagePath(fileName));
 
                 loadProfile();
                 Log.d("FInalImageSize", "" + size((int) findsize));
-
-
-
-//                Bundle extras = data.getExtras();
-
-
 
             } else if (requestCode == REQUEST_VIDEO_TRIMMER) {
                 selectedUri = data.getData();
@@ -690,47 +694,48 @@ imageUri= Uri.fromFile(getCacheFileImagePath(fileName));
     }
 
 
-
-
-//    file:///data/user/0/com.bharatarmy/cache/1566033242675.jpg
+    //    file:///data/user/0/com.bharatarmy/cache/1566033242675.jpg
     private void openImageCapture() {
-            Dexter.withActivity(this)
-                    .withPermissions(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                    .withListener(new MultiplePermissionsListener() {
-                        @Override
-                        public void onPermissionsChecked(MultiplePermissionsReport report) {
-                            if (report.areAllPermissionsGranted()) {
-                                fileName = System.currentTimeMillis() + ".jpg";
-                                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, getCacheImagePath(fileName));
-                                if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-                                    startActivityForResult(takePictureIntent, REQUEST_IMAGE);
-                                }
+        Dexter.withActivity(this)
+                .withPermissions(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                .withListener(new MultiplePermissionsListener() {
+                    @Override
+                    public void onPermissionsChecked(MultiplePermissionsReport report) {
+                        if (report.areAllPermissionsGranted()) {
+                            fileName = System.currentTimeMillis() + ".jpg";
+                            Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, getCacheImagePath(fileName));
+                            if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+                                startActivityForResult(takePictureIntent, REQUEST_IMAGE);
                             }
                         }
+                    }
 
-                        @Override
-                        public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
-                            token.continuePermissionRequest();
-                        }
-                    }).check();
+                    @Override
+                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
+                        token.continuePermissionRequest();
+                    }
+                }).check();
     }
 
     private Uri getCacheImagePath(String fileName) {
         File path = new File(getExternalCacheDir(), "camera");
-        Camerafile=path;
+
         if (!path.exists()) path.mkdirs();
         File image = new File(path, fileName);
 
-        Log.d("imageFile : ",""+image);
+        Log.d("imageFile : ", "" + image);
 
         return getUriForFile(ImageVideoUploadActivity.this, getPackageName() + ".provider", image);
     }
 
     private File getCacheFileImagePath(String fileName) {
         File path = new File(getExternalCacheDir(), "camera");
-        Camerafile=path;
-       return path;
+        Camerafile = path;
+        File image = new File(path, fileName);
+
+        Log.d("imageFile : ", "" + image);
+        return image;
     }
 
     public Uri getImageUri(Context inContext, Bitmap inImage) {
@@ -803,7 +808,7 @@ imageUri= Uri.fromFile(getCacheFileImagePath(fileName));
             Utils.setPref(mContext, "cometonotification", "cometonotification");
             intent.putExtra("image/video", Utils.getPref(mContext, "image/video"));
             intent.putExtra("cometonotification", Utils.getPref(mContext, "cometonotification"));
-            pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+            pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
             builder.setContentTitle(aMessage)                            // required
                     .setSmallIcon(R.drawable.app_logo)   // required
                     .setContentText(context.getString(R.string.app_name)) // required
@@ -848,7 +853,7 @@ imageUri= Uri.fromFile(getCacheFileImagePath(fileName));
         }
         Notification notification = builder.build();
 
-        notification.flags |=  Notification.FLAG_ONGOING_EVENT;//Notification.FLAG_AUTO_CANCEL |
+        notification.flags |= Notification.FLAG_AUTO_CANCEL | Notification.FLAG_ONGOING_EVENT;//Notification.FLAG_AUTO_CANCEL |
         notifManager.notify(NOTIFY_ID, notification);
 
 //        new Handler().postDelayed(new Runnable() {

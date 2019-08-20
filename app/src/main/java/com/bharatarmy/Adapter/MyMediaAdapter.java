@@ -59,10 +59,14 @@ public class MyMediaAdapter extends RecyclerView.Adapter<MyMediaAdapter.MyViewHo
 
         if (detailgallery.getUploadcompelet().equalsIgnoreCase("1")) {
             holder.myMediaListItemBinding.uploadsuccesLinear.setVisibility(View.VISIBLE);
-            holder.myMediaListItemBinding.uploadImg.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_check_mark));
+            holder.myMediaListItemBinding.uploadImg.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_uploadimage));
         } else if (detailgallery.getUploadcompelet().equalsIgnoreCase("")) {
             holder.myMediaListItemBinding.uploadsuccesLinear.setVisibility(View.VISIBLE);
             holder.myMediaListItemBinding.uploadImg.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_upload_retry));
+        }
+        else if (detailgallery.getUploadcompelet().equalsIgnoreCase("2")){
+            holder.myMediaListItemBinding.uploadsuccesLinear.setVisibility(View.VISIBLE);
+            holder.myMediaListItemBinding.uploadImg.setImageDrawable(mContext.getResources().getDrawable(R.drawable.uploadimage));
         }
 
         holder.myMediaListItemBinding.uploadsuccesLinear.setOnClickListener(new View.OnClickListener() {
@@ -70,7 +74,7 @@ public class MyMediaAdapter extends RecyclerView.Adapter<MyMediaAdapter.MyViewHo
             public void onClick(View v) {
                 if(detailgallery.getUploadcompelet().equalsIgnoreCase("")){
                     dataCheck=new ArrayList<>();
-                    dataCheck.add(detailgallery.getImageUri());
+                    dataCheck.add(detailgallery.getImageUri()+"|"+position); //+"|"+position
                     image_click.image_more_click();
                 }
 

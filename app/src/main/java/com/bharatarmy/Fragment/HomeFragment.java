@@ -177,7 +177,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             Utils.showCustomDialog(getResources().getString(R.string.internet_error), getResources().getString(R.string.internet_connection_error), getActivity());
         } else {
             fragmentHomeBinding.shimmerViewContainerhome.startShimmerAnimation();
-            Utils.showUpdateDialog(getActivity());
+//            Utils.showUpdateDialog(getActivity());
             callHomeBannerData();
             callDashboardData();
         }

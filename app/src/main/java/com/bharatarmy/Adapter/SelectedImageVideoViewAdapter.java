@@ -1,7 +1,10 @@
 package com.bharatarmy.Adapter;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,6 +16,7 @@ import android.widget.TextView;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bharatarmy.Activity.LoginActivity;
 import com.bharatarmy.Interfaces.image_click;
 import com.bharatarmy.Models.GalleryImageModel;
 import com.bharatarmy.R;
@@ -78,10 +82,32 @@ this.selectedImageVideoListItemBinding=selectedImageVideoListItemBinding;
         holder.selectedImageVideoListItemBinding.selectedImageRemoveTxt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dataCheck = new ArrayList<>();
-                dataCheck.add(imageDetailModel.get(position).getImageUri().toString());
-                image_click.image_more_click();
+                AlertDialog.Builder alertDialog2 = new AlertDialog.Builder(mContext);
+                alertDialog2.setTitle("Delete");
+                alertDialog2.setMessage("Are you sure you want delete?");
+                alertDialog2.setIcon(R.drawable.app_logo);
+                alertDialog2.setCancelable(false);
+                alertDialog2.setPositiveButton("YES",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // Write your code here to execute after dialog
+                                dataCheck = new ArrayList<>();
+                                dataCheck.add(imageDetailModel.get(position).getImageUri().toString());
+                                image_click.image_more_click();
+                                dialog.dismiss();
+                            }
+                        });
+                alertDialog2.setNegativeButton("NO",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                // Write your code here to execute after dialog
+
+                                dialog.cancel();
+                            }
+                        });
+                alertDialog2.show();
             }
+
         });
 
 

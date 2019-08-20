@@ -47,7 +47,7 @@ public class UploadServiceReturn extends IntentService implements ProgressReques
     public Uri filepath;
     boolean connected;
     int counter=0;
-    final int NOTIFY_ID = 1; // ID of notification
+    final int NOTIFY_ID = 0; // ID of notification
     private NotificationManager notifManager;
     int progress=1;
     int div;
@@ -69,12 +69,16 @@ public class UploadServiceReturn extends IntentService implements ProgressReques
         if (AppConfiguration.returnuploadfiles != null) {
 
             Log.d("returnuploadfiles",""+AppConfiguration.returnuploadfiles.toString());
+            if (AppConfiguration.returnuploadfiles.size()>0){
+                div=100/AppConfiguration.returnuploadfiles.size();
+                Log.d("progress",""+div);
+            }
+
         }
         connected= Utils.checkNetwork(getApplicationContext());
         Log.d("connected :",""+connected);
 
-        div=100/AppConfiguration.returnuploadfiles.size();
-        Log.d("progress",""+div);
+
         for (int i=0;i<AppConfiguration.returnuploadfiles.size();i++){
             if (counter==i && counter<AppConfiguration.returnuploadfiles.size()){
                 filepath= AppConfiguration.returnuploadfiles.get(i);
@@ -132,7 +136,7 @@ public class UploadServiceReturn extends IntentService implements ProgressReques
 
 
 
-                Utils.ping(getApplicationContext(),"Upload failed");
+//                Utils.ping(getApplicationContext(),"Upload failed");
                 if (counter!=AppConfiguration.returnuploadfiles.size()){
                     UploadServiceReturn.this.onHandleIntent(intent);
                 }else

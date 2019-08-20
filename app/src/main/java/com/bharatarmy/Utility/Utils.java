@@ -636,7 +636,7 @@ public class Utils {
     public static boolean isMyServiceRunning(Context context) {
         ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
-            if ("com.bharatarmy.UploadServiceReturn".equals(service.service.getClassName())) {
+            if ("com.bharatarmy.UploadService".equals(service.service.getClassName())) {
                 return true;
             }
         }
