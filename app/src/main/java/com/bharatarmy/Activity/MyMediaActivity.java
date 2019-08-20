@@ -51,6 +51,7 @@ public class MyMediaActivity extends AppCompatActivity implements View.OnClickLi
     private NotificationManager notifManager;
     int progress = 1;
     int selectedposition;
+    List<GalleryImageModel> galleryimage;
     private BroadcastReceiver receiver = new BroadcastReceiver() {
 
         @Override
@@ -90,7 +91,8 @@ public class MyMediaActivity extends AppCompatActivity implements View.OnClickLi
 
     public void setDataList() {
         storearray = new ArrayList<GalleryImageModel>();
-        Type arrayListType = new TypeToken<ArrayList<String>>() {}.getType();
+        Type arrayListType = new TypeToken<ArrayList<String>>() {
+        }.getType();
         Gson gson = new Gson();
         List<String> yourList = gson.fromJson(Utils.getPref(mContext, "uploadcompletefile"), arrayListType);
 
@@ -99,7 +101,7 @@ public class MyMediaActivity extends AppCompatActivity implements View.OnClickLi
         Type arrayListType1 = new TypeToken<ArrayList<GalleryImageModel>>() {
         }.getType();
         Gson gson1 = new Gson();
-        List<GalleryImageModel> galleryimage = gson1.fromJson(Utils.getPref(mContext, "gallerylist"), arrayListType1);
+        galleryimage = gson1.fromJson(Utils.getPref(mContext, "gallerylist"), arrayListType1);//List<GalleryImageModel> galleryimage
         Log.d("galleryimage :", "" + galleryimage);
         if (galleryimage != null && galleryimage.size() > 0) {
 //            if (Utils.getPref(mContext, "cometonotification").equalsIgnoreCase("returnuploadservice")) {
@@ -166,10 +168,8 @@ public class MyMediaActivity extends AppCompatActivity implements View.OnClickLi
         }
 
 
-
-
-
         if (galleryimage != null) {
+            AppConfiguration.files = new ArrayList<>();
             myMediaAdapter = new MyMediaAdapter(mContext, galleryimage, new image_click() {
                 @Override
                 public void image_more_click() {
@@ -184,9 +184,9 @@ public class MyMediaActivity extends AppCompatActivity implements View.OnClickLi
                     Log.d("finaluploadimage", getSelectedImagetoupload);
 
 
-                    selectedposition=Integer.parseInt(split[1]);
-                    for (int i=0;i<galleryimage.size();i++){
-                        if (i==selectedposition){
+                    selectedposition = Integer.parseInt(split[1]);
+                    for (int i = 0; i < galleryimage.size(); i++) {
+                        if (i == selectedposition) {
                             galleryimage.get(i).setUploadcompelet("2");
                             myMediaAdapter.notifyDataSetChanged();
                         }
@@ -246,6 +246,15 @@ public class MyMediaActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     protected void onResume() {
         super.onResume();
+//        if (Utils.getPref(mContext, "cometonotification").equalsIgnoreCase("service")) {
+            for (int i = 0; i < galleryimage.size(); i++) {
+                if (!galleryimage.get(i).getUploadcompelet().equalsIgnoreCase("1") ||
+                        !galleryimage.get(i).getUploadcompelet().equalsIgnoreCase("2")) {
+                    AppConfiguration.files.add(Uri.parse(galleryimage.get(i).getImageUri()));
+                }
+            }
+            Log.d("remainimage :", AppConfiguration.files.toString());
+//        }
         registerReceiver(receiver, new IntentFilter(
                 UploadService.NOTIFICATION));
 

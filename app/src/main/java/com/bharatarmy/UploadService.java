@@ -118,14 +118,14 @@ public class UploadService extends IntentService implements ProgressRequestBody.
                         AppConfiguration.uploadcompletefilename.add(filePath);
                         Log.d("uploadcompletefile :", AppConfiguration.uploadcompletefilename.toString());
                         progress = progress + div;
-                        createNotification("Uploading", getApplicationContext(), progress);
+
                         Log.d("counter : ", "" + counter + "arraysize :" + AppConfiguration.files.size());
 
                         Gson gson = new Gson();
                         String uploadfilevaluesString = gson.toJson(AppConfiguration.uploadcompletefilename);
                         Utils.setPref(getApplicationContext(), "uploadcompletefile", uploadfilevaluesString);
                         Utils.setPref(getApplicationContext(), "cometonotification", "service");
-
+                        createNotification("Uploading", getApplicationContext(), progress);
                         if (counter != AppConfiguration.files.size() - 1) {
                             counter++;
                             UploadService.this.onHandleIntent(intent);
@@ -265,19 +265,5 @@ public class UploadService extends IntentService implements ProgressRequestBody.
         Notification notification = builder.build();
         notification.flags |= Notification.FLAG_ONGOING_EVENT; //Notification.FLAG_AUTO_CANCEL
         notifManager.notify(NOTIFY_ID, notification);
-
-//        new Handler().postDelayed(new Runnable() {
-//
-//            @Override
-//            public void run() {
-//                notifManager.cancel(NOTIFY_ID);
-//            }
-//        }, 60000);
-    }
-
-    @Override
-    public void onTaskRemoved(Intent rootIntent) {
-        NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotificationManager.cancel(NOTIFY_ID);
     }
 }
