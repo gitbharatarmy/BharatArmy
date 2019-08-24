@@ -194,6 +194,7 @@ public class InquiryFilterFragment extends BottomSheetDialogFragment{
 
 
     public void setListiner() {
+        pending_txt.performLongClick();
         back_img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -295,8 +296,6 @@ public class InquiryFilterFragment extends BottomSheetDialogFragment{
                 fromdatePickerDialog.show();
             }
         });
-
-
         todate_linear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -722,7 +721,7 @@ public class InquiryFilterFragment extends BottomSheetDialogFragment{
     }
 
     public void preSelection() {
-
+        AppConfiguration.inquirystatusfilterarray.add(pending_txt.getTag().toString());
         if (AppConfiguration.ordertypefilterarray.size() > 0) {
             for (int i = 0; i < AppConfiguration.ordertypefilterarray.size(); i++) {
                 if (AppConfiguration.ordertypefilterarray.get(i).equalsIgnoreCase("1")) {
@@ -779,9 +778,6 @@ public class InquiryFilterFragment extends BottomSheetDialogFragment{
                 }
             }
         }
-
-
-
 
     }
 

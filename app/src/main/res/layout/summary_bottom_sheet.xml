@@ -498,7 +498,7 @@
                         android:layout_width="@dimen/_7sdp"
                         android:layout_height="@dimen/_15sdp"
                         android:layout_marginLeft="@dimen/_4sdp"
-                        android:src="@drawable/summary_minus"
+                        android:src="@drawable/summary_plus"
                         android:tint="@color/heading_bg"/>
                     </LinearLayout>
                 </LinearLayout>
@@ -511,7 +511,8 @@
                     android:layout_marginTop="@dimen/_5sdp"
                     android:text="@string/cancellation_detail"
                     android:textColor="@color/normal_font_color"
-                    android:textSize="@dimen/_11sdp" />
+                    android:textSize="@dimen/_11sdp"
+                    android:visibility="gone"/>
                 <LinearLayout
                     android:id="@+id/inclusionpoilcy_linear"
                     android:layout_width="match_parent"
@@ -539,7 +540,7 @@
                     android:layout_width="@dimen/_7sdp"
                     android:layout_height="@dimen/_15sdp"
                     android:layout_marginLeft="@dimen/_4sdp"
-                    android:src="@drawable/summary_minus"
+                    android:src="@drawable/summary_plus"
                         android:tint="@color/heading_bg"/>
                     </LinearLayout>
 
@@ -553,12 +554,14 @@
                     android:layout_marginTop="@dimen/_5sdp"
                     android:text="@string/inclusions_detail"
                     android:textColor="@color/normal_font_color"
-                    android:textSize="@dimen/_11sdp" />
+                    android:textSize="@dimen/_11sdp"
+                    android:visibility="gone"/>
                 <LinearLayout
                     android:id="@+id/exclusionpoilcy_linear"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_20sdp"
+                    android:layout_marginBottom="@dimen/_20sdp"
                     android:orientation="horizontal"
                     android:layout_weight="1">
                 <TextView
@@ -581,7 +584,7 @@
                         android:layout_width="@dimen/_7sdp"
                         android:layout_height="@dimen/_15sdp"
                         android:layout_marginLeft="@dimen/_4sdp"
-                        android:src="@drawable/summary_minus"
+                        android:src="@drawable/summary_plus"
                         android:tint="@color/heading_bg"/>
                     </LinearLayout>
                 </LinearLayout>
@@ -595,7 +598,8 @@
                     android:layout_marginBottom="@dimen/_25sdp"
                     android:text="@string/exclusion_detail"
                     android:textColor="@color/normal_font_color"
-                    android:textSize="@dimen/_11sdp" />
+                    android:textSize="@dimen/_11sdp"
+                    android:visibility="gone"/>
 
             </LinearLayout>
 

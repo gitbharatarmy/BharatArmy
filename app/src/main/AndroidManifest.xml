@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.bharatarmy">
+
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
@@ -27,9 +28,10 @@
         android:largeHeap="true"
         android:roundIcon="@drawable/app_logo"
         android:supportsRtl="true">
-        <activity android:name=".Activity.MyMediaActivity"
+        <activity
+            android:name=".Activity.MyMediaActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"/>
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".Activity.InquriyActivity"
             android:screenOrientation="portrait"
@@ -45,7 +47,7 @@
         <activity
             android:name=".Activity.DemoActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".Activity.TravelBookActivity"
             android:screenOrientation="portrait"
@@ -293,11 +295,7 @@
             </intent-filter>
         </receiver>
 
-        <service android:name=".UploadService" />
-        <service
-            android:name=".UploadServiceReturn" />
-        <!-- android:exported="true"
-            android:permission="android.permission.BIND_JOB_SERVICE" -->
+        <service android:name=".UploadService"/>
     </application>
 
 </manifest>

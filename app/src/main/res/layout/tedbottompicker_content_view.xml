@@ -75,7 +75,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/tedbottompicker_selected_image_height"
         android:layout_alignParentBottom="true"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <HorizontalScrollView
             android:layout_width="match_parent"
@@ -105,7 +105,7 @@
             android:text="@string/no_image"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="?attr/colorAccent"
-            android:visibility="gone"/>
+            android:visibility="visible"/>
     </FrameLayout>
 
     <!--

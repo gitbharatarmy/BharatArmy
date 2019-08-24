@@ -15,6 +15,8 @@
             android:layout_height="@dimen/_100sdp"
             android:scaleType="centerCrop"/>
 
+
+
         <LinearLayout
             android:id="@+id/uploadsucces_linear"
             android:layout_width="@dimen/_100sdp"
@@ -30,7 +32,19 @@
                 android:layout_height="@dimen/_18sdp"
                 android:layout_gravity="center_vertical|center_horizontal"
                 android:layout_marginLeft="@dimen/_38sdp"
-                android:src="@drawable/ic_upload_retry"/>
+                android:src="@drawable/ic_upload_retry"
+                android:visibility="gone"/>
+
+
+            <TextView
+                android:id="@+id/upload_status"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/close"
+                android:gravity="center_vertical|center_horizontal"
+                android:textColor="@color/splash_bg_color"
+                android:textSize="@dimen/_14sdp"
+                style="@style/text_font"/>
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>

@@ -255,7 +255,7 @@ public class AlbumFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        albumList.clear();
+//        albumList.clear();
     }
 
     public void addOldNewValue(List<ImageDetailModel> result) {

@@ -380,7 +380,7 @@ public class ImageFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        imageDetailModelsList.clear();
+//        imageDetailModelsList.clear();
     }
 
     public void addOldNewValue(List<ImageDetailModel> result) {

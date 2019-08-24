@@ -182,6 +182,7 @@ public class MoreFragment extends Fragment implements View.OnClickListener {
                 alertDialog2.show();
             break;
             case R.id.media_linear:
+                Utils.setPref(mContext, "cometonotification","menu");
                 Intent media=new Intent(mContext, MyMediaActivity.class);
                 media.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(media);

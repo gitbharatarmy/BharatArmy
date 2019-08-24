@@ -262,7 +262,7 @@ public class InquriyActivity extends AppCompatActivity implements View.OnClickLi
         map.put("PageIndex", String.valueOf(AppConfiguration.pageindex));
         map.put("MemberId", Utils.getPref(mContext, "AppUserId"));
         map.put("ordertype", ordertypeStr);
-        map.put("orderstatus", orderstatusStr);
+        map.put("orderstatus", "0");
         return map;
     }
 

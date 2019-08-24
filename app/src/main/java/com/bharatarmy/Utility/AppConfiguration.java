@@ -5,9 +5,9 @@ import android.net.Uri;
 import java.util.ArrayList;
 
 public class AppConfiguration {
-    public static final String BASEURL = "http://beta.bharatarmy.com/API/v1/";
+//    public static final String BASEURL = "http://beta.bharatarmy.com/API/v1/";
 
-//    public static final String BASEURL = "https://www.bharatarmy.com/API/v1/";
+    public static final String BASEURL = "https://www.bharatarmy.com/API/v1/";
 
 //    public static final String BASEURL = "http://jalsaclub.net/API/v1/";
 
@@ -29,6 +29,7 @@ public class AppConfiguration {
     public static int pageindex;
 
 
+    public static String notificationtitle="Uploading";
     public static String registerNameStr;
     public static String registerEmailStr;
     public static String registerMobileStr;

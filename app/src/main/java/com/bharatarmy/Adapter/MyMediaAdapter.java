@@ -24,6 +24,7 @@ public class MyMediaAdapter extends RecyclerView.Adapter<MyMediaAdapter.MyViewHo
     List<GalleryImageModel> imageDetailModel;
     private ArrayList<String> dataCheck;
     image_click image_click;
+    boolean firstclick=true;
     public MyMediaAdapter(Context mContext, List<GalleryImageModel> content, image_click image_click) {
         this.mContext = mContext;
         this.imageDetailModel = content;
@@ -55,29 +56,34 @@ public class MyMediaAdapter extends RecyclerView.Adapter<MyMediaAdapter.MyViewHo
     @Override
     public void onBindViewHolder(MyMediaAdapter.MyViewHolder holder, final int position) {
         GalleryImageModel detailgallery = imageDetailModel.get(position);
-        Utils.setImageInImageView(detailgallery.getImageUri(), holder.myMediaListItemBinding.uploadImage, mContext);
-
+            if (!Utils.getPref(mContext, "image/video").equalsIgnoreCase("video")) {
+                Utils.setImageInImageView(detailgallery.getImageUri(), holder.myMediaListItemBinding.uploadImage, mContext);
+            } else {
+                holder.myMediaListItemBinding.uploadImage.setImageBitmap(Utils.createVideoThumbNail(detailgallery.getImageUri()));
+            }
         if (detailgallery.getUploadcompelet().equalsIgnoreCase("1")) {
             holder.myMediaListItemBinding.uploadsuccesLinear.setVisibility(View.VISIBLE);
-            holder.myMediaListItemBinding.uploadImg.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_uploadimage));
-        } else if (detailgallery.getUploadcompelet().equalsIgnoreCase("")) {
+//            holder.myMediaListItemBinding.uploadImg.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_uploadimage));
+            holder.myMediaListItemBinding.uploadStatus.setText("Uploading...");
+        } else if (detailgallery.getUploadcompelet().equalsIgnoreCase("2")) {
             holder.myMediaListItemBinding.uploadsuccesLinear.setVisibility(View.VISIBLE);
-            holder.myMediaListItemBinding.uploadImg.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_upload_retry));
+            holder.myMediaListItemBinding.uploadStatus.setText("Retry");
+//            holder.myMediaListItemBinding.uploadImg.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_upload_retry));
         }
-        else if (detailgallery.getUploadcompelet().equalsIgnoreCase("2")){
+        else if (detailgallery.getUploadcompelet().equalsIgnoreCase("0")){
             holder.myMediaListItemBinding.uploadsuccesLinear.setVisibility(View.VISIBLE);
-            holder.myMediaListItemBinding.uploadImg.setImageDrawable(mContext.getResources().getDrawable(R.drawable.uploadimage));
+            holder.myMediaListItemBinding.uploadStatus.setText("Pending...");
+//            holder.myMediaListItemBinding.uploadImg.setImageDrawable(mContext.getResources().getDrawable(R.drawable.uploadimage));
         }
 
         holder.myMediaListItemBinding.uploadsuccesLinear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(detailgallery.getUploadcompelet().equalsIgnoreCase("")){
-                    dataCheck=new ArrayList<>();
-                    dataCheck.add(detailgallery.getImageUri()+"|"+position); //+"|"+position
-                    image_click.image_more_click();
-                }
-
+                    if(detailgallery.getUploadcompelet().equalsIgnoreCase("2")){
+                        dataCheck=new ArrayList<>();
+                        dataCheck.add(detailgallery.getImageUri()+"|"+position); //+"|"+position
+                        image_click.image_more_click();
+                    }
             }
         });
 
@@ -102,7 +108,11 @@ public class MyMediaAdapter extends RecyclerView.Adapter<MyMediaAdapter.MyViewHo
     public ArrayList<String> getDatas() {
         return dataCheck;
     }
-
+    public void timer( List<GalleryImageModel> imageDetailModel) {
+//        imageDetailModel.addAll(imageDetailModel);
+        this.imageDetailModel=imageDetailModel;
+            notifyDataSetChanged();
+    }
 }
 
 

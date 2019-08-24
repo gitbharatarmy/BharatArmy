@@ -17,7 +17,6 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
-import com.bharatarmy.Activity.ImageVideoUploadActivity;
 import com.bharatarmy.Activity.MyMediaActivity;
 import com.bharatarmy.Models.GalleryImageModel;
 import com.bharatarmy.Models.LogginModel;
@@ -33,11 +32,8 @@ import java.io.File;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
-import okhttp3.MediaType;
 import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -59,6 +55,7 @@ public class UploadService extends IntentService implements ProgressRequestBody.
     private NotificationManager notifManager;
     int progress = 1;
     int div;
+    List<GalleryImageModel> galleryimage;
 
     public UploadService() {
         super("UploadService");
@@ -100,11 +97,32 @@ public class UploadService extends IntentService implements ProgressRequestBody.
             }
             File file = new File(filePath);
             ProgressRequestBody fileBody = new ProgressRequestBody(file, this);
+            Type arrayListType1 = new TypeToken<ArrayList<GalleryImageModel>>() {
+            }.getType();
+            Gson gson1 = new Gson();
+            galleryimage = gson1.fromJson(Utils.getPref(getApplicationContext(), "gallerylist"), arrayListType1);
+
+            for (int i = 0; i < galleryimage.size(); i++) {
+                if (Utils.getPref(getApplicationContext(), "image/video").equalsIgnoreCase("video")) {
+                    if (galleryimage.get(i).getImageUri().equalsIgnoreCase(filePath)) {
+                        galleryimage.get(i).setUploadcompelet("1");
+                    }
+                } else {
+                    if (Utils.getFilePathFromUri(getApplicationContext(), Uri.parse(galleryimage.get(i).getImageUri())).equalsIgnoreCase(filePath)) {
+                        galleryimage.get(i).setUploadcompelet("1");
+                    }
+                }
+
+            }
+            Gson gsongallery = new Gson();
+            String updategalleryevaluesString = gsongallery.toJson(galleryimage);
+            Utils.setPref(getApplicationContext(), "gallerylist", updategalleryevaluesString);
+
             MultipartBody.Part body = MultipartBody.Part.createFormData("image", file.getName(), fileBody);
             Retrofit retrofit = NetworkClient.getRetrofitClient(this);
             WebServices uploadAPIs = retrofit.create(WebServices.class);
-            Call<LogginModel> call = uploadAPIs.uploadfiles(body);
 
+            Call<LogginModel> call = uploadAPIs.uploadfiles(body);
             call.enqueue(new Callback<LogginModel>() {
 
                 @Override
@@ -121,20 +139,55 @@ public class UploadService extends IntentService implements ProgressRequestBody.
 
                         Log.d("counter : ", "" + counter + "arraysize :" + AppConfiguration.files.size());
 
-                        Gson gson = new Gson();
-                        String uploadfilevaluesString = gson.toJson(AppConfiguration.uploadcompletefilename);
-                        Utils.setPref(getApplicationContext(), "uploadcompletefile", uploadfilevaluesString);
-                        Utils.setPref(getApplicationContext(), "cometonotification", "service");
-                        createNotification("Uploading", getApplicationContext(), progress);
+                        Type arrayListType1 = new TypeToken<ArrayList<GalleryImageModel>>() {
+                        }.getType();
+                        Gson gson1 = new Gson();
+                        galleryimage = gson1.fromJson(Utils.getPref(getApplicationContext(), "gallerylist"), arrayListType1);
+
+                        for (int i = 0; i < galleryimage.size(); i++) {
+                            if (Utils.getPref(getApplicationContext(), "image/video").equalsIgnoreCase("video")) {
+                                if (galleryimage.get(i).getImageUri().equalsIgnoreCase(filePath)) {
+                                    galleryimage.remove(i);
+                                }
+                            } else {
+                                if (Utils.getFilePathFromUri(getApplicationContext(), Uri.parse(galleryimage.get(i).getImageUri())).equalsIgnoreCase(filePath)) {
+                                    galleryimage.remove(i);
+                                }
+                            }
+
+                        }
+                        Gson gsongallery = new Gson();
+                        String updategalleryevaluesString = gsongallery.toJson(galleryimage);
+                        Utils.setPref(getApplicationContext(), "gallerylist", updategalleryevaluesString);
+                        Log.d("updatevalueinservice", updategalleryevaluesString);
+                        Utils.setIntPref(getApplicationContext(), "uploadprocess", progress);
+                        createNotification(AppConfiguration.notificationtitle, getApplicationContext(), Utils.getIntPref(getApplicationContext(), "uploadprocess"));
                         if (counter != AppConfiguration.files.size() - 1) {
                             counter++;
                             UploadService.this.onHandleIntent(intent);
                         } else {
+//                            for (int i=0;i<galleryimage.size();i++){
+//                                for (int k=0;k<AppConfiguration.uploadcompletefilename.size();k++){
+//                                    if (Utils.getPref(getApplicationContext(), "image/video").equalsIgnoreCase("video")) {
+//                                        if (galleryimage.get(i).getImageUri().equalsIgnoreCase(AppConfiguration.uploadcompletefilename.get(k))){
+//                                            galleryimage.get(i).setUploadcompelet("3");
+//                                        }
+//                                    } else {
+//                                        if (Utils.getFilePathFromUri(getApplicationContext(), Uri.parse(galleryimage.get(i).getImageUri())).equalsIgnoreCase(AppConfiguration.uploadcompletefilename.get(k))){
+//                                            galleryimage.get(i).setUploadcompelet("3");
+//                                        }
+//                                    }
+//
+//                                }
+//                            }
+                            Gson gsonfinalgallery = new Gson();
+                            String updatefinalgalleryevaluesString = gsonfinalgallery.toJson(galleryimage);
+                            Utils.setPref(getApplicationContext(), "gallerylist", updatefinalgalleryevaluesString);
+                                notifManager.cancel(NOTIFY_ID);
                             stopService(intent);
-//                            Utils.ping(getApplicationContext(),"Upload complete");
-//                        notifManager.cancel(NOTIFY_ID);
                             publishResults(FILENAME, result);
                         }
+
 
                     }
 
@@ -145,25 +198,25 @@ public class UploadService extends IntentService implements ProgressRequestBody.
                 public void onFailure(Call<LogginModel> call, Throwable t) {
                     Log.d("error : ", t.toString());
                     result = Activity.RESULT_CANCELED;
-
-
-//                    Utils.ping(getApplicationContext(), "Upload failed");
-                    if (counter != AppConfiguration.files.size()) {
-                        UploadService.this.onHandleIntent(intent);
-                    } else {
-                        AppConfiguration.uploadfailedfilename.add(filePath);
-                        Log.d("uploadfailfile :", AppConfiguration.uploadfailedfilename.toString());
-
-                        Gson gson = new Gson();
-                        String uploadfailedevaluesString = gson.toJson(AppConfiguration.uploadfailedfilename);
-                        Utils.setPref(getApplicationContext(), "uploadfailedfile", uploadfailedevaluesString);
-                        Utils.setPref(getApplicationContext(), "cometonotification", "service");
-
-                        stopService(intent);
-//                        notifManager.cancelAll();
-
-                        publishResults(FILENAME, result);
+                    AppConfiguration.files.clear();
+                    Type arrayListType1 = new TypeToken<ArrayList<GalleryImageModel>>() {
+                    }.getType();
+                    Gson gson1 = new Gson();
+                    galleryimage = gson1.fromJson(Utils.getPref(getApplicationContext(), "gallerylist"), arrayListType1);
+                    for (int i = 0; i < galleryimage.size(); i++) {
+                        galleryimage.get(i).setUploadcompelet("2");
                     }
+                    Gson gsonfinalgallery = new Gson();
+                    String updatefinalgalleryevaluesString = gsonfinalgallery.toJson(galleryimage);
+                    Utils.setPref(getApplicationContext(), "gallerylist", updatefinalgalleryevaluesString);
+                    if (notifManager!=null){
+                        notifManager.cancel(NOTIFY_ID);
+                    }else{
+                        notifManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
+                        notifManager.cancel(NOTIFY_ID);
+                    }
+
+                    publishResults(FILENAME, result);
 
                 }
             });
@@ -219,7 +272,8 @@ public class UploadService extends IntentService implements ProgressRequestBody.
             }
             builder = new NotificationCompat.Builder(context, id);
             intent = new Intent(context, MyMediaActivity.class);
-            Utils.setPref(getApplicationContext(), "cometonotification", "cometonotification");
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//            Utils.setPref(getApplicationContext(), "cometonotification", "cometonotification");
             intent.putExtra("image/video", Utils.getPref(getApplicationContext(), "image/video"));
             intent.putExtra("cometonotification", Utils.getPref(getApplicationContext(), "cometonotification"));
             pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
@@ -236,11 +290,13 @@ public class UploadService extends IntentService implements ProgressRequestBody.
 //                    .setStyle(new NotificationCompat.BigPictureStyle()
 //                            .bigPicture(bitmap)
 //                            .bigLargeIcon(bitmap))
-                    .setProgress(100, progress, false)
+//                    .setProgress(100, progress, false)
+                    .setProgress(0, 0, true)
                     .setPriority(Notification.PRIORITY_HIGH);
         } else {
             builder = new NotificationCompat.Builder(context, id);
             intent = new Intent(context, MyMediaActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             Utils.setPref(getApplicationContext(), "cometonotification", "cometonotification");
             intent.putExtra("image/video", Utils.getPref(getApplicationContext(), "image/video"));
             intent.putExtra("cometonotification", Utils.getPref(getApplicationContext(), "cometonotification"));
@@ -258,12 +314,13 @@ public class UploadService extends IntentService implements ProgressRequestBody.
 //                    .setStyle(new NotificationCompat.BigPictureStyle()
 //                            .bigPicture(bitmap)
 //                            .bigLargeIcon(bitmap))
-                    .setProgress(100, progress, false)
-
+//                    .setProgress(100, progress, false)
+                    .setProgress(0, 0, true)
                     .setPriority(Notification.PRIORITY_HIGH);
         }
         Notification notification = builder.build();
-        notification.flags |= Notification.FLAG_ONGOING_EVENT; //Notification.FLAG_AUTO_CANCEL
+        notification.flags |= Notification.FLAG_AUTO_CANCEL | Notification.FLAG_ONGOING_EVENT; //Notification.FLAG_AUTO_CANCEL
         notifManager.notify(NOTIFY_ID, notification);
     }
+
 }
