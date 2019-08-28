@@ -1,5 +1,7 @@
 package com.bharatarmy.Activity;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.databinding.DataBindingUtil;
@@ -31,7 +33,14 @@ import com.bharatarmy.R;
 import com.bharatarmy.UploadService;
 import com.bharatarmy.Utility.AppConfiguration;
 import com.bharatarmy.Utility.Utils;
+import com.bharatarmy.Utility.firebaseutils;
 import com.bharatarmy.databinding.ActivityMyMediaBinding;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -49,29 +58,7 @@ public class MyMediaActivity extends AppCompatActivity implements View.OnClickLi
     final int NOTIFY_ID = 0; // ID of notification
     private NotificationManager notifManager;
     int progress = 1;
-    int selectedposition;
     List<GalleryImageModel> galleryimage;
-    Intent intent;
-    private BroadcastReceiver receiver = new BroadcastReceiver() {
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            Bundle bundle = intent.getExtras();
-            if (bundle != null) {
-                int resultCode = bundle.getInt(UploadService.RESULT);
-
-                if (resultCode == -1) {
-
-                    Toast.makeText(mContext,
-                            "Upload complete.",
-                            Toast.LENGTH_LONG).show();
-                    setDataList();
-                } else {
-                    setDataList();
-                }
-            }
-        }
-    };
 
 
     @Override
@@ -82,61 +69,33 @@ public class MyMediaActivity extends AppCompatActivity implements View.OnClickLi
 
         mContext = MyMediaActivity.this;
 
+        init();
 
-        setDataList();
         setListiner();
-        setHandler();
+//        setHandler();
     }
 
-    public void setDataList() {
-        Type arrayListType1 = new TypeToken<ArrayList<GalleryImageModel>>() {}.getType();
-        Gson gson1 = new Gson();
-        galleryimage = gson1.fromJson(Utils.getPref(mContext, "gallerylist"), arrayListType1);
-        Log.d("galleryimage :", "" + galleryimage);
-        if (galleryimage != null && galleryimage.size() > 0) {
-            Log.d("galleryimage :", galleryimage.toString());
+    public void init() {
 
-        }
+
+        galleryimage = new ArrayList<>();
+    }
+    public void setDataList() {
         if (galleryimage != null) {
             Log.d("service :", "" + !Utils.isMyServiceRunning(mContext));
+
 
             myMediaAdapter = new MyMediaAdapter(mContext, galleryimage, new image_click() {
                 @Override
                 public void image_more_click() {
-                    String getSelectedImagetoupload = myMediaAdapter.getDatas().toString();
-                    Log.d("getImagetoupload", getSelectedImagetoupload);
 
+                    GalleryImageModel image =  galleryimage.get(myMediaAdapter.SelectedPosition());
 
-                    getSelectedImagetoupload = getSelectedImagetoupload.substring(1, getSelectedImagetoupload.length() - 1);
-                    Log.d("getreturnuploadimage", getSelectedImagetoupload);
-                    String[] split = getSelectedImagetoupload.split("\\|");
-                    getSelectedImagetoupload = split[0];
-                    Log.d("finaluploadimage", getSelectedImagetoupload);
-
-
-                    selectedposition = Integer.parseInt(split[1]);
                     boolean connected = Utils.checkNetwork(mContext);
                     if (connected == true) {
-                    for (int i = 0; i < galleryimage.size(); i++) {
-                        if (i == selectedposition) {
-                            galleryimage.get(i).setUploadcompelet("0");
-                            myMediaAdapter.notifyDataSetChanged();
-                        }
-                    }
-
-                    Gson gsonupdate = new Gson();
-                    String valuesString = gsonupdate.toJson(galleryimage);
-                    Utils.setPref(mContext, "gallerylist", valuesString);
-                    Log.d("valuesString", valuesString);
-                    Log.d("mymediafiles", AppConfiguration.files.toString());
-
-                    AppConfiguration.files.add(Uri.parse(getSelectedImagetoupload));
-
-                        intent = new Intent(mContext, UploadService.class);
-                        startService(intent);
-                        createNotification(AppConfiguration.notificationtitle, mContext, Utils.getIntPref(mContext,"uploadprocess"));
-                    }else{
-                        Utils.showCustomDialog(getResources().getString(R.string.internet_error), getResources().getString(R.string.internet_connection_error), MyMediaActivity.this);
+                        firebaseutils.UpdateStatus(image,"0",mContext);
+                    } else {
+                        Utils.ping(mContext,"No internet available");
                     }
 
 
@@ -176,14 +135,6 @@ public class MyMediaActivity extends AppCompatActivity implements View.OnClickLi
 
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        registerReceiver(receiver, new IntentFilter(
-                UploadService.NOTIFICATION));
-
-    }
-
-    @Override
     public void onBackPressed() {
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
@@ -197,37 +148,6 @@ public class MyMediaActivity extends AppCompatActivity implements View.OnClickLi
 
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        unregisterReceiver(receiver);
-    }
-
-    public void setHandler() {
-        final Handler handler = new Handler();
-        final int delay = 2000; //1000 milliseconds = 1 sec
-        handler.postDelayed(new Runnable() {
-            public void run() {
-                Type arrayListType1 = new TypeToken<ArrayList<GalleryImageModel>>() {}.getType();
-                Gson gson1 = new Gson();
-                galleryimage = gson1.fromJson(Utils.getPref(mContext, "gallerylist"), arrayListType1);
-
-                Gson gsonupdate = new Gson();
-                String valuesString = gsonupdate.toJson(galleryimage);
-                Utils.setPref(mContext, "gallerylist", valuesString);
-                Log.d("valuesString", valuesString);
-                Type arrayListType2 = new TypeToken<ArrayList<GalleryImageModel>>() {}.getType();
-                Gson gson2 = new Gson();
-                galleryimage = gson2.fromJson(Utils.getPref(mContext, "gallerylist"), arrayListType2);
-
-
-                myMediaAdapter.timer(galleryimage);
-
-
-                handler.postDelayed(this, delay);
-            }
-        }, delay);
-    }
 
     public void createNotification(String aMessage, Context context, int progress) {
 
@@ -268,7 +188,7 @@ public class MyMediaActivity extends AppCompatActivity implements View.OnClickLi
                     .setContentIntent(pendingIntent)
                     .setTicker(aMessage)
 //                    .setProgress(100, progress, false)
-                    .setProgress(0,0,true)
+                    .setProgress(0, 0, true)
                     .setPriority(Notification.PRIORITY_HIGH);
         } else {
             builder = new NotificationCompat.Builder(context, id);
@@ -288,7 +208,7 @@ public class MyMediaActivity extends AppCompatActivity implements View.OnClickLi
                     .setContentIntent(pendingIntent)
                     .setTicker(aMessage)
 //                    .setProgress(100, progress, false)
-                    .setProgress(0,0,true)
+                    .setProgress(0, 0, true)
                     .setPriority(Notification.PRIORITY_HIGH);
         }
         Notification notification = builder.build();

@@ -49,6 +49,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 
@@ -56,8 +57,14 @@ import com.bharatarmy.Activity.SignUpActivity;
 import com.bharatarmy.Country;
 import com.bharatarmy.CountryCodePicker;
 import com.bharatarmy.Interfaces.submit_click;
+import com.bharatarmy.Models.GalleryImageModel;
 import com.bharatarmy.R;
 import com.bumptech.glide.Glide;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.i18n.phonenumbers.NumberParseException;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.google.i18n.phonenumbers.Phonenumber;
@@ -67,7 +74,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 import static com.yalantis.ucrop.util.FileUtils.getDataColumn;
@@ -87,6 +98,12 @@ public class Utils {
 
     public static final String MyPREFERENCES = "MyPrefs";
     public static SharedPreferences sharedpreferences;
+
+
+    //    firebase database
+//    firebase database
+   public static DatabaseReference mDatabaseRef;
+
 
     public static boolean isNetworkConnected(Context ctxt) {
         ConnectivityManager cm = (ConnectivityManager) ctxt
@@ -201,6 +218,7 @@ public class Utils {
         String value = sharedpreferences.getString(key, "");
         return value;
     }
+
     public static void setIntPref(Context context, String key, Integer value) {
         sharedpreferences = context.getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedpreferences.edit();
@@ -213,6 +231,7 @@ public class Utils {
         int value = sharedpreferences.getInt(key, 0);
         return value;
     }
+
     public static boolean isValidEmailId(String email) {
 
         return Pattern.compile("^(([\\w-]+\\.)+[\\w-]+|([a-zA-Z]{1}|[\\w-]{2,}))@"
@@ -415,7 +434,7 @@ public class Utils {
 
         Button update = (Button) dialog.findViewById(R.id.update_btn);
         TextView notnow_txt = (TextView) dialog.findViewById(R.id.notnow_txt);
-        ImageView updateapp_img=(ImageView)dialog.findViewById(R.id.updateapp_img);
+        ImageView updateapp_img = (ImageView) dialog.findViewById(R.id.updateapp_img);
 
         Glide.with(activity)
                 .load(R.drawable.logo)
@@ -449,7 +468,7 @@ public class Utils {
             @Override
             public void onClick(View v) {
                 alertDialog.dismiss();
-           activity.finish();
+                activity.finish();
             }
         });
         alertDialog.show();
@@ -476,12 +495,11 @@ public class Utils {
         email_edt = (EditText) dialogView.findViewById(R.id.email_edt);
         mobile_edt = (EditText) dialogView.findViewById(R.id.mobile_edt);
 
-        close_linear=(LinearLayout)dialogView.findViewById(R.id.close_linear);
+        close_linear = (LinearLayout) dialogView.findViewById(R.id.close_linear);
         term_condition_txt = (TextView) dialogView.findViewById(R.id.term_condition_txt);
         terms_chk = (CheckBox) dialogView.findViewById(R.id.terms_chk);
 
         signup_btn = (Button) dialogView.findViewById(R.id.signup_btn);
-
 
 
         AppConfiguration.currentCountry = ccp.getSelectedCountryNameCode();
@@ -564,14 +582,14 @@ public class Utils {
                 AppConfiguration.registerEmailStr = email_edt.getText().toString();
                 AppConfiguration.registerCountryCodeStr = ccp.getSelectedCountryCode();
                 AppConfiguration.registerMobileStr = mobile_edt.getText().toString();
-                AppConfiguration.registerCountryDialcodeStr=AppConfiguration.currentCountry;
+                AppConfiguration.registerCountryDialcodeStr = AppConfiguration.currentCountry;
                 Log.d("selectedcode", strCountrycode);
                 if (!AppConfiguration.registerNameStr.equalsIgnoreCase("")) {
-                    if (! AppConfiguration.registerEmailStr.equalsIgnoreCase("")) {
-                        if (Utils.isValidEmailId( AppConfiguration.registerEmailStr)) {
+                    if (!AppConfiguration.registerEmailStr.equalsIgnoreCase("")) {
+                        if (Utils.isValidEmailId(AppConfiguration.registerEmailStr)) {
                             if (AppConfiguration.registerCountryCodeStr.length() > 0) {
-                                if (AppConfiguration.registerMobileStr .length() > 0) {
-                                    if (Utils.isValidPhoneNumber(AppConfiguration.registerMobileStr )) {
+                                if (AppConfiguration.registerMobileStr.length() > 0) {
+                                    if (Utils.isValidPhoneNumber(AppConfiguration.registerMobileStr)) {
                                         boolean status = Utils.validateUsing_libphonenumber(activity, AppConfiguration.registerCountryCodeStr, AppConfiguration.registerMobileStr);
                                         if (status) {
                                             if (!strCheck.equalsIgnoreCase("0")) {
@@ -641,7 +659,7 @@ public class Utils {
 
 
     public static boolean isMyServiceRunning(Context context) {
-        ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        ActivityManager manager = (ActivityManager)context.getSystemService(Context.ACTIVITY_SERVICE);
         for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
             if ("com.bharatarmy.UploadService".equals(service.service.getClassName())) {
                 return true;
@@ -650,20 +668,20 @@ public class Utils {
         return false;
     }
 
-    public static Bitmap createVideoThumbNail(String path){
-        return ThumbnailUtils.createVideoThumbnail(path,MediaStore.Video.Thumbnails.MICRO_KIND);
+    public static Bitmap createVideoThumbNail(String path) {
+        return ThumbnailUtils.createVideoThumbnail(path, MediaStore.Video.Thumbnails.MICRO_KIND);
     }
 
-    public static void handleClickEvent(Context mContext,View view){
+    public static void handleClickEvent(Context mContext, View view) {
         new Handler().postDelayed(new Runnable() {
 
             @Override
             public void run() {
                 // This method will be executed once the timer is over
                 view.setEnabled(true);
-                Log.d("clickresult","resend1");
+                Log.d("clickresult", "resend1");
 
             }
-        },2000);
+        }, 2000);
     }
 }

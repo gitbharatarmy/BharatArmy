@@ -2,10 +2,10 @@ package com.bharatarmy.Models;
 
 public class GalleryImageModel {
 
-    String imageUri;
-    String imageSize;
-    String uploadcompelet;
-    String uploadfail;
+    private String imageUri;
+    private String imageSize;
+    private int uploadcompelet;
+private int id;
 
     String commentuserName;
     String commenttime;
@@ -14,27 +14,36 @@ public class GalleryImageModel {
     String commentLikesTotal;
 
 
-    public GalleryImageModel(String imageUri, String imageSize,String uploadcompelet,String uploadfail) {
+    public GalleryImageModel() {
+    }
+
+
+    public GalleryImageModel(String imageUri, String imageSize, int uploadcompelet) {
         this.imageUri = imageUri;
         this.imageSize = imageSize;
-        this.uploadcompelet=uploadcompelet;
-        this.uploadfail=uploadfail;
+        this.uploadcompelet = uploadcompelet;
     }
-
-    public String getUploadcompelet() {
-        return uploadcompelet;
-    }
-
-    public void setUploadcompelet(String uploadcompelet) {
+    public GalleryImageModel(int id,String imageUri, String imageSize, int uploadcompelet) {
+        this.id=id;
+        this.imageUri = imageUri;
+        this.imageSize = imageSize;
         this.uploadcompelet = uploadcompelet;
     }
 
-    public String getUploadfail() {
-        return uploadfail;
+    public int getUploadcompelet() {
+        return uploadcompelet;
     }
 
-    public void setUploadfail(String uploadfail) {
-        this.uploadfail = uploadfail;
+    public void setUploadcompelet(int uploadcompelet) {
+        this.uploadcompelet = uploadcompelet;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getImageUri() {
@@ -55,13 +64,13 @@ public class GalleryImageModel {
 
 
 
-    public GalleryImageModel( String commentuserName, String commenttime,String commentText,
-                              String commentLikes, String commentLikesTotal){
-        this.commentuserName=commentuserName;
-        this.commenttime=commenttime;
-        this.commentText=commentText;
-        this.commentLikes=commentLikes;
-        this.commentLikesTotal=commentLikesTotal;
+    public GalleryImageModel(String commentuserName, String commenttime, String commentText,
+                             String commentLikes, String commentLikesTotal) {
+        this.commentuserName = commentuserName;
+        this.commenttime = commenttime;
+        this.commentText = commentText;
+        this.commentLikes = commentLikes;
+        this.commentLikesTotal = commentLikesTotal;
     }
 
     public String getCommentuserName() {

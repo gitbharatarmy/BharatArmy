@@ -23,6 +23,7 @@ public class MyMediaAdapter extends RecyclerView.Adapter<MyMediaAdapter.MyViewHo
     Context mContext;
     List<GalleryImageModel> imageDetailModel;
     private ArrayList<String> dataCheck;
+    int SelectedPosition;
     image_click image_click;
     boolean firstclick=true;
     public MyMediaAdapter(Context mContext, List<GalleryImageModel> content, image_click image_click) {
@@ -61,16 +62,16 @@ public class MyMediaAdapter extends RecyclerView.Adapter<MyMediaAdapter.MyViewHo
             } else {
                 holder.myMediaListItemBinding.uploadImage.setImageBitmap(Utils.createVideoThumbNail(detailgallery.getImageUri()));
             }
-        if (detailgallery.getUploadcompelet().equalsIgnoreCase("1")) {
+        if (detailgallery.getUploadcompelet()==1) {
             holder.myMediaListItemBinding.uploadsuccesLinear.setVisibility(View.VISIBLE);
 //            holder.myMediaListItemBinding.uploadImg.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_uploadimage));
             holder.myMediaListItemBinding.uploadStatus.setText("Uploading...");
-        } else if (detailgallery.getUploadcompelet().equalsIgnoreCase("2")) {
+        } else if (detailgallery.getUploadcompelet()==2) {
             holder.myMediaListItemBinding.uploadsuccesLinear.setVisibility(View.VISIBLE);
             holder.myMediaListItemBinding.uploadStatus.setText("Retry");
 //            holder.myMediaListItemBinding.uploadImg.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_upload_retry));
         }
-        else if (detailgallery.getUploadcompelet().equalsIgnoreCase("0")){
+        else if (detailgallery.getUploadcompelet()==0){
             holder.myMediaListItemBinding.uploadsuccesLinear.setVisibility(View.VISIBLE);
             holder.myMediaListItemBinding.uploadStatus.setText("Pending...");
 //            holder.myMediaListItemBinding.uploadImg.setImageDrawable(mContext.getResources().getDrawable(R.drawable.uploadimage));
@@ -79,9 +80,10 @@ public class MyMediaAdapter extends RecyclerView.Adapter<MyMediaAdapter.MyViewHo
         holder.myMediaListItemBinding.uploadsuccesLinear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    if(detailgallery.getUploadcompelet().equalsIgnoreCase("2")){
+                    if(detailgallery.getUploadcompelet()==2){
+                        SelectedPosition = position;
                         dataCheck=new ArrayList<>();
-                        dataCheck.add(detailgallery.getImageUri()+"|"+position); //+"|"+position
+                        dataCheck.add(String.valueOf(position)); //+"|"+position
                         image_click.image_more_click();
                     }
             }
@@ -107,6 +109,9 @@ public class MyMediaAdapter extends RecyclerView.Adapter<MyMediaAdapter.MyViewHo
     }
     public ArrayList<String> getDatas() {
         return dataCheck;
+    }
+    public int SelectedPosition(){
+        return SelectedPosition;
     }
     public void timer( List<GalleryImageModel> imageDetailModel) {
 //        imageDetailModel.addAll(imageDetailModel);

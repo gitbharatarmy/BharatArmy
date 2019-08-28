@@ -81,6 +81,9 @@ public interface WebServices {
     Call<LogginModel> uploadfiles(@Part MultipartBody.Part file); //@Part("FileTypeId") RequestBody userid,
     //if we pass array of imagethen use MultipartBody.Part[] file
 
+//    @Multipart
+//    @retrofit2.http.POST("/API/v1/UploadFiles")
+//    Call<LogginModel> uploadfiles(@Part("FileTypeId") RequestBody userid,@Part MultipartBody.Part[] file); //@Part("FileTypeId") RequestBody userid,
 
     @FormUrlEncoded
     @POST("/VerifiedPhoneNo")

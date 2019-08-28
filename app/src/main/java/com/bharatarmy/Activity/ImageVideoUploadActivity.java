@@ -42,11 +42,18 @@ import com.bharatarmy.Models.GalleryImageModel;
 import com.bharatarmy.R;
 import com.bharatarmy.UploadService;
 import com.bharatarmy.Utility.AppConfiguration;
+import com.bharatarmy.Utility.DbHandler;
 import com.bharatarmy.Utility.Utils;
+import com.bharatarmy.Utility.firebaseutils;
 import com.bharatarmy.VideoTrimmer.interfaces.OnHgLVideoListener;
 import com.bharatarmy.VideoTrimmer.interfaces.OnTrimVideoListener;
 import com.bharatarmy.VideoTrimmer.utils.FileUtils;
 import com.bharatarmy.databinding.ActivityImageVideoUploadBinding;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.karumi.dexter.Dexter;
@@ -73,7 +80,6 @@ public class ImageVideoUploadActivity extends AppCompatActivity implements View.
     Context mContext;
     private static final String TAG = ImageVideoUploadActivity.class.getSimpleName();
     public static final int REQUEST_IMAGE = 100;
-    public static final int PICK_IMAGE_FROMGALLERY = 102;
     private NotificationManager notifManager;
     final int NOTIFY_ID = 0; // ID of notification
     Uri uri, selectedUri, imageUri;
@@ -81,8 +87,8 @@ public class ImageVideoUploadActivity extends AppCompatActivity implements View.
 
     SelectedImageVideoViewAdapter selectedImageVideoViewAdapter;
     LinearLayoutManager linearLayoutManager;
-int totaluploadcounte=0;
-    public List<GalleryImageModel> content = new ArrayList<>();
+    int totaluploadcounte = 0;
+    public List<GalleryImageModel> content;
     File Camerafile;
     String imageorvideoStr = "";
     private static final int REQUEST_VIDEO_TRIMMER = 0x01;
@@ -95,7 +101,8 @@ int totaluploadcounte=0;
     String path = "";
     int maxDuration = 10;
 
-
+// Database
+    DbHandler dbHandler;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,7 +110,13 @@ int totaluploadcounte=0;
         mContext = ImageVideoUploadActivity.this;
         ImageUploadPickerActivity.clearCache(this);
 
+        init();
         setListiner();
+    }
+
+    public void init() {
+        dbHandler=new DbHandler(mContext);
+        content = new ArrayList<>();
     }
 
     public void setListiner() {
@@ -185,7 +198,7 @@ int totaluploadcounte=0;
                                                             for (int i = 0; i < uriList.size(); i++) {
                                                                 File f = new File(uriList.get(i).getPath());
                                                                 long findsize = f.length() / 1024;
-                                                                content.add(new GalleryImageModel(uriList.get(i).toString(), size((int) findsize), "0", ""));
+                                                                content.add(new GalleryImageModel(uriList.get(i).toString(), size((int) findsize), 0));
                                                             }
                                                             loadProfile();
                                                         }
@@ -193,93 +206,76 @@ int totaluploadcounte=0;
                                         } else {
                                             Utils.ping(mContext, "max limit 10");
                                         }
-                                } else {
-                                    pickFromGallery();
+                                    } else {
+                                        pickFromGallery();
+                                    }
+                                }
+
+                                if (report.isAnyPermissionPermanentlyDenied()) {
+                                    showSettingsDialog();
                                 }
                             }
 
-                                if(report.isAnyPermissionPermanentlyDenied())
-
-                            {
-                                showSettingsDialog();
+                            @Override
+                            public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
+                                token.continuePermissionRequest();
                             }
+                        }).check();
+                break;
+            case R.id.submit_linear:
+                Utils.handleClickEvent(mContext, activityImageVideoUploadBinding.submitLinear);
+
+                AppConfiguration.files = new ArrayList<>();
+                boolean connected = Utils.checkNetwork(mContext);
+
+
+                if (connected == true) {
+                    if (content != null && content.size() > 0) {
+                        for (int i=0;i<content.size();i++){
+                            dbHandler.insertImageDetails(content.get(i).getImageUri(),content.get(i).getImageSize(),content.get(i).getUploadcompelet());
                         }
 
-                @Override
-                public void onPermissionRationaleShouldBeShown (List < PermissionRequest > permissions, PermissionToken token){
-                token.continuePermissionRequest();
-            }
-        }).check();
-        break;
-        case R.id.submit_linear:
-            Utils.handleClickEvent(mContext,activityImageVideoUploadBinding.submitLinear);
+                        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(ImageVideoUploadActivity.this);
+                        LayoutInflater inflater = getLayoutInflater();
+                        View dialogView = inflater.inflate(R.layout.thankyou_dialog_item, null);
+                        dialogBuilder.setView(dialogView);
+                        AlertDialog alertDialog = dialogBuilder.create();
+                        alertDialog.setCanceledOnTouchOutside(false);
+                        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+                        TextView hometxt = (TextView) dialogView.findViewById(R.id.home_txt);
+                        hometxt.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                try {
+                                    alertDialog.dismiss();
+                                    finish();
+                                } catch (Exception e) {
 
-
-            boolean connected = Utils.checkNetwork(mContext);
-
-
-        if (connected == true) {
-            if (content != null && content.size() > 0) {
-                for (int i = 0; i < content.size(); i++) {
-                    AppConfiguration.files.add(Uri.parse(content.get(i).getImageUri()));
-                }
-
-                Type arrayListType1 = new TypeToken<ArrayList<GalleryImageModel>>() {}.getType();
-                Gson gson1 = new Gson();
-                galleryimage = gson1.fromJson(Utils.getPref(mContext, "gallerylist"), arrayListType1);
-                Log.d("gallerylist", galleryimage.toString());
-
-                if (galleryimage!=null && galleryimage.size()!=0){
-                        content.addAll(galleryimage);
-                }
-
-                Gson gson = new Gson();
-                String valuesString = gson.toJson(content);
-                Utils.setPref(mContext, "gallerylist", valuesString);
-                Log.d("gallerylist", valuesString.toString());
-
-                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(ImageVideoUploadActivity.this);
-                LayoutInflater inflater = getLayoutInflater();
-                View dialogView = inflater.inflate(R.layout.thankyou_dialog_item, null);
-                dialogBuilder.setView(dialogView);
-                AlertDialog alertDialog = dialogBuilder.create();
-                alertDialog.setCanceledOnTouchOutside(false);
-                alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-                TextView hometxt = (TextView) dialogView.findViewById(R.id.home_txt);
-                hometxt.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+                                }
+                            }
+                        });
                         try {
-                            alertDialog.dismiss();
-                            finish();
+                            alertDialog.show();
+                            Intent intent = new Intent(this, UploadService.class);
+                            startService(intent);
+//                        createNotification(AppConfiguration.notificationtitle, mContext, Utils.getIntPref(mContext, "uploadprocess"));
                         } catch (Exception e) {
 
                         }
+
+
+
+                    } else {
+                        Utils.ping(mContext, "Please select image");
                     }
-                });
-                try {
-                    alertDialog.show();
-                } catch (Exception e) {
 
+                } else {
+                    Utils.showCustomDialog(getResources().getString(R.string.internet_error), getResources().getString(R.string.internet_connection_error), ImageVideoUploadActivity.this);
                 }
-
-                Intent intent = new Intent(this, UploadService.class);
-                startService(intent);
-                Utils.setIntPref(mContext,"uploadprocess",1);
-                createNotification(AppConfiguration.notificationtitle, mContext, Utils.getIntPref(mContext,"uploadprocess"));
-
-
-            } else {
-                Utils.ping(mContext, "Please select image");
-            }
-
-        } else {
-            Utils.showCustomDialog(getResources().getString(R.string.internet_error), getResources().getString(R.string.internet_connection_error), ImageVideoUploadActivity.this);
+                break;
         }
-        break;
-    }
 
-}
+    }
 
     /**
      * Showing Alert Dialog with Settings option
@@ -325,9 +321,11 @@ int totaluploadcounte=0;
                 Log.d("URI", imageUri.toString());
                 long findsize = Camerafile.length() / 1024;
                 Log.d("findfilesize", "" + Camerafile.length() / 1024 + "kb" + " " + Camerafile.length() / (1024 * 1024));
-                content.add(new GalleryImageModel(imageUri.toString(), size((int) findsize), "0", ""));
+
+                content.add(new GalleryImageModel(imageUri.toString(), size((int) findsize), 0));
 
                 loadProfile();
+
                 Log.d("FInalImageSize", "" + size((int) findsize));
 
             } else if (requestCode == REQUEST_VIDEO_TRIMMER) {
@@ -356,15 +354,12 @@ int totaluploadcounte=0;
                             File f = new File(path);
                             long findsize = f.length() / 1024;
                             content = new ArrayList<GalleryImageModel>();
-                            content.add(new GalleryImageModel(path, size((int) findsize), "0", ""));
                         }
                     }
                 } else {
                     activityImageVideoUploadBinding.chooseLinear.setVisibility(View.VISIBLE);
                     activityImageVideoUploadBinding.bottomView.setVisibility(View.VISIBLE);
                 }
-            }else if(requestCode==PICK_IMAGE_FROMGALLERY){
-                Log.d("pickimage",""+data.getData().toString());
             }
 
         } else {
@@ -394,12 +389,12 @@ int totaluploadcounte=0;
         selectedImageVideoViewAdapter = new SelectedImageVideoViewAdapter(mContext, content, new image_click() {
             @Override
             public void image_more_click() {
-                String getSelectedImageremove = selectedImageVideoViewAdapter.getDatas().toString();
+                String getSelectedImageremove = String.valueOf(selectedImageVideoViewAdapter.selectedpositionRemove());
                 Log.d("removePic", getSelectedImageremove);
                 getSelectedImageremove = getSelectedImageremove.substring(1, getSelectedImageremove.length() - 1);
 
                 for (int i = 0; i < content.size(); i++) {
-                    if (content.get(i).getImageUri().equalsIgnoreCase(getSelectedImageremove)) {
+                    if (i == Integer.parseInt(getSelectedImageremove)) {
                         content.remove(i);
                         selectedImageVideoViewAdapter.notifyDataSetChanged();
                     }
@@ -646,12 +641,6 @@ int totaluploadcounte=0;
         notification.flags |= Notification.FLAG_AUTO_CANCEL | Notification.FLAG_ONGOING_EVENT;//Notification.FLAG_AUTO_CANCEL |
         notifManager.notify(NOTIFY_ID, notification);
 
-//        new Handler().postDelayed(new Runnable() {
-//
-//            @Override
-//            public void run() {
-//                notifManager.cancel(NOTIFY_ID);
-//            }
-//        }, 60000);
     }
+
 }

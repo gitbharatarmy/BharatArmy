@@ -33,7 +33,7 @@ public class SelectedImageVideoViewAdapter extends RecyclerView.Adapter<Selected
     Context mContext;
     List<Uri> urlList;
     image_click image_click;
-    private ArrayList<String> dataCheck;
+    int selectedpositionRemove;
     List<GalleryImageModel> imageDetailModel;
 
     public SelectedImageVideoViewAdapter(Context mContext, List<GalleryImageModel> imageDetailModel, image_click image_click) {
@@ -44,16 +44,15 @@ public class SelectedImageVideoViewAdapter extends RecyclerView.Adapter<Selected
     }
 
 
-
     public class MyViewHolder extends RecyclerView.ViewHolder {
-//        ImageView selected_image;
+        //        ImageView selected_image;
 //        TextView selected_image_name_txt, selected_image_remove_txt, selected_image_size_txt;
-           SelectedImageVideoListItemBinding selectedImageVideoListItemBinding;
+        SelectedImageVideoListItemBinding selectedImageVideoListItemBinding;
 
         public MyViewHolder(SelectedImageVideoListItemBinding selectedImageVideoListItemBinding) {
             super(selectedImageVideoListItemBinding.getRoot());
 
-this.selectedImageVideoListItemBinding=selectedImageVideoListItemBinding;
+            this.selectedImageVideoListItemBinding = selectedImageVideoListItemBinding;
         }
     }
 
@@ -62,8 +61,8 @@ this.selectedImageVideoListItemBinding=selectedImageVideoListItemBinding;
     public SelectedImageVideoViewAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
 
-        SelectedImageVideoListItemBinding selectedImageVideoListItemBinding= DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
-                R.layout.selected_image_video_list_item,parent,false);
+        SelectedImageVideoListItemBinding selectedImageVideoListItemBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
+                R.layout.selected_image_video_list_item, parent, false);
         return new SelectedImageVideoViewAdapter.MyViewHolder(selectedImageVideoListItemBinding);
     }
 
@@ -91,8 +90,7 @@ this.selectedImageVideoListItemBinding=selectedImageVideoListItemBinding;
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 // Write your code here to execute after dialog
-                                dataCheck = new ArrayList<>();
-                                dataCheck.add(imageDetailModel.get(position).getImageUri().toString());
+                                selectedpositionRemove = position;
                                 image_click.image_more_click();
                                 dialog.dismiss();
                             }
@@ -110,19 +108,6 @@ this.selectedImageVideoListItemBinding=selectedImageVideoListItemBinding;
 
         });
 
-
-//        if (!imageDetailModel.get(position).getUploadcompelet().equalsIgnoreCase("")){
-//            if (imageDetailModel.get(position).getUploadcompelet().equalsIgnoreCase("1")){
-//                holder.selectedImageVideoListItemBinding.uploadsuccesLinear.setVisibility(View.VISIBLE);
-//                holder.selectedImageVideoListItemBinding.uploadImg.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_check_mark));
-//            }else{
-//                holder.selectedImageVideoListItemBinding.uploadsuccesLinear.setVisibility(View.VISIBLE);
-//                holder.selectedImageVideoListItemBinding.uploadImg.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_upload_retry));
-//            }
-//        }else{
-//            holder.selectedImageVideoListItemBinding.uploadsuccesLinear.setVisibility(View.GONE);
-//
-//        }
     }
 
     @Override
@@ -141,10 +126,9 @@ this.selectedImageVideoListItemBinding=selectedImageVideoListItemBinding;
         return imageDetailModel.size();
     }
 
-    public ArrayList<String> getDatas() {
-        return dataCheck;
+    public int selectedpositionRemove() {
+        return selectedpositionRemove;
     }
-
 
 }
 
