@@ -62,16 +62,16 @@ public class MyMediaAdapter extends RecyclerView.Adapter<MyMediaAdapter.MyViewHo
             } else {
                 holder.myMediaListItemBinding.uploadImage.setImageBitmap(Utils.createVideoThumbNail(detailgallery.getImageUri()));
             }
-        if (detailgallery.getUploadcompelet()==1) {
+        if (detailgallery.getUploadcompelet().equalsIgnoreCase("1")) {
             holder.myMediaListItemBinding.uploadsuccesLinear.setVisibility(View.VISIBLE);
 //            holder.myMediaListItemBinding.uploadImg.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_uploadimage));
             holder.myMediaListItemBinding.uploadStatus.setText("Uploading...");
-        } else if (detailgallery.getUploadcompelet()==2) {
+        } else if (detailgallery.getUploadcompelet().equalsIgnoreCase("2")) {
             holder.myMediaListItemBinding.uploadsuccesLinear.setVisibility(View.VISIBLE);
             holder.myMediaListItemBinding.uploadStatus.setText("Retry");
 //            holder.myMediaListItemBinding.uploadImg.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_upload_retry));
         }
-        else if (detailgallery.getUploadcompelet()==0){
+        else if (detailgallery.getUploadcompelet().equalsIgnoreCase("0")){
             holder.myMediaListItemBinding.uploadsuccesLinear.setVisibility(View.VISIBLE);
             holder.myMediaListItemBinding.uploadStatus.setText("Pending...");
 //            holder.myMediaListItemBinding.uploadImg.setImageDrawable(mContext.getResources().getDrawable(R.drawable.uploadimage));
@@ -80,7 +80,7 @@ public class MyMediaAdapter extends RecyclerView.Adapter<MyMediaAdapter.MyViewHo
         holder.myMediaListItemBinding.uploadsuccesLinear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    if(detailgallery.getUploadcompelet()==2){
+                    if(detailgallery.getUploadcompelet().equalsIgnoreCase("2")){
                         SelectedPosition = position;
                         dataCheck=new ArrayList<>();
                         dataCheck.add(String.valueOf(position)); //+"|"+position

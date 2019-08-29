@@ -273,6 +273,9 @@ public class VideoFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        videoDetailModelsList.clear();
+        if (videoDetailModelsList!=null&& videoDetailModelsList.size()>0){
+            videoDetailModelsList.clear();
+        }
+
     }
 }

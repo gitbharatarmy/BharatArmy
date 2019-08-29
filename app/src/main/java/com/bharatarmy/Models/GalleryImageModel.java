@@ -4,7 +4,7 @@ public class GalleryImageModel {
 
     private String imageUri;
     private String imageSize;
-    private int uploadcompelet;
+    private String uploadcompelet;
 private int id;
 
     String commentuserName;
@@ -18,23 +18,23 @@ private int id;
     }
 
 
-    public GalleryImageModel(String imageUri, String imageSize, int uploadcompelet) {
+    public GalleryImageModel(String imageUri, String imageSize, String uploadcompelet) {
         this.imageUri = imageUri;
         this.imageSize = imageSize;
         this.uploadcompelet = uploadcompelet;
     }
-    public GalleryImageModel(int id,String imageUri, String imageSize, int uploadcompelet) {
+    public GalleryImageModel(int id,String imageUri, String imageSize, String uploadcompelet) {
         this.id=id;
         this.imageUri = imageUri;
         this.imageSize = imageSize;
         this.uploadcompelet = uploadcompelet;
     }
 
-    public int getUploadcompelet() {
+    public String getUploadcompelet() {
         return uploadcompelet;
     }
 
-    public void setUploadcompelet(int uploadcompelet) {
+    public void setUploadcompelet(String uploadcompelet) {
         this.uploadcompelet = uploadcompelet;
     }
 

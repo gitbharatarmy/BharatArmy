@@ -52,13 +52,14 @@
                 android:textSize="@dimen/_14sdp" />
 
             <ImageView
-                android:id="@+id/share_img"
+                android:id="@+id/refresh_img"
                 android:layout_width="0dp"
-                android:layout_height="@dimen/_15sdp"
+                android:layout_height="@dimen/_20sdp"
                 android:layout_gravity="center_vertical"
                 android:layout_weight="0.2"
-                android:src="@drawable/ic_share"
-                android:visibility="gone" />
+                android:src="@drawable/ic_refresh_button"
+                android:tint="@color/splash_bg_color"
+                android:visibility="visible" />
         </LinearLayout>
     </androidx.appcompat.widget.Toolbar>
 

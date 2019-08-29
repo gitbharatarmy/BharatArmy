@@ -2,12 +2,21 @@ package com.bharatarmy;
 
 import android.app.Activity;
 import android.app.IntentService;
+import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.util.Log;
 
+import androidx.core.app.NotificationCompat;
+
+import com.bharatarmy.Activity.MyMediaActivity;
 import com.bharatarmy.Models.GalleryImageModel;
 import com.bharatarmy.Models.LogginModel;
 import com.bharatarmy.Utility.AppConfiguration;
@@ -56,11 +65,11 @@ public class UploadService extends IntentService implements ProgressRequestBody.
         firebaseutils.UpladingFiles=db.getAllImageData();
 
         if (firebaseutils.UpladingFiles != null && firebaseutils.UpladingFiles.size() > 0) {
-            UploadFiles(firebaseutils.UpladingFiles.get(0));
+            UploadFiles(firebaseutils.UpladingFiles.get(0),intent);
         }
     }
 
-    public void UploadFiles(GalleryImageModel objfile) {
+    public void UploadFiles(GalleryImageModel objfile,Intent intent) {
         filepath = Uri.parse(objfile.getImageUri());
 
         if (Utils.getPref(getApplicationContext(), "image/video").equalsIgnoreCase("video")) {
@@ -70,7 +79,7 @@ public class UploadService extends IntentService implements ProgressRequestBody.
         }
 
         Log.d("filepath :",filePath);
-        db.UpdateImageStatus(1, objfile.getId());
+        db.UpdateImageStatus("1", objfile.getId());
 
         File file = new File(filePath);
         ProgressRequestBody fileBody = new ProgressRequestBody(file, this);
@@ -90,11 +99,18 @@ public class UploadService extends IntentService implements ProgressRequestBody.
                     result = Activity.RESULT_OK;
                     db.DeleteImage(objfile.getId());
                     firebaseutils.UpladingFiles.remove(objfile);
+                    createNotification(AppConfiguration.notificationtitle, getApplicationContext());
                     if (firebaseutils.UpladingFiles.size() > 0) {
-                        UploadFiles(firebaseutils.UpladingFiles.get(0));
+                        UploadFiles(firebaseutils.UpladingFiles.get(0),intent);
                     } else {
-//                        notifManager.cancel(NOTIFY_ID);
-                        //stopService();
+                        firebaseutils.UpladingFiles=db.getAllImageData();
+                        if (firebaseutils.UpladingFiles!=null && firebaseutils.UpladingFiles.size()>0){
+                            UploadFiles(firebaseutils.UpladingFiles.get(0),intent);
+                        }else{
+                            notifManager.cancel(NOTIFY_ID);
+                            stopService(intent);
+                        }
+
                     }
                 }
 
@@ -104,11 +120,10 @@ public class UploadService extends IntentService implements ProgressRequestBody.
             @Override
             public void onFailure(Call<LogginModel> call, Throwable t) {
                 Log.d("error :", t.toString());
-                db.UpdateImageStatus(2, objfile.getId());
-
+                db.UpdateImageStatus("2", objfile.getId());
                 firebaseutils.UpladingFiles.remove(objfile);
                 if (firebaseutils.UpladingFiles.size() > 0) {
-                    UploadFiles(firebaseutils.UpladingFiles.get(0));
+                    UploadFiles(firebaseutils.UpladingFiles.get(0),intent);
                 } else {
                     if (notifManager == null) {
                         notifManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
@@ -132,6 +147,73 @@ public class UploadService extends IntentService implements ProgressRequestBody.
 
     @Override
     public void onFinish() {
+
+    }
+
+    public void createNotification(String aMessage, Context context) {
+
+        String id = context.getString(R.string.default_notification_channel_id); // default_channel_id
+        String title = context.getString(R.string.default_notification_channel_title); // Default Channel
+        Intent intent;
+        PendingIntent pendingIntent;
+        NotificationCompat.Builder builder;
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(),
+                R.drawable.proflie);
+
+        if (notifManager == null) {
+            notifManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            int importance = NotificationManager.IMPORTANCE_HIGH;
+            NotificationChannel mChannel = notifManager.getNotificationChannel(id);
+            if (mChannel == null) {
+                mChannel = new NotificationChannel(id, title, importance);
+                mChannel.enableVibration(false);
+                mChannel.setVibrationPattern(new long[]{-1});
+                notifManager.createNotificationChannel(mChannel);
+            }
+            builder = new NotificationCompat.Builder(context, id);
+            intent = new Intent(context, MyMediaActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            intent.putExtra("image/video", Utils.getPref(context, "image/video"));
+            intent.putExtra("cometonotification", Utils.getPref(context, "cometonotification"));
+            pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            builder.setContentTitle(aMessage)                            // required
+                    .setSmallIcon(R.drawable.app_logo)   // required
+                    .setContentText(context.getString(R.string.app_name)) // required
+                    .setDefaults(Notification.DEFAULT_VIBRATE)
+                    .setVibrate(new long[]{-1}) //new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400}
+                    .setOngoing(true)
+                    .setAutoCancel(true)
+                    .setContentIntent(pendingIntent)
+                    .setTicker(aMessage)
+                    .setProgress(0, 0, true)
+                    .setPriority(Notification.PRIORITY_HIGH);
+
+        } else {
+            builder = new NotificationCompat.Builder(context, id);
+            intent = new Intent(context, MyMediaActivity.class);
+            intent.putExtra("image/video", Utils.getPref(context, "image/video"));
+            intent.putExtra("cometonotification", Utils.getPref(context, "cometonotification"));
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+            builder.setContentTitle(aMessage)                            // required
+                    .setSmallIcon(R.drawable.app_logo)   // required
+                    .setContentText(context.getString(R.string.app_name)) // required
+                    .setDefaults(Notification.DEFAULT_VIBRATE)
+                    .setVibrate(new long[]{-1}) //new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400}
+                    .setOngoing(true)
+                    .setAutoCancel(true)
+                    .setContentIntent(pendingIntent)
+                    .setTicker(aMessage)
+                    .setProgress(0, 0, true)
+//                    .setProgress(100, progress, false)
+                    .setPriority(Notification.PRIORITY_HIGH);
+        }
+        Notification notification = builder.build();
+
+        notification.flags |= Notification.FLAG_AUTO_CANCEL | Notification.FLAG_ONGOING_EVENT;//Notification.FLAG_AUTO_CANCEL |
+        notifManager.notify(NOTIFY_ID, notification);
 
     }
 }

@@ -29,6 +29,7 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.util.Log;
@@ -49,11 +50,6 @@ import com.bharatarmy.VideoTrimmer.interfaces.OnHgLVideoListener;
 import com.bharatarmy.VideoTrimmer.interfaces.OnTrimVideoListener;
 import com.bharatarmy.VideoTrimmer.utils.FileUtils;
 import com.bharatarmy.databinding.ActivityImageVideoUploadBinding;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.karumi.dexter.Dexter;
@@ -116,6 +112,8 @@ public class ImageVideoUploadActivity extends AppCompatActivity implements View.
 
     public void init() {
         dbHandler=new DbHandler(mContext);
+
+
         content = new ArrayList<>();
     }
 
@@ -198,7 +196,7 @@ public class ImageVideoUploadActivity extends AppCompatActivity implements View.
                                                             for (int i = 0; i < uriList.size(); i++) {
                                                                 File f = new File(uriList.get(i).getPath());
                                                                 long findsize = f.length() / 1024;
-                                                                content.add(new GalleryImageModel(uriList.get(i).toString(), size((int) findsize), 0));
+                                                                content.add(new GalleryImageModel(uriList.get(i).toString(), size((int) findsize), "0"));
                                                             }
                                                             loadProfile();
                                                         }
@@ -256,9 +254,16 @@ public class ImageVideoUploadActivity extends AppCompatActivity implements View.
                         });
                         try {
                             alertDialog.show();
-                            Intent intent = new Intent(this, UploadService.class);
-                            startService(intent);
-//                        createNotification(AppConfiguration.notificationtitle, mContext, Utils.getIntPref(mContext, "uploadprocess"));
+                            final Handler handler = new Handler();
+                            handler.postDelayed(new Runnable() {
+                                public void run() {
+                                    Intent intent = new Intent(mContext, UploadService.class);
+                                    startService(intent);
+                                    createNotification(AppConfiguration.notificationtitle, mContext);
+                                }
+                            }, 50);
+
+
                         } catch (Exception e) {
 
                         }
@@ -322,7 +327,7 @@ public class ImageVideoUploadActivity extends AppCompatActivity implements View.
                 long findsize = Camerafile.length() / 1024;
                 Log.d("findfilesize", "" + Camerafile.length() / 1024 + "kb" + " " + Camerafile.length() / (1024 * 1024));
 
-                content.add(new GalleryImageModel(imageUri.toString(), size((int) findsize), 0));
+                content.add(new GalleryImageModel(imageUri.toString(), size((int) findsize), "0"));
 
                 loadProfile();
 
@@ -574,7 +579,7 @@ public class ImageVideoUploadActivity extends AppCompatActivity implements View.
         return duration;
     }
 
-    public void createNotification(String aMessage, Context context, int progress) {
+    public void createNotification(String aMessage, Context context) {
 
         String id = context.getString(R.string.default_notification_channel_id); // default_channel_id
         String title = context.getString(R.string.default_notification_channel_title); // Default Channel

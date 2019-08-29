@@ -32,19 +32,10 @@ import com.bharatarmy.Models.GalleryImageModel;
 import com.bharatarmy.R;
 import com.bharatarmy.UploadService;
 import com.bharatarmy.Utility.AppConfiguration;
+import com.bharatarmy.Utility.DbHandler;
 import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.Utility.firebaseutils;
 import com.bharatarmy.databinding.ActivityMyMediaBinding;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -59,7 +50,8 @@ public class MyMediaActivity extends AppCompatActivity implements View.OnClickLi
     private NotificationManager notifManager;
     int progress = 1;
     List<GalleryImageModel> galleryimage;
-
+    // Database
+    DbHandler dbHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,9 +68,16 @@ public class MyMediaActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     public void init() {
-
-
+        dbHandler=new DbHandler(mContext);
         galleryimage = new ArrayList<>();
+
+        if (dbHandler.getMediaImageData()!=null && dbHandler.getMediaImageData().size()>0){
+            galleryimage=dbHandler.getMediaImageData();
+            setDataList();
+        }else{
+            Utils.ping(mContext,"No media available");
+        }
+
     }
     public void setDataList() {
         if (galleryimage != null) {
@@ -93,7 +92,10 @@ public class MyMediaActivity extends AppCompatActivity implements View.OnClickLi
 
                     boolean connected = Utils.checkNetwork(mContext);
                     if (connected == true) {
-                        firebaseutils.UpdateStatus(image,"0",mContext);
+                        dbHandler.UpdateImageStatus("0",image.getId());
+                        Intent intent=new Intent(mContext,UploadService.class);
+                        startService(intent);
+                        createNotification(AppConfiguration.notificationtitle, getApplicationContext());
                     } else {
                         Utils.ping(mContext,"No internet available");
                     }
@@ -114,7 +116,7 @@ public class MyMediaActivity extends AppCompatActivity implements View.OnClickLi
 
     public void setListiner() {
         activityMyMediaBinding.backImg.setOnClickListener(this);
-
+        activityMyMediaBinding.refreshImg.setOnClickListener(this);
 
     }
 
@@ -129,6 +131,9 @@ public class MyMediaActivity extends AppCompatActivity implements View.OnClickLi
                         startActivity(intent);
                     }
                 }, 50);
+                break;
+            case R.id.refresh_img:
+                init();
                 break;
         }
     }
@@ -149,7 +154,7 @@ public class MyMediaActivity extends AppCompatActivity implements View.OnClickLi
     }
 
 
-    public void createNotification(String aMessage, Context context, int progress) {
+    public void createNotification(String aMessage, Context context) {
 
         String id = context.getString(R.string.default_notification_channel_id); // default_channel_id
         String title = context.getString(R.string.default_notification_channel_title); // Default Channel
