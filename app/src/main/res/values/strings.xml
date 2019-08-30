@@ -102,6 +102,7 @@
     <string name="dialog_permission_title" translatable="false">Grant Permissions</string>
     <string name="dialog_permission_message" translatable="false">This app needs permission to use this feature. You can grant them in app settings.</string>
     <string name="go_to_settings" translatable="false">GOTO SETTINGS</string>
+    <string name="rationale_photo_picker" translatable="false">We require this permission to select photo from gallery and camera.</string>
 
     <!--History Screen String-->
     <string name="history_title_txt" translatable="false">Bharat Army Booking History</string>

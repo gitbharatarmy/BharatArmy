@@ -26,6 +26,12 @@
 
 
     </style>
+    <style name="FilePickerTheme" parent="LibAppTheme">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/heading_bg</item>
+        <item name="colorPrimaryDark">@color/heading_bg</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
 
 
     <style name="MyThemeVideo" parent="Theme.AppCompat.Light">

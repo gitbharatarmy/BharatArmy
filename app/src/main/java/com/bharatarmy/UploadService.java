@@ -46,7 +46,7 @@ public class UploadService extends IntentService implements ProgressRequestBody.
     int counter = 0;
     final int NOTIFY_ID = 0; // ID of notification
     private NotificationManager notifManager;
-    DbHandler db ;
+    DbHandler db;
 
     public UploadService() {
         super("UploadService");
@@ -56,29 +56,29 @@ public class UploadService extends IntentService implements ProgressRequestBody.
     // will be called asynchronously by Android
     @Override
     protected void onHandleIntent(Intent intent) {
-        db= new DbHandler(getApplicationContext());
+        db = new DbHandler(getApplicationContext());
         if (firebaseutils.UpladingFiles == null) {
             firebaseutils.UpladingFiles = new ArrayList<>();
+
         }
 
-
-        firebaseutils.UpladingFiles=db.getAllImageData();
+            firebaseutils.UpladingFiles = db.getAllImageData();
 
         if (firebaseutils.UpladingFiles != null && firebaseutils.UpladingFiles.size() > 0) {
-            UploadFiles(firebaseutils.UpladingFiles.get(0),intent);
+            UploadFiles(firebaseutils.UpladingFiles.get(0), intent);
         }
     }
 
-    public void UploadFiles(GalleryImageModel objfile,Intent intent) {
-        filepath = Uri.parse(objfile.getImageUri());
+    public void UploadFiles(GalleryImageModel objfile, Intent intent) {
+        filePath = objfile.getImageUri();
 
-        if (Utils.getPref(getApplicationContext(), "image/video").equalsIgnoreCase("video")) {
-            filePath = String.valueOf(filepath);
-        } else {
-            filePath = Utils.getFilePathFromUri(this, filepath);
-        }
+//        if (Utils.getPref(getApplicationContext(), "image/video").equalsIgnoreCase("video")) {
+//            filePath = String.valueOf(filepath);
+//        } else {
+//            filePath = Utils.getFilePathFromUri(this, filepath);
+//        }
 
-        Log.d("filepath :",filePath);
+        Log.d("filepath :", filePath);
         db.UpdateImageStatus("1", objfile.getId());
 
         File file = new File(filePath);
@@ -99,14 +99,20 @@ public class UploadService extends IntentService implements ProgressRequestBody.
                     result = Activity.RESULT_OK;
                     db.DeleteImage(objfile.getId());
                     firebaseutils.UpladingFiles.remove(objfile);
-                    createNotification(AppConfiguration.notificationtitle, getApplicationContext());
+//                    notifManager.cancel(NOTIFY_ID);
+
                     if (firebaseutils.UpladingFiles.size() > 0) {
-                        UploadFiles(firebaseutils.UpladingFiles.get(0),intent);
+                        UploadFiles(firebaseutils.UpladingFiles.get(0), intent);
+                        createNotification(AppConfiguration.notificationtitle, getApplicationContext());
                     } else {
-                        firebaseutils.UpladingFiles=db.getAllImageData();
-                        if (firebaseutils.UpladingFiles!=null && firebaseutils.UpladingFiles.size()>0){
-                            UploadFiles(firebaseutils.UpladingFiles.get(0),intent);
-                        }else{
+                        firebaseutils.UpladingFiles = db.getAllImageData();
+                        if (firebaseutils.UpladingFiles != null && firebaseutils.UpladingFiles.size() > 0) {
+                            UploadFiles(firebaseutils.UpladingFiles.get(0), intent);
+                            createNotification(AppConfiguration.notificationtitle, getApplicationContext());
+                        } else {
+                            if (notifManager == null) {
+                                notifManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
+                            }
                             notifManager.cancel(NOTIFY_ID);
                             stopService(intent);
                         }
@@ -123,7 +129,7 @@ public class UploadService extends IntentService implements ProgressRequestBody.
                 db.UpdateImageStatus("2", objfile.getId());
                 firebaseutils.UpladingFiles.remove(objfile);
                 if (firebaseutils.UpladingFiles.size() > 0) {
-                    UploadFiles(firebaseutils.UpladingFiles.get(0),intent);
+                    UploadFiles(firebaseutils.UpladingFiles.get(0), intent);
                 } else {
                     if (notifManager == null) {
                         notifManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);

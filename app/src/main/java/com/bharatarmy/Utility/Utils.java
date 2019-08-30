@@ -62,11 +62,13 @@ import com.bharatarmy.Interfaces.submit_click;
 import com.bharatarmy.Models.GalleryImageModel;
 import com.bharatarmy.R;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.i18n.phonenumbers.NumberParseException;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.google.i18n.phonenumbers.Phonenumber;
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -394,7 +396,16 @@ public class Utils {
                 .into(view);
 
     }
+    public static void setGalleryImageInImageView(String imageUrl, ImageView view, Context mContext) {
+        Glide.with(mContext)
+                .load(new File(imageUrl))
+                .apply(RequestOptions.centerCropTransform()
+                        .dontAnimate()
+                        .placeholder(droidninja.filepicker.R.drawable.image_placeholder))
+                .thumbnail(0.5f)
+                .into(view);
 
+    }
     public static boolean isReadStorageGranted(Context context) {
         int storagePermissionGranted = ContextCompat.checkSelfPermission(context,
                 Manifest.permission.READ_EXTERNAL_STORAGE);

@@ -16,6 +16,7 @@ import com.bharatarmy.R;
 import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.MyMediaListItemBinding;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,9 +59,10 @@ public class MyMediaAdapter extends RecyclerView.Adapter<MyMediaAdapter.MyViewHo
     public void onBindViewHolder(MyMediaAdapter.MyViewHolder holder, final int position) {
         GalleryImageModel detailgallery = imageDetailModel.get(position);
             if (!Utils.getPref(mContext, "image/video").equalsIgnoreCase("video")) {
-                Utils.setImageInImageView(detailgallery.getImageUri(), holder.myMediaListItemBinding.uploadImage, mContext);
+                Utils.setGalleryImageInImageView(detailgallery.getImageUri(), holder.myMediaListItemBinding.uploadImage, mContext);
             } else {
-                holder.myMediaListItemBinding.uploadImage.setImageBitmap(Utils.createVideoThumbNail(detailgallery.getImageUri()));
+                File f=new File(detailgallery.getImageUri());
+                holder.myMediaListItemBinding.uploadImage.setImageBitmap(Utils.createVideoThumbNail(f.toString()));
             }
         if (detailgallery.getUploadcompelet().equalsIgnoreCase("1")) {
             holder.myMediaListItemBinding.uploadsuccesLinear.setVisibility(View.VISIBLE);
@@ -113,10 +115,9 @@ public class MyMediaAdapter extends RecyclerView.Adapter<MyMediaAdapter.MyViewHo
     public int SelectedPosition(){
         return SelectedPosition;
     }
-    public void timer( List<GalleryImageModel> imageDetailModel) {
-//        imageDetailModel.addAll(imageDetailModel);
-        this.imageDetailModel=imageDetailModel;
-            notifyDataSetChanged();
+    public void setItemToPostion(int itemPosition) {
+       this.imageDetailModel.get(itemPosition);
+        notifyItemChanged(itemPosition);
     }
 }
 

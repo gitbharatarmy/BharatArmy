@@ -21,6 +21,7 @@ import android.content.Context;
 import android.content.CursorLoader;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -36,6 +37,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bharatarmy.Adapter.SelectedImageVideoViewAdapter;
 import com.bharatarmy.Interfaces.image_click;
@@ -63,10 +65,15 @@ import java.io.File;
 import java.lang.reflect.Type;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
+import droidninja.filepicker.FilePickerBuilder;
+import droidninja.filepicker.FilePickerConst;
 import gun0912.tedbottompicker.TedBottomPicker;
 import gun0912.tedbottompicker.TedBottomSheetDialogFragment;
+import pub.devrel.easypermissions.AfterPermissionGranted;
+import pub.devrel.easypermissions.EasyPermissions;
 
 import static androidx.core.content.FileProvider.getUriForFile;
 
@@ -84,21 +91,25 @@ public class ImageVideoUploadActivity extends AppCompatActivity implements View.
     SelectedImageVideoViewAdapter selectedImageVideoViewAdapter;
     LinearLayoutManager linearLayoutManager;
     int totaluploadcounte = 0;
-    public List<GalleryImageModel> content;
+    public List<GalleryImageModel> galleryImageList;
     File Camerafile;
     String imageorvideoStr = "";
     private static final int REQUEST_VIDEO_TRIMMER = 0x01;
     static final String EXTRA_VIDEO_PATH = "EXTRA_VIDEO_PATH";
     static final String VIDEO_TOTAL_DURATION = "VIDEO_TOTAL_DURATION";
-
-    List<GalleryImageModel> galleryimage;
+    private static final int CUSTOM_REQUEST_CODE = 532;
+    public static final int RC_PHOTO_PICKER_PERM = 123;
+    public static final int RC_FILE_PICKER_PERM = 321;
+    private int MAX_ATTACHMENT_COUNT = 20;
+    private ArrayList<String> photoPaths = new ArrayList<>();
     public String fileName;
 
     String path = "";
     int maxDuration = 10;
 
-// Database
+    // Database
     DbHandler dbHandler;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -111,10 +122,10 @@ public class ImageVideoUploadActivity extends AppCompatActivity implements View.
     }
 
     public void init() {
-        dbHandler=new DbHandler(mContext);
+        dbHandler = new DbHandler(mContext);
 
 
-        content = new ArrayList<>();
+        galleryImageList = new ArrayList<>();
     }
 
     public void setListiner() {
@@ -147,10 +158,10 @@ public class ImageVideoUploadActivity extends AppCompatActivity implements View.
                             public void onPermissionsChecked(MultiplePermissionsReport report) {
                                 if (report.areAllPermissionsGranted()) {
                                     if (imageorvideoStr.equalsIgnoreCase("image")) {
-                                        if (content.size() < 10) {
+                                        if (galleryImageList.size() < MAX_ATTACHMENT_COUNT) {
                                             openImageCapture();
                                         } else {
-                                            Utils.ping(mContext, "max limit 10");
+                                            Utils.ping(mContext, "max limit 20");
                                         }
                                     } else {
                                         openVideoCapture();
@@ -168,71 +179,24 @@ public class ImageVideoUploadActivity extends AppCompatActivity implements View.
                         }).check();
                 break;
             case R.id.choose_from_gallery_linear:
-                Dexter.withActivity(ImageVideoUploadActivity.this)
-                        .withPermissions(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                        .withListener(new MultiplePermissionsListener() {
-                            @Override
-                            public void onPermissionsChecked(MultiplePermissionsReport report) {
-                                if (report.areAllPermissionsGranted()) {
-                                    if (imageorvideoStr.equalsIgnoreCase("image")) {
-                                        if (content.size() < 10) {
-                                            TedBottomPicker.with(ImageVideoUploadActivity.this)
-                                                    .setPeekHeight(1600)
-                                                    .showTitle(false)
-                                                    .setPreviewMaxCount(100)
-                                                    .setCompleteButtonText("Done")
-                                                    .setEmptySelectionText("No Select")
-                                                    .setSelectedUriList(selectedUriList)
-                                                    .setSelectMinCount(1)
-                                                    .setSelectMaxCount(20 - content.size())
-                                                    .showCameraTile(false)
-                                                    .setTitle("Select Images")
-                                                    .setTitleBackgroundResId(R.color.heading_bg)
-                                                    .setSelectedForeground(R.drawable.ic_checked)
-                                                    .showMultiImage(new TedBottomSheetDialogFragment.OnMultiImageSelectedListener() {
-                                                        @Override
-                                                        public void onImagesSelected(List<Uri> uriList) {
-                                                            // here is selected image uri list
-                                                            for (int i = 0; i < uriList.size(); i++) {
-                                                                File f = new File(uriList.get(i).getPath());
-                                                                long findsize = f.length() / 1024;
-                                                                content.add(new GalleryImageModel(uriList.get(i).toString(), size((int) findsize), "0"));
-                                                            }
-                                                            loadProfile();
-                                                        }
-                                                    });
-                                        } else {
-                                            Utils.ping(mContext, "max limit 10");
-                                        }
-                                    } else {
-                                        pickFromGallery();
-                                    }
-                                }
-
-                                if (report.isAnyPermissionPermanentlyDenied()) {
-                                    showSettingsDialog();
-                                }
-                            }
-
-                            @Override
-                            public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
-                                token.continuePermissionRequest();
-                            }
-                        }).check();
+                if (imageorvideoStr.equalsIgnoreCase("image")) {
+                    pickPhotoClicked();
+                } else {
+                    pickVideoFromGallery();
+                }
                 break;
             case R.id.submit_linear:
                 Utils.handleClickEvent(mContext, activityImageVideoUploadBinding.submitLinear);
 
-                AppConfiguration.files = new ArrayList<>();
+
                 boolean connected = Utils.checkNetwork(mContext);
 
 
                 if (connected == true) {
-                    if (content != null && content.size() > 0) {
-                        for (int i=0;i<content.size();i++){
-                            dbHandler.insertImageDetails(content.get(i).getImageUri(),content.get(i).getImageSize(),content.get(i).getUploadcompelet());
+                    if (galleryImageList != null && galleryImageList.size() > 0) {
+                        for (int i = 0; i < galleryImageList.size(); i++) {
+                            dbHandler.insertImageDetails(galleryImageList.get(i).getImageUri(), galleryImageList.get(i).getImageSize(), galleryImageList.get(i).getUploadcompelet());
                         }
-
                         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(ImageVideoUploadActivity.this);
                         LayoutInflater inflater = getLayoutInflater();
                         View dialogView = inflater.inflate(R.layout.thankyou_dialog_item, null);
@@ -267,7 +231,6 @@ public class ImageVideoUploadActivity extends AppCompatActivity implements View.
                         } catch (Exception e) {
 
                         }
-
 
 
                     } else {
@@ -308,6 +271,38 @@ public class ImageVideoUploadActivity extends AppCompatActivity implements View.
 
     }
 
+    @AfterPermissionGranted(RC_PHOTO_PICKER_PERM)
+    public void pickPhotoClicked() {
+        if (EasyPermissions.hasPermissions(this, FilePickerConst.PERMISSIONS_FILE_PICKER)) {
+            onPickPhoto();
+        } else {
+            // Ask for one permission
+            EasyPermissions.requestPermissions(this, getString(R.string.rationale_photo_picker),
+                    RC_PHOTO_PICKER_PERM, FilePickerConst.PERMISSIONS_FILE_PICKER);
+        }
+    }
+
+    public void onPickPhoto() {
+        int maxCount = MAX_ATTACHMENT_COUNT;
+        if ((galleryImageList.size() + photoPaths.size()) == MAX_ATTACHMENT_COUNT) {
+            Toast.makeText(this, "Cannot select more than " + MAX_ATTACHMENT_COUNT + " items",
+                    Toast.LENGTH_SHORT).show();
+        } else {
+            FilePickerBuilder.getInstance()
+                    .setMaxCount(MAX_ATTACHMENT_COUNT - galleryImageList.size())
+                    .setSelectedFiles(photoPaths)
+                    .setActivityTheme(R.style.FilePickerTheme)
+                    .setActivityTitle("")
+                    .enableVideoPicker(false)
+                    .enableCameraSupport(false)
+                    .showGifs(true)
+                    .showFolderView(true)
+                    .enableSelectAll(false)
+                    .enableImagePicker(true)
+                    .withOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
+                    .pickPhoto(this, CUSTOM_REQUEST_CODE);
+        }
+    }
 
     // navigating user to app settings
     private void openSettings() {
@@ -322,16 +317,7 @@ public class ImageVideoUploadActivity extends AppCompatActivity implements View.
 
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == REQUEST_IMAGE) {
-                imageUri = Uri.fromFile(getCacheFileImagePath(fileName));
-                Log.d("URI", imageUri.toString());
-                long findsize = Camerafile.length() / 1024;
-                Log.d("findfilesize", "" + Camerafile.length() / 1024 + "kb" + " " + Camerafile.length() / (1024 * 1024));
-
-                content.add(new GalleryImageModel(imageUri.toString(), size((int) findsize), "0"));
-
-                loadProfile();
-
-                Log.d("FInalImageSize", "" + size((int) findsize));
+                getCameraImagePath(fileName);
 
             } else if (requestCode == REQUEST_VIDEO_TRIMMER) {
                 selectedUri = data.getData();
@@ -358,13 +344,19 @@ public class ImageVideoUploadActivity extends AppCompatActivity implements View.
 
                             File f = new File(path);
                             long findsize = f.length() / 1024;
-                            content = new ArrayList<GalleryImageModel>();
+                            galleryImageList = new ArrayList<GalleryImageModel>();
+                            galleryImageList.add(new GalleryImageModel(path, size((int) findsize),"0"));
                         }
                     }
                 } else {
                     activityImageVideoUploadBinding.chooseLinear.setVisibility(View.VISIBLE);
                     activityImageVideoUploadBinding.bottomView.setVisibility(View.VISIBLE);
                 }
+            } else if (requestCode == CUSTOM_REQUEST_CODE) {
+                photoPaths = new ArrayList<>();
+                photoPaths.addAll(data.getStringArrayListExtra(FilePickerConst.KEY_SELECTED_MEDIA));
+
+                addToView(photoPaths);
             }
 
         } else {
@@ -386,21 +378,35 @@ public class ImageVideoUploadActivity extends AppCompatActivity implements View.
         return hrSize;
     }
 
+    public void addToView(ArrayList<String> imagePaths) {
+        ArrayList<String> filePaths = new ArrayList<>();
+        if (imagePaths != null) {
+            filePaths.addAll(imagePaths);
+        }
+
+        for (int i = 0; i < filePaths.size(); i++) {
+            File f = new File(filePaths.get(i));
+            long findsize = f.length() / 1024;
+            galleryImageList.add(new GalleryImageModel(filePaths.get(i), size((int) findsize), "0"));
+        }
+        loadProfile();
+    }
+
     private void loadProfile() {
         activityImageVideoUploadBinding.cameraUnselectLinear.setVisibility(View.GONE);
         activityImageVideoUploadBinding.selectedImageVideoLinear.setVisibility(View.VISIBLE);
 
 
-        selectedImageVideoViewAdapter = new SelectedImageVideoViewAdapter(mContext, content, new image_click() {
+        selectedImageVideoViewAdapter = new SelectedImageVideoViewAdapter(mContext, galleryImageList, new image_click() {
             @Override
             public void image_more_click() {
                 String getSelectedImageremove = String.valueOf(selectedImageVideoViewAdapter.selectedpositionRemove());
                 Log.d("removePic", getSelectedImageremove);
-                getSelectedImageremove = getSelectedImageremove.substring(1, getSelectedImageremove.length() - 1);
+//                getSelectedImageremove = getSelectedImageremove.substring(1, getSelectedImageremove.length() - 1);
 
-                for (int i = 0; i < content.size(); i++) {
+                for (int i = 0; i < galleryImageList.size(); i++) {
                     if (i == Integer.parseInt(getSelectedImageremove)) {
-                        content.remove(i);
+                        galleryImageList.remove(i);
                         selectedImageVideoViewAdapter.notifyDataSetChanged();
                     }
                 }
@@ -476,18 +482,6 @@ public class ImageVideoUploadActivity extends AppCompatActivity implements View.
         });
     }
 
-    private String getRealPathFromURI(Uri contentUri) {
-        String[] proj = {MediaStore.Images.Media.DATA};
-        CursorLoader loader = new CursorLoader(ImageVideoUploadActivity.this, contentUri, proj, null, null, null);
-        Cursor cursor = loader.loadInBackground();
-        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-        cursor.moveToFirst();
-        String result = cursor.getString(column_index);
-        cursor.close();
-        return result;
-    }
-
-
     private void playUriOnVLC(Uri uri) {
 
         int vlcRequestCode = 42;
@@ -506,7 +500,6 @@ public class ImageVideoUploadActivity extends AppCompatActivity implements View.
         startActivityForResult(videoCapture, REQUEST_VIDEO_TRIMMER);
     }
 
-    //    file:///data/user/0/com.bharatarmy/cache/1566033242675.jpg
     private void openImageCapture() {
         Dexter.withActivity(this)
                 .withPermissions(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -541,36 +534,29 @@ public class ImageVideoUploadActivity extends AppCompatActivity implements View.
         return getUriForFile(ImageVideoUploadActivity.this, getPackageName() + ".provider", image);
     }
 
-    private File getCacheFileImagePath(String fileName) {
+    private void getCameraImagePath(String fileName) {
         File path = new File(getExternalCacheDir(), "camera");
         Camerafile = path;
         File image = new File(path, fileName);
 
-        Log.d("imageFile : ", "" + image);
-        return image;
+        Log.d("imagegetFile : ", "" + image);
+        String imageUrl = String.valueOf(image);
+
+        long findsize = Camerafile.length() / 1024;
+        Log.d("findfilesize", "" + Camerafile.length() / 1024 + "kb" + " " + Camerafile.length() / (1024 * 1024));
+
+        galleryImageList.add(new GalleryImageModel(imageUrl, size((int) findsize), "0"));
+
+        loadProfile();
+
     }
 
-    public Uri getImageUri(Context inContext, Bitmap inImage) {
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
-
-        return Uri.parse(path);
-    }
-
-    private void pickFromGallery() {
+    private void pickVideoFromGallery() {
         Intent intent = new Intent();
         intent.setTypeAndNormalize("video/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         startActivityForResult(Intent.createChooser(intent, getString(R.string.label_select_video)), REQUEST_VIDEO_TRIMMER);
-    }
-
-    private void startTrimActivity(@NonNull Uri uri) {
-        Intent intent = new Intent(this, ImageVideoUploadActivity.class);
-        intent.putExtra(EXTRA_VIDEO_PATH, FileUtils.getPath(this, uri));
-        intent.putExtra(VIDEO_TOTAL_DURATION, getMediaDuration(uri));
-        startActivity(intent);
     }
 
     private int getMediaDuration(Uri uriOfFile) {

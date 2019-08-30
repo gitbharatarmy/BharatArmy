@@ -22,6 +22,8 @@ import com.bharatarmy.Models.GalleryImageModel;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.SelectedImageVideoListItemBinding;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -45,8 +47,7 @@ public class SelectedImageVideoViewAdapter extends RecyclerView.Adapter<Selected
 
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        //        ImageView selected_image;
-//        TextView selected_image_name_txt, selected_image_remove_txt, selected_image_size_txt;
+
         SelectedImageVideoListItemBinding selectedImageVideoListItemBinding;
 
         public MyViewHolder(SelectedImageVideoListItemBinding selectedImageVideoListItemBinding) {
@@ -69,8 +70,7 @@ public class SelectedImageVideoViewAdapter extends RecyclerView.Adapter<Selected
     @SuppressLint("ResourceAsColor")
     @Override
     public void onBindViewHolder(SelectedImageVideoViewAdapter.MyViewHolder holder, final int position) {
-
-        Utils.setImageInImageView(imageDetailModel.get(position).getImageUri(), holder.selectedImageVideoListItemBinding.selectedImage, mContext);
+        Utils.setGalleryImageInImageView(imageDetailModel.get(position).getImageUri(),holder.selectedImageVideoListItemBinding.selectedImage,mContext);
 
         File file = new File(imageDetailModel.get(position).getImageUri());
         String name = file.getName();

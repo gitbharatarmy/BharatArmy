@@ -74,9 +74,15 @@ public class DbHandler extends SQLiteOpenHelper {
         ContentValues cVals = new ContentValues();
         cVals.put(KEY_IMAGEUPLOADSTATUS, uploadstatus);
         db.update(TABLE_GALLERYUPLOAD, cVals, KEY_ID + " = ?", new String[]{String.valueOf(id)}); //int count =
+
         db.close();
     }
-
+    public void UpdateImagePendingStatus(String uploadstatus) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cVals = new ContentValues();
+        cVals.put(KEY_IMAGEUPLOADSTATUS, uploadstatus);
+        db.update(TABLE_GALLERYUPLOAD, cVals, KEY_IMAGEUPLOADSTATUS + " = ?", new String[]{String.valueOf(1)}); //int count =
+    }
     public List<GalleryImageModel> getAllImageData() {
         List<GalleryImageModel> list = new ArrayList<>();
         GalleryImageModel model = null;
@@ -102,13 +108,13 @@ public class DbHandler extends SQLiteOpenHelper {
         return list;
     }
 
-    public List<GalleryImageModel> getRetryImageData() {
+    public List<GalleryImageModel> getPendingImageData() {
         List<GalleryImageModel> list = new ArrayList<>();
         GalleryImageModel model = null;
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.query(TABLE_GALLERYUPLOAD, new String[]{KEY_ID, KEY_IMAGEURI, KEY_IMAGESIZE, KEY_IMAGEUPLOADSTATUS},
-                KEY_IMAGEUPLOADSTATUS + "=?",
-                new String[]{String.valueOf(2)}, null, null, null, null);
+                KEY_IMAGEUPLOADSTATUS + "=? OR " + KEY_IMAGEUPLOADSTATUS + "=? ",
+                new String[]{String.valueOf(1),String.valueOf(0)}, null, null, null, null);
         while (cursor.moveToNext()) {
             int index = cursor.getColumnIndex(DbHandler.KEY_ID);
             int index2 = cursor.getColumnIndex(DbHandler.KEY_IMAGEURI);
@@ -130,8 +136,8 @@ public class DbHandler extends SQLiteOpenHelper {
         GalleryImageModel model = null;
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.query(TABLE_GALLERYUPLOAD, new String[]{KEY_ID, KEY_IMAGEURI, KEY_IMAGESIZE, KEY_IMAGEUPLOADSTATUS},
-                KEY_IMAGEUPLOADSTATUS + "=? OR " + KEY_IMAGEUPLOADSTATUS + "=?",
-                new String[]{String.valueOf(2) , String.valueOf(0)}, null, null, null, null);
+                KEY_IMAGEUPLOADSTATUS + "=? OR " + KEY_IMAGEUPLOADSTATUS + "=? OR " + KEY_IMAGEUPLOADSTATUS + "=?",
+                new String[]{String.valueOf(2) , String.valueOf(0), String.valueOf(1)}, null, null, null, null);
         while (cursor.moveToNext()) {
             int index = cursor.getColumnIndex(DbHandler.KEY_ID);
             int index2 = cursor.getColumnIndex(DbHandler.KEY_IMAGEURI);
