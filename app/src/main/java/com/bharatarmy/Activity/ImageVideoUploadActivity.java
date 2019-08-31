@@ -195,7 +195,7 @@ public class ImageVideoUploadActivity extends AppCompatActivity implements View.
                 if (connected == true) {
                     if (galleryImageList != null && galleryImageList.size() > 0) {
                         for (int i = 0; i < galleryImageList.size(); i++) {
-                            dbHandler.insertImageDetails(galleryImageList.get(i).getImageUri(), galleryImageList.get(i).getImageSize(), galleryImageList.get(i).getUploadcompelet());
+                            dbHandler.insertImageDetails(galleryImageList.get(i).getImageUri(), galleryImageList.get(i).getImageSize(), galleryImageList.get(i).getUploadcompelet(),mContext);
                         }
                         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(ImageVideoUploadActivity.this);
                         LayoutInflater inflater = getLayoutInflater();

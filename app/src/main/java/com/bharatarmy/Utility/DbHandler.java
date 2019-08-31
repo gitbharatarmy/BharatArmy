@@ -2,12 +2,14 @@ package com.bharatarmy.Utility;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.bharatarmy.Models.GalleryImageModel;
+import com.bharatarmy.UploadService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,7 +57,7 @@ public class DbHandler extends SQLiteOpenHelper {
 
 
     // Adding new Image Details
-    public void insertImageDetails(String imageUri, String imageSize, String imageUploadStatus) {
+    public void insertImageDetails(String imageUri, String imageSize, String imageUploadStatus,Context context) {
         //Get the Data Repository in write mode
         SQLiteDatabase db = this.getWritableDatabase();
         //Create a new map of values, where column names are the keys
@@ -66,22 +68,34 @@ public class DbHandler extends SQLiteOpenHelper {
         // Insert the new row, returning the primary key value of the new row
         db.insert(TABLE_GALLERYUPLOAD, null, cValues); // long newRowId =
         db.close();
+        if (!Utils.isMyServiceRunning(context)){
+            Intent intent = new Intent(context, UploadService.class);
+            context.startService(intent);
+        }
     }
 
     // Update Image Details
-    public void UpdateImageStatus(String uploadstatus, int id) {
+    public void UpdateImageStatus(String uploadstatus, int id,Context context) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cVals = new ContentValues();
         cVals.put(KEY_IMAGEUPLOADSTATUS, uploadstatus);
         db.update(TABLE_GALLERYUPLOAD, cVals, KEY_ID + " = ?", new String[]{String.valueOf(id)}); //int count =
-
         db.close();
+        if (!Utils.isMyServiceRunning(context)){
+            Intent intent = new Intent(context, UploadService.class);
+            context.startService(intent);
+        }
     }
-    public void UpdateImagePendingStatus(String uploadstatus) {
+    public void UpdateImagePendingStatus(String uploadstatus,Context context) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cVals = new ContentValues();
         cVals.put(KEY_IMAGEUPLOADSTATUS, uploadstatus);
         db.update(TABLE_GALLERYUPLOAD, cVals, KEY_IMAGEUPLOADSTATUS + " = ?", new String[]{String.valueOf(1)}); //int count =
+        db.close();
+        if (!Utils.isMyServiceRunning(context)){
+            Intent intent = new Intent(context, UploadService.class);
+            context.startService(intent);
+        }
     }
     public List<GalleryImageModel> getAllImageData() {
         List<GalleryImageModel> list = new ArrayList<>();

@@ -45,17 +45,19 @@ public class MyMediaActivity extends AppCompatActivity implements View.OnClickLi
 
     Context mContext;
     ActivityMyMediaBinding activityMyMediaBinding;
-    public List<GalleryImageModel> storearray = new ArrayList<>();
+    public List<GalleryImageModel> updatearray;
     MyMediaAdapter myMediaAdapter;
     final int NOTIFY_ID = 0; // ID of notification
     private NotificationManager notifManager;
     int progress = 1;
     List<GalleryImageModel> galleryimage;
-  int selectedItemPosition=-1;
+
+    int selectedItemPosition = -1;
     // Database
     DbHandler dbHandler;
     Handler timerHandler;
     Runnable timerRunnable;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,20 +67,20 @@ public class MyMediaActivity extends AppCompatActivity implements View.OnClickLi
         mContext = MyMediaActivity.this;
 
         init();
-//        timerHandler = new Handler();
-//        timerRunnable = new Runnable() {
-//            @Override
-//            public void run() {
-//                // Here you can update your adapter data
-//              refreshView();
-//                timerHandler.postDelayed(this, 1000); //run every second
-//            }
-//        };
-//
-//        timerHandler.postDelayed(timerRunnable, 1000); //Start timer after 1 sec
+        timerHandler = new Handler();
+        timerRunnable = new Runnable() {
+            @Override
+            public void run() {
+                // Here you can update your adapter data
+                refreshView();
+                timerHandler.postDelayed(this, 500); //run every second
+            }
+        };
+
+        timerHandler.postDelayed(timerRunnable, 500); //Start timer after 1 sec
 
         setListiner();
-//        setHandler();
+
     }
 
     public void init() {
@@ -109,14 +111,12 @@ public class MyMediaActivity extends AppCompatActivity implements View.OnClickLi
             myMediaAdapter = new MyMediaAdapter(mContext, galleryimage, new image_click() {
                 @Override
                 public void image_more_click() {
-                    selectedItemPosition=myMediaAdapter.SelectedPosition();
+                    selectedItemPosition = myMediaAdapter.SelectedPosition();
                     GalleryImageModel image = galleryimage.get(myMediaAdapter.SelectedPosition());
-Log.d("selectedposition : ",""+selectedItemPosition);
+                    Log.d("selectedposition : ", "" + selectedItemPosition);
                     boolean connected = Utils.checkNetwork(mContext);
                     if (connected == true) {
-                        dbHandler.UpdateImageStatus("0", image.getId());
-                        Intent intent = new Intent(mContext, UploadService.class);
-                        startService(intent);
+                        dbHandler.UpdateImageStatus("0", image.getId(),mContext);
                         createNotification(AppConfiguration.notificationtitle, getApplicationContext());
                     } else {
                         Utils.ping(mContext, "No internet available");
@@ -131,7 +131,6 @@ Log.d("selectedposition : ",""+selectedItemPosition);
             activityMyMediaBinding.showMediaRcv.setAdapter(myMediaAdapter);
 
 
-
         }
 
     }
@@ -144,30 +143,30 @@ Log.d("selectedposition : ",""+selectedItemPosition);
 
     public void refreshView() {
         if (dbHandler.getMediaImageData() != null && dbHandler.getMediaImageData().size() > 0) {
-            galleryimage = dbHandler.getMediaImageData();
+            updatearray = dbHandler.getMediaImageData();
             if (galleryimage != null && galleryimage.size() > 0) {
 
-                if (selectedItemPosition!=-1){
-//                    for (int i=0;i<galleryimage.size();i++){
-//                        if (selectedItemPosition==i){
-//                            galleryimage.get(i).setUploadcompelet(galleryimage.get(i).getUploadcompelet());
-                            myMediaAdapter.notifyItemChanged(0);
-//                        }
-//                    }
+                if (updatearray.size()== galleryimage.size()) {
+                    for (int j = 0; j < updatearray.size(); j++) {
+                        for (int i = 0; i < galleryimage.size(); i++) {
+                            if (!updatearray.get(j).getUploadcompelet().equalsIgnoreCase(galleryimage.get(i).getUploadcompelet())) {
+                                myMediaAdapter.notifyItemChanged(j, updatearray.get(j).getUploadcompelet());
+                            } else {
+                                myMediaAdapter.notifyItemChanged(i, updatearray.get(i).getUploadcompelet());
+                            }
+                        }
+                    }
                 }else{
-                    timerHandler.removeCallbacks(timerRunnable);
+                   init();
                 }
-
             } else {
                 activityMyMediaBinding.showMediaRcv.setVisibility(View.GONE);
-                Utils.ping(mContext, "No media available");
+//                Utils.ping(mContext, "No media available");
             }
         } else {
             activityMyMediaBinding.showMediaRcv.setVisibility(View.GONE);
 //            Utils.ping(mContext, "No media available");
         }
-
-
     }
 
     @Override
@@ -183,25 +182,6 @@ Log.d("selectedposition : ",""+selectedItemPosition);
                 }, 50);
                 break;
             case R.id.refresh_img:
-//               init();
-                if (dbHandler.getMediaImageData() != null && dbHandler.getMediaImageData().size() > 0) {
-                    galleryimage = dbHandler.getMediaImageData();
-                    if (galleryimage != null && galleryimage.size() > 0) {
-
-                        if (selectedItemPosition!=-1){
-//                            myMediaAdapter.notifyItemChanged(selectedItemPosition);
-                            myMediaAdapter.setItemToPostion(selectedItemPosition);
-                        }else{
-                            timerHandler.removeCallbacks(timerRunnable);
-                        }
-
-                    } else {
-                        activityMyMediaBinding.showMediaRcv.setVisibility(View.GONE);
-                        Utils.ping(mContext, "No media available");
-                    }
-                } else {
-                    activityMyMediaBinding.showMediaRcv.setVisibility(View.GONE);
-                }
                 break;
         }
     }

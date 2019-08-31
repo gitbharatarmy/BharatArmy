@@ -38,12 +38,8 @@ import retrofit2.Retrofit;
 
 
 public class UploadService extends IntentService implements ProgressRequestBody.UploadCallbacks {
-
     private int result = Activity.RESULT_CANCELED;
-    public Uri filepath;
     String filePath;
-    boolean connected;
-    int counter = 0;
     final int NOTIFY_ID = 0; // ID of notification
     private NotificationManager notifManager;
     DbHandler db;
@@ -59,9 +55,7 @@ public class UploadService extends IntentService implements ProgressRequestBody.
         db = new DbHandler(getApplicationContext());
         if (firebaseutils.UpladingFiles == null) {
             firebaseutils.UpladingFiles = new ArrayList<>();
-
         }
-
             firebaseutils.UpladingFiles = db.getAllImageData();
 
         if (firebaseutils.UpladingFiles != null && firebaseutils.UpladingFiles.size() > 0) {
@@ -72,17 +66,13 @@ public class UploadService extends IntentService implements ProgressRequestBody.
     public void UploadFiles(GalleryImageModel objfile, Intent intent) {
         filePath = objfile.getImageUri();
 
-//        if (Utils.getPref(getApplicationContext(), "image/video").equalsIgnoreCase("video")) {
-//            filePath = String.valueOf(filepath);
-//        } else {
-//            filePath = Utils.getFilePathFromUri(this, filepath);
-//        }
-
         Log.d("filepath :", filePath);
-        db.UpdateImageStatus("1", objfile.getId());
 
+        db.UpdateImageStatus("1", objfile.getId(),getApplicationContext());
         File file = new File(filePath);
         ProgressRequestBody fileBody = new ProgressRequestBody(file, this);
+
+
         MultipartBody.Part body = MultipartBody.Part.createFormData("image", file.getName(), fileBody);
         Retrofit retrofit = NetworkClient.getRetrofitClient(getApplicationContext());
         WebServices uploadAPIs = retrofit.create(WebServices.class);
@@ -99,7 +89,6 @@ public class UploadService extends IntentService implements ProgressRequestBody.
                     result = Activity.RESULT_OK;
                     db.DeleteImage(objfile.getId());
                     firebaseutils.UpladingFiles.remove(objfile);
-//                    notifManager.cancel(NOTIFY_ID);
 
                     if (firebaseutils.UpladingFiles.size() > 0) {
                         UploadFiles(firebaseutils.UpladingFiles.get(0), intent);
@@ -126,7 +115,7 @@ public class UploadService extends IntentService implements ProgressRequestBody.
             @Override
             public void onFailure(Call<LogginModel> call, Throwable t) {
                 Log.d("error :", t.toString());
-                db.UpdateImageStatus("2", objfile.getId());
+                db.UpdateImageStatus("2", objfile.getId(),getApplicationContext());
                 firebaseutils.UpladingFiles.remove(objfile);
                 if (firebaseutils.UpladingFiles.size() > 0) {
                     UploadFiles(firebaseutils.UpladingFiles.get(0), intent);

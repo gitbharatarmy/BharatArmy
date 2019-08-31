@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -95,6 +96,32 @@ public class MyMediaAdapter extends RecyclerView.Adapter<MyMediaAdapter.MyViewHo
     }
 
     @Override
+    public void onBindViewHolder(@NonNull MyViewHolder holder, int position, @NonNull List<Object> payloads) {
+
+        if (!payloads.isEmpty()){
+            GalleryImageModel detailgallery = imageDetailModel.get(position);
+            for (final Object payload : payloads) {
+                if (payload.equals("1")) {
+                    // in this case only name will be updated
+                    holder.myMediaListItemBinding.uploadsuccesLinear.setVisibility(View.VISIBLE);
+                    holder.myMediaListItemBinding.uploadStatus.setText("Uploading...");
+                } else if (payload.equals("2")) {
+                    // only age will be updated
+                    holder.myMediaListItemBinding.uploadsuccesLinear.setVisibility(View.VISIBLE);
+                    holder.myMediaListItemBinding.uploadStatus.setText("Retry");
+                }else if(payload.equals("0")){
+                    holder.myMediaListItemBinding.uploadsuccesLinear.setVisibility(View.VISIBLE);
+                    holder.myMediaListItemBinding.uploadStatus.setText("Pending...");
+                }
+            }
+        } else {
+            // in this case regular onBindViewHolder will be called
+            super.onBindViewHolder(holder, position, payloads);
+        }
+
+    }
+
+    @Override
     public long getItemId(int position) {
 // return specific item's id here
         return position;
@@ -115,10 +142,7 @@ public class MyMediaAdapter extends RecyclerView.Adapter<MyMediaAdapter.MyViewHo
     public int SelectedPosition(){
         return SelectedPosition;
     }
-    public void setItemToPostion(int itemPosition) {
-       this.imageDetailModel.get(itemPosition);
-        notifyItemChanged(itemPosition);
-    }
+
 }
 
 
