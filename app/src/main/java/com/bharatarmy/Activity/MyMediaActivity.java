@@ -1,7 +1,6 @@
 package com.bharatarmy.Activity;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.databinding.DataBindingUtil;
@@ -12,33 +11,26 @@ import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 import com.bharatarmy.Adapter.MyMediaAdapter;
 import com.bharatarmy.Interfaces.image_click;
 import com.bharatarmy.Models.GalleryImageModel;
 import com.bharatarmy.R;
-import com.bharatarmy.UploadService;
 import com.bharatarmy.Utility.AppConfiguration;
 import com.bharatarmy.Utility.DbHandler;
 import com.bharatarmy.Utility.Utils;
-import com.bharatarmy.Utility.firebaseutils;
 import com.bharatarmy.databinding.ActivityMyMediaBinding;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class MyMediaActivity extends AppCompatActivity implements View.OnClickListener {
@@ -121,8 +113,6 @@ public class MyMediaActivity extends AppCompatActivity implements View.OnClickLi
                     } else {
                         Utils.ping(mContext, "No internet available");
                     }
-
-
                 }
             });//,onTouchListener
             GridLayoutManager gridLayoutManager = new GridLayoutManager(mContext, 3);
@@ -134,13 +124,11 @@ public class MyMediaActivity extends AppCompatActivity implements View.OnClickLi
         }
 
     }
-
     public void setListiner() {
         activityMyMediaBinding.backImg.setOnClickListener(this);
         activityMyMediaBinding.refreshImg.setOnClickListener(this);
 
     }
-
     public void refreshView() {
         if (dbHandler.getMediaImageData() != null && dbHandler.getMediaImageData().size() > 0) {
             updatearray = dbHandler.getMediaImageData();
@@ -173,13 +161,7 @@ public class MyMediaActivity extends AppCompatActivity implements View.OnClickLi
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.back_img:
-                final Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    public void run() {
-                        Intent intent = new Intent(mContext, DashboardActivity.class);
-                        startActivity(intent);
-                    }
-                }, 50);
+               finish();
                 break;
             case R.id.refresh_img:
                 break;
@@ -189,15 +171,16 @@ public class MyMediaActivity extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public void onBackPressed() {
-        final Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            public void run() {
-                Intent intent = new Intent(mContext, DashboardActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
-                finish();
-            }
-        }, 50);
+        finish();
+//        final Handler handler = new Handler();
+//        handler.postDelayed(new Runnable() {
+//            public void run() {
+//                Intent intent = new Intent(mContext, DashboardActivity.class);
+//                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+//                startActivity(intent);
+//                finish();
+//            }
+//        }, 50);
 
     }
 

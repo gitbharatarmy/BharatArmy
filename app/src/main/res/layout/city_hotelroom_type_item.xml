@@ -14,7 +14,7 @@
         android:id="@+id/parentContsraint"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <!--android:background="@drawable/curve_shape"-->
+        <!--android:background="@drawable/pacakageprice_curve_shape"-->
         <ImageView
             android:id="@+id/imgSource"
             android:layout_width="0dp"

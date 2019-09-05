@@ -114,6 +114,7 @@ public class InquriyActivity extends AppCompatActivity implements View.OnClickLi
                                 //bottom of list!
                                 AppConfiguration.pageindex = AppConfiguration.pageindex + 1;
                                 Log.d("pageIndexonScroll :", "" + AppConfiguration.pageindex);
+                                activityInquriyBinding.progressBar.setVisibility(View.VISIBLE);
                                 loadMore();
 
                             }
@@ -122,6 +123,7 @@ public class InquriyActivity extends AppCompatActivity implements View.OnClickLi
                                 //bottom of list!
                                 AppConfiguration.pageindex = AppConfiguration.pageindex + 1;
                                 Log.d("pageIndexonScroll :", "" + AppConfiguration.pageindex);
+                                activityInquriyBinding.progressBar.setVisibility(View.VISIBLE);
                                 loadMore();
 
                             }
@@ -156,23 +158,6 @@ public class InquriyActivity extends AppCompatActivity implements View.OnClickLi
                 }, new MorestoryClick() {
                     @Override
                     public void getmorestoryClick() {
-//                        ArrayList<String> selectedtournamentId = new ArrayList<>();
-//                        for (int i = 0; i < filtertaglist.getTypes().size(); i++) {
-//                            if (filtertaglist.getTypes().get(i).getClickstatus().equalsIgnoreCase("1")) {
-//                                selectedtournamentId.add(String.valueOf(filtertaglist.getTypes().get(i).getValue()));
-//                                Log.d("selectedtournamentId :", selectedtournamentId.toString());
-//                            }
-//                        }
-//                        if (selectedtournamentId.size() != 0) {
-//                            String tournamentIdStr;
-//                            tournamentIdStr = "";
-//                            for (String s : selectedtournamentId) {
-//                                tournamentIdStr = tournamentIdStr + "," + s;
-//                            }
-//                            Log.d("tournamentIdStr", tournamentIdStr);
-//                            tournamentIdStr = tournamentIdStr.substring(1, tournamentIdStr.length());
-//                            Log.d("finalstatusStr", tournamentIdStr);
-//                        }
                         orderstatusStr = AppConfiguration.inquirystatusfilterarray.toString().substring(1, AppConfiguration.inquirystatusfilterarray.toString().length() - 1);
 
                         ordertypeStr = AppConfiguration.ordertypefilterarray.toString().substring(1, AppConfiguration.ordertypefilterarray.toString().length() - 1);
@@ -228,6 +213,8 @@ public class InquriyActivity extends AppCompatActivity implements View.OnClickLi
                         Log.d("filtertaglist", "" + filtertaglist.getTypes().size());
                         activityInquriyBinding.shimmerViewContainer.stopShimmerAnimation();
                         activityInquriyBinding.shimmerViewContainer.setVisibility(View.GONE);
+                        activityInquriyBinding.fabLinear.setVisibility(View.VISIBLE);
+                        activityInquriyBinding.progressBar.setVisibility(View.GONE);
                         activityInquriyBinding.inquriyListRcv.setVisibility(View.VISIBLE);
                         addOldNewValue(moreDetailDataModelList);
                         if (inquiryListAdapter != null && moreDetailDataModelList.size() > 0) {
@@ -512,38 +499,6 @@ public class InquriyActivity extends AppCompatActivity implements View.OnClickLi
     }
 
 
-//    public void selecteTournamentDialog(){
-//        multiSelectDialog = new MultiSelectDialog()
-//                .title(getResources().getString(R.string.multi_select_dialog_title)) //setting title for dialog
-//                .titleSize(25)
-//                .positiveText("Done")
-//                .negativeText("Cancel")
-//                .setMinSelectionLimit(0)
-//                .setMaxSelectionLimit(listOfCountries.size())
-//                .preSelectIDsList(alreadySelectedCountries) //List of ids that you need to be selected
-//                .multiSelectList(listOfCountries) // the multi select model list with ids and name
-//                .onSubmit(new MultiSelectDialog.SubmitCallbackListener() {
-//                    @Override
-//                    public void onSelected(ArrayList<Integer> selectedIds, ArrayList<String> selectedNames, String dataString) {
-//                        //will return list of selected IDS
-//                        for (int i = 0; i < selectedIds.size(); i++) {
-//                            Toast.makeText(mContext, "Selected Ids : " + selectedIds.get(i) + "\n" +
-//                                    "Selected Names : " + selectedNames.get(i) + "\n" +
-//                                    "DataString : " + dataString, Toast.LENGTH_SHORT).show();
-//                        }
-//
-//
-//                    }
-//
-//                    @Override
-//                    public void onCancel() {
-//                        Log.d("dialog","Dialog cancelled");
-//
-//                    }
-//                });
-//    }
-
-
     public void callInquriyfilterData() {
         if (!Utils.checkNetwork(mContext)) {
             Utils.showCustomDialog(getResources().getString(R.string.internet_error), getResources().getString(R.string.internet_connection_error), InquriyActivity.this);
@@ -575,6 +530,7 @@ public class InquriyActivity extends AppCompatActivity implements View.OnClickLi
 
                         activityInquriyBinding.shimmerViewContainer.stopShimmerAnimation();
                         activityInquriyBinding.shimmerViewContainer.setVisibility(View.GONE);
+                        activityInquriyBinding.progressBar.setVisibility(View.GONE);
                         activityInquriyBinding.inquriyListRcv.setVisibility(View.VISIBLE);
                         addOldNewValuefilterData(moreDetailDataModelList);
 

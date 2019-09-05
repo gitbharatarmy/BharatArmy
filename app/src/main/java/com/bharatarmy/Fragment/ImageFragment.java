@@ -4,11 +4,9 @@ import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,8 +20,8 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.bharatarmy.Activity.GalleryActivity;
 import com.bharatarmy.Activity.GalleryImageDetailActivity;
 import com.bharatarmy.Activity.ImageEditProfilePickerActivity;
 import com.bharatarmy.Activity.ImageVideoUploadActivity;
@@ -83,13 +81,13 @@ public class ImageFragment extends Fragment {
     boolean isLoading = false;
     GridLayoutManager gridLayoutManager;
     boolean ispull;
-    FloatingActionButton fab;
 
     String imageorvideoStr;
     SpeedDialOverlayLayout overlayLayout;
     SpeedDialView speedDialView;
 
     static final int OPEN_MEDIA_PICKER = 1;  // Request code
+
     public ImageFragment() {
         // Required empty public constructor
     }
@@ -123,10 +121,8 @@ public class ImageFragment extends Fragment {
         rootView = fragmentImageBinding.getRoot();
         mContext = getActivity().getApplicationContext();
 
-            initSpeedDial(savedInstanceState == null);
-        fab = getActivity().findViewById(R.id.fab);
-        fab.setBackgroundResource(R.drawable.ic_share_arrow);
-        fab.hide();
+        initSpeedDial(savedInstanceState == null);
+
         setUserVisibleHint(true);
         return rootView;
     }
@@ -138,13 +134,14 @@ public class ImageFragment extends Fragment {
             // Refresh your fragment here
             if (imageListAdapter == null) {
                 fragmentImageBinding.shimmerViewContainer.startShimmerAnimation();
+
                 callImageGalleryData();
             }
             setListiner();
             speedDialView = (SpeedDialView) getActivity().findViewById(R.id.speedDial);
             overlayLayout = (SpeedDialOverlayLayout) getActivity().findViewById(R.id.overlay);
             speedDialView.setVisibility(View.VISIBLE);
-            ImageEditProfilePickerActivity.clearCache(mContext);
+
 
         }
     }
@@ -206,10 +203,9 @@ public class ImageFragment extends Fragment {
                                     @Override
                                     public void onPermissionsChecked(MultiplePermissionsReport report) {
                                         if (report.areAllPermissionsGranted()) {
-                                            imageorvideoStr="video";
-                                            Utils.setPref(mContext, "cometonotification", "module");
+                                            imageorvideoStr = "video";
                                             Intent imagevideouploadIntent1 = new Intent(mContext, ImageVideoUploadActivity.class);
-                                            imagevideouploadIntent1.putExtra("image/video",imageorvideoStr);
+                                            imagevideouploadIntent1.putExtra("image/video", imageorvideoStr);
 
                                             startActivity(imagevideouploadIntent1);
                                         }
@@ -225,15 +221,30 @@ public class ImageFragment extends Fragment {
                                     }
                                 }).check();
                         speedDialView.open(); // To close the Speed Dial with animation
-                        return true; // false will close it without animation
+                        return false; // false will close it without animation
 
                     case R.id.fab_custom_color:
-                        imageorvideoStr="image";
-                        Utils.setPref(mContext, "cometonotification", "module");
-                        Intent imagevideouploadIntent1 = new Intent(mContext, ImageVideoUploadActivity.class);
-                        imagevideouploadIntent1.putExtra("image/video",imageorvideoStr);
-                        imagevideouploadIntent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        mContext.startActivity(imagevideouploadIntent1);
+                        Dexter.withActivity(getActivity())
+                                .withPermissions(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE)
+                                .withListener(new MultiplePermissionsListener() {
+                                    @Override
+                                    public void onPermissionsChecked(MultiplePermissionsReport report) {
+                                        if (report.areAllPermissionsGranted()) {
+                                            imageorvideoStr = "image";
+                                            Intent imagevideouploadIntent1 = new Intent(mContext, ImageVideoUploadActivity.class);
+                                            imagevideouploadIntent1.putExtra("image/video", imageorvideoStr);
+                                            imagevideouploadIntent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                            mContext.startActivity(imagevideouploadIntent1);
+                                        }
+
+                                    }
+
+                                    @Override
+                                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
+                                        token.continuePermissionRequest();
+                                    }
+                                }).check();
+
                         speedDialView.open();
                         return false; // closes without animation (same as speedDialView.close(false); return false;)
 
@@ -251,13 +262,13 @@ public class ImageFragment extends Fragment {
         fragmentImageBinding.imageRcyList.setLayoutManager(gridLayoutManager); // set LayoutManager to RecyclerView
 
 
-//        fragmentImageBinding.refreshView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-//            @Override
-//            public void onRefresh() {
-//                callImageGalleryPullData();
-//                fragmentImageBinding.refreshView.setRefreshing(false);
-//            }
-//        });
+        fragmentImageBinding.refreshView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+         callImageGalleryPullData();
+                fragmentImageBinding.refreshView.setRefreshing(false);
+            }
+        });
 
         fragmentImageBinding.imageRcyList.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -271,17 +282,18 @@ public class ImageFragment extends Fragment {
 
 
                 if (!isLoading) {
+
                     if (gridLayoutManager != null && gridLayoutManager.findLastCompletelyVisibleItemPosition() == imageDetailModelsList.size() - 1) {
                         //bottom of list!
                         ispull = false;
                         pageIndex = pageIndex + 1;
-                        loadMore();
+                        fragmentImageBinding.progressBar.setVisibility(View.VISIBLE);
 
+                        loadMore();
                     }
                 }
             }
         });
-
     }
 
 
@@ -315,15 +327,18 @@ public class ImageFragment extends Fragment {
                     if (imageMainModel.getData() != null) {
                         fragmentImageBinding.shimmerViewContainer.stopShimmerAnimation();
                         fragmentImageBinding.shimmerViewContainer.setVisibility(View.GONE);
+                        fragmentImageBinding.progressBar.setVisibility(View.GONE);
                         imageDetailModelsList = imageMainModel.getData();
 
                         addOldNewValue(imageDetailModelsList);
                         if (imageListAdapter != null && imageDetailModelsList.size() > 0) {
                             imageListAdapter.addMoreDataToList(imageDetailModelsList);
+
                             // just append more data to current list
                         } else if (imageListAdapter != null && imageDetailModelsList.size() == 0) {
                             isLoading = true;
                             addOldNewValue(imageMainModel.getData());
+
                         } else {
                             fillImageGallery();
                         }
@@ -353,6 +368,8 @@ public class ImageFragment extends Fragment {
     }
 
     public void fillImageGallery() {
+
+
         imageListAdapter = new ImageListAdapter(mContext, imageDetailModelsList, new image_click() {
             @Override
             public void image_more_click() {
@@ -421,8 +438,8 @@ public class ImageFragment extends Fragment {
                     if (imageMainModel.getData() != null) {
                         imageDetailModelsList = imageMainModel.getData();
 
-//                        addOldNewPullValue (imageDetailModelsList);
-                        imageListAdapter.notifyDataSetChanged();
+
+                      imageListAdapter.notifyDataSetChanged();
                     }
 
                 }
@@ -460,7 +477,7 @@ public class ImageFragment extends Fragment {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
-                    openSettings();
+                openSettings();
             }
         });
         builder.setNegativeButton(getString(android.R.string.cancel), new DialogInterface.OnClickListener() {
@@ -483,48 +500,25 @@ public class ImageFragment extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // Check which request we're responding to
-//        if (requestCode == OPEN_MEDIA_PICKER) {
-//            // Make sure the request was successful
-//            if (resultCode == RESULT_OK && data != null) {
-//                ArrayList<String> selectionResult=data.getStringArrayListExtra("result");
-//            }
-//        }
-
-
         if (resultCode == RESULT_OK) {
             if (requestCode == OPEN_MEDIA_PICKER) {
                 Uri selectedImageUri = data.getData();
 
                 // OI FILE Manager
-               String  filemanagerstring = selectedImageUri.getPath();
+                String filemanagerstring = selectedImageUri.getPath();
 
                 if (filemanagerstring != null) {
 
                     Intent intent = new Intent(mContext,
                             ImageVideoUploadActivity.class);
-                   intent.setData(selectedImageUri);
-                   intent.putExtra("image/video",imageorvideoStr);
+                    intent.setData(selectedImageUri);
+                    intent.putExtra("image/video", imageorvideoStr);
                     startActivity(intent);
                 }
             }
         }
     }
 
-    // UPDATED!
-    public String getPath(Uri uri) {
-        String[] projection = { MediaStore.Video.Media.DATA };
-        Cursor cursor = getActivity().getContentResolver().query(uri, projection, null, null, null);
-        if (cursor != null) {
-            // HERE YOU WILL GET A NULLPOINTER IF CURSOR IS NULL
-            // THIS CAN BE, IF YOU USED OI FILE MANAGER FOR PICKING THE MEDIA
-            int column_index = cursor
-                    .getColumnIndexOrThrow(MediaStore.Video.Media.DATA);
-            cursor.moveToFirst();
-            return cursor.getString(column_index);
-        } else
-            return null;
-    }
 }
 
 

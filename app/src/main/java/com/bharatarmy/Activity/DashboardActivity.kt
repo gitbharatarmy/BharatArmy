@@ -5,14 +5,11 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
-import android.util.Log
 import android.view.View
 import android.view.Menu
 import android.view.MenuItem
-import android.view.MotionEvent
 import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.ScrollView
 import android.widget.TextView
 
 import androidx.appcompat.app.ActionBarDrawerToggle
@@ -29,39 +26,30 @@ import com.bharatarmy.Fragment.*
 import com.bharatarmy.R
 import com.bharatarmy.Utility.AppConfiguration
 import com.bharatarmy.Utility.Utils
-import com.bumptech.glide.Glide
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
 import com.leinardi.android.speeddial.SpeedDialOverlayLayout
 import com.leinardi.android.speeddial.SpeedDialView
 import kotlinx.android.synthetic.main.app_bar_dashboard.*
-import kotlinx.android.synthetic.main.fragment_story_category.*
+
+
 // remove code 29/07/2019
-class DashboardActivity : AppCompatActivity(), View.OnClickListener, TravelFragment.OnItemClick, StoryFragment.OnItemClick, StoryCategoryFragment.OnItemClick,HomeFragment.OnItemClick {
+// remove extra code 03/09/2019 with noon backup
+class DashboardActivity : AppCompatActivity(), View.OnClickListener, StoryFragment.OnItemClick, StoryCategoryFragment.OnItemClick,HomeFragment.OnItemClick {
 
 
     internal lateinit var mContext: Context
     private var fragment: Fragment? = null
     internal lateinit var drawer: DrawerLayout
 
-    internal lateinit var home_img: ImageView
-    internal lateinit var history_img: ImageView
-    internal lateinit var profile_img: ImageView
-    internal lateinit var fan_img: ImageView
+
     internal lateinit var user_profile_img: ImageView
     internal lateinit var proflie_linear:LinearLayout
-    internal lateinit var home_txt: TextView
-    internal lateinit var history_txt: TextView
-    internal lateinit var profile_txt: TextView
-    internal lateinit var fan_txt: TextView
     internal lateinit var user_name_txt: TextView
     internal lateinit var navigationView: NavigationView
     internal lateinit var toolbar: Toolbar
     private var navHeader: View? = null
-    internal lateinit var old_menu: CardView
-    internal lateinit var new_menu: CardView
-    internal lateinit var filter_fab: FloatingActionButton
+
     internal lateinit var speedDial: SpeedDialView
     internal lateinit var overlay: SpeedDialOverlayLayout
 
@@ -100,7 +88,6 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, TravelFragm
         // load nav menu header data
         loadNavHeader()
 
-        setListiner()
         // initializing navigation menu
 //        setUpNavigationView()
 
@@ -118,8 +105,7 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, TravelFragm
         user_profile_img = navHeader!!.findViewById<View>(R.id.profile_image) as ImageView
         proflie_linear=navHeader!!.findViewById<View>(R.id.proflie_linear)as LinearLayout
         user_name_txt = navHeader!!.findViewById<View>(R.id.textView) as TextView
-        filter_fab = findViewById<View>(R.id.fab) as FloatingActionButton
-        filter_fab.hide()
+
         AppConfiguration.firstDashStr = "true"
 
 
@@ -156,10 +142,6 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, TravelFragm
                     loadHomeFragment()
                 }
                 4 -> {
-
-//                    navItemIndex = 7
-//                    fragment = FTPFragment()
-//                    loadFragment(fragment as FTPFragment)
                     navItemIndex = 6
                     fragment = StoryFragment()
                     loadFragment(fragment as StoryFragment)
@@ -174,12 +156,6 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, TravelFragm
             }
         }
     }
-
-    fun setListiner() {
-    }
-
-
-
 
     private fun loadNavHeader() {
         // name, website
@@ -261,115 +237,6 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, TravelFragm
         //        getSupportActionBar().setTitle(activityTitles[navItemIndex]);
     }
 
-    private fun setUpNavigationView() {
-        //Setting Navigation View Item Selected Listener to handle the item click of the navigation menu
-        navigationView.setNavigationItemSelectedListener { menuItem ->
-            // This method will trigger on item Click of navigation menu
-            //Check to see which item was being clicked and perform appropriate action
-            when (menuItem.itemId) {
-                //Replacing the main content with ContentFragment Which is our Inbox View;
-                R.id.nav_history -> {
-                    val fragment = HistoryFragment()
-                    val fragmentTransaction = supportFragmentManager.beginTransaction()
-                    fragmentTransaction.setCustomAnimations(0, 0)
-                    fragmentTransaction.replace(R.id.frame_container, fragment)
-                    fragmentTransaction.commit()
-                    drawer.closeDrawers()
-                    navItemIndex = 1
-
-                }
-                R.id.nav_aboutus -> {
-                    navItemIndex = 3
-                    // launch new intent instead of loading fragment
-                    val webviewIntent = Intent(mContext, MoreStoryActivity::class.java)
-                    webviewIntent.putExtra("Story Heading", "Ab Jeetega India")
-                    webviewIntent.putExtra("StroyUrl", "http://ajif.in/")
-                    webviewIntent.putExtra("whereTocome", "aboutus")
-                    webviewIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                    mContext.startActivity(webviewIntent)
-                    drawer.closeDrawers()
-
-                }
-                R.id.nav_contactus -> {
-                    navItemIndex = 4
-                    val contactusIntent = Intent(mContext, ContactusActivity::class.java)
-                    mContext.startActivity(contactusIntent)
-                    drawer.closeDrawers()
-
-                }
-                R.id.nav_rateus -> {
-                    navItemIndex = 5
-                    drawer.closeDrawers()
-                }
-                R.id.nav_logout -> {
-                    val alertDialog2 = AlertDialog.Builder(
-                            this@DashboardActivity)
-                    alertDialog2.setTitle("Logout Confirm")
-                    alertDialog2.setMessage("Are you sure you want logout?")
-                    alertDialog2.setIcon(R.drawable.app_logo)
-                    alertDialog2.setCancelable(false)
-                    alertDialog2.setPositiveButton("YES"
-                    ) { dialog, which ->
-                        // Write your code here to execute after dialog
-                        Utils.setPref(mContext, "LoginUserName", "")
-                        Utils.setPref(mContext, "LoginEmailId", "")
-                        Utils.setPref(mContext, "LoginPhoneNo", "")
-                        Utils.setPref(mContext, "LoginProfilePic", "")
-                        Utils.setPref(mContext, "EmailVerified", "")
-                        Utils.setPref(mContext, "PhoneVerified", "")
-                        Utils.setPref(mContext, "AppUserId", "")
-                        Utils.setPref(mContext, "Gender", "")
-
-                        Utils.ping(mContext, "You are logout suceessfully")
-                        val ilogin = Intent(mContext, LoginActivity::class.java)
-                        startActivity(ilogin)
-                        finish()
-                    }
-                    alertDialog2.setNegativeButton("NO"
-                    ) { dialog, which ->
-                        // Write your code here to execute after dialog
-
-                        dialog.cancel()
-                    }
-                    alertDialog2.show()
-                    drawer.closeDrawers()
-                }
-                else -> navItemIndex = 0
-            }
-
-            //Checking if the item is in checked state or not, if not make it in checked state
-            if (menuItem.isChecked) {
-                menuItem.isChecked = false
-            } else {
-                menuItem.isChecked = true
-            }
-            menuItem.isChecked = true
-
-            //                loadHomeFragment();
-
-            true
-        }
-
-
-        val actionBarDrawerToggle = object : ActionBarDrawerToggle(this, drawer, toolbar, R.string.openDrawer, R.string.closeDrawer) {
-
-            override fun onDrawerClosed(drawerView: View) {
-                // Code here will be triggered once the drawer closes as we dont want anything to happen so we leave this blank
-                super.onDrawerClosed(drawerView)
-            }
-
-            override fun onDrawerOpened(drawerView: View) {
-                // Code here will be triggered once the drawer open as we dont want anything to happen so we leave this blank
-                super.onDrawerOpened(drawerView)
-            }
-        }
-        actionBarDrawerToggle.drawerArrowDrawable.color = resources.getColor(R.color.splash_bg_color)
-        //Setting the actionbarToggle to drawer layout
-        drawer.setDrawerListener(actionBarDrawerToggle)
-        //calling sync state is necessary or else your hamburger icon wont show up
-        actionBarDrawerToggle.syncState()
-    }
-
     override fun onBackPressed() {
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawers()
@@ -420,29 +287,6 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, TravelFragm
     @SuppressLint("RestrictedApi")
     override fun onClick(v: View) {
         when (v.id) {
-            R.id.profile_linear -> {
-                profile_img.setColorFilter(ContextCompat.getColor(mContext,
-                        R.color.sign_up))
-                profile_txt.setTextColor(ContextCompat.getColor(mContext,
-                        R.color.sign_up))
-
-                home_img.setColorFilter(ContextCompat.getColor(mContext,
-                        R.color.unselected_icon_color))
-                home_txt.setTextColor(ContextCompat.getColor(mContext,
-                        R.color.unselected_icon_color))
-
-                history_img.setColorFilter(ContextCompat.getColor(mContext,
-                        R.color.unselected_icon_color))
-                history_txt.setTextColor(ContextCompat.getColor(mContext,
-                        R.color.unselected_icon_color))
-                fan_img.setColorFilter(ContextCompat.getColor(mContext,
-                        R.color.unselected_icon_color))
-                fan_txt.setTextColor(ContextCompat.getColor(mContext,
-                        R.color.unselected_icon_color))
-                navItemIndex = 2
-                fragment = MyProfileFragment()
-                loadFragment(fragment as MyProfileFragment)
-            }
             R.id.profile_image -> {
                 navItemIndex = 2
                 val profileView = Intent(mContext, MyProfileActivity::class.java)
@@ -460,12 +304,6 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, TravelFragm
         }
     }
 
-    override fun onTrave() {
-        if (fragment != null) {
-            old_menu.visibility = View.VISIBLE
-            new_menu.visibility = View.GONE
-        }
-    }
 
 
     override fun onStoryCategory(categoryId: String?, categoryName: String?,wheretocome: String?) {

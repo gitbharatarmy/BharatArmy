@@ -21,6 +21,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
+
 import com.bharatarmy.Models.GetWalkthroughModel;
 import com.bharatarmy.Models.WalkthroughData;
 import com.bharatarmy.R;
@@ -50,7 +51,8 @@ public class WalkThrough extends AppCompatActivity {
     private List<WalkthroughData> walkthroughDataList;
     private Button btnSkip, btnNext;
     Context mContext;
-PrefManager prefManager;
+    PrefManager prefManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,7 +68,6 @@ PrefManager prefManager;
         dotsLayout = (LinearLayout) findViewById(R.id.layoutDots);
         btnSkip = (Button) findViewById(R.id.btn_skip);
         btnNext = (Button) findViewById(R.id.btn_next);
-
 
 
         callWalkThroughData();
@@ -223,6 +224,7 @@ PrefManager prefManager;
                             public void onClick(View v) {
                                 Intent login = new Intent(WalkThrough.this, LoginActivity.class);
                                 startActivity(login);
+                                finish();
                             }
                         });
 
@@ -238,6 +240,7 @@ PrefManager prefManager;
                                 } else {
                                     Intent login = new Intent(WalkThrough.this, LoginActivity.class);
                                     startActivity(login);
+                                    finish();
                                 }
                             }
                         });
@@ -268,7 +271,7 @@ PrefManager prefManager;
      */
     public class MyViewPagerAdapter extends PagerAdapter {
         private LayoutInflater layoutInflater;
-        private ImageView  banner_img;
+        private ImageView banner_img;
         private TextView header_txt;
 
         public MyViewPagerAdapter() {
@@ -286,13 +289,13 @@ PrefManager prefManager;
             header_txt = (TextView) view.findViewById(R.id.heading_txt);
 
 
-            Glide.with(mContext)
-                    .load(walkthroughDataList.get(position).getBannerImageURL())
-                    .placeholder(R.drawable.loader)
-                    .centerCrop()
-                    .into(banner_img);
+//            Glide.with(mContext)
+//                    .load(walkthroughDataList.get(position).getBannerImageURL())
+//                    .placeholder(R.drawable.loader)
+//                    .centerCrop()
+//                    .into(banner_img);
 
-
+            Utils.setImageInImageView(walkthroughDataList.get(position).getBannerImageURL(), banner_img, mContext);
 
             header_txt.setText(walkthroughDataList.get(position).getHeaderText());
 

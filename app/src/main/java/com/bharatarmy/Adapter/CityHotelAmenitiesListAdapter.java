@@ -36,16 +36,13 @@ public class CityHotelAmenitiesListAdapter extends RecyclerView.Adapter<CityHote
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-//ImageView amenities_image;
-//TextView amenities_nameTxt;
+
 
         HotelAmenitiesItemBinding hotelAmenitiesItemBinding;
 
 
         public MyViewHolder(HotelAmenitiesItemBinding hotelAmenitiesItemBinding) {
             super(hotelAmenitiesItemBinding.getRoot());
-//            amenities_image=(ImageView)view.findViewById(R.id.amenities_image);
-//            amenities_nameTxt=(TextView)view.findViewById(R.id.amenities_nameTxt);
 
             this.hotelAmenitiesItemBinding=hotelAmenitiesItemBinding;
         }

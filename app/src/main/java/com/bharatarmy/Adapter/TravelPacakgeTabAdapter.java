@@ -18,7 +18,6 @@ import com.bharatarmy.Activity.TravelPacakagePlaceDetailActivity;
 import com.bharatarmy.Models.TravelDetailModel;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.Utils;
-import com.bharatarmy.databinding.MainPageChildItemBinding;
 import com.bharatarmy.databinding.TravelpacakgeTabItemBinding;
 
 import java.util.List;
@@ -36,31 +35,11 @@ public class TravelPacakgeTabAdapter extends RecyclerView.Adapter<TravelPacakgeT
     public class MyViewHolder extends RecyclerView.ViewHolder {
         TravelpacakgeTabItemBinding travelpacakgeTabItemBinding;
 
-//        CardView day1, day2, day3;
-//        TextView visitPlace_title_txt, visitplace_desc_txt, time_txt, secondplaceVisit_title_txt, secondplacevisit_description_txt,
-//                thirdplacevisit_title_txt, thirdplacevisit_desc_txt;
-//        ImageView secondplace_visitimage;
 
         public MyViewHolder(TravelpacakgeTabItemBinding travelpacakgeTabItemBinding) {
             super(travelpacakgeTabItemBinding.getRoot());
-
-
             this.travelpacakgeTabItemBinding=travelpacakgeTabItemBinding;
 
-//            day1 = (CardView) view.findViewById(R.id.day1);
-//            day2 = (CardView) view.findViewById(R.id.day2);
-//            day3 = (CardView) view.findViewById(R.id.day3);
-//
-//
-//            visitPlace_title_txt = (TextView) view.findViewById(R.id.visitPlace_title_txt);
-//            visitplace_desc_txt = (TextView) view.findViewById(R.id.visitplace_desc_txt);
-//            time_txt = (TextView) view.findViewById(R.id.time_txt);
-//            secondplaceVisit_title_txt = (TextView) view.findViewById(R.id.secondplaceVisit_title_txt);
-//            secondplacevisit_description_txt = (TextView) view.findViewById(R.id.secondplacevisit_description_txt);
-//            thirdplacevisit_title_txt = (TextView) view.findViewById(R.id.thirdplacevisit_title_txt);
-//            thirdplacevisit_desc_txt = (TextView) view.findViewById(R.id.thirdplacevisit_desc_txt);
-//
-//            secondplace_visitimage = (ImageView) view.findViewById(R.id.secondplace_visitimage);
         }
     }
 

@@ -12,8 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bharatarmy.Models.InquiryOrderTypeModel;
 import com.bharatarmy.R;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public class InquiryOrderTypeAdapter extends RecyclerView.Adapter<InquiryOrderTypeAdapter.ViewHolder> {

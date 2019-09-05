@@ -2,13 +2,10 @@ package com.bharatarmy.Adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.text.Html;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,10 +14,7 @@ import com.bharatarmy.Models.GalleryImageModel;
 import com.bharatarmy.R;
 import com.bharatarmy.databinding.CommentListItemBinding;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 
 public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter.MyViewHolder> {
     Context mcontext;
@@ -35,19 +29,9 @@ public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter.
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
         CommentListItemBinding commentListItemBinding;
-//         CircleImageView user_image;
-//         TextView commented_user_name_txt,commented_user_time_txt,
-//                 comment_view_txt,comment_reply_txt,comment_likes_txt,
-//                 total_likes_txt;
+
         public MyViewHolder(CommentListItemBinding commentListItemBinding) {
             super(commentListItemBinding.getRoot());
-//            user_image=(CircleImageView)view.findViewById(R.id.user_image);
-//            commented_user_name_txt=(TextView)view.findViewById(R.id.commented_user_name_txt);
-//            commented_user_time_txt=(TextView)view.findViewById(R.id.commented_user_time_txt);
-//            comment_view_txt=(TextView)view.findViewById(R.id.comment_view_txt);
-//            comment_reply_txt=(TextView)view.findViewById(R.id.comment_reply_txt);
-//            comment_likes_txt=(TextView)view.findViewById(R.id.comment_likes_txt);
-//            total_likes_txt=(TextView)view.findViewById(R.id.total_likes_txt);
 
 
             this.commentListItemBinding=commentListItemBinding;
@@ -57,10 +41,7 @@ public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter.
 
     @Override
     public CommentListAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-//        View itemView = LayoutInflater.from(parent.getContext())
-//                .inflate(R.layout.comment_list_item, parent, false);
-//
-//        return new CommentListAdapter.MyViewHolder(itemView);
+
         CommentListItemBinding commentListItemBinding= DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
                 R.layout.comment_list_item,parent,false);
         return new CommentListAdapter.MyViewHolder(commentListItemBinding);

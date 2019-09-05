@@ -68,10 +68,6 @@ public class DbHandler extends SQLiteOpenHelper {
         // Insert the new row, returning the primary key value of the new row
         db.insert(TABLE_GALLERYUPLOAD, null, cValues); // long newRowId =
         db.close();
-        if (!Utils.isMyServiceRunning(context)){
-            Intent intent = new Intent(context, UploadService.class);
-            context.startService(intent);
-        }
     }
 
     // Update Image Details

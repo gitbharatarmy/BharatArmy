@@ -30,7 +30,9 @@ import com.bharatarmy.Utility.firebaseutils;
 import java.io.File;
 import java.util.ArrayList;
 
+import okhttp3.MediaType;
 import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -43,6 +45,8 @@ public class UploadService extends IntentService implements ProgressRequestBody.
     final int NOTIFY_ID = 0; // ID of notification
     private NotificationManager notifManager;
     DbHandler db;
+    String fileTypeId;
+    RequestBody appuserId, filetypeId, memberName;
 
     public UploadService() {
         super("UploadService");
@@ -56,9 +60,17 @@ public class UploadService extends IntentService implements ProgressRequestBody.
         if (firebaseutils.UpladingFiles == null) {
             firebaseutils.UpladingFiles = new ArrayList<>();
         }
-            firebaseutils.UpladingFiles = db.getAllImageData();
+        firebaseutils.UpladingFiles = db.getAllImageData();
 
         if (firebaseutils.UpladingFiles != null && firebaseutils.UpladingFiles.size() > 0) {
+            appuserId = RequestBody.create(MediaType.parse("text/plain"), Utils.getPref(getApplicationContext(), "AppUserId"));
+            if (Utils.getPref(getApplicationContext(), "image/video").equalsIgnoreCase("image")) {
+                fileTypeId = "2";
+            } else {
+                fileTypeId = "4";
+            }
+            filetypeId = RequestBody.create(MediaType.parse("text/plain"), fileTypeId);
+            memberName = RequestBody.create(MediaType.parse("text/plain"), Utils.getPref(getApplicationContext(), "LoginUserName"));
             UploadFiles(firebaseutils.UpladingFiles.get(0), intent);
         }
     }
@@ -68,7 +80,7 @@ public class UploadService extends IntentService implements ProgressRequestBody.
 
         Log.d("filepath :", filePath);
 
-        db.UpdateImageStatus("1", objfile.getId(),getApplicationContext());
+        db.UpdateImageStatus("1", objfile.getId(), getApplicationContext());
         File file = new File(filePath);
         ProgressRequestBody fileBody = new ProgressRequestBody(file, this);
 
@@ -77,8 +89,8 @@ public class UploadService extends IntentService implements ProgressRequestBody.
         Retrofit retrofit = NetworkClient.getRetrofitClient(getApplicationContext());
         WebServices uploadAPIs = retrofit.create(WebServices.class);
 
-        Call<LogginModel> call = uploadAPIs.uploadfiles(body);
-
+        Call<LogginModel> call = uploadAPIs.uploadfiles(body, filetypeId, appuserId, memberName);
+        Log.d("File", "" + call);
         call.enqueue(new Callback<LogginModel>() {
 
             @Override
@@ -86,6 +98,7 @@ public class UploadService extends IntentService implements ProgressRequestBody.
 
                 Log.d("response : ", response.message().toString());
                 if (response.message().equalsIgnoreCase("OK")) {
+                    Log.d("result", "" + result);
                     result = Activity.RESULT_OK;
                     db.DeleteImage(objfile.getId());
                     firebaseutils.UpladingFiles.remove(objfile);
@@ -94,38 +107,43 @@ public class UploadService extends IntentService implements ProgressRequestBody.
                         UploadFiles(firebaseutils.UpladingFiles.get(0), intent);
                         createNotification(AppConfiguration.notificationtitle, getApplicationContext());
                     } else {
-                        firebaseutils.UpladingFiles = db.getAllImageData();
-                        if (firebaseutils.UpladingFiles != null && firebaseutils.UpladingFiles.size() > 0) {
-                            UploadFiles(firebaseutils.UpladingFiles.get(0), intent);
-                            createNotification(AppConfiguration.notificationtitle, getApplicationContext());
-                        } else {
+//                        firebaseutils.UpladingFiles = db.getAllImageData();
+//                        if (firebaseutils.UpladingFiles != null && firebaseutils.UpladingFiles.size() > 0) {
+//                            UploadFiles(firebaseutils.UpladingFiles.get(0), intent);
+//                            createNotification(AppConfiguration.notificationtitle, getApplicationContext());
+//                        } else {
                             if (notifManager == null) {
                                 notifManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
                             }
                             notifManager.cancel(NOTIFY_ID);
                             stopService(intent);
-                        }
+//                        }
 
                     }
                 }
 
-                Log.d("result", "" + result);
             }
 
             @Override
             public void onFailure(Call<LogginModel> call, Throwable t) {
                 Log.d("error :", t.toString());
-                db.UpdateImageStatus("2", objfile.getId(),getApplicationContext());
-                firebaseutils.UpladingFiles.remove(objfile);
-                if (firebaseutils.UpladingFiles.size() > 0) {
-                    UploadFiles(firebaseutils.UpladingFiles.get(0), intent);
-                } else {
-                    if (notifManager == null) {
-                        notifManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
+                Log.d("error :", t.getClass().getSimpleName());
+                if (!t.getClass().getSimpleName().equalsIgnoreCase("FileNotFoundException")) {
+                    db.UpdateImageStatus("2", objfile.getId(), getApplicationContext());
+                    firebaseutils.UpladingFiles.remove(objfile);
+                    if (firebaseutils.UpladingFiles.size() > 0) {
+                        UploadFiles(firebaseutils.UpladingFiles.get(0), intent);
+                    } else {
+                        if (notifManager == null) {
+                            notifManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
+                        }
+                        notifManager.cancel(NOTIFY_ID);
+                        stopService(intent);
                     }
-                    notifManager.cancel(NOTIFY_ID);
-                    //stopService();
+                } else {
+                    db.DeleteImage(objfile.getId());
                 }
+
             }
         });
     }

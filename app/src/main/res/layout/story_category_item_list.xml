@@ -1,44 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
+<layout >
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="@dimen/_150sdp"
-    android:layout_height="@dimen/_220sdp"
-    android:layout_marginTop="@dimen/_2sdp"
-    android:layout_marginLeft="@dimen/_1sdp"
-    android:layout_marginRight="@dimen/_1sdp"
-    android:orientation="vertical">
-
-    <androidx.cardview.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/_210sdp"
-        android:background="@color/splash_bg_color"
-        android:layout_margin="@dimen/_5sdp"
-        card_view:cardCornerRadius="1dp"
-        card_view:cardElevation="3dp"
-        card_view:cardMaxElevation="6dp">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/_210sdp"
+    android:layout_margin="@dimen/_3sdp"
+    android:background="@drawable/match_detail_curveshape"
+    android:elevation="3dp"
+    android:orientation="vertical"
+    app:cardMaxElevation="6dp">
 
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingLeft="1dp"
-            android:paddingTop="1dp"
-            android:paddingRight="1dp">
             <RelativeLayout
                 android:id="@+id/header_banner_rcv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
-
-                <ImageView
+                <com.bharatarmy.RoundishImageView
                     android:id="@+id/banner_img"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_100sdp"
+                    android:adjustViewBounds="true"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/ajif" />
+                    android:src="@drawable/australia_tour"
+                    app:cornerRadius="@dimen/round_corner_radius"
+                    app:roundedCorners="topRight" />
+
 
                 <LinearLayout
-
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/_15sdp"
                     android:orientation="horizontal"
@@ -118,7 +107,8 @@
                     android:id="@+id/date_img"
                     android:layout_width="@dimen/_11sdp"
                     android:layout_height="@dimen/_11sdp"
-                    android:src="@drawable/ic_calendar"
+                    android:src="@drawable/calendar"
+                    android:tint="@color/skip_color"
                     android:layout_gravity="center_vertical"/>
                 <TextView
                     android:id="@+id/date_txt"
@@ -127,7 +117,7 @@
                     android:text="06 Feb 19"
                     android:gravity="center_vertical"
                     android:paddingLeft="@dimen/_2sdp"
-                    android:textColor="@color/NotActive_dot_color"
+                    android:textColor="@color/skip_color"
                     style="@style/text_font"
                     android:textSize="@dimen/_9sdp"/>
                 <ImageView
@@ -135,6 +125,7 @@
                     android:layout_width="@dimen/_11sdp"
                     android:layout_height="@dimen/_11sdp"
                     android:src="@drawable/ic_eye"
+                    android:tint="@color/skip_color"
                     android:layout_marginLeft="@dimen/_5sdp"
                     android:layout_gravity="center_vertical"/>
                 <TextView
@@ -144,7 +135,7 @@
                     android:text="06 Feb 19"
                     android:gravity="center_vertical"
                     android:paddingLeft="@dimen/_2sdp"
-                    android:textColor="@color/NotActive_dot_color"
+                    android:textColor="@color/skip_color"
                     style="@style/text_font"
                     android:textSize="@dimen/_9sdp"/>
                 <ImageView
@@ -180,7 +171,7 @@
                     android:id="@+id/profile_image"
                     android:layout_width="@dimen/_15sdp"
                     android:layout_height="@dimen/_15sdp"
-                    android:src="@drawable/ic_avatar"
+                    android:src="@drawable/proflie"
                     app:civ_border_width="1dp"
                     android:layout_gravity="center_vertical"
                     app:civ_border_color="#2a3550"/>
@@ -192,11 +183,10 @@
                     android:text="06 Feb 19"
                     android:layout_gravity="center_vertical"
                     android:paddingLeft="@dimen/_2sdp"
-                    android:textColor="@color/gray"
+                    android:textColor="@color/heading_bg"
                     style="@style/text_font"
                     android:textSize="@dimen/_10sdp" />
             </LinearLayout>
-        </LinearLayout>
 
-    </androidx.cardview.widget.CardView>
 </LinearLayout>
+</layout>

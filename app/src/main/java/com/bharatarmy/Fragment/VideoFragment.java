@@ -106,8 +106,7 @@ public class VideoFragment extends Fragment {
 
         rootView = fragmentVideoBinding.getRoot();
         mContext = getActivity().getApplicationContext();
-        fab = getActivity().findViewById(R.id.fab);
-        fab.hide();
+
         setUserVisibleHint(true);
         return rootView;
     }
@@ -273,9 +272,6 @@ public class VideoFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if (videoDetailModelsList!=null&& videoDetailModelsList.size()>0){
-            videoDetailModelsList.clear();
-        }
-
+        videoDetailModelsList.clear();
     }
 }

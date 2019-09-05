@@ -33,9 +33,7 @@ public class MoreStoryActivity extends BaseActivity implements View.OnClickListe
 
         getDataValue();
         setListiner();
-//        setTitleText(storyHeadingStr);
-//        setBackButton(MoreStoryActivity.this);
-//        setShareBtn(MoreStoryActivity.this,storyUrlStr,strWheretocome);
+
     }
 
     public void setListiner() {

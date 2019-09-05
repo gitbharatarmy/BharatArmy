@@ -33,15 +33,14 @@
     <dimen name="bottom_padding_recycler_view">60dp</dimen> <!-- bottom_sheet_peek_height + 10dp -->
 
 
-    <integer name="add_remove_duration">450</integer>
     <dimen name="google_1x">8dp</dimen>
+    <dimen name="more_rowTop">@dimen/_15sdp</dimen>
     <!--More Screen Dimens-->
-<dimen name="more_rowTop">@dimen/_15sdp</dimen>
-<dimen name="more_rowLeft">@dimen/_15sdp</dimen>
+    <dimen name="more_rowLeft">@dimen/_15sdp</dimen>
     <dimen name="more_rowRight">@dimen/_15sdp</dimen>
+    <dimen name="welcome_images_size">360.0dip</dimen>
     <!--walkthorugh-->
     <!--Welcome sliding page  -->
-    <dimen name="welcome_images_size">360.0dip</dimen>
     <dimen name="welcome_images_margin_top">0.0dip</dimen>
     <dimen name="welcome_heading_margin_bottom">12.0dip</dimen>
     <dimen name="welcome_text_margin">48.0dip</dimen>
@@ -49,31 +48,30 @@
     <dimen name="welcome_text_margin_bottom">12.0dip</dimen>
     <dimen name="welcome_content_min_height">96.0dip</dimen>
     <dimen name="welcome_content">@dimen/_13sdp</dimen>
-
+    <dimen name="detail_backdrop_height">@dimen/_300sdp</dimen>
 
     <!--Travel-->
-    <dimen name="detail_backdrop_height">@dimen/_300sdp</dimen>
     <dimen name="detail_travelbackdrop_height">@dimen/_400sdp</dimen>
     <dimen name="card_margin">16dp</dimen>
     <dimen name="font_size_heading">25sp</dimen>
     <dimen name="font_size_subheading">18sp</dimen>
     <dimen name="font_size_normal">14sp</dimen>
-
     <dimen name="recyclerview_margin">10dp</dimen>
+
     <dimen name="layout_margin">10dp</dimen>
     <dimen name="searchview_margin">5dp</dimen>
     <dimen name="text_button_size">14sp</dimen>
     <dimen name="textview_margin">10dp</dimen>
     <dimen name="line_margin">40dp</dimen>
-
     <dimen name="header_view_start_margin_left">16dp</dimen>
+
     <dimen name="header_view_end_margin_left">40dp</dimen>
     <dimen name="header_view_end_margin_right">14dp</dimen>
     <dimen name="header_view_start_margin_bottom">14dp</dimen>
     <dimen name="header_view_start_text_size">32sp</dimen>
     <dimen name="header_view_end_text_size">18sp</dimen>
-
     <dimen name="text_08">08sp</dimen>
+
     <dimen name="text_10">10sp</dimen>
     <dimen name="text_12">12sp</dimen>
     <dimen name="text_14">14sp</dimen>
@@ -83,34 +81,16 @@
     <dimen name="text_22">22sp</dimen>
     <dimen name="text_24">24sp</dimen>
     <dimen name="text_48">48sp</dimen>
-
     <dimen name="title_txt">@dimen/_22sdp</dimen>
-    <dimen name="category_txt">@dimen/_11sdp</dimen>
 
+    <dimen name="category_txt">@dimen/_11sdp</dimen>
     <dimen name="action_button_size">56dp</dimen>
 
+    <dimen name="progress_video_line_height">2dp</dimen>
 
-    <dimen name="fluidBottomNavigationHeight">56dp</dimen>
-    <dimen name="fluidBottomNavigationHeightWithOpacity">80dp</dimen>
-
-    <dimen name="fluidBottomNavigationTopContainerMarginLeftRight">1dp</dimen>
-    <dimen name="fluidBottomNavigationTopContainerWidth">88dp</dimen>
-
-    <dimen name="fluidBottomNavigationCircleSize">36dp</dimen>
-    <dimen name="fluidBottomNavigationIconSize">18dp</dimen>
-
-    <dimen name="fluidBottomNavigationCircleMarginTop">37dp</dimen>
-    <dimen name="fluidBottomNavigationIconMarginTop">46dp</dimen>
-    <dimen name="fluidBottomNavigationBackgroundMarginTop">32dp</dimen>
-    <dimen name="fluidBottomNavigationRectangleMarginTop">28dp</dimen>
-    <dimen name="fluidBottomNavigationTitleMarginTop">14dp</dimen>
-
-    <dimen name="fluidBottomNavigationTextSize">12sp</dimen>
-    <dimen name="fluidBottomNavigationItemTranslationY">22dp</dimen>
 
     <!-- VIDEO TRIMMER-->
-    <dimen name="progress_video_line_height">2dp</dimen>
     <dimen name="frames_video_height">40dip</dimen>
-
     <dimen name="round_corner_radius">20dp</dimen>
+    <integer name="add_remove_duration">450</integer>
 </resources>

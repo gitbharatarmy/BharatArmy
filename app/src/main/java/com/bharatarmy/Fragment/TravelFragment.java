@@ -40,8 +40,8 @@ public class TravelFragment extends Fragment {
     private View rootView;
     public static Context mContext;
     public static FragmentTravelBinding travelBinding;
-    public static OnItemClick mListener;
-    FloatingActionButton fab;
+
+
     SpeedDialView speedDial;
     public static List<TravelModel> content;
     public static List<TravelModel> popularcityarrayList;
@@ -85,8 +85,7 @@ public class TravelFragment extends Fragment {
         rootView = travelBinding.getRoot();
         mContext = getActivity().getApplicationContext();
 
-        fab = getActivity().findViewById(R.id.fab);
-        fab.hide();
+
         speedDial = getActivity().findViewById(R.id.speedDial);
         speedDial.setVisibility(View.GONE);
 
@@ -164,23 +163,6 @@ public class TravelFragment extends Fragment {
 
 
     }
-
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnItemClick) {
-            mListener = (OnItemClick) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    public interface OnItemClick {
-        void onTrave();
-
-
-    }
-
 
     @Override
     public void onDetach() {

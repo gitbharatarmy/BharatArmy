@@ -100,7 +100,7 @@
             android:layout_height="wrap_content"
            android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:background="@drawable/curve_shape">
+            android:background="@drawable/pacakageprice_curve_shape">
 
             <TextView
                 android:layout_width="@dimen/_65sdp"

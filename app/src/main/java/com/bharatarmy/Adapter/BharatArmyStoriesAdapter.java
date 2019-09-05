@@ -1,37 +1,26 @@
 package com.bharatarmy.Adapter;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bharatarmy.Activity.MoreStoryActivity;
 import com.bharatarmy.Activity.StoryAuthorActivity;
 import com.bharatarmy.Activity.StoryDetailActivity;
-import com.bharatarmy.Interfaces.MorestoryClick;
 import com.bharatarmy.Interfaces.image_click;
 import com.bharatarmy.Models.StoryDashboardData;
-import com.bharatarmy.Models.UpcommingDashboardModel;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.AppConfiguration;
 import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.BharatArmyStoriesListNewBinding;
-import com.squareup.picasso.Picasso;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.PatternSyntaxException;
 
 public class BharatArmyStoriesAdapter extends RecyclerView.Adapter<BharatArmyStoriesAdapter.MyViewHolder> {
     Context mcontext;
@@ -70,8 +59,6 @@ BharatArmyStoriesListNewBinding bharatArmyStoriesListNewBinding;
     public void onBindViewHolder(BharatArmyStoriesAdapter.MyViewHolder holder, int position) {
 
         final StoryDashboardData storiesData = storyDashboardDataList.get(position);
-
-//        holder.bharatArmyStoriesListNewBinding.header_txt.setText(storiesData.getCategoryName());
         holder.bharatArmyStoriesListNewBinding.typeTxt.setText(storiesData.getBASubCategoryName());
         holder.bharatArmyStoriesListNewBinding.armyStoryHeaderTxt.setText(storiesData.getStoryTitle());
         holder.bharatArmyStoriesListNewBinding.armyStorySubTxt.setText(storiesData.getShortDescription());
@@ -80,15 +67,8 @@ BharatArmyStoriesListNewBinding bharatArmyStoriesListNewBinding;
         holder.bharatArmyStoriesListNewBinding.usernameTxt.setText(storiesData.getAuthorName());
 
         Utils.setImageInImageView(storiesData.getStrThumbImageName(),holder.bharatArmyStoriesListNewBinding.bannerImg,mcontext);
-//        Picasso.with(mcontext)
-//                .load(storiesData.getStrThumbImageName())
-//                .placeholder(R.drawable.progress_animation)
-//                .into(holder.bharatArmyStoriesListNewBinding.bannerImg);
-        Utils.setImageInImageView(storiesData.getAuthorImageURL(),holder.bharatArmyStoriesListNewBinding.profileImage,mcontext);
-//        Picasso.with(mcontext)
-//                .load(storiesData.getAuthorImageURL())
-//                .into(holder.bharatArmyStoriesListNewBinding.profileImage);
 
+        Utils.setImageInImageView(storiesData.getAuthorImageURL(),holder.bharatArmyStoriesListNewBinding.profileImage,mcontext);
 
 
         holder.bharatArmyStoriesListNewBinding.storyCard.setOnClickListener(new View.OnClickListener() {

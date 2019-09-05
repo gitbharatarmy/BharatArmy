@@ -460,18 +460,6 @@
                 android:orientation="vertical"
                 android:visibility="gone">
 
-                <!--<TextView-->
-                    <!--android:id="@+id/army_story_txt"-->
-                    <!--style="@style/title_text_font"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_marginTop="@dimen/_4sdp"-->
-                    <!--android:gravity="center_vertical|center_horizontal"-->
-                    <!--android:paddingTop="@dimen/_5sdp"-->
-                    <!--android:text="@string/bharat_army_story"-->
-                    <!--android:textColor="@color/heading_bg"-->
-                    <!--android:textSize="@dimen/_13sdp" />-->
-
                 <include layout="@layout/star_line_view" />
 
             </LinearLayout>

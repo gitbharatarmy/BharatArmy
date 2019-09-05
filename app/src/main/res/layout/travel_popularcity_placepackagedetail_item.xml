@@ -313,7 +313,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_marginTop="@dimen/_114sdp"
                 android:layout_marginRight="@dimen/_10sdp"
-                android:background="@drawable/curve_shape"
+                android:background="@drawable/pacakageprice_curve_shape"
                 android:orientation="horizontal"
                 android:visibility="visible">
 
@@ -341,7 +341,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
 
-                android:background="@drawable/day_shape"
+                android:background="@drawable/pacakge_day_shape"
                 android:alpha="0.8"
                 android:orientation="horizontal"
                 android:visibility="visible">

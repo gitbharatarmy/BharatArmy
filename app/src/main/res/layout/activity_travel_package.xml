@@ -445,7 +445,6 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginBottom="@dimen/_5sdp"
                     android:layout_weight="0.4"
-                    android:background="@drawable/travel_bookbtn"
                     android:orientation="horizontal"
                     android:visibility="visible">
 

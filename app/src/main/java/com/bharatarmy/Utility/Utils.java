@@ -702,4 +702,9 @@ public class Utils {
         }
         return false;
     }
+
+    public static void getCurrentUserIDName(String UserId,String Name,Context mContext){
+        Utils.setPref(mContext, "AppUserId", UserId);
+        Utils.setPref(mContext,"LoginUserName",Name);
+    }
 }

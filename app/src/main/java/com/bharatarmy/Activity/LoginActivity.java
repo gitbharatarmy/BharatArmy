@@ -55,6 +55,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void setListner() {
         loginBinding.logginBtn.setOnClickListener(this);
         loginBinding.signUpTxt.setOnClickListener(this);
+        loginBinding.forgotTxt.setOnClickListener(this);
+        loginBinding.skipTxt.setOnClickListener(this);
 
         loginBinding.userPasswordEdt.setOnEditorActionListener(new EditText.OnEditorActionListener() {
             @Override
@@ -152,6 +154,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             case R.id.loggin_btn:
                 verifyLoginDetails();
                 break;
+            case R.id.forgot_txt:
+                Intent forgotIntent=new Intent(mContext,ForgotActivity.class);
+                startActivity(forgotIntent);
+                break;
+            case R.id.skip_txt:
+//                Utils.getCurrentUserIDName("0","",mContext);
+//                Intent DashboardIntent = new Intent(mContext, DashboardActivity.class);
+//                startActivity(DashboardIntent);
+//                finish();
+                break;
         }
     }
 
@@ -193,6 +205,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         Utils.setPref(mContext, "CountryPhoneNo", loginModel.getData().getCountryPhoneNo());
                         Utils.setPref(mContext, "IsBAAdmin", String.valueOf(loginModel.getData().getIsBAAdmin()));
 
+                        Utils.getCurrentUserIDName(String.valueOf(loginModel.getData().getId()),loginModel.getData().getName(),mContext);
+
                         if (loginModel.getData().getIsNumberVerified() == 0) {
                             Intent otpIntent = new Intent(mContext, MobileVerificationNewActivity.class);
                             AppConfiguration.wheretocomemobile = "Login";
@@ -231,7 +245,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onBackPressed() {
-        finish();
-        super.onBackPressed();
+//        finish();
+//        super.onBackPressed();
     }
 }

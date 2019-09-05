@@ -4,12 +4,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
-import com.bharatarmy.Fragment.AlbumFragment;
 import com.bharatarmy.Fragment.HotelDetailFragment;
 import com.bharatarmy.Fragment.HotelReviewFragment;
 import com.bharatarmy.Fragment.HotelRoomFragment;
-import com.bharatarmy.Fragment.ImageFragment;
-import com.bharatarmy.Fragment.VideoFragment;
 
 public class HotelPageAdapter extends FragmentStatePagerAdapter {
     //integer to count number of tabs

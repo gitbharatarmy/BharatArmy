@@ -21,14 +21,12 @@ import com.bharatarmy.Models.MoreDetailDataModel;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.AppConfiguration;
 import com.bharatarmy.databinding.InquiryListItemBinding;
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import java.util.List;
 
 public class InquiryFilterListAdapter extends RecyclerView.Adapter<InquiryFilterListAdapter.MyViewHolder> {
     Context mContext;
     List<MoreDetailDataModel> moreDetailDataModelList;
-    BottomSheetDialogFragment bottomSheetDialogFragment, bottomSheet1DialogFragment;
     MorestoryClick morestoryClick;
     com.bharatarmy.Interfaces.image_click image_click;
 

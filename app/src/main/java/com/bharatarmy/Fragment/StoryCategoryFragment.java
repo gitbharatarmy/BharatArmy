@@ -60,7 +60,7 @@ public class StoryCategoryFragment extends Fragment {
     public static OnItemClick mListener;
 
 
-    FloatingActionButton fab;
+
     SpeedDialView speedDial;
 
     GridLayoutManager gridLayoutManager;
@@ -112,8 +112,7 @@ public class StoryCategoryFragment extends Fragment {
 
         rootView = fragmentStoryCategoryBinding.getRoot();
         mContext = getActivity().getApplicationContext();
-        fab = getActivity().findViewById(R.id.fab);
-        fab.hide();
+
         speedDial=getActivity().findViewById(R.id.speedDial);
         speedDial.setVisibility(View.GONE);
         callStoryCategoryData();

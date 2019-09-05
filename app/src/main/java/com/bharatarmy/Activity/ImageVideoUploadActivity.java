@@ -16,13 +16,10 @@ import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.CursorLoader;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.ColorDrawable;
@@ -47,31 +44,23 @@ import com.bharatarmy.UploadService;
 import com.bharatarmy.Utility.AppConfiguration;
 import com.bharatarmy.Utility.DbHandler;
 import com.bharatarmy.Utility.Utils;
-import com.bharatarmy.Utility.firebaseutils;
 import com.bharatarmy.VideoTrimmer.interfaces.OnHgLVideoListener;
 import com.bharatarmy.VideoTrimmer.interfaces.OnTrimVideoListener;
 import com.bharatarmy.VideoTrimmer.utils.FileUtils;
 import com.bharatarmy.databinding.ActivityImageVideoUploadBinding;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.lang.reflect.Type;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import droidninja.filepicker.FilePickerBuilder;
 import droidninja.filepicker.FilePickerConst;
-import gun0912.tedbottompicker.TedBottomPicker;
-import gun0912.tedbottompicker.TedBottomSheetDialogFragment;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 
@@ -85,21 +74,18 @@ public class ImageVideoUploadActivity extends AppCompatActivity implements View.
     public static final int REQUEST_IMAGE = 100;
     private NotificationManager notifManager;
     final int NOTIFY_ID = 0; // ID of notification
-    Uri uri, selectedUri, imageUri;
-    private List<Uri> selectedUriList;
+    Uri uri, selectedUri;
+
 
     SelectedImageVideoViewAdapter selectedImageVideoViewAdapter;
     LinearLayoutManager linearLayoutManager;
-    int totaluploadcounte = 0;
+
     public List<GalleryImageModel> galleryImageList;
     File Camerafile;
     String imageorvideoStr = "";
     private static final int REQUEST_VIDEO_TRIMMER = 0x01;
-    static final String EXTRA_VIDEO_PATH = "EXTRA_VIDEO_PATH";
-    static final String VIDEO_TOTAL_DURATION = "VIDEO_TOTAL_DURATION";
     private static final int CUSTOM_REQUEST_CODE = 532;
     public static final int RC_PHOTO_PICKER_PERM = 123;
-    public static final int RC_FILE_PICKER_PERM = 321;
     private int MAX_ATTACHMENT_COUNT = 20;
     private ArrayList<String> photoPaths = new ArrayList<>();
     public String fileName;
@@ -115,8 +101,6 @@ public class ImageVideoUploadActivity extends AppCompatActivity implements View.
         super.onCreate(savedInstanceState);
         activityImageVideoUploadBinding = DataBindingUtil.setContentView(this, R.layout.activity_image_video_upload);
         mContext = ImageVideoUploadActivity.this;
-        ImageUploadPickerActivity.clearCache(this);
-
         init();
         setListiner();
     }
@@ -221,6 +205,7 @@ public class ImageVideoUploadActivity extends AppCompatActivity implements View.
                             final Handler handler = new Handler();
                             handler.postDelayed(new Runnable() {
                                 public void run() {
+
                                     Intent intent = new Intent(mContext, UploadService.class);
                                     startService(intent);
                                     createNotification(AppConfiguration.notificationtitle, mContext);

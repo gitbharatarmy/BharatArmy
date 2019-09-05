@@ -55,7 +55,6 @@ public class MoreFragment extends Fragment implements View.OnClickListener {
     private Context mContext;
 
     FragmentMoreBinding fragmentMoreBinding;
-    FloatingActionButton fab;
     SpeedDialView speedDial;
 
 
@@ -92,8 +91,6 @@ public class MoreFragment extends Fragment implements View.OnClickListener {
 
         rootView = fragmentMoreBinding.getRoot();
         mContext = getActivity().getApplicationContext();
-        fab = getActivity().findViewById(R.id.fab);
-        fab.hide();
         speedDial = getActivity().findViewById(R.id.speedDial);
         speedDial.setVisibility(View.GONE);
 
@@ -169,6 +166,7 @@ public class MoreFragment extends Fragment implements View.OnClickListener {
                                 Utils.ping(mContext, "You are logout suceessfully");
                                 Intent ilogin = new Intent(mContext, LoginActivity.class);
                                 startActivity(ilogin);
+
                             }
                         });
                 alertDialog2.setNegativeButton("NO",

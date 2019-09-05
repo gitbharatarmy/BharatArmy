@@ -27,7 +27,9 @@
             android:id="@+id/main_screen_page_rcv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_15sdp" />
+            android:layout_marginTop="@dimen/_15sdp"
+            android:clipToPadding="false"
+            android:paddingBottom="@dimen/_20sdp"/>
         </LinearLayout>
 
     </RelativeLayout>

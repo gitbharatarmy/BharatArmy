@@ -31,7 +31,6 @@ public class MyProfileActivity extends AppCompatActivity implements View.OnClick
     }
 
     public void setListiner() {
-        activityMyProfileBinding.editTxt.setOnClickListener(this);
         activityMyProfileBinding.backImg.setOnClickListener(this);
         activityMyProfileBinding.editLinear.setOnClickListener(this);
     }
@@ -59,10 +58,6 @@ public class MyProfileActivity extends AppCompatActivity implements View.OnClick
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.edit_txt:
-//                Intent intent = new Intent(mContext, EditProfileActivity.class);
-//                startActivity(intent);
-                break;
             case R.id.back_img:
                 MyProfileActivity.this.finish();
                 break;

@@ -22,7 +22,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_470sdp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/become_member" />
+                android:src="@drawable/ajif" />
             <TextView
                 android:id="@+id/heading_txt"
                 style="@style/title_text_font"

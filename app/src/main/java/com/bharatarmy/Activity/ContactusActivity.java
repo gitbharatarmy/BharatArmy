@@ -1,6 +1,5 @@
 package com.bharatarmy.Activity;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
 import android.content.Context;

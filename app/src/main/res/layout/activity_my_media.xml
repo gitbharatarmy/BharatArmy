@@ -59,7 +59,7 @@
                 android:layout_weight="0.2"
                 android:src="@drawable/ic_refresh_button"
                 android:tint="@color/splash_bg_color"
-                android:visibility="visible" />
+                android:visibility="gone" />
         </LinearLayout>
     </androidx.appcompat.widget.Toolbar>
 

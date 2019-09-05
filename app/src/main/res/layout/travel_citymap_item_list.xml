@@ -64,7 +64,7 @@
                 android:id="@+id/viewdetail_btn"
                 android:layout_width="@dimen/_30sdp"
                 android:layout_height="@dimen/_15sdp"
-                android:background="@drawable/curve_btn"
+                android:background="@drawable/more_curve_btn"
                 android:text="More"
                 android:textColor="@color/splash_bg_color"
                 android:textSize="@dimen/_6sdp"
@@ -75,12 +75,6 @@
                 android:layout_gravity="right"
                 style="@style/text_font"/>
 
-
-            <!--<View-->
-                <!--android:layout_width="@dimen/_30sdp"-->
-                <!--android:layout_height="@dimen/_1sdp"-->
-                <!--android:layout_marginLeft="@dimen/_8sdp"-->
-                <!--android:background="@drawable/bg_gradiant_line" />-->
         </LinearLayout>
     </LinearLayout>
 

@@ -110,7 +110,7 @@
                         android:layout_width="@dimen/_15sdp"
                         android:layout_height="@dimen/_12sdp"
                         android:layout_gravity="center_vertical"
-                        android:src="@drawable/ic_calendar"
+                        android:src="@drawable/calendar"
                         android:tint="@color/skip_color" />
 
                     <TextView

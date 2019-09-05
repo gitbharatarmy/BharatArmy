@@ -194,7 +194,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_marginTop="@dimen/_114sdp"
                 android:layout_marginRight="@dimen/_10sdp"
-                android:background="@drawable/curve_shape"
+                android:background="@drawable/pacakageprice_curve_shape"
                 android:orientation="horizontal"
                 android:visibility="visible">
 

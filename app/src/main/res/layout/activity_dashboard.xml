@@ -20,7 +20,6 @@
         android:visibility="gone">
 
 
-
         <com.google.android.material.navigation.NavigationView
             android:id="@+id/nav_view"
             android:layout_width="wrap_content"
@@ -31,8 +30,7 @@
             app:headerLayout="@layout/nav_header_dashboard"
             app:menu="@menu/activity_dashboard_drawer"
             app:itemIconTint="@color/drawer_item"
-            app:itemTextColor="@color/drawer_item"
-           >
+            app:itemTextColor="@color/drawer_item">
 
             <RelativeLayout
                 android:layout_width="wrap_content"

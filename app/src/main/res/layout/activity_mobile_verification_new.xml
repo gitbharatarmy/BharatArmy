@@ -248,7 +248,7 @@
             android:background="@color/heading_bg"
             android:imeOptions="actionDone"
             android:text="@string/verify"
-            android:textAllCaps="false"
+            android:textAllCaps="true"
             android:textColor="@color/splash_bg_color"
             android:textSize="@dimen/_15sdp" />
             <View

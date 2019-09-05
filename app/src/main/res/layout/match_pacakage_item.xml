@@ -186,7 +186,7 @@
                         android:layout_marginLeft="@dimen/_10sdp"
 
                         android:layout_marginBottom="@dimen/_10sdp"
-                        android:layout_weight="0.7"
+                        android:layout_weight="0.65"
                         android:fillViewport="true"
                         android:measureAllChildren="false"
                         android:scrollbars="none">
@@ -280,7 +280,7 @@
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.3">
+                        android:layout_weight="0.35">
 
                         <LinearLayout
                             android:id="@+id/book_linear"
@@ -297,7 +297,7 @@
                                 android:id="@+id/book_txt"
                                 style="@style/text_font"
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
+                                android:layout_height="@dimen/_25sdp"
                                 android:layout_gravity="center_horizontal|center_vertical"
                                 android:layout_marginRight="@dimen/_2sdp"
                                 android:gravity="center_horizontal|center_vertical"
@@ -317,7 +317,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_marginTop="@dimen/_114sdp"
                 android:layout_marginRight="@dimen/_10sdp"
-                android:background="@drawable/curve_shape"
+                android:background="@drawable/pacakageprice_curve_shape"
                 android:orientation="horizontal"
                 android:visibility="visible">
 
@@ -346,7 +346,7 @@
                 android:layout_alignParentLeft="true"
 
                 android:alpha="0.8"
-                android:background="@drawable/day_shape"
+                android:background="@drawable/pacakge_day_shape"
                 android:orientation="horizontal"
                 android:visibility="visible">
 

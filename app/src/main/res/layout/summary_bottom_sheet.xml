@@ -214,20 +214,7 @@
                         android:textSize="@dimen/_12sdp" />
                 </LinearLayout>
 
-                <LinearLayout
-                    android:id="@+id/close_dialoglinear"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="0.1"
-                    android:visibility="gone">
 
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/_10sdp"
-
-                        android:src="@drawable/close"
-                        android:layout_gravity="center_vertical|right" />
-                </LinearLayout>
 
             </LinearLayout>
 

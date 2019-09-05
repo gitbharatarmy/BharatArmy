@@ -58,7 +58,7 @@ public class StoryFragment extends Fragment {
 
     int pageIndex = 0;
 
-    FloatingActionButton fab;
+
     SpeedDialView speedDial;
     boolean isLoading = false;
     GridLayoutManager gridLayoutManager;
@@ -70,14 +70,6 @@ public class StoryFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ImageFragment.
-     */
     // TODO: Rename and change types and number of parameters
     public static StoryFragment newInstance(String param1, String param2) {
         StoryFragment fragment = new StoryFragment();
@@ -107,8 +99,7 @@ public class StoryFragment extends Fragment {
 
         rootView = fragmentStoryBinding.getRoot();
         mContext = getActivity().getApplicationContext();
-        fab = getActivity().findViewById(R.id.fab);
-        fab.hide();
+
         speedDial=getActivity().findViewById(R.id.speedDial);
         speedDial.setVisibility(View.GONE);
         callStoryData();
@@ -149,6 +140,7 @@ public class StoryFragment extends Fragment {
                         //bottom of list!
                         ispull = false;
                         pageIndex = pageIndex + 1;
+                        fragmentStoryBinding.progressBar.setVisibility(View.VISIBLE);
                         loadMore();
 
                     }
@@ -191,7 +183,7 @@ public class StoryFragment extends Fragment {
                         storyDetailModelList = imageMainModel.getData();
                         fragmentStoryBinding.shimmerViewContainer.stopShimmerAnimation();
                         fragmentStoryBinding.shimmerViewContainer.setVisibility(View.GONE);
-
+fragmentStoryBinding.progressBar.setVisibility(View.GONE);
                         if (storyLsitAdapter != null && storyDetailModelList.size() > 0) {
                             storyLsitAdapter.addMoreDataToList(storyDetailModelList);
                             // just append more data to current list

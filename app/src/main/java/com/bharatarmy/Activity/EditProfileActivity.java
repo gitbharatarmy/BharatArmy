@@ -39,9 +39,6 @@ import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.squareup.picasso.Picasso;
-//import com.yalantis.ucrop.util.FileUtils;
-
-
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;

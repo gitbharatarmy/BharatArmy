@@ -22,7 +22,6 @@ import com.bharatarmy.Models.InquiryOrderTypeModel;
 import com.bharatarmy.Models.InquiryOtherDataModel;
 import com.bharatarmy.Models.InquiryStatusModel;
 import com.bharatarmy.R;
-import com.bharatarmy.TravelDesignModule.MultiSelectDialog;
 import com.bharatarmy.Utility.AppConfiguration;
 import com.google.android.flexbox.AlignItems;
 import com.google.android.flexbox.FlexWrap;
@@ -59,7 +58,7 @@ public class InquiryFilterFragment extends BottomSheetDialogFragment{
             rejectedclosetxt, notrespond_txt, notrespondclosetxt, clear_alltxt;
     ImageView expand_orderImg, expand_inquirystatusImg, expand_daterangeImg, expand_tournamentImg, customoption_Img;
 
-    MultiSelectDialog multiSelectDialog;
+
     DatePickerDialog fromdatePickerDialog, todatePickerDialog;
     private int frommYear, frommMonth, frommDay, tomYear, tomMonth, tomDay;
 

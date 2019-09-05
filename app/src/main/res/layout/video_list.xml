@@ -59,7 +59,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/_85sdp"
-            android:background="@drawable/curve_shape"
+            android:background="@drawable/pacakageprice_curve_shape"
             android:orientation="horizontal"
             android:visibility="visible">
 

@@ -29,6 +29,13 @@
     <string name="mobile_veri" translatable="false">Phone Verification</string>
     <string name="verifycode" translatable="false">Verification</string>
 
+    <!--    ForgotPassword & Change Password-->
+    <string name="forgot_txt" translatable="false">To recover your password you need to enter your registered email address. We will sent the recovery code to your email</string>
+    <string name="new_pass" translatable="false">Enter New Password</string>
+    <string name="confirm_pass" translatable="false">Enter Confirm Password</string>
+    <string name="submit" translatable="false">Submit</string>
+    <string name="otppass_str" translatable="false">We have sent you an access code via Email for your registered email</string>
+
     <!--SingUp Activity String-->
     <string name="fullname" translatable="false">Name</string>
     <string name="emailid" translatable="false">Emailid</string>

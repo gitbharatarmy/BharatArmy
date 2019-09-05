@@ -77,8 +77,8 @@ public interface WebServices {
                                        @Part MultipartBody.Part file);
 
     @Multipart
-    @retrofit2.http.POST("/API/v1/UploadFiles")
-    Call<LogginModel> uploadfiles(@Part MultipartBody.Part file); //@Part("FileTypeId") RequestBody userid,
+    @retrofit2.http.POST("/API/v1/UploadFiles_New")
+    Call<LogginModel> uploadfiles(@Part MultipartBody.Part file,@Part("FileTypeId") RequestBody filetype,@Part("MemberId") RequestBody userid,@Part("MemberFullName") RequestBody memberName); //@Part("FileTypeId") RequestBody userid,
     //if we pass array of imagethen use MultipartBody.Part[] file
 
 //    @Multipart

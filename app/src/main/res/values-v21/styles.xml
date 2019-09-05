@@ -9,15 +9,6 @@
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
 
     </style>
-    <!--<style name="DatePickerDialogCustom" parent="@style/Theme.AppCompat.Dialog">-->
-        <!--<item name="android:datePickerStyle">@style/DatePickerCustom</item>-->
-    <!--</style>-->
-
-    <!--<style name="DatePickerCustom" parent="@android:style/Widget.Material.DatePicker">-->
-        <!--<item name="android:headerBackground">@color/heading_bg</item>-->
-        <!--<item name="android:colorControlActivated">@color/heading_bg</item>-->
-        <!--<item name="android:textColorPrimaryInverse">@color/white</item>-->
-    <!--</style>-->
 
     <style name="CustomDatePickerDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="colorAccent">@color/heading_bg</item>

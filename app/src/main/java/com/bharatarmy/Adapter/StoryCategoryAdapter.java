@@ -12,6 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bharatarmy.Activity.StoryAuthorActivity;
@@ -20,15 +21,12 @@ import com.bharatarmy.Interfaces.image_click;
 import com.bharatarmy.Models.ImageDetailModel;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.Utils;
+import com.bharatarmy.databinding.StoryCategoryItemListBinding;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class StoryCategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-
-    private final int VIEW_TYPE_ITEM = 0;
-    private final int VIEW_TYPE_LOADING = 1;
-
+public class StoryCategoryAdapter extends RecyclerView.Adapter<StoryCategoryAdapter.ItemViewHolder> {
 
     public List<ImageDetailModel> mItemList;
     Context mContext;
@@ -44,30 +42,37 @@ public class StoryCategoryAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        if (viewType == VIEW_TYPE_ITEM) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.story_category_item_list, parent, false);
-            return new ItemViewHolder(view);
-        } else {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_loading, parent, false);
-            return new LoadingViewHolder(view);
-        }
+    public StoryCategoryAdapter.ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
+        StoryCategoryItemListBinding storyCategoryItemListBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
+               R.layout.story_category_item_list, parent, false);
+
+            return new StoryCategoryAdapter.ItemViewHolder(storyCategoryItemListBinding);
+
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(@NonNull StoryCategoryAdapter.ItemViewHolder viewHolder, int position) {
+        final ImageDetailModel detail = mItemList.get(position);
+        viewHolder.storyCategoryItemListBinding.headerTxt.setText(detail.getCategoryName());
+        viewHolder.storyCategoryItemListBinding.armyStoryHeaderTxt.setText(detail.getStoryTitle());
+        viewHolder.storyCategoryItemListBinding.armyStorySubTxt.setText(detail.getShortDescription());
+        viewHolder.storyCategoryItemListBinding.dateTxt.setText(detail.getStrStoryAdded());
+        viewHolder.storyCategoryItemListBinding.viewsTxt.setText(detail.getStrViewCount());
+        viewHolder.storyCategoryItemListBinding.usernameTxt.setText(detail.getAuthorName());
 
-        if (viewHolder instanceof ItemViewHolder) {
-            populateItemRows((ItemViewHolder) viewHolder, position);
-        } else if (viewHolder instanceof LoadingViewHolder) {
-            showLoadingView((LoadingViewHolder) viewHolder, position);
-        }
+
+        Utils.setImageInImageView(detail.getStrThumbImageName(),viewHolder.storyCategoryItemListBinding.bannerImg,mContext);
+        Utils.setImageInImageView(detail.getAuthorImageURL(),viewHolder.storyCategoryItemListBinding.profileImage,mContext);
+
+
+
 
     }
 
     @Override
     public int getItemCount() {
-        return mItemList == null ? 0 : mItemList.size();
+        return mItemList.size();
     }
 
     /**
@@ -78,72 +83,21 @@ public class StoryCategoryAdapter extends RecyclerView.Adapter<RecyclerView.View
      */
     @Override
     public int getItemViewType(int position) {
-        return mItemList.get(position) == null ? VIEW_TYPE_LOADING : VIEW_TYPE_ITEM;
+        return position;
     }
 
-    private class ItemViewHolder extends RecyclerView.ViewHolder {
-
-        public TextView header_txt, type_txt, army_story_header_txt, army_story_sub_txt,
-                date_txt, views_txt, username_txt;
-        ImageView type_img, profile_image, banner_img;
-        LinearLayout author_linear,bottom_linear;
-        RelativeLayout header_banner_rcv;
+    public class ItemViewHolder extends RecyclerView.ViewHolder {
+       StoryCategoryItemListBinding storyCategoryItemListBinding;
 
 
-        public ItemViewHolder(@NonNull View itemView) {
-            super(itemView);
 
-            header_txt = (TextView) itemView.findViewById(R.id.header_txt);
-            army_story_header_txt = (TextView) itemView.findViewById(R.id.army_story_header_txt);
-            army_story_sub_txt = (TextView) itemView.findViewById(R.id.army_story_sub_txt);
-            date_txt = (TextView) itemView.findViewById(R.id.date_txt);
-            views_txt = (TextView) itemView.findViewById(R.id.views_txt);
+        public ItemViewHolder(@NonNull StoryCategoryItemListBinding storyCategoryItemListBinding) {
+            super(storyCategoryItemListBinding.getRoot());
+this.storyCategoryItemListBinding=storyCategoryItemListBinding;
 
-            username_txt = (TextView) itemView.findViewById(R.id.username_txt);
-
-            type_img = (ImageView) itemView.findViewById(R.id.type_img);
-            profile_image = (ImageView) itemView.findViewById(R.id.profile_image);
-            banner_img = (ImageView) itemView.findViewById(R.id.banner_img);
-            author_linear = (LinearLayout) itemView.findViewById(R.id.author_linear);
-
-            header_banner_rcv=(RelativeLayout)itemView.findViewById(R.id.header_banner_rcv);
-            bottom_linear=(LinearLayout)itemView.findViewById(R.id.bottom_linear);
         }
     }
 
-    private class LoadingViewHolder extends RecyclerView.ViewHolder {
-
-        ProgressBar progressBar;
-
-        public LoadingViewHolder(@NonNull View itemView) {
-            super(itemView);
-            progressBar = itemView.findViewById(R.id.progressBar);
-        }
-    }
-
-    private void showLoadingView(LoadingViewHolder viewHolder, int position) {
-        //ProgressBar would be displayed
-
-    }
-
-    private void populateItemRows(ItemViewHolder viewHolder, final int position) {
-
-
-        final ImageDetailModel detail = mItemList.get(position);
-        viewHolder.header_txt.setText(detail.getCategoryName());
-        viewHolder.army_story_header_txt.setText(detail.getStoryTitle());
-        viewHolder.army_story_sub_txt.setText(detail.getShortDescription());
-        viewHolder.date_txt.setText(detail.getStrStoryAdded());
-        viewHolder.views_txt.setText(detail.getStrViewCount());
-        viewHolder.username_txt.setText(detail.getAuthorName());
-
-
-        Utils.setImageInImageView(detail.getStrThumbImageName(),viewHolder.banner_img,mContext);
-        Utils.setImageInImageView(detail.getAuthorImageURL(),viewHolder.profile_image,mContext);
-
-
-
-    }
 
     public ArrayList<String> getData() {
         return dataCheck;

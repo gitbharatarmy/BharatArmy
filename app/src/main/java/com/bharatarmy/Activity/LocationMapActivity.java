@@ -15,7 +15,7 @@ import com.bharatarmy.R;
 import com.bharatarmy.Utility.AppConfiguration;
 import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.ActivityLocationMapBinding;
-import com.squareup.picasso.Picasso;
+
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -35,15 +35,6 @@ public class LocationMapActivity extends AppCompatActivity implements View.OnCli
         super.onCreate(savedInstanceState);
         locationMapBinding = DataBindingUtil.setContentView(this, R.layout.activity_location_map);
         mContext = LocationMapActivity.this;
-
-//        setBackButton(LocationMapActivity.this);
-//        setTitleText("View Stadium Map");
-//        setShareBtn(LocationMapActivity.this,);
-
-//        Picasso.with(mContext)
-//                .load(R.drawable.first_match_map)
-//                .placeholder(R.drawable.progress_animation)
-//                .into(locationMapBinding.imageFull);
 
 Utils.setImageInImageView(String.valueOf(R.drawable.first_match_map),locationMapBinding.imageFull,mContext);
 

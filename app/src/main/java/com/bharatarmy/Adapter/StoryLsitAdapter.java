@@ -21,16 +21,14 @@ import com.bharatarmy.Interfaces.image_click;
 import com.bharatarmy.Models.ImageDetailModel;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.Utils;
-import com.bharatarmy.databinding.ItemLoadingBinding;
 import com.bharatarmy.databinding.StoryItemListBinding;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class StoryLsitAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class StoryLsitAdapter extends RecyclerView.Adapter<StoryLsitAdapter.ItemViewHolder> {
 
-    private final int VIEW_TYPE_ITEM = 0;
-    private final int VIEW_TYPE_LOADING = 1;
+
 
 
     public List<ImageDetailModel> mItemList;
@@ -47,74 +45,16 @@ public class StoryLsitAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        if (viewType == VIEW_TYPE_ITEM) {
+    public StoryLsitAdapter.ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
             StoryItemListBinding storyItemListBinding= DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
                     R.layout.story_item_list,parent,false);
             return new StoryLsitAdapter.ItemViewHolder(storyItemListBinding);
-        } else {
-            ItemLoadingBinding itemLoadingBinding=DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
-                    R.layout.item_loading,parent,false);
-            return new StoryLsitAdapter.LoadingViewHolder(itemLoadingBinding);
-        }
-    }
-
-    @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
-
-        if (viewHolder instanceof ItemViewHolder) {
-            populateItemRows((ItemViewHolder) viewHolder, position);
-        } else if (viewHolder instanceof LoadingViewHolder) {
-            showLoadingView((LoadingViewHolder) viewHolder, position);
-        }
 
     }
 
     @Override
-    public int getItemCount() {
-        return mItemList == null ? 0 : mItemList.size();
-    }
-
-    /**
-     * The following method decides the type of ViewHolder to display in the RecyclerView
-     *
-     * @param position
-     * @return
-     */
-    @Override
-    public int getItemViewType(int position) {
-        return mItemList.get(position) == null ? VIEW_TYPE_LOADING : VIEW_TYPE_ITEM;
-    }
-
-    private class ItemViewHolder extends RecyclerView.ViewHolder {
-
-        StoryItemListBinding storyItemListBinding;
-
-
-        public ItemViewHolder(@NonNull StoryItemListBinding storyItemListBinding) {
-            super(storyItemListBinding.getRoot());
-            this.storyItemListBinding=storyItemListBinding;
-
-        }
-    }
-
-    private class LoadingViewHolder extends RecyclerView.ViewHolder {
-
-        ItemLoadingBinding itemLoadingBinding;
-        public LoadingViewHolder(@NonNull ItemLoadingBinding itemLoadingBinding) {
-            super(itemLoadingBinding.getRoot());
-
-            this.itemLoadingBinding=itemLoadingBinding;
-        }
-    }
-
-    private void showLoadingView(LoadingViewHolder viewHolder, int position) {
-        //ProgressBar would be displayed
-
-    }
-
-    private void populateItemRows(ItemViewHolder viewHolder, final int position) {
-
+    public void onBindViewHolder(@NonNull StoryLsitAdapter.ItemViewHolder viewHolder, int position) {
         final ImageDetailModel detail = mItemList.get(position);
 
 //        Utils.setImageInImageView(detail.getCategoryImage(),viewHolder.storyItemListBinding.headerImg,mContext);
@@ -132,14 +72,14 @@ public class StoryLsitAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         Utils.setImageInImageView(detail.getAuthorImageURL(),viewHolder.storyItemListBinding.profileImage,mContext);
 
 
-         viewHolder.storyItemListBinding.typeTxt.setOnClickListener(new View.OnClickListener() {
-             @Override
-             public void onClick(View v) {
-                 dataCheck=new ArrayList<>();
-                 dataCheck.add(detail.getStrCategories()+"|"+detail.getBASubCategoryName());
+        viewHolder.storyItemListBinding.typeTxt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dataCheck=new ArrayList<>();
+                dataCheck.add(detail.getStrCategories()+"|"+detail.getBASubCategoryName());
                 image_click.image_more_click();
-             }
-         });
+            }
+        });
         viewHolder.storyItemListBinding.armyStoryHeaderTxt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -213,6 +153,36 @@ public class StoryLsitAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             }
         });
 
+
+
+    }
+
+    @Override
+    public int getItemCount() {
+        return  mItemList.size();
+    }
+
+    /**
+     * The following method decides the type of ViewHolder to display in the RecyclerView
+     *
+     * @param position
+     * @return
+     */
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
+
+    public class ItemViewHolder extends RecyclerView.ViewHolder {
+
+        StoryItemListBinding storyItemListBinding;
+
+
+        public ItemViewHolder(@NonNull StoryItemListBinding storyItemListBinding) {
+            super(storyItemListBinding.getRoot());
+            this.storyItemListBinding=storyItemListBinding;
+
+        }
     }
 
     public ArrayList<String> getData() {

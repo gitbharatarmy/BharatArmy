@@ -11,9 +11,6 @@ import com.bharatarmy.Fragment.AlbumFragment;
 import com.bharatarmy.Fragment.ImageFragment;
 import com.bharatarmy.Fragment.VideoFragment;
 
-import java.util.ArrayList;
-import java.util.List;
-
 
 public class FansPageAdapter extends FragmentStatePagerAdapter {
     //integer to count number of tabs

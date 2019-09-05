@@ -10,14 +10,6 @@
         <attr name="progress_color" format="color"/>
     </declare-styleable>
 
-    <declare-styleable name="AvatarImageBehavior">
-    <attr name="finalXPosition" format="dimension"/>
-    <attr name="finalYPosition" format="dimension"/>
-    <attr name="finalHeight" format="dimension"/>
-    <attr name="finalToolbarHeight" format="dimension"/>
-    </declare-styleable>
-
-
     <declare-styleable name="CountDownClock">
         <attr name="resetSymbol" format="string"/>
         <attr name="digitDividerColor" format="color"/>
@@ -34,11 +26,9 @@
         <attr name="almostFinishedCallbackTimeInSeconds" format="integer"/>
         <attr name="countdownTickInterval" format="integer"/>
     </declare-styleable>
-
     <declare-styleable name="AlignedTextView">
         <attr name="alignment" format="integer"/>
     </declare-styleable>
-
     <declare-styleable name="CountryCodePicker">
         <attr format="integer" name="ccp_defaultCode"/>
         <attr format="color" name="ccp_textColor"/>
@@ -62,17 +52,6 @@
 
         <!--For dialog-->
         <attr format="color" name="ccp_dialogTextColor"/>
-    </declare-styleable>
-
-
-    <declare-styleable name="FluidBottomNavigation">
-        <attr name="defaultTabPosition" format="integer"/>
-        <attr name="accentColor" format="color"/>
-        <attr name="backColor" format="color"/>
-        <attr name="iconColor" format="color"/>
-        <attr name="iconSelectedColor" format="color"/>
-        <attr name="textColor" format="color"/>
-        <attr name="textFont" format="string"/>
     </declare-styleable>
 
     <declare-styleable name="RoundishImageView">

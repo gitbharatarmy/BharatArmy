@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Activity.ForgotActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_50sdp"
+        android:background="@color/heading_bg">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_5sdp"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:orientation="horizontal"
+            android:weightSum="3">
+
+            <LinearLayout
+                android:id="@+id/back_img"
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="@dimen/_40sdp"
+                android:orientation="horizontal"
+                android:layout_marginLeft="@dimen/_5sdp">
+                <ImageView
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_15sdp"
+                    android:src="@drawable/ic_left_arrow2"
+                    android:layout_gravity="left|center_vertical"
+                    android:tint="@color/splash_bg_color"/>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/toolbar_title_txt"
+                style="@style/title_text_font"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_weight="2.6"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:maxLines="1"
+                android:paddingLeft="@dimen/_5sdp"
+                android:text="Forgot Password"
+                android:textAllCaps="true"
+                android:textColor="@color/splash_bg_color"
+                android:textSize="@dimen/_14sdp" />
+
+            <ImageView
+                android:id="@+id/share_img"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_15sdp"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="0.2"
+                android:src="@drawable/ic_share"
+                android:visibility="gone" />
+        </LinearLayout>
+    </androidx.appcompat.widget.Toolbar>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/bg_gradiant_line" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_150sdp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="@dimen/_15sdp"
+                        android:src="@drawable/app_logo" />
+                </LinearLayout>
+                <TextView
+                    android:id="@+id/forgot_txt"
+                    style="@style/text_font"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:text="Forgot Your Password ?"
+                    android:textColor="@color/heading_bg"
+                    android:textSize="@dimen/_20sdp"/>
+                <TextView
+                    style="@style/text_font"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_left"
+                    android:layout_marginRight="@dimen/margin_right"
+                    android:layout_marginTop="@dimen/margin_top"
+                    android:gravity="center_horizontal"
+                    android:paddingRight="@dimen/_5sdp"
+                    android:text="@string/forgot_txt"
+                    android:textColor="@color/normal_font_color"
+                    android:textSize="@dimen/_12sdp" />
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginLeft="@dimen/_20sdp"
+                    android:layout_marginRight="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_15sdp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/line_shape"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/_15sdp"
+                        android:layout_height="@dimen/_15sdp"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/ic_email" />
+
+                    <EditText
+                        android:id="@+id/forgot_passwordemail_edt"
+                        style="@style/text_font"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_30sdp"
+                        android:background="@android:color/transparent"
+                        android:hint="Enter Your Registered Email"
+                        android:maxLines="1"
+                        android:inputType="textEmailAddress"
+                        android:maxLength="150"
+                        android:paddingLeft="@dimen/_5sdp"
+                        android:textColor="@color/heading_bg"
+                        android:textColorHint="@color/hint_txt_color"
+                        android:textCursorDrawable="@drawable/color_cursor"
+                        android:textSize="@dimen/_12sdp"
+                        android:imeOptions="actionNext"/>
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/submit_btn"
+                    style="@style/text_font"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_marginTop="@dimen/_25sdp"
+                    android:background="@color/heading_bg"
+                    android:imeOptions="actionDone"
+                    android:text="Send"
+                    android:textAllCaps="true"
+                    android:textColor="@color/splash_bg_color"
+                    android:textSize="@dimen/_15sdp" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="5dp"
+                    android:layout_alignParentBottom="true"
+                    android:background="@drawable/bg_gradiant_line" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+</LinearLayout>
+</layout>

@@ -34,7 +34,7 @@
                 android:layout_alignParentBottom="true"
                 android:layout_marginLeft="@dimen/_10sdp"
                 android:layout_marginBottom="@dimen/_10sdp"
-                android:background="@drawable/curve_shape"
+                android:background="@drawable/pacakageprice_curve_shape"
                 android:orientation="horizontal"
                 android:visibility="visible">
 
@@ -81,7 +81,7 @@
                 android:layout_alignParentBottom="true"
                 android:layout_marginLeft="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:background="@drawable/curve_shape"
+                android:background="@drawable/pacakageprice_curve_shape"
                 android:orientation="horizontal"
                 android:visibility="gone">
 

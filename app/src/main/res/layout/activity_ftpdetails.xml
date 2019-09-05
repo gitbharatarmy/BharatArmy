@@ -114,7 +114,7 @@
                         android:padding="@dimen/_5sdp"
                         android:text="IPL"
                         android:textColor="@color/splash_bg_color"
-                        android:textSize="@dimen/_11sdp"
+                        android:textSize="@dimen/_9sdp"
                         android:visibility="gone" />
 
                     <TextView
@@ -129,7 +129,7 @@
                         android:padding="@dimen/_5sdp"
                         android:text="IPL"
                         android:textColor="@color/splash_bg_color"
-                        android:textSize="@dimen/_11sdp"
+                        android:textSize="@dimen/_9sdp"
                         android:visibility="gone" />
 
                 </LinearLayout>
@@ -172,7 +172,8 @@
                         android:layout_width="@dimen/_11sdp"
                         android:layout_height="@dimen/_11sdp"
                         android:layout_gravity="center_vertical"
-                        android:src="@drawable/ic_calendar" />
+                        android:src="@drawable/calendar"
+                        android:tint="@color/NotActive_dot_color"/>
 
                     <TextView
                         android:id="@+id/ftpdate_txt"

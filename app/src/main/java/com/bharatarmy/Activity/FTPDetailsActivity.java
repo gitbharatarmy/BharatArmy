@@ -8,7 +8,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
+
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
@@ -20,7 +20,7 @@ import com.bharatarmy.R;
 import com.bharatarmy.Utility.ApiHandler;
 import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.ActivityFtpdetailsBinding;
-import com.bumptech.glide.Glide;
+
 import com.google.android.material.appbar.AppBarLayout;
 
 import java.util.HashMap;
@@ -28,8 +28,8 @@ import java.util.Map;
 
 import retrofit.RetrofitError;
 import retrofit.client.Response;
-// change the page design and development 19-06-2019
 
+// change the page design and development 19-06-2019
 public class FTPDetailsActivity extends AppCompatActivity implements View.OnClickListener {
 
     ActivityFtpdetailsBinding ftpdetailsBinding;

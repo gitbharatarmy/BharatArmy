@@ -6,11 +6,5 @@
         android:color="@color/heading_bg" />
     <solid
         android:color="@color/splash_bg_color"></solid>
-    <!--<corners-->
-        <!--android:bottomLeftRadius="@dimen/_1sdp"-->
-        <!--android:bottomRightRadius="@dimen/_8sdp"-->
-        <!--android:topLeftRadius="@dimen/_8sdp"-->
-        <!--android:topRightRadius="@dimen/_8sdp" />-->
-
 
 </shape>

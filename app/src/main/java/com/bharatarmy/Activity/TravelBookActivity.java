@@ -1,31 +1,18 @@
 package com.bharatarmy.Activity;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.app.DatePickerDialog;
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Paint;
-import android.icu.text.DateFormat;
-import android.os.Build;
 import android.os.Bundle;
-import android.text.Html;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.DatePicker;
 
-import com.bharatarmy.Fragment.MyOffersBottomSheetDialogFragment;
 import com.bharatarmy.Models.TravelModel;
 import com.bharatarmy.R;
 import com.bharatarmy.databinding.ActivityTravelBookBinding;
-import com.bharatarmy.databinding.OffersBottomSheetBinding;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import java.text.ParseException;
@@ -196,9 +183,7 @@ public class TravelBookActivity extends AppCompatActivity implements View.OnClic
                 }
                 break;
             case R.id.call_linear:
-//               bottomSheetDialogFragment = new MyOffersBottomSheetDialogFragment();
-//                //show it
-//                bottomSheetDialogFragment.show(getSupportFragmentManager(), bottomSheetDialogFragment.getTag());
+
                 break;
         }
     }

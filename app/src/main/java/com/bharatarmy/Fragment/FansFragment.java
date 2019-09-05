@@ -20,11 +20,9 @@ import androidx.viewpager.widget.ViewPager;
 import com.bharatarmy.Adapter.FansPageAdapter;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.AppConfiguration;
-import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.FragmentFansBinding;
 import com.google.android.material.tabs.TabLayout;
 
-import java.lang.reflect.Field;
 
 
 public class FansFragment extends Fragment implements ViewPager.OnPageChangeListener {

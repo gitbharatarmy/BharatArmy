@@ -22,7 +22,6 @@ public class InquiryAssignAdapter extends RecyclerView.Adapter<InquiryAssignAdap
     Context mContext;
     List<MoreDetailDataModel> assignmemberlist;
     MorestoryClick morestoryClick;
-    private int lastSelectedPosition = -1;
     int selectedposition;
 
     public InquiryAssignAdapter(Context mContext, List<MoreDetailDataModel> assignmemberlist, int selectedposition, MorestoryClick morestoryClick) {

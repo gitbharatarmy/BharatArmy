@@ -24,21 +24,21 @@
     <autoscroll-from-editor value="true" />
     <show-object-properties value="true" />
     <loaded-nodes>
-      <connection connection-id="19e9733a-d6e9-4587-9695-41a990efef90">
-        <schema name="main" object-types="index, constraint, table, dataset trigger, view, column" />
+      <connection connection-id="c16ba766-9759-456e-9b2e-4569e685e8e2">
+        <schema name="main" object-types="index, view, constraint, dataset trigger, table, column" />
       </connection>
     </loaded-nodes>
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
-    <connection id="19e9733a-d6e9-4587-9695-41a990efef90">
-      <console name="Connection" type="STANDARD" schema="main" session="Main" />
+    <connection id="c16ba766-9759-456e-9b2e-4569e685e8e2">
+      <console name="Connection 1" type="STANDARD" schema="main" session="Main"><![CDATA[select * from imagedetails;]]></console>
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
     <open-files />
   </component>
   <component name="DBNavigator.Project.DatabaseSessionManager">
-    <connection id="19e9733a-d6e9-4587-9695-41a990efef90" />
+    <connection id="c16ba766-9759-456e-9b2e-4569e685e8e2" />
   </component>
   <component name="DBNavigator.Project.EditorStateManager">
     <last-used-providers />
@@ -63,9 +63,9 @@
   </component>
   <component name="DBNavigator.Project.Settings">
     <connections>
-      <connection id="19e9733a-d6e9-4587-9695-41a990efef90" active="true">
+      <connection id="c16ba766-9759-456e-9b2e-4569e685e8e2" active="true">
         <database>
-          <name value="Connection" />
+          <name value="Connection 1" />
           <description value="" />
           <database-type value="SQLITE" />
           <config-type value="BASIC" />

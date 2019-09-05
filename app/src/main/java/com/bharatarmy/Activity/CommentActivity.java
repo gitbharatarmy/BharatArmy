@@ -13,7 +13,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
 import com.bharatarmy.Adapter.CommentListAdapter;
-import com.bharatarmy.Adapter.UpcomingDashboardAdapter;
 import com.bharatarmy.Models.GalleryImageModel;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.Utils;
@@ -27,7 +26,6 @@ public class CommentActivity extends AppCompatActivity implements View.OnClickLi
     ActivityCommentBinding activityCommentBinding;
     Context mContext;
     String selecteditem;
-    ArrayList<String> arrayList;
     CommentListAdapter commentListAdapter;
     public List<GalleryImageModel> content;
 
@@ -40,8 +38,7 @@ public class CommentActivity extends AppCompatActivity implements View.OnClickLi
 
         setDataValue();
         setListiner();
-//        setTitleText("Comment");
-//        setBackButton(CommentActivity.this);
+
     }
 
     public void setListiner() {
