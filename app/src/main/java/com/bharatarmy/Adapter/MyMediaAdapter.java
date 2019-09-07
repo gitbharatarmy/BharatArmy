@@ -67,30 +67,28 @@ public class MyMediaAdapter extends RecyclerView.Adapter<MyMediaAdapter.MyViewHo
             }
         if (detailgallery.getUploadcompelet().equalsIgnoreCase("1")) {
             holder.myMediaListItemBinding.uploadsuccesLinear.setVisibility(View.VISIBLE);
-//            holder.myMediaListItemBinding.uploadImg.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_uploadimage));
             holder.myMediaListItemBinding.uploadStatus.setText("Uploading...");
         } else if (detailgallery.getUploadcompelet().equalsIgnoreCase("2")) {
             holder.myMediaListItemBinding.uploadsuccesLinear.setVisibility(View.VISIBLE);
-            holder.myMediaListItemBinding.uploadStatus.setText("Retry");
-//            holder.myMediaListItemBinding.uploadImg.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_upload_retry));
+            holder.myMediaListItemBinding.uploadStatus.setText("Failed");
         }
         else if (detailgallery.getUploadcompelet().equalsIgnoreCase("0")){
             holder.myMediaListItemBinding.uploadsuccesLinear.setVisibility(View.VISIBLE);
             holder.myMediaListItemBinding.uploadStatus.setText("Pending...");
-//            holder.myMediaListItemBinding.uploadImg.setImageDrawable(mContext.getResources().getDrawable(R.drawable.uploadimage));
         }
 
-        holder.myMediaListItemBinding.uploadsuccesLinear.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                    if(detailgallery.getUploadcompelet().equalsIgnoreCase("2")){
-                        SelectedPosition = position;
-                        dataCheck=new ArrayList<>();
-                        dataCheck.add(String.valueOf(position)); //+"|"+position
-                        image_click.image_more_click();
-                    }
-            }
-        });
+//        holder.myMediaListItemBinding.uploadsuccesLinear.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                    if(detailgallery.getUploadcompelet().equalsIgnoreCase("2")){
+//                        holder.myMediaListItemBinding.uploadStatus.setText("Pending...");
+//                        SelectedPosition = position;
+//                        dataCheck=new ArrayList<>();
+//                        dataCheck.add(String.valueOf(position)); //+"|"+position
+//                        image_click.image_more_click();
+//                    }
+//            }
+//        });
 
 
     }

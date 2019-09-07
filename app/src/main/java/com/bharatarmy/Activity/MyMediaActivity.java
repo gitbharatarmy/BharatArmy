@@ -25,6 +25,7 @@ import com.bharatarmy.Adapter.MyMediaAdapter;
 import com.bharatarmy.Interfaces.image_click;
 import com.bharatarmy.Models.GalleryImageModel;
 import com.bharatarmy.R;
+import com.bharatarmy.UploadService;
 import com.bharatarmy.Utility.AppConfiguration;
 import com.bharatarmy.Utility.DbHandler;
 import com.bharatarmy.Utility.Utils;
@@ -103,16 +104,20 @@ public class MyMediaActivity extends AppCompatActivity implements View.OnClickLi
             myMediaAdapter = new MyMediaAdapter(mContext, galleryimage, new image_click() {
                 @Override
                 public void image_more_click() {
-                    selectedItemPosition = myMediaAdapter.SelectedPosition();
-                    GalleryImageModel image = galleryimage.get(myMediaAdapter.SelectedPosition());
-                    Log.d("selectedposition : ", "" + selectedItemPosition);
-                    boolean connected = Utils.checkNetwork(mContext);
-                    if (connected == true) {
-                        dbHandler.UpdateImageStatus("0", image.getId(),mContext);
-                        createNotification(AppConfiguration.notificationtitle, getApplicationContext());
-                    } else {
-                        Utils.ping(mContext, "No internet available");
-                    }
+//                    selectedItemPosition = myMediaAdapter.SelectedPosition();
+//                    GalleryImageModel image = galleryimage.get(myMediaAdapter.SelectedPosition());
+//                    Log.d("selectedposition : ", "" + selectedItemPosition);
+//                    boolean connected = Utils.checkNetwork(mContext);
+//                    if (connected == true) {
+//                        dbHandler.UpdateImageStatus("0", image.getId(), mContext);
+//                        if (!Utils.isMyServiceRunning(mContext)) {
+//                            Intent intent = new Intent(mContext, UploadService.class);
+//                            startService(intent);
+//                        }
+////                        createNotification(AppConfiguration.notificationtitle, getApplicationContext());
+//                    } else {
+//                        Utils.ping(mContext, "No internet available");
+//                    }
                 }
             });//,onTouchListener
             GridLayoutManager gridLayoutManager = new GridLayoutManager(mContext, 3);
@@ -124,17 +129,19 @@ public class MyMediaActivity extends AppCompatActivity implements View.OnClickLi
         }
 
     }
+
     public void setListiner() {
         activityMyMediaBinding.backImg.setOnClickListener(this);
         activityMyMediaBinding.refreshImg.setOnClickListener(this);
 
     }
+
     public void refreshView() {
         if (dbHandler.getMediaImageData() != null && dbHandler.getMediaImageData().size() > 0) {
             updatearray = dbHandler.getMediaImageData();
             if (galleryimage != null && galleryimage.size() > 0) {
 
-                if (updatearray.size()== galleryimage.size()) {
+                if (updatearray.size() == galleryimage.size()) {
                     for (int j = 0; j < updatearray.size(); j++) {
                         for (int i = 0; i < galleryimage.size(); i++) {
                             if (!updatearray.get(j).getUploadcompelet().equalsIgnoreCase(galleryimage.get(i).getUploadcompelet())) {
@@ -144,16 +151,14 @@ public class MyMediaActivity extends AppCompatActivity implements View.OnClickLi
                             }
                         }
                     }
-                }else{
-                   init();
+                } else {
+                    init();
                 }
             } else {
                 activityMyMediaBinding.showMediaRcv.setVisibility(View.GONE);
-//                Utils.ping(mContext, "No media available");
             }
         } else {
             activityMyMediaBinding.showMediaRcv.setVisibility(View.GONE);
-//            Utils.ping(mContext, "No media available");
         }
     }
 
@@ -161,7 +166,7 @@ public class MyMediaActivity extends AppCompatActivity implements View.OnClickLi
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.back_img:
-               finish();
+                finish();
                 break;
             case R.id.refresh_img:
                 break;
@@ -172,85 +177,6 @@ public class MyMediaActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     public void onBackPressed() {
         finish();
-//        final Handler handler = new Handler();
-//        handler.postDelayed(new Runnable() {
-//            public void run() {
-//                Intent intent = new Intent(mContext, DashboardActivity.class);
-//                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-//                startActivity(intent);
-//                finish();
-//            }
-//        }, 50);
-
     }
-
-
-    public void createNotification(String aMessage, Context context) {
-
-        String id = context.getString(R.string.default_notification_channel_id); // default_channel_id
-        String title = context.getString(R.string.default_notification_channel_title); // Default Channel
-        Intent intent;
-        PendingIntent pendingIntent;
-        NotificationCompat.Builder builder;
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(),
-                R.drawable.proflie);
-
-        if (notifManager == null) {
-            notifManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            int importance = NotificationManager.IMPORTANCE_HIGH;
-            NotificationChannel mChannel = notifManager.getNotificationChannel(id);
-            if (mChannel == null) {
-                mChannel = new NotificationChannel(id, title, importance);
-                mChannel.enableVibration(true);
-                mChannel.setVibrationPattern(new long[]{-1});
-                notifManager.createNotificationChannel(mChannel);
-            }
-            builder = new NotificationCompat.Builder(context, id);
-            intent = new Intent(context, MyMediaActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            Utils.setPref(getApplicationContext(), "cometonotification", "cometonotification");
-            intent.putExtra("image/video", Utils.getPref(getApplicationContext(), "image/video"));
-            intent.putExtra("cometonotification", Utils.getPref(getApplicationContext(), "cometonotification"));
-            pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
-            builder.setContentTitle(aMessage)                            // required
-                    .setSmallIcon(R.drawable.app_logo)   // required
-                    .setContentText(context.getString(R.string.app_name)) // required
-                    .setAutoCancel(true)
-                    .setDefaults(Notification.DEFAULT_VIBRATE)
-                    .setVibrate(new long[]{-1}) //new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400}
-                    .setOngoing(true)
-                    .setContentIntent(pendingIntent)
-                    .setTicker(aMessage)
-//                    .setProgress(100, progress, false)
-                    .setProgress(0, 0, true)
-                    .setPriority(Notification.PRIORITY_HIGH);
-        } else {
-            builder = new NotificationCompat.Builder(context, id);
-            intent = new Intent(context, MyMediaActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            Utils.setPref(getApplicationContext(), "cometonotification", "cometonotification");
-            intent.putExtra("image/video", Utils.getPref(getApplicationContext(), "image/video"));
-            intent.putExtra("cometonotification", Utils.getPref(getApplicationContext(), "cometonotification"));
-            pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
-            builder.setContentTitle(aMessage)                            // required
-                    .setSmallIcon(R.drawable.app_logo)   // required
-                    .setContentText(context.getString(R.string.app_name)) // required
-                    .setOngoing(true)
-                    .setAutoCancel(true)
-                    .setDefaults(Notification.DEFAULT_VIBRATE)
-                    .setVibrate(new long[]{-1}) //new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400}
-                    .setContentIntent(pendingIntent)
-                    .setTicker(aMessage)
-//                    .setProgress(100, progress, false)
-                    .setProgress(0, 0, true)
-                    .setPriority(Notification.PRIORITY_HIGH);
-        }
-        Notification notification = builder.build();
-        notification.flags |= Notification.FLAG_AUTO_CANCEL | Notification.FLAG_ONGOING_EVENT; //Notification.FLAG_AUTO_CANCEL|
-        notifManager.notify(NOTIFY_ID, notification);
-    }
-
 
 }

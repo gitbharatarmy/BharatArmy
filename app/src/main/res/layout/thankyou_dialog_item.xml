@@ -43,6 +43,7 @@
                         app:roundedCorners="topRight" />
 
                     <TextView
+                        android:id="@+id/dialog_headertxt"
                         style="@style/title_text_font"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -67,6 +68,7 @@
 
 
                 <TextView
+                    android:id="@+id/dialog_descriptiontxt"
                     style="@style/text_font"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

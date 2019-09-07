@@ -236,11 +236,13 @@ public class AlbumFragment extends Fragment {
                                     @Override
                                     public void onPermissionsChecked(MultiplePermissionsReport report) {
                                         if (report.areAllPermissionsGranted()) {
-                                            imageorvideoStr = "video";
-                                            Intent imagevideouploadIntent1 = new Intent(mContext, ImageVideoUploadActivity.class);
-                                            imagevideouploadIntent1.putExtra("image/video", imageorvideoStr);
+                                            if (Utils.isMember(mContext)) {
+                                                imageorvideoStr = "video";
+                                                Intent imagevideouploadIntent1 = new Intent(mContext, ImageVideoUploadActivity.class);
+                                                imagevideouploadIntent1.putExtra("image/video", imageorvideoStr);
 
-                                            startActivity(imagevideouploadIntent1);
+                                                startActivity(imagevideouploadIntent1);
+                                            }
                                         }
 
                                         if (report.isAnyPermissionPermanentlyDenied()) {
@@ -263,12 +265,15 @@ public class AlbumFragment extends Fragment {
                                     @Override
                                     public void onPermissionsChecked(MultiplePermissionsReport report) {
                                         if (report.areAllPermissionsGranted()) {
+                                            if (Utils.isMember(mContext)) {
+                                                imageorvideoStr = "image";
+                                                Intent imagevideouploadIntent1 = new Intent(mContext, ImageVideoUploadActivity.class);
+                                                imagevideouploadIntent1.putExtra("image/video", imageorvideoStr);
+                                                imagevideouploadIntent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                mContext.startActivity(imagevideouploadIntent1);
+                                            }
                                         }
-                                        imageorvideoStr = "image";
-                                        Intent imagevideouploadIntent1 = new Intent(mContext, ImageVideoUploadActivity.class);
-                                        imagevideouploadIntent1.putExtra("image/video", imageorvideoStr);
-                                        imagevideouploadIntent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                        mContext.startActivity(imagevideouploadIntent1);
+
                                     }
 
                                     @Override

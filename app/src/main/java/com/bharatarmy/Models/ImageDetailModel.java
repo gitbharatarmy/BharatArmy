@@ -27,6 +27,9 @@ public class ImageDetailModel implements Serializable {
     @SerializedName("IsBARecommanded")
     @Expose
     private Integer isBARecommanded;
+    @SerializedName("AddedUserName")
+    @Expose
+    private String addedUserName;
 
     public Integer getBAGalleryId() {
         return bAGalleryId;
@@ -84,6 +87,13 @@ public class ImageDetailModel implements Serializable {
         this.isBARecommanded = isBARecommanded;
     }
 
+    public String getAddedUserName() {
+        return addedUserName;
+    }
+
+    public void setAddedUserName(String addedUserName) {
+        this.addedUserName = addedUserName;
+    }
     //Story Detail Model
     @SerializedName("AuthorImageURL")
     @Expose

@@ -71,11 +71,14 @@ public class UploadService extends IntentService implements ProgressRequestBody.
             }
             filetypeId = RequestBody.create(MediaType.parse("text/plain"), fileTypeId);
             memberName = RequestBody.create(MediaType.parse("text/plain"), Utils.getPref(getApplicationContext(), "LoginUserName"));
-            UploadFiles(firebaseutils.UpladingFiles.get(0), intent);
+            createNotification(AppConfiguration.notificationtitle,getApplicationContext());
+            UploadFiles(firebaseutils.UpladingFiles.get(0)); //, intent
+        }else{
+            stopSelf();
         }
     }
 
-    public void UploadFiles(GalleryImageModel objfile, Intent intent) {
+    public void UploadFiles(GalleryImageModel objfile) { //, Intent intent
         filePath = objfile.getImageUri();
 
         Log.d("filepath :", filePath);
@@ -104,20 +107,20 @@ public class UploadService extends IntentService implements ProgressRequestBody.
                     firebaseutils.UpladingFiles.remove(objfile);
 
                     if (firebaseutils.UpladingFiles.size() > 0) {
-                        UploadFiles(firebaseutils.UpladingFiles.get(0), intent);
+                        UploadFiles(firebaseutils.UpladingFiles.get(0));
                         createNotification(AppConfiguration.notificationtitle, getApplicationContext());
                     } else {
-//                        firebaseutils.UpladingFiles = db.getAllImageData();
-//                        if (firebaseutils.UpladingFiles != null && firebaseutils.UpladingFiles.size() > 0) {
-//                            UploadFiles(firebaseutils.UpladingFiles.get(0), intent);
-//                            createNotification(AppConfiguration.notificationtitle, getApplicationContext());
-//                        } else {
+                        firebaseutils.UpladingFiles = db.getAllImageData();
+                        if (firebaseutils.UpladingFiles != null && firebaseutils.UpladingFiles.size() > 0) {
+                            UploadFiles(firebaseutils.UpladingFiles.get(0)); //, intent
+                            createNotification(AppConfiguration.notificationtitle, getApplicationContext());
+                        } else {
                             if (notifManager == null) {
                                 notifManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
                             }
                             notifManager.cancel(NOTIFY_ID);
-                            stopService(intent);
-//                        }
+                          stopSelf();
+                        }
 
                     }
                 }
@@ -128,21 +131,21 @@ public class UploadService extends IntentService implements ProgressRequestBody.
             public void onFailure(Call<LogginModel> call, Throwable t) {
                 Log.d("error :", t.toString());
                 Log.d("error :", t.getClass().getSimpleName());
-                if (!t.getClass().getSimpleName().equalsIgnoreCase("FileNotFoundException")) {
+//                if (!t.getClass().getSimpleName().equalsIgnoreCase("FileNotFoundException")) {
                     db.UpdateImageStatus("2", objfile.getId(), getApplicationContext());
                     firebaseutils.UpladingFiles.remove(objfile);
                     if (firebaseutils.UpladingFiles.size() > 0) {
-                        UploadFiles(firebaseutils.UpladingFiles.get(0), intent);
+                        UploadFiles(firebaseutils.UpladingFiles.get(0));//, intent
                     } else {
                         if (notifManager == null) {
                             notifManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
                         }
                         notifManager.cancel(NOTIFY_ID);
-                        stopService(intent);
+                       stopSelf();
                     }
-                } else {
-                    db.DeleteImage(objfile.getId());
-                }
+//                } else {
+//                    db.DeleteImage(objfile.getId());
+//                }
 
             }
         });

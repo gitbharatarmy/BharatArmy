@@ -483,6 +483,7 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
         map.put("Password", strPassword);
         map.put("OTPText", finalgetOtpStr);
         map.put("SMSSentId", otpStr);
+        map.put("TokenId",Utils.getPref(mContext, "registration_id"));
         return map;
     }
 

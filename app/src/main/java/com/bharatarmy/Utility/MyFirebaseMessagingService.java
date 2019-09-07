@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Build;
 import android.util.Log;
 
@@ -22,13 +23,14 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
 import java.util.List;
+import java.util.Map;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private static final String TAG = "MyFirebaseMsgService";
     private static Context context;
     private static int notifyID = 1;
-    String data,message;
+    String data, message;
     private String screen = "";
     int icon = R.drawable.app_logo;
     private NotificationManager notifManager;
@@ -51,11 +53,14 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     public void onMessageReceived(RemoteMessage remoteMessage) {
         context = this;
 
-        Log.d("Messsagetype", String.valueOf(remoteMessage.getData()));
+        Log.d("Messsagetype", "" + remoteMessage.getData());
         Log.d(TAG, "From: " + remoteMessage.getFrom());
         Log.d(TAG, "Notification Message Body: " + remoteMessage.getNotification().getBody());
 
-        sendNotification(remoteMessage);//remoteMessage.getNotification().getBody());
+        if (remoteMessage.getData() != null && remoteMessage.getData().size() > 0) {
+            sendNotification(remoteMessage);
+        }
+
     }
 
 
@@ -65,12 +70,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         final int NOTIFY_ID = 0; // ID of notification
         String id = context.getString(R.string.default_notification_channel_id); // default_channel_id
         String title = context.getString(R.string.default_notification_channel_title); // Default Channel
-        String aMessage =remoteMessage.getData().get("body");
+        String aMessage = remoteMessage.getData().get("title");// =
+
         Intent intent;
         PendingIntent pendingIntent;
         NotificationCompat.Builder builder;
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(),
-                R.drawable.proflie);
 
         if (notifManager == null) {
             notifManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -82,111 +86,53 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 mChannel = new NotificationChannel(id, title, importance);
                 mChannel.enableVibration(false);
                 mChannel.setVibrationPattern(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
+
                 notifManager.createNotificationChannel(mChannel);
             }
             builder = new NotificationCompat.Builder(context, id);
             intent = new Intent(context, Splash_Screen.class);
-            intent.putExtra("fromNotification", remoteMessage.getData().get("type"));
-            intent.putExtra("message", remoteMessage.getData().get("body"));//remoteMessage.getNotification().getBody());
-            intent.putExtra("cometonotification", "true");
+            intent.putExtra("pagetype",remoteMessage.getData().get("PageType"));
             Log.d("Messsagetype", String.valueOf(remoteMessage.getData()));
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
             builder.setContentTitle(aMessage)                            // required
                     .setSmallIcon(R.drawable.app_logo)   // required
-                    .setContentText(context.getString(R.string.app_name)) // required
+                    .setContentText(remoteMessage.getData().get("body")) // required
                     .setDefaults(Notification.DEFAULT_ALL)
                     .setAutoCancel(true)
                     .setContentIntent(pendingIntent)
-                    .setTicker(aMessage)
-                    .setLargeIcon(bitmap)
+                    .setTicker(remoteMessage.getData().get("body"))
+                    .setLargeIcon(Utils.getBitmapFromURL(remoteMessage.getData().get("smallimageurl")))
                     .setStyle(new NotificationCompat.BigPictureStyle()
-                            .bigPicture(bitmap)
-                            .bigLargeIcon(bitmap))
-                    .setProgress(100, 50, true)
-                    .setVibrate(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
+                            .bigPicture(Utils.getBitmapFromURL(remoteMessage.getData().get("image")))
+                            .bigLargeIcon(Utils.getBitmapFromURL(remoteMessage.getData().get("image"))))
+                    .setVibrate(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400})
+                    .setPriority(Notification.PRIORITY_HIGH)
+                    .setChannelId(id)  ; //.setChannelId(id)
         } else {
             builder = new NotificationCompat.Builder(context, id);
             intent = new Intent(context, Splash_Screen.class);
-            intent.putExtra("fromNotification", remoteMessage.getData().get("type"));
-            intent.putExtra("message", remoteMessage.getData().get("body"));//remoteMessage.getNotification().getBody());
-            intent.putExtra("cometonotification", "true");
+            intent.putExtra("pagetype",remoteMessage.getData().get("PageType"));
         Log.d("Messsagetype", String.valueOf(remoteMessage.getData()));
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
             builder.setContentTitle(aMessage)                            // required
                     .setSmallIcon(R.drawable.app_logo)   // required
-                    .setContentText(context.getString(R.string.app_name)) // required
+                    .setContentText(remoteMessage.getData().get("body")) // required
                     .setDefaults(Notification.DEFAULT_ALL)
                     .setAutoCancel(true)
                     .setContentIntent(pendingIntent)
-                    .setTicker(aMessage)
-                    .setLargeIcon(bitmap)
+                    .setTicker(remoteMessage.getData().get("body"))
+                    .setLargeIcon(Utils.getBitmapFromURL(remoteMessage.getData().get("smallimageurl")))
                     .setStyle(new NotificationCompat.BigPictureStyle()
-                            .bigPicture(bitmap)
-                            .bigLargeIcon(bitmap))
+                            .bigPicture(Utils.getBitmapFromURL(remoteMessage.getData().get("image")))
+                            .bigLargeIcon(Utils.getBitmapFromURL(remoteMessage.getData().get("image"))))
                     .setVibrate(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400})
                     .setPriority(Notification.PRIORITY_HIGH);
+
         }
         Notification notification = builder.build();
         notifManager.notify(NOTIFY_ID, notification);
-
-//        notifyID = (int) (System.currentTimeMillis() & 0xfffffff);
-//
-//        Intent notificationIntent = new Intent(ctx, Splash_Screen.class);
-//
-//
-//        String data = String.valueOf(remoteMessage.getData());
-////
-////        try {
-////            JSONObject dataObject = new JSONObject (data);
-////
-////
-////        } catch (JSONException e) {
-////            e.printStackTrace();
-////        }
-//
-//        notificationIntent.putExtra("fromNotification", remoteMessage.getData().get("type"));
-//        notificationIntent.putExtra("message", remoteMessage.getData().get("body"));//remoteMessage.getNotification().getBody());
-//        notificationIntent.putExtra("cometonotification", "true");
-//        Log.d("Messsagetype", String.valueOf(remoteMessage.getData()));
-//
-//        notificationIntent.setAction(String.valueOf(notifyID));
-//        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-//
-//        PendingIntent pendingNotificationIntent = PendingIntent.getActivity(ctx, notifyID, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-//
-//        NotificationManager notificationManager = (NotificationManager) ctx.getSystemService(Context.NOTIFICATION_SERVICE);
-//        Bitmap bitmap = BitmapFactory.decodeResource(getResources(),
-//                R.drawable.proflie);
-//        Notification noti = new NotificationCompat.Builder(ctx)
-//                .setSmallIcon(R.drawable.logo)
-//                .setTicker(String.valueOf(remoteMessage.getData().get("body")))
-//                .setWhen(System.currentTimeMillis())
-//                .setContentTitle("Bharat Army")//
-//                .setContentText(remoteMessage.getData().get("body"))//remoteMessage.getNotification().getBody()
-//                .setContentIntent(pendingNotificationIntent)
-//                .setAutoCancel(true)
-//                .setLargeIcon(bitmap)
-//                .setStyle(new NotificationCompat.BigPictureStyle()
-//                        .bigPicture(bitmap)
-//                        .bigLargeIcon(bitmap))
-//                .build();
-//
-//        noti.flags |= Notification.FLAG_ONLY_ALERT_ONCE;
-//        noti.flags |= Notification.FLAG_AUTO_CANCEL;
-//        // Play default notification sound
-//        noti.defaults |= Notification.DEFAULT_SOUND;
-//        noti.defaults |= Notification.DEFAULT_LIGHTS;
-//
-//        // Vibrate if vibrate is enabled
-//        noti.defaults |= Notification.DEFAULT_VIBRATE;
-//        //Show the notification
-//        notificationManager.notify(notifyID, noti);
-//        //Integer.valueOf(push_message_id)
-
     }
-
-
 }
 

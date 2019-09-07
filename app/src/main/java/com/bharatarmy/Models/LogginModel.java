@@ -3,6 +3,8 @@ package com.bharatarmy.Models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class LogginModel {
     @SerializedName("Message")
     @Expose
@@ -21,7 +23,7 @@ public class LogginModel {
     private Object otherValue;
     @SerializedName("OtherData")
     @Expose
-    private Object otherData;
+    private List<LoginOtherDataModel> otherData = null;
 
     public String getMessage() {
         return message;
@@ -63,14 +65,13 @@ public class LogginModel {
         this.otherValue = otherValue;
     }
 
-    public Object getOtherData() {
+
+    public List<LoginOtherDataModel> getOtherData() {
         return otherData;
     }
 
-    public void setOtherData(Object otherData) {
+    public void setOtherData(List<LoginOtherDataModel> otherData) {
         this.otherData = otherData;
     }
-
-
 
 }

@@ -178,7 +178,17 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, StoryFragme
      */
     private fun loadHomeFragment() {
 
-        bottomNavigation.show(3, true)
+
+        if (intent.getStringExtra("PageType") != null) {
+            val pageType = intent.getStringExtra("PageType")
+            if (pageType.equals("0", ignoreCase = true)) {
+                bottomNavigation.show(3, true)
+            }
+        }else{
+            bottomNavigation.show(3, true)
+        }
+
+
 
         // selecting appropriate nav menu item
         selectNavMenu()

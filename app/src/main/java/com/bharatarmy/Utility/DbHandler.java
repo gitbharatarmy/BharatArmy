@@ -30,20 +30,11 @@ public class DbHandler extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-//        if (!Utils.doesTableExist(db, TABLE_GALLERYUPLOAD)) {
-//            String CREATE_TABLE = "CREATE TABLE " + TABLE_GALLERYUPLOAD + "("
-//                    + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + KEY_IMAGEURI + " TEXT,"
-//                    + KEY_IMAGESIZE + " TEXT,"
-//                    + KEY_IMAGEUPLOADSTATUS + " INTEGER);";
-//            db.execSQL(CREATE_TABLE);
-//        }else{
-//            db.execSQL("DROP TABLE IF EXISTS " + TABLE_GALLERYUPLOAD);
+
             String CREATE_TABLE = "CREATE TABLE " + TABLE_GALLERYUPLOAD + "("
                     + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," + KEY_IMAGEURI + " TEXT,"
                     + KEY_IMAGESIZE + " TEXT , " + KEY_IMAGEUPLOADSTATUS + " TEXT  )";
             db.execSQL(CREATE_TABLE);
-//        }
-
 
     }
 
@@ -77,10 +68,6 @@ public class DbHandler extends SQLiteOpenHelper {
         cVals.put(KEY_IMAGEUPLOADSTATUS, uploadstatus);
         db.update(TABLE_GALLERYUPLOAD, cVals, KEY_ID + " = ?", new String[]{String.valueOf(id)}); //int count =
         db.close();
-        if (!Utils.isMyServiceRunning(context)){
-            Intent intent = new Intent(context, UploadService.class);
-            context.startService(intent);
-        }
     }
     public void UpdateImagePendingStatus(String uploadstatus,Context context) {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -88,17 +75,14 @@ public class DbHandler extends SQLiteOpenHelper {
         cVals.put(KEY_IMAGEUPLOADSTATUS, uploadstatus);
         db.update(TABLE_GALLERYUPLOAD, cVals, KEY_IMAGEUPLOADSTATUS + " = ?", new String[]{String.valueOf(1)}); //int count =
         db.close();
-        if (!Utils.isMyServiceRunning(context)){
-            Intent intent = new Intent(context, UploadService.class);
-            context.startService(intent);
-        }
+
     }
     public List<GalleryImageModel> getAllImageData() {
         List<GalleryImageModel> list = new ArrayList<>();
         GalleryImageModel model = null;
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.query(TABLE_GALLERYUPLOAD, new String[]{KEY_ID, KEY_IMAGEURI, KEY_IMAGESIZE, KEY_IMAGEUPLOADSTATUS},
-                KEY_IMAGEUPLOADSTATUS + "=?",
+                KEY_IMAGEUPLOADSTATUS + "=? " ,
                 new String[]{String.valueOf(0)}, null, null, null, null);
 
 //        Cursor cursor=db.rawQuery("select * from "+TABLE_GALLERYUPLOAD ,null);
@@ -146,8 +130,8 @@ public class DbHandler extends SQLiteOpenHelper {
         GalleryImageModel model = null;
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.query(TABLE_GALLERYUPLOAD, new String[]{KEY_ID, KEY_IMAGEURI, KEY_IMAGESIZE, KEY_IMAGEUPLOADSTATUS},
-                KEY_IMAGEUPLOADSTATUS + "=? OR " + KEY_IMAGEUPLOADSTATUS + "=? OR " + KEY_IMAGEUPLOADSTATUS + "=?",
-                new String[]{String.valueOf(2) , String.valueOf(0), String.valueOf(1)}, null, null, null, null);
+                KEY_IMAGEUPLOADSTATUS + "=? OR " + KEY_IMAGEUPLOADSTATUS + "=? ",
+                new String[]{String.valueOf(2) , String.valueOf(0)}, null, null, null, null);
         while (cursor.moveToNext()) {
             int index = cursor.getColumnIndex(DbHandler.KEY_ID);
             int index2 = cursor.getColumnIndex(DbHandler.KEY_IMAGEURI);

@@ -37,6 +37,7 @@ public class GalleryImageDetailActivity extends BaseActivity implements View.OnC
     public static Context mContext;
     GalleryImageDetailAdapter galleryImageDetailAdapter;
     ArrayList<String> imageList = new ArrayList<>();
+    ArrayList<String> imageAddusername=new ArrayList<>();
     LinearLayoutManager linearLayoutManager;
     String selectedPosition;
     int positon = 0;
@@ -77,6 +78,7 @@ public class GalleryImageDetailActivity extends BaseActivity implements View.OnC
         selectedPosition = getIntent().getStringExtra("positon");
         final Bundle stringArrayList = getIntent().getExtras();
         imageList = stringArrayList.getStringArrayList("data");
+        imageAddusername=stringArrayList.getStringArrayList("dataName");
 
         Log.d("imageList", "" + imageList.size());
 
@@ -103,8 +105,8 @@ public class GalleryImageDetailActivity extends BaseActivity implements View.OnC
             }
         }
 
-        galleryImageDetailAdapter = new GalleryImageDetailAdapter(mContext, imageList);//,onTouchListener
-        linearLayoutManager = new LinearLayoutManager(this, OrientationHelper.HORIZONTAL, false);
+        galleryImageDetailAdapter = new GalleryImageDetailAdapter(mContext, imageList,imageAddusername);//,onTouchListener
+        linearLayoutManager = new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false);
         LinearSnapHelper linearSnapHelper = new SnapHelperOneByOne();
         linearSnapHelper.attachToRecyclerView(activityGalleryImageDetailBinding.imageDetailRcvList);
         activityGalleryImageDetailBinding.imageDetailRcvList.setLayoutManager(linearLayoutManager);
@@ -169,12 +171,14 @@ public class GalleryImageDetailActivity extends BaseActivity implements View.OnC
                 for (int i = 0; i < imageList.size(); i++) {
                     if (showPositionImage == i) {
                         imageNameStr = imageList.get(showPositionImage);
+//                        imageNameStr=imageAddusername.get(showPositionImage);
                         break;
                     }
                 }
+Log.d("imageNameStr :",imageNameStr);
 
-                String[] splitStr = imageNameStr.split("\\/");
-                Log.d("stringName", splitStr[0] + " " + splitStr[1] + " " + splitStr[2] + " " + splitStr[3] + " " + splitStr[4]);
+//                String[] splitStr = imageNameStr.split("\\/");
+//                Log.d("stringName", splitStr[0] + " " + splitStr[1] + " " + splitStr[2] + " " + splitStr[3] + " " + splitStr[4]);
                 activityGalleryImageDetailBinding.prevImg.setClickable(true);
                 activityGalleryImageDetailBinding.prevImg.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_back, 0, 0, 0);
                 if (isLastVisible()) {

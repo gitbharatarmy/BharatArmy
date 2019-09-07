@@ -8,6 +8,7 @@ import android.app.ActivityManager;
 import android.app.Dialog;
 import android.content.ContentUris;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
@@ -55,14 +56,19 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 
+import com.bharatarmy.Activity.LoginActivity;
 import com.bharatarmy.Activity.SignUpActivity;
 import com.bharatarmy.Country;
 import com.bharatarmy.CountryCodePicker;
 import com.bharatarmy.Interfaces.submit_click;
 import com.bharatarmy.Models.GalleryImageModel;
+import com.bharatarmy.Models.LogginModel;
+import com.bharatarmy.Models.LoginOtherDataModel;
 import com.bharatarmy.R;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.google.i18n.phonenumbers.NumberParseException;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.google.i18n.phonenumbers.Phonenumber;
@@ -71,6 +77,7 @@ import com.squareup.picasso.Picasso;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -97,8 +104,6 @@ public class Utils {
 
     public static final String MyPREFERENCES = "MyPrefs";
     public static SharedPreferences sharedpreferences;
-
-
 
 
     public static boolean isNetworkConnected(Context ctxt) {
@@ -376,7 +381,20 @@ public class Utils {
         Bitmap anImage = ((BitmapDrawable) myDrawable).getBitmap();
         return anImage;
     }
-
+    public static Bitmap getBitmapFromURL(String src) {
+        try {
+            URL url = new URL(src);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setDoInput(true);
+            connection.connect();
+            InputStream input = connection.getInputStream();
+            Bitmap myBitmap = BitmapFactory.decodeStream(input);
+            return myBitmap;
+        } catch (IOException e) {
+            // Log exception
+            return null;
+        }
+    }
     public static boolean appInstalledOrNot(String uri, Context mContext) {
         PackageManager pm = mContext.getPackageManager();
         boolean app_installed;
@@ -396,6 +414,7 @@ public class Utils {
                 .into(view);
 
     }
+
     public static void setGalleryImageInImageView(String imageUrl, ImageView view, Context mContext) {
         Glide.with(mContext)
                 .load(new File(imageUrl))
@@ -406,6 +425,7 @@ public class Utils {
                 .into(view);
 
     }
+
     public static boolean isReadStorageGranted(Context context) {
         int storagePermissionGranted = ContextCompat.checkSelfPermission(context,
                 Manifest.permission.READ_EXTERNAL_STORAGE);
@@ -664,7 +684,7 @@ public class Utils {
 
 
     public static boolean isMyServiceRunning(Context context) {
-        ActivityManager manager = (ActivityManager)context.getSystemService(Context.ACTIVITY_SERVICE);
+        ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
             if ("com.bharatarmy.UploadService".equals(service.service.getClassName())) {
                 return true;
@@ -703,8 +723,33 @@ public class Utils {
         return false;
     }
 
-    public static void getCurrentUserIDName(String UserId,String Name,Context mContext){
+    public static void getCurrentUserIDName(String UserId, String Name, Context mContext) {
         Utils.setPref(mContext, "AppUserId", UserId);
-        Utils.setPref(mContext,"LoginUserName",Name);
+        Utils.setPref(mContext, "LoginUserName", Name);
+    }
+
+
+    public static void storeLoginOtherData(List<LoginOtherDataModel> result, Context mContext) {
+        Gson gsonupdate = new Gson();
+        String valuesString = gsonupdate.toJson(result);
+        Utils.setPref(mContext, "loginOtherData", valuesString);
+        Log.d("valuesString", valuesString);
+    }
+
+    public static List<LoginOtherDataModel> retriveLoginOtherData(Context mContext){
+      List<LoginOtherDataModel> messageList=new ArrayList<>();
+        Type arrayListType2 = new TypeToken<ArrayList<LoginOtherDataModel>>() {}.getType();
+        Gson gson2 = new Gson();
+        messageList = gson2.fromJson(Utils.getPref(mContext, "loginOtherData"), arrayListType2);
+        return messageList;
+    }
+    public static boolean isMember(Context context){
+        if (Utils.getPref(context,"AppUserId").equalsIgnoreCase("")){
+            Intent intent=new Intent(context, LoginActivity.class);
+            context.startActivity(intent);
+        }else {
+            return true;
+        }
+        return false;
     }
 }

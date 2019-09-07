@@ -116,7 +116,6 @@ public class VideoFragment extends Fragment {
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser && rootView != null) {
             // Refresh your fragment here
-
             if (videoListAdapter == null) {
                 fragmentVideoBinding.shimmerViewContainer.startShimmerAnimation();
 
@@ -238,10 +237,10 @@ public class VideoFragment extends Fragment {
                 imageClickData = "";
                 imageClickData = String.valueOf(videoListAdapter.getData());
                 imageClickData = imageClickData.replaceAll("\\[", "").replaceAll("\\]", "");
-                String[] spiltvalue=imageClickData.split("\\|");
+                String[] spiltvalue = imageClickData.split("\\|");
 
 
-                Log.d("imageClickData :", imageClickData  +" spiltvalue :"+ spiltvalue[0]+"spiltvalue1:" + spiltvalue[1]);
+                Log.d("imageClickData :", imageClickData + " spiltvalue :" + spiltvalue[0] + "spiltvalue1:" + spiltvalue[1]);
 
                 Intent videogallerydetailIntent = new Intent(mContext, VideoDetailActivity.class);
                 videogallerydetailIntent.putExtra("videoData", spiltvalue[0]);
@@ -264,14 +263,67 @@ public class VideoFragment extends Fragment {
 
     private void loadMore() {
 
-//        callVideoGalleryData();
+        callVideoGalleryPullData();
+
+
+    }
+    // Api calling GetVideoGalleryPullData
+    public void callVideoGalleryPullData() {
+        if (!Utils.checkNetwork(mContext)) {
+            Utils.showCustomDialog(getResources().getString(R.string.internet_error), getResources().getString(R.string.internet_connection_error), getActivity());
+            return;
+        }
+
+//        Utils.showDialog(mContext);
+
+        ApiHandler.getApiService().getBAVideoGallery(getVideoGalleryPullData(), new retrofit.Callback<ImageMainModel>() {
+            @Override
+            public void success(ImageMainModel imageMainModel, Response response) {
+                Utils.dismissDialog();
+                if (imageMainModel == null) {
+                    Utils.ping(mContext, getString(R.string.something_wrong));
+                    return;
+                }
+                if (imageMainModel.getIsValid() == null) {
+                    Utils.ping(mContext, getString(R.string.something_wrong));
+                    return;
+                }
+                if (imageMainModel.getIsValid() == 0) {
+                    Utils.ping(mContext, getString(R.string.false_msg));
+                    return;
+                }
+                if (imageMainModel.getIsValid() == 1) {
+
+                    if (imageMainModel.getData() != null) {
+                        videoDetailModelsList = imageMainModel.getData();
+                            fillVideoGallery();
+
+                    }
+
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Utils.dismissDialog();
+                error.printStackTrace();
+                error.getMessage();
+                Utils.ping(mContext, getString(R.string.something_wrong));
+            }
+        });
 
 
     }
 
+    private Map<String, String> getVideoGalleryPullData() {
+        Map<String, String> map = new HashMap<>();
+        map.put("PageIndex", "0");
+        map.put("PageSize", "20");
+        return map;
+    }
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        videoDetailModelsList.clear();
+//        videoDetailModelsList.clear();
     }
 }

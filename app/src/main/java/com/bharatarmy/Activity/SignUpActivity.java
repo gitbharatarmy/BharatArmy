@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -22,6 +23,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
@@ -36,6 +38,11 @@ import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.Utility.meghWebView;
 import com.bharatarmy.databinding.ActivitySignUpBinding;
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -54,7 +61,8 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     meghWebView webView;
     TextView close_btn;
     ImageView image;
-
+    private String android_id;
+    String token;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,7 +70,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
         mContext = SignUpActivity.this;
         setListiner();
-
+        getFCMTOken();
     }
 
     // set the All Listiner and Data
@@ -186,7 +194,37 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                 break;
         }
     }
+    public void getFCMTOken() {
+        android_id = Settings.Secure.getString(SignUpActivity.this.getContentResolver(),
+                Settings.Secure.ANDROID_ID);
+        Log.d("deviceID", android_id);
 
+        FirebaseMessaging.getInstance().setAutoInitEnabled(true);
+        FirebaseInstanceId.getInstance().getInstanceId()
+                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                        if (!task.isSuccessful()) {
+                            Log.w("getInstanceId failed", task.getException());
+                            return;
+                        }
+
+                        // Get new Instance ID token
+                        token = task.getResult().getToken();
+
+                        Log.d("token", token);
+                        //getting old saved token
+                        String old_token = Utils.getPref(getApplicationContext(), "registration_id");
+
+                        if (!old_token.equalsIgnoreCase(token)) {
+                            Utils.setPref(getApplicationContext(), "registration_id", token);
+                            // sendRegistrationToServer(refreshedToken);
+                        }
+
+
+                    }
+                });
+    }
     // call the Otp Verification service and get the otp
     public void getOtpVerification() {
         if (!Utils.checkNetwork(mContext)) {

@@ -115,6 +115,8 @@
                         android:drawableRight="@drawable/ic_next" />
 
                 </LinearLayout>
+
+
                 <LinearLayout
                     android:id="@+id/share_article_linear"
                     android:layout_width="match_parent"

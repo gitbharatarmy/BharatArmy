@@ -73,6 +73,7 @@ public class ImageFragment extends Fragment {
     ImageListAdapter imageListAdapter;
     List<ImageDetailModel> imageDetailModelsList;
     ArrayList<String> galleryImageUrl = new ArrayList<>();
+    ArrayList<String> galleryImageUrlName = new ArrayList<>();
     boolean isMoreDataAvailable = true;
     String imageClickData;
     int pageIndex = 0;
@@ -203,11 +204,12 @@ public class ImageFragment extends Fragment {
                                     @Override
                                     public void onPermissionsChecked(MultiplePermissionsReport report) {
                                         if (report.areAllPermissionsGranted()) {
-                                            imageorvideoStr = "video";
-                                            Intent imagevideouploadIntent1 = new Intent(mContext, ImageVideoUploadActivity.class);
-                                            imagevideouploadIntent1.putExtra("image/video", imageorvideoStr);
-
-                                            startActivity(imagevideouploadIntent1);
+                                            if (Utils.isMember(mContext)) {
+                                                imageorvideoStr = "video";
+                                                Intent imagevideouploadIntent1 = new Intent(mContext, ImageVideoUploadActivity.class);
+                                                imagevideouploadIntent1.putExtra("image/video", imageorvideoStr);
+                                                startActivity(imagevideouploadIntent1);
+                                            }
                                         }
 
                                         if (report.isAnyPermissionPermanentlyDenied()) {
@@ -230,11 +232,14 @@ public class ImageFragment extends Fragment {
                                     @Override
                                     public void onPermissionsChecked(MultiplePermissionsReport report) {
                                         if (report.areAllPermissionsGranted()) {
-                                            imageorvideoStr = "image";
-                                            Intent imagevideouploadIntent1 = new Intent(mContext, ImageVideoUploadActivity.class);
-                                            imagevideouploadIntent1.putExtra("image/video", imageorvideoStr);
-                                            imagevideouploadIntent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                            mContext.startActivity(imagevideouploadIntent1);
+                                            if (Utils.isMember(mContext)){
+                                                imageorvideoStr = "image";
+                                                Intent imagevideouploadIntent1 = new Intent(mContext, ImageVideoUploadActivity.class);
+                                                imagevideouploadIntent1.putExtra("image/video", imageorvideoStr);
+                                                imagevideouploadIntent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                mContext.startActivity(imagevideouploadIntent1);
+                                            }
+
                                         }
 
                                     }
@@ -329,7 +334,7 @@ public class ImageFragment extends Fragment {
                         fragmentImageBinding.shimmerViewContainer.setVisibility(View.GONE);
                         fragmentImageBinding.progressBar.setVisibility(View.GONE);
                         imageDetailModelsList = imageMainModel.getData();
-
+Log.d("list : ",""+imageDetailModelsList.size());
                         addOldNewValue(imageDetailModelsList);
                         if (imageListAdapter != null && imageDetailModelsList.size() > 0) {
                             imageListAdapter.addMoreDataToList(imageDetailModelsList);
@@ -380,6 +385,7 @@ public class ImageFragment extends Fragment {
                 Intent gallerydetailIntent = new Intent(mContext, GalleryImageDetailActivity.class);
                 gallerydetailIntent.putExtra("positon", imageClickData);
                 gallerydetailIntent.putStringArrayListExtra("data", galleryImageUrl);
+                gallerydetailIntent.putStringArrayListExtra("dataName",galleryImageUrlName);
                 startActivity(gallerydetailIntent);
             }
         });
@@ -403,6 +409,7 @@ public class ImageFragment extends Fragment {
     public void addOldNewValue(List<ImageDetailModel> result) {
         for (int i = 0; i < result.size(); i++) {
             galleryImageUrl.addAll(Collections.singleton(result.get(i).getGalleryURL()));
+            galleryImageUrlName.addAll(Collections.singleton(result.get(i).getAddedUserName()));
         }
         Log.d("galleryImageUrl", "" + galleryImageUrl.size());
 
@@ -439,7 +446,7 @@ public class ImageFragment extends Fragment {
                         imageDetailModelsList = imageMainModel.getData();
 
 
-                      imageListAdapter.notifyDataSetChanged();
+                      fillImageGallery();
                     }
 
                 }

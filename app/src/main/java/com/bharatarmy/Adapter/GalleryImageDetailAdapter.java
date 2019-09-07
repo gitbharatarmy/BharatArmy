@@ -2,6 +2,7 @@ package com.bharatarmy.Adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -15,6 +16,7 @@ import com.bharatarmy.R;
 import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.GalleryImageDetailListBinding;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -22,14 +24,15 @@ import java.util.List;
 public class GalleryImageDetailAdapter extends RecyclerView.Adapter<GalleryImageDetailAdapter.MyViewHolder> implements View.OnTouchListener {
     Context mContext;
     public List<String> imageList;
-
+    ArrayList<String> userNameList;
 
 
     private RecyclerViewOnTouchListener touchListener;
 
-    public GalleryImageDetailAdapter(Context mContext, List<String> imageList) {
+    public GalleryImageDetailAdapter(Context mContext, ArrayList<String> imageList, ArrayList<String> imageAddusername) {
         this.mContext = mContext;
         this.imageList = imageList;
+    this.userNameList=imageAddusername;
     }
 
     public interface RecyclerViewOnTouchListener {
@@ -49,25 +52,15 @@ public class GalleryImageDetailAdapter extends RecyclerView.Adapter<GalleryImage
 
         GalleryImageDetailListBinding galleryImageDetailListBinding;
 
-//        private ImageView galleryimageListImg;
-//        private GestureImageView fullimage;
-
        public MyViewHolder(GalleryImageDetailListBinding galleryImageDetailListBinding) {
             super(galleryImageDetailListBinding.getRoot());
             this.galleryImageDetailListBinding=galleryImageDetailListBinding;
-//            galleryimageListImg = (ImageView) view.findViewById(R.id.image_detail_img);
-//            fullimage=(GestureImageView)view.findViewById(R.id.image_full);
-
         }
     }
 
 
     @Override
     public GalleryImageDetailAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-//        View itemView = LayoutInflater.from(parent.getContext())
-//                .inflate(R.layout.gallery_image_detail_list, parent, false);
-//
-//        return new GalleryImageDetailAdapter.MyViewHolder(itemView);
         GalleryImageDetailListBinding galleryImageDetailListBinding= DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
                 R.layout.gallery_image_detail_list,parent,false);
         return new GalleryImageDetailAdapter.MyViewHolder(galleryImageDetailListBinding);
@@ -78,8 +71,8 @@ public class GalleryImageDetailAdapter extends RecyclerView.Adapter<GalleryImage
     public void onBindViewHolder(GalleryImageDetailAdapter.MyViewHolder holder, int position) {
         Utils.setImageInImageView(imageList.get(position),holder.galleryImageDetailListBinding.imageFull,mContext);
         holder.galleryImageDetailListBinding.imageFull.getPositionAnimator().enter(holder.galleryImageDetailListBinding.imageDetailImg, false);
-
-
+holder.galleryImageDetailListBinding.uploadimageUserNametxt.setText(userNameList.get(position));
+Log.d("userName :",userNameList.get(position));
     }
 
 

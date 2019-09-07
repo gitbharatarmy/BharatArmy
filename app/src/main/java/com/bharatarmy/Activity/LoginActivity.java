@@ -28,6 +28,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -204,6 +205,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         Utils.setPref(mContext, "CountryISOCode", loginModel.getData().getCountryISOCode());
                         Utils.setPref(mContext, "CountryPhoneNo", loginModel.getData().getCountryPhoneNo());
                         Utils.setPref(mContext, "IsBAAdmin", String.valueOf(loginModel.getData().getIsBAAdmin()));
+
+                        Utils.storeLoginOtherData(loginModel.getOtherData(),mContext);
 
                         Utils.getCurrentUserIDName(String.valueOf(loginModel.getData().getId()),loginModel.getData().getName(),mContext);
 

@@ -12,12 +12,26 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"/>
 
+
     <com.alexvasilkov.gestures.views.GestureImageView
         android:id="@+id/image_full"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_centerInParent="true" />
+        android:layout_centerInParent="true"/>
 
+        <TextView
+            android:id="@+id/uploadimage_userNametxt"
+            style="@style/text_font"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/_5sdp"
+            android:text="Developed"
+            android:textColor="@color/splash_bg_color"
+            android:textSize="@dimen/_14sdp"
+            android:visibility="visible"
+       />
 
 </RelativeLayout>
 </layout>

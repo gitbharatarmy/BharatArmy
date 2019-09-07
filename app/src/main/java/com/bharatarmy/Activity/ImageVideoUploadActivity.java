@@ -1,10 +1,8 @@
 package com.bharatarmy.Activity;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -12,16 +10,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.app.Activity;
-import android.app.Notification;
-import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -39,15 +32,17 @@ import android.widget.Toast;
 import com.bharatarmy.Adapter.SelectedImageVideoViewAdapter;
 import com.bharatarmy.Interfaces.image_click;
 import com.bharatarmy.Models.GalleryImageModel;
+import com.bharatarmy.Models.LoginOtherDataModel;
 import com.bharatarmy.R;
 import com.bharatarmy.UploadService;
-import com.bharatarmy.Utility.AppConfiguration;
 import com.bharatarmy.Utility.DbHandler;
 import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.VideoTrimmer.interfaces.OnHgLVideoListener;
 import com.bharatarmy.VideoTrimmer.interfaces.OnTrimVideoListener;
 import com.bharatarmy.VideoTrimmer.utils.FileUtils;
 import com.bharatarmy.databinding.ActivityImageVideoUploadBinding;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
@@ -55,6 +50,7 @@ import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 
 import java.io.File;
+import java.lang.reflect.Type;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -107,6 +103,8 @@ public class ImageVideoUploadActivity extends AppCompatActivity implements View.
 
     public void init() {
         dbHandler = new DbHandler(mContext);
+
+
 
 
         galleryImageList = new ArrayList<>();
@@ -188,7 +186,18 @@ public class ImageVideoUploadActivity extends AppCompatActivity implements View.
                         AlertDialog alertDialog = dialogBuilder.create();
                         alertDialog.setCanceledOnTouchOutside(false);
                         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+                        TextView dialog_headertxt=(TextView)dialogView.findViewById(R.id.dialog_headertxt);
+                        TextView dialog_descriptiontxt=(TextView)dialogView.findViewById(R.id.dialog_descriptiontxt);
                         TextView hometxt = (TextView) dialogView.findViewById(R.id.home_txt);
+
+                       Log.d("messageList :",Utils.retriveLoginOtherData(mContext).toString());
+                       if (Utils.retriveLoginOtherData(mContext)!=null){
+                           for (int i=0;i<Utils.retriveLoginOtherData(mContext).size();i++){
+                               dialog_headertxt.setText(Utils.retriveLoginOtherData(mContext).get(i).getMessageHeaderText());
+                               dialog_descriptiontxt.setText(Utils.retriveLoginOtherData(mContext).get(i).getMessageDescription());
+                           }
+                       }
+
                         hometxt.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -208,7 +217,7 @@ public class ImageVideoUploadActivity extends AppCompatActivity implements View.
 
                                     Intent intent = new Intent(mContext, UploadService.class);
                                     startService(intent);
-                                    createNotification(AppConfiguration.notificationtitle, mContext);
+
                                 }
                             }, 50);
 
@@ -467,19 +476,6 @@ public class ImageVideoUploadActivity extends AppCompatActivity implements View.
         });
     }
 
-    private void playUriOnVLC(Uri uri) {
-
-        int vlcRequestCode = 42;
-        Intent vlcIntent = new Intent(Intent.ACTION_VIEW);
-        vlcIntent.setPackage("org.videolan.vlc");
-        vlcIntent.setDataAndTypeAndNormalize(uri, "video/*");
-        vlcIntent.putExtra("title", "Kung Fury");
-        vlcIntent.putExtra("from_start", false);
-        vlcIntent.putExtra("position", 90000l);
-        startActivityForResult(vlcIntent, vlcRequestCode);
-    }
-
-
     private void openVideoCapture() {
         Intent videoCapture = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
         startActivityForResult(videoCapture, REQUEST_VIDEO_TRIMMER);
@@ -548,75 +544,6 @@ public class ImageVideoUploadActivity extends AppCompatActivity implements View.
         MediaPlayer mp = MediaPlayer.create(this, uriOfFile);
         int duration = mp.getDuration();
         return duration;
-    }
-
-    public void createNotification(String aMessage, Context context) {
-
-        String id = context.getString(R.string.default_notification_channel_id); // default_channel_id
-        String title = context.getString(R.string.default_notification_channel_title); // Default Channel
-        Intent intent;
-        PendingIntent pendingIntent;
-        NotificationCompat.Builder builder;
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(),
-                R.drawable.proflie);
-
-        if (notifManager == null) {
-            notifManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            int importance = NotificationManager.IMPORTANCE_HIGH;
-            NotificationChannel mChannel = notifManager.getNotificationChannel(id);
-            if (mChannel == null) {
-                mChannel = new NotificationChannel(id, title, importance);
-                mChannel.enableVibration(false);
-                mChannel.setVibrationPattern(new long[]{-1});
-                notifManager.createNotificationChannel(mChannel);
-            }
-            builder = new NotificationCompat.Builder(context, id);
-            intent = new Intent(context, MyMediaActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            Utils.setPref(mContext, "cometonotification", "cometonotification");
-            intent.putExtra("image/video", Utils.getPref(mContext, "image/video"));
-            intent.putExtra("cometonotification", Utils.getPref(mContext, "cometonotification"));
-            pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-            builder.setContentTitle(aMessage)                            // required
-                    .setSmallIcon(R.drawable.app_logo)   // required
-                    .setContentText(context.getString(R.string.app_name)) // required
-                    .setDefaults(Notification.DEFAULT_VIBRATE)
-                    .setVibrate(new long[]{-1}) //new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400}
-                    .setOngoing(true)
-                    .setAutoCancel(true)
-                    .setContentIntent(pendingIntent)
-                    .setTicker(aMessage)
-                    .setProgress(0, 0, true)
-                    .setPriority(Notification.PRIORITY_HIGH);
-
-        } else {
-            builder = new NotificationCompat.Builder(context, id);
-            intent = new Intent(context, MyMediaActivity.class);
-            Utils.setPref(mContext, "cometonotification", "cometonotification");
-            intent.putExtra("image/video", Utils.getPref(mContext, "image/video"));
-            intent.putExtra("cometonotification", Utils.getPref(mContext, "cometonotification"));
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
-            builder.setContentTitle(aMessage)                            // required
-                    .setSmallIcon(R.drawable.app_logo)   // required
-                    .setContentText(context.getString(R.string.app_name)) // required
-                    .setDefaults(Notification.DEFAULT_VIBRATE)
-                    .setVibrate(new long[]{-1}) //new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400}
-                    .setOngoing(true)
-                    .setAutoCancel(true)
-                    .setContentIntent(pendingIntent)
-                    .setTicker(aMessage)
-                    .setProgress(0, 0, true)
-//                    .setProgress(100, progress, false)
-                    .setPriority(Notification.PRIORITY_HIGH);
-        }
-        Notification notification = builder.build();
-
-        notification.flags |= Notification.FLAG_AUTO_CANCEL | Notification.FLAG_ONGOING_EVENT;//Notification.FLAG_AUTO_CANCEL |
-        notifManager.notify(NOTIFY_ID, notification);
-
     }
 
 }
