@@ -39,6 +39,34 @@ public interface WebServices {
     void getLogin(@FieldMap Map<String, String> map, Callback<LogginModel> callback);
 
     @FormUrlEncoded
+    @POST("/ForgotPassword")
+    void getForgotPassword(@FieldMap Map<String, String> map, Callback<LogginModel> callback);
+
+    @FormUrlEncoded
+    @POST("/ChangePassword")
+    void getChangePassword(@FieldMap Map<String, String> map, Callback<LogginModel> callback);
+
+    @FormUrlEncoded
+    @POST("/AppSignup")
+    void getSignup(@FieldMap Map<String, String> map, Callback<LogginModel> callback);
+
+    @FormUrlEncoded
+    @POST("/GetUserDetails")
+    void getUserDetails(@FieldMap Map<String, String> map, Callback<LogginModel> callback);
+
+    @FormUrlEncoded
+    @POST("/SendVerificationOTP")
+    void getSendVerificationOTP(@FieldMap Map<String, String> map, Callback<LogginModel> callback);
+
+    @FormUrlEncoded
+    @POST("/ValidatedBAMember")
+    void getValidatedBAMember(@FieldMap Map<String, String> map, Callback<LogginModel> callback);
+
+    @FormUrlEncoded
+    @POST("/VerifiedPhoneNo")
+    void getVerifiedPhoneNo(@FieldMap Map<String, String> map, Callback<OtpModel> callback);
+
+    @FormUrlEncoded
     @POST("/GetDashboard")
     void getDashboard(@FieldMap Map<String, String> map, Callback<DashboardModel> callback);
 
@@ -54,20 +82,7 @@ public interface WebServices {
     @POST("/SaveRegisterInterest")
     void getSaveRegisterInterest(@FieldMap Map<String, String> map, Callback<LogginModel> callback);
 
-    @FormUrlEncoded
-    @POST("/GetUserDetails")
-    void getUserDetails(@FieldMap Map<String, String> map, Callback<LogginModel> callback);
-
-    @FormUrlEncoded
-    @POST("/SendVerificationOTP")
-    void getSendVerificationOTP(@FieldMap Map<String, String> map, Callback<LogginModel> callback);
-
-    @FormUrlEncoded
-    @POST("/ValidatedBAMember")
-    void getValidatedBAMember(@FieldMap Map<String, String> map, Callback<LogginModel> callback);
-
-
-    /* image uploading with multiple parameter*/
+    /* profile image uploading with multiple parameter*/
     @Multipart
     @retrofit2.http.POST("/API/v1/UpdateProfile")
     Call<LogginModel> updateprofile(@Part("AppUserId") RequestBody userid, @Part("FullName") RequestBody fullname,
@@ -76,22 +91,24 @@ public interface WebServices {
                                        @Part("OTPText") RequestBody otptext,@Part("SMSSentId") RequestBody smssentId,
                                        @Part MultipartBody.Part file);
 
+    /* gallery image/video uploading with multiple parameter */
     @Multipart
     @retrofit2.http.POST("/API/v1/UploadFiles_New")
-    Call<LogginModel> uploadfiles(@Part MultipartBody.Part file,@Part("FileTypeId") RequestBody filetype,@Part("MemberId") RequestBody userid,@Part("MemberFullName") RequestBody memberName); //@Part("FileTypeId") RequestBody userid,
+    Call<LogginModel> uploadfiles(@Part MultipartBody.Part file,@Part("FileTypeId") RequestBody filetype,
+                                  @Part("MemberId") RequestBody userid,@Part("MemberFullName") RequestBody memberName,
+                                  @Part("VideoLength") RequestBody videoLength,
+                                  @Part("Title") RequestBody videoTitle,
+                                  @Part("TitleDescription") RequestBody titleDescription); //@Part("FileTypeId") RequestBody userid,
+
+    /* gallery image/video uploading with multiple parameter */
+    @Multipart
+    @retrofit2.http.POST("/API/v1/UploadFiles_New")
+    Call<LogginModel> uploadvideo(@Part MultipartBody.Part[] file,@Part("FileTypeId") RequestBody filetype,
+                                  @Part("MemberId") RequestBody userid,@Part("MemberFullName") RequestBody memberName,
+                                  @Part("VideoLength") RequestBody videoLength,
+                                  @Part("Title") RequestBody videoTitle,
+                                  @Part("TitleDescription") RequestBody titleDescription); //@Part("FileTypeId") RequestBody userid,
     //if we pass array of imagethen use MultipartBody.Part[] file
-
-//    @Multipart
-//    @retrofit2.http.POST("/API/v1/UploadFiles")
-//    Call<LogginModel> uploadfiles(@Part("FileTypeId") RequestBody userid,@Part MultipartBody.Part[] file); //@Part("FileTypeId") RequestBody userid,
-
-    @FormUrlEncoded
-    @POST("/VerifiedPhoneNo")
-    void getVerifiedPhoneNo(@FieldMap Map<String, String> map, Callback<OtpModel> callback);
-
-    @FormUrlEncoded
-    @POST("/AppSignup")
-    void getSignup(@FieldMap Map<String, String> map, Callback<LogginModel> callback);
 
     @FormUrlEncoded
     @POST("/BAGallery")
@@ -101,22 +118,22 @@ public interface WebServices {
     @POST("/BAVideoGallery")
     void getBAVideoGallery(@FieldMap Map<String, String> map, Callback<ImageMainModel> callback);
 
+    @FormUrlEncoded
+    @POST("/GetBAFTP")
+    void getBAFTP(@FieldMap Map<String, String> map, Callback<ImageMainModel> callback);
+
+    @FormUrlEncoded
+    @POST("/GetFTPDetail")
+    void getFTPDetail(@FieldMap Map<String, String> map, Callback<ImageMainModel> callback);
 
     @FormUrlEncoded
     @POST("/GetBAStories")
     void getBAStories(@FieldMap Map<String, String> map, Callback<ImageMainModel> callback);
 
     @FormUrlEncoded
-    @POST("/GetBAFTP")
-    void getBAFTP(@FieldMap Map<String, String> map, Callback<ImageMainModel> callback);
-
-    @FormUrlEncoded
     @POST("/GetStoryDetail")
     void getStoryDetail(@FieldMap Map<String, String> map, Callback<ImageMainModel> callback);
 
-    @FormUrlEncoded
-    @POST("/GetFTPDetail")
-    void getFTPDetail(@FieldMap Map<String, String> map, Callback<ImageMainModel> callback);
 
     @FormUrlEncoded
     @POST("/GetItineraryDetailByDayNo")

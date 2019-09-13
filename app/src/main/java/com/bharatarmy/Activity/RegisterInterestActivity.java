@@ -127,13 +127,14 @@ public class RegisterInterestActivity extends AppCompatActivity implements View.
                     tournamentIdStr = tournamentIdStr.substring(1, tournamentIdStr.length());
                     Log.d("finalstatusStr", tournamentIdStr);
                     matchidStr = tournamentIdStr;
-                    if (!Utils.getPref(mContext, "AppUserId").equalsIgnoreCase("")) {
-                        memberIdStr = Utils.getPref(mContext, "AppUserId");
-                        nameStr = Utils.getPref(mContext, "LoginUserName");
-                        emailStr = Utils.getPref(mContext, "LoginEmailId");
-                        mobilenoStr = Utils.getPref(mContext, "LoginPhoneNo");
-                        countrycodeStr = Utils.getPref(mContext, "CountryISOCode");
-                        countrydialcodeStr = Utils.getPref(mContext, "CountryPhoneNo");
+                    if (Utils.getAppUserId(mContext)!=0) {
+                        memberIdStr = String.valueOf(Utils.getAppUserId(mContext));
+                        nameStr = Utils.retriveLoginData(mContext).getName();
+                        emailStr = Utils.retriveLoginData(mContext).getEmail();
+                        mobilenoStr = Utils.retriveLoginData(mContext).getPhoneNo();
+
+                        countrycodeStr = Utils.retriveLoginData(mContext).getCountryISOCode();
+                        countrydialcodeStr = Utils.retriveLoginData(mContext).getCountryPhoneNo();
 
                         if (!memberIdStr.equalsIgnoreCase("") && !nameStr.equalsIgnoreCase("") &&
                                 !emailStr.equalsIgnoreCase("") && !mobilenoStr.equalsIgnoreCase("") &&

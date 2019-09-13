@@ -25,10 +25,12 @@ import com.bharatarmy.Utility.NetworkClient;
 import com.bharatarmy.Utility.ProgressRequestBody;
 import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.Utility.WebServices;
-import com.bharatarmy.Utility.firebaseutils;
+import com.bharatarmy.Utility.Utils;
+import com.bharatarmy.VideoTrimmer.utils.FileUtils;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -46,8 +48,8 @@ public class UploadService extends IntentService implements ProgressRequestBody.
     private NotificationManager notifManager;
     DbHandler db;
     String fileTypeId;
-    RequestBody appuserId, filetypeId, memberName;
-
+    RequestBody appuserId, filetypeId, memberName,videoLength,videoTitle,videoDesc;
+    Call<LogginModel> call;
     public UploadService() {
         super("UploadService");
     }
@@ -57,22 +59,15 @@ public class UploadService extends IntentService implements ProgressRequestBody.
     @Override
     protected void onHandleIntent(Intent intent) {
         db = new DbHandler(getApplicationContext());
-        if (firebaseutils.UpladingFiles == null) {
-            firebaseutils.UpladingFiles = new ArrayList<>();
+        if (Utils.UpladingFiles == null) {
+            Utils.UpladingFiles = new ArrayList<>();
         }
-        firebaseutils.UpladingFiles = db.getAllImageData();
+        Utils.UpladingFiles = db.getAllImageData();
 
-        if (firebaseutils.UpladingFiles != null && firebaseutils.UpladingFiles.size() > 0) {
-            appuserId = RequestBody.create(MediaType.parse("text/plain"), Utils.getPref(getApplicationContext(), "AppUserId"));
-            if (Utils.getPref(getApplicationContext(), "image/video").equalsIgnoreCase("image")) {
-                fileTypeId = "2";
-            } else {
-                fileTypeId = "4";
-            }
-            filetypeId = RequestBody.create(MediaType.parse("text/plain"), fileTypeId);
-            memberName = RequestBody.create(MediaType.parse("text/plain"), Utils.getPref(getApplicationContext(), "LoginUserName"));
+        if (Utils.UpladingFiles != null && Utils.UpladingFiles.size() > 0) {
+
             createNotification(AppConfiguration.notificationtitle,getApplicationContext());
-            UploadFiles(firebaseutils.UpladingFiles.get(0)); //, intent
+            UploadFiles(Utils.UpladingFiles.get(0)); //, intent
         }else{
             stopSelf();
         }
@@ -84,15 +79,40 @@ public class UploadService extends IntentService implements ProgressRequestBody.
         Log.d("filepath :", filePath);
 
         db.UpdateImageStatus("1", objfile.getId(), getApplicationContext());
-        File file = new File(filePath);
-        ProgressRequestBody fileBody = new ProgressRequestBody(file, this);
 
-
-        MultipartBody.Part body = MultipartBody.Part.createFormData("image", file.getName(), fileBody);
+        filetypeId = RequestBody.create(MediaType.parse("text/plain"), objfile.getFileType());
+        memberName = RequestBody.create(MediaType.parse("text/plain"), Utils.retriveLoginData(getApplicationContext()).getName());
+        appuserId = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(Utils.getAppUserId(getApplicationContext())));
+        videoLength = RequestBody.create(MediaType.parse("text/plain"), objfile.getVideolength());
+        videoTitle=RequestBody.create(MediaType.parse("text/plain"),objfile.getVideoTitle());
+        videoDesc=RequestBody.create(MediaType.parse("text/plain"),objfile.getVideoDesc());
         Retrofit retrofit = NetworkClient.getRetrofitClient(getApplicationContext());
         WebServices uploadAPIs = retrofit.create(WebServices.class);
+        if (objfile.getFileType().equalsIgnoreCase("4")){
+                      Utils.videoFile=new ArrayList<>();
+            String path = FileUtils.getPath(getApplicationContext(),
+                    Utils.getImageUri(getApplicationContext(),Utils.createVideoThumbNail(objfile.getImageUri())));
+            Log.d("filename :", path);
+            Utils.videoFile.add(objfile.getImageUri());
+            Utils.videoFile.add(path);
 
-        Call<LogginModel> call = uploadAPIs.uploadfiles(body, filetypeId, appuserId, memberName);
+            MediaType mediaType = MediaType.parse("");//Based on the Postman logs,it's not specifying Content-Type, this is why I've made this empty content/mediaType
+            MultipartBody.Part[] fileParts = new MultipartBody.Part[Utils.videoFile.size()];
+            for (int i = 0; i < Utils.videoFile.size(); i++) {
+                File file = new File(Utils.videoFile.get(i));
+                RequestBody fileBody = RequestBody.create(mediaType, file);
+                //Setting the file name as an empty string here causes the same issue, which is sending the request successfully without saving the files in the backend, so don't neglect the file name parameter.
+                fileParts[i] = MultipartBody.Part.createFormData(String.format(Locale.ENGLISH, "file[%d]", i), file.getName(), fileBody);
+            }
+            call = uploadAPIs.uploadvideo(fileParts, filetypeId, appuserId, memberName,videoLength,videoTitle,videoDesc);
+        }else{
+            File file = new File(filePath);
+            ProgressRequestBody fileBody = new ProgressRequestBody(file, this);
+            MultipartBody.Part body = MultipartBody.Part.createFormData("image", file.getName(), fileBody);
+
+           call = uploadAPIs.uploadfiles(body, filetypeId, appuserId, memberName,videoLength,videoTitle,videoDesc);
+        }
+
         Log.d("File", "" + call);
         call.enqueue(new Callback<LogginModel>() {
 
@@ -104,15 +124,15 @@ public class UploadService extends IntentService implements ProgressRequestBody.
                     Log.d("result", "" + result);
                     result = Activity.RESULT_OK;
                     db.DeleteImage(objfile.getId());
-                    firebaseutils.UpladingFiles.remove(objfile);
+                    Utils.UpladingFiles.remove(objfile);
 
-                    if (firebaseutils.UpladingFiles.size() > 0) {
-                        UploadFiles(firebaseutils.UpladingFiles.get(0));
+                    if (Utils.UpladingFiles.size() > 0) {
+                        UploadFiles(Utils.UpladingFiles.get(0));
                         createNotification(AppConfiguration.notificationtitle, getApplicationContext());
                     } else {
-                        firebaseutils.UpladingFiles = db.getAllImageData();
-                        if (firebaseutils.UpladingFiles != null && firebaseutils.UpladingFiles.size() > 0) {
-                            UploadFiles(firebaseutils.UpladingFiles.get(0)); //, intent
+                        Utils.UpladingFiles = db.getAllImageData();
+                        if (Utils.UpladingFiles != null && Utils.UpladingFiles.size() > 0) {
+                            UploadFiles(Utils.UpladingFiles.get(0)); //, intent
                             createNotification(AppConfiguration.notificationtitle, getApplicationContext());
                         } else {
                             if (notifManager == null) {
@@ -133,9 +153,9 @@ public class UploadService extends IntentService implements ProgressRequestBody.
                 Log.d("error :", t.getClass().getSimpleName());
 //                if (!t.getClass().getSimpleName().equalsIgnoreCase("FileNotFoundException")) {
                     db.UpdateImageStatus("2", objfile.getId(), getApplicationContext());
-                    firebaseutils.UpladingFiles.remove(objfile);
-                    if (firebaseutils.UpladingFiles.size() > 0) {
-                        UploadFiles(firebaseutils.UpladingFiles.get(0));//, intent
+                    Utils.UpladingFiles.remove(objfile);
+                    if (Utils.UpladingFiles.size() > 0) {
+                        UploadFiles(Utils.UpladingFiles.get(0));//, intent
                     } else {
                         if (notifManager == null) {
                             notifManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);

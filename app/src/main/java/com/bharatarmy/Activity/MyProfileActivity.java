@@ -39,19 +39,19 @@ public class MyProfileActivity extends AppCompatActivity implements View.OnClick
 
         activityMyProfileBinding.toolbarTitleTxt.setText("Member Profile");
 
-        activityMyProfileBinding.userShowTxt.setText(Utils.getPref(mContext,"LoginUserName"));
-        activityMyProfileBinding.emailShowTxt.setText(Utils.getPref(mContext,"LoginEmailId"));
-        activityMyProfileBinding.phoneShowTxt.setText(Utils.getPref(mContext,"LoginPhoneNo"));
-        if (Utils.getPref(mContext,"Gender").equalsIgnoreCase("1")){
-            activityMyProfileBinding.genderShowTxt.setText("Male");
-        }else if(Utils.getPref(mContext,"Gender").equalsIgnoreCase("2")){
-            activityMyProfileBinding.genderShowTxt.setText("Female");
-        }else{
-            activityMyProfileBinding.genderShowTxt.setText("");
-        }
-
-        Utils.setImageInImageView(Utils.getPref(mContext,"LoginProfilePic"),activityMyProfileBinding.profileImage,mContext);
-        Log.d("emailid",Utils.getPref(mContext,"LoginEmailId"));
+//        activityMyProfileBinding.userShowTxt.setText(Utils.getPref(mContext,"LoginUserName"));
+//        activityMyProfileBinding.emailShowTxt.setText(Utils.getPref(mContext,"LoginEmailId"));
+//        activityMyProfileBinding.phoneShowTxt.setText(Utils.getPref(mContext,"LoginPhoneNo"));
+//        if (Utils.getPref(mContext,"Gender").equalsIgnoreCase("1")){
+//            activityMyProfileBinding.genderShowTxt.setText("Male");
+//        }else if(Utils.getPref(mContext,"Gender").equalsIgnoreCase("2")){
+//            activityMyProfileBinding.genderShowTxt.setText("Female");
+//        }else{
+//            activityMyProfileBinding.genderShowTxt.setText("");
+//        }
+//
+//        Utils.setImageInImageView(Utils.getPref(mContext,"LoginProfilePic"),activityMyProfileBinding.profileImage,mContext);
+//        Log.d("emailid",Utils.getPref(mContext,"LoginEmailId"));
     }
 
 

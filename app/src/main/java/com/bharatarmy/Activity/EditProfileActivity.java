@@ -83,10 +83,11 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
 
     public void setDataValue() {
         activityEditProfileBinding.ccp.setCountryForNameCode(AppConfiguration.currentCountry);
-        activityEditProfileBinding.usernameTitleTxt.setText(Utils.getPref(mContext, "LoginUserName"));
-        activityEditProfileBinding.userNameEdt.setText(Utils.getPref(mContext, "LoginUserName"));
-        activityEditProfileBinding.emailEdt.setText(Utils.getPref(mContext, "LoginEmailId"));
-        activityEditProfileBinding.phoneNoEdt.setText(Utils.getPref(mContext, "LoginPhoneNo"));
+
+        activityEditProfileBinding.usernameTitleTxt.setText(Utils.retriveLoginData(mContext).getName());
+        activityEditProfileBinding.userNameEdt.setText(Utils.retriveLoginData(mContext).getName());
+        activityEditProfileBinding.emailEdt.setText(Utils.retriveLoginData(mContext).getEmail());
+        activityEditProfileBinding.phoneNoEdt.setText(Utils.retriveLoginData(mContext).getPhoneNo());
 
         countryISOCodeStr = Utils.getPref(mContext, "CountryISOCode");
         countryCodeStr = Utils.getPref(mContext, "CountryPhoneNo");
@@ -100,7 +101,7 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
             activityEditProfileBinding.femaleRb.setChecked(true);
         }
         Picasso.with(mContext)
-                .load(Utils.getPref(mContext, "LoginProfilePic"))
+                .load(Utils.retriveLoginData(mContext).getProfilePicUrl())
                 .placeholder(R.drawable.progress_animation)
                 .into(activityEditProfileBinding.profileImage);
     }
@@ -351,14 +352,16 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
                     Utils.dismissDialog();
                 }
                 if (response.body().getIsValid() == 1) {
-                    Utils.setPref(mContext, "LoginUserName", response.body().getData().getName());
-                    Utils.setPref(mContext, "LoginEmailId", response.body().getData().getEmail());
-                    Utils.setPref(mContext, "LoginPhoneNo", response.body().getData().getPhoneNo());
-                    Utils.setPref(mContext, "LoginProfilePic", response.body().getData().getProfilePicUrl());
-                    Utils.setPref(mContext, "EmailVerified", String.valueOf(response.body().getData().getIsEmailVerified()));
-                    Utils.setPref(mContext, "PhoneVerified", String.valueOf(response.body().getData().getIsNumberVerified()));
-                    Utils.setPref(mContext, "AppUserId", String.valueOf(response.body().getData().getId()));
-                    Utils.setPref(mContext, "Gender", String.valueOf(response.body().getData().getGender()));
+//                    Utils.setPref(mContext, "LoginUserName", response.body().getData().getName());
+//                    Utils.setPref(mContext, "LoginEmailId", response.body().getData().getEmail());
+//                    Utils.setPref(mContext, "LoginPhoneNo", response.body().getData().getPhoneNo());
+//                    Utils.setPref(mContext, "LoginProfilePic", response.body().getData().getProfilePicUrl());
+//                    Utils.setPref(mContext, "EmailVerified", String.valueOf(response.body().getData().getIsEmailVerified()));
+//                    Utils.setPref(mContext, "PhoneVerified", String.valueOf(response.body().getData().getIsNumberVerified()));
+//                    Utils.setPref(mContext, "AppUserId", String.valueOf(response.body().getData().getId()));
+//                    Utils.setPref(mContext, "Gender", String.valueOf(response.body().getData().getGender()));
+
+                    Utils.storeLoginData(response.body().getData(),mContext);
 
                     Utils.ping(mContext, "Profile Updated Successfully");
                     AppConfiguration.position = 1;
@@ -458,7 +461,7 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
         fullNameStr = activityEditProfileBinding.userNameEdt.getText().toString();
         countryCodeStr = activityEditProfileBinding.ccp.getSelectedCountryCode();
         phoneNoStr = activityEditProfileBinding.phoneNoEdt.getText().toString();
-        appUser = Utils.getPref(mContext, "AppUserId");
+        appUser = String.valueOf(Utils.getAppUserId(mContext));
 
         genderStr = Utils.getPref(mContext, "Gender");
         Log.d("DataValue", "Name :" + fullNameStr + "countrycode:" + countryCodeStr

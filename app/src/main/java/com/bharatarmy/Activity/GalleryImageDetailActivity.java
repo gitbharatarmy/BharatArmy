@@ -38,6 +38,7 @@ public class GalleryImageDetailActivity extends BaseActivity implements View.OnC
     GalleryImageDetailAdapter galleryImageDetailAdapter;
     ArrayList<String> imageList = new ArrayList<>();
     ArrayList<String> imageAddusername=new ArrayList<>();
+    ArrayList<String> imageDuration=new ArrayList<>();
     LinearLayoutManager linearLayoutManager;
     String selectedPosition;
     int positon = 0;
@@ -79,7 +80,7 @@ public class GalleryImageDetailActivity extends BaseActivity implements View.OnC
         final Bundle stringArrayList = getIntent().getExtras();
         imageList = stringArrayList.getStringArrayList("data");
         imageAddusername=stringArrayList.getStringArrayList("dataName");
-
+imageDuration=stringArrayList.getStringArrayList("dataDuration");
         Log.d("imageList", "" + imageList.size());
 
 
@@ -105,7 +106,7 @@ public class GalleryImageDetailActivity extends BaseActivity implements View.OnC
             }
         }
 
-        galleryImageDetailAdapter = new GalleryImageDetailAdapter(mContext, imageList,imageAddusername);//,onTouchListener
+        galleryImageDetailAdapter = new GalleryImageDetailAdapter(mContext, imageList,imageAddusername,imageDuration);//,onTouchListener
         linearLayoutManager = new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false);
         LinearSnapHelper linearSnapHelper = new SnapHelperOneByOne();
         linearSnapHelper.attachToRecyclerView(activityGalleryImageDetailBinding.imageDetailRcvList);
@@ -141,7 +142,7 @@ public class GalleryImageDetailActivity extends BaseActivity implements View.OnC
             activityGalleryImageDetailBinding.prevImg.setClickable(true);
             activityGalleryImageDetailBinding.nextImg.setClickable(false);
             activityGalleryImageDetailBinding.nextImg.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
-            activityGalleryImageDetailBinding.prevImg.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_back, 0, 0, 0);
+            activityGalleryImageDetailBinding.prevImg.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
         } else if (currentVisibleItem != 0) {
             activityGalleryImageDetailBinding.nextImg.setClickable(true);
             activityGalleryImageDetailBinding.prevImg.setClickable(true);
@@ -151,7 +152,7 @@ public class GalleryImageDetailActivity extends BaseActivity implements View.OnC
             activityGalleryImageDetailBinding.prevImg.setClickable(false);
             activityGalleryImageDetailBinding.nextImg.setClickable(true);
             activityGalleryImageDetailBinding.prevImg.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
-            activityGalleryImageDetailBinding.nextImg.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_next, 0);
+            activityGalleryImageDetailBinding.nextImg.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
         }
         if (scroll) {
             activityGalleryImageDetailBinding.imageDetailRcvList.smoothScrollToPosition(currentVisibleItem);

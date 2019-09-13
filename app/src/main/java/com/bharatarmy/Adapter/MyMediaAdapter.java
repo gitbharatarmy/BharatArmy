@@ -59,6 +59,7 @@ public class MyMediaAdapter extends RecyclerView.Adapter<MyMediaAdapter.MyViewHo
     @Override
     public void onBindViewHolder(MyMediaAdapter.MyViewHolder holder, final int position) {
         GalleryImageModel detailgallery = imageDetailModel.get(position);
+
             if (!Utils.getPref(mContext, "image/video").equalsIgnoreCase("video")) {
                 Utils.setGalleryImageInImageView(detailgallery.getImageUri(), holder.myMediaListItemBinding.uploadImage, mContext);
             } else {
@@ -77,18 +78,6 @@ public class MyMediaAdapter extends RecyclerView.Adapter<MyMediaAdapter.MyViewHo
             holder.myMediaListItemBinding.uploadStatus.setText("Pending...");
         }
 
-//        holder.myMediaListItemBinding.uploadsuccesLinear.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                    if(detailgallery.getUploadcompelet().equalsIgnoreCase("2")){
-//                        holder.myMediaListItemBinding.uploadStatus.setText("Pending...");
-//                        SelectedPosition = position;
-//                        dataCheck=new ArrayList<>();
-//                        dataCheck.add(String.valueOf(position)); //+"|"+position
-//                        image_click.image_more_click();
-//                    }
-//            }
-//        });
 
 
     }
@@ -97,7 +86,6 @@ public class MyMediaAdapter extends RecyclerView.Adapter<MyMediaAdapter.MyViewHo
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position, @NonNull List<Object> payloads) {
 
         if (!payloads.isEmpty()){
-            GalleryImageModel detailgallery = imageDetailModel.get(position);
             for (final Object payload : payloads) {
                 if (payload.equals("1")) {
                     // in this case only name will be updated
@@ -106,7 +94,7 @@ public class MyMediaAdapter extends RecyclerView.Adapter<MyMediaAdapter.MyViewHo
                 } else if (payload.equals("2")) {
                     // only age will be updated
                     holder.myMediaListItemBinding.uploadsuccesLinear.setVisibility(View.VISIBLE);
-                    holder.myMediaListItemBinding.uploadStatus.setText("Retry");
+                    holder.myMediaListItemBinding.uploadStatus.setText("Failed");
                 }else if(payload.equals("0")){
                     holder.myMediaListItemBinding.uploadsuccesLinear.setVisibility(View.VISIBLE);
                     holder.myMediaListItemBinding.uploadStatus.setText("Pending...");

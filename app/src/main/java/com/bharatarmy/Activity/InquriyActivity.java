@@ -247,7 +247,7 @@ public class InquriyActivity extends AppCompatActivity implements View.OnClickLi
         Map<String, String> map = new HashMap<>();
         map.put("PageSize", AppConfiguration.pageSize);
         map.put("PageIndex", String.valueOf(AppConfiguration.pageindex));
-        map.put("MemberId", Utils.getPref(mContext, "AppUserId"));
+        map.put("MemberId", String.valueOf(Utils.getAppUserId(mContext)));
         map.put("ordertype", ordertypeStr);
         map.put("orderstatus", "0");
         return map;
@@ -566,7 +566,7 @@ public class InquriyActivity extends AppCompatActivity implements View.OnClickLi
         Map<String, String> map = new HashMap<>();
         map.put("PageSize", AppConfiguration.pageSize);
         map.put("PageIndex", String.valueOf(AppConfiguration.pageindex));
-        map.put("MemberId", Utils.getPref(mContext, "AppUserId"));
+        map.put("MemberId", String.valueOf(Utils.getAppUserId(mContext)));
         map.put("ordertype", ordertypeStr);
         map.put("orderstatus", orderstatusStr);
         return map;

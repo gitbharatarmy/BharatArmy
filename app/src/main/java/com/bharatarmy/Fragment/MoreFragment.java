@@ -100,7 +100,10 @@ public class MoreFragment extends Fragment implements View.OnClickListener {
     }
 
     public void setListiner() {
-        fragmentMoreBinding.userNametxt.setText(Utils.getPref(mContext,"LoginUserName"));
+        if (Utils.retriveLoginData(mContext)!=null){
+            fragmentMoreBinding.userNametxt.setText(Utils.retriveLoginData(mContext).getName());
+        }
+
 //        Utils.setImageInImageView(Utils.getPref(mContext,"LoginProfilePic"),fragmentMoreBinding.profileImage,mContext);
 
 
@@ -139,8 +142,8 @@ public class MoreFragment extends Fragment implements View.OnClickListener {
                 contactus.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(contactus);
                 break;
-            case  R.id.inquiry_linear:
-                Intent inquriy=new Intent(mContext, InquriyActivity.class);
+            case R.id.inquiry_linear:
+                Intent inquriy = new Intent(mContext, InquriyActivity.class);
                 inquriy.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(inquriy);
                 break;
@@ -154,15 +157,10 @@ public class MoreFragment extends Fragment implements View.OnClickListener {
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 // Write your code here to execute after dialog
-                                Utils.setPref(mContext, "LoginUserName", "");
-                                Utils.setPref(mContext, "LoginEmailId", "");
-                                Utils.setPref(mContext, "LoginPhoneNo", "");
-                                Utils.setPref(mContext, "LoginProfilePic", "");
-                                Utils.setPref(mContext, "EmailVerified", "");
-                                Utils.setPref(mContext, "PhoneVerified", "");
-                                Utils.setPref(mContext, "AppUserId", "");
-                                Utils.setPref(mContext, "Gender", "");
-
+                                Utils.removeLoginData(mContext);
+                                Utils.setPref(mContext, "IsFirstTime", "");
+                                Utils.setPref(mContext, "IsSkipLogin", "");
+                                Utils.setPref(mContext, "IsLoginUser", "");
                                 Utils.ping(mContext, "You are logout suceessfully");
                                 Intent ilogin = new Intent(mContext, LoginActivity.class);
                                 startActivity(ilogin);
@@ -178,10 +176,10 @@ public class MoreFragment extends Fragment implements View.OnClickListener {
                             }
                         });
                 alertDialog2.show();
-            break;
+                break;
             case R.id.media_linear:
-                Utils.setPref(mContext, "cometonotification","menu");
-                Intent media=new Intent(mContext, MyMediaActivity.class);
+                Utils.setPref(mContext, "cometonotification", "menu");
+                Intent media = new Intent(mContext, MyMediaActivity.class);
                 media.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(media);
                 break;

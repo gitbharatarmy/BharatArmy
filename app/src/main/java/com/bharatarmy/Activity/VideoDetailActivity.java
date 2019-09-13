@@ -183,7 +183,7 @@ public class VideoDetailActivity extends AppCompatActivity implements View.OnCli
 
                     if (imageMainModel.getData() != null) {
                         videoDetailModelsList = imageMainModel.getData();
-                        fillVideoGallery();
+                        fillVideoDetailGallery();
                         related_video_rcyList.hideShimmerAdapter();
                     }
 
@@ -209,8 +209,7 @@ public class VideoDetailActivity extends AppCompatActivity implements View.OnCli
         return map;
     }
 
-    public void fillVideoGallery() {
-
+    public void fillVideoDetailGallery() {
 
         relatedVideoAdapter = new RelatedVideoAdapter(mContext, videoDetailModelsList, videoNameStr, new image_click() {
             @Override

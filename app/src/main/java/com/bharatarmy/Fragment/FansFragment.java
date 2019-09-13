@@ -106,7 +106,7 @@ public class FansFragment extends Fragment implements ViewPager.OnPageChangeList
 
         adapter = new FansPageAdapter(getFragmentManager(), fragmentFansBinding.tabLayoutFans.getTabCount());
 //Adding adapter to pager
-        fragmentFansBinding.pager.setOffscreenPageLimit(0);
+        fragmentFansBinding.pager.setOffscreenPageLimit(1);
         fragmentFansBinding.pager.setAdapter(adapter);
 
     }

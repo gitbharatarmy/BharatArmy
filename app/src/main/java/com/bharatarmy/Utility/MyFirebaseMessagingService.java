@@ -57,9 +57,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Log.d(TAG, "From: " + remoteMessage.getFrom());
         Log.d(TAG, "Notification Message Body: " + remoteMessage.getNotification().getBody());
 
-        if (remoteMessage.getData() != null && remoteMessage.getData().size() > 0) {
+//        if (remoteMessage.getData() != null && remoteMessage.getData().size() > 0) {
             sendNotification(remoteMessage);
-        }
+//        }
 
     }
 
@@ -105,7 +105,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     .setLargeIcon(Utils.getBitmapFromURL(remoteMessage.getData().get("smallimageurl")))
                     .setStyle(new NotificationCompat.BigPictureStyle()
                             .bigPicture(Utils.getBitmapFromURL(remoteMessage.getData().get("image")))
-                            .bigLargeIcon(Utils.getBitmapFromURL(remoteMessage.getData().get("image"))))
+                            .bigLargeIcon(Utils.getBitmapFromURL(remoteMessage.getData().get("smallimageurl"))))
                     .setVibrate(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400})
                     .setPriority(Notification.PRIORITY_HIGH)
                     .setChannelId(id)  ; //.setChannelId(id)
@@ -126,7 +126,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     .setLargeIcon(Utils.getBitmapFromURL(remoteMessage.getData().get("smallimageurl")))
                     .setStyle(new NotificationCompat.BigPictureStyle()
                             .bigPicture(Utils.getBitmapFromURL(remoteMessage.getData().get("image")))
-                            .bigLargeIcon(Utils.getBitmapFromURL(remoteMessage.getData().get("image"))))
+                            .bigLargeIcon(Utils.getBitmapFromURL(remoteMessage.getData().get("smallimageurl"))))
                     .setVibrate(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400})
                     .setPriority(Notification.PRIORITY_HIGH);
 

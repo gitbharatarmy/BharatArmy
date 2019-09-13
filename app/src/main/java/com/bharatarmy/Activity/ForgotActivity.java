@@ -6,7 +6,11 @@ import androidx.databinding.DataBindingUtil;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.bharatarmy.Models.LogginModel;
 import com.bharatarmy.R;
@@ -26,32 +30,67 @@ public class ForgotActivity extends AppCompatActivity {
     ActivityForgotBinding activityForgotBinding;
     Context mContext;
     String emailStr;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        activityForgotBinding= DataBindingUtil.setContentView(this,R.layout.activity_forgot);
+        activityForgotBinding = DataBindingUtil.setContentView(this, R.layout.activity_forgot);
 
-        mContext=ForgotActivity.this;
+        mContext = ForgotActivity.this;
 
         init();
         setListiner();
     }
 
-    public void init(){}
+    public void init() {
+    }
 
-    public void setListiner(){
-        activityForgotBinding.submitBtn.setOnClickListener(new View.OnClickListener() {
+    public void setListiner() {
+        activityForgotBinding.forgotPasswordemailEdt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-//                emailStr=activityForgotBinding.forgotPasswordemailEdt.getText().toString();
-//                getForgotPassword();
-                Intent otpIntent=new Intent(mContext,ForgotPasswordOtpActivity.class);
-                startActivity(otpIntent);
-                finish();
+                activityForgotBinding.forgotScrollView.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        View lastChild =activityForgotBinding.forgotScrollView.getChildAt(activityForgotBinding.forgotScrollView.getChildCount() - 1);
+                        int bottom = lastChild.getBottom() +  activityForgotBinding.forgotScrollView.getPaddingBottom();
+                        int sy =   activityForgotBinding.forgotScrollView.getScrollY();
+                        int sh =  activityForgotBinding.forgotScrollView.getHeight();
+                        int delta = bottom - (sy + sh);
+                        activityForgotBinding.forgotScrollView.smoothScrollBy(0, delta);
+                    }
+                }, 200);
             }
         });
 
+        activityForgotBinding.submitBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                emailStr = activityForgotBinding.forgotPasswordemailEdt.getText().toString();
+                if (!emailStr.equalsIgnoreCase("")) {
+                    getForgotPassword();
+                } else {
+                    activityForgotBinding.forgotPasswordemailEdt.setError("Please enter email id");
+                }
+
+
+            }
+        });
+
+        activityForgotBinding.forgotPasswordemailEdt.setOnEditorActionListener(new EditText.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    emailStr = activityForgotBinding.forgotPasswordemailEdt.getText().toString();
+                    if (!emailStr.equalsIgnoreCase("")) {
+                        getForgotPassword();
+                    } else {
+                        activityForgotBinding.forgotPasswordemailEdt.setError("Please enter email id");
+                    }
+                }
+                return false;
+            }
+        });
         activityForgotBinding.backImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -73,7 +112,7 @@ public class ForgotActivity extends AppCompatActivity {
         }
 
         Utils.showDialog(mContext);
-        ApiHandler.getApiService().getLogin(getForgotData(), new retrofit.Callback<LogginModel>() {
+        ApiHandler.getApiService().getForgotPassword(getForgotData(), new retrofit.Callback<LogginModel>() {
             @Override
             public void success(LogginModel forgotModel, Response response) {
                 Utils.dismissDialog();
@@ -92,7 +131,9 @@ public class ForgotActivity extends AppCompatActivity {
                 }
                 if (forgotModel.getIsValid() == 1) {
                     if (forgotModel.getData() != null) {
-                        Intent otpIntent=new Intent(mContext,ForgotPasswordOtpActivity.class);
+                        Intent otpIntent = new Intent(mContext, ForgotPasswordOtpActivity.class);
+                        otpIntent.putExtra("Forgototp", forgotModel.getData().getOTP());
+                        otpIntent.putExtra("MemberId", forgotModel.getData().getId());
                         startActivity(otpIntent);
                         finish();
                     }
@@ -113,8 +154,7 @@ public class ForgotActivity extends AppCompatActivity {
 
     private Map<String, String> getForgotData() {
         Map<String, String> map = new HashMap<>();
-        map.put("Email", emailStr);
-        map.put("TokenId", Utils.getPref(mContext, "registration_id"));
+        map.put("EmailId", emailStr);
         return map;
     }
 }

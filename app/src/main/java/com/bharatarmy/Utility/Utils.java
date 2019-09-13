@@ -56,6 +56,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 
+import com.bharatarmy.Activity.DashboardActivity;
+import com.bharatarmy.Activity.ImageVideoUploadActivity;
 import com.bharatarmy.Activity.LoginActivity;
 import com.bharatarmy.Activity.SignUpActivity;
 import com.bharatarmy.Country;
@@ -63,8 +65,10 @@ import com.bharatarmy.CountryCodePicker;
 import com.bharatarmy.Interfaces.submit_click;
 import com.bharatarmy.Models.GalleryImageModel;
 import com.bharatarmy.Models.LogginModel;
+import com.bharatarmy.Models.LoginDataModel;
 import com.bharatarmy.Models.LoginOtherDataModel;
 import com.bharatarmy.R;
+import com.bharatarmy.UploadService;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.gson.Gson;
@@ -74,18 +78,25 @@ import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.google.i18n.phonenumbers.Phonenumber;
 import com.squareup.picasso.Picasso;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Pattern;
+
+import okhttp3.MultipartBody;
+import retrofit2.http.Multipart;
 
 import static com.yalantis.ucrop.util.FileUtils.getDataColumn;
 import static com.yalantis.ucrop.util.FileUtils.isDownloadsDocument;
@@ -105,14 +116,8 @@ public class Utils {
     public static final String MyPREFERENCES = "MyPrefs";
     public static SharedPreferences sharedpreferences;
 
-
-    public static boolean isNetworkConnected(Context ctxt) {
-        ConnectivityManager cm = (ConnectivityManager) ctxt
-                .getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo ni = cm.getActiveNetworkInfo();
-        return ni != null;
-    }
-
+    public static List<GalleryImageModel> UpladingFiles;
+    public static ArrayList<String> videoFile;
 
     public static boolean checkNetwork(Context context) {
         boolean wifiAvailable = false;
@@ -488,15 +493,41 @@ public class Utils {
         AlertDialog alertDialog = dialogBuilder.create();
         alertDialog.setCanceledOnTouchOutside(false);
         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        TextView dialog_headertxt=(TextView)dialogView.findViewById(R.id.dialog_headertxt);
+        TextView dialog_descriptiontxt=(TextView)dialogView.findViewById(R.id.dialog_descriptiontxt);
         TextView hometxt = (TextView) dialogView.findViewById(R.id.home_txt);
+
+        Log.d("messageList :",Utils.retriveLoginOtherData(activity).toString());
+        if (Utils.retriveLoginOtherData(activity)!=null){
+            for (int i=0;i<Utils.retriveLoginOtherData(activity).size();i++){
+                if (Utils.retriveLoginOtherData(activity).get(i).getMessageId().equals(2)){
+                    dialog_headertxt.setText(Utils.retriveLoginOtherData(activity).get(i).getMessageHeaderText());
+                    dialog_descriptiontxt.setText(Utils.retriveLoginOtherData(activity).get(i).getMessageDescription());
+                }
+
+            }
+        }
         hometxt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                alertDialog.dismiss();
-                activity.finish();
+                try {
+                    alertDialog.dismiss();
+                    if (wheretocome.equalsIgnoreCase("changePassword")){
+                        Intent intent=new Intent(activity, DashboardActivity.class);
+                        activity.startActivity(intent);
+                        activity. finish();
+                    }
+                } catch (Exception e) {
+
+                }
             }
         });
-        alertDialog.show();
+        try {
+            alertDialog.show();
+        } catch (Exception e) {
+
+        }
+
     }
 
 
@@ -658,6 +689,8 @@ public class Utils {
     }
 
 
+
+
     // use for webview adavnce facility funcation
     public static class MyWebViewClient extends WebViewClient {
         @Override
@@ -694,8 +727,28 @@ public class Utils {
     }
 
     public static Bitmap createVideoThumbNail(String path) {
-        return ThumbnailUtils.createVideoThumbnail(path, MediaStore.Video.Thumbnails.MICRO_KIND);
+        return ThumbnailUtils.createVideoThumbnail(path, MediaStore.Video.Thumbnails.FULL_SCREEN_KIND);
     }
+
+    public static Bitmap createImageThumbNail(Bitmap bitmap){
+        return ThumbnailUtils.extractThumbnail(bitmap,512,512);
+    }
+
+    public static File saveBitmap(Bitmap bitmap, String name,Context mContext) {
+        File filesDir =mContext.getFilesDir();
+        File imageFile = new File(filesDir, name + ".jpg");
+
+        return imageFile;
+    }
+
+    public static Uri getImageUri(Context inContext, Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "videoThumbnail", null);
+        return Uri.parse(path);
+    }
+
+
 
     public static void handleClickEvent(Context mContext, View view) {
         new Handler().postDelayed(new Runnable() {
@@ -723,12 +776,25 @@ public class Utils {
         return false;
     }
 
-    public static void getCurrentUserIDName(String UserId, String Name, Context mContext) {
-        Utils.setPref(mContext, "AppUserId", UserId);
-        Utils.setPref(mContext, "LoginUserName", Name);
+
+    public static void storeLoginData(LoginDataModel result, Context mContext){
+        Gson gsonupdate = new Gson();
+        String valuesString = gsonupdate.toJson(result);
+        Utils.setPref(mContext, "loginData", valuesString);
+        Log.d("LoginvaluesString", valuesString);
+    }
+    public static LoginDataModel retriveLoginData(Context mContext){
+       LoginDataModel loginList;
+        Type arrayListType2 = new TypeToken<LoginDataModel>() {}.getType();
+
+        Gson gson2 = new Gson();
+        loginList = gson2.fromJson(Utils.getPref(mContext, "loginData"), arrayListType2);
+        return loginList;
     }
 
-
+    public static void removeLoginData(Context mContext){
+       Utils.setPref(mContext,"loginData","");
+    }
     public static void storeLoginOtherData(List<LoginOtherDataModel> result, Context mContext) {
         Gson gsonupdate = new Gson();
         String valuesString = gsonupdate.toJson(result);
@@ -743,13 +809,34 @@ public class Utils {
         messageList = gson2.fromJson(Utils.getPref(mContext, "loginOtherData"), arrayListType2);
         return messageList;
     }
-    public static boolean isMember(Context context){
-        if (Utils.getPref(context,"AppUserId").equalsIgnoreCase("")){
+    public static boolean isMember(Context context,String whereTocome){
+        if (Utils.getAppUserId(context)==0){
             Intent intent=new Intent(context, LoginActivity.class);
+            intent.putExtra("whereTocomeLogin",whereTocome);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
         }else {
             return true;
         }
         return false;
     }
+
+    public static void goToLogin(Context mContext,String whereTocome){
+        Intent intent=new Intent(mContext,LoginActivity.class);
+        intent.putExtra("whereTocomeLogin",whereTocome);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        mContext.startActivity(intent);
+    }
+
+    public static int getAppUserId(Context mContext){
+        int id = 0;
+
+        if (Utils.retriveLoginData(mContext)!=null){
+            id=Utils.retriveLoginData(mContext).getId() ;
+        }else{
+            id=0;
+        }
+        return id;
+    }
+
 }

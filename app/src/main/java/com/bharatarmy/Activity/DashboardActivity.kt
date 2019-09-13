@@ -35,7 +35,7 @@ import kotlinx.android.synthetic.main.app_bar_dashboard.*
 
 // remove code 29/07/2019
 // remove extra code 03/09/2019 with noon backup
-class DashboardActivity : AppCompatActivity(), View.OnClickListener, StoryFragment.OnItemClick, StoryCategoryFragment.OnItemClick,HomeFragment.OnItemClick {
+class DashboardActivity : AppCompatActivity(), View.OnClickListener, StoryFragment.OnItemClick, StoryCategoryFragment.OnItemClick, HomeFragment.OnItemClick {
 
 
     internal lateinit var mContext: Context
@@ -44,7 +44,7 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, StoryFragme
 
 
     internal lateinit var user_profile_img: ImageView
-    internal lateinit var proflie_linear:LinearLayout
+    internal lateinit var proflie_linear: LinearLayout
     internal lateinit var user_name_txt: TextView
     internal lateinit var navigationView: NavigationView
     internal lateinit var toolbar: Toolbar
@@ -57,9 +57,11 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, StoryFragme
     //  flag to load home fragment when user presses back key
     private val shouldLoadHomeFragOnBackPress = true
     private var mHandler: Handler? = null
+    val fansFragment : Fragment
+        get() {
+           return FansFragment()
+        }
 
-
-    private// home
     val homeFragment: Fragment
         get() {
             when (navItemIndex) {
@@ -103,7 +105,7 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, StoryFragme
         navigationView = findViewById<View>(R.id.nav_view) as NavigationView
         navHeader = navigationView.getHeaderView(0)
         user_profile_img = navHeader!!.findViewById<View>(R.id.profile_image) as ImageView
-        proflie_linear=navHeader!!.findViewById<View>(R.id.proflie_linear)as LinearLayout
+        proflie_linear = navHeader!!.findViewById<View>(R.id.proflie_linear) as LinearLayout
         user_name_txt = navHeader!!.findViewById<View>(R.id.textView) as TextView
 
         AppConfiguration.firstDashStr = "true"
@@ -112,8 +114,8 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, StoryFragme
         overlay = findViewById<View>(R.id.overlay) as SpeedDialOverlayLayout
         speedDial = findViewById<View>(R.id.speedDial) as SpeedDialView
 
-        speedDial.visibility=View.GONE
-        overlay.visibility=View.GONE
+        speedDial.visibility = View.GONE
+        overlay.visibility = View.GONE
 
     }
 
@@ -123,7 +125,7 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, StoryFragme
         bottomNavigation.add(MeowBottomNavigation.Model(3, R.drawable.ic_home_new))
 //        bottomNavigation.add(MeowBottomNavigation.Model(4, R.drawable.ic_ftp_new))
         bottomNavigation.add(MeowBottomNavigation.Model(4, R.drawable.ic_study))
-        bottomNavigation.add(MeowBottomNavigation.Model(5,R.drawable.ic_more))
+        bottomNavigation.add(MeowBottomNavigation.Model(5, R.drawable.ic_more))
         bottomNavigation.setOnClickMenuListener {
             when (it.id) {
                 1 -> {
@@ -138,8 +140,9 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, StoryFragme
                 }
                 3 -> {
                     navItemIndex = 0
-                    CURRENT_TAG = TAG_HOME
-                    loadHomeFragment()
+                    fragment = HomeFragment()
+                    loadFragment(fragment as HomeFragment)
+//                    loadHomeFragment()
                 }
                 4 -> {
                     navItemIndex = 6
@@ -159,7 +162,7 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, StoryFragme
 
     private fun loadNavHeader() {
         // name, website
-        user_name_txt.text = Utils.getPref(mContext, "LoginUserName")
+//        user_name_txt.text = Utils.retriveLoginData(mContext).name
 
 
         // Loading profile image
@@ -184,10 +187,24 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, StoryFragme
             if (pageType.equals("0", ignoreCase = true)) {
                 bottomNavigation.show(3, true)
             }
-        }else{
-            bottomNavigation.show(3, true)
+        } else {
+            if (intent.getStringExtra("whichPageRun") != null) {
+                val page = intent.getStringExtra("whichPageRun")
+                if (page.equals("1", ignoreCase = true)) {
+                    bottomNavigation.show(1, true)
+                    fragment = FansFragment()
+                    loadFragment(fragment as FansFragment)
+                } else {
+                    bottomNavigation.show(3, true)
+                    fragment = HomeFragment()
+                    loadFragment(fragment as HomeFragment)
+                }
+            } else {
+                bottomNavigation.show(3, true)
+                fragment = HomeFragment()
+                loadFragment(fragment as HomeFragment)
+            }
         }
-
 
 
         // selecting appropriate nav menu item
@@ -208,23 +225,25 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, StoryFragme
         // when switching between navigation menus
         // So using runnable, the fragment is loaded with cross fade effect
         // This effect can be seen in GMail app
-        Handler().postDelayed({
-//        Utils.showDialog(mContext)
-            val mPendingRunnable = Runnable {
-                // update the main content by replacing fragments
-                val fragment = homeFragment
-                val fragmentTransaction = supportFragmentManager.beginTransaction()
-                fragmentTransaction.setCustomAnimations(android.R.anim.fade_in,
-                        android.R.anim.fade_out)
-                fragmentTransaction.replace(R.id.frame_container, fragment, CURRENT_TAG)
-                fragmentTransaction.commitAllowingStateLoss()
+//        Handler().postDelayed({
+//            //        Utils.showDialog(mContext)
+//            val mPendingRunnable = Runnable {
+//                // update the main content by replacing fragments
+//                val fragment = homeFragment
+//                val fragmentTransaction = supportFragmentManager.beginTransaction()
+//                fragmentTransaction.setCustomAnimations(android.R.anim.fade_in,
+//                        android.R.anim.fade_out)
+//                fragmentTransaction.replace(R.id.frame_container, fragment, CURRENT_TAG)
+//                fragmentTransaction.commitAllowingStateLoss()
+//
+//            }
+//            // If mPendingRunnable is not null, then add to the message queue
+//            if (mPendingRunnable != null) {
+//                mHandler!!.post(mPendingRunnable)
+//            }
+//        }, 50)
 
-            }
-            // If mPendingRunnable is not null, then add to the message queue
-            if (mPendingRunnable != null) {
-                mHandler!!.post(mPendingRunnable)
-            }
-        }, 50)
+
 //        Utils.dismissDialog()
 
 
@@ -259,8 +278,8 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, StoryFragme
             // checking if user is on other navigation menu
             // rather than home
 
-            overlay.visibility=View.GONE
-            speedDial.visibility=View.GONE
+            overlay.visibility = View.GONE
+            speedDial.visibility = View.GONE
             if (navItemIndex != 0) {
                 navItemIndex = 0
                 CURRENT_TAG = TAG_HOME
@@ -287,6 +306,10 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, StoryFragme
         return super.onOptionsItemSelected(item)
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
     private fun loadFragment(fragment: Fragment) {
         // load fragment
         val transaction = supportFragmentManager.beginTransaction().setCustomAnimations(0, 0)
@@ -304,7 +327,7 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, StoryFragme
                 mContext.startActivity(profileView)
                 drawer.closeDrawers()
             }
-            R.id.proflie_linear->{
+            R.id.proflie_linear -> {
                 navItemIndex = 2
                 val profileView = Intent(mContext, MyProfileActivity::class.java)
                 profileView.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -315,15 +338,14 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, StoryFragme
     }
 
 
-
-    override fun onStoryCategory(categoryId: String?, categoryName: String?,wheretocome: String?) {
+    override fun onStoryCategory(categoryId: String?, categoryName: String?, wheretocome: String?) {
 
         navItemIndex = 3
         val fragment = StoryCategoryFragment()
         val bundle = Bundle()
         bundle.putString("categoryId", categoryId)
         bundle.putString("categoryName", categoryName)
-        bundle.putString("wheretocome",wheretocome)
+        bundle.putString("wheretocome", wheretocome)
         fragment.setArguments(bundle)
         loadCategoryFragment(fragment as StoryCategoryFragment)
     }
@@ -335,9 +357,9 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, StoryFragme
             val transaction = supportFragmentManager.beginTransaction().setCustomAnimations(R.anim.slide_out_right, R.anim.slide_in_left)
             transaction.replace(R.id.frame_container, fragment as HomeFragment)
             transaction.commit()
-        }else{
-        navItemIndex = 3
-        fragment = StoryFragment()
+        } else {
+            navItemIndex = 3
+            fragment = StoryFragment()
             val transaction = supportFragmentManager.beginTransaction().setCustomAnimations(R.anim.slide_out_right, R.anim.slide_in_left)
             transaction.replace(R.id.frame_container, fragment as StoryFragment)
             transaction.commit()

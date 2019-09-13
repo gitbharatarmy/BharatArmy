@@ -58,6 +58,24 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         loginBinding.signUpTxt.setOnClickListener(this);
         loginBinding.forgotTxt.setOnClickListener(this);
         loginBinding.skipTxt.setOnClickListener(this);
+        loginBinding.backImg.setOnClickListener(this);
+
+        loginBinding.userNameEdt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loginBinding.scrollView.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        View lastChild =  loginBinding.scrollView.getChildAt( loginBinding.scrollView.getChildCount() - 1);
+                        int bottom = lastChild.getBottom() +  loginBinding.scrollView.getPaddingBottom();
+                        int sy =  loginBinding.scrollView.getScrollY();
+                        int sh =  loginBinding.scrollView.getHeight();
+                        int delta = bottom - (sy + sh);
+                        loginBinding.scrollView.smoothScrollBy(0, delta);
+                    }
+                }, 200);
+            }
+        });
 
         loginBinding.userPasswordEdt.setOnEditorActionListener(new EditText.OnEditorActionListener() {
             @Override
@@ -156,14 +174,33 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 verifyLoginDetails();
                 break;
             case R.id.forgot_txt:
-                Intent forgotIntent=new Intent(mContext,ForgotActivity.class);
+                Intent forgotIntent = new Intent(mContext, ForgotActivity.class);
                 startActivity(forgotIntent);
                 break;
             case R.id.skip_txt:
-//                Utils.getCurrentUserIDName("0","",mContext);
-//                Intent DashboardIntent = new Intent(mContext, DashboardActivity.class);
-//                startActivity(DashboardIntent);
-//                finish();
+//                Utils.getCurrentUserIDName("0", "", mContext);
+                Utils.setPref(mContext, "IsSkipLogin", "1");
+                Intent DashboardIntent = new Intent(mContext, DashboardActivity.class);
+                startActivity(DashboardIntent);
+                finish();
+                break;
+            case R.id.back_img:
+                if (getIntent().getStringExtra("whereTocomeLogin")!=null) {
+                    if (getIntent().getStringExtra("whereTocomeLogin").equalsIgnoreCase("ImageUpload")) {
+                        Intent dashboardIntent = new Intent(mContext, DashboardActivity.class);
+                        dashboardIntent.putExtra("whichPageRun", "1");
+                        startActivity(dashboardIntent);
+                        finish();
+                    } else {
+                        Intent walkintent = new Intent(mContext, WalkThrough.class);
+                        startActivity(walkintent);
+                        finish();
+                    }
+                }else{
+                    Intent walkintent = new Intent(mContext, WalkThrough.class);
+                    startActivity(walkintent);
+                    finish();
+                }
                 break;
         }
     }
@@ -194,33 +231,31 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 }
                 if (loginModel.getIsValid() == 1) {
                     if (loginModel.getData() != null) {
-                        Utils.setPref(mContext, "LoginUserName", loginModel.getData().getName());
-                        Utils.setPref(mContext, "LoginEmailId", loginModel.getData().getEmail());
-                        Utils.setPref(mContext, "LoginPhoneNo", loginModel.getData().getPhoneNo());
-                        Utils.setPref(mContext, "LoginProfilePic", String.valueOf(loginModel.getData().getProfilePicUrl()));
-                        Utils.setPref(mContext, "EmailVerified", String.valueOf(loginModel.getData().getIsEmailVerified()));
-                        Utils.setPref(mContext, "PhoneVerified", String.valueOf(loginModel.getData().getIsNumberVerified()));
-                        Utils.setPref(mContext, "AppUserId", String.valueOf(loginModel.getData().getId()));
-                        Utils.setPref(mContext, "Gender", String.valueOf(loginModel.getData().getGender()));
-                        Utils.setPref(mContext, "CountryISOCode", loginModel.getData().getCountryISOCode());
-                        Utils.setPref(mContext, "CountryPhoneNo", loginModel.getData().getCountryPhoneNo());
-                        Utils.setPref(mContext, "IsBAAdmin", String.valueOf(loginModel.getData().getIsBAAdmin()));
+//                        Utils.setPref(mContext, "LoginUserName", loginModel.getData().getName());
+//                        Utils.setPref(mContext, "LoginEmailId", loginModel.getData().getEmail());
+//                        Utils.setPref(mContext, "LoginPhoneNo", loginModel.getData().getPhoneNo());
+//                        Utils.setPref(mContext, "LoginProfilePic", String.valueOf(loginModel.getData().getProfilePicUrl()));
+//                        Utils.setPref(mContext, "EmailVerified", String.valueOf(loginModel.getData().getIsEmailVerified()));
+//                        Utils.setPref(mContext, "PhoneVerified", String.valueOf(loginModel.getData().getIsNumberVerified()));
+//                        Utils.setPref(mContext, "AppUserId", String.valueOf(loginModel.getData().getId()));
+//                        Utils.setPref(mContext, "Gender", String.valueOf(loginModel.getData().getGender()));
+//                        Utils.setPref(mContext, "CountryISOCode", loginModel.getData().getCountryISOCode());
+//                        Utils.setPref(mContext, "CountryPhoneNo", loginModel.getData().getCountryPhoneNo());
+//                        Utils.setPref(mContext, "IsBAAdmin", String.valueOf(loginModel.getData().getIsBAAdmin()));
+                        Utils.setPref(mContext, "IsLoginUser", "1");
+                        Utils.storeLoginData(loginModel.getData(),mContext);
+                        Utils.storeLoginOtherData(loginModel.getOtherData(), mContext);
 
-                        Utils.storeLoginOtherData(loginModel.getOtherData(),mContext);
-
-                        Utils.getCurrentUserIDName(String.valueOf(loginModel.getData().getId()),loginModel.getData().getName(),mContext);
+//                        Utils.getCurrentUserIDName(String.valueOf(loginModel.getData().getId()), loginModel.getData().getName(), mContext);
 
                         if (loginModel.getData().getIsNumberVerified() == 0) {
                             Intent otpIntent = new Intent(mContext, MobileVerificationNewActivity.class);
                             AppConfiguration.wheretocomemobile = "Login";
                             startActivity(otpIntent);
-//                            overridePendingTransition(R.anim.slide_in_left,0);
                             finish();
                         } else {
-                            Intent DashboardIntent = new Intent(mContext, DashboardActivity.class);
-                            startActivity(DashboardIntent);
-//                            overridePendingTransition(R.anim.slide_in_left,0);
-                            finish();
+                           whereToBack();
+
                         }
                     }
 
@@ -250,5 +285,24 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onBackPressed() {
 //        finish();
 //        super.onBackPressed();
+    }
+
+    public void whereToBack(){
+        if (getIntent().getStringExtra("whereTocomeLogin")!=null){
+            if (getIntent().getStringExtra("whereTocomeLogin").equalsIgnoreCase("ImageUpload")) {
+                Intent DashboardIntent = new Intent(mContext, DashboardActivity.class);
+                DashboardIntent.putExtra("whichPageRun", "1");
+                startActivity(DashboardIntent);
+                finish();
+            }else{
+                Intent DashboardIntent = new Intent(mContext, DashboardActivity.class);
+                startActivity(DashboardIntent);
+                finish();
+            }
+        }else{
+            Intent DashboardIntent = new Intent(mContext, DashboardActivity.class);
+            startActivity(DashboardIntent);
+            finish();
+        }
     }
 }

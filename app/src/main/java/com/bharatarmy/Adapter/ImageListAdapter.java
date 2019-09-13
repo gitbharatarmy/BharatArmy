@@ -48,7 +48,7 @@ public class ImageListAdapter extends RecyclerView.Adapter<ImageListAdapter.Item
 
         final ImageDetailModel detail = mItemList.get(position);
 
-        Utils.setImageInImageView(detail.getGalleryURL(), viewHolder.imageListBinding.fansImage, mContext);
+        Utils.setImageInImageView(detail.getGalleryThumbURL(), viewHolder.imageListBinding.fansImage, mContext);
 
         viewHolder.imageListBinding.fansImage.setOnClickListener(new View.OnClickListener() {
             @Override

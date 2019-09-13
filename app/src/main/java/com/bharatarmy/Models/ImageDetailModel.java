@@ -30,6 +30,12 @@ public class ImageDetailModel implements Serializable {
     @SerializedName("AddedUserName")
     @Expose
     private String addedUserName;
+    @SerializedName("GalleryThumbURL")
+    @Expose
+    private String galleryThumbURL;
+    @SerializedName("strAddedDuration")
+    @Expose
+    private String strAddedDuration;
 
     public Integer getBAGalleryId() {
         return bAGalleryId;
@@ -93,6 +99,20 @@ public class ImageDetailModel implements Serializable {
 
     public void setAddedUserName(String addedUserName) {
         this.addedUserName = addedUserName;
+    }
+    public String getGalleryThumbURL() {
+        return galleryThumbURL;
+    }
+
+    public void setGalleryThumbURL(String galleryThumbURL) {
+        this.galleryThumbURL = galleryThumbURL;
+    }
+    public String getStrAddedDuration() {
+        return strAddedDuration;
+    }
+
+    public void setStrAddedDuration(String strAddedDuration) {
+        this.strAddedDuration = strAddedDuration;
     }
     //Story Detail Model
     @SerializedName("AuthorImageURL")

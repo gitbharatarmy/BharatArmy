@@ -81,6 +81,24 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         activitySignUpBinding.signupBtn.setOnClickListener(this);
         activitySignUpBinding.closeTxt.setOnClickListener(this);
 
+        activitySignUpBinding.fulluserNameEdt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                activitySignUpBinding.signupScrollView.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        View lastChild =   activitySignUpBinding.signupScrollView.getChildAt(  activitySignUpBinding.signupScrollView.getChildCount() - 1);
+                        int bottom = lastChild.getBottom() +  activitySignUpBinding.signupScrollView.getPaddingBottom();
+                        int sy =   activitySignUpBinding.signupScrollView.getScrollY();
+                        int sh =   activitySignUpBinding.signupScrollView.getHeight();
+                        int delta = bottom - (sy + sh);
+                        activitySignUpBinding.signupScrollView.smoothScrollBy(0, delta);
+                    }
+                }, 200);
+            }
+        });
+
+
         activitySignUpBinding.ccp.setOnCountryChangeListener(new CountryCodePicker.OnCountryChangeListener() {
             @Override
             public void onCountrySelected(Country selectedCountry) {

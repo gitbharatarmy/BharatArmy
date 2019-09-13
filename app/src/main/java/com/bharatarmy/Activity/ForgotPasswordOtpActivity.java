@@ -21,12 +21,12 @@ import com.bharatarmy.Utility.SmsReceiver;
 import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.ActivityForgotPasswordOtpBinding;
 
-public class ForgotPasswordOtpActivity extends AppCompatActivity implements View.OnClickListener{
+public class ForgotPasswordOtpActivity extends AppCompatActivity implements View.OnClickListener {
 
     ActivityForgotPasswordOtpBinding activityForgotPasswordOtpBinding;
     Context mContext;
-    String otpStr, finalgetOtpStr;
-   
+    String otpStr, finalgetOtpStr, memberIdStr;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,9 +37,11 @@ public class ForgotPasswordOtpActivity extends AppCompatActivity implements View
         setListiner();
     }
 
-    public void init(){}
+    public void init() {
+        otpStr = getIntent().getStringExtra("Forgototp");
+        memberIdStr = String.valueOf(getIntent().getIntExtra("MemberId",0));
+    }
 
-   
 
     public void setListiner() {
         SmsReceiver.bindListener(new SmsListener() {
@@ -161,7 +163,7 @@ public class ForgotPasswordOtpActivity extends AppCompatActivity implements View
                 getForgotPasswordOtpData();
                 break;
             case R.id.back_linear:
-               finish();
+                finish();
                 break;
         }
     }
@@ -175,19 +177,23 @@ public class ForgotPasswordOtpActivity extends AppCompatActivity implements View
         Log.d("finalOtpStr", finalgetOtpStr);
 
         if (!finalgetOtpStr.equalsIgnoreCase("")) {
-            Intent changePasswordIntent=new Intent(mContext,ChangePasswordActivity.class);
-            startActivity(changePasswordIntent);
+            if (finalgetOtpStr.equalsIgnoreCase(otpStr)) {
+                Intent changePasswordIntent = new Intent(mContext, ChangePasswordActivity.class);
+                changePasswordIntent.putExtra("memberId",memberIdStr);
+                startActivity(changePasswordIntent);
+            } else {
+                Utils.ping(mContext, "Please enter valid otp");
+            }
         } else {
-            Utils.ping(mContext, "Please Enter Valid OTP");
+            Utils.ping(mContext, "Please enter otp");
         }
 
     }
 
 
-
     @Override
     public void onBackPressed() {
-       finish();
+        finish();
         super.onBackPressed();
     }
 }

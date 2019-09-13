@@ -23,26 +23,6 @@
             android:layout_centerHorizontal="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentRight="true"/>
-        <!--<FrameLayout-->
-            <!--android:id="@+id/video_play_layout"-->
-            <!--android:layout_width="fill_parent"-->
-            <!--android:layout_height="@dimen/_200sdp"-->
-            <!--android:background="@color/transparent">-->
-            <!--<com.universalvideoview.UniversalVideoView-->
-                <!--android:id="@+id/videoView"-->
-                <!--android:layout_width="fill_parent"-->
-                <!--android:layout_height="fill_parent"-->
-                <!--android:layout_gravity="center"-->
-                <!--app:uvv_autoRotation="true"-->
-                <!--app:uvv_fitXY="false" />-->
-
-            <!--<com.universalvideoview.UniversalMediaController-->
-                <!--android:id="@+id/media_controller"-->
-                <!--android:layout_width="fill_parent"-->
-                <!--android:layout_height="fill_parent"-->
-                <!--app:uvv_scalable="true" />-->
-
-        <!--</FrameLayout>-->
         <LinearLayout
             android:id="@+id/back_img"
             android:layout_width="@dimen/_40sdp"

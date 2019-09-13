@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.NotificationManager;
 import android.content.Context;
@@ -16,6 +17,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.drawable.ColorDrawable;
+import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
@@ -88,7 +90,8 @@ public class ImageVideoUploadActivity extends AppCompatActivity implements View.
 
     String path = "";
     int maxDuration = 10;
-
+    long findsize;
+    String duration;
     // Database
     DbHandler dbHandler;
 
@@ -103,8 +106,6 @@ public class ImageVideoUploadActivity extends AppCompatActivity implements View.
 
     public void init() {
         dbHandler = new DbHandler(mContext);
-
-
 
 
         galleryImageList = new ArrayList<>();
@@ -130,6 +131,7 @@ public class ImageVideoUploadActivity extends AppCompatActivity implements View.
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.back_img:
+
                 ImageVideoUploadActivity.this.finish();
                 break;
             case R.id.choose_from_camera_linear:
@@ -177,7 +179,10 @@ public class ImageVideoUploadActivity extends AppCompatActivity implements View.
                 if (connected == true) {
                     if (galleryImageList != null && galleryImageList.size() > 0) {
                         for (int i = 0; i < galleryImageList.size(); i++) {
-                            dbHandler.insertImageDetails(galleryImageList.get(i).getImageUri(), galleryImageList.get(i).getImageSize(), galleryImageList.get(i).getUploadcompelet(),mContext);
+                            dbHandler.insertImageDetails(galleryImageList.get(i).getImageUri(), galleryImageList.get(i).getImageSize(),
+                                    galleryImageList.get(i).getUploadcompelet(),galleryImageList.get(i).getVideolength(),
+                                    galleryImageList.get(i).getFileType(),galleryImageList.get(i).getVideoTitle(),
+                                    galleryImageList.get(i).getVideoDesc(),mContext);
                         }
                         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(ImageVideoUploadActivity.this);
                         LayoutInflater inflater = getLayoutInflater();
@@ -186,17 +191,20 @@ public class ImageVideoUploadActivity extends AppCompatActivity implements View.
                         AlertDialog alertDialog = dialogBuilder.create();
                         alertDialog.setCanceledOnTouchOutside(false);
                         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-                        TextView dialog_headertxt=(TextView)dialogView.findViewById(R.id.dialog_headertxt);
-                        TextView dialog_descriptiontxt=(TextView)dialogView.findViewById(R.id.dialog_descriptiontxt);
+                        TextView dialog_headertxt = (TextView) dialogView.findViewById(R.id.dialog_headertxt);
+                        TextView dialog_descriptiontxt = (TextView) dialogView.findViewById(R.id.dialog_descriptiontxt);
                         TextView hometxt = (TextView) dialogView.findViewById(R.id.home_txt);
 
-                       Log.d("messageList :",Utils.retriveLoginOtherData(mContext).toString());
-                       if (Utils.retriveLoginOtherData(mContext)!=null){
-                           for (int i=0;i<Utils.retriveLoginOtherData(mContext).size();i++){
-                               dialog_headertxt.setText(Utils.retriveLoginOtherData(mContext).get(i).getMessageHeaderText());
-                               dialog_descriptiontxt.setText(Utils.retriveLoginOtherData(mContext).get(i).getMessageDescription());
-                           }
-                       }
+                        Log.d("messageList :", Utils.retriveLoginOtherData(mContext).toString());
+                        if (Utils.retriveLoginOtherData(mContext) != null) {
+                            for (int i = 0; i < Utils.retriveLoginOtherData(mContext).size(); i++) {
+                                if (Utils.retriveLoginOtherData(mContext).get(i).getMessageId().equals(1)){
+                                    dialog_headertxt.setText(Utils.retriveLoginOtherData(mContext).get(i).getMessageHeaderText());
+                                    dialog_descriptiontxt.setText(Utils.retriveLoginOtherData(mContext).get(i).getMessageDescription());
+                                }
+
+                            }
+                        }
 
                         hometxt.setOnClickListener(new View.OnClickListener() {
                             @Override
@@ -219,7 +227,7 @@ public class ImageVideoUploadActivity extends AppCompatActivity implements View.
                                     startService(intent);
 
                                 }
-                            }, 50);
+                            }, 100);
 
 
                         } catch (Exception e) {
@@ -320,6 +328,10 @@ public class ImageVideoUploadActivity extends AppCompatActivity implements View.
                     activityImageVideoUploadBinding.bottomView.setVisibility(View.GONE);
                     path = FileUtils.getPath(this, selectedUri);
                     maxDuration = getMediaDuration(selectedUri);
+                    duration = getDuration(selectedUri);
+
+                    Log.d("duration :", "" + duration);
+
                     if (path != null) {
                         activityImageVideoUploadBinding.selectedVideoLinear.setVisibility(View.VISIBLE);
                         if (activityImageVideoUploadBinding.timeLine != null) {
@@ -337,9 +349,9 @@ public class ImageVideoUploadActivity extends AppCompatActivity implements View.
 
 
                             File f = new File(path);
-                            long findsize = f.length() / 1024;
+                            findsize = f.length() / 1024;
                             galleryImageList = new ArrayList<GalleryImageModel>();
-                            galleryImageList.add(new GalleryImageModel(path, size((int) findsize),"0"));
+                            galleryImageList.add(new GalleryImageModel(path, size((int) findsize), "0",duration,"4","",""));
                         }
                     }
                 } else {
@@ -381,7 +393,7 @@ public class ImageVideoUploadActivity extends AppCompatActivity implements View.
         for (int i = 0; i < filePaths.size(); i++) {
             File f = new File(filePaths.get(i));
             long findsize = f.length() / 1024;
-            galleryImageList.add(new GalleryImageModel(filePaths.get(i), size((int) findsize), "0"));
+            galleryImageList.add(new GalleryImageModel(filePaths.get(i), size((int) findsize), "0","0","2","",""));
         }
         loadProfile();
     }
@@ -422,28 +434,34 @@ public class ImageVideoUploadActivity extends AppCompatActivity implements View.
     @Override
     public void getResult(Uri contentUri) {
         runOnUiThread(new Runnable() {
+
             @Override
             public void run() {
-                // Toast.makeText(TrimmerActivity.this, getString(R.string.video_saved_at, contentUri.getPath()), Toast.LENGTH_SHORT).show();
+                try {
+                    String path = contentUri.getPath();
+                    File file = new File(path);
+                    Uri uri;
+                    if (Build.VERSION.SDK_INT < 24) {
+                        uri = Uri.fromFile(file);
+                    } else {
+                        uri = Uri.parse(file.getPath()); // My work-around for new SDKs, causes ActivityNotFoundException in API 10.
+                    }
+                    Log.e("tg", "final_path1 = " + path + " uri1 = " + Uri.fromFile(file));
+
+                    duration = getDuration(contentUri);
+                    Log.d("trimduration :", duration + "trimpath :"+ path);
+
+                    galleryImageList = new ArrayList<GalleryImageModel>();
+                    galleryImageList.add(new GalleryImageModel(path, size((int) findsize), "0",duration,"4","",""));
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+
 
             }
         });
 
-        try {
 
-
-            String path = contentUri.getPath();
-            File file = new File(path);
-            Uri uri;
-            if (Build.VERSION.SDK_INT < 24) {
-                uri = Uri.fromFile(file);
-            } else {
-                uri = Uri.parse(file.getPath()); // My work-around for new SDKs, causes ActivityNotFoundException in API 10.
-            }
-            Log.e("tg", "final_path1 = " + path + " uri1 = " + Uri.fromFile(file));
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
     }
 
     @Override
@@ -526,7 +544,7 @@ public class ImageVideoUploadActivity extends AppCompatActivity implements View.
         long findsize = Camerafile.length() / 1024;
         Log.d("findfilesize", "" + Camerafile.length() / 1024 + "kb" + " " + Camerafile.length() / (1024 * 1024));
 
-        galleryImageList.add(new GalleryImageModel(imageUrl, size((int) findsize), "0"));
+        galleryImageList.add(new GalleryImageModel(imageUrl, size((int) findsize), "0","0","2","",""));
 
         loadProfile();
 
@@ -544,6 +562,18 @@ public class ImageVideoUploadActivity extends AppCompatActivity implements View.
         MediaPlayer mp = MediaPlayer.create(this, uriOfFile);
         int duration = mp.getDuration();
         return duration;
+
+    }
+
+    public String getDuration(Uri uriOfFile) {
+        MediaPlayer mp = MediaPlayer.create(this, uriOfFile);
+        int duration = mp.getDuration() / 1000;
+        int hours = duration / 3600;
+        int minutes = (duration / 60) - (hours * 60);
+        int seconds = duration - (hours * 3600) - (minutes * 60);
+        String formatted = String.format("%d:%02d:%02d", hours, minutes, seconds);
+
+        return formatted;
     }
 
 }

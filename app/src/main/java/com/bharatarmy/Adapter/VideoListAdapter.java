@@ -65,7 +65,9 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.Item
             @Override
             public void onClick(View v) {
                 dataCheck = new ArrayList<String>();
-                dataCheck.add(detail.getVideoFileURL()+"|"+detail.getVideoName());
+
+                    dataCheck.add(detail.getVideoFileURL()+"|"+detail.getVideoName()); //
+
                 image_click.image_more_click();
             }
         });

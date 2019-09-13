@@ -295,7 +295,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
     private Map<String, String> getDashboardData() {
         Map<String, String> map = new HashMap<>();
-        map.put("AppUserId", Utils.getPref(mContext, "AppUserId"));
+        map.put("AppUserId", String.valueOf(Utils.getAppUserId(mContext)));
         return map;
     }
 

@@ -26,8 +26,6 @@ import java.util.List;
 public class UpcomingDashboardAdapter extends RecyclerView.Adapter<UpcomingDashboardAdapter.MyViewHolder> {
     Context mcontext;
     List<UpcommingDashboardModel> upcomingDataList;
-    private static final int VIEW_TYPE_PADDING = 1;
-    private static final int VIEW_TYPE_ITEM = 2;
 
 
     public UpcomingDashboardAdapter(Context mContext, List<UpcommingDashboardModel> upcomingDataList) {

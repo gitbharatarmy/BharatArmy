@@ -8,6 +8,15 @@
         <item name="android:statusBarColor">@color/heading_bg</item>
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
     </style>
+    <style name="AppTheme.NoActionBar">
+        <item name="android:windowTranslucentNavigation">false</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowActionBar">true</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+
+    </style>
 
     <style name="CustomDatePickerStyle" parent="@android:style/Widget.Material.Light.DatePicker">
         <item name="android:headerBackground">@color/heading_bg</item>
@@ -61,15 +70,7 @@
 
     </style>
 
-    <style name="AppTheme.NoActionBar">
-        <item name="android:windowTranslucentNavigation">false</item>
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:windowActionBar">true</item>
-        <item name="android:windowFullscreen">true</item>
-        <item name="android:windowContentOverlay">@null</item>
-        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
 
-    </style>
 
     <style name="AppTheme.AppBarOverlay" parent="Theme.AppCompat.DayNight.Dialog" >
         <item name="colorPrimary">@color/heading_bg</item>

@@ -2,6 +2,8 @@ package com.bharatarmy.Adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -13,6 +15,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bharatarmy.R;
+import com.bharatarmy.UploadService;
 import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.GalleryImageDetailListBinding;
 
@@ -20,19 +23,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
 public class GalleryImageDetailAdapter extends RecyclerView.Adapter<GalleryImageDetailAdapter.MyViewHolder> implements View.OnTouchListener {
     Context mContext;
     public List<String> imageList;
     ArrayList<String> userNameList;
-
+    ArrayList<String> imageDuration;
 
     private RecyclerViewOnTouchListener touchListener;
 
-    public GalleryImageDetailAdapter(Context mContext, ArrayList<String> imageList, ArrayList<String> imageAddusername) {
+    public GalleryImageDetailAdapter(Context mContext, ArrayList<String> imageList,
+                                     ArrayList<String> imageAddusername, ArrayList<String> imageDuration) {
         this.mContext = mContext;
         this.imageList = imageList;
-    this.userNameList=imageAddusername;
+        this.userNameList = imageAddusername;
+        this.imageDuration = imageDuration;
     }
 
     public interface RecyclerViewOnTouchListener {
@@ -52,28 +56,30 @@ public class GalleryImageDetailAdapter extends RecyclerView.Adapter<GalleryImage
 
         GalleryImageDetailListBinding galleryImageDetailListBinding;
 
-       public MyViewHolder(GalleryImageDetailListBinding galleryImageDetailListBinding) {
+        public MyViewHolder(GalleryImageDetailListBinding galleryImageDetailListBinding) {
             super(galleryImageDetailListBinding.getRoot());
-            this.galleryImageDetailListBinding=galleryImageDetailListBinding;
+            this.galleryImageDetailListBinding = galleryImageDetailListBinding;
         }
     }
 
 
     @Override
     public GalleryImageDetailAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        GalleryImageDetailListBinding galleryImageDetailListBinding= DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
-                R.layout.gallery_image_detail_list,parent,false);
+        GalleryImageDetailListBinding galleryImageDetailListBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
+                R.layout.gallery_image_detail_list, parent, false);
         return new GalleryImageDetailAdapter.MyViewHolder(galleryImageDetailListBinding);
     }
 
     @SuppressLint("ResourceAsColor")
     @Override
     public void onBindViewHolder(GalleryImageDetailAdapter.MyViewHolder holder, int position) {
-        Utils.setImageInImageView(imageList.get(position),holder.galleryImageDetailListBinding.imageFull,mContext);
-        holder.galleryImageDetailListBinding.imageFull.getPositionAnimator().enter(holder.galleryImageDetailListBinding.imageDetailImg, false);
-holder.galleryImageDetailListBinding.uploadimageUserNametxt.setText(userNameList.get(position));
-Log.d("userName :",userNameList.get(position));
+        Utils.setImageInImageView(imageList.get(position), holder.galleryImageDetailListBinding.imageFull, mContext);
+//        holder.galleryImageDetailListBinding.imageFull.getPositionAnimator().enter(holder.galleryImageDetailListBinding.imageDetailImg, false);
+                holder.galleryImageDetailListBinding.uploadimageUserNametxt.setText(userNameList.get(position));
+                holder.galleryImageDetailListBinding.uploadimageDurationtxt.setText(imageDuration.get(position));
+        Log.d("userName :", userNameList.get(position));
     }
+
 
 
     @Override

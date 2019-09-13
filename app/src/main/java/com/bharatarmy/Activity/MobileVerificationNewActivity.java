@@ -202,7 +202,7 @@ public class MobileVerificationNewActivity extends AppCompatActivity implements 
 
     private Map<String, String> getOtpVerificationData() {
         Map<String, String> map = new HashMap<>();
-        map.put("AppUserId", Utils.getPref(mContext, "AppUserId"));
+        map.put("AppUserId", String.valueOf(Utils.getAppUserId(mContext)));
         map.put("PhoneNo", phoneNoStr);
         map.put("CountryCode", countryCodeStr);
         return map;

@@ -13,7 +13,8 @@
         android:gravity="center_vertical"
         android:text="@string/username"
         android:textColor="@color/sign_up"
-        android:textSize="@dimen/_11sdp" />
+        android:textSize="@dimen/_11sdp"
+        android:visibility="gone"/>
     <TextView
         android:id="@+id/show_video_Main_title_txt"
         style="@style/title_text_font"

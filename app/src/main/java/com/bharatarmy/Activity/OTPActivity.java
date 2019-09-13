@@ -128,7 +128,7 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
         Retrofit retrofit = NetworkClient.getRetrofitClient(this);
         WebServices uploadAPIs = retrofit.create(WebServices.class);
 
-        RequestBody appuserId = RequestBody.create(MediaType.parse("text/plain"), Utils.getPref(mContext, "AppUserId"));
+        RequestBody appuserId = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(Utils.getAppUserId(mContext)));
         RequestBody fullname = RequestBody.create(MediaType.parse("text/plain"), getIntent().getStringExtra("EditFullName"));
         RequestBody countryISOCode = RequestBody.create(MediaType.parse("text/plain"), AppConfiguration.currentCountry);
         RequestBody countycode = RequestBody.create(MediaType.parse("text/plain"), getIntent().getStringExtra("countryCode"));
@@ -150,14 +150,16 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
                     Utils.dismissDialog();
                 }
                 if (response.body().getIsValid() == 1) {
-                    Utils.setPref(mContext, "LoginUserName", response.body().getData().getName());
-                    Utils.setPref(mContext, "LoginEmailId", response.body().getData().getEmail());
-                    Utils.setPref(mContext, "LoginPhoneNo", response.body().getData().getPhoneNo());
-                    Utils.setPref(mContext, "LoginProfilePic", response.body().getData().getProfilePicUrl());
-                    Utils.setPref(mContext, "EmailVerified", String.valueOf(response.body().getData().getIsEmailVerified()));
-                    Utils.setPref(mContext, "PhoneVerified", String.valueOf(response.body().getData().getIsNumberVerified()));
-                    Utils.setPref(mContext, "AppUserId", String.valueOf(response.body().getData().getId()));
-                    Utils.setPref(mContext, "Gender", String.valueOf(response.body().getData().getGender()));
+//                    Utils.setPref(mContext, "LoginUserName", response.body().getData().getName());
+//                    Utils.setPref(mContext, "LoginEmailId", response.body().getData().getEmail());
+//                    Utils.setPref(mContext, "LoginPhoneNo", response.body().getData().getPhoneNo());
+//                    Utils.setPref(mContext, "LoginProfilePic", response.body().getData().getProfilePicUrl());
+//                    Utils.setPref(mContext, "EmailVerified", String.valueOf(response.body().getData().getIsEmailVerified()));
+//                    Utils.setPref(mContext, "PhoneVerified", String.valueOf(response.body().getData().getIsNumberVerified()));
+//                    Utils.setPref(mContext, "AppUserId", String.valueOf(response.body().getData().getId()));
+//                    Utils.setPref(mContext, "Gender", String.valueOf(response.body().getData().getGender()));
+
+Utils.storeLoginData(response.body().getData(),mContext);
 
                     Utils.ping(mContext, "Profile Updated Successfully");
                     Intent myprofileIntent = new Intent(mContext, MyProfileActivity.class);
@@ -409,7 +411,7 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
 
     private Map<String, String> getphoneVerificationData() {
         Map<String, String> map = new HashMap<>();
-        map.put("AppUserId", Utils.getPref(mContext, "AppUserId"));
+        map.put("AppUserId", String.valueOf(Utils.getAppUserId(mContext)));
         map.put("PhoneNo", phoneNoStr);
         map.put("CountryCode", countryCodeStr);
         return map;
@@ -441,16 +443,18 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
                 }
                 if (loginModel.getIsValid() == 1) {
                     if (loginModel.getData() != null) {
-                        Utils.setPref(mContext, "LoginUserName", loginModel.getData().getName());
-                        Utils.setPref(mContext, "LoginEmailId", loginModel.getData().getEmail());
-                        Utils.setPref(mContext, "LoginPhoneNo", loginModel.getData().getPhoneNo());
-                        Utils.setPref(mContext, "LoginProfilePic", String.valueOf(loginModel.getData().getProfilePicUrl()));
-                        Utils.setPref(mContext, "EmailVerified", String.valueOf(loginModel.getData().getIsEmailVerified()));
-                        Utils.setPref(mContext, "PhoneVerified", String.valueOf(loginModel.getData().getIsNumberVerified()));
-                        Utils.setPref(mContext, "AppUserId", String.valueOf(loginModel.getData().getId()));
-                        Utils.setPref(mContext, "Gender", String.valueOf(loginModel.getData().getGender()));
-                        Utils.setPref(mContext, "CountryISOCode", loginModel.getData().getCountryISOCode());
-                        Utils.setPref(mContext, "CountryPhoneNo", loginModel.getData().getCountryPhoneNo());
+//                        Utils.setPref(mContext, "LoginUserName", loginModel.getData().getName());
+//                        Utils.setPref(mContext, "LoginEmailId", loginModel.getData().getEmail());
+//                        Utils.setPref(mContext, "LoginPhoneNo", loginModel.getData().getPhoneNo());
+//                        Utils.setPref(mContext, "LoginProfilePic", String.valueOf(loginModel.getData().getProfilePicUrl()));
+//                        Utils.setPref(mContext, "EmailVerified", String.valueOf(loginModel.getData().getIsEmailVerified()));
+//                        Utils.setPref(mContext, "PhoneVerified", String.valueOf(loginModel.getData().getIsNumberVerified()));
+//                        Utils.setPref(mContext, "AppUserId", String.valueOf(loginModel.getData().getId()));
+//                        Utils.setPref(mContext, "Gender", String.valueOf(loginModel.getData().getGender()));
+//                        Utils.setPref(mContext, "CountryISOCode", loginModel.getData().getCountryISOCode());
+//                        Utils.setPref(mContext, "CountryPhoneNo", loginModel.getData().getCountryPhoneNo());
+
+                        Utils.storeLoginData(loginModel.getData(),mContext);
 
                         Intent DashboardIntent = new Intent(mContext, DashboardActivity.class);
                         AppConfiguration.position = 0;

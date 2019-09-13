@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bharatarmy.Activity.ImageVideoUploadActivity;
+import com.bharatarmy.Activity.VideoTrimActivity;
 import com.bharatarmy.Adapter.AlbumListAdapter;
 import com.bharatarmy.Models.ImageDetailModel;
 import com.bharatarmy.Models.ImageMainModel;
@@ -50,6 +51,8 @@ import java.util.Map;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
+import static android.app.Activity.RESULT_OK;
+
 
 public class AlbumFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
@@ -65,7 +68,7 @@ public class AlbumFragment extends Fragment {
     private Context mContext;
     AlbumListAdapter albumListAdapter;
     List<ImageDetailModel> albumList;
-    ArrayList<String> galleryImageUrl = new ArrayList<>();
+    ArrayList<String> galleryAlbumUrl = new ArrayList<>();
 
     int pageIndex = 0;
     boolean isLoading = false;
@@ -76,6 +79,9 @@ public class AlbumFragment extends Fragment {
     String imageorvideoStr;
     SpeedDialOverlayLayout overlayLayout;
     SpeedDialView speedDialView;
+
+    Uri selectedUri;
+    private static final int REQUEST_VIDEO_TRIMMER = 0x01;
     public AlbumFragment() {
         // Required empty public constructor
     }
@@ -117,7 +123,7 @@ public class AlbumFragment extends Fragment {
 
         rootView = albumBinding.getRoot();
         mContext = getActivity().getApplicationContext();
-        initSpeedDial(savedInstanceState == null);
+//        initSpeedDial(savedInstanceState == null);
         setUserVisibleHint(true);
         return rootView;
     }
@@ -135,6 +141,7 @@ public class AlbumFragment extends Fragment {
             speedDialView = (SpeedDialView) getActivity().findViewById(R.id.speedDial);
             overlayLayout = (SpeedDialOverlayLayout) getActivity().findViewById(R.id.overlay);
             speedDialView.setVisibility(View.VISIBLE);
+            initSpeedDial();
         }
     }
 
@@ -179,11 +186,11 @@ public class AlbumFragment extends Fragment {
 
     }
 
-    public void initSpeedDial(boolean addActionItems) {
+    public void initSpeedDial() { //boolean addActionItems
         speedDialView = (SpeedDialView) getActivity().findViewById(R.id.speedDial);
         overlayLayout = (SpeedDialOverlayLayout) getActivity().findViewById(R.id.overlay);
         speedDialView.setVisibility(View.VISIBLE);
-        if (addActionItems) {
+//        if (addActionItems) {
             Drawable drawable = AppCompatResources.getDrawable(mContext, R.drawable.video_image_d);
             FabWithLabelView fabWithvideoView = speedDialView.addActionItem(new SpeedDialActionItem.Builder(R.id
                     .fab_no_label, drawable)
@@ -208,7 +215,7 @@ public class AlbumFragment extends Fragment {
                         .setFabBackgroundColor(getResources().getColor(R.color.heading_bg))
                         .create());
             }
-        }
+//        }
 
         //Set main action clicklistener.
         speedDialView.setOnChangeListener(new SpeedDialView.OnChangeListener() {
@@ -231,17 +238,14 @@ public class AlbumFragment extends Fragment {
                 switch (actionItem.getId()) {
                     case R.id.fab_no_label:
                         Dexter.withActivity(getActivity())
-                                .withPermissions(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE)
+                                .withPermissions(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE,
+                                        Manifest.permission.WRITE_EXTERNAL_STORAGE)
                                 .withListener(new MultiplePermissionsListener() {
                                     @Override
                                     public void onPermissionsChecked(MultiplePermissionsReport report) {
                                         if (report.areAllPermissionsGranted()) {
-                                            if (Utils.isMember(mContext)) {
-                                                imageorvideoStr = "video";
-                                                Intent imagevideouploadIntent1 = new Intent(mContext, ImageVideoUploadActivity.class);
-                                                imagevideouploadIntent1.putExtra("image/video", imageorvideoStr);
-
-                                                startActivity(imagevideouploadIntent1);
+                                            if (Utils.isMember(mContext,"ImageUpload")) {
+                                             pickVideoFromGallery();
                                             }
                                         }
 
@@ -260,12 +264,13 @@ public class AlbumFragment extends Fragment {
 
                     case R.id.fab_custom_color:
                         Dexter.withActivity(getActivity())
-                                .withPermissions(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE)
+                                .withPermissions(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE,
+                                        Manifest.permission.WRITE_EXTERNAL_STORAGE)
                                 .withListener(new MultiplePermissionsListener() {
                                     @Override
                                     public void onPermissionsChecked(MultiplePermissionsReport report) {
                                         if (report.areAllPermissionsGranted()) {
-                                            if (Utils.isMember(mContext)) {
+                                            if (Utils.isMember(mContext,"ImageUpload")) {
                                                 imageorvideoStr = "image";
                                                 Intent imagevideouploadIntent1 = new Intent(mContext, ImageVideoUploadActivity.class);
                                                 imagevideouploadIntent1.putExtra("image/video", imageorvideoStr);
@@ -410,17 +415,9 @@ public class AlbumFragment extends Fragment {
 
     public void addOldNewValue(List<ImageDetailModel> result) {
         for (int i = 0; i < result.size(); i++) {
-            galleryImageUrl.addAll(Collections.singleton(result.get(i).getGalleryURL()));
+            galleryAlbumUrl.addAll(Collections.singleton(result.get(i).getGalleryURL()));
         }
-        Log.d("galleryImageUrl", "" + galleryImageUrl.size());
-
-    }
-    public void addOldNewPullValue(List<ImageDetailModel> result) {
-        galleryImageUrl.clear();
-        for (int i = 0; i < result.size(); i++) {
-            galleryImageUrl.addAll(Collections.singleton(result.get(i).getGalleryURL()));
-        }
-        Log.d("galleryImagepullUrl", "" + galleryImageUrl.size());
+        Log.d("galleryAlbumUrl", "" + galleryAlbumUrl.size());
 
     }
 
@@ -479,6 +476,31 @@ public class AlbumFragment extends Fragment {
         map.put("PageIndex","0");
         map.put("PageSize", "15");
         return map;
+    }
+
+    //    pick the video in gallery
+    private void pickVideoFromGallery() {
+        Intent intent = new Intent();
+        intent.setTypeAndNormalize("video/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        startActivityForResult(Intent.createChooser(intent, getString(R.string.label_select_video)), REQUEST_VIDEO_TRIMMER);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            if (requestCode == REQUEST_VIDEO_TRIMMER) {
+                selectedUri = data.getData();
+                Log.d("selectedVideoUri :",""+selectedUri);
+
+                Intent videoTrimIntent=new Intent(mContext, VideoTrimActivity.class);
+                videoTrimIntent.putExtra("videoPath",selectedUri.toString());
+                getActivity().startActivity(videoTrimIntent);
+
+
+            }
+        }
     }
 }
 

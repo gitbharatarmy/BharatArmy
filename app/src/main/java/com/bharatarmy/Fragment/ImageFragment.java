@@ -1,6 +1,7 @@
 package com.bharatarmy.Fragment;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -25,6 +26,8 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.bharatarmy.Activity.GalleryImageDetailActivity;
 import com.bharatarmy.Activity.ImageEditProfilePickerActivity;
 import com.bharatarmy.Activity.ImageVideoUploadActivity;
+import com.bharatarmy.Activity.VideoTrimActivity;
+import com.bharatarmy.Activity.VideoUploadActivity;
 import com.bharatarmy.Adapter.ImageListAdapter;
 import com.bharatarmy.Interfaces.image_click;
 import com.bharatarmy.Models.ImageDetailModel;
@@ -74,6 +77,7 @@ public class ImageFragment extends Fragment {
     List<ImageDetailModel> imageDetailModelsList;
     ArrayList<String> galleryImageUrl = new ArrayList<>();
     ArrayList<String> galleryImageUrlName = new ArrayList<>();
+    ArrayList<String> galleryImageDuration=new ArrayList<>();
     boolean isMoreDataAvailable = true;
     String imageClickData;
     int pageIndex = 0;
@@ -87,8 +91,8 @@ public class ImageFragment extends Fragment {
     SpeedDialOverlayLayout overlayLayout;
     SpeedDialView speedDialView;
 
-    static final int OPEN_MEDIA_PICKER = 1;  // Request code
-
+  Uri selectedUri;
+    private static final int REQUEST_VIDEO_TRIMMER = 0x01;
     public ImageFragment() {
         // Required empty public constructor
     }
@@ -122,7 +126,7 @@ public class ImageFragment extends Fragment {
         rootView = fragmentImageBinding.getRoot();
         mContext = getActivity().getApplicationContext();
 
-        initSpeedDial(savedInstanceState == null);
+//        initSpeedDial(savedInstanceState == null);
 
         setUserVisibleHint(true);
         return rootView;
@@ -142,16 +146,16 @@ public class ImageFragment extends Fragment {
             speedDialView = (SpeedDialView) getActivity().findViewById(R.id.speedDial);
             overlayLayout = (SpeedDialOverlayLayout) getActivity().findViewById(R.id.overlay);
             speedDialView.setVisibility(View.VISIBLE);
-
+            initSpeedDial();
 
         }
     }
 
-    public void initSpeedDial(boolean addActionItems) {
+    public void initSpeedDial() { //boolean addActionItems
         speedDialView = (SpeedDialView) getActivity().findViewById(R.id.speedDial);
         overlayLayout = (SpeedDialOverlayLayout) getActivity().findViewById(R.id.overlay);
         speedDialView.setVisibility(View.VISIBLE);
-        if (addActionItems) {
+//        if (addActionItems) {
             Drawable drawable = AppCompatResources.getDrawable(mContext, R.drawable.video_image_d);
             FabWithLabelView fabWithvideoView = speedDialView.addActionItem(new SpeedDialActionItem.Builder(R.id
                     .fab_no_label, drawable)
@@ -176,7 +180,7 @@ public class ImageFragment extends Fragment {
                         .setFabBackgroundColor(getResources().getColor(R.color.heading_bg))
                         .create());
             }
-        }
+//        }
 
         //Set main action clicklistener.
         speedDialView.setOnChangeListener(new SpeedDialView.OnChangeListener() {
@@ -199,16 +203,16 @@ public class ImageFragment extends Fragment {
                 switch (actionItem.getId()) {
                     case R.id.fab_no_label:
                         Dexter.withActivity(getActivity())
-                                .withPermissions(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE)
+                                .withPermissions(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE,
+                                        Manifest.permission.WRITE_EXTERNAL_STORAGE)
                                 .withListener(new MultiplePermissionsListener() {
                                     @Override
                                     public void onPermissionsChecked(MultiplePermissionsReport report) {
                                         if (report.areAllPermissionsGranted()) {
-                                            if (Utils.isMember(mContext)) {
+                                            if (Utils.isMember(mContext,"ImageUpload")) {
                                                 imageorvideoStr = "video";
-                                                Intent imagevideouploadIntent1 = new Intent(mContext, ImageVideoUploadActivity.class);
-                                                imagevideouploadIntent1.putExtra("image/video", imageorvideoStr);
-                                                startActivity(imagevideouploadIntent1);
+                                                pickVideoFromGallery();
+
                                             }
                                         }
 
@@ -227,18 +231,23 @@ public class ImageFragment extends Fragment {
 
                     case R.id.fab_custom_color:
                         Dexter.withActivity(getActivity())
-                                .withPermissions(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE)
+                                .withPermissions(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE,
+                                        Manifest.permission.WRITE_EXTERNAL_STORAGE)
                                 .withListener(new MultiplePermissionsListener() {
                                     @Override
                                     public void onPermissionsChecked(MultiplePermissionsReport report) {
                                         if (report.areAllPermissionsGranted()) {
-                                            if (Utils.isMember(mContext)){
+                                            if (Utils.isMember(mContext,"ImageUpload")){
                                                 imageorvideoStr = "image";
                                                 Intent imagevideouploadIntent1 = new Intent(mContext, ImageVideoUploadActivity.class);
                                                 imagevideouploadIntent1.putExtra("image/video", imageorvideoStr);
                                                 imagevideouploadIntent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                                 mContext.startActivity(imagevideouploadIntent1);
                                             }
+//                                            else{
+//                                                Utils.goToLogin(mContext,"ImageUpload");
+//                                            }
+
 
                                         }
 
@@ -287,7 +296,6 @@ public class ImageFragment extends Fragment {
 
 
                 if (!isLoading) {
-
                     if (gridLayoutManager != null && gridLayoutManager.findLastCompletelyVisibleItemPosition() == imageDetailModelsList.size() - 1) {
                         //bottom of list!
                         ispull = false;
@@ -386,6 +394,7 @@ Log.d("list : ",""+imageDetailModelsList.size());
                 gallerydetailIntent.putExtra("positon", imageClickData);
                 gallerydetailIntent.putStringArrayListExtra("data", galleryImageUrl);
                 gallerydetailIntent.putStringArrayListExtra("dataName",galleryImageUrlName);
+                gallerydetailIntent.putStringArrayListExtra("dataDuration",galleryImageDuration);
                 startActivity(gallerydetailIntent);
             }
         });
@@ -410,6 +419,7 @@ Log.d("list : ",""+imageDetailModelsList.size());
         for (int i = 0; i < result.size(); i++) {
             galleryImageUrl.addAll(Collections.singleton(result.get(i).getGalleryURL()));
             galleryImageUrlName.addAll(Collections.singleton(result.get(i).getAddedUserName()));
+            galleryImageDuration.addAll(Collections.singleton(result.get(i).getStrAddedDuration()));
         }
         Log.d("galleryImageUrl", "" + galleryImageUrl.size());
 
@@ -443,8 +453,13 @@ Log.d("list : ",""+imageDetailModelsList.size());
                 if (imageMainModel.getIsValid() == 1) {
 
                     if (imageMainModel.getData() != null) {
-                        imageDetailModelsList = imageMainModel.getData();
 
+                      galleryImageUrl.clear();
+                      galleryImageUrlName.clear();
+                        galleryImageDuration.clear();
+                        imageDetailModelsList = imageMainModel.getData();
+Log.d("pullDataList : ",""+imageDetailModelsList.size());
+                        addOldNewValue(imageDetailModelsList);
 
                       fillImageGallery();
                     }
@@ -505,23 +520,27 @@ Log.d("list : ",""+imageDetailModelsList.size());
         startActivityForResult(intent, 101);
     }
 
+
+    //    pick the video in gallery
+    private void pickVideoFromGallery() {
+        Intent intent = new Intent();
+        intent.setTypeAndNormalize("video/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        startActivityForResult(Intent.createChooser(intent, getString(R.string.label_select_video)), REQUEST_VIDEO_TRIMMER);
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
-            if (requestCode == OPEN_MEDIA_PICKER) {
-                Uri selectedImageUri = data.getData();
+            if (requestCode == REQUEST_VIDEO_TRIMMER) {
+                selectedUri = data.getData();
+                Log.d("selectedVideoUri :",""+selectedUri);
 
-                // OI FILE Manager
-                String filemanagerstring = selectedImageUri.getPath();
+                Intent videoTrimIntent=new Intent(mContext,VideoTrimActivity.class);
+                videoTrimIntent.putExtra("videoPath",selectedUri.toString());
+                getActivity().startActivity(videoTrimIntent);
 
-                if (filemanagerstring != null) {
-
-                    Intent intent = new Intent(mContext,
-                            ImageVideoUploadActivity.class);
-                    intent.setData(selectedImageUri);
-                    intent.putExtra("image/video", imageorvideoStr);
-                    startActivity(intent);
-                }
             }
         }
     }
