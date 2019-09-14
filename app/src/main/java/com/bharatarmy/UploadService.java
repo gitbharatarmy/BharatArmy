@@ -12,6 +12,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
+import android.provider.MediaStore;
 import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
@@ -29,8 +30,10 @@ import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.VideoTrimmer.utils.FileUtils;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.Random;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -106,11 +109,22 @@ public class UploadService extends IntentService implements ProgressRequestBody.
             }
             call = uploadAPIs.uploadvideo(fileParts, filetypeId, appuserId, memberName,videoLength,videoTitle,videoDesc);
         }else{
-            File file = new File(filePath);
-            ProgressRequestBody fileBody = new ProgressRequestBody(file, this);
-            MultipartBody.Part body = MultipartBody.Part.createFormData("image", file.getName(), fileBody);
+            Utils.videoFile=new ArrayList<>();
+            String path = FileUtils.getPath(getApplicationContext(),
+                    Utils.getImageUri(getApplicationContext(),Utils.createImageThumbNail(Utils.getBitmap(objfile.getImageUri()))));
+            Log.d("filename :", path);
+            Utils.videoFile.add(objfile.getImageUri());
+            Utils.videoFile.add(path);
 
-           call = uploadAPIs.uploadfiles(body, filetypeId, appuserId, memberName,videoLength,videoTitle,videoDesc);
+            MediaType mediaType = MediaType.parse("");//Based on the Postman logs,it's not specifying Content-Type, this is why I've made this empty content/mediaType
+            MultipartBody.Part[] fileParts = new MultipartBody.Part[Utils.videoFile.size()];
+            for (int i = 0; i < Utils.videoFile.size(); i++) {
+                File file = new File(Utils.videoFile.get(i));
+                RequestBody fileBody = RequestBody.create(mediaType, file);
+                //Setting the file name as an empty string here causes the same issue, which is sending the request successfully without saving the files in the backend, so don't neglect the file name parameter.
+                fileParts[i] = MultipartBody.Part.createFormData(String.format(Locale.ENGLISH, "file[%d]", i), file.getName(), fileBody);
+            }
+            call = uploadAPIs.uploadvideo(fileParts, filetypeId, appuserId, memberName,videoLength,videoTitle,videoDesc);
         }
 
         Log.d("File", "" + call);

@@ -60,22 +60,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         loginBinding.skipTxt.setOnClickListener(this);
         loginBinding.backImg.setOnClickListener(this);
 
-        loginBinding.userNameEdt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                loginBinding.scrollView.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        View lastChild =  loginBinding.scrollView.getChildAt( loginBinding.scrollView.getChildCount() - 1);
-                        int bottom = lastChild.getBottom() +  loginBinding.scrollView.getPaddingBottom();
-                        int sy =  loginBinding.scrollView.getScrollY();
-                        int sh =  loginBinding.scrollView.getHeight();
-                        int delta = bottom - (sy + sh);
-                        loginBinding.scrollView.smoothScrollBy(0, delta);
-                    }
-                }, 200);
-            }
-        });
+
 
         loginBinding.userPasswordEdt.setOnEditorActionListener(new EditText.OnEditorActionListener() {
             @Override
@@ -201,6 +186,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     startActivity(walkintent);
                     finish();
                 }
+                break;
+            case R.id.user_name_edt:
+                Utils.scrollScreen(loginBinding.scrollView);
                 break;
         }
     }

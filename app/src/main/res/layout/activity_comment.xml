@@ -4,12 +4,16 @@
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/comment_scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         tools:context=".Activity.CommentActivity">
 
-
+<!--<LinearLayout-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="wrap_content"-->
+<!--    android:orientation="vertical">-->
         <androidx.appcompat.widget.Toolbar
             android:layout_width="match_parent"
             android:layout_height="@dimen/_50sdp"
@@ -64,7 +68,8 @@
                     android:layout_weight="1.3"
                     android:dropDownVerticalOffset="@dimen/_32sdp"
                     android:spinnerMode="dropdown"
-                    android:theme="@style/Spinner_comment" />
+                    android:theme="@style/Spinner_comment"
+                    android:visibility="gone"/>
 
             </LinearLayout>
         </androidx.appcompat.widget.Toolbar>
@@ -88,21 +93,63 @@
                 android:layout_height="0dp"
                 android:layout_marginLeft="@dimen/_10sdp"
                 android:layout_marginRight="@dimen/_10sdp"
-                android:layout_weight="2.5"
+                android:layout_weight="2.4"
                 android:orientation="vertical">
 
 
+                <com.facebook.shimmer.ShimmerFrameLayout
+                    android:id="@+id/shimmer_view_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@id/top_gradiant_view"
+                    android:orientation="vertical"
+                    android:visibility="visible">
+
+                    <include layout="@layout/comment_dataholder" />
+
+
+
+
+                </com.facebook.shimmer.ShimmerFrameLayout>
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/comment_rcv"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginBottom="@dimen/_5sdp" />
+                    android:layout_marginBottom="@dimen/_5sdp"
+                    android:visibility="gone"
+                    android:clipToPadding="false"
+                    android:paddingBottom="@dimen/_50sdp"/>
+
+                <ProgressBar
+                    android:id="@+id/progressBar"
+                    style="?android:attr/progressBarStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="@dimen/_70sdp"
+                    android:indeterminate="true"
+                    android:indeterminateTint="@color/heading_bg"
+                    android:visibility="gone" />
+                <TextView
+                    android:id="@+id/norecord_txt"
+                    style="@style/title_text_font"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:maxLines="1"
+                    android:paddingLeft="@dimen/_5sdp"
+                    android:text="no record found"
+                    android:textColor="@color/orange"
+                    android:textSize="@dimen/_14sdp"
+                    android:visibility="gone"/>
+
+
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="0.5"
+                android:layout_weight="0.6"
                 android:orientation="vertical">
 
                 <View
@@ -119,11 +166,14 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_margin="@dimen/_20sdp"
+                        android:layout_height="@dimen/_50sdp"
+                        android:layout_marginLeft="@dimen/_20sdp"
+                        android:layout_marginRight="@dimen/_20sdp"
+                        android:layout_marginTop="@dimen/_23sdp"
                         android:background="@drawable/rectangle_line"
                         android:orientation="horizontal"
-                        android:weightSum="1">
+                        android:weightSum="1"
+                        android:isScrollContainer="true">
 
                         <EditText
                             android:id="@+id/comment_edt"
@@ -133,11 +183,15 @@
                             android:layout_weight="0.85"
                             android:background="@null"
                             android:hint="@string/comment_hint"
-                            android:maxLines="1"
+                            android:maxLength="1000"
                             android:paddingLeft="@dimen/_5sdp"
+                            android:paddingTop="@dimen/_5sdp"
+                            android:gravity="top"
                             android:textColor="@color/normal_font_color"
                             android:textColorHint="@color/hint_txt_color"
-                            android:textSize="@dimen/_11sdp" />
+                            android:textSize="@dimen/_11sdp"
+                            android:inputType="textMultiLine"
+                            android:textCursorDrawable="@drawable/color_cursor"/>
 
                         <ImageView
                             android:id="@+id/comment_sent_img"
@@ -151,7 +205,8 @@
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
+
+</LinearLayout>
 </layout>
 
 

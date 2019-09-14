@@ -76,4 +76,8 @@ public class ImageMainModel  {
         this.otherData = otherData;
     }
 
+
+
+
+
 }

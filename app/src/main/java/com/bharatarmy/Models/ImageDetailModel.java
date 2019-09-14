@@ -878,4 +878,87 @@ public class ImageDetailModel implements Serializable {
         this.description = description;
     }
 
+
+//    comment Detail
+    @SerializedName("MemberProfileURL")
+    @Expose
+    private String memberProfileURL;
+    @SerializedName("strDuration")
+    @Expose
+    private String strDuration;
+    @SerializedName("BACommentId")
+    @Expose
+    private Integer bACommentId;
+    @SerializedName("MemberId")
+    @Expose
+    private Integer memberId;
+    @SerializedName("CommentNotes")
+    @Expose
+    private String commentNotes;
+    @SerializedName("MemberName")
+    @Expose
+    private String memberName;
+    @SerializedName("ProfilePicName")
+    @Expose
+    private String profilePicName;
+
+
+    public String getMemberProfileURL() {
+        return memberProfileURL;
+    }
+
+    public void setMemberProfileURL(String memberProfileURL) {
+        this.memberProfileURL = memberProfileURL;
+    }
+
+    public String getStrDuration() {
+        return strDuration;
+    }
+
+    public void setStrDuration(String strDuration) {
+        this.strDuration = strDuration;
+    }
+
+    public Integer getBACommentId() {
+        return bACommentId;
+    }
+
+    public void setBACommentId(Integer bACommentId) {
+        this.bACommentId = bACommentId;
+    }
+
+    public Integer getMemberId() {
+        return memberId;
+    }
+
+    public void setMemberId(Integer memberId) {
+        this.memberId = memberId;
+    }
+
+    public String getCommentNotes() {
+        return commentNotes;
+    }
+
+    public void setCommentNotes(String commentNotes) {
+        this.commentNotes = commentNotes;
+    }
+
+    public String getMemberName() {
+        return memberName;
+    }
+
+    public void setMemberName(String memberName) {
+        this.memberName = memberName;
+    }
+
+    public String getProfilePicName() {
+        return profilePicName;
+    }
+
+    public void setProfilePicName(String profilePicName) {
+        this.profilePicName = profilePicName;
+    }
+
+
+
 }

@@ -80,23 +80,8 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         activitySignUpBinding.termConditionTxt.setOnClickListener(this);
         activitySignUpBinding.signupBtn.setOnClickListener(this);
         activitySignUpBinding.closeTxt.setOnClickListener(this);
+activitySignUpBinding.fulluserNameEdt.setOnClickListener(this);
 
-        activitySignUpBinding.fulluserNameEdt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                activitySignUpBinding.signupScrollView.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        View lastChild =   activitySignUpBinding.signupScrollView.getChildAt(  activitySignUpBinding.signupScrollView.getChildCount() - 1);
-                        int bottom = lastChild.getBottom() +  activitySignUpBinding.signupScrollView.getPaddingBottom();
-                        int sy =   activitySignUpBinding.signupScrollView.getScrollY();
-                        int sh =   activitySignUpBinding.signupScrollView.getHeight();
-                        int delta = bottom - (sy + sh);
-                        activitySignUpBinding.signupScrollView.smoothScrollBy(0, delta);
-                    }
-                }, 200);
-            }
-        });
 
 
         activitySignUpBinding.ccp.setOnCountryChangeListener(new CountryCodePicker.OnCountryChangeListener() {
@@ -209,6 +194,9 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                 Intent iLogin = new Intent(mContext, LoginActivity.class);
                 startActivity(iLogin);
                 finish();
+                break;
+            case R.id.fulluser_name_edt:
+                Utils.scrollScreen(activitySignUpBinding.signupScrollView);
                 break;
         }
     }

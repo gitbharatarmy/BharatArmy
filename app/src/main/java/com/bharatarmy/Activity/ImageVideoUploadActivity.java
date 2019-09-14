@@ -184,6 +184,8 @@ public class ImageVideoUploadActivity extends AppCompatActivity implements View.
                                     galleryImageList.get(i).getFileType(),galleryImageList.get(i).getVideoTitle(),
                                     galleryImageList.get(i).getVideoDesc(),mContext);
                         }
+
+
                         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(ImageVideoUploadActivity.this);
                         LayoutInflater inflater = getLayoutInflater();
                         View dialogView = inflater.inflate(R.layout.thankyou_dialog_item, null);
@@ -212,6 +214,8 @@ public class ImageVideoUploadActivity extends AppCompatActivity implements View.
                                 try {
                                     alertDialog.dismiss();
                                     finish();
+                                            Intent intent = new Intent(mContext, UploadService.class);
+                                            startService(intent);
                                 } catch (Exception e) {
 
                                 }
@@ -219,17 +223,6 @@ public class ImageVideoUploadActivity extends AppCompatActivity implements View.
                         });
                         try {
                             alertDialog.show();
-                            final Handler handler = new Handler();
-                            handler.postDelayed(new Runnable() {
-                                public void run() {
-
-                                    Intent intent = new Intent(mContext, UploadService.class);
-                                    startService(intent);
-
-                                }
-                            }, 100);
-
-
                         } catch (Exception e) {
 
                         }

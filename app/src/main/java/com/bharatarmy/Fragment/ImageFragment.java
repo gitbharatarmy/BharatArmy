@@ -78,6 +78,7 @@ public class ImageFragment extends Fragment {
     ArrayList<String> galleryImageUrl = new ArrayList<>();
     ArrayList<String> galleryImageUrlName = new ArrayList<>();
     ArrayList<String> galleryImageDuration=new ArrayList<>();
+    ArrayList<String> galleryImageId=new ArrayList<>();
     boolean isMoreDataAvailable = true;
     String imageClickData;
     int pageIndex = 0;
@@ -395,6 +396,7 @@ Log.d("list : ",""+imageDetailModelsList.size());
                 gallerydetailIntent.putStringArrayListExtra("data", galleryImageUrl);
                 gallerydetailIntent.putStringArrayListExtra("dataName",galleryImageUrlName);
                 gallerydetailIntent.putStringArrayListExtra("dataDuration",galleryImageDuration);
+                gallerydetailIntent.putStringArrayListExtra("dataId",galleryImageId);
                 startActivity(gallerydetailIntent);
             }
         });
@@ -420,6 +422,7 @@ Log.d("list : ",""+imageDetailModelsList.size());
             galleryImageUrl.addAll(Collections.singleton(result.get(i).getGalleryURL()));
             galleryImageUrlName.addAll(Collections.singleton(result.get(i).getAddedUserName()));
             galleryImageDuration.addAll(Collections.singleton(result.get(i).getStrAddedDuration()));
+            galleryImageId.addAll(Collections.singleton(String.valueOf(result.get(i).getBAGalleryId())));
         }
         Log.d("galleryImageUrl", "" + galleryImageUrl.size());
 
@@ -457,6 +460,7 @@ Log.d("list : ",""+imageDetailModelsList.size());
                       galleryImageUrl.clear();
                       galleryImageUrlName.clear();
                         galleryImageDuration.clear();
+                        galleryImageId.clear();
                         imageDetailModelsList = imageMainModel.getData();
 Log.d("pullDataList : ",""+imageDetailModelsList.size());
                         addOldNewValue(imageDetailModelsList);

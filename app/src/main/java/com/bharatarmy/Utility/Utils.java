@@ -49,6 +49,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -64,6 +65,7 @@ import com.bharatarmy.Country;
 import com.bharatarmy.CountryCodePicker;
 import com.bharatarmy.Interfaces.submit_click;
 import com.bharatarmy.Models.GalleryImageModel;
+import com.bharatarmy.Models.ImageMainModel;
 import com.bharatarmy.Models.LogginModel;
 import com.bharatarmy.Models.LoginDataModel;
 import com.bharatarmy.Models.LoginOtherDataModel;
@@ -80,6 +82,7 @@ import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -96,6 +99,8 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 import okhttp3.MultipartBody;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 import retrofit2.http.Multipart;
 
 import static com.yalantis.ucrop.util.FileUtils.getDataColumn;
@@ -110,6 +115,9 @@ public class Utils {
     public static ImageView image;
     public static Button agree_btn;
     public static TextView close_btn;
+    public static boolean isValid=false;
+
+    public static int LikeMemberId,LikeReferenceId,LikeStatus,LikeSourceType;
 
     public static Dialog dialog;
 
@@ -386,6 +394,7 @@ public class Utils {
         Bitmap anImage = ((BitmapDrawable) myDrawable).getBitmap();
         return anImage;
     }
+
     public static Bitmap getBitmapFromURL(String src) {
         try {
             URL url = new URL(src);
@@ -400,6 +409,7 @@ public class Utils {
             return null;
         }
     }
+
     public static boolean appInstalledOrNot(String uri, Context mContext) {
         PackageManager pm = mContext.getPackageManager();
         boolean app_installed;
@@ -493,14 +503,14 @@ public class Utils {
         AlertDialog alertDialog = dialogBuilder.create();
         alertDialog.setCanceledOnTouchOutside(false);
         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-        TextView dialog_headertxt=(TextView)dialogView.findViewById(R.id.dialog_headertxt);
-        TextView dialog_descriptiontxt=(TextView)dialogView.findViewById(R.id.dialog_descriptiontxt);
+        TextView dialog_headertxt = (TextView) dialogView.findViewById(R.id.dialog_headertxt);
+        TextView dialog_descriptiontxt = (TextView) dialogView.findViewById(R.id.dialog_descriptiontxt);
         TextView hometxt = (TextView) dialogView.findViewById(R.id.home_txt);
 
-        Log.d("messageList :",Utils.retriveLoginOtherData(activity).toString());
-        if (Utils.retriveLoginOtherData(activity)!=null){
-            for (int i=0;i<Utils.retriveLoginOtherData(activity).size();i++){
-                if (Utils.retriveLoginOtherData(activity).get(i).getMessageId().equals(2)){
+        Log.d("messageList :", Utils.retriveLoginOtherData(activity).toString());
+        if (Utils.retriveLoginOtherData(activity) != null) {
+            for (int i = 0; i < Utils.retriveLoginOtherData(activity).size(); i++) {
+                if (Utils.retriveLoginOtherData(activity).get(i).getMessageId().equals(2)) {
                     dialog_headertxt.setText(Utils.retriveLoginOtherData(activity).get(i).getMessageHeaderText());
                     dialog_descriptiontxt.setText(Utils.retriveLoginOtherData(activity).get(i).getMessageDescription());
                 }
@@ -512,10 +522,10 @@ public class Utils {
             public void onClick(View v) {
                 try {
                     alertDialog.dismiss();
-                    if (wheretocome.equalsIgnoreCase("changePassword")){
-                        Intent intent=new Intent(activity, DashboardActivity.class);
+                    if (wheretocome.equalsIgnoreCase("changePassword")) {
+                        Intent intent = new Intent(activity, DashboardActivity.class);
                         activity.startActivity(intent);
-                        activity. finish();
+                        activity.finish();
                     }
                 } catch (Exception e) {
 
@@ -689,8 +699,6 @@ public class Utils {
     }
 
 
-
-
     // use for webview adavnce facility funcation
     public static class MyWebViewClient extends WebViewClient {
         @Override
@@ -730,12 +738,29 @@ public class Utils {
         return ThumbnailUtils.createVideoThumbnail(path, MediaStore.Video.Thumbnails.FULL_SCREEN_KIND);
     }
 
-    public static Bitmap createImageThumbNail(Bitmap bitmap){
-        return ThumbnailUtils.extractThumbnail(bitmap,512,512);
+    public static Bitmap createImageThumbNail(Bitmap bitmap) {
+        return ThumbnailUtils.extractThumbnail(bitmap, 512, 512);
     }
 
-    public static File saveBitmap(Bitmap bitmap, String name,Context mContext) {
-        File filesDir =mContext.getFilesDir();
+    public static Bitmap getBitmap(String path) {
+        Bitmap bitmap = null;
+        try {
+
+            File f = new File(path);
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+
+            bitmap = BitmapFactory.decodeStream(new FileInputStream(f), null, options);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        return bitmap;
+    }
+
+    public static File saveBitmap(Bitmap bitmap, String name, Context mContext) {
+        File filesDir = mContext.getFilesDir();
         File imageFile = new File(filesDir, name + ".jpg");
 
         return imageFile;
@@ -747,7 +772,6 @@ public class Utils {
         String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "videoThumbnail", null);
         return Uri.parse(path);
     }
-
 
 
     public static void handleClickEvent(Context mContext, View view) {
@@ -777,24 +801,27 @@ public class Utils {
     }
 
 
-    public static void storeLoginData(LoginDataModel result, Context mContext){
+    public static void storeLoginData(LoginDataModel result, Context mContext) {
         Gson gsonupdate = new Gson();
         String valuesString = gsonupdate.toJson(result);
         Utils.setPref(mContext, "loginData", valuesString);
         Log.d("LoginvaluesString", valuesString);
     }
-    public static LoginDataModel retriveLoginData(Context mContext){
-       LoginDataModel loginList;
-        Type arrayListType2 = new TypeToken<LoginDataModel>() {}.getType();
+
+    public static LoginDataModel retriveLoginData(Context mContext) {
+        LoginDataModel loginList;
+        Type arrayListType2 = new TypeToken<LoginDataModel>() {
+        }.getType();
 
         Gson gson2 = new Gson();
         loginList = gson2.fromJson(Utils.getPref(mContext, "loginData"), arrayListType2);
         return loginList;
     }
 
-    public static void removeLoginData(Context mContext){
-       Utils.setPref(mContext,"loginData","");
+    public static void removeLoginData(Context mContext) {
+        Utils.setPref(mContext, "loginData", "");
     }
+
     public static void storeLoginOtherData(List<LoginOtherDataModel> result, Context mContext) {
         Gson gsonupdate = new Gson();
         String valuesString = gsonupdate.toJson(result);
@@ -802,41 +829,118 @@ public class Utils {
         Log.d("valuesString", valuesString);
     }
 
-    public static List<LoginOtherDataModel> retriveLoginOtherData(Context mContext){
-      List<LoginOtherDataModel> messageList=new ArrayList<>();
-        Type arrayListType2 = new TypeToken<ArrayList<LoginOtherDataModel>>() {}.getType();
+    public static List<LoginOtherDataModel> retriveLoginOtherData(Context mContext) {
+        List<LoginOtherDataModel> messageList = new ArrayList<>();
+        Type arrayListType2 = new TypeToken<ArrayList<LoginOtherDataModel>>() {
+        }.getType();
         Gson gson2 = new Gson();
         messageList = gson2.fromJson(Utils.getPref(mContext, "loginOtherData"), arrayListType2);
         return messageList;
     }
-    public static boolean isMember(Context context,String whereTocome){
-        if (Utils.getAppUserId(context)==0){
-            Intent intent=new Intent(context, LoginActivity.class);
-            intent.putExtra("whereTocomeLogin",whereTocome);
+
+    public static boolean isMember(Context context, String whereTocome) {
+        if (Utils.getAppUserId(context) == 0) {
+            Intent intent = new Intent(context, LoginActivity.class);
+            intent.putExtra("whereTocomeLogin", whereTocome);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
-        }else {
+        } else {
             return true;
         }
         return false;
     }
 
-    public static void goToLogin(Context mContext,String whereTocome){
-        Intent intent=new Intent(mContext,LoginActivity.class);
-        intent.putExtra("whereTocomeLogin",whereTocome);
+    public static void goToLogin(Context mContext, String whereTocome) {
+        Intent intent = new Intent(mContext, LoginActivity.class);
+        intent.putExtra("whereTocomeLogin", whereTocome);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mContext.startActivity(intent);
     }
 
-    public static int getAppUserId(Context mContext){
+    public static int getAppUserId(Context mContext) {
         int id = 0;
 
-        if (Utils.retriveLoginData(mContext)!=null){
-            id=Utils.retriveLoginData(mContext).getId() ;
-        }else{
-            id=0;
+        if (Utils.retriveLoginData(mContext) != null) {
+            id = Utils.retriveLoginData(mContext).getId();
+        } else {
+            id = 0;
         }
         return id;
+    }
+
+
+    public static void InsertLike(Context mContext, Activity activity) { //, int MemberId, int ReferenceId, int LikeStatus, int SourceType
+
+        if (!Utils.checkNetwork(mContext)) {
+            Utils.showCustomDialog(mContext.getResources().getString(R.string.internet_error), mContext.getResources().getString(R.string.internet_connection_error),activity);
+            return;
+        }
+
+//        Utils.showDialog(mContext);
+
+        ApiHandler.getApiService().getInsertBALike(Utils.getLikeData(), new retrofit.Callback<ImageMainModel>() {
+            @Override
+            public void success(ImageMainModel likeModel, Response response) {
+                Utils.dismissDialog();
+                if (likeModel == null) {
+                    Utils.ping(mContext, mContext.getString(R.string.something_wrong));
+                    return;
+                }
+                if (likeModel.getIsValid() == null) {
+                    Utils.ping(mContext, mContext.getString(R.string.something_wrong));
+                    return;
+                }
+                if (likeModel.getIsValid() == 0) {
+                    Utils.ping(mContext, mContext.getString(R.string.false_msg));
+                    return;
+                }
+                if (likeModel.getIsValid() == 1) {
+
+                    if (likeModel.getData() != null) {
+
+                    }
+
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Utils.dismissDialog();
+                error.printStackTrace();
+                error.getMessage();
+                Utils.ping(mContext, mContext.getString(R.string.something_wrong));
+            }
+        });
+
+
+    }
+
+    public static Map<String, Integer> getLikeData() {
+        Map<String, Integer> map = new HashMap<>();
+        map.put("MemberId",LikeMemberId);
+        map.put("ReferenceId",LikeReferenceId );
+        map.put("LikeStatus",LikeStatus);
+        map.put("SourceType",LikeSourceType);
+        return map;
+
+    }
+
+
+
+
+
+    public static void scrollScreen(ScrollView scrollView){
+        scrollView.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                View lastChild =   scrollView.getChildAt(   scrollView.getChildCount() - 1);
+                int bottom = lastChild.getBottom() +    scrollView.getPaddingBottom();
+                int sy =    scrollView.getScrollY();
+                int sh =   scrollView.getHeight();
+                int delta = bottom - (sy + sh);
+                scrollView.smoothScrollBy(0, delta);
+            }
+        }, 200);
     }
 
 }

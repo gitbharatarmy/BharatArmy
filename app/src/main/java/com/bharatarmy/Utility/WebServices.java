@@ -119,6 +119,18 @@ public interface WebServices {
     void getBAVideoGallery(@FieldMap Map<String, String> map, Callback<ImageMainModel> callback);
 
     @FormUrlEncoded
+    @POST("/InsertBALike")
+    void getInsertBALike(@FieldMap Map<String, Integer> map, Callback<ImageMainModel> callback);
+
+    @FormUrlEncoded
+    @POST("/InsertBAComments")
+    void getInsertBAComments(@FieldMap Map<String, String> map, Callback<ImageMainModel> callback);
+
+    @FormUrlEncoded
+    @POST("/GetCommentDataByPost")
+    void getCommentDataByPost(@FieldMap Map<String, String> map, Callback<ImageMainModel> callback);
+
+    @FormUrlEncoded
     @POST("/GetBAFTP")
     void getBAFTP(@FieldMap Map<String, String> map, Callback<ImageMainModel> callback);
 

@@ -49,17 +49,7 @@ public class ForgotActivity extends AppCompatActivity {
         activityForgotBinding.forgotPasswordemailEdt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                activityForgotBinding.forgotScrollView.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        View lastChild =activityForgotBinding.forgotScrollView.getChildAt(activityForgotBinding.forgotScrollView.getChildCount() - 1);
-                        int bottom = lastChild.getBottom() +  activityForgotBinding.forgotScrollView.getPaddingBottom();
-                        int sy =   activityForgotBinding.forgotScrollView.getScrollY();
-                        int sh =  activityForgotBinding.forgotScrollView.getHeight();
-                        int delta = bottom - (sy + sh);
-                        activityForgotBinding.forgotScrollView.smoothScrollBy(0, delta);
-                    }
-                }, 200);
+                Utils.scrollScreen(activityForgotBinding.forgotScrollView);
             }
         });
 

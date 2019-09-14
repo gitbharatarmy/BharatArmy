@@ -79,10 +79,42 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:layout_width="@dimen/_10sdp"
+                        android:layout_height="@dimen/_10sdp"
+                        android:src="@drawable/ic_clock"
+                        android:tint="@color/normal_font_color"
+                        android:layout_centerVertical="true"
+                        android:paddingTop="@dimen/_2sdp"
+                        android:layout_toLeftOf="@id/uploadimage_durationtxt" />
+                    <TextView
+                        android:id="@+id/uploadimage_durationtxt"
+                        style="@style/text_font"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/_30sdp"
+                        android:gravity="center_vertical"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="@dimen/_12sdp"
+                        android:layout_marginLeft="@dimen/_5sdp"
+                        android:text="100d ago"
+                        android:textColor="@color/normal_font_color"
+                        android:textSize="@dimen/_10sdp"
+                        android:visibility="visible"/>
+                </RelativeLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginLeft="@dimen/_5sdp"
-                android:weightSum="4">
+                android:weightSum="4"
+                android:visibility="gone">
 
                 <TextView
                     android:id="@+id/comment_reply_txt"

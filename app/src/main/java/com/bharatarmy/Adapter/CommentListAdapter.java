@@ -11,18 +11,21 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bharatarmy.Models.GalleryImageModel;
+import com.bharatarmy.Models.ImageDetailModel;
+import com.bharatarmy.Models.MoreDetailDataModel;
 import com.bharatarmy.R;
+import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.CommentListItemBinding;
 
 import java.util.List;
 
 public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter.MyViewHolder> {
     Context mcontext;
-    List<GalleryImageModel> arrayList;
+    List<ImageDetailModel> commentList;
 
-    public CommentListAdapter(Context mContext, List<GalleryImageModel> arrayList) {
+    public CommentListAdapter(Context mContext, List<ImageDetailModel> arrayList) {
         this.mcontext = mContext;
-        this.arrayList = arrayList;
+        this.commentList = arrayList;
 
     }
 
@@ -50,14 +53,13 @@ public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter.
     @SuppressLint("ResourceAsColor")
     @Override
     public void onBindViewHolder(CommentListAdapter.MyViewHolder holder, int position) {
-        holder.commentListItemBinding.totalLikesTxt.setText(arrayList.get(position).getCommentLikesTotal());
-        if (arrayList.get(position).getCommentLikes().equalsIgnoreCase("You like")){
-            holder.commentListItemBinding.commentLikesTxt.setText(arrayList.get(position).getCommentLikes());
-            holder.commentListItemBinding.commentLikesTxt.setTextColor(Color.parseColor("#f05123"));
-        }
-         holder.commentListItemBinding.commentViewTxt.setText(Html.fromHtml(arrayList.get(position).getCommentText()));
-        holder.commentListItemBinding.commentedUserNameTxt.setText(arrayList.get(position).getCommentuserName());
-        holder.commentListItemBinding.commentedUserTimeTxt.setText(arrayList.get(position).getCommenttime());
+        ImageDetailModel commentdetail=commentList.get(position);
+
+        holder.commentListItemBinding.commentedUserNameTxt.setText(commentdetail.getMemberName());
+        Utils.setImageInImageView(commentdetail.getMemberProfileURL(),holder.commentListItemBinding.userImage,mcontext);
+        holder.commentListItemBinding.commentViewTxt.setText(commentdetail.getCommentNotes());
+        holder.commentListItemBinding.uploadimageDurationtxt.setText(commentdetail.getStrDuration());
+
     }
 
     @Override
@@ -73,10 +75,13 @@ public class CommentListAdapter extends RecyclerView.Adapter<CommentListAdapter.
 
     @Override
     public int getItemCount() {
-        return arrayList.size();
+        return commentList.size();
     }
 
-
+    public void addMoreDataToList (List<ImageDetailModel> result) {
+        commentList.addAll(result);
+        notifyDataSetChanged();
+    }
 }
 
 
