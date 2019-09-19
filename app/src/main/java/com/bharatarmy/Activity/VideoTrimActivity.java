@@ -36,7 +36,7 @@ public class VideoTrimActivity extends AppCompatActivity implements View.OnClick
     String path = "";
     int maxDuration = 10;
     long findsize;
-    String duration;
+    String duration,videoHeight,videoWidth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,7 +102,7 @@ public class VideoTrimActivity extends AppCompatActivity implements View.OnClick
     }
 
     @Override
-    public void getResult(Uri contentUri) {
+    public void getResult(Uri contentUri,int height,int width) {
         runOnUiThread(new Runnable() {
 
             @Override
@@ -110,7 +110,9 @@ public class VideoTrimActivity extends AppCompatActivity implements View.OnClick
                 try {
                     path = contentUri.getPath();
                     duration = getDuration(contentUri);
-                    Log.d("trimduration :", duration + "trimpath :"+ path);
+                    videoHeight= String.valueOf(height);
+                    videoWidth= String.valueOf(width);
+                    Log.d("trimduration :", duration + "trimpath :"+ path + "height :"+height+"width :"+width);
 
                 } catch (Exception ex) {
                     ex.printStackTrace();
@@ -149,7 +151,7 @@ public class VideoTrimActivity extends AppCompatActivity implements View.OnClick
     }
 
     public String getDuration(Uri uriOfFile) {
-        MediaPlayer mp = MediaPlayer.create(this, uriOfFile);
+        MediaPlayer mp = MediaPlayer.create(mContext, uriOfFile);
         int duration = mp.getDuration() / 1000;
         int hours = duration / 3600;
         int minutes = (duration / 60) - (hours * 60);
@@ -170,7 +172,7 @@ public class VideoTrimActivity extends AppCompatActivity implements View.OnClick
         }
         return hrSize;
     }
-
+//    height :848width :480
     @Override
     public void onClick(View v) {
         switch (v.getId()){
@@ -182,6 +184,8 @@ public class VideoTrimActivity extends AppCompatActivity implements View.OnClick
                 intentVideoUpload.putExtra("videoPath",path);
                 intentVideoUpload.putExtra("videoDuratiion",duration);
                 intentVideoUpload.putExtra("videoSize",size((int)findsize));
+                intentVideoUpload.putExtra("videoheight",videoHeight);
+                intentVideoUpload.putExtra("videowidth",videoWidth);
                 startActivity(intentVideoUpload);
                 break;
 

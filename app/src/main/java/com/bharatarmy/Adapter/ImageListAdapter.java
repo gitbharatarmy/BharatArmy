@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bharatarmy.Interfaces.image_click;
@@ -25,12 +26,14 @@ public class ImageListAdapter extends RecyclerView.Adapter<ImageListAdapter.Item
     Context mContext;
     image_click image_click;
     private ArrayList<String> dataCheck;
+    FragmentActivity activity;
 
 
-    public ImageListAdapter(Context mContext, List<ImageDetailModel> itemList, image_click image_click) {
+    public ImageListAdapter(Context mContext, List<ImageDetailModel> itemList, FragmentActivity activity, image_click image_click) {
         this.mContext = mContext;
         this.mItemList = itemList;
         this.image_click = image_click;
+        this.activity=activity;
     }
 
     @NonNull
@@ -53,6 +56,11 @@ public class ImageListAdapter extends RecyclerView.Adapter<ImageListAdapter.Item
         viewHolder.imageListBinding.fansImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Utils.viewsMemberId=String.valueOf(Utils.getAppUserId(mContext));
+                Utils.viewsReferenceId=String.valueOf(detail.getBAGalleryId());
+                Utils.viewsSourceType="1";
+                Utils.viewsTokenId= Utils.getPref(mContext, "registration_id");
+                Utils.InsertBAViews(mContext,activity);
                 dataCheck = new ArrayList<String>();
                 dataCheck.add(String.valueOf(detail.getGalleryURL()));
                 image_click.image_more_click();

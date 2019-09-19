@@ -10,6 +10,8 @@ public class GalleryImageModel {
     private String fileType;
     private String videoTitle;
     private String videoDesc;
+    private String videoHeight;
+    private String videoWidth;
 
     String commentuserName;
     String commenttime;
@@ -25,7 +27,7 @@ public class GalleryImageModel {
 
 
     public GalleryImageModel(String imageUri, String imageSize, String uploadcompelet,String videolength,String fileType,
-                             String videoTitle,String videoDesc) {
+                             String videoTitle,String videoDesc,String videoHeight,String videoWidth) {
         this.imageUri = imageUri;
         this.imageSize = imageSize;
         this.uploadcompelet = uploadcompelet;
@@ -33,10 +35,12 @@ public class GalleryImageModel {
         this.fileType=fileType;
         this.videoTitle=videoTitle;
         this.videoDesc=videoDesc;
+        this.videoHeight=videoHeight;
+        this.videoWidth=videoWidth;
     }
 
     public GalleryImageModel(int id, String imageUri, String imageSize, String uploadcompelet,String videolength,String fileType,
-                             String videoTitle,String videoDesc) {
+                             String videoTitle,String videoDesc,String videoHeight,String videoWidth) {
         this.id = id;
         this.imageUri = imageUri;
         this.imageSize = imageSize;
@@ -45,6 +49,24 @@ public class GalleryImageModel {
         this.fileType=fileType;
         this.videoTitle=videoTitle;
         this.videoDesc=videoDesc;
+        this.videoHeight=videoHeight;
+        this.videoWidth=videoWidth;
+    }
+
+    public String getVideoHeight() {
+        return videoHeight;
+    }
+
+    public void setVideoHeight(String videoHeight) {
+        this.videoHeight = videoHeight;
+    }
+
+    public String getVideoWidth() {
+        return videoWidth;
+    }
+
+    public void setVideoWidth(String videoWidth) {
+        this.videoWidth = videoWidth;
     }
 
     public String getVideoTitle() {

@@ -176,9 +176,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         dashboardIntent.putExtra("whichPageRun", "1");
                         startActivity(dashboardIntent);
                         finish();
-                    } else {
-                        Intent walkintent = new Intent(mContext, WalkThrough.class);
-                        startActivity(walkintent);
+                    } else if(getIntent().getStringExtra("whereTocomeLogin").equalsIgnoreCase("more")){
+                        Intent dashintent = new Intent(mContext, DashboardActivity.class);
+                        dashintent.putExtra("whichPageRun", "5");
+                        startActivity(dashintent);
                         finish();
                     }
                 }else{
@@ -219,17 +220,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 }
                 if (loginModel.getIsValid() == 1) {
                     if (loginModel.getData() != null) {
-//                        Utils.setPref(mContext, "LoginUserName", loginModel.getData().getName());
-//                        Utils.setPref(mContext, "LoginEmailId", loginModel.getData().getEmail());
-//                        Utils.setPref(mContext, "LoginPhoneNo", loginModel.getData().getPhoneNo());
-//                        Utils.setPref(mContext, "LoginProfilePic", String.valueOf(loginModel.getData().getProfilePicUrl()));
-//                        Utils.setPref(mContext, "EmailVerified", String.valueOf(loginModel.getData().getIsEmailVerified()));
-//                        Utils.setPref(mContext, "PhoneVerified", String.valueOf(loginModel.getData().getIsNumberVerified()));
-//                        Utils.setPref(mContext, "AppUserId", String.valueOf(loginModel.getData().getId()));
-//                        Utils.setPref(mContext, "Gender", String.valueOf(loginModel.getData().getGender()));
-//                        Utils.setPref(mContext, "CountryISOCode", loginModel.getData().getCountryISOCode());
-//                        Utils.setPref(mContext, "CountryPhoneNo", loginModel.getData().getCountryPhoneNo());
-//                        Utils.setPref(mContext, "IsBAAdmin", String.valueOf(loginModel.getData().getIsBAAdmin()));
+
                         Utils.setPref(mContext, "IsLoginUser", "1");
                         Utils.storeLoginData(loginModel.getData(),mContext);
                         Utils.storeLoginOtherData(loginModel.getOtherData(), mContext);

@@ -94,6 +94,7 @@ public class FansFragment extends Fragment implements ViewPager.OnPageChangeList
     }
 
     public void setDataValue() {
+
         fragmentFansBinding.tabLayoutFans.addTab(fragmentFansBinding.tabLayoutFans.newTab().setText("IMAGE"),true);
         fragmentFansBinding.tabLayoutFans.addTab(fragmentFansBinding.tabLayoutFans.newTab().setText("VIDEO"));
         fragmentFansBinding.tabLayoutFans.addTab(fragmentFansBinding.tabLayoutFans.newTab().setText("ALBUMS"));

@@ -430,7 +430,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
     private Map<String, String> getHomeBannerData() {
         Map<String, String> map = new HashMap<>();
-        map.put("MemberId", "0");
+        map.put("MemberId",String.valueOf(Utils.getAppUserId(mContext)));
         return map;
     }
 

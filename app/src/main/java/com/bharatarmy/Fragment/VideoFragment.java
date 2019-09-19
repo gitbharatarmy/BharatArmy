@@ -131,7 +131,7 @@ public class VideoFragment extends Fragment {
 
         rootView = fragmentVideoBinding.getRoot();
         mContext = getActivity().getApplicationContext();
-//        initSpeedDial(savedInstanceState == null);
+
 
         setUserVisibleHint(true);
         return rootView;
@@ -206,61 +206,59 @@ public class VideoFragment extends Fragment {
             public boolean onActionSelected(SpeedDialActionItem actionItem) {
                 switch (actionItem.getId()) {
                     case R.id.fab_no_label:
-                        Dexter.withActivity(getActivity())
-                                .withPermissions(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE,
-                                        Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                                .withListener(new MultiplePermissionsListener() {
-                                    @Override
-                                    public void onPermissionsChecked(MultiplePermissionsReport report) {
-                                        if (report.areAllPermissionsGranted()) {
-                                            if (Utils.isMember(mContext,"ImageUpload")) {
-                                               pickVideoFromGallery();
+                        if (Utils.isMember(mContext,"ImageUpload")) {
+                            Dexter.withActivity(getActivity())
+                                    .withPermissions(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE,
+                                            Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                                    .withListener(new MultiplePermissionsListener() {
+                                        @Override
+                                        public void onPermissionsChecked(MultiplePermissionsReport report) {
+                                            if (report.areAllPermissionsGranted()) {
+                                                imageorvideoStr = "video";
+                                                pickVideoFromGallery();
+                                            }
+
+                                            if (report.isAnyPermissionPermanentlyDenied()) {
+                                                showSettingsDialog();
                                             }
                                         }
 
-                                        if (report.isAnyPermissionPermanentlyDenied()) {
-                                            showSettingsDialog();
+                                        @Override
+                                        public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
+                                            token.continuePermissionRequest();
                                         }
-                                    }
-
-                                    @Override
-                                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
-                                        token.continuePermissionRequest();
-                                    }
-                                }).check();
+                                    }).check();
+                        }
                         speedDialView.open(); // To close the Speed Dial with animation
                         return false; // false will close it without animation
 
                     case R.id.fab_custom_color:
-                        Dexter.withActivity(getActivity())
-                                .withPermissions(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE,
-                                        Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                                .withListener(new MultiplePermissionsListener() {
-                                    @Override
-                                    public void onPermissionsChecked(MultiplePermissionsReport report) {
-                                        if (report.areAllPermissionsGranted()) {
-                                            if (Utils.isMember(mContext,"ImageUpload")){
+                        if (Utils.isMember(mContext,"ImageUpload")) {
+                            Dexter.withActivity(getActivity())
+                                    .withPermissions(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE,
+                                            Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                                    .withListener(new MultiplePermissionsListener() {
+                                        @Override
+                                        public void onPermissionsChecked(MultiplePermissionsReport report) {
+                                            if (report.areAllPermissionsGranted()) {
+
                                                 imageorvideoStr = "image";
                                                 Intent imagevideouploadIntent1 = new Intent(mContext, ImageVideoUploadActivity.class);
                                                 imagevideouploadIntent1.putExtra("image/video", imageorvideoStr);
                                                 imagevideouploadIntent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                                 mContext.startActivity(imagevideouploadIntent1);
                                             }
-//                                            else{
-//                                                Utils.goToLogin(mContext,"ImageUpload");
-//                                            }
-
-
+                                            if (report.isAnyPermissionPermanentlyDenied()) {
+                                                showSettingsDialog();
+                                            }
                                         }
 
-                                    }
-
-                                    @Override
-                                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
-                                        token.continuePermissionRequest();
-                                    }
-                                }).check();
-
+                                        @Override
+                                        public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
+                                            token.continuePermissionRequest();
+                                        }
+                                    }).check();
+                        }
                         speedDialView.open();
                         return false; // closes without animation (same as speedDialView.close(false); return false;)
 
@@ -375,28 +373,12 @@ public class VideoFragment extends Fragment {
         Map<String, String> map = new HashMap<>();
         map.put("PageIndex", String.valueOf(pageIndex));
         map.put("PageSize", "20");
+        map.put("MemberId",String.valueOf(Utils.getAppUserId(mContext)));
         return map;
     }
 
     public void fillVideoGallery() {
-        videoListAdapter = new VideoListAdapter(mContext, videoDetailModelsList, new image_click() {
-            @Override
-            public void image_more_click() {
-                imageClickData = "";
-                imageClickData = String.valueOf(videoListAdapter.getData());
-                imageClickData = imageClickData.replaceAll("\\[", "").replaceAll("\\]", "");
-                String[] spiltvalue = imageClickData.split("\\|");
-
-
-//                Log.d("VideoClickData :", imageClickData + " spiltvalue :" + spiltvalue[0] + "spiltvalue1:" + spiltvalue[1]);
-
-                Intent videogallerydetailIntent = new Intent(mContext, VideoDetailActivity.class);
-                videogallerydetailIntent.putExtra("videoData",  spiltvalue[0]);
-                videogallerydetailIntent.putExtra("videoName", spiltvalue[1]);
-                videogallerydetailIntent.putExtra("WhereToVideoCome", "VideoFragment");
-                startActivity(videogallerydetailIntent);
-            }
-        });
+        videoListAdapter = new VideoListAdapter(mContext,getActivity(), videoDetailModelsList);
         fragmentVideoBinding.videoRcvList.setAdapter(videoListAdapter);
 
     }
@@ -470,6 +452,7 @@ public class VideoFragment extends Fragment {
         Map<String, String> map = new HashMap<>();
         map.put("PageIndex", "0");
         map.put("PageSize", "20");
+        map.put("MemberId",String.valueOf(Utils.getAppUserId(mContext)));
         return map;
     }
     @Override

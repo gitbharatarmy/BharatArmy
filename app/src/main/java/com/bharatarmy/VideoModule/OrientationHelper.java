@@ -13,10 +13,16 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.bharatarmy.Interfaces.MorestoryClick;
+import com.bharatarmy.Interfaces.MyLayoutChanges;
+import com.bharatarmy.Utility.AppConfiguration;
+import com.bharatarmy.VideoTrimmer.interfaces.OnTrimVideoListener;
 
 import static android.content.pm.ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
 import static android.content.pm.ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE;
@@ -37,6 +43,8 @@ public class OrientationHelper extends OrientationEventListener {
     private PortraitOrientation portraitOrientation = PortraitOrientation.DEFAULT;
     private boolean shouldEnterPortrait;
     private VideoFullViewCallback videoViewCallback;
+    private MyLayoutChanges myLayoutChanges;
+
     public OrientationHelper(Context context, FullscreenVideoView fullscreenVideoView) {
         super(context);
         videoView = fullscreenVideoView;
@@ -45,16 +53,17 @@ public class OrientationHelper extends OrientationEventListener {
 
     public void activateFullscreen() {
         // Update isLandscape flag
-        isLandscape = true;
+            isLandscape = true;
 
-        if (videoViewCallback != null) {
-            videoViewCallback.onFullScaleChange();
-        }
-        // Fullscreen active
-        videoView.onOrientationChanged();
+            if (videoViewCallback != null) {
+                videoViewCallback.onFullScaleChange();
+            }
+            // Fullscreen active
+            videoView.onOrientationChanged();
 
-        // Change the screen orientation to SENSOR_LANDSCAPE
-        setOrientation(landscapeOrientation.getValue());
+                // Change the screen orientation to SENSOR_LANDSCAPE
+                setOrientation(landscapeOrientation.getValue());
+
 
 //        UiUtils.hideOtherViews(getParent());
 
@@ -74,6 +83,7 @@ public class OrientationHelper extends OrientationEventListener {
     private void updateLayoutParams() {
         ViewGroup.LayoutParams params = videoView.getLayoutParams();
         Context context = videoView.getContext();
+
 //        WindowManager windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
 //        if (windowManager == null) {
 //            return;
@@ -82,8 +92,8 @@ public class OrientationHelper extends OrientationEventListener {
 //        DisplayMetrics realMetrics = new DisplayMetrics();
 //        display.getRealMetrics(realMetrics);
 ////
-////        params.width =realMetrics.widthPixels;
-////        params.height = realMetrics.heightPixels;
+//        params.width =realMetrics.widthPixels;
+//        params.height = realMetrics.heightPixels;
         params.width =params.MATCH_PARENT;
         params.height = params.MATCH_PARENT;
         videoView.setLayoutParams(params);
@@ -178,15 +188,32 @@ public class OrientationHelper extends OrientationEventListener {
 
         return false;
     }
-
+// change the screen orientation
     public void toggleFullscreen() {
-        isLandscape = !isLandscape;
-        int newOrientation = portraitOrientation.getValue();
-        if (isLandscape) {
-            newOrientation = landscapeOrientation.getValue();
+        if (AppConfiguration.videoType.equalsIgnoreCase("horizontal")){
+            isLandscape = !isLandscape;
+            int newOrientation = portraitOrientation.getValue();
+            if (isLandscape) {
+                newOrientation = landscapeOrientation.getValue();
+            }
+            setOrientation(newOrientation);
+        }else{
+            isLandscape = !isLandscape;
+            int newOrientation = portraitOrientation.getValue();
+            if (isLandscape) {
+                newOrientation = portraitOrientation.getValue();
+            }
+            setOrientation(newOrientation);
+if (myLayoutChanges!=null){
+    myLayoutChanges.myLayout(false);
+}
+
         }
-        setOrientation(newOrientation);
+
     }
+
+
+
 
     public void setLandscapeOrientation(LandscapeOrientation landscapeOrientation) {
         this.landscapeOrientation = landscapeOrientation;
@@ -246,4 +273,7 @@ public class OrientationHelper extends OrientationEventListener {
     public void setVideoViewCallback(VideoFullViewCallback callback) {
         this.videoViewCallback = callback;
     }
+
+
+
 }

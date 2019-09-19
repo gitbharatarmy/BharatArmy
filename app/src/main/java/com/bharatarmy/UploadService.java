@@ -51,7 +51,7 @@ public class UploadService extends IntentService implements ProgressRequestBody.
     private NotificationManager notifManager;
     DbHandler db;
     String fileTypeId;
-    RequestBody appuserId, filetypeId, memberName,videoLength,videoTitle,videoDesc;
+    RequestBody appuserId, filetypeId, memberName,videoLength,videoTitle,videoDesc,videoHeight,videoWidth;
     Call<LogginModel> call;
     public UploadService() {
         super("UploadService");
@@ -89,9 +89,11 @@ public class UploadService extends IntentService implements ProgressRequestBody.
         videoLength = RequestBody.create(MediaType.parse("text/plain"), objfile.getVideolength());
         videoTitle=RequestBody.create(MediaType.parse("text/plain"),objfile.getVideoTitle());
         videoDesc=RequestBody.create(MediaType.parse("text/plain"),objfile.getVideoDesc());
+        videoHeight=RequestBody.create(MediaType.parse("text/plain"),objfile.getVideoHeight());
+        videoWidth=RequestBody.create(MediaType.parse("text/plain"),objfile.getVideoWidth());
         Retrofit retrofit = NetworkClient.getRetrofitClient(getApplicationContext());
         WebServices uploadAPIs = retrofit.create(WebServices.class);
-        if (objfile.getFileType().equalsIgnoreCase("4")){
+        if (objfile.getFileType().equalsIgnoreCase("2")){
                       Utils.videoFile=new ArrayList<>();
             String path = FileUtils.getPath(getApplicationContext(),
                     Utils.getImageUri(getApplicationContext(),Utils.createVideoThumbNail(objfile.getImageUri())));
@@ -107,7 +109,7 @@ public class UploadService extends IntentService implements ProgressRequestBody.
                 //Setting the file name as an empty string here causes the same issue, which is sending the request successfully without saving the files in the backend, so don't neglect the file name parameter.
                 fileParts[i] = MultipartBody.Part.createFormData(String.format(Locale.ENGLISH, "file[%d]", i), file.getName(), fileBody);
             }
-            call = uploadAPIs.uploadvideo(fileParts, filetypeId, appuserId, memberName,videoLength,videoTitle,videoDesc);
+            call = uploadAPIs.uploadvideo(fileParts, filetypeId, appuserId, memberName,videoLength,videoTitle,videoDesc,videoHeight,videoWidth);
         }else{
             Utils.videoFile=new ArrayList<>();
             String path = FileUtils.getPath(getApplicationContext(),
@@ -124,7 +126,7 @@ public class UploadService extends IntentService implements ProgressRequestBody.
                 //Setting the file name as an empty string here causes the same issue, which is sending the request successfully without saving the files in the backend, so don't neglect the file name parameter.
                 fileParts[i] = MultipartBody.Part.createFormData(String.format(Locale.ENGLISH, "file[%d]", i), file.getName(), fileBody);
             }
-            call = uploadAPIs.uploadvideo(fileParts, filetypeId, appuserId, memberName,videoLength,videoTitle,videoDesc);
+            call = uploadAPIs.uploadvideo(fileParts, filetypeId, appuserId, memberName,videoLength,videoTitle,videoDesc,videoHeight,videoWidth);
         }
 
         Log.d("File", "" + call);

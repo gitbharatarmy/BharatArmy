@@ -1,6 +1,5 @@
 package com.bharatarmy.Activity;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
@@ -10,7 +9,6 @@ import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -28,11 +26,11 @@ import java.util.List;
 public class VideoUploadActivity extends AppCompatActivity implements View.OnClickListener {
     ActivityVideoUploadBinding activityVideoUploadBinding;
     Context mContext;
-
+    AlertDialog alertDialog;
 
     public List<GalleryImageModel> galleryImageList;
 
-    String pathStr, durationStr, sizeStr, videoTitleStr, videoDescriptionStr;
+    String pathStr, durationStr, sizeStr, videoTitleStr, videoDescriptionStr, videoHeightStr, videoWidthStr;
 
 
     DbHandler dbHandler;
@@ -55,11 +53,13 @@ public class VideoUploadActivity extends AppCompatActivity implements View.OnCli
         pathStr = getIntent().getStringExtra("videoPath");
         durationStr = getIntent().getStringExtra("videoDuratiion");
         sizeStr = getIntent().getStringExtra("videoSize");
-
+        videoHeightStr = getIntent().getStringExtra("videoheight");
+        videoWidthStr = getIntent().getStringExtra("videowidth");
 
         if (!pathStr.equalsIgnoreCase("")) {
             activityVideoUploadBinding.chooseVideo.setImageBitmap(Utils.createVideoThumbNail(pathStr));
         }
+
     }
 
     public void setListiner() {
@@ -75,20 +75,20 @@ public class VideoUploadActivity extends AppCompatActivity implements View.OnCli
                 activityVideoUploadBinding.videoUploadScrollView.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        View lastChild =  activityVideoUploadBinding.videoUploadScrollView.getChildAt(activityVideoUploadBinding.videoUploadScrollView.getChildCount() - 1);
-                        int bottom = lastChild.getBottom() +  activityVideoUploadBinding.videoUploadScrollView.getPaddingBottom();
-                        int sy =  activityVideoUploadBinding.videoUploadScrollView.getScrollY();
-                        int sh =  activityVideoUploadBinding.videoUploadScrollView.getHeight();
+                        View lastChild = activityVideoUploadBinding.videoUploadScrollView.getChildAt(activityVideoUploadBinding.videoUploadScrollView.getChildCount() - 1);
+                        int bottom = lastChild.getBottom() + activityVideoUploadBinding.videoUploadScrollView.getPaddingBottom();
+                        int sy = activityVideoUploadBinding.videoUploadScrollView.getScrollY();
+                        int sh = activityVideoUploadBinding.videoUploadScrollView.getHeight();
                         int delta = bottom - (sy + sh);
                         activityVideoUploadBinding.videoUploadScrollView.smoothScrollBy(0, delta);
                     }
                 }, 200);
                 break;
             case R.id.back_img:
-                    Intent dashboardIntent = new Intent(mContext, DashboardActivity.class);
-                    dashboardIntent.putExtra("whichPageRun", "1");
-                    startActivity(dashboardIntent);
-                    finish();
+                Intent dashboardIntent = new Intent(mContext, DashboardActivity.class);
+                dashboardIntent.putExtra("whichPageRun", "1");
+                startActivity(dashboardIntent);
+                finish();
                 break;
 
             case R.id.submit_linear:
@@ -97,78 +97,78 @@ public class VideoUploadActivity extends AppCompatActivity implements View.OnCli
 
 
                 if (!videoTitleStr.equalsIgnoreCase("")) {
+                    if (!videoDescriptionStr.equalsIgnoreCase("")) {
+                        if (Utils.createVideoThumbNail(pathStr) != null) {
+                            galleryImageList.add(new GalleryImageModel(pathStr, sizeStr, "0", durationStr, "2", videoTitleStr, videoDescriptionStr,videoHeightStr,videoWidthStr));
+                            boolean connected = Utils.checkNetwork(mContext);
 
-                        galleryImageList.add(new GalleryImageModel(pathStr, sizeStr, "0", durationStr, "4",videoTitleStr,videoDescriptionStr));
-                        boolean connected = Utils.checkNetwork(mContext);
-
-                        if (connected == true) {
-                            if (galleryImageList != null && galleryImageList.size() > 0) {
-                                for (int i = 0; i < galleryImageList.size(); i++) {
-                                    dbHandler.insertImageDetails(galleryImageList.get(i).getImageUri(),
-                                            galleryImageList.get(i).getImageSize(),
-                                            galleryImageList.get(i).getUploadcompelet(),
-                                            galleryImageList.get(i).getVideolength(),
-                                            galleryImageList.get(i).getFileType(),
-                                            galleryImageList.get(i).getVideoTitle(),
-                                            galleryImageList.get(i).getVideoDesc(),mContext);
-                                }
-                                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(VideoUploadActivity.this);
-                                LayoutInflater inflater = getLayoutInflater();
-                                View dialogView = inflater.inflate(R.layout.thankyou_dialog_item, null);
-                                dialogBuilder.setView(dialogView);
-                                AlertDialog alertDialog = dialogBuilder.create();
-                                alertDialog.setCanceledOnTouchOutside(false);
-                                alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-                                TextView dialog_headertxt = (TextView) dialogView.findViewById(R.id.dialog_headertxt);
-                                TextView dialog_descriptiontxt = (TextView) dialogView.findViewById(R.id.dialog_descriptiontxt);
-                                TextView hometxt = (TextView) dialogView.findViewById(R.id.home_txt);
-
-                                Log.d("messageList :", Utils.retriveLoginOtherData(mContext).toString());
-                                if (Utils.retriveLoginOtherData(mContext) != null) {
-                                    for (int i = 0; i < Utils.retriveLoginOtherData(mContext).size(); i++) {
-                                        if (Utils.retriveLoginOtherData(mContext).get(i).getMessageId().equals(1)) {
-                                            dialog_headertxt.setText(Utils.retriveLoginOtherData(mContext).get(i).getMessageHeaderText());
-                                            dialog_descriptiontxt.setText(Utils.retriveLoginOtherData(mContext).get(i).getMessageDescription());
-                                        }
-
+                            if (connected == true) {
+                                if (galleryImageList != null && galleryImageList.size() > 0) {
+                                    for (int i = 0; i < galleryImageList.size(); i++) {
+                                        dbHandler.insertImageDetails(galleryImageList.get(i).getImageUri(),
+                                                galleryImageList.get(i).getImageSize(),
+                                                galleryImageList.get(i).getUploadcompelet(),
+                                                galleryImageList.get(i).getVideolength(),
+                                                galleryImageList.get(i).getFileType(),
+                                                galleryImageList.get(i).getVideoTitle(),
+                                                galleryImageList.get(i).getVideoDesc(),
+                                                galleryImageList.get(i).getVideoHeight(),
+                                                galleryImageList.get(i).getVideoWidth(),
+                                                mContext);
                                     }
-                                }
+                                    Intent intent = new Intent(mContext, UploadService.class);
+                                    startService(intent);
+                                    AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(VideoUploadActivity.this);
+                                    LayoutInflater inflater = getLayoutInflater();
+                                    View dialogView = inflater.inflate(R.layout.thankyou_dialog_item, null);
+                                    dialogBuilder.setView(dialogView);
+                                    alertDialog = dialogBuilder.create();
+                                    alertDialog.setCanceledOnTouchOutside(false);
+                                    alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+                                    TextView dialog_headertxt = (TextView) dialogView.findViewById(R.id.dialog_headertxt);
+                                    TextView dialog_descriptiontxt = (TextView) dialogView.findViewById(R.id.dialog_descriptiontxt);
+                                    TextView hometxt = (TextView) dialogView.findViewById(R.id.home_txt);
 
-                                hometxt.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        try {
-                                            alertDialog.dismiss();
-                                            Intent dashboardIntent = new Intent(mContext, DashboardActivity.class);
-                                            dashboardIntent.putExtra("whichPageRun", "1");
-                                            startActivity(dashboardIntent);
-                                            finish();
-                                        } catch (Exception e) {
+
+                                    if (Utils.retriveLoginOtherData(mContext) != null) {
+                                        for (int i = 0; i < Utils.retriveLoginOtherData(mContext).size(); i++) {
+                                            if (Utils.retriveLoginOtherData(mContext).get(i).getMessageId().equals(1)) {
+                                                dialog_headertxt.setText(Utils.retriveLoginOtherData(mContext).get(i).getMessageHeaderText());
+                                                dialog_descriptiontxt.setText(Utils.retriveLoginOtherData(mContext).get(i).getMessageDescription());
+                                            }
 
                                         }
                                     }
-                                });
-                                try {
+
+                                    hometxt.setOnClickListener(new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            try {
+                                                if (alertDialog != null && alertDialog.isShowing()) {
+                                                    alertDialog.dismiss();
+                                                }
+                                                Intent dashboardIntent = new Intent(mContext, DashboardActivity.class);
+                                                dashboardIntent.putExtra("whichPageRun", "1");
+                                                startActivity(dashboardIntent);
+                                            } catch (Exception e) {
+
+                                            }
+                                        }
+                                    });
                                     alertDialog.show();
-                                    final Handler handler = new Handler();
-                                    handler.postDelayed(new Runnable() {
-                                        public void run() {
 
-                                            Intent intent = new Intent(mContext, UploadService.class);
-                                            startService(intent);
-
-                                        }
-                                    }, 100);
-
-
-                                } catch (Exception e) {
+                                } else {
+                                    Utils.ping(mContext, "Please select video");
                                 }
                             } else {
-                                Utils.ping(mContext, "Please select image");
+                                Utils.showCustomDialog(getResources().getString(R.string.internet_error), getResources().getString(R.string.internet_connection_error), VideoUploadActivity.this);
                             }
                         } else {
-                            Utils.showCustomDialog(getResources().getString(R.string.internet_error), getResources().getString(R.string.internet_connection_error), VideoUploadActivity.this);
+                            Utils.ping(mContext, "video can't support");
                         }
+                    } else {
+                        activityVideoUploadBinding.videoTitleEdt.setError("please enter video description");
+                    }
                 } else {
                     activityVideoUploadBinding.videoTitleEdt.setError("please enter video title");
                 }

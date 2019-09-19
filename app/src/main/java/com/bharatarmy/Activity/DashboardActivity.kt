@@ -57,10 +57,7 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, StoryFragme
     //  flag to load home fragment when user presses back key
     private val shouldLoadHomeFragOnBackPress = true
     private var mHandler: Handler? = null
-    val fansFragment : Fragment
-        get() {
-           return FansFragment()
-        }
+
 
     val homeFragment: Fragment
         get() {
@@ -194,6 +191,10 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, StoryFragme
                     bottomNavigation.show(1, true)
                     fragment = FansFragment()
                     loadFragment(fragment as FansFragment)
+                } else if(page.equals("5",ignoreCase = true)){
+                    bottomNavigation.show(5, true)
+                    fragment = MoreFragment()
+                    loadFragment(fragment as MoreFragment)
                 } else {
                     bottomNavigation.show(3, true)
                     fragment = HomeFragment()

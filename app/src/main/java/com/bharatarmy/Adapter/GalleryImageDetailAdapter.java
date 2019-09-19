@@ -4,6 +4,8 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -32,20 +34,22 @@ public class GalleryImageDetailAdapter extends RecyclerView.Adapter<GalleryImage
     ArrayList<String> userNameList;
     ArrayList<String> imageDuration;
     ArrayList<String> imageId;
+    ArrayList<String> imageLike;
     Activity activity;
-
+Uri uri;
     image_click image_click;
 
     private RecyclerViewOnTouchListener touchListener;
 
     public GalleryImageDetailAdapter(Context mContext, Activity activity, ArrayList<String> imageList,
                                      ArrayList<String> imageAddusername, ArrayList<String> imageDuration,
-                                     ArrayList<String> imageId, image_click image_click) {
+                                     ArrayList<String> imageId, ArrayList<String> imageLike, image_click image_click) {
         this.mContext = mContext;
         this.imageList = imageList;
         this.userNameList = imageAddusername;
         this.imageDuration = imageDuration;
         this.imageId = imageId;
+        this.imageLike=imageLike;
         this.activity = activity;
         this.image_click=image_click;
     }
@@ -93,10 +97,17 @@ public class GalleryImageDetailAdapter extends RecyclerView.Adapter<GalleryImage
         Utils.LikeMemberId = Utils.getAppUserId(mContext);
         Utils.LikeReferenceId = Integer.parseInt(imageId.get(position));
         Utils.LikeSourceType = 1;
+
+        if (imageLike.get(position).equalsIgnoreCase("1")){
+            holder.galleryImageDetailListBinding.bottomImageLikeBtn.setLiked(true);
+        }else {
+            holder.galleryImageDetailListBinding.bottomImageLikeBtn.setLiked(false);
+        }
+
         holder.galleryImageDetailListBinding.bottomImageLikeBtn.setOnLikeListener(new OnLikeListener() {
             @Override
             public void liked(LikeButton likeButton) {
-                if (Utils.isMember(mContext,"galleryDetail")){
+                if (Utils.isMember(mContext,"ImageUpload")){
                     Utils.LikeStatus = 1;
                     Utils.InsertLike(mContext, activity);
                 }
@@ -105,7 +116,7 @@ public class GalleryImageDetailAdapter extends RecyclerView.Adapter<GalleryImage
 
             @Override
             public void unLiked(LikeButton likeButton) {
-                if (Utils.isMember(mContext,"galleryDetail")){
+                if (Utils.isMember(mContext,"ImageUpload")){
                     Utils.LikeStatus = 0;
                     Utils.InsertLike(mContext, activity);
                 }
@@ -116,7 +127,7 @@ public class GalleryImageDetailAdapter extends RecyclerView.Adapter<GalleryImage
         holder.galleryImageDetailListBinding.commentLinear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (Utils.isMember(mContext,"galleryDetail")){
+                if (Utils.isMember(mContext,"ImageUpload")){
                     Intent commentIntent = new Intent(mContext, CommentActivity.class);
                     commentIntent.putExtra("referenceId",imageId.get(position));
                     commentIntent.putExtra("sourceType","1");
@@ -128,8 +139,10 @@ public class GalleryImageDetailAdapter extends RecyclerView.Adapter<GalleryImage
         holder.galleryImageDetailListBinding.shareArticle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (Utils.isMember(mContext,"galleryDetail")){
+                if (Utils.isMember(mContext,"ImageUpload")){
                     image_click.image_more_click();
+
+
                 }
 
             }

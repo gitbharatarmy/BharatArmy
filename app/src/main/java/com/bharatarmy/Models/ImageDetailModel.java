@@ -6,6 +6,9 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 
 public class ImageDetailModel implements Serializable {
+    @SerializedName("ThumbImageName")
+    @Expose
+    private String thumbImageName;
     @SerializedName("BAGalleryId")
     @Expose
     private Integer bAGalleryId;
@@ -24,9 +27,6 @@ public class ImageDetailModel implements Serializable {
     @SerializedName("Width")
     @Expose
     private Integer width;
-    @SerializedName("IsBARecommanded")
-    @Expose
-    private Integer isBARecommanded;
     @SerializedName("AddedUserName")
     @Expose
     private String addedUserName;
@@ -36,6 +36,17 @@ public class ImageDetailModel implements Serializable {
     @SerializedName("strAddedDuration")
     @Expose
     private String strAddedDuration;
+    @SerializedName("IsLike")
+    @Expose
+    private Integer isLike;
+
+    public String getThumbImageName() {
+        return thumbImageName;
+    }
+
+    public void setThumbImageName(String thumbImageName) {
+        this.thumbImageName = thumbImageName;
+    }
 
     public Integer getBAGalleryId() {
         return bAGalleryId;
@@ -85,14 +96,6 @@ public class ImageDetailModel implements Serializable {
         this.width = width;
     }
 
-    public Integer getIsBARecommanded() {
-        return isBARecommanded;
-    }
-
-    public void setIsBARecommanded(Integer isBARecommanded) {
-        this.isBARecommanded = isBARecommanded;
-    }
-
     public String getAddedUserName() {
         return addedUserName;
     }
@@ -100,6 +103,7 @@ public class ImageDetailModel implements Serializable {
     public void setAddedUserName(String addedUserName) {
         this.addedUserName = addedUserName;
     }
+
     public String getGalleryThumbURL() {
         return galleryThumbURL;
     }
@@ -107,12 +111,21 @@ public class ImageDetailModel implements Serializable {
     public void setGalleryThumbURL(String galleryThumbURL) {
         this.galleryThumbURL = galleryThumbURL;
     }
+
     public String getStrAddedDuration() {
         return strAddedDuration;
     }
 
     public void setStrAddedDuration(String strAddedDuration) {
         this.strAddedDuration = strAddedDuration;
+    }
+
+    public Integer getIsLike() {
+        return isLike;
+    }
+
+    public void setIsLike(Integer isLike) {
+        this.isLike = isLike;
     }
     //Story Detail Model
     @SerializedName("AuthorImageURL")
@@ -184,9 +197,6 @@ public class ImageDetailModel implements Serializable {
     @SerializedName("BASubCategoryName")
     @Expose
     private String bASubCategoryName;
-    @SerializedName("ThumbImageName")
-    @Expose
-    private String thumbImageName;
     @SerializedName("CategoryImage")
     @Expose
     private String categoryImage;
@@ -379,14 +389,6 @@ public class ImageDetailModel implements Serializable {
 
     public void setBASubCategoryName(String bASubCategoryName) {
         this.bASubCategoryName = bASubCategoryName;
-    }
-
-    public String getThumbImageName() {
-        return thumbImageName;
-    }
-
-    public void setThumbImageName(String thumbImageName) {
-        this.thumbImageName = thumbImageName;
     }
 
     public String getCategoryImage() {
@@ -789,6 +791,29 @@ public class ImageDetailModel implements Serializable {
     @SerializedName("BARelated")
     @Expose
     private String bARelated;
+    @SerializedName("IsBARecommanded")
+    @Expose
+    private Integer isBARecommanded;
+    @SerializedName("UserName")
+    @Expose
+    private String userName;
+
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public Integer getIsBARecommanded() {
+        return isBARecommanded;
+    }
+
+    public void setIsBARecommanded(Integer isBARecommanded) {
+        this.isBARecommanded = isBARecommanded;
+    }
 
     public Integer getBAVideoGalleryId() {
         return bAVideoGalleryId;
@@ -957,6 +982,152 @@ public class ImageDetailModel implements Serializable {
 
     public void setProfilePicName(String profilePicName) {
         this.profilePicName = profilePicName;
+    }
+
+// AlbumDetail Model
+
+    @SerializedName("ThumbFileUrl")
+    @Expose
+    private String thumbFileUrl;
+    @SerializedName("FileNameUrl")
+    @Expose
+    private String fileNameUrl;
+    @SerializedName("BAMediaId")
+    @Expose
+    private Integer bAMediaId;
+    @SerializedName("AddedUserId")
+    @Expose
+    private Integer addedUserId;
+    @SerializedName("FileName")
+    @Expose
+    private String fileName;
+    @SerializedName("MediaStatus")
+    @Expose
+    private Integer mediaStatus;
+    @SerializedName("MediaTypeId")
+    @Expose
+    private Integer mediaTypeId;
+    @SerializedName("ThumbFileName")
+    @Expose
+    private String thumbFileName;
+    @SerializedName("Title")
+    @Expose
+    private String title;
+    @SerializedName("TitleDescription")
+    @Expose
+    private String titleDescription;
+    @SerializedName("BALikeId")
+    @Expose
+    private Integer bALikeId;
+    @SerializedName("ThumbWidth")
+    @Expose
+    private Integer thumbWidth;
+    @SerializedName("ThumbHeight")
+    @Expose
+    private Integer thumbHeight;
+
+    public String getThumbFileUrl() {
+        return thumbFileUrl;
+    }
+
+    public void setThumbFileUrl(String thumbFileUrl) {
+        this.thumbFileUrl = thumbFileUrl;
+    }
+
+    public String getFileNameUrl() {
+        return fileNameUrl;
+    }
+
+    public void setFileNameUrl(String fileNameUrl) {
+        this.fileNameUrl = fileNameUrl;
+    }
+
+    public Integer getBAMediaId() {
+        return bAMediaId;
+    }
+
+    public void setBAMediaId(Integer bAMediaId) {
+        this.bAMediaId = bAMediaId;
+    }
+
+    public Integer getAddedUserId() {
+        return addedUserId;
+    }
+
+    public void setAddedUserId(Integer addedUserId) {
+        this.addedUserId = addedUserId;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public Integer getMediaStatus() {
+        return mediaStatus;
+    }
+
+    public void setMediaStatus(Integer mediaStatus) {
+        this.mediaStatus = mediaStatus;
+    }
+
+    public Integer getMediaTypeId() {
+        return mediaTypeId;
+    }
+
+    public void setMediaTypeId(Integer mediaTypeId) {
+        this.mediaTypeId = mediaTypeId;
+    }
+
+    public String getThumbFileName() {
+        return thumbFileName;
+    }
+
+    public void setThumbFileName(String thumbFileName) {
+        this.thumbFileName = thumbFileName;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getTitleDescription() {
+        return titleDescription;
+    }
+
+    public void setTitleDescription(String titleDescription) {
+        this.titleDescription = titleDescription;
+    }
+
+    public Integer getBALikeId() {
+        return bALikeId;
+    }
+
+    public void setBALikeId(Integer bALikeId) {
+        this.bALikeId = bALikeId;
+    }
+
+    public Integer getThumbWidth() {
+        return thumbWidth;
+    }
+
+    public void setThumbWidth(Integer thumbWidth) {
+        this.thumbWidth = thumbWidth;
+    }
+
+    public Integer getThumbHeight() {
+        return thumbHeight;
+    }
+
+    public void setThumbHeight(Integer thumbHeight) {
+        this.thumbHeight = thumbHeight;
     }
 
 

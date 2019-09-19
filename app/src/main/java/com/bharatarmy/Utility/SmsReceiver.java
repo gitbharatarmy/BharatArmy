@@ -23,12 +23,12 @@ public class SmsReceiver extends BroadcastReceiver {
             String messageBody = smsMessage.getMessageBody();
             abcd=messageBody.replaceAll("[^0-9]","");   // here abcd contains otp
 
-            if(b==true) {
-                mListener.messageReceived(abcd);  // attach value to interface
-            }
-            else
-            {
-            }
+//            if(b==true) {
+//                mListener.messageReceived(abcd);  // attach value to interface
+//            }
+//            else
+//            {
+//            }
         }
     }
 

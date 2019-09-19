@@ -443,19 +443,10 @@ Utils.storeLoginData(response.body().getData(),mContext);
                 }
                 if (loginModel.getIsValid() == 1) {
                     if (loginModel.getData() != null) {
-//                        Utils.setPref(mContext, "LoginUserName", loginModel.getData().getName());
-//                        Utils.setPref(mContext, "LoginEmailId", loginModel.getData().getEmail());
-//                        Utils.setPref(mContext, "LoginPhoneNo", loginModel.getData().getPhoneNo());
-//                        Utils.setPref(mContext, "LoginProfilePic", String.valueOf(loginModel.getData().getProfilePicUrl()));
-//                        Utils.setPref(mContext, "EmailVerified", String.valueOf(loginModel.getData().getIsEmailVerified()));
-//                        Utils.setPref(mContext, "PhoneVerified", String.valueOf(loginModel.getData().getIsNumberVerified()));
-//                        Utils.setPref(mContext, "AppUserId", String.valueOf(loginModel.getData().getId()));
-//                        Utils.setPref(mContext, "Gender", String.valueOf(loginModel.getData().getGender()));
-//                        Utils.setPref(mContext, "CountryISOCode", loginModel.getData().getCountryISOCode());
-//                        Utils.setPref(mContext, "CountryPhoneNo", loginModel.getData().getCountryPhoneNo());
+                        Utils.setPref(mContext, "IsLoginUser", "1");
 
                         Utils.storeLoginData(loginModel.getData(),mContext);
-
+                        Utils.storeLoginOtherData(loginModel.getOtherData(), mContext);
                         Intent DashboardIntent = new Intent(mContext, DashboardActivity.class);
                         AppConfiguration.position = 0;
                         startActivity(DashboardIntent);

@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 
@@ -49,7 +50,6 @@ public class CommentActivity extends AppCompatActivity implements View.OnClickLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activityCommentBinding = DataBindingUtil.setContentView(this, R.layout.activity_comment);
-
         mContext = CommentActivity.this;
 
         init();
@@ -63,8 +63,10 @@ public class CommentActivity extends AppCompatActivity implements View.OnClickLi
         referenceIdStr = getIntent().getStringExtra("referenceId");
         sourceTypeStr = getIntent().getStringExtra("sourceType");
 
+
+        Log.d("referenceIdStr :",referenceIdStr);
         activityCommentBinding.shimmerViewContainer.startShimmerAnimation();
-        activityCommentBinding.toolbarTitleTxt.setText("Comment");
+        activityCommentBinding.toolbarTitleTxt.setText("Comments");
         callGetAddCommentData();
 
         // Spinner Drop down elements
@@ -105,48 +107,6 @@ public class CommentActivity extends AppCompatActivity implements View.OnClickLi
 
         activityCommentBinding.commentSentImg.setOnClickListener(this);
         activityCommentBinding.commentEdt.setOnClickListener(this);
-
-//        activityCommentBinding.commentScrollView.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//
-//               activityCommentBinding.commentRcv.setEnabled(false);
-//activityCommentBinding.commentScrollView.setEnabled(true);
-//                return false;
-//            }
-//        });
-//
-//
-//        activityCommentBinding.commentRcv.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//
-//                activityCommentBinding.commentScrollView.setEnabled(false);
-//activityCommentBinding.commentRcv.setEnabled(true);
-//                return false;
-//            }
-//        });
-//        activityCommentBinding.commentRcv.addOnScrollListener(new RecyclerView.OnScrollListener() {
-//            @Override
-//            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-//                super.onScrolled(recyclerView, dx, dy);
-//                if (!isLoading) {
-//                    if (mLayoutManager != null && mLayoutManager.findLastCompletelyVisibleItemPosition() == commentList.size() - 1) {
-//                        //bottom of list!
-//                       pageIndex=pageIndex+1;
-//                        activityCommentBinding.progressBar.setVisibility(View.VISIBLE);
-//                        loadMore();
-//                    }
-//                }
-//            }
-//
-//            @Override
-//            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-//                super.onScrollStateChanged(recyclerView, newState);
-//
-//
-//            }
-//        });
     }
 
 
@@ -159,7 +119,7 @@ public class CommentActivity extends AppCompatActivity implements View.OnClickLi
             activityCommentBinding.commentRcv.setAdapter(commentListAdapter);
         } else {
             activityCommentBinding.commentRcv.setVisibility(View.GONE);
-            activityCommentBinding.norecordTxt.setVisibility(View.VISIBLE);
+            activityCommentBinding.noCommentrel.setVisibility(View.VISIBLE);
         }
 
 
@@ -197,7 +157,7 @@ public class CommentActivity extends AppCompatActivity implements View.OnClickLi
             return;
         }
 
-//        Utils.showDialog(mContext);
+        Utils.showDialog(mContext);
 
         ApiHandler.getApiService().getInsertBAComments(getCommentData(), new retrofit.Callback<ImageMainModel>() {
             @Override
@@ -216,11 +176,8 @@ public class CommentActivity extends AppCompatActivity implements View.OnClickLi
                     return;
                 }
                 if (commentModel.getIsValid() == 1) {
-                    if (commentModel.getData() != null) {
                         activityCommentBinding.commentEdt.setText("");
                         callGetAddCommentData();
-                    }
-
                 }
             }
 
@@ -277,7 +234,7 @@ public class CommentActivity extends AppCompatActivity implements View.OnClickLi
                         commentList=commentaddModel.getData();
                         activityCommentBinding.shimmerViewContainer.stopShimmerAnimation();
                         activityCommentBinding.shimmerViewContainer.setVisibility(View.GONE);
-                        activityCommentBinding.norecordTxt.setVisibility(View.GONE);
+                        activityCommentBinding.noCommentrel.setVisibility(View.GONE);
                         activityCommentBinding.progressBar.setVisibility(View.GONE);
                         activityCommentBinding.commentRcv.setVisibility(View.VISIBLE);
 //                        if (commentListAdapter != null && commentList.size() > 0) {
@@ -294,7 +251,7 @@ public class CommentActivity extends AppCompatActivity implements View.OnClickLi
                     }else{
                         activityCommentBinding.shimmerViewContainer.stopShimmerAnimation();
                         activityCommentBinding.shimmerViewContainer.setVisibility(View.GONE);
-                        activityCommentBinding.norecordTxt.setVisibility(View.VISIBLE);
+                        activityCommentBinding.noCommentrel.setVisibility(View.VISIBLE);
                     }
 
                 }

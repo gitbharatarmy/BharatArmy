@@ -1,9 +1,11 @@
 package com.bharatarmy.Activity;
 
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.StrictMode;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,6 +18,7 @@ import androidx.recyclerview.widget.OrientationHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bharatarmy.Adapter.GalleryImageDetailAdapter;
+import com.bharatarmy.Interfaces.FragmentRefreshListener;
 import com.bharatarmy.Interfaces.image_click;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.AppConfiguration;
@@ -41,6 +44,7 @@ public class GalleryImageDetailActivity extends BaseActivity implements View.OnC
     ArrayList<String> imageAddusername=new ArrayList<>();
     ArrayList<String> imageDuration=new ArrayList<>();
     ArrayList<String> imageId=new ArrayList<>();
+    ArrayList<String> imageLike=new ArrayList<>();
     LinearLayoutManager linearLayoutManager;
     String selectedPosition;
     int positon = 0;
@@ -48,6 +52,16 @@ public class GalleryImageDetailActivity extends BaseActivity implements View.OnC
     int currentVisibleItem, showPositionImage;
     Uri uri;
     String imageNameStr;
+
+    public FragmentRefreshListener getFragmentRefreshListener() {
+        return fragmentRefreshListener;
+    }
+
+    public void setFragmentRefreshListener(FragmentRefreshListener fragmentRefreshListener) {
+        this.fragmentRefreshListener = fragmentRefreshListener;
+    }
+
+    private FragmentRefreshListener fragmentRefreshListener;
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +97,7 @@ public class GalleryImageDetailActivity extends BaseActivity implements View.OnC
         imageAddusername=stringArrayList.getStringArrayList("dataName");
 imageDuration=stringArrayList.getStringArrayList("dataDuration");
 imageId=stringArrayList.getStringArrayList("dataId");
+imageLike=stringArrayList.getStringArrayList("dataLike");
         Log.d("imageList", "" + imageList.size());
 
 
@@ -109,7 +124,7 @@ imageId=stringArrayList.getStringArrayList("dataId");
         }
 
         galleryImageDetailAdapter = new GalleryImageDetailAdapter(mContext,GalleryImageDetailActivity.this,
-                imageList,imageAddusername,imageDuration,imageId, new image_click() {
+                imageList,imageAddusername,imageDuration,imageId,imageLike, new image_click() {
             @Override
             public void image_more_click() {
                 shareImage();
@@ -160,7 +175,7 @@ imageId=stringArrayList.getStringArrayList("dataId");
             activityGalleryImageDetailBinding.prevImg.setClickable(false);
             activityGalleryImageDetailBinding.nextImg.setClickable(true);
             activityGalleryImageDetailBinding.prevImg.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
-            activityGalleryImageDetailBinding.nextImg.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+            activityGalleryImageDetailBinding.nextImg.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_back, 0, 0, 0);
         }
         if (scroll) {
             activityGalleryImageDetailBinding.imageDetailRcvList.smoothScrollToPosition(currentVisibleItem);
@@ -171,11 +186,13 @@ imageId=stringArrayList.getStringArrayList("dataId");
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.back_img:
+//                Intent dashboardIntent = new Intent(mContext, DashboardActivity.class);
+//                dashboardIntent.putExtra("whichPageRun", "1");
+//                startActivity(dashboardIntent);
                 GalleryImageDetailActivity.this.finish();
                 break;
 
             case R.id.next_img:
-
                 showPositionImage = linearLayoutManager.findFirstCompletelyVisibleItemPosition();
                 for (int i = 0; i < imageList.size(); i++) {
                     if (showPositionImage == i) {

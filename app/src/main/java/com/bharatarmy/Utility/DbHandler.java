@@ -26,6 +26,8 @@ public class DbHandler extends SQLiteOpenHelper {
     private static final String KEY_FILETYPE="fileType";
     private static final String KEY_VIDEOTITLE="videoTitle";
     private static final String KEY_VIDEODESC="videoDesc";
+    private static final String KEY_VIDEOHEIGHT="videoHeight";
+    private static final String KEY_VIDEOWIDTH="videoWidth";
 
 
     public DbHandler(Context context) {
@@ -36,10 +38,11 @@ public class DbHandler extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
 
             String CREATE_TABLE = "CREATE TABLE " + TABLE_GALLERYUPLOAD + "("
-                    + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT , " + KEY_IMAGEURI + " TEXT ,"
-                    + KEY_IMAGESIZE + " TEXT , " + KEY_IMAGEUPLOADSTATUS + " TEXT,"
+                    + KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT , " + KEY_IMAGEURI + " TEXT , "
+                    + KEY_IMAGESIZE + " TEXT , " + KEY_IMAGEUPLOADSTATUS + " TEXT, "
                     + KEY_VIDEOLENGTH + " TEXT , " + KEY_FILETYPE + " TEXT , "
-                    + KEY_VIDEOTITLE + " TEXT , " + KEY_VIDEODESC + " TEXT )";
+                    + KEY_VIDEOTITLE + " TEXT , " + KEY_VIDEODESC + " TEXT , "
+                    + KEY_VIDEOHEIGHT + " TEXT , " + KEY_VIDEOWIDTH + " TEXT )";
             db.execSQL(CREATE_TABLE);
 
     }
@@ -56,7 +59,7 @@ public class DbHandler extends SQLiteOpenHelper {
     // Adding new Image Details
     public void insertImageDetails(String imageUri, String imageSize, String imageUploadStatus,
                                    String videoLength,String fileType,String videoTitle,
-                                   String videoDesc,Context context) {
+                                   String videoDesc,String videoHeight,String videoWidth,Context context) {
         //Get the Data Repository in write mode
         SQLiteDatabase db = this.getWritableDatabase();
         //Create a new map of values, where column names are the keys
@@ -68,6 +71,8 @@ public class DbHandler extends SQLiteOpenHelper {
         cValues.put(KEY_FILETYPE,fileType);
         cValues.put(KEY_VIDEOTITLE,videoTitle);
         cValues.put(KEY_VIDEODESC,videoDesc);
+        cValues.put(KEY_VIDEOHEIGHT,videoHeight);
+        cValues.put(KEY_VIDEOWIDTH,videoWidth);
         // Insert the new row, returning the primary key value of the new row
         db.insert(TABLE_GALLERYUPLOAD, null, cValues); // long newRowId =
         db.close();
@@ -94,7 +99,8 @@ public class DbHandler extends SQLiteOpenHelper {
         GalleryImageModel model = null;
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.query(TABLE_GALLERYUPLOAD, new String[]{KEY_ID, KEY_IMAGEURI, KEY_IMAGESIZE,
-                        KEY_IMAGEUPLOADSTATUS,KEY_VIDEOLENGTH,KEY_FILETYPE,KEY_VIDEOTITLE,KEY_VIDEODESC},
+                        KEY_IMAGEUPLOADSTATUS,KEY_VIDEOLENGTH,KEY_FILETYPE,KEY_VIDEOTITLE,KEY_VIDEODESC,
+                        KEY_VIDEOHEIGHT,KEY_VIDEOWIDTH},
                 KEY_IMAGEUPLOADSTATUS + "=? " ,
                 new String[]{String.valueOf(0)}, null, null, null, null);
 
@@ -108,6 +114,8 @@ public class DbHandler extends SQLiteOpenHelper {
             int index6 =cursor.getColumnIndex(DbHandler.KEY_FILETYPE);
             int index7 =cursor.getColumnIndex(DbHandler.KEY_VIDEOTITLE);
             int index8=cursor.getColumnIndex(DbHandler.KEY_VIDEODESC);
+            int index9=cursor.getColumnIndex(DbHandler.KEY_VIDEOHEIGHT);
+            int index10=cursor.getColumnIndex(DbHandler.KEY_VIDEOWIDTH);
             int cid = cursor.getInt(index);
             String name = cursor.getString(index2);
             String card = cursor.getString(index3);
@@ -116,7 +124,9 @@ public class DbHandler extends SQLiteOpenHelper {
             String filetype=cursor.getString(index6);
             String videotitle=cursor.getString(index7);
             String videodesc=cursor.getString(index8);
-            model = new GalleryImageModel(cid, name, card, code,length,filetype,videotitle,videodesc);
+            String videoHeight=cursor.getString(index9);
+            String videoWidth=cursor.getString(index10);
+            model = new GalleryImageModel(cid, name, card, code,length,filetype,videotitle,videodesc,videoHeight,videoWidth);
             list.add(model);
         }
         Log.d("arraysize :", "" + list.size() + " arrayValue :" + list.toString());
@@ -129,7 +139,7 @@ public class DbHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.query(TABLE_GALLERYUPLOAD, new String[]{KEY_ID, KEY_IMAGEURI,
                         KEY_IMAGESIZE, KEY_IMAGEUPLOADSTATUS,KEY_VIDEOLENGTH,KEY_FILETYPE,
-                KEY_VIDEOTITLE,KEY_VIDEODESC},
+                KEY_VIDEOTITLE,KEY_VIDEODESC,KEY_VIDEOHEIGHT,KEY_VIDEOWIDTH},
                 KEY_IMAGEUPLOADSTATUS + "=? OR " + KEY_IMAGEUPLOADSTATUS + "=? ",
                 new String[]{String.valueOf(1),String.valueOf(0)}, null, null, null, null);
         while (cursor.moveToNext()) {
@@ -141,6 +151,8 @@ public class DbHandler extends SQLiteOpenHelper {
             int index6 =cursor.getColumnIndex(DbHandler.KEY_FILETYPE);
             int index7 =cursor.getColumnIndex(DbHandler.KEY_VIDEOTITLE);
             int index8=cursor.getColumnIndex(DbHandler.KEY_VIDEODESC);
+            int index9=cursor.getColumnIndex(DbHandler.KEY_VIDEOHEIGHT);
+            int index10=cursor.getColumnIndex(DbHandler.KEY_VIDEOWIDTH);
             int cid = cursor.getInt(index);
             String name = cursor.getString(index2);
             String card = cursor.getString(index3);
@@ -149,7 +161,9 @@ public class DbHandler extends SQLiteOpenHelper {
             String filetype=cursor.getString(index6);
             String videotitle=cursor.getString(index7);
             String videodesc=cursor.getString(index8);
-            model = new GalleryImageModel(cid, name, card, code,length,filetype,videotitle,videodesc);
+            String videoHeight=cursor.getString(index9);
+            String videoWidth=cursor.getString(index10);
+            model = new GalleryImageModel(cid, name, card, code,length,filetype,videotitle,videodesc,videoHeight,videoWidth);
             list.add(model);
         }
         Log.d("arraysize :", "" + list.size() + " arrayValue :" + list.toString());
@@ -161,7 +175,8 @@ public class DbHandler extends SQLiteOpenHelper {
         GalleryImageModel model = null;
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.query(TABLE_GALLERYUPLOAD, new String[]{KEY_ID, KEY_IMAGEURI, KEY_IMAGESIZE,
-                        KEY_IMAGEUPLOADSTATUS,KEY_VIDEOLENGTH,KEY_FILETYPE,KEY_VIDEOTITLE,KEY_VIDEODESC},
+                        KEY_IMAGEUPLOADSTATUS,KEY_VIDEOLENGTH,KEY_FILETYPE,KEY_VIDEOTITLE,KEY_VIDEODESC,
+                KEY_VIDEOHEIGHT,KEY_VIDEOWIDTH},
                 KEY_IMAGEUPLOADSTATUS + "=? OR " + KEY_IMAGEUPLOADSTATUS + "=? ",
                 new String[]{String.valueOf(2) , String.valueOf(0)}, null, null, null, null);
         while (cursor.moveToNext()) {
@@ -173,6 +188,8 @@ public class DbHandler extends SQLiteOpenHelper {
             int index6 =cursor.getColumnIndex(DbHandler.KEY_FILETYPE);
             int index7 =cursor.getColumnIndex(DbHandler.KEY_VIDEOTITLE);
             int index8=cursor.getColumnIndex(DbHandler.KEY_VIDEODESC);
+            int index9=cursor.getColumnIndex(DbHandler.KEY_VIDEOHEIGHT);
+            int index10=cursor.getColumnIndex(DbHandler.KEY_VIDEOWIDTH);
             int cid = cursor.getInt(index);
             String name = cursor.getString(index2);
             String card = cursor.getString(index3);
@@ -181,7 +198,9 @@ public class DbHandler extends SQLiteOpenHelper {
             String filetype=cursor.getString(index6);
             String videotitle=cursor.getString(index7);
             String videodesc=cursor.getString(index8);
-            model = new GalleryImageModel(cid, name, card, code,length,filetype,videotitle,videodesc);
+            String videoHeight=cursor.getString(index9);
+            String videoWidth=cursor.getString(index10);
+            model = new GalleryImageModel(cid, name, card, code,length,filetype,videotitle,videodesc,videoHeight,videoWidth);
             list.add(model);
         }
         Log.d("arraysize :", "" + list.size() + " arrayValue :" + list.toString());

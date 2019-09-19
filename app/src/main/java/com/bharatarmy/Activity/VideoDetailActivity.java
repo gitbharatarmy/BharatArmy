@@ -32,10 +32,12 @@ import com.bharatarmy.Models.ImageDetailModel;
 import com.bharatarmy.Models.ImageMainModel;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.ApiHandler;
+import com.bharatarmy.Utility.AppConfiguration;
 import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.VideoModule.FullscreenVideoView;
 import com.bharatarmy.VideoModule.OrientationHelper;
 import com.cooltechworks.views.shimmer.ShimmerRecyclerView;
+import com.facebook.shimmer.ShimmerFrameLayout;
 
 
 import java.util.HashMap;
@@ -50,13 +52,11 @@ import retrofit.client.Response;
 public class VideoDetailActivity extends AppCompatActivity implements View.OnClickListener {
     // ActivityVideoDetailBinding videoDetailBinding;
     Context mContext;
-    String videoUrlStr, videoNameStr, whereToComeStr, theWord;
+    String videoUrlStr, videoNameStr,videoUserNameStr, whereToComeStr, videoLike;
     FullscreenVideoView fullscreenVideoView;
-    TextView show_video_title_txt;
-    LinearLayout backImg, upr_story_comment, picturemode_linear;
-    ShimmerRecyclerView related_video_rcyList;
-    private static final String SEEK_POSITION_KEY = "SEEK_POSITION_KEY";
-
+    LinearLayout backImg, picturemode_linear;
+    RecyclerView related_video_rcyList;
+    ShimmerFrameLayout shimmerFrameLayout;
     RelatedVideoAdapter relatedVideoAdapter;
     List<ImageDetailModel> videoDetailModelsList;
     String imageClickData;
@@ -75,7 +75,7 @@ public class VideoDetailActivity extends AppCompatActivity implements View.OnCli
 
         init();
         setDataValue();
-        callVideoGalleryData();
+
         setListiner();
 
     }
@@ -83,22 +83,28 @@ public class VideoDetailActivity extends AppCompatActivity implements View.OnCli
     public void init() {
         fullscreenVideoView = (FullscreenVideoView) findViewById(R.id.fullscreenVideoView);
         backImg = (LinearLayout) findViewById(R.id.back_img);
-        related_video_rcyList = (ShimmerRecyclerView) findViewById(R.id.related_video_rcyList);
-        related_video_rcyList.showShimmerAdapter();
+        related_video_rcyList = (RecyclerView) findViewById(R.id.related_video_rcyList);
+        shimmerFrameLayout=(ShimmerFrameLayout)findViewById(R.id.shimmer_view_container);
         picturemode_linear = (LinearLayout) findViewById(R.id.picturemode_linear);
         mBottomLayout = findViewById(R.id.bottom_layout);
 
+        shimmerFrameLayout.setVisibility(View.VISIBLE);
+        shimmerFrameLayout.startShimmerAnimation();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             picturemode_linear.setVisibility(View.VISIBLE);
         }else{
             picturemode_linear.setVisibility(View.GONE);
         }
+
+        callVideoGalleryData();
     }
 
     public void setDataValue() {
         videoUrlStr = getIntent().getStringExtra("videoData");
         videoNameStr = getIntent().getStringExtra("videoName");
+        videoUserNameStr=getIntent().getStringExtra("videoUserName");
         whereToComeStr = getIntent().getStringExtra("WhereToVideoCome");
+        videoLike=getIntent().getStringExtra("videoLike");
 
         fullscreenVideoView.videoUrl(videoUrlStr)
                 .enableAutoStart()
@@ -134,23 +140,9 @@ public class VideoDetailActivity extends AppCompatActivity implements View.OnCli
 
     }
 
-//    @Override
-//    public void onUserLeaveHint() {
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-//            if (!isInPictureInPictureMode()) {
-//                Rational aspectRatio = new Rational(fullscreenVideoView.getWidth(),fullscreenVideoView.getHeight());
-//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//                    pictureInPictureParamsBuilder.setAspectRatio(aspectRatio).build();
-//                    enterPictureInPictureMode(pictureInPictureParamsBuilder.build());
-//                }
-//
-//            }
-//        }
-//    }
-
     @Override
     public void onBackPressed() {
-            super.onBackPressed();
+           VideoDetailActivity.this.finish();
     }
 
 
@@ -182,9 +174,12 @@ public class VideoDetailActivity extends AppCompatActivity implements View.OnCli
                 if (imageMainModel.getIsValid() == 1) {
 
                     if (imageMainModel.getData() != null) {
+                        shimmerFrameLayout.stopShimmerAnimation();
+                        shimmerFrameLayout.setVisibility(View.GONE);
+                        related_video_rcyList.setVisibility(View.VISIBLE);
                         videoDetailModelsList = imageMainModel.getData();
                         fillVideoDetailGallery();
-                        related_video_rcyList.hideShimmerAdapter();
+
                     }
 
                 }
@@ -211,7 +206,8 @@ public class VideoDetailActivity extends AppCompatActivity implements View.OnCli
 
     public void fillVideoDetailGallery() {
 
-        relatedVideoAdapter = new RelatedVideoAdapter(mContext, videoDetailModelsList, videoNameStr, new image_click() {
+        relatedVideoAdapter = new RelatedVideoAdapter(mContext,VideoDetailActivity.this, videoDetailModelsList,
+                videoNameStr,videoUserNameStr,videoLike, new image_click() {
             @Override
             public void image_more_click() {
                 imageClickData = "";

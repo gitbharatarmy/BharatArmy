@@ -29,7 +29,7 @@ public interface OnTrimVideoListener {
 
     void onTrimStarted();
 
-    void getResult(final Uri uri);
+    void getResult(final Uri uri,int width,int height);
 
     void cancelAction();
 

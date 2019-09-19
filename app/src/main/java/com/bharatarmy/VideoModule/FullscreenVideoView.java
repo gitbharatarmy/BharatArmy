@@ -22,8 +22,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.bharatarmy.Activity.VideoDetailActivity;
+import com.bharatarmy.Interfaces.MyLayoutChanges;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.Utils;
+import com.bharatarmy.VideoTrimmer.interfaces.OnTrimVideoListener;
 import com.bumptech.glide.Glide;
 
 import java.io.File;
@@ -49,7 +51,7 @@ public class FullscreenVideoView extends FrameLayout {
     private SurfaceHolder.Callback surfaceHolderCallback;
     private boolean isPaused;
     private int previousOrientation;
-
+    private MyLayoutChanges myLayoutChanges;
     public FullscreenVideoView(@NonNull Context context) {
         super(context);
     }
@@ -86,9 +88,10 @@ public class FullscreenVideoView extends FrameLayout {
             @Override
             public boolean onTouch(View view, MotionEvent event) {
                 view.performClick();
-                if (controller != null) {
-                    controller.show();
-                }
+                    if (controller != null) {
+                        controller.show();
+                    }
+
                 return false;
             }
         });
@@ -150,7 +153,9 @@ public class FullscreenVideoView extends FrameLayout {
         return new Builder(this, controller, orientationHelper, videoMediaPlayer)
                 .videoUrl(videoUrl);
     }
-
+    public void setOnLayout(MyLayoutChanges myLayoutChanges) {
+        myLayoutChanges = myLayoutChanges;
+    }
     @Override
     protected void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
@@ -224,7 +229,6 @@ public class FullscreenVideoView extends FrameLayout {
         showProgress();
         try {
             if (videoMediaPlayer != null) {
-
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     AudioAttributes audioAttributes = new AudioAttributes.Builder()
                             .setUsage(AudioAttributes.USAGE_MEDIA)
@@ -319,4 +323,7 @@ public class FullscreenVideoView extends FrameLayout {
     }
 
 
+    public void setOnLayout() {
+        orientationHelper.toggleFullscreen();
+    }
 }

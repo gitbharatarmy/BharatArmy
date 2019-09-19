@@ -64,14 +64,12 @@ import pub.devrel.easypermissions.EasyPermissions;
 
 import static androidx.core.content.FileProvider.getUriForFile;
 
-/* delete extra code 22/08/2019 backup in 22/08/2019*/
-public class ImageVideoUploadActivity extends AppCompatActivity implements View.OnClickListener, OnTrimVideoListener, OnHgLVideoListener {
+/* delete extra code 22/08/2019 backup in 22/08/2019
+ *  remove video code 17/09/2019 backup in 17/09/2019 morning*/
+public class ImageVideoUploadActivity extends AppCompatActivity implements View.OnClickListener {
     ActivityImageVideoUploadBinding activityImageVideoUploadBinding;
     Context mContext;
-    private static final String TAG = ImageVideoUploadActivity.class.getSimpleName();
     public static final int REQUEST_IMAGE = 100;
-    private NotificationManager notifManager;
-    final int NOTIFY_ID = 0; // ID of notification
     Uri uri, selectedUri;
 
 
@@ -81,17 +79,13 @@ public class ImageVideoUploadActivity extends AppCompatActivity implements View.
     public List<GalleryImageModel> galleryImageList;
     File Camerafile;
     String imageorvideoStr = "";
-    private static final int REQUEST_VIDEO_TRIMMER = 0x01;
     private static final int CUSTOM_REQUEST_CODE = 532;
     public static final int RC_PHOTO_PICKER_PERM = 123;
     private int MAX_ATTACHMENT_COUNT = 20;
     private ArrayList<String> photoPaths = new ArrayList<>();
     public String fileName;
 
-    String path = "";
-    int maxDuration = 10;
-    long findsize;
-    String duration;
+
     // Database
     DbHandler dbHandler;
 
@@ -116,8 +110,6 @@ public class ImageVideoUploadActivity extends AppCompatActivity implements View.
         Utils.setPref(mContext, "image/video", imageorvideoStr);
         if (imageorvideoStr.equalsIgnoreCase("image")) {
             activityImageVideoUploadBinding.selectedImageVideoLinear.setVisibility(View.VISIBLE);
-            activityImageVideoUploadBinding.selectedVideoLinear.setVisibility(View.GONE);
-
         }
         activityImageVideoUploadBinding.backImg.setOnClickListener(this);
         activityImageVideoUploadBinding.chooseFromGalleryLinear.setOnClickListener(this);
@@ -131,47 +123,24 @@ public class ImageVideoUploadActivity extends AppCompatActivity implements View.
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.back_img:
-
                 ImageVideoUploadActivity.this.finish();
                 break;
             case R.id.choose_from_camera_linear:
-                Dexter.withActivity(ImageVideoUploadActivity.this)
-                        .withPermissions(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                        .withListener(new MultiplePermissionsListener() {
-                            @Override
-                            public void onPermissionsChecked(MultiplePermissionsReport report) {
-                                if (report.areAllPermissionsGranted()) {
-                                    if (imageorvideoStr.equalsIgnoreCase("image")) {
-                                        if (galleryImageList.size() < MAX_ATTACHMENT_COUNT) {
-                                            openImageCapture();
-                                        } else {
-                                            Utils.ping(mContext, "max limit 20");
-                                        }
-                                    } else {
-                                        openVideoCapture();
-                                    }
-                                }
-                                if (report.isAnyPermissionPermanentlyDenied()) {
-                                    showSettingsDialog();
-                                }
-                            }
-
-                            @Override
-                            public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
-                                token.continuePermissionRequest();
-                            }
-                        }).check();
+                if (imageorvideoStr.equalsIgnoreCase("image")) {
+                    if (galleryImageList.size() < MAX_ATTACHMENT_COUNT) {
+                        openImageCapture();
+                    } else {
+                        Utils.ping(mContext, "max limit 20");
+                    }
+                }
                 break;
             case R.id.choose_from_gallery_linear:
                 if (imageorvideoStr.equalsIgnoreCase("image")) {
                     pickPhotoClicked();
-                } else {
-                    pickVideoFromGallery();
                 }
                 break;
             case R.id.submit_linear:
                 Utils.handleClickEvent(mContext, activityImageVideoUploadBinding.submitLinear);
-
 
                 boolean connected = Utils.checkNetwork(mContext);
 
@@ -180,53 +149,13 @@ public class ImageVideoUploadActivity extends AppCompatActivity implements View.
                     if (galleryImageList != null && galleryImageList.size() > 0) {
                         for (int i = 0; i < galleryImageList.size(); i++) {
                             dbHandler.insertImageDetails(galleryImageList.get(i).getImageUri(), galleryImageList.get(i).getImageSize(),
-                                    galleryImageList.get(i).getUploadcompelet(),galleryImageList.get(i).getVideolength(),
-                                    galleryImageList.get(i).getFileType(),galleryImageList.get(i).getVideoTitle(),
-                                    galleryImageList.get(i).getVideoDesc(),mContext);
+                                    galleryImageList.get(i).getUploadcompelet(), galleryImageList.get(i).getVideolength(),
+                                    galleryImageList.get(i).getFileType(), galleryImageList.get(i).getVideoTitle(),
+                                    galleryImageList.get(i).getVideoDesc(),galleryImageList.get(i).getVideoHeight(),
+                                    galleryImageList.get(i).getVideoWidth(),mContext);
                         }
 
-
-                        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(ImageVideoUploadActivity.this);
-                        LayoutInflater inflater = getLayoutInflater();
-                        View dialogView = inflater.inflate(R.layout.thankyou_dialog_item, null);
-                        dialogBuilder.setView(dialogView);
-                        AlertDialog alertDialog = dialogBuilder.create();
-                        alertDialog.setCanceledOnTouchOutside(false);
-                        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-                        TextView dialog_headertxt = (TextView) dialogView.findViewById(R.id.dialog_headertxt);
-                        TextView dialog_descriptiontxt = (TextView) dialogView.findViewById(R.id.dialog_descriptiontxt);
-                        TextView hometxt = (TextView) dialogView.findViewById(R.id.home_txt);
-
-                        Log.d("messageList :", Utils.retriveLoginOtherData(mContext).toString());
-                        if (Utils.retriveLoginOtherData(mContext) != null) {
-                            for (int i = 0; i < Utils.retriveLoginOtherData(mContext).size(); i++) {
-                                if (Utils.retriveLoginOtherData(mContext).get(i).getMessageId().equals(1)){
-                                    dialog_headertxt.setText(Utils.retriveLoginOtherData(mContext).get(i).getMessageHeaderText());
-                                    dialog_descriptiontxt.setText(Utils.retriveLoginOtherData(mContext).get(i).getMessageDescription());
-                                }
-
-                            }
-                        }
-
-                        hometxt.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                try {
-                                    alertDialog.dismiss();
-                                    finish();
-                                            Intent intent = new Intent(mContext, UploadService.class);
-                                            startService(intent);
-                                } catch (Exception e) {
-
-                                }
-                            }
-                        });
-                        try {
-                            alertDialog.show();
-                        } catch (Exception e) {
-
-                        }
-
+                        Utils.showThanyouDialog(ImageVideoUploadActivity.this, "imageUpload");
 
                     } else {
                         Utils.ping(mContext, "Please select image");
@@ -237,32 +166,6 @@ public class ImageVideoUploadActivity extends AppCompatActivity implements View.
                 }
                 break;
         }
-
-    }
-
-    /**
-     * Showing Alert Dialog with Settings option
-     * Navigates user to app settings
-     * NOTE: Keep proper title and message depending on your app
-     */
-    private void showSettingsDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(ImageVideoUploadActivity.this);
-        builder.setTitle(getString(R.string.dialog_permission_title));
-        builder.setMessage(getString(R.string.dialog_permission_message));
-        builder.setPositiveButton(getString(R.string.go_to_settings), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-                ImageVideoUploadActivity.this.openSettings();
-            }
-        });
-        builder.setNegativeButton(getString(android.R.string.cancel), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
-        builder.show();
 
     }
 
@@ -299,13 +202,6 @@ public class ImageVideoUploadActivity extends AppCompatActivity implements View.
         }
     }
 
-    // navigating user to app settings
-    private void openSettings() {
-        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-        Uri uri = Uri.fromParts("package", getPackageName(), null);
-        intent.setData(uri);
-        startActivityForResult(intent, 101);
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -313,44 +209,6 @@ public class ImageVideoUploadActivity extends AppCompatActivity implements View.
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == REQUEST_IMAGE) {
                 getCameraImagePath(fileName);
-
-            } else if (requestCode == REQUEST_VIDEO_TRIMMER) {
-                selectedUri = data.getData();
-                if (selectedUri != null) {
-                    activityImageVideoUploadBinding.chooseLinear.setVisibility(View.GONE);
-                    activityImageVideoUploadBinding.bottomView.setVisibility(View.GONE);
-                    path = FileUtils.getPath(this, selectedUri);
-                    maxDuration = getMediaDuration(selectedUri);
-                    duration = getDuration(selectedUri);
-
-                    Log.d("duration :", "" + duration);
-
-                    if (path != null) {
-                        activityImageVideoUploadBinding.selectedVideoLinear.setVisibility(View.VISIBLE);
-                        if (activityImageVideoUploadBinding.timeLine != null) {
-                            /**
-                             * get total duration of video file
-                             */
-                            Log.e("tg", "maxDuration = " + maxDuration);
-                            Log.d("Videopath", path);
-                            //mVideoTrimmer.setMaxDuration(maxDuration);
-                            activityImageVideoUploadBinding.timeLine.setMaxDuration(maxDuration);
-                            activityImageVideoUploadBinding.timeLine.setOnTrimVideoListener(this);
-                            activityImageVideoUploadBinding.timeLine.setOnHgLVideoListener(this);
-                            activityImageVideoUploadBinding.timeLine.setVideoURI(Uri.parse(path));
-                            activityImageVideoUploadBinding.timeLine.setVideoInformationVisibility(true);
-
-
-                            File f = new File(path);
-                            findsize = f.length() / 1024;
-                            galleryImageList = new ArrayList<GalleryImageModel>();
-                            galleryImageList.add(new GalleryImageModel(path, size((int) findsize), "0",duration,"4","",""));
-                        }
-                    }
-                } else {
-                    activityImageVideoUploadBinding.chooseLinear.setVisibility(View.VISIBLE);
-                    activityImageVideoUploadBinding.bottomView.setVisibility(View.VISIBLE);
-                }
             } else if (requestCode == CUSTOM_REQUEST_CODE) {
                 photoPaths = new ArrayList<>();
                 photoPaths.addAll(data.getStringArrayListExtra(FilePickerConst.KEY_SELECTED_MEDIA));
@@ -386,22 +244,18 @@ public class ImageVideoUploadActivity extends AppCompatActivity implements View.
         for (int i = 0; i < filePaths.size(); i++) {
             File f = new File(filePaths.get(i));
             long findsize = f.length() / 1024;
-            galleryImageList.add(new GalleryImageModel(filePaths.get(i), size((int) findsize), "0","0","2","",""));
+            galleryImageList.add(new GalleryImageModel(filePaths.get(i), size((int) findsize), "0", "0", "1", "", "","",""));
         }
         loadProfile();
     }
 
     private void loadProfile() {
-        activityImageVideoUploadBinding.cameraUnselectLinear.setVisibility(View.GONE);
         activityImageVideoUploadBinding.selectedImageVideoLinear.setVisibility(View.VISIBLE);
-
-
         selectedImageVideoViewAdapter = new SelectedImageVideoViewAdapter(mContext, galleryImageList, new image_click() {
             @Override
             public void image_more_click() {
                 String getSelectedImageremove = String.valueOf(selectedImageVideoViewAdapter.selectedpositionRemove());
                 Log.d("removePic", getSelectedImageremove);
-//                getSelectedImageremove = getSelectedImageremove.substring(1, getSelectedImageremove.length() - 1);
 
                 for (int i = 0; i < galleryImageList.size(); i++) {
                     if (i == Integer.parseInt(getSelectedImageremove)) {
@@ -417,79 +271,6 @@ public class ImageVideoUploadActivity extends AppCompatActivity implements View.
         activityImageVideoUploadBinding.selectedImagesView.setAdapter(selectedImageVideoViewAdapter);
 
 
-    }
-
-
-    @Override
-    public void onTrimStarted() {
-    }
-
-    @Override
-    public void getResult(Uri contentUri) {
-        runOnUiThread(new Runnable() {
-
-            @Override
-            public void run() {
-                try {
-                    String path = contentUri.getPath();
-                    File file = new File(path);
-                    Uri uri;
-                    if (Build.VERSION.SDK_INT < 24) {
-                        uri = Uri.fromFile(file);
-                    } else {
-                        uri = Uri.parse(file.getPath()); // My work-around for new SDKs, causes ActivityNotFoundException in API 10.
-                    }
-                    Log.e("tg", "final_path1 = " + path + " uri1 = " + Uri.fromFile(file));
-
-                    duration = getDuration(contentUri);
-                    Log.d("trimduration :", duration + "trimpath :"+ path);
-
-                    galleryImageList = new ArrayList<GalleryImageModel>();
-                    galleryImageList.add(new GalleryImageModel(path, size((int) findsize), "0",duration,"4","",""));
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-
-
-            }
-        });
-
-
-    }
-
-    @Override
-    public void cancelAction() {
-//        mProgressDialog.cancel();
-        activityImageVideoUploadBinding.timeLine.destroy();
-        finish();
-    }
-
-    @Override
-    public void onError(String message) {
-//        mProgressDialog.cancel();
-
-//        Utils.dismissDialog();
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                // Toast.makeText(TrimmerActivity.this, message, Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    @Override
-    public void onVideoPrepared() {
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                // Toast.makeText(TrimmerActivity.this, "onVideoPrepared", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    private void openVideoCapture() {
-        Intent videoCapture = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
-        startActivityForResult(videoCapture, REQUEST_VIDEO_TRIMMER);
     }
 
     private void openImageCapture() {
@@ -537,36 +318,9 @@ public class ImageVideoUploadActivity extends AppCompatActivity implements View.
         long findsize = Camerafile.length() / 1024;
         Log.d("findfilesize", "" + Camerafile.length() / 1024 + "kb" + " " + Camerafile.length() / (1024 * 1024));
 
-        galleryImageList.add(new GalleryImageModel(imageUrl, size((int) findsize), "0","0","2","",""));
+        galleryImageList.add(new GalleryImageModel(imageUrl, size((int) findsize), "0", "0", "1", "", "","",""));
 
         loadProfile();
 
     }
-
-    private void pickVideoFromGallery() {
-        Intent intent = new Intent();
-        intent.setTypeAndNormalize("video/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        startActivityForResult(Intent.createChooser(intent, getString(R.string.label_select_video)), REQUEST_VIDEO_TRIMMER);
-    }
-
-    private int getMediaDuration(Uri uriOfFile) {
-        MediaPlayer mp = MediaPlayer.create(this, uriOfFile);
-        int duration = mp.getDuration();
-        return duration;
-
-    }
-
-    public String getDuration(Uri uriOfFile) {
-        MediaPlayer mp = MediaPlayer.create(this, uriOfFile);
-        int duration = mp.getDuration() / 1000;
-        int hours = duration / 3600;
-        int minutes = (duration / 60) - (hours * 60);
-        int seconds = duration - (hours * 3600) - (minutes * 60);
-        String formatted = String.format("%d:%02d:%02d", hours, minutes, seconds);
-
-        return formatted;
-    }
-
 }

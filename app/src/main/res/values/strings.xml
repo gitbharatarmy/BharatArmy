@@ -175,7 +175,7 @@
     <string name="cd_forward_media_button" translatable="false">Forward media button</string>
     <string name="cd_fullscreen_media_button" translatable="false">Fullscreen media button</string>
     <string name="cd_playback_speed_button" translatable="false">Playback speed button</string>
-<string name="video_title" translatable="false">Video Title</string>
+    <string name="video_title" translatable="false">Video Title</string>
     <string name="video_desc" translatable="false">Video Description</string>
     <string name="video_title_txt" translatable="false">Please Enter Video Title</string>
     <string name="video_desc_txt" translatable="false">Please Enter Video Description</string>

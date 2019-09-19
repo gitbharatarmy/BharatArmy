@@ -157,6 +157,7 @@ android:orientation="vertical">
                 android:layout_marginBottom="@dimen/_10sdp">
 
                 <EditText
+                    style="@style/text_font"
                     android:id="@+id/videoTitle_edt"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_30sdp"
@@ -170,8 +171,7 @@ android:orientation="vertical">
                     android:textColorHint="@color/hint_txt_color"
                     android:textCursorDrawable="@drawable/color_cursor"
                     android:textSize="@dimen/_12sdp"
-                    android:gravity="top"
-                    android:paddingTop="@dimen/_7sdp"/>
+                    android:gravity="center_vertical" />
             </LinearLayout>
 
             <TextView
@@ -204,8 +204,8 @@ android:orientation="vertical">
                     android:layout_height="@dimen/_70sdp"
                     android:background="@android:color/transparent"
                     android:hint="@string/video_desc_txt"
-                    android:maxLines="1"
-                    android:inputType="textEmailAddress"
+                    android:maxLines="3"
+                    android:inputType="textCapSentences|textMultiLine"
                     android:maxLength="200"
                     android:paddingLeft="@dimen/_5sdp"
                     android:textColor="@color/heading_bg"

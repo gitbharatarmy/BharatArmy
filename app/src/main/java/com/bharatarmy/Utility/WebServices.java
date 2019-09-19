@@ -107,7 +107,9 @@ public interface WebServices {
                                   @Part("MemberId") RequestBody userid,@Part("MemberFullName") RequestBody memberName,
                                   @Part("VideoLength") RequestBody videoLength,
                                   @Part("Title") RequestBody videoTitle,
-                                  @Part("TitleDescription") RequestBody titleDescription); //@Part("FileTypeId") RequestBody userid,
+                                  @Part("TitleDescription") RequestBody titleDescription,
+                                  @Part("height") RequestBody height,
+                                  @Part("width") RequestBody width); //@Part("FileTypeId") RequestBody userid,
     //if we pass array of imagethen use MultipartBody.Part[] file
 
     @FormUrlEncoded
@@ -117,6 +119,18 @@ public interface WebServices {
     @FormUrlEncoded
     @POST("/BAVideoGallery")
     void getBAVideoGallery(@FieldMap Map<String, String> map, Callback<ImageMainModel> callback);
+
+    @FormUrlEncoded
+    @POST("/BAAlbum")
+    void getBAAlbum(@FieldMap Map<String, String> map, Callback<ImageMainModel> callback);
+
+    @FormUrlEncoded
+    @POST("/BAAlbumDetail")
+    void getBAAlbumDetail(@FieldMap Map<String, String> map, Callback<ImageMainModel> callback);
+
+    @FormUrlEncoded
+    @POST("/InsertBAViews")
+    void getInsertBAViews(@FieldMap Map<String, String> map, Callback<ImageMainModel> callback);
 
     @FormUrlEncoded
     @POST("/InsertBALike")

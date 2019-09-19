@@ -29,6 +29,7 @@ import com.bharatarmy.Activity.ImageVideoUploadActivity;
 import com.bharatarmy.Activity.VideoTrimActivity;
 import com.bharatarmy.Activity.VideoUploadActivity;
 import com.bharatarmy.Adapter.ImageListAdapter;
+import com.bharatarmy.Interfaces.FragmentRefreshListener;
 import com.bharatarmy.Interfaces.image_click;
 import com.bharatarmy.Models.ImageDetailModel;
 import com.bharatarmy.Models.ImageMainModel;
@@ -78,6 +79,7 @@ public class ImageFragment extends Fragment {
     ArrayList<String> galleryImageUrl = new ArrayList<>();
     ArrayList<String> galleryImageUrlName = new ArrayList<>();
     ArrayList<String> galleryImageDuration=new ArrayList<>();
+    ArrayList<String> galleryImageLike=new ArrayList<>();
     ArrayList<String> galleryImageId=new ArrayList<>();
     boolean isMoreDataAvailable = true;
     String imageClickData;
@@ -203,63 +205,60 @@ public class ImageFragment extends Fragment {
             public boolean onActionSelected(SpeedDialActionItem actionItem) {
                 switch (actionItem.getId()) {
                     case R.id.fab_no_label:
-                        Dexter.withActivity(getActivity())
-                                .withPermissions(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE,
-                                        Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                                .withListener(new MultiplePermissionsListener() {
-                                    @Override
-                                    public void onPermissionsChecked(MultiplePermissionsReport report) {
-                                        if (report.areAllPermissionsGranted()) {
-                                            if (Utils.isMember(mContext,"ImageUpload")) {
-                                                imageorvideoStr = "video";
-                                                pickVideoFromGallery();
+                        if (Utils.isMember(mContext,"ImageUpload")) {
+                            Dexter.withActivity(getActivity())
+                                    .withPermissions(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE,
+                                            Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                                    .withListener(new MultiplePermissionsListener() {
+                                        @Override
+                                        public void onPermissionsChecked(MultiplePermissionsReport report) {
+                                            if (report.areAllPermissionsGranted()) {
+                                                    imageorvideoStr = "video";
+                                                    pickVideoFromGallery();
+                                            }
 
+                                            if (report.isAnyPermissionPermanentlyDenied()) {
+                                                showSettingsDialog();
                                             }
                                         }
 
-                                        if (report.isAnyPermissionPermanentlyDenied()) {
-                                            showSettingsDialog();
+                                        @Override
+                                        public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
+                                            token.continuePermissionRequest();
                                         }
-                                    }
+                                    }).check();
+                        }
+                            speedDialView.open(); // To close the Speed Dial with animation
 
-                                    @Override
-                                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
-                                        token.continuePermissionRequest();
-                                    }
-                                }).check();
-                        speedDialView.open(); // To close the Speed Dial with animation
                         return false; // false will close it without animation
 
                     case R.id.fab_custom_color:
-                        Dexter.withActivity(getActivity())
-                                .withPermissions(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE,
-                                        Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                                .withListener(new MultiplePermissionsListener() {
-                                    @Override
-                                    public void onPermissionsChecked(MultiplePermissionsReport report) {
-                                        if (report.areAllPermissionsGranted()) {
-                                            if (Utils.isMember(mContext,"ImageUpload")){
+                        if (Utils.isMember(mContext,"ImageUpload")) {
+                            Dexter.withActivity(getActivity())
+                                    .withPermissions(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE,
+                                            Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                                    .withListener(new MultiplePermissionsListener() {
+                                        @Override
+                                        public void onPermissionsChecked(MultiplePermissionsReport report) {
+                                            if (report.areAllPermissionsGranted()) {
+
                                                 imageorvideoStr = "image";
                                                 Intent imagevideouploadIntent1 = new Intent(mContext, ImageVideoUploadActivity.class);
                                                 imagevideouploadIntent1.putExtra("image/video", imageorvideoStr);
                                                 imagevideouploadIntent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                                 mContext.startActivity(imagevideouploadIntent1);
                                             }
-//                                            else{
-//                                                Utils.goToLogin(mContext,"ImageUpload");
-//                                            }
-
-
+                                            if (report.isAnyPermissionPermanentlyDenied()) {
+                                                showSettingsDialog();
+                                            }
                                         }
 
-                                    }
-
-                                    @Override
-                                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
-                                        token.continuePermissionRequest();
-                                    }
-                                }).check();
-
+                                        @Override
+                                        public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
+                                            token.continuePermissionRequest();
+                                        }
+                                    }).check();
+                        }
                         speedDialView.open();
                         return false; // closes without animation (same as speedDialView.close(false); return false;)
 
@@ -299,7 +298,7 @@ public class ImageFragment extends Fragment {
                 if (!isLoading) {
                     if (gridLayoutManager != null && gridLayoutManager.findLastCompletelyVisibleItemPosition() == imageDetailModelsList.size() - 1) {
                         //bottom of list!
-                        ispull = false;
+                        isLoading = false;
                         pageIndex = pageIndex + 1;
                         fragmentImageBinding.progressBar.setVisibility(View.VISIBLE);
 
@@ -347,12 +346,10 @@ Log.d("list : ",""+imageDetailModelsList.size());
                         addOldNewValue(imageDetailModelsList);
                         if (imageListAdapter != null && imageDetailModelsList.size() > 0) {
                             imageListAdapter.addMoreDataToList(imageDetailModelsList);
-
                             // just append more data to current list
                         } else if (imageListAdapter != null && imageDetailModelsList.size() == 0) {
                             isLoading = true;
                             addOldNewValue(imageMainModel.getData());
-
                         } else {
                             fillImageGallery();
                         }
@@ -378,13 +375,12 @@ Log.d("list : ",""+imageDetailModelsList.size());
         Map<String, String> map = new HashMap<>();
         map.put("PageIndex", String.valueOf(pageIndex));
         map.put("PageSize", "15");
+        map.put("MemberId",String.valueOf(Utils.getAppUserId(mContext)));
         return map;
     }
 
     public void fillImageGallery() {
-
-
-        imageListAdapter = new ImageListAdapter(mContext, imageDetailModelsList, new image_click() {
+        imageListAdapter = new ImageListAdapter(mContext, imageDetailModelsList,getActivity(), new image_click() {
             @Override
             public void image_more_click() {
                 imageClickData = "";
@@ -397,6 +393,8 @@ Log.d("list : ",""+imageDetailModelsList.size());
                 gallerydetailIntent.putStringArrayListExtra("dataName",galleryImageUrlName);
                 gallerydetailIntent.putStringArrayListExtra("dataDuration",galleryImageDuration);
                 gallerydetailIntent.putStringArrayListExtra("dataId",galleryImageId);
+                gallerydetailIntent.putStringArrayListExtra("dataLike",galleryImageLike);
+                gallerydetailIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(gallerydetailIntent);
             }
         });
@@ -423,6 +421,7 @@ Log.d("list : ",""+imageDetailModelsList.size());
             galleryImageUrlName.addAll(Collections.singleton(result.get(i).getAddedUserName()));
             galleryImageDuration.addAll(Collections.singleton(result.get(i).getStrAddedDuration()));
             galleryImageId.addAll(Collections.singleton(String.valueOf(result.get(i).getBAGalleryId())));
+            galleryImageLike.addAll(Collections.singleton(String.valueOf(result.get(i).getIsLike())));
         }
         Log.d("galleryImageUrl", "" + galleryImageUrl.size());
 
@@ -461,6 +460,7 @@ Log.d("list : ",""+imageDetailModelsList.size());
                       galleryImageUrlName.clear();
                         galleryImageDuration.clear();
                         galleryImageId.clear();
+                        galleryImageLike.clear();
                         imageDetailModelsList = imageMainModel.getData();
 Log.d("pullDataList : ",""+imageDetailModelsList.size());
                         addOldNewValue(imageDetailModelsList);
@@ -487,6 +487,7 @@ Log.d("pullDataList : ",""+imageDetailModelsList.size());
         Map<String, String> map = new HashMap<>();
         map.put("PageIndex", "0");
         map.put("PageSize", "15");
+        map.put("MemberId",String.valueOf(Utils.getAppUserId(mContext)));
         return map;
     }
 

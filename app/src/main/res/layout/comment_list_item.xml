@@ -18,7 +18,6 @@
             android:id="@+id/user_image"
             android:layout_width="@dimen/_40sdp"
             android:layout_height="@dimen/_40sdp"
-            android:layout_marginLeft="@dimen/_5sdp"
             android:layout_marginTop="@dimen/_5sdp"
             android:clickable="true"
             android:src="@drawable/proflie"
@@ -27,6 +26,12 @@
 
         <LinearLayout
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="1">
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="0.7"
             android:layout_height="wrap_content"
             android:orientation="vertical">
         <LinearLayout
@@ -46,8 +51,7 @@
                 android:paddingRight="@dimen/_5sdp"
                 android:text="Mohit Oberoi"
                 android:textColor="@color/heading_bg"
-                android:textSize="@dimen/_13sdp"
-                android:textStyle="bold"/>
+                android:textSize="@dimen/_14sdp"/>
 
             <TextView
                 android:id="@+id/commented_user_time_txt"
@@ -71,43 +75,13 @@
                 android:layout_marginLeft="@dimen/_5sdp"
                 android:paddingLeft="@dimen/_5sdp"
                 android:paddingRight="@dimen/_5sdp"
-                android:textSize="@dimen/_12sdp"
+                android:textSize="@dimen/_11sdp"
                 android:maxLines="5"
-                android:textColor="@color/normal_font_color"
+                android:textColor="@color/unselected_view"
                 style="@style/text_font"
                 android:text="@string/commnet_str"/>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-                    <ImageView
-                        android:layout_width="@dimen/_10sdp"
-                        android:layout_height="@dimen/_10sdp"
-                        android:src="@drawable/ic_clock"
-                        android:tint="@color/normal_font_color"
-                        android:layout_centerVertical="true"
-                        android:paddingTop="@dimen/_2sdp"
-                        android:layout_toLeftOf="@id/uploadimage_durationtxt" />
-                    <TextView
-                        android:id="@+id/uploadimage_durationtxt"
-                        style="@style/text_font"
-                        android:layout_width="wrap_content"
-                        android:layout_height="@dimen/_30sdp"
-                        android:gravity="center_vertical"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginRight="@dimen/_12sdp"
-                        android:layout_marginLeft="@dimen/_5sdp"
-                        android:text="100d ago"
-                        android:textColor="@color/normal_font_color"
-                        android:textSize="@dimen/_10sdp"
-                        android:visibility="visible"/>
-                </RelativeLayout>
-            </LinearLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -170,12 +144,52 @@
             </LinearLayout>
 
     </LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="0.3"
+                android:layout_height="match_parent">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <ImageView
+                            android:layout_width="@dimen/_10sdp"
+                            android:layout_height="@dimen/_10sdp"
+                            android:src="@drawable/ic_clock"
+                            android:tint="@color/normal_font_color"
+                            android:layout_centerVertical="true"
+                            android:paddingTop="@dimen/_2sdp"
+                            android:layout_toLeftOf="@id/uploadimage_durationtxt" />
+
+                        <TextView
+                            android:id="@+id/uploadimage_durationtxt"
+                            style="@style/text_font"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginLeft="@dimen/_3sdp"
+                            android:layout_marginRight="@dimen/_7sdp"
+                            android:gravity="center_vertical"
+                            android:text="100d ago"
+                            android:textColor="@color/unselected_view"
+                            android:textSize="@dimen/_10sdp"
+                            android:visibility="visible" />
+                    </RelativeLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginLeft="@dimen/_5sdp"
         android:layout_marginRight="@dimen/_5sdp"
+        android:layout_marginTop="@dimen/_10sdp"
         android:background="@color/colorGrey300" />
 </LinearLayout>
 </layout>

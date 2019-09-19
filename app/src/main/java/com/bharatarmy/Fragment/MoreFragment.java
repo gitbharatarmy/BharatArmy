@@ -21,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.LinearLayout;
 
 import com.bharatarmy.Activity.ContactusActivity;
 import com.bharatarmy.Activity.InquriyActivity;
@@ -101,17 +102,24 @@ public class MoreFragment extends Fragment implements View.OnClickListener {
 
     public void setListiner() {
         if (Utils.retriveLoginData(mContext)!=null){
+            fragmentMoreBinding.withloginLinear.setVisibility(View.VISIBLE);
+            fragmentMoreBinding.withoutloginLinear.setVisibility(View.GONE);
+            fragmentMoreBinding.header4Linear.setVisibility(View.VISIBLE);
             fragmentMoreBinding.userNametxt.setText(Utils.retriveLoginData(mContext).getName());
+
+            if (Utils.retriveLoginData(mContext).getIsBAAdmin().equals("1")){
+                fragmentMoreBinding.header3Linear.setVisibility(View.VISIBLE);
+            }else{
+                fragmentMoreBinding.header3Linear.setVisibility(View.GONE);
+            }
+        }else{
+            fragmentMoreBinding.header3Linear.setVisibility(View.GONE);
+            fragmentMoreBinding.header4Linear.setVisibility(View.GONE);
+            fragmentMoreBinding.withloginLinear.setVisibility(View.GONE);
+            fragmentMoreBinding.withoutloginLinear.setVisibility(View.VISIBLE);
+
         }
 
-//        Utils.setImageInImageView(Utils.getPref(mContext,"LoginProfilePic"),fragmentMoreBinding.profileImage,mContext);
-
-
-//        if (Utils.getPref(mContext,"IsBAAdmin").equalsIgnoreCase("1")){
-//            fragmentMoreBinding.header3Linear.setVisibility(View.VISIBLE);
-//        }else{
-//            fragmentMoreBinding.header3Linear.setVisibility(View.GONE);
-//        }
 
         fragmentMoreBinding.userprofileLinear.setOnClickListener(this);
         fragmentMoreBinding.aboutusLinear.setOnClickListener(this);
@@ -119,6 +127,7 @@ public class MoreFragment extends Fragment implements View.OnClickListener {
         fragmentMoreBinding.logoutLinear.setOnClickListener(this);
         fragmentMoreBinding.inquiryLinear.setOnClickListener(this);
         fragmentMoreBinding.mediaLinear.setOnClickListener(this);
+        fragmentMoreBinding.withoutloginLinear.setOnClickListener(this);
     }
 
     @Override
@@ -158,7 +167,6 @@ public class MoreFragment extends Fragment implements View.OnClickListener {
                             public void onClick(DialogInterface dialog, int which) {
                                 // Write your code here to execute after dialog
                                 Utils.removeLoginData(mContext);
-                                Utils.setPref(mContext, "IsFirstTime", "");
                                 Utils.setPref(mContext, "IsSkipLogin", "");
                                 Utils.setPref(mContext, "IsLoginUser", "");
                                 Utils.ping(mContext, "You are logout suceessfully");
@@ -182,6 +190,12 @@ public class MoreFragment extends Fragment implements View.OnClickListener {
                 Intent media = new Intent(mContext, MyMediaActivity.class);
                 media.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(media);
+                break;
+            case R.id.withoutlogin_linear:
+                Intent intent=new Intent(mContext,LoginActivity.class);
+                intent.putExtra("whereTocomeLogin","more");
+                startActivity(intent);
+
                 break;
         }
     }

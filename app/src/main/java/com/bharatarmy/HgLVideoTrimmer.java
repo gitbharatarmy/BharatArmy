@@ -76,6 +76,8 @@ public class HgLVideoTrimmer extends FrameLayout {
     private int mStartPosition = 0;
     private int mEndPosition = 0;
 
+    private int height=0;
+    private int width=0;
     private long mOriginSizeFile;
     private boolean mResetSeekBar = true;
     private final MessageHandler mMessageHandler = new MessageHandler(this);
@@ -250,7 +252,7 @@ public class HgLVideoTrimmer extends FrameLayout {
     public void onSaveClicked() {
         if (mStartPosition <= 0 && mEndPosition >= mDuration) {
             if (mOnTrimVideoListener != null)
-                mOnTrimVideoListener.getResult(mSrc);
+                mOnTrimVideoListener.getResult(mSrc,height,width);
         } else {
             mPlayView.setVisibility(View.VISIBLE);
             mVideoView.pause();
@@ -279,7 +281,7 @@ public class HgLVideoTrimmer extends FrameLayout {
                         @Override
                         public void execute() {
                             try {
-                                TrimVideoUtils.startTrim(file, getDestinationPath(), mStartPosition, mEndPosition, mOnTrimVideoListener);
+                                TrimVideoUtils.startTrim(file, getDestinationPath(), mStartPosition, mEndPosition, mOnTrimVideoListener,height,width);
                             } catch (final Throwable e) {
                                 Thread.getDefaultUncaughtExceptionHandler().uncaughtException(Thread.currentThread(), e);
                             }
@@ -362,6 +364,8 @@ public class HgLVideoTrimmer extends FrameLayout {
         // so it fits on the screen
         int videoWidth = mp.getVideoWidth();
         int videoHeight = mp.getVideoHeight();
+        height=videoHeight;
+        width=videoWidth;
         float videoProportion = (float) videoWidth / (float) videoHeight;
         int screenWidth = mLinearVideo.getWidth();
         int screenHeight = mLinearVideo.getHeight();

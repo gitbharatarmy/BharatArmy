@@ -29,14 +29,14 @@ public class VideoSurfaceView extends SurfaceView {
         previousHeight = getLayoutParams().height;
         previousWidth = getLayoutParams().width;
         // Get the Display Metrics      code comment by megha 25/06/2019
-       /* DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
+        DisplayMetrics displayMetrics = getContext().getResources().getDisplayMetrics();
         // Get the width of the screen
         int screenWidth = displayMetrics.widthPixels;
-        int screenHeight = displayMetrics.heightPixels;*/
+        int screenHeight = displayMetrics.heightPixels;
 
-       // change by megha 25/06/2019 because full screen display
-        int screenWidth = ViewGroup.LayoutParams.MATCH_PARENT;
-        int screenHeight = ViewGroup.LayoutParams.MATCH_PARENT;
+       // change by megha 17/09/2019 because video wise display
+//        int screenWidth = ViewGroup.LayoutParams.MATCH_PARENT;
+//        int screenHeight = ViewGroup.LayoutParams.MATCH_PARENT;
 
         // Get the SurfaceView layout parameters
         FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) getLayoutParams();
@@ -53,7 +53,7 @@ public class VideoSurfaceView extends SurfaceView {
             lp.height = (int) (((float) videoHeight / videoWidth) * screenWidth);
         }
         // Change the gravity to center
-        lp.gravity = Gravity.TOP;
+        lp.gravity = Gravity.CENTER;
         // Commit the layout parameters
         setLayoutParams(lp);
     }

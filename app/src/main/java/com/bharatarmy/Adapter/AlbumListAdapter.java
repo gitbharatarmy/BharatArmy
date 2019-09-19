@@ -2,6 +2,7 @@ package com.bharatarmy.Adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bharatarmy.Activity.AlbumDetailActivity;
 import com.bharatarmy.Models.ImageDetailModel;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.Utils;
@@ -52,18 +54,13 @@ List<ImageDetailModel> imageDetailModelList;
         Object var3 = this.imageDetailModelList.get(position);
         ImageDetailModel $receiver = (ImageDetailModel) var3;
         boolean var5 = false;
-        holder.getMMovieName().setText("Cricket World Cup 2019");  //(CharSequence)$receiver.getGalleryName()
+        holder.getMMovieName().setText($receiver.getGalleryName());  //(CharSequence)$receiver.getGalleryName()
         View var10000 = holder.itemView;
         Intrinsics.checkExpressionValueIsNotNull(var10000, "holder.itemView");
-//        Picasso.with(var10000.getContext())
-//                .load($receiver.getGalleryURL())
-//                .placeholder(R.drawable.progress_animation)
-//                .into(holder.getMImgPoster());
-        Utils.setImageInImageView($receiver.getGalleryURL(),holder.getMImgPoster(),var10000.getContext());
+
+        Utils.setImageInImageView($receiver.getGalleryThumbURL(),holder.getMImgPoster(),var10000.getContext());
 
         ConstraintSet var6 = this.set;
-        boolean var8 = false;
-        StringCompanionObject var9 = StringCompanionObject.INSTANCE;
         String var10 = "%d:%d";
         Object[] var11 = new Object[]{$receiver.getWidth(), $receiver.getHeight()};
         String var13 = String.format(var10, Arrays.copyOf(var11, var11.length));
@@ -72,6 +69,19 @@ List<ImageDetailModel> imageDetailModelList;
         var6.clone(holder.getMConstraintLayout());
         var6.setDimensionRatio(holder.getMImgPoster().getId(), posterRatio);
         var6.applyTo(holder.getMConstraintLayout());
+
+
+        holder.getMImgPoster().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent albumdeatilInatent=new Intent(mContext, AlbumDetailActivity.class);
+                albumdeatilInatent.putExtra("albumId",String.valueOf($receiver.getBAGalleryId()));
+                albumdeatilInatent.putExtra("albumName",$receiver.getGalleryName());
+                albumdeatilInatent.putExtra("albumThumb",$receiver.getGalleryThumbURL());
+                albumdeatilInatent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                mContext.startActivity(albumdeatilInatent);
+            }
+        });
     }
 
     // $FF: synthetic method
@@ -91,13 +101,6 @@ List<ImageDetailModel> imageDetailModelList;
         private final ImageView mImgPoster;
         @NotNull
         private final TextView mMovieName;
-//        @NotNull
-//        private final LinearLayout mTextName;
-
-//        @NotNull
-//        public LinearLayout getmTextName() {
-//            return this.mTextName;
-//        }
 
         @NotNull
         private final View mtopView;

@@ -115,10 +115,10 @@ public class Utils {
     public static ImageView image;
     public static Button agree_btn;
     public static TextView close_btn;
-    public static boolean isValid=false;
+    public static boolean isValid = false;
 
-    public static int LikeMemberId,LikeReferenceId,LikeStatus,LikeSourceType;
-
+    public static int LikeMemberId, LikeReferenceId, LikeStatus, LikeSourceType;
+    public static String viewsMemberId,viewsTokenId,viewsReferenceId,viewsSourceType;
     public static Dialog dialog;
 
     public static final String MyPREFERENCES = "MyPrefs";
@@ -441,9 +441,9 @@ public class Utils {
 
     }
 
-    public static boolean isReadStorageGranted(Context context) {
+    public static boolean isBackGroundWorkAllowed(Context context) {
         int storagePermissionGranted = ContextCompat.checkSelfPermission(context,
-                Manifest.permission.READ_EXTERNAL_STORAGE);
+                Manifest.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
         return storagePermissionGranted == PackageManager.PERMISSION_GRANTED;
     }
 
@@ -507,15 +507,35 @@ public class Utils {
         TextView dialog_descriptiontxt = (TextView) dialogView.findViewById(R.id.dialog_descriptiontxt);
         TextView hometxt = (TextView) dialogView.findViewById(R.id.home_txt);
 
-        Log.d("messageList :", Utils.retriveLoginOtherData(activity).toString());
-        if (Utils.retriveLoginOtherData(activity) != null) {
-            for (int i = 0; i < Utils.retriveLoginOtherData(activity).size(); i++) {
-                if (Utils.retriveLoginOtherData(activity).get(i).getMessageId().equals(2)) {
-                    dialog_headertxt.setText(Utils.retriveLoginOtherData(activity).get(i).getMessageHeaderText());
-                    dialog_descriptiontxt.setText(Utils.retriveLoginOtherData(activity).get(i).getMessageDescription());
-                }
 
+        if (Utils.retriveLoginOtherData(activity) != null) {
+            if (wheretocome.equalsIgnoreCase("imageUpload")) {
+                for (int i = 0; i < Utils.retriveLoginOtherData(activity).size(); i++) {
+                    if (Utils.retriveLoginOtherData(activity).get(i).getMessageId().equals(1)) {
+                        dialog_headertxt.setText(Utils.retriveLoginOtherData(activity).get(i).getMessageHeaderText());
+                        dialog_descriptiontxt.setText(Utils.retriveLoginOtherData(activity).get(i).getMessageDescription());
+                    }
+
+                }
+            } else if (wheretocome.equalsIgnoreCase("changePassword")) {
+                for (int i = 0; i < Utils.retriveLoginOtherData(activity).size(); i++) {
+                    if (Utils.retriveLoginOtherData(activity).get(i).getMessageId().equals(2)) {
+                        dialog_headertxt.setText(Utils.retriveLoginOtherData(activity).get(i).getMessageHeaderText());
+                        dialog_descriptiontxt.setText(Utils.retriveLoginOtherData(activity).get(i).getMessageDescription());
+                    }
+
+                }
+            } else if (wheretocome.equalsIgnoreCase("videoUpload")) {
+                for (int i = 0; i < Utils.retriveLoginOtherData(activity).size(); i++) {
+                    if (Utils.retriveLoginOtherData(activity).get(i).getMessageId().equals(1)) {
+                        dialog_headertxt.setText(Utils.retriveLoginOtherData(activity).get(i).getMessageHeaderText());
+                        dialog_descriptiontxt.setText(Utils.retriveLoginOtherData(activity).get(i).getMessageDescription());
+                    }
+                }
             }
+        } else {
+            dialog_headertxt.setText("Thank you");
+            dialog_descriptiontxt.setText("");
         }
         hometxt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -526,7 +546,17 @@ public class Utils {
                         Intent intent = new Intent(activity, DashboardActivity.class);
                         activity.startActivity(intent);
                         activity.finish();
+                    } else if (wheretocome.equalsIgnoreCase("imageUpload")) {
+                        Intent intent = new Intent(activity, UploadService.class);
+                        activity.startService(intent);
+                        activity.finish();
+                    } else if (wheretocome.equalsIgnoreCase("videoUpload")) {
+                        Intent dashboardIntent = new Intent(activity, DashboardActivity.class);
+                        dashboardIntent.putExtra("whichPageRun", "1");
+                        activity.startActivity(dashboardIntent);
+                        activity.finish();
                     }
+
                 } catch (Exception e) {
 
                 }
@@ -872,7 +902,7 @@ public class Utils {
     public static void InsertLike(Context mContext, Activity activity) { //, int MemberId, int ReferenceId, int LikeStatus, int SourceType
 
         if (!Utils.checkNetwork(mContext)) {
-            Utils.showCustomDialog(mContext.getResources().getString(R.string.internet_error), mContext.getResources().getString(R.string.internet_connection_error),activity);
+            Utils.showCustomDialog(mContext.getResources().getString(R.string.internet_error), mContext.getResources().getString(R.string.internet_connection_error), activity);
             return;
         }
 
@@ -917,26 +947,80 @@ public class Utils {
 
     public static Map<String, Integer> getLikeData() {
         Map<String, Integer> map = new HashMap<>();
-        map.put("MemberId",LikeMemberId);
-        map.put("ReferenceId",LikeReferenceId );
-        map.put("LikeStatus",LikeStatus);
-        map.put("SourceType",LikeSourceType);
+        map.put("MemberId", LikeMemberId);
+        map.put("ReferenceId", LikeReferenceId);
+        map.put("LikeStatus", LikeStatus);
+        map.put("SourceType", LikeSourceType);
         return map;
 
     }
 
 
+    public static void InsertBAViews(Context mContext, Activity activity) { //, int MemberId, int ReferenceId, int LikeStatus, int SourceType
+
+        if (!Utils.checkNetwork(mContext)) {
+            Utils.showCustomDialog(mContext.getResources().getString(R.string.internet_error), mContext.getResources().getString(R.string.internet_connection_error), activity);
+            return;
+        }
+
+//        Utils.showDialog(mContext);
+
+        ApiHandler.getApiService().getInsertBAViews(Utils.getViewsData(), new retrofit.Callback<ImageMainModel>() {
+            @Override
+            public void success(ImageMainModel likeModel, Response response) {
+                Utils.dismissDialog();
+                if (likeModel == null) {
+                    Utils.ping(mContext, mContext.getString(R.string.something_wrong));
+                    return;
+                }
+                if (likeModel.getIsValid() == null) {
+                    Utils.ping(mContext, mContext.getString(R.string.something_wrong));
+                    return;
+                }
+                if (likeModel.getIsValid() == 0) {
+                    Utils.ping(mContext, mContext.getString(R.string.false_msg));
+                    return;
+                }
+                if (likeModel.getIsValid() == 1) {
+
+                    if (likeModel.getData() != null) {
+
+                    }
+
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Utils.dismissDialog();
+                error.printStackTrace();
+                error.getMessage();
+                Utils.ping(mContext, mContext.getString(R.string.something_wrong));
+            }
+        });
 
 
+    }
 
-    public static void scrollScreen(ScrollView scrollView){
+    public static Map<String, String> getViewsData() {
+        Map<String, String> map = new HashMap<>();
+        map.put("MemberId", viewsMemberId);
+        map.put("TokenId", viewsTokenId);
+        map.put("ReferenceId", viewsReferenceId);
+        map.put("SourceType", viewsSourceType);
+        return map;
+
+    }
+
+
+    public static void scrollScreen(ScrollView scrollView) {
         scrollView.postDelayed(new Runnable() {
             @Override
             public void run() {
-                View lastChild =   scrollView.getChildAt(   scrollView.getChildCount() - 1);
-                int bottom = lastChild.getBottom() +    scrollView.getPaddingBottom();
-                int sy =    scrollView.getScrollY();
-                int sh =   scrollView.getHeight();
+                View lastChild = scrollView.getChildAt(scrollView.getChildCount() - 1);
+                int bottom = lastChild.getBottom() + scrollView.getPaddingBottom();
+                int sy = scrollView.getScrollY();
+                int sh = scrollView.getHeight();
                 int delta = bottom - (sy + sh);
                 scrollView.smoothScrollBy(0, delta);
             }
