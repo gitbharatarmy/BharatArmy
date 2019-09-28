@@ -4,6 +4,8 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/_10sdp"
+        android:layout_marginRight="@dimen/_10sdp"
         android:orientation="vertical">
         <TextView
             android:id="@+id/type_txt"
@@ -32,7 +34,6 @@
             style="@style/title_text_font"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_5sdp"
             android:layout_marginBottom="@dimen/_10sdp"
             android:ellipsize="end"
             android:maxLines="4"
@@ -55,7 +56,7 @@
                 android:orientation="horizontal">
                 <com.like.LikeButton
                     android:id="@+id/video_like_btn"
-                    android:layout_width="@dimen/_30sdp"
+                    android:layout_width="@dimen/_25sdp"
                     android:layout_height="@dimen/_20sdp"
                     app:circle_end_color="@color/heading_bg"
                     app:circle_start_color="@color/heading_bg"
@@ -94,6 +95,7 @@
                     android:tint="@color/heading_bg" />
 
                 <TextView
+                    android:id="@+id/total_Posted_txt"
                     style="@style/title_text_font"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/_20sdp"

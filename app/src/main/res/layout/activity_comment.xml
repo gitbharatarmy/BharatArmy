@@ -43,9 +43,8 @@
                 <TextView
                     android:id="@+id/toolbar_title_txt"
                     style="@style/title_text_font"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="@dimen/_40sdp"
-                    android:layout_weight="1.7"
                     android:ellipsize="end"
                     android:gravity="center_vertical"
                     android:maxLines="1"
@@ -99,17 +98,17 @@
 
                     <ImageView
                         android:id="@+id/nocomment_img"
-                        android:layout_width="@dimen/_40sdp"
-                        android:layout_height="@dimen/_40sdp"
+                        android:layout_width="@dimen/_70sdp"
+                        android:layout_height="@dimen/_70sdp"
                         android:src="@drawable/ic_comment"
                     android:layout_centerInParent="true"/>
                     <TextView
                         style="@style/title_text_font"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="no comments found"
+                        android:text="No comment found"
                         android:textColor="@color/heading_bg"
-                        android:textSize="@dimen/_12sdp"
+                        android:textSize="@dimen/_16sdp"
                         android:layout_below="@id/nocomment_img"
                         android:gravity="center_horizontal"
                         android:layout_marginTop="@dimen/_5sdp"/>

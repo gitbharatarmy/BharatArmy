@@ -9,6 +9,7 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -23,10 +24,16 @@ import androidx.annotation.Nullable;
 
 import com.bharatarmy.Activity.VideoDetailActivity;
 import com.bharatarmy.Interfaces.MyLayoutChanges;
+import com.bharatarmy.Models.MyScreenChnagesModel;
 import com.bharatarmy.R;
+import com.bharatarmy.Utility.AppConfiguration;
 import com.bharatarmy.Utility.Utils;
-import com.bharatarmy.VideoTrimmer.interfaces.OnTrimVideoListener;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.squareup.picasso.Picasso;
+
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
 import java.io.IOException;
@@ -42,6 +49,10 @@ public class FullscreenVideoView extends FrameLayout {
     @Nullable
     private ImageView imageProgressBar;
     @Nullable
+    private ProgressBar imageProgress;
+    @Nullable
+    private View bottomGradiantView;
+    @Nullable
     private VideoControllerView controller;
     @Nullable
     private VideoMediaPlayer videoMediaPlayer;
@@ -51,7 +62,8 @@ public class FullscreenVideoView extends FrameLayout {
     private SurfaceHolder.Callback surfaceHolderCallback;
     private boolean isPaused;
     private int previousOrientation;
-    private MyLayoutChanges myLayoutChanges;
+    String videoPath;
+
     public FullscreenVideoView(@NonNull Context context) {
         super(context);
     }
@@ -83,18 +95,7 @@ public class FullscreenVideoView extends FrameLayout {
         setFocusableInTouchMode(true);
         requestFocus();
         initOnBackPressedListener();
-        // Setup onTouch listener
-        setOnTouchListener(new OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent event) {
-                view.performClick();
-                    if (controller != null) {
-                        controller.show();
-                    }
 
-                return false;
-            }
-        });
     }
 
     private void setupSurfaceHolder() {
@@ -127,8 +128,10 @@ public class FullscreenVideoView extends FrameLayout {
         LayoutInflater layoutInflater = LayoutInflater.from(getContext());
         layoutInflater.inflate(R.layout.fullscreen_video_view, this, true);
         surfaceView = findViewById(R.id.surface_view);
-        progressBar = findViewById(R.id.progress_bar);
+//        progressBar = findViewById(R.id.progress_bar);
         imageProgressBar = findViewById(R.id.image);
+        imageProgress=findViewById(R.id.image_progress);
+        bottomGradiantView=findViewById(R.id.toolbar_bottom_left_view);
         controller = findViewById(R.id.video_controller);
     }
 
@@ -152,10 +155,9 @@ public class FullscreenVideoView extends FrameLayout {
     public Builder videoUrl(String videoUrl) {
         return new Builder(this, controller, orientationHelper, videoMediaPlayer)
                 .videoUrl(videoUrl);
+
     }
-    public void setOnLayout(MyLayoutChanges myLayoutChanges) {
-        myLayoutChanges = myLayoutChanges;
-    }
+
     @Override
     protected void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
@@ -172,6 +174,7 @@ public class FullscreenVideoView extends FrameLayout {
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
 
             orientationHelper.activateFullscreen();
+
         } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
             orientationHelper.exitFullscreen();
         }
@@ -226,6 +229,9 @@ public class FullscreenVideoView extends FrameLayout {
     }
 
     public void setupMediaPlayer(String videoPath) {
+        if (!AppConfiguration.videoType.equalsIgnoreCase("horizontal")) {
+            bottomGradiantView.setVisibility(GONE);
+        }
         showProgress();
         try {
             if (videoMediaPlayer != null) {
@@ -243,14 +249,16 @@ public class FullscreenVideoView extends FrameLayout {
                 surfaceView.getHolder().setFormat(PixelFormat.OPAQUE);
                 videoMediaPlayer.reset();
                 videoMediaPlayer.setDataSource(videoPath);
+
                 videoMediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                     @Override
                     public void onPrepared(MediaPlayer mediaPlayer) {
                         surfaceView.setBackgroundColor(Color.TRANSPARENT);
-                        hideProgress();
+
                         // Get the dimensions of the video
                         int videoWidth = videoMediaPlayer.getVideoWidth();
                         int videoHeight = videoMediaPlayer.getVideoHeight();
+                        Log.d("videowidth :",""+videoWidth+"videoheight :"+videoHeight);
                         if (surfaceView != null) {
                             surfaceView.updateLayoutParams(videoWidth, videoHeight);
                         }
@@ -258,7 +266,21 @@ public class FullscreenVideoView extends FrameLayout {
                             isMediaPlayerPrepared = true;
                             // Start media player if auto start is enabled
                             if (mediaPlayer != null && videoMediaPlayer.isAutoStartEnabled()) {
+                                // Setup onTouch listener
+                                setOnTouchListener(new OnTouchListener() {
+                                    @Override
+                                    public boolean onTouch(View view, MotionEvent event) {
+                                        view.performClick();
+                                        if (controller != null) {
+                                            controller.show();
+                                        }
+                                        return false;
+                                    }
+                                });
                                 mediaPlayer.start();
+                                hideProgress();
+                                AppConfiguration.videoPlay="true";
+                                EventBus.getDefault().post(new MyScreenChnagesModel(AppConfiguration.videoPlay));
                             }
                         }
                     }
@@ -271,20 +293,21 @@ public class FullscreenVideoView extends FrameLayout {
     }
 
     private void setupProgressBarColor() {
-//        int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
-////        if (progressBar != null) {
-////            progressBar.animate().setDuration(shortAnimTime);
-////        }
+        int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
+        if (imageProgress != null) {
+            imageProgress.animate().setDuration(shortAnimTime);
+        }
 
-        Glide.with(this)
-                .load(R.drawable.logo)
-                .into(imageProgressBar);
+
+
+//        Utils.setGalleryImageInImageView(AppConfiguration.videoThumbStr, imageProgressBar, getContext());
     }
 
     private void hideProgress() {
         if (imageProgressBar != null) {
 //            progressBar.setVisibility(View.INVISIBLE);
             imageProgressBar.setVisibility(GONE);
+            imageProgress.setVisibility(GONE);
 
         }
 
@@ -293,7 +316,15 @@ public class FullscreenVideoView extends FrameLayout {
     private void showProgress() {
         if (imageProgressBar != null) {
 //            progressBar.setVisibility(View.VISIBLE);
+            imageProgress.setVisibility(VISIBLE);
             imageProgressBar.setVisibility(VISIBLE);
+            Picasso.with(getContext())
+                    .load(AppConfiguration.videoThumbStr)
+                    .placeholder(R.drawable.loader)
+                    .into(imageProgressBar);
+
+
+
         }
 
     }
@@ -320,10 +351,5 @@ public class FullscreenVideoView extends FrameLayout {
             surfaceView.updateLayoutParams(videoMediaPlayer.getVideoWidth(),
                     videoMediaPlayer.getVideoHeight());
         }
-    }
-
-
-    public void setOnLayout() {
-        orientationHelper.toggleFullscreen();
     }
 }

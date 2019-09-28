@@ -64,8 +64,9 @@ public class StoryFragment extends Fragment {
     GridLayoutManager gridLayoutManager;
     boolean ispull;
 
-    String categoryIdStr, categoryNameStr,wheretocome;
+    String categoryIdStr, categoryNameStr, wheretocome;
     public static OnItemClick mListener;
+
     public StoryFragment() {
         // Required empty public constructor
     }
@@ -100,7 +101,7 @@ public class StoryFragment extends Fragment {
         rootView = fragmentStoryBinding.getRoot();
         mContext = getActivity().getApplicationContext();
 
-        speedDial=getActivity().findViewById(R.id.speedDial);
+        speedDial = getActivity().findViewById(R.id.speedDial);
         speedDial.setVisibility(View.GONE);
         callStoryData();
 
@@ -118,8 +119,9 @@ public class StoryFragment extends Fragment {
         fragmentStoryBinding.refreshView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                pageIndex = 0;
                 callStoryPullData();
-                fragmentStoryBinding.refreshView.setRefreshing(false);
+
             }
         });
 
@@ -140,7 +142,7 @@ public class StoryFragment extends Fragment {
                         //bottom of list!
                         ispull = false;
                         pageIndex = pageIndex + 1;
-                        fragmentStoryBinding.progressBar.setVisibility(View.VISIBLE);
+                        fragmentStoryBinding.bottomProgressbarLayout.setVisibility(View.VISIBLE);
                         loadMore();
 
                     }
@@ -183,7 +185,7 @@ public class StoryFragment extends Fragment {
                         storyDetailModelList = imageMainModel.getData();
                         fragmentStoryBinding.shimmerViewContainer.stopShimmerAnimation();
                         fragmentStoryBinding.shimmerViewContainer.setVisibility(View.GONE);
-fragmentStoryBinding.progressBar.setVisibility(View.GONE);
+                        fragmentStoryBinding.bottomProgressbarLayout.setVisibility(View.GONE);
                         if (storyLsitAdapter != null && storyDetailModelList.size() > 0) {
                             storyLsitAdapter.addMoreDataToList(storyDetailModelList);
                             // just append more data to current list
@@ -221,7 +223,7 @@ fragmentStoryBinding.progressBar.setVisibility(View.GONE);
     }
 
     public void fillStoryGallery() {
-        storyLsitAdapter = new StoryLsitAdapter(mContext, storyDetailModelList, new image_click() {
+        storyLsitAdapter = new StoryLsitAdapter(mContext, storyDetailModelList, getActivity(), new image_click() {
             @Override
             public void image_more_click() {
 
@@ -233,14 +235,14 @@ fragmentStoryBinding.progressBar.setVisibility(View.GONE);
                 categoryIdStr = splitString[0];
                 categoryNameStr = splitString[1].substring(0, splitString[1].length() - 1);
 
-                Log.d("categoryIdSTr :",categoryIdStr+" categoryNameStr :"+categoryNameStr);
+                Log.d("categoryIdSTr :", categoryIdStr + " categoryNameStr :" + categoryNameStr);
 
                 // slide-up animation
                 Animation slideUp = AnimationUtils.loadAnimation(mContext, R.anim.slide_out_right);
-                    fragmentStoryBinding.storyRcyList.startAnimation(slideUp);
-                    fragmentStoryBinding.storyRcyList.setVisibility(View.GONE);
-                wheretocome="Story";
-                mListener.onStoryCategory(categoryIdStr,categoryNameStr,wheretocome);
+                fragmentStoryBinding.storyRcyList.startAnimation(slideUp);
+                fragmentStoryBinding.storyRcyList.setVisibility(View.GONE);
+                wheretocome = "Story";
+                mListener.onStoryCategory(categoryIdStr, categoryNameStr, wheretocome);
 
             }
         });
@@ -292,9 +294,8 @@ fragmentStoryBinding.progressBar.setVisibility(View.GONE);
 
                     if (imageMainModel.getData() != null) {
                         storyDetailModelList = imageMainModel.getData();
-
-//                        addOldNewPullValue (imageDetailModelsList);
-                        storyLsitAdapter.notifyDataSetChanged();
+                        fillStoryGallery();
+                        fragmentStoryBinding.refreshView.setRefreshing(false);
                     }
 
                 }
@@ -314,7 +315,7 @@ fragmentStoryBinding.progressBar.setVisibility(View.GONE);
 
     private Map<String, String> getStoryPullData() {
         Map<String, String> map = new HashMap<>();
-        map.put("PageIndex", "0");
+        map.put("PageIndex", String.valueOf(pageIndex));
         map.put("PageSize", "14");
         return map;
     }
@@ -336,7 +337,7 @@ fragmentStoryBinding.progressBar.setVisibility(View.GONE);
     }
 
     public interface OnItemClick {
-        void onStoryCategory(String categoryId,String categoryName,String wheretocome);
+        void onStoryCategory(String categoryId, String categoryName, String wheretocome);
 
 
     }

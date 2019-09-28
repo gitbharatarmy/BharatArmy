@@ -20,6 +20,7 @@ public class VideoMediaPlayer extends MediaPlayer {
         this.fullscreenVideoView = fullscreenVideoView;
     }
 
+
     public int getBufferPercentage() {
         return 0;
     }

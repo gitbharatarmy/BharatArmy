@@ -1131,5 +1131,38 @@ public class ImageDetailModel implements Serializable {
     }
 
 
+//    Get States and City
+    @SerializedName("Id")
+    @Expose
+    private Integer id;
+    @SerializedName("Name")
+    @Expose
+    private String name;
+    @SerializedName("Selected")
+    @Expose
+    private boolean selected;
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
 }

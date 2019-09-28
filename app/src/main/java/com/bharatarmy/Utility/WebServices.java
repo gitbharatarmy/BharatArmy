@@ -55,6 +55,14 @@ public interface WebServices {
     void getUserDetails(@FieldMap Map<String, String> map, Callback<LogginModel> callback);
 
     @FormUrlEncoded
+    @POST("/GetStatesFromCountry")
+    void getStatesFromCountry(@FieldMap Map<String, String> map, Callback<ImageMainModel> callback);
+
+    @FormUrlEncoded
+    @POST("/GetCitiesFromState")
+    void getCitiesFromState(@FieldMap Map<String, String> map, Callback<ImageMainModel> callback);
+
+    @FormUrlEncoded
     @POST("/SendVerificationOTP")
     void getSendVerificationOTP(@FieldMap Map<String, String> map, Callback<LogginModel> callback);
 
@@ -121,6 +129,10 @@ public interface WebServices {
     void getBAVideoGallery(@FieldMap Map<String, String> map, Callback<ImageMainModel> callback);
 
     @FormUrlEncoded
+    @POST("/BARelatedVideos")
+    void getBARelatedVideos(@FieldMap Map<String, String> map, Callback<ImageMainModel> callback);
+
+    @FormUrlEncoded
     @POST("/BAAlbum")
     void getBAAlbum(@FieldMap Map<String, String> map, Callback<ImageMainModel> callback);
 
@@ -145,6 +157,10 @@ public interface WebServices {
     void getCommentDataByPost(@FieldMap Map<String, String> map, Callback<ImageMainModel> callback);
 
     @FormUrlEncoded
+    @POST("/BAPostStatistics")
+    void getBAPostStatistics(@FieldMap Map<String, String> map, Callback<LogginModel> callback);
+
+    @FormUrlEncoded
     @POST("/GetBAFTP")
     void getBAFTP(@FieldMap Map<String, String> map, Callback<ImageMainModel> callback);
 
@@ -159,7 +175,6 @@ public interface WebServices {
     @FormUrlEncoded
     @POST("/GetStoryDetail")
     void getStoryDetail(@FieldMap Map<String, String> map, Callback<ImageMainModel> callback);
-
 
     @FormUrlEncoded
     @POST("/GetItineraryDetailByDayNo")

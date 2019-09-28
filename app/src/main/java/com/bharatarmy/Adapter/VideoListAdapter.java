@@ -57,6 +57,7 @@ FragmentActivity activity;
         final ImageDetailModel detail = mItemList.get(position);
 
         Utils.setImageInImageView(detail.getVideoImageURL(), viewHolder.imageView, mContext);
+
         viewHolder.videoName.setText(detail.getVideoName());
         viewHolder.video_size_txt.setText(detail.getVideoLength());
 
@@ -70,7 +71,7 @@ FragmentActivity activity;
             public void onClick(View v) {
                 Utils.viewsMemberId=String.valueOf(Utils.getAppUserId(mContext));
                 Utils.viewsReferenceId=String.valueOf(detail.getBAVideoGalleryId());
-                Utils.viewsSourceType="1";
+                Utils.viewsSourceType="2";
                 Utils.viewsTokenId= Utils.getPref(mContext, "registration_id");
                 Utils.InsertBAViews(mContext,activity);
 
@@ -82,6 +83,8 @@ FragmentActivity activity;
                     videogalleryhorizontaldetailIntent.putExtra("videoUserName", detail.getUserName());
                     videogalleryhorizontaldetailIntent.putExtra("videoLike", String.valueOf(detail.getIsLike()));
                     videogalleryhorizontaldetailIntent.putExtra("WhereToVideoCome", "VideoFragment");
+                    videogalleryhorizontaldetailIntent.putExtra("videoId",String.valueOf(detail.getBAVideoGalleryId()));
+                    videogalleryhorizontaldetailIntent.putExtra("videoThumb",detail.getVideoImageURL());
                     videogalleryhorizontaldetailIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     mContext.startActivity(videogalleryhorizontaldetailIntent);
                 }else if(detail.getWidth()<detail.getHeight()){
@@ -92,9 +95,11 @@ FragmentActivity activity;
                     videogalleryverticaldetailIntent.putExtra("videoUserName", detail.getUserName());
                     videogalleryverticaldetailIntent.putExtra("videoLike", String.valueOf(detail.getIsLike()));
                     videogalleryverticaldetailIntent.putExtra("WhereToVideoCome", "VideoFragment");
+                    videogalleryverticaldetailIntent.putExtra("videoId",String.valueOf(detail.getBAVideoGalleryId()));
+                    videogalleryverticaldetailIntent.putExtra("videoThumb",detail.getVideoImageURL());
                     videogalleryverticaldetailIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     mContext.startActivity(videogalleryverticaldetailIntent);
-                } else if(detail.getWidth()==detail.getHeight()){
+                } else if(detail.getWidth().equals(detail.getHeight())){
                     AppConfiguration.videoType="horizontal";
                     Intent videogalleryhorizontaldetailIntent = new Intent(mContext, VideoDetailHorizontalActivity.class);
                     videogalleryhorizontaldetailIntent.putExtra("videoData", detail.getVideoFileURL());
@@ -102,6 +107,8 @@ FragmentActivity activity;
                     videogalleryhorizontaldetailIntent.putExtra("videoUserName", detail.getUserName());
                     videogalleryhorizontaldetailIntent.putExtra("videoLike", String.valueOf(detail.getIsLike()));
                     videogalleryhorizontaldetailIntent.putExtra("WhereToVideoCome", "VideoFragment");
+                    videogalleryhorizontaldetailIntent.putExtra("videoId",String.valueOf(detail.getBAVideoGalleryId()));
+                    videogalleryhorizontaldetailIntent.putExtra("videoThumb",detail.getVideoImageURL());
                     videogalleryhorizontaldetailIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     mContext.startActivity(videogalleryhorizontaldetailIntent);
                 }

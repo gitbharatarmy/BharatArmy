@@ -4,8 +4,11 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_100sdp"
-        android:layout_marginTop="@dimen/_5sdp"
-        android:layout_marginBottom="@dimen/_5sdp"
+        android:layout_marginLeft="@dimen/_12sdp"
+        android:layout_marginTop="@dimen/_3sdp"
+        android:layout_marginRight="@dimen/_13sdp"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:background="#FAFAFA"
         android:elevation="3dp"
         android:orientation="vertical"
         app:cardCornerRadius="10dp">
@@ -14,20 +17,24 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:background="@color/colorGrey100"
             android:weightSum="1">
 
             <RelativeLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.5"
-                android:background="@drawable/dropshadow">
-
-                <ImageView
+                android:layout_weight="0.4">
+                <com.bharatarmy.RoundishImageView
                     android:id="@+id/verticale_related_video_img"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_margin="@dimen/_7sdp"
+                    android:adjustViewBounds="true"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/ajif" />
+                    android:src="@drawable/ajif"
+                    app:cornerRadius="@dimen/_7sdp"
+                    app:roundedCorners="topLeft|topRight|bottomLeft|bottomRight"
+                    />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -71,72 +78,79 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.5"
-                android:background="@color/heading_bg"
+                android:layout_weight="0.6"
                 android:orientation="vertical">
 
-                <LinearLayout
-                    android:id="@+id/verticale_ba_recommended_linear"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginLeft="@dimen/_10sdp"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:background="@drawable/pacakageprice_curve_shape"
-                    android:orientation="horizontal"
-                    android:visibility="gone">
 
 
-                    <ImageView
-                        android:layout_width="@dimen/_7sdp"
-                        android:layout_height="@dimen/_7sdp"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="@dimen/_6sdp"
-                        android:layout_marginTop="@dimen/_1sdp"
-                        android:layout_marginBottom="@dimen/_1sdp"
-                        android:src="@drawable/ic_play_button" />
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/vertical_show_video_title_txt"
+        style="@style/title_text_font"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLines="3"
+        android:paddingTop="@dimen/_5sdp"
+        android:paddingRight="@dimen/_10sdp"
+        android:text="World Cup 2019: Bring o..."
+        android:textColor="@color/heading_bg"
+        android:textSize="@dimen/_13sdp" />
+    <LinearLayout
+        android:id="@+id/verticale_ba_recommended_linear"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:layout_below="@id/vertical_show_video_title_txt"
+        android:background="@drawable/recommended_bg_shape"
+        android:orientation="horizontal"
+        android:visibility="gone">
 
-                    <TextView
-                        style="@style/title_text_font"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal|center_vertical"
-                        android:layout_marginRight="@dimen/_2sdp"
-                        android:gravity="center_horizontal|center_vertical"
-                        android:paddingLeft="@dimen/_2sdp"
-                        android:paddingTop="@dimen/_3sdp"
-                        android:paddingRight="@dimen/_5sdp"
-                        android:paddingBottom="@dimen/_2sdp"
-                        android:text="BA Recommended"
-                        android:textColor="@color/splash_bg_color"
-                        android:textSize="@dimen/_9sdp"
-                        android:textStyle="bold" />
-                </LinearLayout>
 
-
-                <TextView
-                    android:id="@+id/verticale_show_video_title_txt"
-                    style="@style/text_font"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:maxLines="2"
-                    android:paddingLeft="@dimen/_10sdp"
-                    android:paddingTop="@dimen/_10sdp"
-                    android:paddingRight="@dimen/_10sdp"
-                    android:text="World Cup 2019: Bring o.."
-                    android:textColor="@color/splash_bg_color"
-                    android:textSize="@dimen/_12sdp" />
+        <TextView
+            style="@style/title_text_font"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:layout_marginRight="@dimen/_2sdp"
+            android:gravity="center_horizontal|center_vertical"
+         android:paddingLeft="@dimen/_4sdp"
+            android:paddingRight="@dimen/_3sdp"
+            android:paddingTop="@dimen/_3sdp"
+            android:paddingBottom="@dimen/_3sdp"
+            android:text="Recommended By Bharat Army"
+            android:textColor="@color/splash_bg_color"
+            android:textSize="@dimen/_6sdp"
+            android:textStyle="bold" />
+    </LinearLayout>
+    <TextView
+        android:id="@+id/vertical_show_video_description_txt"
+        style="@style/text_font"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/verticale_ba_recommended_linear"
+        android:ellipsize="end"
+        android:maxLines="3"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:paddingRight="@dimen/_10sdp"
+        android:text="World Cup 2019: Bring o.."
+        android:textColor="@color/normal_font_color"
+        android:textSize="@dimen/_9sdp"  />
 
 
                 <ImageView
                     android:id="@+id/verticale_recommended_image"
                     android:layout_width="@dimen/_40sdp"
                     android:layout_height="@dimen/_55sdp"
-                    android:layout_gravity="right"
-                    android:scaleType="centerInside"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:scaleType="centerCrop"
                     android:src="@drawable/bal"
+                    android:visibility="gone"
                     android:layout_marginRight="@dimen/_7sdp"/>
+</RelativeLayout>
             </LinearLayout>
 
         </LinearLayout>
@@ -146,6 +160,7 @@
             android:layout_width="match_parent"
             android:layout_height="3dp"
             android:layout_gravity="bottom"
-            android:background="@drawable/bg_gradiant_line" />
+            android:background="@drawable/bg_gradiant_line"
+            android:visibility="gone"/>
     </androidx.cardview.widget.CardView>
 </layout>

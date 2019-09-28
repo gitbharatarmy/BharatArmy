@@ -285,4 +285,62 @@ public class LoginDataModel {
     public void setLogs(Object logs) {
         this.logs = logs;
     }
+
+//    post view Detail
+
+    @SerializedName("PostId")
+    @Expose
+    private Integer postId;
+    @SerializedName("Likes")
+    @Expose
+    private Integer likes;
+    @SerializedName("Posted")
+    @Expose
+    private Integer posted;
+    @SerializedName("Comments")
+    @Expose
+    private Integer comments;
+    @SerializedName("PostView")
+    @Expose
+    private Integer postView;
+
+    public Integer getPostId() {
+        return postId;
+    }
+
+    public void setPostId(Integer postId) {
+        this.postId = postId;
+    }
+
+    public Integer getLikes() {
+        return likes;
+    }
+
+    public void setLikes(Integer likes) {
+        this.likes = likes;
+    }
+
+    public Integer getPosted() {
+        return posted;
+    }
+
+    public void setPosted(Integer posted) {
+        this.posted = posted;
+    }
+
+    public Integer getComments() {
+        return comments;
+    }
+
+    public void setComments(Integer comments) {
+        this.comments = comments;
+    }
+
+    public Integer getPostView() {
+        return postView;
+    }
+
+    public void setPostView(Integer postView) {
+        this.postView = postView;
+    }
 }

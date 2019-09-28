@@ -21,6 +21,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bharatarmy.Activity.GalleryImageDetailActivity;
@@ -82,8 +83,9 @@ public class VideoFragment extends Fragment {
     boolean ispull;
     String imageClickData;
     FloatingActionButton fab;
-
-    GridLayoutManager gridLayoutManager;
+    int[] lastPositions;
+    int lastVisibleItem;
+    StaggeredGridLayoutManager staggeredGridLayoutManager;
     int pageIndex = 0;
     SpeedDialOverlayLayout overlayLayout;
     SpeedDialView speedDialView;
@@ -270,16 +272,17 @@ public class VideoFragment extends Fragment {
         });
     }
     public void setListiner() {
-        gridLayoutManager = new GridLayoutManager(mContext, 2);
-        gridLayoutManager.setOrientation(RecyclerView.VERTICAL); // set Horizontal Orientation
-        fragmentVideoBinding.videoRcvList.setLayoutManager(gridLayoutManager); // set LayoutManager to RecyclerView
+        staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, 1);
+//        gridLayoutManager.setOrientation(RecyclerView.VERTICAL); // set Horizontal Orientation
+        fragmentVideoBinding.videoRcvList.setLayoutManager(staggeredGridLayoutManager); // set LayoutManager to RecyclerView
 
 
         fragmentVideoBinding.refreshView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                pageIndex=0;
                 callVideoGalleryPullData();
-                fragmentVideoBinding.refreshView.setRefreshing(false);
+
             }
         });
 
@@ -292,14 +295,16 @@ public class VideoFragment extends Fragment {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-
+                lastPositions = new int[staggeredGridLayoutManager.getSpanCount()];
+                lastPositions = staggeredGridLayoutManager.findLastCompletelyVisibleItemPositions(lastPositions);
+                lastVisibleItem = Math.max(lastPositions[0], lastPositions[1]);//findMax(lastPositions);
 
                 if (!isLoading) {
-                    if (gridLayoutManager != null && gridLayoutManager.findLastCompletelyVisibleItemPosition() == videoDetailModelsList.size() - 1) {
+                    if (staggeredGridLayoutManager != null && lastVisibleItem == videoDetailModelsList.size() - 1) {
                         //bottom of list!
                         ispull = false;
                         pageIndex = pageIndex + 1;
-                        fragmentVideoBinding.progressBar.setVisibility(View.VISIBLE);
+                        fragmentVideoBinding.bottomProgressbarLayout.setVisibility(View.VISIBLE);
                         loadMore();
 
                     }
@@ -338,7 +343,7 @@ public class VideoFragment extends Fragment {
                     if (imageMainModel.getData() != null) {
                         fragmentVideoBinding.shimmerViewContainer.stopShimmerAnimation();
                         fragmentVideoBinding.shimmerViewContainer.setVisibility(View.GONE);
-                        fragmentVideoBinding.progressBar.setVisibility(View.GONE);
+                        fragmentVideoBinding.bottomProgressbarLayout.setVisibility(View.GONE);
                         videoDetailModelsList = imageMainModel.getData();
 
                         addOldNewValue(videoDetailModelsList);
@@ -428,8 +433,14 @@ public class VideoFragment extends Fragment {
 
                         videoUrl.clear();
                         videoDetailModelsList = videoMainModel.getData();
-                        addOldNewValue(videoDetailModelsList);
-                            fillVideoGallery();
+
+                         isLoading=false;
+                        staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, 1);
+                        fragmentVideoBinding.videoRcvList.setLayoutManager(staggeredGridLayoutManager);
+                        videoListAdapter = new VideoListAdapter(mContext,getActivity(), videoDetailModelsList);
+                        fragmentVideoBinding.videoRcvList.setAdapter(videoListAdapter);
+                        fragmentVideoBinding.refreshView.setRefreshing(false);
+
 
                     }
 
@@ -450,7 +461,7 @@ public class VideoFragment extends Fragment {
 
     private Map<String, String> getVideoGalleryPullData() {
         Map<String, String> map = new HashMap<>();
-        map.put("PageIndex", "0");
+        map.put("PageIndex",String.valueOf(pageIndex));
         map.put("PageSize", "20");
         map.put("MemberId",String.valueOf(Utils.getAppUserId(mContext)));
         return map;

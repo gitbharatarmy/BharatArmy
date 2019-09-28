@@ -40,7 +40,7 @@ public class CommentActivity extends AppCompatActivity implements View.OnClickLi
 
     ActivityCommentBinding activityCommentBinding;
     Context mContext;
-    String selecteditem, memberIdStr, referenceIdStr, sourceTypeStr, commentNotesStr;
+    String selecteditem, memberIdStr, referenceIdStr, sourceTypeStr, commentNotesStr,titleStr;
     CommentListAdapter commentListAdapter;
     boolean isLoading = false;
     LinearLayoutManager mLayoutManager;
@@ -62,11 +62,12 @@ public class CommentActivity extends AppCompatActivity implements View.OnClickLi
         memberIdStr = String.valueOf(Utils.getAppUserId(mContext));
         referenceIdStr = getIntent().getStringExtra("referenceId");
         sourceTypeStr = getIntent().getStringExtra("sourceType");
+        titleStr=getIntent().getStringExtra("pageTitle");
 
 
         Log.d("referenceIdStr :",referenceIdStr);
         activityCommentBinding.shimmerViewContainer.startShimmerAnimation();
-        activityCommentBinding.toolbarTitleTxt.setText("Comments");
+        activityCommentBinding.toolbarTitleTxt.setText(titleStr);
         callGetAddCommentData();
 
         // Spinner Drop down elements

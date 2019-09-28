@@ -82,6 +82,13 @@
     <string name="enter_no" translatable="false">phone number</string>
     <string name="send" translatable="false">Send</string>
     <string name="verify" translatable="false">Verified</string>
+    <string name="address_line1" translatable="false">Address Line1</string>
+    <string name="address_line2" translatable="false">Address Line2</string>
+    <string name="country" translatable="false">Country</string>
+    <string name="state" translatable="false">States</string>
+    <string name="city" translatable="false">City</string>
+    <string name="pincode" translatable="false">Pincode</string>
+    <string name="area" translatable="false">Area</string>
 
     <!--Dashboard String-->
     <string name="home" translatable="false">Home</string>
@@ -100,6 +107,7 @@
     <string name="story" translatable="false">Story</string>
     <string name="exception_not_enough_items" translatable="false">Items list should have minimum 3 items</string>
     <string name="exception_too_many_items" translatable="false">Items list should have maximum 5 items</string>
+    <string name="view_profile" translatable="false"><u>View Profile</u></string>
 
 
     <!--Image Upload String-->

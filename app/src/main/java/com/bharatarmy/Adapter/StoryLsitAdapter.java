@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bharatarmy.Activity.StoryAuthorActivity;
@@ -35,12 +36,13 @@ public class StoryLsitAdapter extends RecyclerView.Adapter<StoryLsitAdapter.Item
     Context mContext;
     image_click image_click;
     private ArrayList<String> dataCheck;
+FragmentActivity activity;
 
-
-    public StoryLsitAdapter(Context mContext, List<ImageDetailModel> itemList, image_click image_click) {
+    public StoryLsitAdapter(Context mContext, List<ImageDetailModel> itemList, FragmentActivity activity, image_click image_click) {
         this.mContext = mContext;
         this.mItemList = itemList;
         this.image_click = image_click;
+        this.activity=activity;
     }
 
     @NonNull
@@ -83,6 +85,11 @@ public class StoryLsitAdapter extends RecyclerView.Adapter<StoryLsitAdapter.Item
         viewHolder.storyItemListBinding.armyStoryHeaderTxt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Utils.viewsMemberId=String.valueOf(Utils.getAppUserId(mContext));
+                Utils.viewsReferenceId=String.valueOf(detail.getBAStoryId());
+                Utils.viewsSourceType="3";
+                Utils.viewsTokenId= Utils.getPref(mContext, "registration_id");
+                Utils.InsertBAViews(mContext,activity);
                 Intent webviewIntent = new Intent(mContext, StoryDetailActivity.class);
                 webviewIntent.putExtra("Story Heading", detail.getStoryTitle());
                 webviewIntent.putExtra("StroyUrl", detail.getStoryWebURL());
@@ -99,6 +106,11 @@ public class StoryLsitAdapter extends RecyclerView.Adapter<StoryLsitAdapter.Item
         viewHolder.storyItemListBinding.headerBannerRcv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Utils.viewsMemberId=String.valueOf(Utils.getAppUserId(mContext));
+                Utils.viewsReferenceId=String.valueOf(detail.getBAStoryId());
+                Utils.viewsSourceType="3";
+                Utils.viewsTokenId= Utils.getPref(mContext, "registration_id");
+                Utils.InsertBAViews(mContext,activity);
                 Intent webviewIntent = new Intent(mContext, StoryDetailActivity.class);
                 webviewIntent.putExtra("Story Heading", detail.getStoryTitle());
                 webviewIntent.putExtra("StroyUrl", detail.getStoryWebURL());
@@ -116,6 +128,11 @@ public class StoryLsitAdapter extends RecyclerView.Adapter<StoryLsitAdapter.Item
         viewHolder.storyItemListBinding.armyStorySubTxt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Utils.viewsMemberId=String.valueOf(Utils.getAppUserId(mContext));
+                Utils.viewsReferenceId=String.valueOf(detail.getBAStoryId());
+                Utils.viewsSourceType="3";
+                Utils.viewsTokenId= Utils.getPref(mContext, "registration_id");
+                Utils.InsertBAViews(mContext,activity);
                 Intent webviewIntent = new Intent(mContext, StoryDetailActivity.class);
                 webviewIntent.putExtra("Story Heading", detail.getStoryTitle());
                 webviewIntent.putExtra("StroyUrl", detail.getStoryWebURL());
@@ -131,6 +148,11 @@ public class StoryLsitAdapter extends RecyclerView.Adapter<StoryLsitAdapter.Item
         viewHolder.storyItemListBinding.bottomLinear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Utils.viewsMemberId=String.valueOf(Utils.getAppUserId(mContext));
+                Utils.viewsReferenceId=String.valueOf(detail.getBAStoryId());
+                Utils.viewsSourceType="3";
+                Utils.viewsTokenId= Utils.getPref(mContext, "registration_id");
+                Utils.InsertBAViews(mContext,activity);
                 Intent webviewIntent = new Intent(mContext, StoryDetailActivity.class);
                 webviewIntent.putExtra("Story Heading", detail.getStoryTitle());
                 webviewIntent.putExtra("StroyUrl", detail.getStoryWebURL());
@@ -146,6 +168,11 @@ public class StoryLsitAdapter extends RecyclerView.Adapter<StoryLsitAdapter.Item
         viewHolder.storyItemListBinding.authorLinear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Utils.viewsMemberId=String.valueOf(Utils.getAppUserId(mContext));
+                Utils.viewsReferenceId=String.valueOf(detail.getBAStoryId());
+                Utils.viewsSourceType="3";
+                Utils.viewsTokenId= Utils.getPref(mContext, "registration_id");
+                Utils.InsertBAViews(mContext,activity);
                 Intent authorIntent=new Intent(mContext, StoryAuthorActivity.class);
                 authorIntent.putExtra("StoryauthorId", detail.getAuthorId());
                 authorIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

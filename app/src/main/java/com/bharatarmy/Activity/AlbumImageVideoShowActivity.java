@@ -61,12 +61,12 @@ public class AlbumImageVideoShowActivity extends AppCompatActivity implements Vi
     public void setImage() {
         activityAlbumImageVideoShowBinding.showAlbumImage.setVisibility(View.VISIBLE);
         activityAlbumImageVideoShowBinding.playAlbumvideo.setVisibility(View.GONE);
-        activityAlbumImageVideoShowBinding.progressBar.setVisibility(View.GONE);
+        activityAlbumImageVideoShowBinding.imageProgress.setVisibility(View.GONE);
         Utils.setImageInImageView(pathStr, activityAlbumImageVideoShowBinding.showAlbumImage, mContext);
     }
 
     public void setVideo() {
-        activityAlbumImageVideoShowBinding.progressBar.setVisibility(View.VISIBLE);
+        activityAlbumImageVideoShowBinding.imageProgress.setVisibility(View.VISIBLE);
         activityAlbumImageVideoShowBinding.playAlbumvideo.setVisibility(View.VISIBLE);
         activityAlbumImageVideoShowBinding.showAlbumImage.setVisibility(View.GONE);
         activityAlbumImageVideoShowBinding.videoViewThumbnail.setVisibility(View.VISIBLE);
@@ -84,7 +84,7 @@ public class AlbumImageVideoShowActivity extends AppCompatActivity implements Vi
             public void onPrepared(MediaPlayer mp) {
                 mp.setLooping(true);
                 activityAlbumImageVideoShowBinding.videoViewThumbnail.setVisibility(View.GONE);
-                activityAlbumImageVideoShowBinding.progressBar.setVisibility(View.GONE);
+                activityAlbumImageVideoShowBinding.imageProgress.setVisibility(View.GONE);
                 activityAlbumImageVideoShowBinding.playAlbumvideo.start();
 
             }

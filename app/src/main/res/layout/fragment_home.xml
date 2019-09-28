@@ -373,10 +373,101 @@
 
                     </LinearLayout>
                 </RelativeLayout>
+
+
             </LinearLayout>
 
         </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/display_userprofile_linear"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_18sdp"
+                android:layout_marginLeft="@dimen/_15sdp"
+                android:layout_marginRight="@dimen/_15sdp"
+                android:background="@drawable/profile_background_shape"
+                android:elevation="3dp"
+                android:orientation="vertical"
+                app:cardMaxElevation="6dp"
+                android:visibility="visible">
+
+                <RelativeLayout
+                    android:id="@+id/userprofile_relv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <ImageView
+                        android:layout_width="@dimen/_60sdp"
+                        android:layout_height="@dimen/_60sdp"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginRight="@dimen/_7sdp"
+                        android:src="@drawable/team"
+                        android:scaleType="fitEnd"
+                        android:tint="@color/gray"/>
+                    <ProgressBar
+                        android:id="@+id/circularProgressbar"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:layout_width="@dimen/_80sdp"
+                        android:layout_height="@dimen/_80sdp"
+                        android:layout_centerVertical="true"
+                        android:indeterminate="false"
+                        android:max="100"
+                        android:progress="75"
+                        android:progressDrawable="@drawable/circular"
+                        android:secondaryProgress="100" />
+                    <TextView
+                        android:id="@+id/tv"
+                        android:layout_width="@dimen/_80sdp"
+                        android:layout_height="@dimen/_80sdp"
+                        android:layout_centerVertical="true"
+                        android:gravity="center"
+                        android:text="75%"
+                        android:textColor="@color/normal_font_color"
+                        android:textSize="@dimen/_12sdp"
+                        style="@style/title_text_font"/>
+            <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_height="match_parent"
+               android:orientation="vertical"
+               android:layout_marginTop="@dimen/_10sdp"
+               android:layout_toRightOf="@+id/circularProgressbar"
+                android:layout_marginLeft="@dimen/_5sdp">
+                    <TextView
+                        android:id="@+id/userprofile_name_txt"
+                        style="@style/title_text_font"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Profile Name"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:textColor="@color/heading_bg"
+                        android:textSize="@dimen/_18sdp"
+                        android:textStyle="normal" />
+                   <TextView
+                        android:id="@+id/userprofile_number_viewtxt"
+                        style="@style/title_text_font"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="9582367410"
+                        android:textColor="@color/unselected_icon_color"
+                        android:textSize="@dimen/_9sdp"
+                        android:textStyle="normal" />
+                    <TextView
+                        android:id="@+id/userprofile_viewtxt"
+                        style="@style/title_text_font"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:text="@string/view_profile"
+                        android:textColor="@color/unselected_icon_color"
+                        android:textSize="@dimen/_10sdp"
+                        android:textStyle="normal" />
+              </LinearLayout>
+                </RelativeLayout>
+
+
+            </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

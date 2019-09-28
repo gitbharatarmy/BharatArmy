@@ -1,6 +1,7 @@
 package com.bharatarmy.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,18 +13,27 @@ import android.os.Bundle;
 import android.util.Log;
 import android.util.Rational;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.bharatarmy.Adapter.VideoDetailHorizontalVideoAdapter;
 import com.bharatarmy.Interfaces.image_click;
 import com.bharatarmy.Models.ImageDetailModel;
 import com.bharatarmy.Models.ImageMainModel;
+import com.bharatarmy.Models.LogginModel;
+import com.bharatarmy.Models.LoginDataModel;
+import com.bharatarmy.Models.MyScreenChnagesModel;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.ApiHandler;
+import com.bharatarmy.Utility.AppConfiguration;
 import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.VideoModule.FullscreenVideoView;
 import com.facebook.shimmer.ShimmerFrameLayout;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,16 +44,16 @@ import retrofit.client.Response;
 public class VideoDetailHorizontalActivity extends AppCompatActivity implements View.OnClickListener {
 
     Context mContext;
-    String videoUrlStr, videoNameStr,videoUserNameStr, whereToComeStr, videoLike;
+    String videoUrlStr, videoNameStr,videoUserNameStr, whereToComeStr, videoLike,videoThumbStr,videoDescriptionStr;
     FullscreenVideoView fullscreenHorizontalVideoView;
     LinearLayout backImg, picturemode_linear;
     RecyclerView related_horizontal_video_rcyList;
     ShimmerFrameLayout shimmerFrameLayout;
     VideoDetailHorizontalVideoAdapter relatedhorizontalVideoAdapter;
     List<ImageDetailModel> videoDetailModelsList;
-    String imageClickData;
-
-
+    String imageClickData,videoIdStr;
+    LoginDataModel postedDataList;
+ImageView videoView_thumbnail;
     View mBottomLayout;
 
     @Override
@@ -54,6 +64,7 @@ public class VideoDetailHorizontalActivity extends AppCompatActivity implements 
 
         mContext = VideoDetailHorizontalActivity.this;
 
+        EventBus.getDefault().register(this);
 
         init();
         setDataValue();
@@ -78,7 +89,7 @@ public class VideoDetailHorizontalActivity extends AppCompatActivity implements 
             picturemode_linear.setVisibility(View.GONE);
         }
 
-        callVideoGalleryData();
+
     }
 
     public void setDataValue() {
@@ -87,16 +98,41 @@ public class VideoDetailHorizontalActivity extends AppCompatActivity implements 
         videoUserNameStr=getIntent().getStringExtra("videoUserName");
         whereToComeStr = getIntent().getStringExtra("WhereToVideoCome");
         videoLike=getIntent().getStringExtra("videoLike");
+        videoIdStr = getIntent().getStringExtra("videoId");
+        videoThumbStr=getIntent().getStringExtra("videoThumb");
+
+
+        AppConfiguration.videoThumbStr=videoThumbStr;
+
+
+
 
         fullscreenHorizontalVideoView.videoUrl(videoUrlStr)
                 .enableAutoStart()
                 .addSeekBackwardButton()
                 .addSeekForwardButton();
+
+
+        callRelatedVideoGalleryData();
+
+
+    }
+
+    @Subscribe
+    public void customEventReceived(MyScreenChnagesModel event){
+        Log.d("event :",event.getMessage());
+        if (event.getMessage().equalsIgnoreCase("true")){
+//            videoView_thumbnail.setVisibility(View.GONE);
+            fullscreenHorizontalVideoView.getLayoutParams().height= RecyclerView.LayoutParams.WRAP_CONTENT;
+        }else{
+            fullscreenHorizontalVideoView.getLayoutParams().height= RecyclerView.LayoutParams.WRAP_CONTENT;
+        }
     }
 
     public void setListiner() {
         backImg.setOnClickListener(this);
         picturemode_linear.setOnClickListener(this);
+
     }
 
     @Override
@@ -108,10 +144,13 @@ public class VideoDetailHorizontalActivity extends AppCompatActivity implements 
             case R.id.picturemode_linear:
                 pictureInPictureMode();
                 break;
+
         }
     }
 
+
     private void pictureInPictureMode() {
+
         Rational aspectRatio = new Rational(fullscreenHorizontalVideoView.getWidth(), fullscreenHorizontalVideoView.getHeight());
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             PictureInPictureParams.Builder pictureInPictureParamsBuilder =
@@ -123,13 +162,18 @@ public class VideoDetailHorizontalActivity extends AppCompatActivity implements 
     }
 
     @Override
+    public void onPictureInPictureModeChanged(boolean isInPictureInPictureMode) {
+        super.onPictureInPictureModeChanged(isInPictureInPictureMode);
+    }
+
+    @Override
     public void onBackPressed() {
         VideoDetailHorizontalActivity.this.finish();
     }
 
 
     // Api calling GetVideoGalleryData
-    public void callVideoGalleryData() {
+    public void callRelatedVideoGalleryData() {
         if (!Utils.checkNetwork(mContext)) {
             Utils.showCustomDialog(getResources().getString(R.string.internet_error), getResources().getString(R.string.internet_connection_error), VideoDetailHorizontalActivity.this);
             return;
@@ -137,31 +181,29 @@ public class VideoDetailHorizontalActivity extends AppCompatActivity implements 
 
 //        Utils.showDialog(mContext);
 
-        ApiHandler.getApiService().getBAVideoGallery(getVideoGalleryData(), new retrofit.Callback<ImageMainModel>() {
+        ApiHandler.getApiService().getBARelatedVideos(getVideoGalleryData(), new retrofit.Callback<ImageMainModel>() {
             @Override
-            public void success(ImageMainModel imageMainModel, Response response) {
+            public void success(ImageMainModel relatedHorizontalVideoModel, Response response) {
                 Utils.dismissDialog();
-                if (imageMainModel == null) {
+                if (relatedHorizontalVideoModel == null) {
                     Utils.ping(mContext, getString(R.string.something_wrong));
                     return;
                 }
-                if (imageMainModel.getIsValid() == null) {
+                if (relatedHorizontalVideoModel.getIsValid() == null) {
                     Utils.ping(mContext, getString(R.string.something_wrong));
                     return;
                 }
-                if (imageMainModel.getIsValid() == 0) {
+                if (relatedHorizontalVideoModel.getIsValid() == 0) {
                     Utils.ping(mContext, getString(R.string.false_msg));
                     return;
                 }
-                if (imageMainModel.getIsValid() == 1) {
+                if (relatedHorizontalVideoModel.getIsValid() == 1) {
 
-                    if (imageMainModel.getData() != null) {
-                        shimmerFrameLayout.stopShimmerAnimation();
-                        shimmerFrameLayout.setVisibility(View.GONE);
-                        related_horizontal_video_rcyList.setVisibility(View.VISIBLE);
-                        videoDetailModelsList = imageMainModel.getData();
-                        fillVideoDetailGallery();
+                    if (relatedHorizontalVideoModel.getData() != null) {
+                        videoDetailModelsList = relatedHorizontalVideoModel.getData();
 
+
+                        callPostedViewData();
                     }
 
                 }
@@ -181,40 +223,86 @@ public class VideoDetailHorizontalActivity extends AppCompatActivity implements 
 
     private Map<String, String> getVideoGalleryData() {
         Map<String, String> map = new HashMap<>();
+        map.put("CurrentVideoId",videoIdStr);
         map.put("PageIndex", "0");
         map.put("PageSize", "20");
+        map.put("MemberId",String.valueOf(Utils.getAppUserId(mContext)));
         return map;
     }
 
     public void fillVideoDetailGallery() {
 
         relatedhorizontalVideoAdapter = new VideoDetailHorizontalVideoAdapter(mContext,VideoDetailHorizontalActivity.this, videoDetailModelsList,
-                videoNameStr,videoUserNameStr,videoLike, new image_click() {
-            @Override
-            public void image_more_click() {
-                imageClickData = "";
-                imageClickData = String.valueOf(relatedhorizontalVideoAdapter.getData());
-                imageClickData = imageClickData.replaceAll("\\[", "").replaceAll("\\]", "");
-                String[] spiltvalue = imageClickData.split("\\|");
-
-
-                Log.d("imageClickData :", imageClickData + " spiltvalue :" + spiltvalue[0] + "spiltvalue1:" + spiltvalue[1]);
-
-                videoUrlStr = spiltvalue[0];
-                videoNameStr = spiltvalue[1];
-
-
-
-                fullscreenHorizontalVideoView.videoUrl(videoUrlStr)
-                        .enableAutoStart()
-                        .addSeekBackwardButton()
-                        .addSeekForwardButton();
-            }
-        });
+                videoNameStr,videoUserNameStr,videoLike,postedDataList,videoIdStr);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(mContext, RecyclerView.VERTICAL, false);
         related_horizontal_video_rcyList.setLayoutManager(mLayoutManager);
         related_horizontal_video_rcyList.setItemAnimator(new DefaultItemAnimator());
         related_horizontal_video_rcyList.setAdapter(relatedhorizontalVideoAdapter);
 
+    }
+
+    // Api calling GetVideoGalleryData
+    public void callPostedViewData() {
+        if (!Utils.checkNetwork(mContext)) {
+            Utils.showCustomDialog(getResources().getString(R.string.internet_error), getResources().getString(R.string.internet_connection_error), VideoDetailHorizontalActivity.this);
+            return;
+        }
+
+//        Utils.showDialog(mContext);
+
+        ApiHandler.getApiService().getBAPostStatistics(getPostedData(), new retrofit.Callback<LogginModel>() {
+            @Override
+            public void success(LogginModel postedDataModel, Response response) {
+                Utils.dismissDialog();
+                if (postedDataModel == null) {
+                    Utils.ping(mContext, getString(R.string.something_wrong));
+                    return;
+                }
+                if (postedDataModel.getIsValid() == null) {
+                    Utils.ping(mContext, getString(R.string.something_wrong));
+                    return;
+                }
+                if (postedDataModel.getIsValid() == 0) {
+//                    Utils.ping(mContext, getString(R.string.false_msg));
+                    postedDataList=postedDataModel.getData();
+                    shimmerFrameLayout.stopShimmerAnimation();
+                    shimmerFrameLayout.setVisibility(View.GONE);
+                    related_horizontal_video_rcyList.setVisibility(View.VISIBLE);
+
+                    fillVideoDetailGallery();
+                    return;
+                }
+                if (postedDataModel.getIsValid() == 1) {
+
+                    if (postedDataModel.getData() != null) {
+                        postedDataList=postedDataModel.getData();
+                        shimmerFrameLayout.stopShimmerAnimation();
+                        shimmerFrameLayout.setVisibility(View.GONE);
+                        related_horizontal_video_rcyList.setVisibility(View.VISIBLE);
+
+                        fillVideoDetailGallery();
+                    }
+
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Utils.dismissDialog();
+                error.printStackTrace();
+                error.getMessage();
+                Utils.ping(mContext, getString(R.string.something_wrong));
+            }
+        });
+
+
+    }
+
+    private Map<String, String> getPostedData() {
+        Map<String, String> map = new HashMap<>();
+        map.put("MemberId", String.valueOf(Utils.getAppUserId(mContext)));
+        map.put("PostId", videoIdStr);
+        map.put("SourceType", "2");
+        return map;
     }
 }

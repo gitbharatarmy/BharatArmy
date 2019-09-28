@@ -171,6 +171,7 @@ public class MoreFragment extends Fragment implements View.OnClickListener {
                                 Utils.setPref(mContext, "IsLoginUser", "");
                                 Utils.ping(mContext, "You are logout suceessfully");
                                 Intent ilogin = new Intent(mContext, LoginActivity.class);
+                                ilogin.putExtra("whereTocomeLogin","logout");
                                 startActivity(ilogin);
 
                             }

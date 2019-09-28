@@ -19,7 +19,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bharatarmy.Adapter.VideoDetailHorizontalVideoAdapter;
 import com.bharatarmy.Models.ImageMainModel;
+import com.bharatarmy.Models.LogginModel;
+import com.bharatarmy.Models.LoginDataModel;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.ApiHandler;
 import com.bharatarmy.Utility.AppConfiguration;
@@ -48,7 +51,7 @@ public class StoryDetailActivity extends AppCompatActivity implements View.OnCli
     int storyId;
     boolean likeflag =false;
     ImageMainModel storyDetailDataList;
-
+LoginDataModel postedDataList;
 
     @Override
 
@@ -236,7 +239,8 @@ public class StoryDetailActivity extends AppCompatActivity implements View.OnCli
                     if (imageMainModel.getData() != null) {
                         storyDetailDataList = imageMainModel;
 
-                        setAPIValue();
+                        callPostedViewData();
+//                        setAPIValue();
                     }
 
                 }
@@ -257,11 +261,49 @@ public class StoryDetailActivity extends AppCompatActivity implements View.OnCli
     private Map<String, String> getStoryDetailData() {
         Map<String, String> map = new HashMap<>();
         map.put("StoryId", String.valueOf(storyId));
+        map.put("MemberId",String.valueOf(Utils.getAppUserId(mContext)));
+        map.put("TokenId",Utils.getPref(mContext, "registration_id"));
         return map;
     }
 
 
     public void setAPIValue() {
+        if (postedDataList!=null){
+            if (postedDataList.getLikes()!=null){
+                if (postedDataList.getLikes().equals(0)){
+                    activityStoryDetailBinding.uprStoryTotalLikeTxt.setText("");
+                }else{
+                    activityStoryDetailBinding.uprStoryTotalLikeTxt.setText(String.valueOf(postedDataList.getLikes()));
+                }
+            }
+        }
+        if (postedDataList!=null){
+            if (postedDataList.getPosted()!=null){
+                if (postedDataList.getPosted().equals(0)){
+                    activityStoryDetailBinding.totalPostedTxt.setText("");
+                }else{
+                    activityStoryDetailBinding.totalPostedTxt.setText(String.valueOf(postedDataList.getPosted()));
+                }
+            }
+        }
+        if (postedDataList!=null){
+            if (postedDataList.getComments()!=null){
+                if (postedDataList.getComments().equals(0)){
+                    activityStoryDetailBinding.totalCommentTxt.setText("");
+                }else{
+                    activityStoryDetailBinding.totalCommentTxt.setText(String.valueOf(postedDataList.getComments()));
+                }
+            }
+        }
+        if (postedDataList!=null){
+            if (postedDataList.getPostView()!=null){
+                if (postedDataList.getPostView().equals(0)){
+                    activityStoryDetailBinding.totalViewTxt.setText("");
+                }else{
+                    activityStoryDetailBinding.totalViewTxt.setText(String.valueOf(postedDataList.getPostView()));
+                }
+            }
+        }
         //Font must be placed in assets/fonts folder
         String text = "<html><style type='text/css'>@font-face { font-family: thesansplain; src: url('fonts/thesansplain.ttf'); } body p {font-family: thesansplain;}</style>"
                 + "<body >" + "<p align=\"justify\" style=\"font-size: 22px; font-family: spqr;\">" + storyDetailDataList.getData().get(0).getStoryDescription() + "</p> " + "</body></html>";
@@ -269,6 +311,14 @@ public class StoryDetailActivity extends AppCompatActivity implements View.OnCli
         activityStoryDetailBinding.shimmerViewContainer.stopShimmerAnimation();
         activityStoryDetailBinding.shimmerViewContainer.setVisibility(View.GONE);
         activityStoryDetailBinding.auhtorStoryDetailView.setVisibility(View.VISIBLE);
+
+        if (storyDetailDataList.getData().get(0).getIsLike().equals(1)){
+            activityStoryDetailBinding.uprStoryLikeBtn.setLiked(true);
+            activityStoryDetailBinding.bottomStoryLikeBtn.setLiked(true);
+        }else{
+            activityStoryDetailBinding.uprStoryLikeBtn.setLiked(false);
+            activityStoryDetailBinding.bottomStoryLikeBtn.setLiked(false);
+        }
         activityStoryDetailBinding.storyDetailView.getSettings().setJavaScriptEnabled(true);
 
         Log.d("data", storyDetailDataList.getData().get(0).getStoryDescription());
@@ -297,6 +347,7 @@ public class StoryDetailActivity extends AppCompatActivity implements View.OnCli
             Intent commentIntent = new Intent(mContext, CommentActivity.class);
             commentIntent.putExtra("referenceId", String.valueOf(storyId));
             commentIntent.putExtra("sourceType", "3");
+            commentIntent.putExtra("pageTitle",storyHeadingStr);
             mContext.startActivity(commentIntent);
         }
     }
@@ -308,6 +359,71 @@ public class StoryDetailActivity extends AppCompatActivity implements View.OnCli
             Utils.LikeSourceType = 3;
             Utils.LikeStatus = likestatus;
             Utils.InsertLike(mContext, StoryDetailActivity.this);
+            int likeunlikecount=0;
+            likeunlikecount= Integer.parseInt(activityStoryDetailBinding.uprStoryTotalLikeTxt.getText().toString());
+if (Utils.LikeStatus==1){
+    activityStoryDetailBinding.uprStoryTotalLikeTxt.setText(String.valueOf(likeunlikecount+1));
+}else{
+    activityStoryDetailBinding.uprStoryTotalLikeTxt.setText(String.valueOf(likeunlikecount-1));
+}
+
         }
+    }
+
+    // Api calling GetVideoGalleryData
+    public void callPostedViewData() {
+        if (!Utils.checkNetwork(mContext)) {
+            Utils.showCustomDialog(getResources().getString(R.string.internet_error), getResources().getString(R.string.internet_connection_error), StoryDetailActivity.this);
+            return;
+        }
+
+//        Utils.showDialog(mContext);
+
+        ApiHandler.getApiService().getBAPostStatistics(getPostedData(), new retrofit.Callback<LogginModel>() {
+            @Override
+            public void success(LogginModel postedDataModel, Response response) {
+                Utils.dismissDialog();
+                if (postedDataModel == null) {
+                    Utils.ping(mContext, getString(R.string.something_wrong));
+                    return;
+                }
+                if (postedDataModel.getIsValid() == null) {
+                    Utils.ping(mContext, getString(R.string.something_wrong));
+                    return;
+                }
+                if (postedDataModel.getIsValid() == 0) {
+//                    Utils.ping(mContext, getString(R.string.false_msg));
+                    postedDataList=postedDataModel.getData();
+                   setAPIValue();
+                    return;
+                }
+                if (postedDataModel.getIsValid() == 1) {
+
+                    if (postedDataModel.getData() != null) {
+                        postedDataList=postedDataModel.getData();
+                        setAPIValue();
+                    }
+
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Utils.dismissDialog();
+                error.printStackTrace();
+                error.getMessage();
+                Utils.ping(mContext, getString(R.string.something_wrong));
+            }
+        });
+
+
+    }
+
+    private Map<String, String> getPostedData() {
+        Map<String, String> map = new HashMap<>();
+        map.put("MemberId", String.valueOf(Utils.getAppUserId(mContext)));
+        map.put("PostId", String.valueOf(storyId));
+        map.put("SourceType", "3");
+        return map;
     }
 }

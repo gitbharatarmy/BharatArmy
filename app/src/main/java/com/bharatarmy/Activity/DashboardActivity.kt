@@ -195,6 +195,10 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, StoryFragme
                     bottomNavigation.show(5, true)
                     fragment = MoreFragment()
                     loadFragment(fragment as MoreFragment)
+                }else if(page.equals("4",ignoreCase = true)) {
+                    bottomNavigation.show(4, true)
+                    fragment = StoryFragment()
+                    loadFragment(fragment as StoryFragment)
                 } else {
                     bottomNavigation.show(3, true)
                     fragment = HomeFragment()

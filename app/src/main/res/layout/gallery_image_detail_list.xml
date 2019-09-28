@@ -69,7 +69,7 @@
             android:orientation="horizontal"
             android:background="@color/colorGrey300"
             android:layout_marginLeft="@dimen/_12sdp"
-            android:layout_marginRight="@dimen/_20sdp"/>
+            android:layout_marginRight="@dimen/_12sdp"/>
 
     <LinearLayout
         android:id="@+id/share_article_linear"

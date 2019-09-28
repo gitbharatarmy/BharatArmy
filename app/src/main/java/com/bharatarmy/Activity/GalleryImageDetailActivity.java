@@ -165,7 +165,7 @@ imageLike=stringArrayList.getStringArrayList("dataLike");
             activityGalleryImageDetailBinding.prevImg.setClickable(true);
             activityGalleryImageDetailBinding.nextImg.setClickable(false);
             activityGalleryImageDetailBinding.nextImg.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
-            activityGalleryImageDetailBinding.prevImg.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+            activityGalleryImageDetailBinding.prevImg.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_back, 0, 0, 0);
         } else if (currentVisibleItem != 0) {
             activityGalleryImageDetailBinding.nextImg.setClickable(true);
             activityGalleryImageDetailBinding.prevImg.setClickable(true);
@@ -175,8 +175,9 @@ imageLike=stringArrayList.getStringArrayList("dataLike");
             activityGalleryImageDetailBinding.prevImg.setClickable(false);
             activityGalleryImageDetailBinding.nextImg.setClickable(true);
             activityGalleryImageDetailBinding.prevImg.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
-            activityGalleryImageDetailBinding.nextImg.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_back, 0, 0, 0);
+            activityGalleryImageDetailBinding.nextImg.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_next, 0);
         }
+
         if (scroll) {
             activityGalleryImageDetailBinding.imageDetailRcvList.smoothScrollToPosition(currentVisibleItem);
         }

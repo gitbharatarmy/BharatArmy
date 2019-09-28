@@ -94,9 +94,6 @@ Uri uri;
         holder.galleryImageDetailListBinding.uploadimageDurationtxt.setText(imageDuration.get(position));
         Log.d("userName :", userNameList.get(position));
 
-        Utils.LikeMemberId = Utils.getAppUserId(mContext);
-        Utils.LikeReferenceId = Integer.parseInt(imageId.get(position));
-        Utils.LikeSourceType = 1;
 
         if (imageLike.get(position).equalsIgnoreCase("1")){
             holder.galleryImageDetailListBinding.bottomImageLikeBtn.setLiked(true);
@@ -108,6 +105,10 @@ Uri uri;
             @Override
             public void liked(LikeButton likeButton) {
                 if (Utils.isMember(mContext,"ImageUpload")){
+                    Utils.LikeMemberId = Utils.getAppUserId(mContext);
+                    Utils.LikeReferenceId = Integer.parseInt(imageId.get(position));
+                    Utils.LikeSourceType = 1;
+
                     Utils.LikeStatus = 1;
                     Utils.InsertLike(mContext, activity);
                 }
@@ -117,6 +118,10 @@ Uri uri;
             @Override
             public void unLiked(LikeButton likeButton) {
                 if (Utils.isMember(mContext,"ImageUpload")){
+                    Utils.LikeMemberId = Utils.getAppUserId(mContext);
+                    Utils.LikeReferenceId = Integer.parseInt(imageId.get(position));
+                    Utils.LikeSourceType = 1;
+
                     Utils.LikeStatus = 0;
                     Utils.InsertLike(mContext, activity);
                 }
@@ -131,6 +136,7 @@ Uri uri;
                     Intent commentIntent = new Intent(mContext, CommentActivity.class);
                     commentIntent.putExtra("referenceId",imageId.get(position));
                     commentIntent.putExtra("sourceType","1");
+                    commentIntent.putExtra("pageTitle","Gallery Comments");
                     mContext.startActivity(commentIntent);
                 }
             }

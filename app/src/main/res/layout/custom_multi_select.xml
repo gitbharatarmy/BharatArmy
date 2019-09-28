@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/_450sdp"
+    android:orientation="vertical"
+    android:background="@drawable/match_detail_curveshape">
+    <LinearLayout
+        android:id="@+id/toolbar_linear"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_40sdp"
+        android:background="@drawable/terms_dialog_topview"
+        android:orientation="horizontal"
+        android:weightSum="1">
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="0dp"
+        android:layout_weight="0.5"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:paddingLeft="@dimen/_10sdp"
+        android:text="@string/select_country"
+        style="@style/title_text_font"
+        android:gravity="center_vertical"
+        android:textSize="@dimen/_14sdp"
+        android:textColor="@color/splash_bg_color" />
+
+        <TextView
+            android:id="@+id/close_btn1"
+            style="@style/title_text_font"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:gravity="center_vertical|right"
+            android:text="x"
+            android:paddingRight="@dimen/_20sdp"
+            android:textColor="@color/splash_bg_color"
+            android:textSize="@dimen/_16sdp"
+            android:textStyle="bold" />
+
+
+
+    </LinearLayout>
+    <View
+        android:id="@+id/toolbar_bottom_view"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:layout_alignParentBottom="false"
+        android:layout_below="@+id/toolbar_linear"
+        android:background="@drawable/bg_gradiant_line" />
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/search_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/searchview_margin"
+        android:layout_marginTop="@dimen/searchview_margin"
+        android:iconifiedByDefault="true"
+        android:queryHint="Search" />
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/select_all_container"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/layout_margin"
+        android:background="?android:attr/selectableItemBackground"
+        android:orientation="horizontal">
+
+
+        <CheckBox
+            android:id="@+id/select_all_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:button="@drawable/chk_indicator"
+            android:clickable="false"/>
+
+
+        <TextView
+            android:textAllCaps="true"
+            android:id="@+id/select_all_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/textview_margin"
+            android:layout_marginStart="@dimen/textview_margin"
+            android:textSize="@dimen/font_size_subheading"
+            android:text="@string/select_all"/>
+    </LinearLayout>
+
+
+    <View
+        android:layout_marginTop="@dimen/recyclerview_margin"
+        android:layout_marginBottom="@dimen/searchview_margin"
+        android:layout_marginStart="@dimen/line_margin"
+        android:layout_marginEnd="@dimen/line_margin"
+        android:layout_width="match_parent"
+        android:layout_height="0.1dp"
+        android:visibility="gone"
+        android:background="@color/colorPrimary"/>
+
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <view
+            android:id="@+id/recycler_view"
+            class="com.bharatarmy.RecyclerViewEmptySupport"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <TextView
+            android:id="@+id/list_empty1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="@string/list_empty"
+            android:textSize="@dimen/font_size_normal" />
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/layout_margin"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/text_font"
+            android:id="@+id/cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="end"
+            android:textColor="@color/normal_font_color"
+            android:textSize="@dimen/text_button_size" />
+
+        <TextView
+            style="@style/text_font"
+            android:id="@+id/done"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.2"
+            android:gravity="end"
+            android:textColor="@color/normal_font_color"
+            android:textSize="@dimen/text_button_size" />
+    </LinearLayout>
+</LinearLayout>

@@ -54,6 +54,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     public void setListner() {
+        if (getIntent().getStringExtra("whereTocomeLogin")!=null){
+            if (getIntent().getStringExtra("whereTocomeLogin").equalsIgnoreCase("logout")){
+                loginBinding.backImg.setVisibility(View.GONE);
+            }
+        }
+
         loginBinding.logginBtn.setOnClickListener(this);
         loginBinding.signUpTxt.setOnClickListener(this);
         loginBinding.forgotTxt.setOnClickListener(this);
@@ -179,6 +185,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     } else if(getIntent().getStringExtra("whereTocomeLogin").equalsIgnoreCase("more")){
                         Intent dashintent = new Intent(mContext, DashboardActivity.class);
                         dashintent.putExtra("whichPageRun", "5");
+                        startActivity(dashintent);
+                        finish();
+                    } else if(getIntent().getStringExtra("whereTocomeLogin").equalsIgnoreCase("storyDetail")){
+                        Intent dashintent = new Intent(mContext, DashboardActivity.class);
+                        dashintent.putExtra("whichPageRun", "4");
                         startActivity(dashintent);
                         finish();
                     }

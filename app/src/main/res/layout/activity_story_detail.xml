@@ -166,6 +166,7 @@
                                 app:unlike_drawable="@drawable/ic_likes_blue" />
 
                             <TextView
+                                android:id="@+id/upr_story_total_like_txt"
                                 style="@style/title_text_font"
                                 android:layout_width="wrap_content"
                                 android:layout_height="@dimen/_20sdp"
@@ -193,6 +194,7 @@
                                 android:src="@drawable/ic_share_arrow"
                                 android:tint="@color/heading_bg" />
                             <TextView
+                                android:id="@+id/total_posted_txt"
                                 style="@style/title_text_font"
                                 android:layout_width="wrap_content"
                                 android:layout_height="@dimen/_20sdp"
@@ -222,7 +224,7 @@
                                 android:src="@drawable/ic_comment"
                                 android:tint="@color/heading_bg" />
                             <TextView
-                               android:id="@+id/comment_txt"
+                               android:id="@+id/total_comment_txt"
                                 style="@style/title_text_font"
                                 android:layout_width="wrap_content"
                                 android:layout_height="@dimen/_20sdp"
@@ -252,6 +254,7 @@
                                 android:src="@drawable/ic_eye"
                                 android:tint="@color/heading_bg" />
                             <TextView
+                                android:id="@+id/total_view_txt"
                                 style="@style/title_text_font"
                                 android:layout_width="wrap_content"
                                 android:layout_height="@dimen/_20sdp"

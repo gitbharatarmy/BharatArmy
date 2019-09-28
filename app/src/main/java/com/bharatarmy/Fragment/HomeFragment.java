@@ -29,6 +29,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import com.bharatarmy.Activity.MoreStoryActivity;
+import com.bharatarmy.Activity.MyProfileActivity;
 import com.bharatarmy.Activity.VideoDetailActivity;
 import com.bharatarmy.Adapter.BharatArmyStoriesAdapter;
 import com.bharatarmy.Adapter.MyBgpageAdapter;
@@ -156,6 +157,18 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     }
 
     public void setListiner() {
+
+        if (Utils.retriveLoginData(mContext)!=null){
+            fragmentHomeBinding.displayUserprofileLinear.setVisibility(View.VISIBLE);
+            if (Utils.retriveLoginData(mContext).getName()!=null){
+                fragmentHomeBinding.userprofileNameTxt.setText(Utils.retriveLoginData(mContext).getName());
+            }
+        }else{
+            fragmentHomeBinding.displayUserprofileLinear.setVisibility(View.GONE);
+        }
+
+
+
         //Countdown Timer
         Date endDate = new Date();
         final long[] diffInMilis = new long[1];
@@ -236,6 +249,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
         fragmentHomeBinding.knowMore.setOnClickListener(this);
         fragmentHomeBinding.advImg.setOnClickListener(this);
+        fragmentHomeBinding.userprofileViewtxt.setOnClickListener(this);
     }
 
     // Api calling GetDashboardData
@@ -453,6 +467,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 videoIntent.putExtra("WhereToVideoCome", "Home");
                 videoIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 mContext.startActivity(videoIntent);
+                break;
+            case R.id.userprofile_viewtxt:
+                Intent profileintent=new Intent(mContext, MyProfileActivity.class);
+                profileintent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                mContext.startActivity(profileintent);
                 break;
         }
     }

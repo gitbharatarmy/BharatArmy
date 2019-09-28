@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.viewpager.widget.PagerAdapter;
@@ -39,8 +40,9 @@ public class MyPagerAdapter extends PagerAdapter {
     public Object instantiateItem(ViewGroup container, int position) {
         View inflate = LayoutInflater.from(container.getContext()).inflate(R.layout.cardviewpager_item, container, false);
         LinearLayout template2 = (LinearLayout) inflate.findViewById(R.id.template2);
-        LinearLayout template1 = (LinearLayout) inflate.findViewById(R.id.template1);
+        RelativeLayout template1 = (RelativeLayout) inflate.findViewById(R.id.template1);
         ImageView image = (ImageView) inflate.findViewById(R.id.image);
+        ImageView background_image=(ImageView)inflate.findViewById(R.id.background_image);
         TextView tag_txt = (TextView) inflate.findViewById(R.id.tag_txt);
         TextView item_heading_txt = (TextView) inflate.findViewById(R.id.item_heading_txt);
         TextView item_desc_txt = (TextView) inflate.findViewById(R.id.item_desc_txt);
@@ -68,6 +70,7 @@ public class MyPagerAdapter extends PagerAdapter {
             template2.setVisibility(View.GONE);
             book_linear.setVisibility(View.VISIBLE);
             bottom_gradiant_view.setVisibility(View.VISIBLE);
+//            Utils.setImageInImageView(homeTemplateDetailModelList.get(position),background_image,mContext);
             item_desc_txt.setText(homeTemplateDetailModelList.get(position).getSecondHeaderSubText());
             item_heading_txt.setText(homeTemplateDetailModelList.get(position).getSecondHeaderText());
             book_txt.setText(homeTemplateDetailModelList.get(position).getSecondHeaderButtonText());

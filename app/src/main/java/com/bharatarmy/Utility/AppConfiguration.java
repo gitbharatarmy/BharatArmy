@@ -37,5 +37,12 @@ public class AppConfiguration {
     public static String registerCountryCodeStr;
 
     public static String videoType;
+    public static String screenType="";
+    public static String videoPlay="";
+    public static String videoThumbStr;
+
+    public static String selectedStatesIdStr="";
+    public static String selectedCitiesIdStr="";
+    public static String dialogType;
 
 }

@@ -25,6 +25,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.bharatarmy.Activity.ImageVideoUploadActivity;
 import com.bharatarmy.Activity.VideoTrimActivity;
 import com.bharatarmy.Adapter.AlbumListAdapter;
+import com.bharatarmy.Adapter.VideoListAdapter;
 import com.bharatarmy.Models.ImageDetailModel;
 import com.bharatarmy.Models.ImageMainModel;
 import com.bharatarmy.R;
@@ -171,7 +172,7 @@ public class AlbumFragment extends Fragment {
                         //bottom of list!
                         ispull = false;
                         pageIndex = pageIndex + 1;
-                        fragmentAlbumBinding.progressBar.setVisibility(View.VISIBLE);
+                        fragmentAlbumBinding.bottomProgressbarLayout.setVisibility(View.VISIBLE);
                         loadMore();
 
                     }
@@ -182,8 +183,9 @@ public class AlbumFragment extends Fragment {
         fragmentAlbumBinding.refreshView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                pageIndex=0;
                 callAlbumImagePullData();
-                fragmentAlbumBinding.refreshView.setRefreshing(false);
+
             }
         });
 
@@ -369,7 +371,7 @@ public class AlbumFragment extends Fragment {
                     if (albumMainModel.getData() != null) {
                         fragmentAlbumBinding.shimmerViewContainer.stopShimmerAnimation();
                         fragmentAlbumBinding.shimmerViewContainer.setVisibility(View.GONE);
-                        fragmentAlbumBinding.progressBar.setVisibility(View.GONE);
+                        fragmentAlbumBinding.bottomProgressbarLayout.setVisibility(View.GONE);
                         albumModelList = albumMainModel.getData();
                         Log.d("Albumlist : ", "" + albumModelList.size());
                         addOldNewValue(albumModelList);
@@ -394,7 +396,7 @@ public class AlbumFragment extends Fragment {
                 Utils.dismissDialog();
                 error.printStackTrace();
                 error.getMessage();
-                Utils.ping(mContext, getString(R.string.something_wrong));
+                 Utils.ping(mContext, getString(R.string.something_wrong));
             }
         });
 
@@ -463,9 +465,15 @@ public class AlbumFragment extends Fragment {
                 if (albumMainModel.getIsValid() == 1) {
 
                     if (albumMainModel.getData() != null) {
+                        AlbumUrl.clear();
                         albumModelList = albumMainModel.getData();
-                        addOldNewValue(albumModelList);
-                        albumListAdapter.notifyDataSetChanged();
+
+                        isLoading=false;
+                        staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, 1);
+                        fragmentAlbumBinding.rvPosters.setLayoutManager(staggeredGridLayoutManager);
+                        albumListAdapter = new AlbumListAdapter(mContext, albumModelList);
+                        fragmentAlbumBinding.rvPosters.setAdapter(albumListAdapter);
+                        fragmentAlbumBinding.refreshView.setRefreshing(false);
                     }
 
                 }
@@ -485,7 +493,7 @@ public class AlbumFragment extends Fragment {
 
     private Map<String, String> getAlbumImagePullData() {
         Map<String, String> map = new HashMap<>();
-        map.put("PageIndex", "0");
+        map.put("PageIndex", String.valueOf(pageIndex));
         map.put("PageSize", "20");
         map.put("MemberId", String.valueOf(Utils.getAppUserId(mContext)));
         return map;

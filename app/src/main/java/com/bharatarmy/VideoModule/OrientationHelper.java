@@ -3,6 +3,7 @@ package com.bharatarmy.VideoModule;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.provider.Settings;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -21,8 +22,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.bharatarmy.Interfaces.MorestoryClick;
 import com.bharatarmy.Interfaces.MyLayoutChanges;
+import com.bharatarmy.Models.MyScreenChnagesModel;
 import com.bharatarmy.Utility.AppConfiguration;
+import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.VideoTrimmer.interfaces.OnTrimVideoListener;
+
+import org.greenrobot.eventbus.EventBus;
 
 import static android.content.pm.ActivityInfo.SCREEN_ORIENTATION_PORTRAIT;
 import static android.content.pm.ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE;
@@ -49,20 +54,21 @@ public class OrientationHelper extends OrientationEventListener {
         super(context);
         videoView = fullscreenVideoView;
         contentResolver = context.getContentResolver();
+
     }
 
     public void activateFullscreen() {
         // Update isLandscape flag
-            isLandscape = true;
+        isLandscape = true;
 
-            if (videoViewCallback != null) {
-                videoViewCallback.onFullScaleChange();
-            }
-            // Fullscreen active
-            videoView.onOrientationChanged();
+        if (videoViewCallback != null) {
+            videoViewCallback.onFullScaleChange();
+        }
+        // Fullscreen active
+        videoView.onOrientationChanged();
 
-                // Change the screen orientation to SENSOR_LANDSCAPE
-                setOrientation(landscapeOrientation.getValue());
+        // Change the screen orientation to SENSOR_LANDSCAPE
+        setOrientation(landscapeOrientation.getValue());
 
 
 //        UiUtils.hideOtherViews(getParent());
@@ -70,7 +76,7 @@ public class OrientationHelper extends OrientationEventListener {
         // Save the video player original width and height
         originalWidth = videoView.getWidth();
         originalHeight = videoView.getHeight();
-        Log.d("height ,width","originalHeight :"+originalHeight+"originalWidth :"+originalWidth);
+        Log.d("height ,width", "originalHeight :" + originalHeight + "originalWidth :" + originalWidth);
         updateLayoutParams();
 
         // Hide the supportToolbar
@@ -94,7 +100,7 @@ public class OrientationHelper extends OrientationEventListener {
 ////
 //        params.width =realMetrics.widthPixels;
 //        params.height = realMetrics.heightPixels;
-        params.width =params.MATCH_PARENT;
+        params.width = params.MATCH_PARENT;
         params.height = params.MATCH_PARENT;
         videoView.setLayoutParams(params);
 
@@ -114,13 +120,14 @@ public class OrientationHelper extends OrientationEventListener {
         UiUtils.showOtherViews(getParent());
 
         ViewGroup.LayoutParams params = videoView.getLayoutParams();
-        Log.d("height ,width","originalHeight :"+originalHeight+"originalWidth :"+originalWidth);
+        Log.d("height ,width", "originalHeight :" + originalHeight + "originalWidth :" + originalWidth);
         params.width = originalWidth;
         params.height = originalHeight;
         videoView.setLayoutParams(params);
 
         toggleToolbarVisibility(true);
         toggleSystemUiVisibility();
+
     }
 
     private ViewGroup getParent() {
@@ -176,6 +183,11 @@ public class OrientationHelper extends OrientationEventListener {
 
     private void setOrientation(int orientation) {
         ((Activity) videoView.getContext()).setRequestedOrientation(orientation);
+//        Activity a= (Activity)(videoView.getContext());
+//        a.runOnUiThread(a.setRequestedOrientation(orientation);
+
+        Utils.unwrap(videoView.getContext()).setRequestedOrientation(orientation);
+
     }
 
     public boolean shouldHandleOnBackPressed() {
@@ -188,31 +200,37 @@ public class OrientationHelper extends OrientationEventListener {
 
         return false;
     }
-// change the screen orientation
+
+    // change the screen orientation
     public void toggleFullscreen() {
-        if (AppConfiguration.videoType.equalsIgnoreCase("horizontal")){
+        if (AppConfiguration.videoType.equalsIgnoreCase("horizontal")) {
             isLandscape = !isLandscape;
             int newOrientation = portraitOrientation.getValue();
             if (isLandscape) {
                 newOrientation = landscapeOrientation.getValue();
             }
             setOrientation(newOrientation);
-        }else{
+        } else {
             isLandscape = !isLandscape;
             int newOrientation = portraitOrientation.getValue();
             if (isLandscape) {
                 newOrientation = portraitOrientation.getValue();
             }
             setOrientation(newOrientation);
-if (myLayoutChanges!=null){
-    myLayoutChanges.myLayout(false);
-}
+            if (AppConfiguration.screenType.equalsIgnoreCase("")) {
+                AppConfiguration.screenType = "Full";
+                EventBus.getDefault().post(new MyScreenChnagesModel(AppConfiguration.screenType));
+            }else{
+                AppConfiguration.screenType = "Half";
+                EventBus.getDefault().post(new MyScreenChnagesModel(AppConfiguration.screenType));
+            }
+
+
+
 
         }
 
     }
-
-
 
 
     public void setLandscapeOrientation(LandscapeOrientation landscapeOrientation) {
@@ -264,7 +282,6 @@ if (myLayoutChanges!=null){
     }
 
 
-
     public interface VideoFullViewCallback {
         void onFullScaleChange();
 
@@ -273,7 +290,6 @@ if (myLayoutChanges!=null){
     public void setVideoViewCallback(VideoFullViewCallback callback) {
         this.videoViewCallback = callback;
     }
-
 
 
 }

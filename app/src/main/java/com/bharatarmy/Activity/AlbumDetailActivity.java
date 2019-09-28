@@ -52,7 +52,7 @@ String albumHeadingStr,albumIdStr, albumThumbStr;
     int pageIndex = 0;
     boolean isLoading = false;
     GridLayoutManager gridLayoutManager;
-    boolean ispull;
+
 
     @Override
 
@@ -105,8 +105,9 @@ String albumHeadingStr,albumIdStr, albumThumbStr;
         activityAlbumDetailBinding.albumRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                pageIndex=0;
                 callAlbumPullDetailData();
-                activityAlbumDetailBinding.albumRefreshLayout.setRefreshing(false);
+
             }
         });
 
@@ -124,7 +125,7 @@ String albumHeadingStr,albumIdStr, albumThumbStr;
                         //bottom of list!
                         isLoading = false;
                         pageIndex = pageIndex + 1;
-                        activityAlbumDetailBinding.progressBar.setVisibility(View.VISIBLE);
+                        activityAlbumDetailBinding.bottomProgressbarLayout.setVisibility(View.VISIBLE);
 
                         loadMore();
                     }
@@ -215,7 +216,7 @@ String albumHeadingStr,albumIdStr, albumThumbStr;
                     if (albumDeatilMainModel.getData() != null) {
                         activityAlbumDetailBinding.shimmerViewContainer.stopShimmerAnimation();
                         activityAlbumDetailBinding.shimmerViewContainer.setVisibility(View.GONE);
-                        activityAlbumDetailBinding.progressBar.setVisibility(View.GONE);
+                        activityAlbumDetailBinding.bottomProgressbarLayout.setVisibility(View.GONE);
                         albumdetailDataList = albumDeatilMainModel.getData();
                         Log.d("list : ",""+albumdetailDataList.size());
                         addOldNewValue(albumdetailDataList);
@@ -313,7 +314,9 @@ String albumHeadingStr,albumIdStr, albumThumbStr;
                 if (albumdetailMainModel.getIsValid() == 1) {
 
                     if (albumdetailMainModel.getData() != null) {
-
+                        albumdetailDataList = albumdetailMainModel.getData();
+                        fillAlbumDetailImageList();
+                        activityAlbumDetailBinding.albumRefreshLayout.setRefreshing(false);
                     }
 
                 }
@@ -334,7 +337,7 @@ String albumHeadingStr,albumIdStr, albumThumbStr;
     private Map<String, String> getAlbumPullDetailData() {
         Map<String, String> map = new HashMap<>();
         map.put("AlbumId",albumIdStr);
-        map.put("PageIndex","0");
+        map.put("PageIndex",String.valueOf(pageIndex));
         map.put("PageSize","15");
         map.put("MemberId",String.valueOf(Utils.getAppUserId(mContext)));
         return map;

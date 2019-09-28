@@ -34,6 +34,7 @@ public class Builder {
     }
 
     public Builder videoUrl(@NonNull String videoUrl) {
+        fullscreenVideoView.videoPath=videoUrl;
         fullscreenVideoView.setupMediaPlayer(videoUrl);
         return this;
     }

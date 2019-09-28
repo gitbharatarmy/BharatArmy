@@ -279,8 +279,9 @@ public class ImageFragment extends Fragment {
         fragmentImageBinding.refreshView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                pageIndex=0;
          callImageGalleryPullData();
-                fragmentImageBinding.refreshView.setRefreshing(false);
+
             }
         });
 
@@ -300,7 +301,7 @@ public class ImageFragment extends Fragment {
                         //bottom of list!
                         isLoading = false;
                         pageIndex = pageIndex + 1;
-                        fragmentImageBinding.progressBar.setVisibility(View.VISIBLE);
+                        fragmentImageBinding.bottomProgressbarLayout.setVisibility(View.VISIBLE);
 
                         loadMore();
                     }
@@ -340,7 +341,7 @@ public class ImageFragment extends Fragment {
                     if (imageMainModel.getData() != null) {
                         fragmentImageBinding.shimmerViewContainer.stopShimmerAnimation();
                         fragmentImageBinding.shimmerViewContainer.setVisibility(View.GONE);
-                        fragmentImageBinding.progressBar.setVisibility(View.GONE);
+                        fragmentImageBinding.bottomProgressbarLayout.setVisibility(View.GONE);
                         imageDetailModelsList = imageMainModel.getData();
 Log.d("list : ",""+imageDetailModelsList.size());
                         addOldNewValue(imageDetailModelsList);
@@ -423,7 +424,7 @@ Log.d("list : ",""+imageDetailModelsList.size());
             galleryImageId.addAll(Collections.singleton(String.valueOf(result.get(i).getBAGalleryId())));
             galleryImageLike.addAll(Collections.singleton(String.valueOf(result.get(i).getIsLike())));
         }
-        Log.d("galleryImageUrl", "" + galleryImageUrl.size());
+        Log.d("galleryImageUrl", "" + galleryImageUrl.size() +"galleryImageId :"+galleryImageId.size());
 
     }
 
@@ -466,6 +467,7 @@ Log.d("pullDataList : ",""+imageDetailModelsList.size());
                         addOldNewValue(imageDetailModelsList);
 
                       fillImageGallery();
+                        fragmentImageBinding.refreshView.setRefreshing(false);
                     }
 
                 }
@@ -485,7 +487,7 @@ Log.d("pullDataList : ",""+imageDetailModelsList.size());
 
     private Map<String, String> getImageGalleryPullData() {
         Map<String, String> map = new HashMap<>();
-        map.put("PageIndex", "0");
+        map.put("PageIndex", String.valueOf(pageIndex));
         map.put("PageSize", "15");
         map.put("MemberId",String.valueOf(Utils.getAppUserId(mContext)));
         return map;
