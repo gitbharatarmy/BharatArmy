@@ -89,7 +89,11 @@
     <string name="city" translatable="false">City</string>
     <string name="pincode" translatable="false">Pincode</string>
     <string name="area" translatable="false">Area</string>
-
+    <string name="sports" translatable="false">Sports</string>
+    <string name="user_name" translatable="false">Name</string>
+    <string name="register_info" translatable="false">Register for other sports ?</string>
+    <string name="sfa_entry" translatable="false">SFA Data Entry</string>
+    <string name="data_entry" translatable="false">Data Entry</string>
     <!--Dashboard String-->
     <string name="home" translatable="false">Home</string>
     <string name="myprofile" translatable="false">My Profile</string>

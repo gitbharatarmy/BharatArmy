@@ -1,16 +1,12 @@
 package com.bharatarmy;
 
-import android.app.Activity;
 import android.app.Dialog;
-import android.content.Context;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-
-import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,23 +15,22 @@ import androidx.appcompat.app.AppCompatDialogFragment;
 import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.bharatarmy.Adapter.MutliSelectAdapter;
-import com.bharatarmy.Interfaces.buttonclick_result;
-import com.bharatarmy.Interfaces.image_click;
+import com.bharatarmy.Adapter.MultiSportsSelectAdapter;
 import com.bharatarmy.Models.ImageDetailModel;
 import com.bharatarmy.Models.ImageDetailModel;
-import com.bharatarmy.Utility.Utils;
+import com.bharatarmy.Models.ImageDetailModel;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class MultiSelectDialog extends AppCompatDialogFragment implements SearchView.OnQueryTextListener, View.OnClickListener {
+public class MultiSportsSelectDialog extends AppCompatDialogFragment implements SearchView.OnQueryTextListener, View.OnClickListener {
 
     public static ArrayList<Integer> selectedIdsForCallback = new ArrayList<>();
 
     public ArrayList<ImageDetailModel> mainListOfAdapter = new ArrayList<>();
-    private MutliSelectAdapter mutliSelectAdapter;
+    private MultiSportsSelectAdapter mutliSelectAdapter;
     //Default Values
-    public static String title;
+    private String title;
     private float titleSize = 25;
     private String positiveText = "DONE";
     private String negativeText = "CANCEL";
@@ -63,15 +58,15 @@ public class MultiSelectDialog extends AppCompatDialogFragment implements Search
                 WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-        dialog.setContentView(R.layout.custom_multi_select);
+        dialog.setContentView(R.layout.sports_multi_select);
 //        dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 
-        RecyclerViewEmptySupport mrecyclerView =  dialog.findViewById(R.id.recycler_view);
+        SportsRecyclerViewEmptySupport mrecyclerView =  dialog.findViewById(R.id.recycler_view);
         SearchView searchView =  dialog.findViewById(R.id.search_view);
         dialogTitle =  dialog.findViewById(R.id.title);
         dialogSubmit =  dialog.findViewById(R.id.done);
         dialogCancel =  dialog.findViewById(R.id.cancel);
-        close_btn1= dialog.findViewById(R.id.close_btn1);
+        close_btn1=dialog.findViewById(R.id.close_btn1);
 
         mrecyclerView.setEmptyView(dialog.findViewById(R.id.list_empty1));
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
@@ -84,18 +79,7 @@ public class MultiSelectDialog extends AppCompatDialogFragment implements Search
         settingValues();
 
         mainListOfAdapter = setCheckedIDS(mainListOfAdapter, previouslySelectedIdsList);
-        mutliSelectAdapter = new MutliSelectAdapter(mainListOfAdapter, getContext(), new buttonclick_result() {
-            @Override
-            public void getResultandshow(String msg) {
-
-                if (msg.equalsIgnoreCase("done")){
-//                    getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-                    dialogSubmit.performClick();
-                }else{
-                    dialogCancel.performClick();
-                }
-            }
-        });
+        mutliSelectAdapter = new MultiSportsSelectAdapter(mainListOfAdapter, getContext());
         mrecyclerView.setAdapter(mutliSelectAdapter);
 
         searchView.setOnQueryTextListener(this);
@@ -106,33 +90,33 @@ public class MultiSelectDialog extends AppCompatDialogFragment implements Search
         return dialog;
     }
 
-    public MultiSelectDialog title(String title) {
+    public MultiSportsSelectDialog title(String title) {
         this.title = title;
         return this;
     }
 
-    public MultiSelectDialog titleSize(float titleSize) {
+    public MultiSportsSelectDialog titleSize(float titleSize) {
         this.titleSize = titleSize;
         return this;
     }
 
-    public MultiSelectDialog positiveText(@NonNull String message) {
+    public MultiSportsSelectDialog positiveText(@NonNull String message) {
         this.positiveText = message;
         return this;
     }
 
-    public MultiSelectDialog negativeText(@NonNull String message) {
+    public MultiSportsSelectDialog negativeText(@NonNull String message) {
         this.negativeText = message;
         return this;
     }
 
-    public MultiSelectDialog preSelectIDsList(ArrayList<Integer> list) {
+    public MultiSportsSelectDialog preSelectIDsList(ArrayList<Integer> list) {
         this.previouslySelectedIdsList = list;
         this.tempPreviouslySelectedIdsList = new ArrayList<>(previouslySelectedIdsList);
         return this;
     }
 
-    public MultiSelectDialog multiSelectList(ArrayList<ImageDetailModel> list) {
+    public MultiSportsSelectDialog multiSelectList(ArrayList<ImageDetailModel> list) {
         this.mainListOfAdapter = list;
         this.tempMainListOfAdapter = new ArrayList<>(mainListOfAdapter);
         if(maxSelectionLimit == 0)
@@ -140,27 +124,27 @@ public class MultiSelectDialog extends AppCompatDialogFragment implements Search
         return this;
     }
 
-    public MultiSelectDialog setMaxSelectionLimit(int limit){
+    public MultiSportsSelectDialog setMaxSelectionLimit(int limit){
         this.maxSelectionLimit = limit;
         return this;
     }
 
-    public MultiSelectDialog setMaxSelectionMessage(String message) {
+    public MultiSportsSelectDialog setMaxSelectionMessage(String message) {
         this.maxSelectionMessage = message;
         return this;
     }
 
-    public MultiSelectDialog setMinSelectionLimit(int limit){
+    public MultiSportsSelectDialog setMinSelectionLimit(int limit){
         this.minSelectionLimit = limit;
         return this;
     }
 
-    public MultiSelectDialog setMinSelectionMessage(String message) {
+    public MultiSportsSelectDialog setMinSelectionMessage(String message) {
         this.minSelectionMessage = message;
         return this;
     }
 
-    public MultiSelectDialog onSubmit(@NonNull SubmitCallbackListener callback) {
+    public MultiSportsSelectDialog onSubmit(@NonNull SubmitCallbackListener callback) {
         this.submitCallbackListener = callback;
         return this;
     }
@@ -221,10 +205,6 @@ public class MultiSelectDialog extends AppCompatDialogFragment implements Search
     public void onClick(View view) {
 
         if (view.getId() == R.id.done) {
-            InputMethodManager imm = (InputMethodManager) view.getContext()
-                    .getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-
             ArrayList<Integer> callBackListOfIds = selectedIdsForCallback;
 
             if (callBackListOfIds.size() >= minSelectionLimit) {
@@ -234,13 +214,9 @@ public class MultiSelectDialog extends AppCompatDialogFragment implements Search
                     tempPreviouslySelectedIdsList = new ArrayList<>(callBackListOfIds);
 
                     if(submitCallbackListener !=null) {
-                        submitCallbackListener.onSelected(callBackListOfIds, getSelectNameList(), getSelectedDataString());
+                        submitCallbackListener.onSelected(callBackListOfIds, getSelectNameList(), getSelectedDataString(), getSelectedDataIdString());
                     }
                     dismiss();
-
-                    selectedIdsForCallback.clear();
-                    selectedIdsForCallback.addAll(tempPreviouslySelectedIdsList);
-                    submitCallbackListener.onCancel();
                 } else {
                     String youCan = getResources().getString(R.string.you_can_only_select_upto);
                     String options = getResources().getString(R.string.options);
@@ -256,7 +232,7 @@ public class MultiSelectDialog extends AppCompatDialogFragment implements Search
                         else
                             message = youCan + " " + maxSelectionLimit + " " + option;
                     }
-//                    Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
                 }
             } else {
                 String pleaseSelect = getResources().getString(R.string.please_select_atleast);
@@ -287,6 +263,11 @@ public class MultiSelectDialog extends AppCompatDialogFragment implements Search
         }
 
         if (view.getId()==R.id.close_btn1){
+            if(submitCallbackListener!=null){
+                selectedIdsForCallback.clear();
+                selectedIdsForCallback.addAll(tempPreviouslySelectedIdsList);
+                submitCallbackListener.onCancel();
+            }
             dismiss();
         }
     }
@@ -304,7 +285,19 @@ public class MultiSelectDialog extends AppCompatDialogFragment implements Search
             return "";
         }
     }
-
+    private String getSelectedDataIdString() {
+        String data = "";
+        for (int i = 0; i < tempMainListOfAdapter.size(); i++) {
+            if (checkForSelection(tempMainListOfAdapter.get(i).getId())) {
+                data = data + ", " + tempMainListOfAdapter.get(i).getId();
+            }
+        }
+        if (data.length() > 0) {
+            return data.substring(1);
+        } else {
+            return "";
+        }
+    }
     private ArrayList<String> getSelectNameList() {
         ArrayList<String> names = new ArrayList<>();
         for(int i=0;i<tempMainListOfAdapter.size();i++){
@@ -316,8 +309,8 @@ public class MultiSelectDialog extends AppCompatDialogFragment implements Search
     }
 
     private boolean checkForSelection(Integer id) {
-        for (int i = 0; i < MultiSelectDialog.selectedIdsForCallback.size(); i++) {
-            if (id.equals(MultiSelectDialog.selectedIdsForCallback.get(i))) {
+        for (int i = 0; i < MultiSportsSelectDialog.selectedIdsForCallback.size(); i++) {
+            if (id.equals(MultiSportsSelectDialog.selectedIdsForCallback.get(i))) {
                 return true;
             }
         }
@@ -329,7 +322,7 @@ public class MultiSelectDialog extends AppCompatDialogFragment implements Search
     }*/
 
     public interface SubmitCallbackListener {
-        void onSelected(ArrayList<Integer> selectedIds, ArrayList<String> selectedNames, String commonSeperatedData);
+        void onSelected(ArrayList<Integer> selectedIds, ArrayList<String> selectedNames, String commonSeperatedData, String commonSeperatedDataId);
         void onCancel();
     }
 

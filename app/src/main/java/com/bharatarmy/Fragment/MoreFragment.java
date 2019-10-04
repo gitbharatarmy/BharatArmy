@@ -29,6 +29,8 @@ import com.bharatarmy.Activity.LoginActivity;
 import com.bharatarmy.Activity.MoreStoryActivity;
 import com.bharatarmy.Activity.MyMediaActivity;
 import com.bharatarmy.Activity.MyProfileActivity;
+import com.bharatarmy.Activity.SportsInterestActivity;
+import com.bharatarmy.Activity.UserEntryActivity;
 import com.bharatarmy.Adapter.StoryCategoryAdapter;
 import com.bharatarmy.Adapter.StoryLsitAdapter;
 import com.bharatarmy.Interfaces.image_click;
@@ -101,22 +103,30 @@ public class MoreFragment extends Fragment implements View.OnClickListener {
     }
 
     public void setListiner() {
-        if (Utils.retriveLoginData(mContext)!=null){
+        if (Utils.retriveLoginData(mContext) != null) {
             fragmentMoreBinding.withloginLinear.setVisibility(View.VISIBLE);
             fragmentMoreBinding.withoutloginLinear.setVisibility(View.GONE);
             fragmentMoreBinding.header4Linear.setVisibility(View.VISIBLE);
             fragmentMoreBinding.userNametxt.setText(Utils.retriveLoginData(mContext).getName());
 
-            if (Utils.retriveLoginData(mContext).getIsBAAdmin().equals("1")){
+            if (Utils.retriveLoginData(mContext).getIsBAAdmin().equals("1")) {
                 fragmentMoreBinding.header3Linear.setVisibility(View.VISIBLE);
-            }else{
+            } else {
                 fragmentMoreBinding.header3Linear.setVisibility(View.GONE);
             }
-        }else{
+
+
+        } else {
             fragmentMoreBinding.header3Linear.setVisibility(View.GONE);
             fragmentMoreBinding.header4Linear.setVisibility(View.GONE);
             fragmentMoreBinding.withloginLinear.setVisibility(View.GONE);
             fragmentMoreBinding.withoutloginLinear.setVisibility(View.VISIBLE);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+            );
+            params.setMargins(0, 40, 0, 120);
+            fragmentMoreBinding.settingLinear.setLayoutParams(params);
 
         }
 
@@ -128,6 +138,8 @@ public class MoreFragment extends Fragment implements View.OnClickListener {
         fragmentMoreBinding.inquiryLinear.setOnClickListener(this);
         fragmentMoreBinding.mediaLinear.setOnClickListener(this);
         fragmentMoreBinding.withoutloginLinear.setOnClickListener(this);
+        fragmentMoreBinding.sportsInterestLinear.setOnClickListener(this);
+        fragmentMoreBinding.dataEntryLinear.setOnClickListener(this);
     }
 
     @Override
@@ -171,7 +183,7 @@ public class MoreFragment extends Fragment implements View.OnClickListener {
                                 Utils.setPref(mContext, "IsLoginUser", "");
                                 Utils.ping(mContext, "You are logout suceessfully");
                                 Intent ilogin = new Intent(mContext, LoginActivity.class);
-                                ilogin.putExtra("whereTocomeLogin","logout");
+                                ilogin.putExtra("whereTocomeLogin", "logout");
                                 startActivity(ilogin);
 
                             }
@@ -193,10 +205,20 @@ public class MoreFragment extends Fragment implements View.OnClickListener {
                 startActivity(media);
                 break;
             case R.id.withoutlogin_linear:
-                Intent intent=new Intent(mContext,LoginActivity.class);
-                intent.putExtra("whereTocomeLogin","more");
+                Intent intent = new Intent(mContext, LoginActivity.class);
+                intent.putExtra("whereTocomeLogin", "more");
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
-
+                break;
+            case R.id.sports_interest_linear:
+                Intent sportsintent = new Intent(mContext, SportsInterestActivity.class);
+                sportsintent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(sportsintent);
+                break;
+            case R.id.data_entry_linear:
+                Intent userentry = new Intent(mContext, UserEntryActivity.class);
+                userentry.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(userentry);
                 break;
         }
     }

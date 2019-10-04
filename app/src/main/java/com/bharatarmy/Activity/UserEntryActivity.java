@@ -1,0 +1,126 @@
+package com.bharatarmy.Activity;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
+
+import com.bharatarmy.Models.LogginModel;
+import com.bharatarmy.R;
+import com.bharatarmy.Utility.ApiHandler;
+import com.bharatarmy.Utility.Utils;
+import com.bharatarmy.databinding.ActivityUserEntryBinding;
+
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+
+public class UserEntryActivity extends BaseActivity implements View.OnClickListener {
+    ActivityUserEntryBinding activityUserEntryBinding;
+    Context mContext;
+    String userEmailStr, userPasswordStr;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        activityUserEntryBinding = DataBindingUtil.setContentView(this, R.layout.activity_user_entry);
+
+        mContext = UserEntryActivity.this;
+
+        setTitleText("User Entry");
+        setBackButton(UserEntryActivity.this);
+
+        setListiner();
+
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.save_btn:
+                getInsertDataValue();
+                break;
+        }
+    }
+
+    public void setListiner() {
+        activityUserEntryBinding.saveBtn.setOnClickListener(this);
+    }
+
+    public void getInsertDataValue() {
+        userEmailStr = activityUserEntryBinding.emailEdt.getText().toString();
+        userPasswordStr = activityUserEntryBinding.passwordEdt.getText().toString();
+
+
+        if (!userEmailStr.equalsIgnoreCase("")) {
+            if (Utils.isValidEmailId(userEmailStr)) {
+                if (!userPasswordStr.equalsIgnoreCase("")) {
+                    if (userPasswordStr.length() >= 5 && userPasswordStr.length() <= 10) {
+                        getInsertUserData();
+                    } else {
+                        activityUserEntryBinding.passwordEdt.setError("Password Length must be greter than 5 or less than 10");
+                    }
+                } else {
+                    activityUserEntryBinding.passwordEdt.setError("Password is required");
+                }
+            } else {
+                activityUserEntryBinding.emailEdt.setError("Invalid Email Address");
+            }
+        } else {
+            activityUserEntryBinding.emailEdt.setError("Email Address is required");
+        }
+    }
+
+    // call the User Entry
+    public void getInsertUserData() {
+        if (!Utils.checkNetwork(mContext)) {
+            Utils.showCustomDialog(getResources().getString(R.string.internet_error), getResources().getString(R.string.internet_connection_error), UserEntryActivity.this);
+            return;
+        }
+
+        Utils.showDialog(mContext);
+        ApiHandler.getApiService().getValidatedBAMember(getuserentryData(), new retrofit.Callback<LogginModel>() {
+            @Override
+            public void success(LogginModel loginModel, Response response) {
+                Utils.dismissDialog();
+                if (loginModel == null) {
+                    Utils.ping(mContext, getString(R.string.something_wrong));
+                    return;
+                }
+                if (loginModel.getIsValid() == null) {
+                    Utils.ping(mContext, getString(R.string.something_wrong));
+                    return;
+                }
+                if (loginModel.getIsValid() == 0) {
+                    Utils.ping(mContext, loginModel.getMessage());
+                    return;
+                }
+                if (loginModel.getIsValid() == 1) {
+
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Utils.dismissDialog();
+                error.printStackTrace();
+                error.getMessage();
+                Utils.ping(mContext, getString(R.string.something_wrong));
+            }
+        });
+
+    }
+
+    private Map<String, String> getuserentryData() {
+        Map<String, String> map = new HashMap<>();
+        map.put("AppUserId", "0");
+        map.put("Email", userEmailStr);
+        map.put("Password", userPasswordStr);
+        return map;
+    }
+}

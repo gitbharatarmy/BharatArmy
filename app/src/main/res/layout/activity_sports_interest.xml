@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:orientation="vertical"
+    tools:context=".Activity.SportsInterestActivity">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <include layout="@layout/toolbar_item"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/bg_gradiant_line" />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/_10sdp">
+        <LinearLayout
+            android:layout_width="@dimen/_110sdp"
+            android:layout_height="@dimen/_110sdp"
+            android:background="@drawable/profile"
+            android:orientation="vertical">
+
+            <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/imageupload_image"
+                android:layout_width="@dimen/_80sdp"
+                android:layout_height="@dimen/_80sdp"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/_15sdp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/proflie" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+        <TextView
+            android:id="@+id/user_info_txt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/title_text_font"
+            android:textColor="@color/heading_bg"
+            android:textSize="@dimen/_13sdp"
+            android:text="@string/user_name"
+            android:gravity="center_vertical"
+            android:paddingTop="@dimen/_5sdp"
+            android:layout_marginLeft="@dimen/_15sdp"
+            android:layout_marginRight="@dimen/_15sdp"
+            android:paddingBottom="@dimen/_5sdp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rectangle_line"
+            android:orientation="horizontal"
+            android:layout_marginLeft="@dimen/_15sdp"
+            android:layout_marginRight="@dimen/_15sdp"
+            android:layout_marginBottom="@dimen/_10sdp">
+
+            <EditText
+                android:id="@+id/name_edt"
+                style="@style/text_font"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_30sdp"
+                android:background="@null"
+                android:hint="@string/user_name"
+                android:maxLines="1"
+                android:inputType="textEmailAddress"
+                android:maxLength="150"
+                android:paddingLeft="@dimen/_5sdp"
+                android:textColor="@color/heading_bg"
+                android:textColorHint="@color/hint_txt_color"
+                android:textCursorDrawable="@drawable/color_cursor"
+                android:textSize="@dimen/_12sdp"
+                android:imeOptions="actionNext"/>
+        </LinearLayout>
+        <TextView
+            android:id="@+id/gender_info_txt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/title_text_font"
+            android:textColor="@color/heading_bg"
+            android:textSize="@dimen/_13sdp"
+            android:text="@string/gender"
+            android:gravity="center_vertical"
+            android:paddingTop="@dimen/_5sdp"
+            android:layout_marginLeft="@dimen/_15sdp"
+            android:layout_marginRight="@dimen/_15sdp"
+            android:paddingBottom="@dimen/_5sdp" />
+
+
+        <RadioGroup
+            android:id="@+id/gender_rg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginLeft="@dimen/_14sdp"
+            android:layout_marginRight="@dimen/_15sdp"
+            android:paddingBottom="@dimen/_5sdp">
+
+
+            <RadioButton
+                android:id="@+id/male_rb"
+                android:layout_width="@dimen/_70sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:text="@string/male"
+                style="@style/text_font"
+                android:paddingLeft="@dimen/_5sdp"
+                android:textColor="@color/heading_bg"
+                android:button="@drawable/radio_indicator"/>
+
+            <RadioButton
+                android:id="@+id/female_rb"
+                android:layout_width="@dimen/_70sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:text="@string/female"
+                style="@style/text_font"
+                android:textColor="@color/heading_bg"
+                android:paddingLeft="@dimen/_5sdp"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:button="@drawable/radio_indicator"/>
+        </RadioGroup>
+        <TextView
+            android:id="@+id/email_info_txt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/title_text_font"
+            android:textColor="@color/heading_bg"
+            android:textSize="@dimen/_13sdp"
+            android:text="@string/email"
+            android:gravity="center_vertical"
+            android:paddingTop="@dimen/_5sdp"
+            android:layout_marginLeft="@dimen/_15sdp"
+            android:layout_marginRight="@dimen/_15sdp"
+            android:paddingBottom="@dimen/_5sdp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rectangle_line"
+            android:orientation="horizontal"
+            android:layout_marginLeft="@dimen/_15sdp"
+            android:layout_marginRight="@dimen/_15sdp"
+            android:layout_marginBottom="@dimen/_10sdp">
+
+            <EditText
+                android:id="@+id/email_edt"
+                style="@style/text_font"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_30sdp"
+                android:background="@null"
+                android:hint="@string/email"
+                android:maxLines="1"
+                android:inputType="textEmailAddress"
+                android:maxLength="150"
+                android:paddingLeft="@dimen/_5sdp"
+                android:textColor="@color/heading_bg"
+                android:textColorHint="@color/hint_txt_color"
+                android:textCursorDrawable="@drawable/color_cursor"
+                android:textSize="@dimen/_12sdp"
+                android:imeOptions="actionNext"/>
+        </LinearLayout>
+        <TextView
+            android:id="@+id/phone_number_info_txt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/title_text_font"
+            android:textColor="@color/heading_bg"
+            android:textSize="@dimen/_13sdp"
+            android:text="@string/phoneno"
+            android:gravity="center_vertical"
+            android:paddingTop="@dimen/_5sdp"
+            android:layout_marginLeft="@dimen/_15sdp"
+            android:layout_marginRight="@dimen/_15sdp"
+            android:paddingBottom="@dimen/_5sdp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rectangle_line"
+            android:orientation="horizontal"
+            android:layout_marginLeft="@dimen/_15sdp"
+            android:layout_marginRight="@dimen/_15sdp"
+            android:layout_marginBottom="@dimen/_10sdp">
+            <com.bharatarmy.CountryCodePicker
+                android:id="@+id/ccp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/_5sdp"
+                style="@style/text_font"
+                app:ccp_countryPreference="IN,GB,AU,CA,US,SG"
+                app:ccp_textColor="@color/normal_font_color"
+                app:ccp_textFont="thesansplain.ttf"/>
+            <EditText
+                android:id="@+id/phone_no_edt"
+                style="@style/text_font"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_30sdp"
+                android:background="@android:color/transparent"
+                android:hint="@string/phoneno"
+                android:maxLines="1"
+                android:inputType="phone"
+                android:maxLength="12"
+                android:paddingLeft="@dimen/_5sdp"
+                android:textColor="@color/heading_bg"
+                android:textColorHint="@color/hint_txt_color"
+                android:textCursorDrawable="@drawable/color_cursor"
+                android:textSize="@dimen/_12sdp"
+                android:imeOptions="actionGo"
+                />
+        </LinearLayout>
+        <TextView
+            android:id="@+id/state_info_txt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/title_text_font"
+            android:textColor="@color/heading_bg"
+            android:textSize="@dimen/_13sdp"
+            android:text="@string/sports"
+            android:gravity="center_vertical"
+            android:paddingTop="@dimen/_5sdp"
+            android:layout_marginLeft="@dimen/_15sdp"
+            android:layout_marginRight="@dimen/_15sdp"
+            android:paddingBottom="@dimen/_5sdp" />
+        <RelativeLayout
+            android:id="@+id/sports_relv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rectangle_line"
+            android:orientation="horizontal"
+            android:layout_marginLeft="@dimen/_15sdp"
+            android:layout_marginRight="@dimen/_15sdp"
+            android:layout_marginBottom="@dimen/_10sdp">
+
+            <EditText
+                android:id="@+id/sports_edt"
+                style="@style/text_font"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_30sdp"
+                android:background="@android:color/transparent"
+                android:layout_toLeftOf="@+id/city_selection_img"
+                android:hint="@string/sports"
+                android:maxLines="1"
+                android:maxLength="45"
+                android:inputType="text"
+                android:paddingLeft="@dimen/_5sdp"
+                android:paddingRight="@dimen/_5sdp"
+                android:textColor="@color/heading_bg"
+                android:textColorHint="@color/hint_txt_color"
+                android:textCursorDrawable="@drawable/color_cursor"
+                android:textSize="@dimen/_12sdp"
+                android:clickable="true"
+                android:focusable="false"
+                android:imeOptions="actionNext"/>
+
+            <ImageView
+                android:id="@+id/sports_selection_img"
+                android:layout_width="@dimen/_15sdp"
+                android:layout_height="@dimen/_15sdp"
+                android:layout_marginRight="@dimen/_5sdp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:tint="@color/gray"
+                android:src="@drawable/spinner_selection"/>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center_horizontal|bottom"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_10sdp">
+            <Button
+                android:id="@+id/save_btn"
+                android:layout_width="@dimen/_90sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:background="@color/heading_bg"
+                android:text="@string/submit"
+                android:textColor="@color/splash_bg_color"
+                android:textSize="@dimen/_15sdp"
+                style="@style/text_font"/>
+            <View
+                android:layout_width="@dimen/_90sdp"
+                android:layout_height="@dimen/_3sdp"
+                android:background="@drawable/bg_gradiant_line" />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>
+</layout>

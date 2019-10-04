@@ -1165,4 +1165,6 @@ public class ImageDetailModel implements Serializable {
     public void setSelected(boolean selected) {
         this.selected = selected;
     }
+
+
 }

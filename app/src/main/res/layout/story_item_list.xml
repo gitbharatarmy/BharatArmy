@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+<LinearLayout
     android:id="@+id/story_card_click"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="@dimen/_195sdp"
     android:layout_margin="@dimen/_3sdp"
     android:background="@drawable/match_detail_curveshape"
     android:elevation="3dp"
@@ -63,23 +63,23 @@
                 android:visibility="gone">
 
 
-            <TextView
-                android:id="@+id/type_txt"
-                style="@style/title_text_font"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/_15sdp"
-                android:layout_gravity="center"
-                android:background="@drawable/tag_shape"
-                android:gravity="center_vertical|center"
-                android:paddingLeft="@dimen/_5sdp"
-                android:paddingRight="@dimen/_5sdp"
-                android:paddingBottom="@dimen/_3sdp"
-                android:paddingTop="@dimen/_3sdp"
-                android:text="Email"
-                android:textColor="@color/splash_bg_color"
-                android:textSize="@dimen/_6sdp"
-                android:visibility="visible" />
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/type_txt"
+                    style="@style/title_text_font"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_15sdp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/tag_shape"
+                    android:gravity="center_vertical|center"
+                    android:paddingLeft="@dimen/_5sdp"
+                    android:paddingTop="@dimen/_3sdp"
+                    android:paddingRight="@dimen/_5sdp"
+                    android:paddingBottom="@dimen/_3sdp"
+                    android:text="Email"
+                    android:textColor="@color/splash_bg_color"
+                    android:textSize="@dimen/_6sdp"
+                    android:visibility="visible" />
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/army_story_header_txt"

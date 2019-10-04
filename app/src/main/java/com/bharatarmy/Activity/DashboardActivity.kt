@@ -276,24 +276,32 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, StoryFragme
             drawer.closeDrawers()
             return
         }
+        if(speedDial.isOpen){
+            speedDial.close(true);
+        }else {
+            // This code loads home fragment when back key is pressed
+            // when user is in other fragment than home
+            if (shouldLoadHomeFragOnBackPress) {
+                // checking if user is on other navigation menu
+                // rather than home
 
-        // This code loads home fragment when back key is pressed
-        // when user is in other fragment than home
-        if (shouldLoadHomeFragOnBackPress) {
-            // checking if user is on other navigation menu
-            // rather than home
+                overlay.visibility = View.GONE
+                speedDial.visibility = View.GONE
 
-            overlay.visibility = View.GONE
-            speedDial.visibility = View.GONE
-            if (navItemIndex != 0) {
-                navItemIndex = 0
-                CURRENT_TAG = TAG_HOME
-                loadHomeFragment()
-                return
+
+                if (navItemIndex != 0) {
+                    navItemIndex = 0
+                    CURRENT_TAG = TAG_HOME
+                    loadHomeFragment()
+                    return
+                }
+
+
             }
+            super.onBackPressed()
         }
 
-        super.onBackPressed()
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

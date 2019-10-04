@@ -614,7 +614,7 @@ AppConfiguration.selectedStatesIdStr=String.valueOf(selectedIds.get(i));
             multiSelectcitiesDialog = new MultiSelectDialog()
                     .title("Select Cities") //setting title for dialog
                     .titleSize(16)
-                    .positiveText("")
+                    .positiveText(" ")
                     .negativeText("")
                     .setMinSelectionLimit(1)
                     .setMaxSelectionLimit(1)

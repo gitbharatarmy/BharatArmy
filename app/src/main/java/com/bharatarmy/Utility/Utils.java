@@ -124,7 +124,7 @@ public class Utils {
     public static boolean isValid = false;
 
     public static int LikeMemberId, LikeReferenceId, LikeStatus, LikeSourceType;
-    public static String viewsMemberId,viewsTokenId,viewsReferenceId,viewsSourceType;
+    public static String viewsMemberId, viewsTokenId, viewsReferenceId, viewsSourceType;
     public static Dialog dialog;
 
     public static final String MyPREFERENCES = "MyPrefs";
@@ -513,36 +513,50 @@ public class Utils {
         TextView dialog_descriptiontxt = (TextView) dialogView.findViewById(R.id.dialog_descriptiontxt);
         TextView hometxt = (TextView) dialogView.findViewById(R.id.home_txt);
 
+        if (wheretocome.equalsIgnoreCase("sports")) {
+            dialog_headertxt.setText("Thank you for register your interest");
+            dialog_descriptiontxt.setText(activity.getResources().getString(R.string.register_info));
 
-        if (Utils.retriveLoginOtherData(activity) != null) {
-            if (wheretocome.equalsIgnoreCase("imageUpload")) {
-                for (int i = 0; i < Utils.retriveLoginOtherData(activity).size(); i++) {
-                    if (Utils.retriveLoginOtherData(activity).get(i).getMessageId().equals(1)) {
-                        dialog_headertxt.setText(Utils.retriveLoginOtherData(activity).get(i).getMessageHeaderText());
-                        dialog_descriptiontxt.setText(Utils.retriveLoginOtherData(activity).get(i).getMessageDescription());
-                    }
+            dialog_descriptiontxt.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    alertDialog.dismiss();
+                    activity.recreate();
+                }
+            });
 
-                }
-            } else if (wheretocome.equalsIgnoreCase("changePassword")) {
-                for (int i = 0; i < Utils.retriveLoginOtherData(activity).size(); i++) {
-                    if (Utils.retriveLoginOtherData(activity).get(i).getMessageId().equals(2)) {
-                        dialog_headertxt.setText(Utils.retriveLoginOtherData(activity).get(i).getMessageHeaderText());
-                        dialog_descriptiontxt.setText(Utils.retriveLoginOtherData(activity).get(i).getMessageDescription());
-                    }
-
-                }
-            } else if (wheretocome.equalsIgnoreCase("videoUpload")) {
-                for (int i = 0; i < Utils.retriveLoginOtherData(activity).size(); i++) {
-                    if (Utils.retriveLoginOtherData(activity).get(i).getMessageId().equals(1)) {
-                        dialog_headertxt.setText(Utils.retriveLoginOtherData(activity).get(i).getMessageHeaderText());
-                        dialog_descriptiontxt.setText(Utils.retriveLoginOtherData(activity).get(i).getMessageDescription());
-                    }
-                }
-            }
         } else {
-            dialog_headertxt.setText("Thank you");
-            dialog_descriptiontxt.setText("");
+            if (Utils.retriveLoginOtherData(activity) != null) {
+                if (wheretocome.equalsIgnoreCase("imageUpload")) {
+                    for (int i = 0; i < Utils.retriveLoginOtherData(activity).size(); i++) {
+                        if (Utils.retriveLoginOtherData(activity).get(i).getMessageId().equals(1)) {
+                            dialog_headertxt.setText(Utils.retriveLoginOtherData(activity).get(i).getMessageHeaderText());
+                            dialog_descriptiontxt.setText(Utils.retriveLoginOtherData(activity).get(i).getMessageDescription());
+                        }
+
+                    }
+                } else if (wheretocome.equalsIgnoreCase("changePassword")) {
+                    for (int i = 0; i < Utils.retriveLoginOtherData(activity).size(); i++) {
+                        if (Utils.retriveLoginOtherData(activity).get(i).getMessageId().equals(2)) {
+                            dialog_headertxt.setText(Utils.retriveLoginOtherData(activity).get(i).getMessageHeaderText());
+                            dialog_descriptiontxt.setText(Utils.retriveLoginOtherData(activity).get(i).getMessageDescription());
+                        }
+
+                    }
+                } else if (wheretocome.equalsIgnoreCase("videoUpload")) {
+                    for (int i = 0; i < Utils.retriveLoginOtherData(activity).size(); i++) {
+                        if (Utils.retriveLoginOtherData(activity).get(i).getMessageId().equals(1)) {
+                            dialog_headertxt.setText(Utils.retriveLoginOtherData(activity).get(i).getMessageHeaderText());
+                            dialog_descriptiontxt.setText(Utils.retriveLoginOtherData(activity).get(i).getMessageDescription());
+                        }
+                    }
+                }
+            } else {
+                dialog_headertxt.setText("Thank you");
+                dialog_descriptiontxt.setText("");
+            }
         }
+
         hometxt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -559,6 +573,11 @@ public class Utils {
                     } else if (wheretocome.equalsIgnoreCase("videoUpload")) {
                         Intent dashboardIntent = new Intent(activity, DashboardActivity.class);
                         dashboardIntent.putExtra("whichPageRun", "1");
+                        activity.startActivity(dashboardIntent);
+                        activity.finish();
+                    }else if(wheretocome.equalsIgnoreCase("sports")){
+                        Intent dashboardIntent = new Intent(activity, DashboardActivity.class);
+                        dashboardIntent.putExtra("whichPageRun", "5");
                         activity.startActivity(dashboardIntent);
                         activity.finish();
                     }
@@ -1032,6 +1051,7 @@ public class Utils {
             }
         }, 200);
     }
+
     public static Activity unwrap(Context context) {
         while (!(context instanceof Activity) && context instanceof ContextWrapper) {
             context = ((ContextWrapper) context).getBaseContext();
@@ -1042,9 +1062,9 @@ public class Utils {
 
     public static String getLocalIpAddress() {
         try {
-            for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements();) {
+            for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements(); ) {
                 NetworkInterface intf = en.nextElement();
-                for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements();) {
+                for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements(); ) {
                     InetAddress inetAddress = enumIpAddr.nextElement();
                     if (!inetAddress.isLoopbackAddress() && inetAddress instanceof Inet4Address) {
                         return inetAddress.getHostAddress();

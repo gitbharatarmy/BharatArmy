@@ -6,6 +6,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="none"
+        android:fillViewport="true"
         android:background="@color/splash_bg_color"
         tools:context=".Fragment.MoreFragment">
 
@@ -284,6 +285,8 @@
                         </LinearLayout>
 
                     </LinearLayout>
+
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -334,6 +337,145 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/header5Linear"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_35sdp"
+                    android:orientation="horizontal"
+                    android:visibility="visible"
+                    android:weightSum="3">
+
+                    <View
+                        android:layout_width="@dimen/_15sdp"
+                        android:layout_height="2dp"
+                        android:layout_marginTop="@dimen/_1sdp"
+                        android:layout_gravity="center_vertical"
+                        android:background="@color/gray"
+                        android:visibility="visible" />
+                    <TextView
+                        style="@style/title_text_font"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/_25sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:paddingTop="@dimen/_3sdp"
+                        android:paddingBottom="@dimen/_3sdp"
+                        android:paddingLeft="@dimen/_10sdp"
+                        android:paddingRight="@dimen/_10sdp"
+                        android:background="@drawable/more_tagshape"
+                        android:gravity="center_horizontal|center_vertical"
+                        android:text="Interest Information"
+                        android:textColor="@color/heading_bg"
+                        android:textSize="@dimen/_12sdp" />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:layout_marginTop="@dimen/_1sdp"
+                        android:layout_gravity="center_vertical"
+                        android:background="@color/gray"
+                        android:visibility="visible" />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/more_rowLeft"
+                    android:layout_marginRight="@dimen/more_rowRight"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:layout_marginBottom="@dimen/_20sdp"
+                    android:orientation="vertical">
+                    <LinearLayout
+                        android:id="@+id/sports_interest_linear"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="@dimen/_25sdp"
+                            android:layout_height="@dimen/_25sdp"
+                            android:scaleType="centerCrop"
+                            android:tint="@color/skip_color"
+                            android:src="@drawable/ic_sfaentry"/>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="@dimen/_10sdp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/sportsinterest_txt"
+                                style="@style/title_text_font"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical"
+                                android:text="@string/sfa_entry"
+                                android:textColor="@color/heading_bg"
+                                android:textSize="@dimen/_12sdp" />
+                            <TextView
+                                android:id="@+id/sportsmsg_txt"
+                                style="@style/title_text_font"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Data"
+                                android:textColor="@color/gray"
+                                android:textSize="@dimen/_10sdp" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/data_entry_linear"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_33sdp"
+                        android:layout_marginTop="@dimen/more_rowTop"
+                        android:orientation="horizontal"
+                        android:visibility="visible">
+
+                        <ImageView
+                            android:layout_width="@dimen/_25sdp"
+                            android:layout_height="@dimen/_25sdp"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:scaleType="centerCrop"
+                            android:tint="@color/green"
+                            android:src="@drawable/ic_dataentry" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="@dimen/_10sdp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/data_entry_txt"
+                                style="@style/title_text_font"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/_3sdp"
+                                android:gravity="center_vertical"
+                                android:text="@string/data_entry"
+                                android:textColor="@color/heading_bg"
+                                android:textSize="@dimen/_12sdp" />
+                            <TextView
+                                android:id="@+id/data_txt"
+                                style="@style/title_text_font"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Data"
+                                android:textColor="@color/gray"
+                                android:textSize="@dimen/_10sdp" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <LinearLayout
                 android:id="@+id/header2Linear"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -377,6 +519,7 @@
 
                 </LinearLayout>
                 <LinearLayout
+                    android:id="@+id/company_linear"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/more_rowLeft"
@@ -521,6 +664,7 @@
 
                 </LinearLayout>
             </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/header3Linear"
                 android:layout_width="match_parent"
@@ -644,6 +788,7 @@
 
                 </LinearLayout>
             </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/header4Linear"
                 android:layout_width="match_parent"

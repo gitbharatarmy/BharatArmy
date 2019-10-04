@@ -55,6 +55,10 @@ public interface WebServices {
     void getUserDetails(@FieldMap Map<String, String> map, Callback<LogginModel> callback);
 
     @FormUrlEncoded
+    @POST("/GetSportsList")
+    void getSportsList(@FieldMap Map<String, String> map, Callback<ImageMainModel> callback);
+
+    @FormUrlEncoded
     @POST("/GetStatesFromCountry")
     void getStatesFromCountry(@FieldMap Map<String, String> map, Callback<ImageMainModel> callback);
 
@@ -98,6 +102,15 @@ public interface WebServices {
                                        @Part("PhoneNo") RequestBody phoneno,@Part("Gender") RequestBody gender,
                                        @Part("OTPText") RequestBody otptext,@Part("SMSSentId") RequestBody smssentId,
                                        @Part MultipartBody.Part file);
+
+    @Multipart
+    @retrofit2.http.POST("/API/v1/InsertData")
+    @POST("/InsertData")
+    Call<LogginModel> insertData(@Part("AppUserId") RequestBody userid, @Part("FullName") RequestBody fullname,
+                                    @Part("CountryISOCode") RequestBody countryISOCode, @Part("CountryPhoneNo") RequestBody countycode,
+                                    @Part("PhoneNo") RequestBody phoneno,@Part("Gender") RequestBody gender,
+                                    @Part("Email") RequestBody email,@Part("InterestedSports") RequestBody interestedsports,
+                                    @Part MultipartBody.Part file);
 
     /* gallery image/video uploading with multiple parameter */
     @Multipart

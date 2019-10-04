@@ -71,15 +71,16 @@ public class MutliSelectAdapter extends RecyclerView.Adapter<MutliSelectAdapter.
 //        } else {
 //            holder.dialog_item_checkbox.setChecked(false);
 //        }
-        if (AppConfiguration.dialogType.equalsIgnoreCase("states")){
-            if (!AppConfiguration.selectedStatesIdStr.equalsIgnoreCase("")) {
-                checkForSelection(Integer.valueOf(AppConfiguration.selectedStatesIdStr));
-            }
-        }else if(AppConfiguration.dialogType.equalsIgnoreCase("cities")){
-            if (!AppConfiguration.selectedCitiesIdStr.equalsIgnoreCase("")){
-                checkForSelection(Integer.valueOf(AppConfiguration.selectedCitiesIdStr))  ;
-            }
-        }
+        /* pre selction code*/
+//        if (AppConfiguration.dialogType.equalsIgnoreCase("states")){
+//            if (!AppConfiguration.selectedStatesIdStr.equalsIgnoreCase("")) {
+//                checkForSelection(Integer.valueOf(AppConfiguration.selectedStatesIdStr));
+//            }
+//        }else if(AppConfiguration.dialogType.equalsIgnoreCase("cities")){
+//            if (!AppConfiguration.selectedCitiesIdStr.equalsIgnoreCase("")){
+//                checkForSelection(Integer.valueOf(AppConfiguration.selectedCitiesIdStr))  ;
+//            }
+//        }
 
 
 
@@ -87,13 +88,13 @@ public class MutliSelectAdapter extends RecyclerView.Adapter<MutliSelectAdapter.
         if (selectedposition==position){
             holder.dialog_item_checkbox.setChecked(true);
             MultiSelectDialog.selectedIdsForCallback.add(mDataSet.get(holder.getAdapterPosition()).getId());
-            mDataSet.get(holder.getAdapterPosition()).setSelected(true);
-
+//            mDataSet.get(holder.getAdapterPosition()).setSelected(true);
             buttonclick_result.getResultandshow("done");
+
         }else {
             holder.dialog_item_checkbox.setChecked(false);
             removeFromSelection(mDataSet.get(holder.getAdapterPosition()).getId());
-            mDataSet.get(holder.getAdapterPosition()).setSelected(false);
+//            mDataSet.get(holder.getAdapterPosition()).setSelected(false);
 //            buttonclick_result.getResultandshow("cancel");
         }
 
@@ -150,33 +151,6 @@ public class MutliSelectAdapter extends RecyclerView.Adapter<MutliSelectAdapter.
             }
         }
     }
-
-
-    /*//get selected name string seperated by coma
-    public String getDataString() {
-        String data = "";
-        for (int i = 0; i < mDataSet.size(); i++) {
-            if (checkForSelection(mDataSet.get(i).getId())) {
-                data = data + ", " + mDataSet.get(i).getName();
-            }
-        }
-        if (data.length() > 0) {
-            return data.substring(1);
-        } else {
-            return "";
-        }
-    }
-    //get selected name ararylist
-    public ArrayList<String> getSelectedNameList() {
-        ArrayList<String> names = new ArrayList<>();
-        for (int i = 0; i < mDataSet.size(); i++) {
-            if (checkForSelection(mDataSet.get(i).getId())) {
-                names.add(mDataSet.get(i).getName());
-            }
-        }
-        //  return names.toArray(new String[names.size()]);
-        return names;
-    }*/
 
 
     @Override
