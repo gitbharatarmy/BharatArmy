@@ -155,6 +155,7 @@
                         android:inputType="phone"
                         android:maxLength="12"
                         android:maxLines="1"
+                        android:paddingRight="@dimen/_7sdp"
                         android:textColor="@color/heading_bg"
                         android:textColorHint="@color/hint_txt_color"
                         android:textCursorDrawable="@drawable/color_cursor"

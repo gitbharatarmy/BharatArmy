@@ -144,6 +144,7 @@
                         android:inputType="textEmailAddress"
                         android:maxLength="150"
                         android:paddingLeft="@dimen/_5sdp"
+                        android:paddingRight="@dimen/_7sdp"
                         android:textColor="@color/heading_bg"
                         android:textColorHint="@color/hint_txt_color"
                         android:textCursorDrawable="@drawable/color_cursor"

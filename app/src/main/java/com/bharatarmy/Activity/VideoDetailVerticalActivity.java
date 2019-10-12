@@ -34,7 +34,6 @@ import com.bharatarmy.Models.LogginModel;
 import com.bharatarmy.Models.LoginDataModel;
 import com.bharatarmy.Models.MyScreenChnagesModel;
 import com.bharatarmy.R;
-import com.bharatarmy.UploadService;
 import com.bharatarmy.Utility.ApiHandler;
 import com.bharatarmy.Utility.AppConfiguration;
 import com.bharatarmy.MyApplicationpip;

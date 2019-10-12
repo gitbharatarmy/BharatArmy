@@ -133,16 +133,16 @@ public class MobileVerificationNewActivity extends AppCompatActivity implements 
         if (countryCodeStr.length() > 0) {
             if (phoneNoStr.length() > 0) {
                 if (Utils.isValidPhoneNumber(phoneNoStr)) {
-                    boolean status = Utils.validateUsing_libphonenumber(mContext, countryCodeStr, phoneNoStr);
-                    if (status) {
+//                    boolean status = Utils.validateNumber(mContext, countryCodeStr, phoneNoStr);
+//                    if (status) {
                         if (!strCheck.equalsIgnoreCase("0")) {
                              getOtpVerification ();
                         } else {
                             Utils.ping(mContext, "Please accept the privacy policy.");
                         }
-                    } else {
-                        mobileVerificationNewBinding.phoneNoEdt.setError("Invalid Phone Number");
-                    }
+//                    } else {
+//                        mobileVerificationNewBinding.phoneNoEdt.setError("Invalid Phone Number");
+//                    }
                 } else {
                     mobileVerificationNewBinding.phoneNoEdt.setError("Invalid Phone Number");
                 }

@@ -26,6 +26,8 @@ import com.bharatarmy.Utility.SnapHelperOneByOne;
 import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.ActivityGalleryImageDetailBinding;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
@@ -53,21 +55,14 @@ public class GalleryImageDetailActivity extends BaseActivity implements View.OnC
     Uri uri;
     String imageNameStr;
 
-    public FragmentRefreshListener getFragmentRefreshListener() {
-        return fragmentRefreshListener;
-    }
 
-    public void setFragmentRefreshListener(FragmentRefreshListener fragmentRefreshListener) {
-        this.fragmentRefreshListener = fragmentRefreshListener;
-    }
-
-    private FragmentRefreshListener fragmentRefreshListener;
     @Override
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activityGalleryImageDetailBinding = DataBindingUtil.setContentView(this, R.layout.activity_gallery_image_detail);
         mContext = GalleryImageDetailActivity.this;
+
+
         int SDK_INT = android.os.Build.VERSION.SDK_INT;
         if (SDK_INT > 8) {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
@@ -187,9 +182,6 @@ imageLike=stringArrayList.getStringArrayList("dataLike");
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.back_img:
-//                Intent dashboardIntent = new Intent(mContext, DashboardActivity.class);
-//                dashboardIntent.putExtra("whichPageRun", "1");
-//                startActivity(dashboardIntent);
                 GalleryImageDetailActivity.this.finish();
                 break;
 

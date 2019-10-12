@@ -34,10 +34,36 @@ public class LoginDataModel {
     @SerializedName("ProfilePicUrl")
     @Expose
     private String profilePicUrl;
-
     @SerializedName("IsBAAdmin")
     @Expose
     private Integer isBAAdmin;
+    @SerializedName("Addressline1")
+    @Expose
+    private String addressline1;
+    @SerializedName("Addressline2")
+    @Expose
+    private String addressline2;
+    @SerializedName("Area")
+    @Expose
+    private String area;
+    @SerializedName("strState")
+    @Expose
+    private String strState;
+    @SerializedName("StateId")
+    @Expose
+    private Integer stateId;
+    @SerializedName("strCityName")
+    @Expose
+    private String strCityName;
+    @SerializedName("CityId")
+    @Expose
+    private Integer cityId;
+    @SerializedName("Pincode")
+    @Expose
+    private String pincode;
+    @SerializedName("MemberType")
+    @Expose
+    private String memberType;
 
     public String getEmail() {
         return email;
@@ -127,6 +153,76 @@ public class LoginDataModel {
         this.isBAAdmin = isBAAdmin;
     }
 
+    public String getAddressline1() {
+        return addressline1;
+    }
+
+    public void setAddressline1(String addressline1) {
+        this.addressline1 = addressline1;
+    }
+
+    public String getAddressline2() {
+        return addressline2;
+    }
+
+    public void setAddressline2(String addressline2) {
+        this.addressline2 = addressline2;
+    }
+
+    public String getArea() {
+        return area;
+    }
+
+    public void setArea(String area) {
+        this.area = area;
+    }
+
+    public String getStrState() {
+        return strState;
+    }
+
+    public void setStrState(String strState) {
+        this.strState = strState;
+    }
+
+    public Integer getStateId() {
+        return stateId;
+    }
+
+    public void setStateId(Integer stateId) {
+        this.stateId = stateId;
+    }
+
+    public String getStrCityName() {
+        return strCityName;
+    }
+
+    public void setStrCityName(String strCityName) {
+        this.strCityName = strCityName;
+    }
+
+    public Integer getCityId() {
+        return cityId;
+    }
+
+    public void setCityId(Integer cityId) {
+        this.cityId = cityId;
+    }
+
+    public String getPincode() {
+        return pincode;
+    }
+
+    public void setPincode(String pincode) {
+        this.pincode = pincode;
+    }
+    public String getMemberType() {
+        return memberType;
+    }
+
+    public void setMemberType(String memberType) {
+        this.memberType = memberType;
+    }
     //    Signup Response
     @SerializedName("CountryISOCode")
     @Expose
@@ -342,5 +438,30 @@ public class LoginDataModel {
 
     public void setPostView(Integer postView) {
         this.postView = postView;
+    }
+
+//    SFA user entry
+//    MemberName
+@SerializedName("BAMemberId")
+@Expose
+private Integer bAMemberId;
+
+    @SerializedName("MemberName")
+    @Expose
+    private String memberName;
+
+    public Integer getBAMemberId() {
+        return bAMemberId;
+    }
+
+    public void setBAMemberId(Integer bAMemberId) {
+        this.bAMemberId = bAMemberId;
+    }
+    public String getMemberName() {
+        return memberName;
+    }
+
+    public void setMemberName(String memberName) {
+        this.memberName = memberName;
     }
 }

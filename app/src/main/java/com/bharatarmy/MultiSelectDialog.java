@@ -1,12 +1,11 @@
 package com.bharatarmy;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -21,10 +20,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.bharatarmy.Adapter.MutliSelectAdapter;
 import com.bharatarmy.Interfaces.buttonclick_result;
-import com.bharatarmy.Interfaces.image_click;
 import com.bharatarmy.Models.ImageDetailModel;
-import com.bharatarmy.Models.ImageDetailModel;
-import com.bharatarmy.Utility.Utils;
 
 import java.util.ArrayList;
 
@@ -83,13 +79,14 @@ public class MultiSelectDialog extends AppCompatDialogFragment implements Search
 
         settingValues();
 
+        Log.d("previouslyselected",""+previouslySelectedIdsList);
+        selectedIdsForCallback = previouslySelectedIdsList;
         mainListOfAdapter = setCheckedIDS(mainListOfAdapter, previouslySelectedIdsList);
         mutliSelectAdapter = new MutliSelectAdapter(mainListOfAdapter, getContext(), new buttonclick_result() {
             @Override
             public void getResultandshow(String msg) {
 
                 if (msg.equalsIgnoreCase("done")){
-//                    getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
                     dialogSubmit.performClick();
                 }else{
                     dialogCancel.performClick();

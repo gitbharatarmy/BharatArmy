@@ -177,8 +177,6 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, StoryFragme
      * selected from navigation menu
      */
     private fun loadHomeFragment() {
-
-
         if (intent.getStringExtra("PageType") != null) {
             val pageType = intent.getStringExtra("PageType")
             if (pageType.equals("0", ignoreCase = true)) {

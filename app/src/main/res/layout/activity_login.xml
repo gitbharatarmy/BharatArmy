@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -73,6 +73,7 @@
                         android:maxLength="150"
                         android:maxLines="1"
                         android:paddingLeft="@dimen/_5sdp"
+                        android:paddingRight="@dimen/_7sdp"
                         android:textColor="@color/heading_bg"
                         android:textColorHint="@color/hint_txt_color"
                         android:textCursorDrawable="@drawable/color_cursor"
@@ -90,6 +91,7 @@
                         android:layout_height="@dimen/_15sdp"
                         android:layout_gravity="center_vertical"
                         android:src="@drawable/ic_password" />
+
                     <EditText
                         android:id="@+id/user_password_edt"
                         style="@style/text_font"
@@ -102,6 +104,7 @@
                         android:maxLength="10"
                         android:maxLines="1"
                         android:paddingLeft="@dimen/_5sdp"
+                        android:paddingRight="@dimen/_7sdp"
                         android:textColor="@color/heading_bg"
                         android:textColorHint="@color/hint_txt_color"
                         android:textCursorDrawable="@drawable/color_cursor"

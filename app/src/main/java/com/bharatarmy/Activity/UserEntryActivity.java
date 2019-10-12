@@ -12,7 +12,11 @@ import com.bharatarmy.databinding.ActivityUserEntryBinding;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -23,7 +27,7 @@ import retrofit.client.Response;
 public class UserEntryActivity extends BaseActivity implements View.OnClickListener {
     ActivityUserEntryBinding activityUserEntryBinding;
     Context mContext;
-    String userEmailStr, userPasswordStr;
+    String userEmailStr="", userPasswordStr="", userNameStr="",userIdStr="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,9 +36,9 @@ public class UserEntryActivity extends BaseActivity implements View.OnClickListe
 
         mContext = UserEntryActivity.this;
 
-        setTitleText("User Entry");
-        setBackButton(UserEntryActivity.this);
 
+
+        init();
         setListiner();
 
     }
@@ -45,34 +49,83 @@ public class UserEntryActivity extends BaseActivity implements View.OnClickListe
             case R.id.save_btn:
                 getInsertDataValue();
                 break;
+            case R.id.back_img:
+                Intent userListIntent=new Intent(mContext,DisplayAddedUserActivity.class);
+                userListIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(userListIntent);
+                finish();
+                break;
+        }
+    }
+
+    public void init(){
+        activityUserEntryBinding.toolbarTitleTxt.setText("User Entry");
+
+        if (getIntent().getStringExtra("userEditorNew")!=null){
+            if (getIntent().getStringExtra("userEditorNew").equalsIgnoreCase("edit")){
+                activityUserEntryBinding.nameEdt.setText(getIntent().getStringExtra("userName"));
+                activityUserEntryBinding.emailEdt.setText(getIntent().getStringExtra("userEmail"));
+                userIdStr=getIntent().getStringExtra("userId");
+                activityUserEntryBinding.emailEdt.setFocusable(false);
+                activityUserEntryBinding.emailEdt.setClickable(false);
+                activityUserEntryBinding.emailEdt.setBackground(getResources().getDrawable(R.drawable.not_edit_value_bg));
+            }else{
+                userIdStr="0";
+            }
         }
     }
 
     public void setListiner() {
         activityUserEntryBinding.saveBtn.setOnClickListener(this);
+activityUserEntryBinding.backImg.setOnClickListener(this);
+        activityUserEntryBinding.passwordEdt.setOnEditorActionListener(new EditText.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                   getInsertDataValue();
+                }
+                return false;
+            }
+        });
     }
 
     public void getInsertDataValue() {
+        userNameStr = activityUserEntryBinding.nameEdt.getText().toString();
         userEmailStr = activityUserEntryBinding.emailEdt.getText().toString();
         userPasswordStr = activityUserEntryBinding.passwordEdt.getText().toString();
 
-
-        if (!userEmailStr.equalsIgnoreCase("")) {
-            if (Utils.isValidEmailId(userEmailStr)) {
-                if (!userPasswordStr.equalsIgnoreCase("")) {
-                    if (userPasswordStr.length() >= 5 && userPasswordStr.length() <= 10) {
-                        getInsertUserData();
-                    } else {
-                        activityUserEntryBinding.passwordEdt.setError("Password Length must be greter than 5 or less than 10");
+        if (!userNameStr.equalsIgnoreCase("")) {
+            if (!userEmailStr.equalsIgnoreCase("")) {
+                if (Utils.isValidEmailId(userEmailStr)) {
+                    if (getIntent().getStringExtra("userEditorNew").equalsIgnoreCase("edit")) {
+                        if (!userPasswordStr.equalsIgnoreCase("")) {
+                            if (userPasswordStr.length() >= 5 && userPasswordStr.length() <= 10) {
+                                getInsertUserData();
+                            } else {
+                                activityUserEntryBinding.passwordEdt.setError("Password Length must be greter than 5 or less than 10");
+                            }
+                        } else {
+                            getInsertUserData();
+                        }
+                    }else{
+                        if (!userPasswordStr.equalsIgnoreCase("")) {
+                            if (userPasswordStr.length() >= 5 && userPasswordStr.length() <= 10) {
+                                getInsertUserData();
+                            } else {
+                                activityUserEntryBinding.passwordEdt.setError("Password Length must be greter than 5 or less than 10");
+                            }
+                        } else {
+                            activityUserEntryBinding.passwordEdt.setError("Password is required");
+                        }
                     }
                 } else {
-                    activityUserEntryBinding.passwordEdt.setError("Password is required");
+                    activityUserEntryBinding.emailEdt.setError("Invalid Email Address");
                 }
             } else {
-                activityUserEntryBinding.emailEdt.setError("Invalid Email Address");
+                activityUserEntryBinding.emailEdt.setError("Email Address is required");
             }
-        } else {
-            activityUserEntryBinding.emailEdt.setError("Email Address is required");
+        }else{
+            activityUserEntryBinding.nameEdt.setError("Name is required");
         }
     }
 
@@ -84,24 +137,36 @@ public class UserEntryActivity extends BaseActivity implements View.OnClickListe
         }
 
         Utils.showDialog(mContext);
-        ApiHandler.getApiService().getValidatedBAMember(getuserentryData(), new retrofit.Callback<LogginModel>() {
+        ApiHandler.getApiService().getInsertDataEntryUser(getuserentryData(), new retrofit.Callback<LogginModel>() {
             @Override
-            public void success(LogginModel loginModel, Response response) {
+            public void success(LogginModel userDataModel, Response response) {
                 Utils.dismissDialog();
-                if (loginModel == null) {
+                if (userDataModel == null) {
                     Utils.ping(mContext, getString(R.string.something_wrong));
                     return;
                 }
-                if (loginModel.getIsValid() == null) {
+                if (userDataModel.getIsValid() == null) {
                     Utils.ping(mContext, getString(R.string.something_wrong));
                     return;
                 }
-                if (loginModel.getIsValid() == 0) {
-                    Utils.ping(mContext, loginModel.getMessage());
+                if (userDataModel.getIsValid() == 0) {
+                    Utils.ping(mContext, userDataModel.getMessage());
                     return;
                 }
-                if (loginModel.getIsValid() == 1) {
-
+                if (userDataModel.getIsValid() == 1) {
+                       if (userDataModel.getData().getBAMemberId()<0){
+                           Utils.ping(mContext,userDataModel.getData().getMemberName());
+                       }else {
+                           Utils.ping(mContext,"Sucessfully enter");
+                           activityUserEntryBinding.nameEdt.setText("");
+                           activityUserEntryBinding.emailEdt.setText("");
+                           activityUserEntryBinding.passwordEdt.setText("");
+                           activityUserEntryBinding.emailEdt.setBackground(null);
+                           Intent userListIntent=new Intent(mContext,DisplayAddedUserActivity.class);
+                           userListIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                           startActivity(userListIntent);
+                           finish();
+                       }
                 }
             }
 
@@ -118,9 +183,19 @@ public class UserEntryActivity extends BaseActivity implements View.OnClickListe
 
     private Map<String, String> getuserentryData() {
         Map<String, String> map = new HashMap<>();
-        map.put("AppUserId", "0");
-        map.put("Email", userEmailStr);
+        map.put("Id",userIdStr);
+        map.put("Name", userNameStr);
+        map.put("EmailId", userEmailStr);
         map.put("Password", userPasswordStr);
+        map.put("AddedById", String.valueOf(Utils.getAppUserId(mContext)));
         return map;
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent userListIntent=new Intent(mContext,DisplayAddedUserActivity.class);
+        userListIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(userListIntent);
+        finish();
     }
 }

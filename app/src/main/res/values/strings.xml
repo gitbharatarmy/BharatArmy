@@ -93,7 +93,11 @@
     <string name="user_name" translatable="false">Name</string>
     <string name="register_info" translatable="false">Register for other sports ?</string>
     <string name="sfa_entry" translatable="false">SFA Data Entry</string>
-    <string name="data_entry" translatable="false">Data Entry</string>
+    <string name="data_entry" translatable="false">My User</string>
+    <string name="select" translatable="false">Select</string>
+    <string name="school_name" translatable="false">School Name</string>
+    <string name="student" translatable="false">Student</string>
+    <string name="coach" translatable="false">Coach</string>
     <!--Dashboard String-->
     <string name="home" translatable="false">Home</string>
     <string name="myprofile" translatable="false">My Profile</string>

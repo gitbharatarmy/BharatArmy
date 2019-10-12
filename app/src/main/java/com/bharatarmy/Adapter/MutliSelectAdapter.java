@@ -1,33 +1,25 @@
 package com.bharatarmy.Adapter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Typeface;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.TextAppearanceSpan;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
 import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bharatarmy.Interfaces.buttonclick_result;
-import com.bharatarmy.Interfaces.image_click;
-import com.bharatarmy.Models.ImageDetailModel;
 import com.bharatarmy.Models.ImageDetailModel;
 import com.bharatarmy.MultiSelectDialog;
 import com.bharatarmy.R;
-import com.bharatarmy.Utility.AppConfiguration;
-import com.bharatarmy.Utility.Utils;
 
 import java.util.ArrayList;
 
@@ -36,7 +28,6 @@ public class MutliSelectAdapter extends RecyclerView.Adapter<MutliSelectAdapter.
     private ArrayList<ImageDetailModel> mDataSet = new ArrayList<>();
     private String mSearchQuery = "";
     private Context mContext;
-    int selectedposition=-1;
     buttonclick_result buttonclick_result;
 
      public MutliSelectAdapter(ArrayList<ImageDetailModel> dataSet, Context context, buttonclick_result buttonclick_result) {
@@ -60,64 +51,26 @@ public class MutliSelectAdapter extends RecyclerView.Adapter<MutliSelectAdapter.
             holder.dialog_name_item.setText(mDataSet.get(position).getName());
         }
 
-        if (mDataSet.get(position).isSelected()) {
+      if (mDataSet.get(position).isSelected()) {
             if (!MultiSelectDialog.selectedIdsForCallback.contains(mDataSet.get(position).getId())) {
                 MultiSelectDialog.selectedIdsForCallback.add(mDataSet.get(position).getId());
             }
         }
 
-//        if (checkForSelection(mDataSet.get(position).getId())) {
-//            holder.dialog_item_checkbox.setChecked(true);
-//        } else {
-//            holder.dialog_item_checkbox.setChecked(false);
-//        }
-        /* pre selction code*/
-//        if (AppConfiguration.dialogType.equalsIgnoreCase("states")){
-//            if (!AppConfiguration.selectedStatesIdStr.equalsIgnoreCase("")) {
-//                checkForSelection(Integer.valueOf(AppConfiguration.selectedStatesIdStr));
-//            }
-//        }else if(AppConfiguration.dialogType.equalsIgnoreCase("cities")){
-//            if (!AppConfiguration.selectedCitiesIdStr.equalsIgnoreCase("")){
-//                checkForSelection(Integer.valueOf(AppConfiguration.selectedCitiesIdStr))  ;
-//            }
-//        }
-
-
-
-
-        if (selectedposition==position){
+        if (checkForSelection(mDataSet.get(position).getId())) {
             holder.dialog_item_checkbox.setChecked(true);
-            MultiSelectDialog.selectedIdsForCallback.add(mDataSet.get(holder.getAdapterPosition()).getId());
-//            mDataSet.get(holder.getAdapterPosition()).setSelected(true);
-            buttonclick_result.getResultandshow("done");
-
-        }else {
+        } else {
             holder.dialog_item_checkbox.setChecked(false);
-            removeFromSelection(mDataSet.get(holder.getAdapterPosition()).getId());
-//            mDataSet.get(holder.getAdapterPosition()).setSelected(false);
-//            buttonclick_result.getResultandshow("cancel");
         }
-
 
         holder.main_container.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                selectedposition=position;
-                if (AppConfiguration.dialogType.equalsIgnoreCase("states")){
-                    if (!AppConfiguration.selectedStatesIdStr.equalsIgnoreCase("")) {
-                        removeFromSelection(Integer.valueOf(AppConfiguration.selectedStatesIdStr));
-                    }
-                    AppConfiguration.selectedStatesIdStr= String.valueOf(mDataSet.get(position).getId());
-
-                }else if(AppConfiguration.dialogType.equalsIgnoreCase("cities")){
-                    if (!AppConfiguration.selectedCitiesIdStr.equalsIgnoreCase("")) {
-                        removeFromSelection(Integer.valueOf(AppConfiguration.selectedCitiesIdStr));
-                    }
-                    AppConfiguration.selectedCitiesIdStr= String.valueOf(mDataSet.get(position).getId());
-                }
-                notifyDataSetChanged();
-
+                MultiSelectDialog.selectedIdsForCallback.clear();
+                holder.dialog_item_checkbox.setChecked(true);
+                MultiSelectDialog.selectedIdsForCallback.add(mDataSet.get(holder.getAdapterPosition()).getId());
+                mDataSet.get(position).setSelected(true);
+                buttonclick_result.getResultandshow("done");
             }
         });
     }
@@ -132,24 +85,14 @@ public class MutliSelectAdapter extends RecyclerView.Adapter<MutliSelectAdapter.
         textview.setText(str);
     }
 
-    private void removeFromSelection(Integer id) {
+
+    private boolean checkForSelection(Integer id) {
         for (int i = 0; i < MultiSelectDialog.selectedIdsForCallback.size(); i++) {
             if (id.equals(MultiSelectDialog.selectedIdsForCallback.get(i))) {
-                MultiSelectDialog.selectedIdsForCallback.remove(i);
+                return true;
             }
         }
-    }
-
-
-    private void checkForSelection(Integer id) {
-        for (int i = 0; i < mDataSet.size(); i++) {
-            if (id.equals(mDataSet.get(i).getId())) {
-                selectedposition=i;
-                Log.d("selectedposition ",""+selectedposition);
-                break;
-
-            }
-        }
+        return false;
     }
 
 

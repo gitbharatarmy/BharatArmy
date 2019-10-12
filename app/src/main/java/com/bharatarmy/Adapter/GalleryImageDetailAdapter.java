@@ -18,11 +18,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bharatarmy.Activity.CommentActivity;
 import com.bharatarmy.Interfaces.image_click;
+import com.bharatarmy.Models.MyScreenChnagesModel;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.GalleryImageDetailListBinding;
 import com.like.LikeButton;
 import com.like.OnLikeListener;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -111,6 +114,8 @@ Uri uri;
 
                     Utils.LikeStatus = 1;
                     Utils.InsertLike(mContext, activity);
+
+                    EventBus.getDefault().post(new MyScreenChnagesModel(String.valueOf(position)));
                 }
 
             }
@@ -124,6 +129,7 @@ Uri uri;
 
                     Utils.LikeStatus = 0;
                     Utils.InsertLike(mContext, activity);
+                    EventBus.getDefault().post(new MyScreenChnagesModel(String.valueOf(position)));
                 }
 
             }
@@ -147,8 +153,6 @@ Uri uri;
             public void onClick(View v) {
                 if (Utils.isMember(mContext,"ImageUpload")){
                     image_click.image_more_click();
-
-
                 }
 
             }

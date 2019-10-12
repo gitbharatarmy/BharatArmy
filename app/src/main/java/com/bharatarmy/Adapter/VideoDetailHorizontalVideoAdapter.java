@@ -16,6 +16,7 @@ import com.bharatarmy.Activity.VideoDetailVerticalActivity;
 import com.bharatarmy.Interfaces.image_click;
 import com.bharatarmy.Models.ImageDetailModel;
 import com.bharatarmy.Models.LoginDataModel;
+import com.bharatarmy.Models.MyScreenChnagesModel;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.AppConfiguration;
 import com.bharatarmy.Utility.Utils;
@@ -23,6 +24,8 @@ import com.bharatarmy.databinding.VideoDetailHorizontalAdapterItemBinding;
 import com.bharatarmy.databinding.VideoDetailHorizontalHeaderBinding;
 import com.like.LikeButton;
 import com.like.OnLikeListener;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -225,6 +228,8 @@ public class VideoDetailHorizontalVideoAdapter extends RecyclerView.Adapter<Recy
                         likeunlikecount= Integer.parseInt(((HeaderViewHolder)holder).videoDetailHorizontalHeaderBinding.totalLikeTxt.getText().toString());
                         notifyItemChanged(position,
                                 likeunlikecount+1);
+
+                        EventBus.getDefault().post(new MyScreenChnagesModel(videoIdStr));
                     }
                 }
 
@@ -236,6 +241,8 @@ public class VideoDetailHorizontalVideoAdapter extends RecyclerView.Adapter<Recy
                         likeunlikecount= Integer.parseInt(((HeaderViewHolder)holder).videoDetailHorizontalHeaderBinding.totalLikeTxt.getText().toString());
                         notifyItemChanged(position,
                                 likeunlikecount-1);
+
+                        EventBus.getDefault().post(new MyScreenChnagesModel(videoIdStr));
                     }
                 }
             });

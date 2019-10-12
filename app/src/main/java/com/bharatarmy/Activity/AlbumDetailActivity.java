@@ -50,7 +50,7 @@ public class AlbumDetailActivity extends AppCompatActivity implements View.OnCli
     AlbumDetailListAdapter albumDetailListAdapter;
 String albumHeadingStr,albumIdStr, albumThumbStr;
     int pageIndex = 0;
-    boolean isLoading = false;
+    boolean isLoading = true;
     GridLayoutManager gridLayoutManager;
 
 
@@ -222,7 +222,7 @@ String albumHeadingStr,albumIdStr, albumThumbStr;
                         addOldNewValue(albumdetailDataList);
                         if (albumDetailListAdapter != null && albumdetailDataList.size() > 0) {
                             albumDetailListAdapter.addMoreDataToList(albumdetailDataList);
-
+                           isLoading=false;
                             // just append more data to current list
                         } else if (albumDetailListAdapter != null && albumdetailDataList.size() == 0) {
                             isLoading = true;

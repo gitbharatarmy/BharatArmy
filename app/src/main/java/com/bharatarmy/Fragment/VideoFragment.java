@@ -25,6 +25,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bharatarmy.Activity.GalleryImageDetailActivity;
+import com.bharatarmy.Activity.ImageEditProfilePickerActivity;
 import com.bharatarmy.Activity.ImageVideoUploadActivity;
 import com.bharatarmy.Activity.VideoDetailActivity;
 import com.bharatarmy.Activity.VideoTrimActivity;
@@ -34,6 +35,7 @@ import com.bharatarmy.Adapter.VideoListAdapter;
 import com.bharatarmy.Interfaces.image_click;
 import com.bharatarmy.Models.ImageDetailModel;
 import com.bharatarmy.Models.ImageMainModel;
+import com.bharatarmy.Models.MyScreenChnagesModel;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.ApiHandler;
 import com.bharatarmy.Utility.EndlessRecyclerViewScrollListener;
@@ -50,6 +52,9 @@ import com.leinardi.android.speeddial.FabWithLabelView;
 import com.leinardi.android.speeddial.SpeedDialActionItem;
 import com.leinardi.android.speeddial.SpeedDialOverlayLayout;
 import com.leinardi.android.speeddial.SpeedDialView;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -133,8 +138,8 @@ public class VideoFragment extends Fragment {
 
         rootView = fragmentVideoBinding.getRoot();
         mContext = getActivity().getApplicationContext();
-
-
+        EventBus.getDefault().register(this);
+        ImageEditProfilePickerActivity.clearCache(mContext);
         setUserVisibleHint(true);
         return rootView;
     }
@@ -524,5 +529,18 @@ public class VideoFragment extends Fragment {
 
             }
         }
+    }
+
+
+    @Subscribe
+    public void customEventReceived(MyScreenChnagesModel event) {
+        if (!event.getMessage().equalsIgnoreCase("")) {
+            for (int i=0;i<videoDetailModelsList.size();i++){
+                if (videoDetailModelsList.get(i).getBAVideoGalleryId()== Integer.valueOf(event.getMessage())){
+                    videoDetailModelsList.get(i).setIsLike(Utils.LikeStatus);
+                }
+            }
+        }
+
     }
 }

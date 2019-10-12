@@ -33,6 +33,7 @@ import com.bharatarmy.Interfaces.FragmentRefreshListener;
 import com.bharatarmy.Interfaces.image_click;
 import com.bharatarmy.Models.ImageDetailModel;
 import com.bharatarmy.Models.ImageMainModel;
+import com.bharatarmy.Models.MyScreenChnagesModel;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.ApiHandler;
 import com.bharatarmy.Utility.EndlessRecyclerViewScrollListener;
@@ -48,6 +49,9 @@ import com.leinardi.android.speeddial.FabWithLabelView;
 import com.leinardi.android.speeddial.SpeedDialActionItem;
 import com.leinardi.android.speeddial.SpeedDialOverlayLayout;
 import com.leinardi.android.speeddial.SpeedDialView;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -128,6 +132,8 @@ public class ImageFragment extends Fragment {
 
         rootView = fragmentImageBinding.getRoot();
         mContext = getActivity().getApplicationContext();
+        EventBus.getDefault().register(this);
+        ImageEditProfilePickerActivity.clearCache(mContext);
 
 //        initSpeedDial(savedInstanceState == null);
 
@@ -552,6 +558,19 @@ Log.d("pullDataList : ",""+imageDetailModelsList.size());
         }
     }
 
+    @Subscribe
+    public void customEventReceived(MyScreenChnagesModel event) {
+        Log.d("imageId :", event.getMessage());
+        Log.d("mainmodelValue :", imageDetailModelsList.toString());
+        if (!event.getMessage().equalsIgnoreCase("")) {
+           for (int i=0;i<galleryImageLike.size();i++){
+               if (i == Integer.parseInt(event.getMessage())) {
+                  galleryImageLike.add(i, String.valueOf(Utils.LikeStatus));
+               }
+           }
+        }
+
+    }
 }
 
 

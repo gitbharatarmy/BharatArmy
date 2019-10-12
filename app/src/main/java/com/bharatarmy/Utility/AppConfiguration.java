@@ -41,8 +41,7 @@ public class AppConfiguration {
     public static String videoPlay="";
     public static String videoThumbStr;
 
-    public static String selectedStatesIdStr="";
-    public static String selectedCitiesIdStr="";
-    public static String dialogType;
+
+
 
 }

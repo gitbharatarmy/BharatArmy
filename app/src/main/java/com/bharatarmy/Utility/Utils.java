@@ -104,6 +104,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+
 import okhttp3.MultipartBody;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -386,11 +387,11 @@ public class Utils {
 
         boolean isValid = phoneNumberUtil.isValidNumber(phoneNumber);
         if (isValid) {
-            String internationalFormat = phoneNumberUtil.format(phoneNumber, PhoneNumberUtil.PhoneNumberFormat.INTERNATIONAL);
-//            Toast.makeText(context, "Phone Number is Valid " + internationalFormat, Toast.LENGTH_LONG).show();
+            String internationalFormat = phoneNumberUtil.format(phoneNumber, PhoneNumberUtil.PhoneNumberFormat.NATIONAL);
+           Toast.makeText(context, "Phone Number is Valid " + internationalFormat, Toast.LENGTH_LONG).show();
             return true;
         } else {
-//            Toast.makeText(context, "Phone Number is Invalid " + phoneNumber, Toast.LENGTH_LONG).show();
+          Toast.makeText(context, "Phone Number is Invalid " + phoneNumber, Toast.LENGTH_LONG).show();
             return false;
         }
     }
@@ -711,17 +712,17 @@ public class Utils {
                             if (AppConfiguration.registerCountryCodeStr.length() > 0) {
                                 if (AppConfiguration.registerMobileStr.length() > 0) {
                                     if (Utils.isValidPhoneNumber(AppConfiguration.registerMobileStr)) {
-                                        boolean status = Utils.validateUsing_libphonenumber(activity, AppConfiguration.registerCountryCodeStr, AppConfiguration.registerMobileStr);
-                                        if (status) {
+//                                        boolean status = Utils.validateUsing_libphonenumber(activity, AppConfiguration.registerCountryCodeStr, AppConfiguration.registerMobileStr);
+//                                        if (status) {
                                             if (!strCheck.equalsIgnoreCase("0")) {
                                                 alertDialog.dismiss();
                                                 submit_click.getsubmitClick();
                                             } else {
                                                 Utils.ping(activity, "Check the privacy policy");
                                             }
-                                        } else {
-                                            mobile_edt.setError("Invalid Phone Number");
-                                        }
+//                                        } else {
+//                                            mobile_edt.setError("Invalid Phone Number");
+//                                        }
                                     } else {
                                         mobile_edt.setError("Invalid Phone Number");
                                     }
@@ -855,6 +856,12 @@ public class Utils {
         return false;
     }
 
+    public static String getCountryNameUsingCountryCode(String code){
+        Locale l = new Locale("", code);
+        String country = l.getDisplayCountry();
+
+        return country;
+    }
 
     public static void storeLoginData(LoginDataModel result, Context mContext) {
         Gson gsonupdate = new Gson();
@@ -907,7 +914,7 @@ public class Utils {
 
     public static void goToLogin(Context mContext, String whereTocome) {
         Intent intent = new Intent(mContext, LoginActivity.class);
-        intent.putExtra("whereTocomeLogin", whereTocome);
+//        intent.putExtra("whereTocomeLogin", whereTocome);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mContext.startActivity(intent);
     }

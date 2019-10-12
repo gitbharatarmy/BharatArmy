@@ -1,6 +1,7 @@
 package com.bharatarmy.Utility;
 
 import com.bharatarmy.Models.DashboardModel;
+import com.bharatarmy.Models.GetSchoolNameModel;
 import com.bharatarmy.Models.GetWalkthroughModel;
 import com.bharatarmy.Models.HomeTemplateModel;
 import com.bharatarmy.Models.ImageMainModel;
@@ -98,25 +99,30 @@ public interface WebServices {
     @Multipart
     @retrofit2.http.POST("/API/v1/UpdateProfile")
     Call<LogginModel> updateprofile(@Part("AppUserId") RequestBody userid, @Part("FullName") RequestBody fullname,
-                                       @Part("CountryISOCode") RequestBody countryISOCode, @Part("CountryPhoneNo") RequestBody countycode,
-                                       @Part("PhoneNo") RequestBody phoneno,@Part("Gender") RequestBody gender,
-                                       @Part("OTPText") RequestBody otptext,@Part("SMSSentId") RequestBody smssentId,
-                                       @Part MultipartBody.Part file);
+                                    @Part("CountryISOCode") RequestBody countryISOCode, @Part("CountryPhoneNo") RequestBody countycode,
+                                    @Part("PhoneNo") RequestBody phoneno, @Part("Gender") RequestBody gender,
+                                    @Part("OTPText") RequestBody otptext, @Part("SMSSentId") RequestBody smssentId,
+                                    @Part("Addressline1") RequestBody addressline1, @Part("Addressline2") RequestBody addressline2,
+                                    @Part("Area") RequestBody area, @Part("StateId") RequestBody stateid,
+                                    @Part("strStateName") RequestBody strstatename,  @Part("CityId") RequestBody cityId,
+                                    @Part("strCity") RequestBody strcity, @Part("Pincode") RequestBody pincode,
+                                    @Part MultipartBody.Part file);
 
     @Multipart
     @retrofit2.http.POST("/API/v1/InsertData")
     @POST("/InsertData")
     Call<LogginModel> insertData(@Part("AppUserId") RequestBody userid, @Part("FullName") RequestBody fullname,
-                                    @Part("CountryISOCode") RequestBody countryISOCode, @Part("CountryPhoneNo") RequestBody countycode,
-                                    @Part("PhoneNo") RequestBody phoneno,@Part("Gender") RequestBody gender,
-                                    @Part("Email") RequestBody email,@Part("InterestedSports") RequestBody interestedsports,
-                                    @Part MultipartBody.Part file);
+                                 @Part("CountryISOCode") RequestBody countryISOCode, @Part("CountryPhoneNo") RequestBody countycode,
+                                 @Part("PhoneNo") RequestBody phoneno, @Part("Gender") RequestBody gender,
+                                 @Part("Email") RequestBody email, @Part("InterestedSports") RequestBody interestedsports,
+                                 @Part("SchoolName") RequestBody schoolname, @Part("UserType") RequestBody usertype,
+                                 @Part MultipartBody.Part file);
 
     /* gallery image/video uploading with multiple parameter */
     @Multipart
     @retrofit2.http.POST("/API/v1/UploadFiles_New")
-    Call<LogginModel> uploadfiles(@Part MultipartBody.Part file,@Part("FileTypeId") RequestBody filetype,
-                                  @Part("MemberId") RequestBody userid,@Part("MemberFullName") RequestBody memberName,
+    Call<LogginModel> uploadfiles(@Part MultipartBody.Part file, @Part("FileTypeId") RequestBody filetype,
+                                  @Part("MemberId") RequestBody userid, @Part("MemberFullName") RequestBody memberName,
                                   @Part("VideoLength") RequestBody videoLength,
                                   @Part("Title") RequestBody videoTitle,
                                   @Part("TitleDescription") RequestBody titleDescription); //@Part("FileTypeId") RequestBody userid,
@@ -124,14 +130,30 @@ public interface WebServices {
     /* gallery image/video uploading with multiple parameter */
     @Multipart
     @retrofit2.http.POST("/API/v1/UploadFiles_New")
-    Call<LogginModel> uploadvideo(@Part MultipartBody.Part[] file,@Part("FileTypeId") RequestBody filetype,
-                                  @Part("MemberId") RequestBody userid,@Part("MemberFullName") RequestBody memberName,
+    Call<LogginModel> uploadvideo(@Part MultipartBody.Part[] file, @Part("FileTypeId") RequestBody filetype,
+                                  @Part("MemberId") RequestBody userid, @Part("MemberFullName") RequestBody memberName,
                                   @Part("VideoLength") RequestBody videoLength,
                                   @Part("Title") RequestBody videoTitle,
                                   @Part("TitleDescription") RequestBody titleDescription,
                                   @Part("height") RequestBody height,
                                   @Part("width") RequestBody width); //@Part("FileTypeId") RequestBody userid,
     //if we pass array of imagethen use MultipartBody.Part[] file
+
+    @FormUrlEncoded
+    @POST("/InsertDataEntryUser")
+    void getInsertDataEntryUser(@FieldMap Map<String, String> map, Callback<LogginModel> callback);
+
+    @FormUrlEncoded
+    @POST("/MyAddedUser")
+    void getMyAddedUser(@FieldMap Map<String, String> map, Callback<ImageMainModel> callback);
+
+    @FormUrlEncoded
+    @POST("/GetDataEnter")
+    void getDataEnter(@FieldMap Map<String, String> map, Callback<ImageMainModel> callback);
+
+    @FormUrlEncoded
+    @POST("/GetSchoolNameFromEntry")
+    void getSchoolNameFromEntry(@FieldMap Map<String, String> map, Callback<GetSchoolNameModel> callback);
 
     @FormUrlEncoded
     @POST("/BAGallery")

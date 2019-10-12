@@ -139,8 +139,8 @@ activitySignUpBinding.fulluserNameEdt.setOnClickListener(this);
                     if (strCountrycode.length() > 0) {
                         if (strMobileno.length() > 0) {
                             if (Utils.isValidPhoneNumber(strMobileno)) {
-                                boolean status = Utils.validateUsing_libphonenumber(mContext, strCountrycode, strMobileno);
-                                if (status) {
+//                                    boolean status = Utils.validateUsing_libphonenumber(mContext, strCountrycode, strMobileno);
+//                                if (status) {
                                     if (!strPassword.equalsIgnoreCase("")) {
                                         if (strPassword.length() >= 5 && strPassword.length() <= 10) {
                                             if (!strCheck.equalsIgnoreCase("0")) {
@@ -155,9 +155,9 @@ activitySignUpBinding.fulluserNameEdt.setOnClickListener(this);
                                     } else {
                                         activitySignUpBinding.userPasswordEdt.setError("Password is required");
                                     }
-                                } else {
-                                    activitySignUpBinding.mobileEdt.setError("Invalid Phone Number");
-                                }
+//                                } else {
+//                                    activitySignUpBinding.mobileEdt.setError("Invalid Phone Number");
+//                                }
                             } else {
                                 activitySignUpBinding.mobileEdt.setError("Invalid Phone Number");
                             }

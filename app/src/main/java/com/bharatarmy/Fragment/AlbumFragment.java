@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.bharatarmy.Activity.ImageEditProfilePickerActivity;
 import com.bharatarmy.Activity.ImageVideoUploadActivity;
 import com.bharatarmy.Activity.VideoTrimActivity;
 import com.bharatarmy.Adapter.AlbumListAdapter;
@@ -125,7 +126,7 @@ public class AlbumFragment extends Fragment {
 
         rootView = fragmentAlbumBinding.getRoot();
         mContext = getActivity().getApplicationContext();
-
+        ImageEditProfilePickerActivity.clearCache(mContext);
         setUserVisibleHint(true);
         return rootView;
     }

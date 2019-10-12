@@ -289,7 +289,7 @@ public class MultiSportsSelectDialog extends AppCompatDialogFragment implements 
         String data = "";
         for (int i = 0; i < tempMainListOfAdapter.size(); i++) {
             if (checkForSelection(tempMainListOfAdapter.get(i).getId())) {
-                data = data + ", " + tempMainListOfAdapter.get(i).getId();
+                data = data + "," + tempMainListOfAdapter.get(i).getId();
             }
         }
         if (data.length() > 0) {

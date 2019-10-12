@@ -9,7 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.bharatarmy.Models.GalleryImageModel;
-import com.bharatarmy.UploadService;
+
 
 import java.util.ArrayList;
 import java.util.List;

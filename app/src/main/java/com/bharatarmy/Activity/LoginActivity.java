@@ -231,7 +231,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 }
                 if (loginModel.getIsValid() == 1) {
                     if (loginModel.getData() != null) {
-
+                        Utils.setPref(mContext, "IsSkipLogin", "0");
                         Utils.setPref(mContext, "IsLoginUser", "1");
                         Utils.storeLoginData(loginModel.getData(),mContext);
                         Utils.storeLoginOtherData(loginModel.getOtherData(), mContext);
@@ -284,15 +284,37 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 DashboardIntent.putExtra("whichPageRun", "1");
                 startActivity(DashboardIntent);
                 finish();
-            }else{
+            }else if(getIntent().getStringExtra("whereTocomeLogin").equalsIgnoreCase("more")){
+                if (Utils.retriveLoginData(mContext).getMemberType().equalsIgnoreCase(",3,")){
+                    Intent SFAintent = new Intent(mContext, DisplaySFAUserActivity.class);
+                    startActivity(SFAintent);
+                    finish();
+                }else{
+                    Intent DashboardIntent = new Intent(mContext, DashboardActivity.class);
+                    startActivity(DashboardIntent);
+                    finish();
+                }
+            }else if(getIntent().getStringExtra("whereTocomeLogin").equalsIgnoreCase("storyDetail")){
+                Intent dashintent = new Intent(mContext, DashboardActivity.class);
+                dashintent.putExtra("whichPageRun", "4");
+                startActivity(dashintent);
+                finish();
+            } else {
                 Intent DashboardIntent = new Intent(mContext, DashboardActivity.class);
                 startActivity(DashboardIntent);
                 finish();
             }
         }else{
-            Intent DashboardIntent = new Intent(mContext, DashboardActivity.class);
-            startActivity(DashboardIntent);
-            finish();
+            if (Utils.retriveLoginData(mContext).getMemberType().equalsIgnoreCase(",3,")){
+                Intent SFAintent = new Intent(mContext, DisplaySFAUserActivity.class);
+                startActivity(SFAintent);
+                finish();
+            }else{
+                Intent DashboardIntent = new Intent(mContext, DashboardActivity.class);
+                startActivity(DashboardIntent);
+                finish();
+            }
+
         }
     }
 }

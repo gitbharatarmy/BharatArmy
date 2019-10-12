@@ -1,5 +1,6 @@
 package com.bharatarmy.Fragment;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -8,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -24,6 +26,8 @@ import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
 
 import com.bharatarmy.Activity.ContactusActivity;
+import com.bharatarmy.Activity.DisplayAddedUserActivity;
+import com.bharatarmy.Activity.DisplaySFAUserActivity;
 import com.bharatarmy.Activity.InquriyActivity;
 import com.bharatarmy.Activity.LoginActivity;
 import com.bharatarmy.Activity.MoreStoryActivity;
@@ -36,13 +40,19 @@ import com.bharatarmy.Adapter.StoryLsitAdapter;
 import com.bharatarmy.Interfaces.image_click;
 import com.bharatarmy.Models.ImageDetailModel;
 import com.bharatarmy.Models.ImageMainModel;
+import com.bharatarmy.Models.MyScreenChnagesModel;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.ApiHandler;
+import com.bharatarmy.Utility.AppConfiguration;
 import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.FragmentMoreBinding;
 import com.bharatarmy.databinding.FragmentStoryBinding;
+import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.leinardi.android.speeddial.SpeedDialView;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.HashMap;
 import java.util.List;
@@ -97,7 +107,7 @@ public class MoreFragment extends Fragment implements View.OnClickListener {
         speedDial = getActivity().findViewById(R.id.speedDial);
         speedDial.setVisibility(View.GONE);
 
-
+        EventBus.getDefault().register(this);
         setListiner();
         return rootView;
     }
@@ -108,11 +118,20 @@ public class MoreFragment extends Fragment implements View.OnClickListener {
             fragmentMoreBinding.withoutloginLinear.setVisibility(View.GONE);
             fragmentMoreBinding.header4Linear.setVisibility(View.VISIBLE);
             fragmentMoreBinding.userNametxt.setText(Utils.retriveLoginData(mContext).getName());
-
+            Utils.setImageInImageView(Utils.retriveLoginData(mContext).getProfilePicUrl(), fragmentMoreBinding.profileImage, mContext);
             if (Utils.retriveLoginData(mContext).getIsBAAdmin().equals("1")) {
-                fragmentMoreBinding.header3Linear.setVisibility(View.VISIBLE);
+                fragmentMoreBinding.inquiryLinear.setVisibility(View.VISIBLE);
+                fragmentMoreBinding.userLinear.setVisibility(View.VISIBLE);
+
             } else {
-                fragmentMoreBinding.header3Linear.setVisibility(View.GONE);
+                fragmentMoreBinding.inquiryLinear.setVisibility(View.GONE);
+                fragmentMoreBinding.userLinear.setVisibility(View.GONE);
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT
+                );
+                params.setMargins(0, 0, 0, 0);
+                fragmentMoreBinding.sportsInterestLinear.setLayoutParams(params);
             }
 
 
@@ -183,8 +202,10 @@ public class MoreFragment extends Fragment implements View.OnClickListener {
                                 Utils.setPref(mContext, "IsLoginUser", "");
                                 Utils.ping(mContext, "You are logout suceessfully");
                                 Intent ilogin = new Intent(mContext, LoginActivity.class);
-                                ilogin.putExtra("whereTocomeLogin", "logout");
+                                ilogin.putExtra("whereTocomeLogin", "more");
                                 startActivity(ilogin);
+                                getActivity().finish();
+//                                ((Activity)mContext).finish();
 
                             }
                         });
@@ -211,16 +232,28 @@ public class MoreFragment extends Fragment implements View.OnClickListener {
                 startActivity(intent);
                 break;
             case R.id.sports_interest_linear:
-                Intent sportsintent = new Intent(mContext, SportsInterestActivity.class);
+                Intent sportsintent = new Intent(mContext, DisplaySFAUserActivity.class);
                 sportsintent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(sportsintent);
                 break;
             case R.id.data_entry_linear:
-                Intent userentry = new Intent(mContext, UserEntryActivity.class);
-                userentry.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(userentry);
+                Intent displayuserentry = new Intent(mContext, DisplayAddedUserActivity.class);
+                displayuserentry.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(displayuserentry);
                 break;
         }
+    }
+
+
+
+    @Subscribe
+    public void customEventReceived(MyScreenChnagesModel event) {
+        Log.d("event :", event.getMessage());
+        if (event.getMessage().equalsIgnoreCase("change")) {
+            fragmentMoreBinding.userNametxt.setText(Utils.retriveLoginData(mContext).getName());
+            Utils.setImageInImageView(Utils.retriveLoginData(mContext).getProfilePicUrl(), fragmentMoreBinding.profileImage, mContext);
+        }
+
     }
 }
 

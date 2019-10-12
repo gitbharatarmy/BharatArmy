@@ -1166,5 +1166,105 @@ public class ImageDetailModel implements Serializable {
         this.selected = selected;
     }
 
+//    get Added User data
+@SerializedName("BAMemberId")
+@Expose
+private Integer bAMemberId;
+    @SerializedName("MemberEmail")
+    @Expose
+    private String memberEmail;
 
+    public Integer getBAMemberId() {
+        return bAMemberId;
+    }
+
+    public void setBAMemberId(Integer bAMemberId) {
+        this.bAMemberId = bAMemberId;
+    }
+
+    public String getMemberEmail() {
+        return memberEmail;
+    }
+
+    public void setMemberEmail(String memberEmail) {
+        this.memberEmail = memberEmail;
+    }
+
+//    get SFA User data
+@SerializedName("DataBankId")
+@Expose
+private Integer dataBankId;
+    @SerializedName("FirstName")
+    @Expose
+    private String firstName;
+    @SerializedName("PhoneNo")
+    @Expose
+    private String phoneNo;
+    @SerializedName("EmailId")
+    @Expose
+    private String emailId;
+    @SerializedName("UploadedFileName")
+    @Expose
+    private String uploadedFileName;
+    @SerializedName("OtherValueText")
+    @Expose
+    private String otherValueText;
+    @SerializedName("ProfilePicUrl")
+    @Expose
+    private String profilePicUrl;
+
+    public Integer getDataBankId() {
+        return dataBankId;
+    }
+
+    public void setDataBankId(Integer dataBankId) {
+        this.dataBankId = dataBankId;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getPhoneNo() {
+        return phoneNo;
+    }
+
+    public void setPhoneNo(String phoneNo) {
+        this.phoneNo = phoneNo;
+    }
+
+    public String getEmailId() {
+        return emailId;
+    }
+
+    public void setEmailId(String emailId) {
+        this.emailId = emailId;
+    }
+
+    public String getUploadedFileName() {
+        return uploadedFileName;
+    }
+
+    public void setUploadedFileName(String uploadedFileName) {
+        this.uploadedFileName = uploadedFileName;
+    }
+
+    public String getOtherValueText() {
+        return otherValueText;
+    }
+
+    public void setOtherValueText(String otherValueText) {
+        this.otherValueText = otherValueText;
+    }
+    public String getProfilePicUrl() {
+        return profilePicUrl;
+    }
+
+    public void setProfilePicUrl(String profilePicUrl) {
+        this.profilePicUrl = profilePicUrl;
+    }
 }

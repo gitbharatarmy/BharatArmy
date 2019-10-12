@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
 import com.bharatarmy.Country;
@@ -29,7 +30,6 @@ import com.bharatarmy.CountryCodePicker;
 import com.bharatarmy.Models.ImageDetailModel;
 import com.bharatarmy.Models.ImageMainModel;
 import com.bharatarmy.Models.LogginModel;
-import com.bharatarmy.Models.MultiSelectModel;
 import com.bharatarmy.MultiSelectDialog;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.ApiHandler;
@@ -62,24 +62,26 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Retrofit;
 
-public class EditProfileActivity extends BaseActivity implements View.OnClickListener, ProgressRequestBody.UploadCallbacks {
+public class EditProfileActivity extends AppCompatActivity implements View.OnClickListener, ProgressRequestBody.UploadCallbacks {
 
     private static final String TAG = EditProfileActivity.class.getSimpleName();
     public static final int REQUEST_IMAGE = 100;
 
     ActivityEditProfileBinding activityEditProfileBinding;
     Context mContext;
-    String fullNameStr = "", countryCodeStr = "", phoneNoStr = "", genderStr = "", appUser = "",
-            fileStr = "", countryISOCodeStr = "", countryPhoneNoStr = "",statesIdStr="",citiesIdStr="";
+    String fullNameStr = "", countryCodeStr = "", phoneNoStr = "", genderStr = "0", appUser = "",
+            fileStr = "", countryISOCodeStr = "", countryPhoneNoStr = "", statesIdStr = "", citiesIdStr = "",
+            addressLine1Str = "", addressLine2Str = "", areaStr = "", stateNameStr = "", cityNameStr = "", pincodeStr = "";
     Uri uri;
     File file = null;
     int mFileLen;
     ProgressDialog mDialog;
-    MultiSelectDialog multiSelectstateDialog,multiSelectcitiesDialog;
-    List<ImageDetailModel>statesList;
-    List<ImageDetailModel>citiesList;
-    ArrayList<Integer> alreadySelectedCountries;
-    ArrayList<Integer> alreadySelectedCities;
+    MultiSelectDialog multiSelectstateDialog, multiSelectcitiesDialog;
+    List<ImageDetailModel> statesList;
+    List<ImageDetailModel> citiesList;
+    ArrayList<Integer> alreadySelectedState = new ArrayList<>();
+    ArrayList<Integer> alreadySelectedCities = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,12 +92,11 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
         setDataValue();
         setListiner();
 
-        setTitleText("Edit Member Profile");
-        setBackButton(EditProfileActivity.this);
     }
 
     public void setDataValue() {
-        activityEditProfileBinding.ccp.setCountryForNameCode(AppConfiguration.currentCountry);
+        activityEditProfileBinding.toolbarTitleTxt.setText("Edit Member Profile");
+        activityEditProfileBinding.ccp.setCountryForNameCode(Utils.retriveLoginData(mContext).getCountryPhoneNo());
         activityEditProfileBinding.usernameTitleTxt.setText(Utils.retriveLoginData(mContext).getName());
         activityEditProfileBinding.userNameEdt.setText(Utils.retriveLoginData(mContext).getName());
         activityEditProfileBinding.emailEdt.setText(Utils.retriveLoginData(mContext).getEmail());
@@ -103,21 +104,55 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
 
 //        countryISOCodeStr = Utils.getPref(mContext, "CountryISOCode");
 //        countryCodeStr = Utils.getPref(mContext, "CountryPhoneNo");
+        AppConfiguration.currentCountry =Utils.retriveLoginData(mContext).getCountryISOCode();
 
-
-        if (Utils.getPref(mContext, "Gender").equalsIgnoreCase("0")) {
+        if (Utils.retriveLoginData(mContext).getGender().equals(0)) {
             activityEditProfileBinding.maleRb.setChecked(false);
             activityEditProfileBinding.femaleRb.setChecked(false);
-        } else if (Utils.getPref(mContext, "Gender").equalsIgnoreCase("1")) {
+        } else if (Utils.retriveLoginData(mContext).getGender().equals(1)) {
             activityEditProfileBinding.maleRb.setChecked(true);
-        } else if (Utils.getPref(mContext, "Gender").equalsIgnoreCase("2")) {
+            genderStr = "1";
+        } else if (Utils.retriveLoginData(mContext).getGender().equals(2)) {
             activityEditProfileBinding.femaleRb.setChecked(true);
+            genderStr = "2";
         }
         Picasso.with(mContext)
                 .load(Utils.retriveLoginData(mContext).getProfilePicUrl())
                 .placeholder(R.drawable.progress_animation)
                 .into(activityEditProfileBinding.profileImage);
 
+
+        if (!Utils.retriveLoginData(mContext).getAddressline1().equalsIgnoreCase("")) {
+            activityEditProfileBinding.address1Edt.setText(Utils.retriveLoginData(mContext).getAddressline1());
+        }
+        if (!Utils.retriveLoginData(mContext).getAddressline2().equalsIgnoreCase("")) {
+            activityEditProfileBinding.address2Edt.setText(Utils.retriveLoginData(mContext).getAddressline2());
+        }
+
+
+        if (!Utils.retriveLoginData(mContext).getArea().equalsIgnoreCase("")) {
+            activityEditProfileBinding.areaEdt.setText(Utils.retriveLoginData(mContext).getArea());
+        }
+
+        if (!Utils.retriveLoginData(mContext).getStrState().equalsIgnoreCase("")) {
+            activityEditProfileBinding.statesEdt.setText(Utils.retriveLoginData(mContext).getStrState());
+
+        }
+        if (!Utils.retriveLoginData(mContext).getStateId().equals(0)) {
+            statesIdStr = String.valueOf(Utils.retriveLoginData(mContext).getStateId());
+            alreadySelectedState.add(Utils.retriveLoginData(mContext).getStateId());
+            callCitiesDetailData();
+        }
+        if (!Utils.retriveLoginData(mContext).getStrCityName().equalsIgnoreCase("")) {
+            activityEditProfileBinding.cityEdt.setText(Utils.retriveLoginData(mContext).getStrCityName());
+        }
+        if (!Utils.retriveLoginData(mContext).getCityId().equals(0)) {
+            citiesIdStr=String.valueOf(Utils.retriveLoginData(mContext).getCityId());
+            alreadySelectedCities.add(Utils.retriveLoginData(mContext).getCityId());
+        }
+        if (!Utils.retriveLoginData(mContext).getPincode().equalsIgnoreCase("")) {
+            activityEditProfileBinding.pincodeEdt.setText(Utils.retriveLoginData(mContext).getPincode());
+        }
         callStatesDetailData();
     }
 
@@ -134,14 +169,15 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
         activityEditProfileBinding.citySelectionImg.setOnClickListener(this);
         activityEditProfileBinding.cityEdt.setOnClickListener(this);
         activityEditProfileBinding.statesEdt.setOnClickListener(this);
+        activityEditProfileBinding.backImg.setOnClickListener(this);
 
         activityEditProfileBinding.genderRg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 if (checkedId == R.id.male_rb) {
-                    Utils.setPref(mContext, "Gender", "1");
+                    genderStr = "1";
                 } else if (checkedId == R.id.female_rb) {
-                    Utils.setPref(mContext, "Gender", "2");
+                    genderStr = "2";
                 }
             }
         });
@@ -159,11 +195,14 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
         activityEditProfileBinding.ccp.setOnCountryChangeListener(new CountryCodePicker.OnCountryChangeListener() {
             @Override
             public void onCountrySelected(Country selectedCountry) {
-                activityEditProfileBinding.statesEdt.setText("Select");
-                activityEditProfileBinding.cityEdt.setText("Select");
-                AppConfiguration.selectedStatesIdStr="";
-                AppConfiguration.selectedCitiesIdStr="";
-
+                activityEditProfileBinding.statesEdt.setText("");
+                activityEditProfileBinding.cityEdt.setText("");
+                activityEditProfileBinding.statesEdt.setHint("Select");
+                activityEditProfileBinding.cityEdt.setHint("Select");
+                statesIdStr = "";
+                citiesIdStr = "";
+                alreadySelectedState.clear();
+                alreadySelectedCities.clear();
                 AppConfiguration.currentCountry = activityEditProfileBinding.ccp.getSelectedCountryNameCode();
                 callStatesDetailData();
             }
@@ -173,6 +212,9 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.back_img:
+                backActivity();
+                break;
             case R.id.upload_txt:
 
                 break;
@@ -180,7 +222,7 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
                 getUpdateData();
                 break;
             case R.id.cancel_btn:
-                EditProfileActivity.this.finish();
+                backActivity();
                 break;
             case R.id.profile_image:
                 Dexter.withActivity(EditProfileActivity.this)
@@ -204,25 +246,25 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
                         }).check();
                 break;
             case R.id.states_selection_img:
-//                activityEditProfileBinding.cityEdt.setText("Select");
-                AppConfiguration.dialogType="states";
                 setstateValue();
                 break;
             case R.id.city_selection_img:
-                AppConfiguration.dialogType="cities";
                 setcityValue();
                 break;
             case R.id.states_edt:
-//                activityEditProfileBinding.cityEdt.setText("Select");
-                AppConfiguration.dialogType="states";
                 setstateValue();
                 break;
             case R.id.city_edt:
-                AppConfiguration.dialogType="cities";
                 setcityValue();
                 break;
 
         }
+    }
+
+    public void backActivity() {
+        Intent myprofileIntent = new Intent(mContext, MyProfileActivity.class);
+        startActivity(myprofileIntent);
+        finish();
     }
 
     private void showImagePickerOptions() {
@@ -381,11 +423,20 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
         RequestBody phoneno = RequestBody.create(MediaType.parse("text/plain"), phoneNoStr);
         RequestBody gender = RequestBody.create(MediaType.parse("text/plain"), genderStr);
         RequestBody otptext = RequestBody.create(MediaType.parse("text/plain"), "0");
-        RequestBody smssentId = RequestBody.create(MediaType.parse("text/plaim"), "0");
+        RequestBody smssentId = RequestBody.create(MediaType.parse("text/plain"), "0");
+        RequestBody addressLine1 = RequestBody.create(MediaType.parse("text/plain"), addressLine1Str);
+        RequestBody addressLine2 = RequestBody.create(MediaType.parse("text/plain"), addressLine2Str);
+        RequestBody area = RequestBody.create(MediaType.parse("text/plain"), areaStr);
+        RequestBody state = RequestBody.create(MediaType.parse("text/plain"), stateNameStr);
+        RequestBody city = RequestBody.create(MediaType.parse("text/plain"), cityNameStr);
+        RequestBody stateId = RequestBody.create(MediaType.parse("text/plain"), statesIdStr);
+        RequestBody citiesId = RequestBody.create(MediaType.parse("text/plain"), citiesIdStr);
+        RequestBody pincode = RequestBody.create(MediaType.parse("text/plain"), pincodeStr);
 
 //        ShowProgressDialog();
         Call<LogginModel> responseBodyCall = uploadAPIs.updateprofile(appuserId, fullname, countryISOCode,
-                countycode, phoneno, gender, otptext, smssentId, body);
+                countycode, phoneno, gender, otptext, smssentId, addressLine1, addressLine2, area, stateId,
+                state, citiesId, city, pincode, body);
         Log.d("File", "" + responseBodyCall);
         responseBodyCall.enqueue(new Callback<LogginModel>() {
 
@@ -402,10 +453,7 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
 
                     Utils.ping(mContext, "Profile Updated Successfully");
                     AppConfiguration.position = 1;
-//                    DashboardActivity.navItemIndex=2;
-//                    Intent iDash = new Intent(mContext, DashboardActivity.class);
-//                    startActivity(iDash);
-                    finish();
+                    backActivity();
                 } else {
                     Utils.ping(mContext, response.body().getMessage());
                 }
@@ -459,8 +507,16 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
                     otpIntent.putExtra("EditFullName", fullNameStr);
                     otpIntent.putExtra("NewPhoneNumber", phoneNoStr);
                     otpIntent.putExtra("countryCode", countryCodeStr);
-
                     otpIntent.putExtra("gender", genderStr);
+                    otpIntent.putExtra("addressLine1", addressLine1Str);
+                    otpIntent.putExtra("addressLine2", addressLine2Str);
+                    otpIntent.putExtra("area", areaStr);
+                    otpIntent.putExtra("stateName", stateNameStr);
+                    otpIntent.putExtra("stateId", statesIdStr);
+                    otpIntent.putExtra("cityName", cityNameStr);
+                    otpIntent.putExtra("cityId", citiesIdStr);
+                    otpIntent.putExtra("pincode", pincodeStr);
+
                     if (uri != null) {
                         otpIntent.setData(uri);
                     } else {
@@ -469,7 +525,6 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
                     }
 
                     startActivity(otpIntent);
-                    finish();
                 }
             }
 
@@ -491,7 +546,7 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
         map.put("AppUserId", appUser);
         map.put("Email", Utils.getPref(mContext, "LoginEmailId"));
         map.put("PhoneNo", Utils.getPref(mContext, "LoginPhoneNo"));
-        map.put("CountryPhoneNo", Utils.getPref(mContext, "CountryPhoneNo"));
+        map.put("CountryPhoneNo",countryCodeStr);
         return map;
     }
 
@@ -500,11 +555,19 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
         countryCodeStr = activityEditProfileBinding.ccp.getSelectedCountryCode();
         phoneNoStr = activityEditProfileBinding.phoneNoEdt.getText().toString();
         appUser = String.valueOf(Utils.getAppUserId(mContext));
+        addressLine1Str = activityEditProfileBinding.address1Edt.getText().toString();
+        addressLine2Str = activityEditProfileBinding.address2Edt.getText().toString();
+        areaStr = activityEditProfileBinding.areaEdt.getText().toString();
+        stateNameStr = activityEditProfileBinding.statesEdt.getText().toString();
+        cityNameStr = activityEditProfileBinding.cityEdt.getText().toString();
+        pincodeStr = activityEditProfileBinding.pincodeEdt.getText().toString();
 
-        genderStr = Utils.getPref(mContext, "Gender");
         Log.d("DataValue", "Name :" + fullNameStr + "countrycode:" + countryCodeStr
                 + "phone number:" + phoneNoStr + "userid:" + appUser + "gender:" + genderStr
-                + "CountryNAmeCode: " + AppConfiguration.currentCountry);
+                + "CountryNAmeCode: " + AppConfiguration.currentCountry + "addressLine1:" + addressLine1Str
+                + "addressLine2:" + addressLine2Str + "area:" + areaStr + "stateName:" + stateNameStr
+                + "cityName:" + cityNameStr + "pincode:" + pincodeStr + "cityId:" + citiesIdStr
+                + "stateId:" + statesIdStr);
 
         if (!fullNameStr.equalsIgnoreCase("")) {
             if (!countryCodeStr.equalsIgnoreCase("")) {
@@ -550,16 +613,17 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     public void onBackPressed() {
-        EditProfileActivity.this.finish();
+       backActivity();
         super.onBackPressed();
     }
 
     public void setstateValue() {
-        alreadySelectedCountries = new ArrayList<>();
-        if (statesList!=null && statesList.size()>0){
-            if (!statesIdStr.equalsIgnoreCase("") ){
-                alreadySelectedCountries.add(Integer.valueOf(statesIdStr));
+
+        if (statesList != null && statesList.size() > 0) {
+            if (!statesIdStr.equalsIgnoreCase("")) {
+                alreadySelectedState.add(Integer.valueOf(statesIdStr));
             }
+
 
             //MultiSelectModel
             multiSelectstateDialog = new MultiSelectDialog()
@@ -569,20 +633,16 @@ public class EditProfileActivity extends BaseActivity implements View.OnClickLis
                     .negativeText("")
                     .setMinSelectionLimit(1)
                     .setMaxSelectionLimit(1)
-                    .preSelectIDsList(alreadySelectedCountries) //List of ids that you need to be selected
+                    .preSelectIDsList(alreadySelectedState) //List of ids that you need to be selected
                     .multiSelectList((ArrayList<ImageDetailModel>) statesList) // the multi select model list with ids and name
                     .onSubmit(new MultiSelectDialog.SubmitCallbackListener() {
                         @Override
                         public void onSelected(ArrayList<Integer> selectedIds, ArrayList<String> selectedNames, String dataString) {
                             //will return list of selected IDS
                             for (int i = 0; i < selectedIds.size(); i++) {
-//                            Toast.makeText(mContext, "Selected Ids : " + selectedIds.get(i) + "\n" +
-//                                    "Selected Names : " + selectedNames.get(i) + "\n" +
-//                                    "DataString : " + dataString, Toast.LENGTH_SHORT).show();
-AppConfiguration.selectedStatesIdStr=String.valueOf(selectedIds.get(i));
                                 activityEditProfileBinding.statesEdt.setText(selectedNames.get(i));
 
-                                statesIdStr= String.valueOf(selectedIds.get(i));
+                                statesIdStr = String.valueOf(selectedIds.get(i));
                                 Utils.hideKeyboard(EditProfileActivity.this);
                                 callCitiesDetailData();
                             }
@@ -597,17 +657,16 @@ AppConfiguration.selectedStatesIdStr=String.valueOf(selectedIds.get(i));
                         }
                     });
             multiSelectstateDialog.show(getSupportFragmentManager(), "statemultiselectdialog");
-        }else{
-            activityEditProfileBinding.statesEdt.setText("Select");
+        } else {
+            activityEditProfileBinding.statesEdt.setHint("Select");
         }
 
 
     }
 
     public void setcityValue() {
-        alreadySelectedCities = new ArrayList<>();
-        if (citiesList!=null && citiesList.size()>0){
-            if (!citiesIdStr.equalsIgnoreCase("") ){
+        if (citiesList != null && citiesList.size() > 0) {
+            if (!citiesIdStr.equalsIgnoreCase("")) {
                 alreadySelectedCities.add(Integer.valueOf(citiesIdStr));
             }
             //MultiSelectModel
@@ -618,19 +677,15 @@ AppConfiguration.selectedStatesIdStr=String.valueOf(selectedIds.get(i));
                     .negativeText("")
                     .setMinSelectionLimit(1)
                     .setMaxSelectionLimit(1)
-                .preSelectIDsList(alreadySelectedCities) //List of ids that you need to be selected
+                    .preSelectIDsList(alreadySelectedCities) //List of ids that you need to be selected
                     .multiSelectList((ArrayList<ImageDetailModel>) citiesList) // the multi select model list with ids and name
                     .onSubmit(new MultiSelectDialog.SubmitCallbackListener() {
                         @Override
                         public void onSelected(ArrayList<Integer> selectedIds, ArrayList<String> selectedNames, String dataString) {
                             //will return list of selected IDS
                             for (int i = 0; i < selectedIds.size(); i++) {
-//                            Toast.makeText(mContext, "Selected Ids : " + selectedIds.get(i) + "\n" +
-//                                    "Selected Names : " + selectedNames.get(i) + "\n" +
-//                                    "DataString : " + dataString, Toast.LENGTH_SHORT).show();
-                                citiesIdStr=String.valueOf(selectedIds.get(i));
+                                citiesIdStr = String.valueOf(selectedIds.get(i));
                                 activityEditProfileBinding.cityEdt.setText(selectedNames.get(i));
-                                AppConfiguration.selectedCitiesIdStr=String.valueOf(selectedIds.get(i));
 
                             }
 
@@ -644,13 +699,12 @@ AppConfiguration.selectedStatesIdStr=String.valueOf(selectedIds.get(i));
                         }
                     });
             multiSelectcitiesDialog.show(getSupportFragmentManager(), "citiesmultiselectdialog");
-        }else{
-            activityEditProfileBinding.cityEdt.setText("Select");
+        } else {
+            activityEditProfileBinding.cityEdt.setHint("Select");
         }
 
 
     }
-
 
 
     // Api calling GetStatesDetailData
@@ -702,11 +756,10 @@ AppConfiguration.selectedStatesIdStr=String.valueOf(selectedIds.get(i));
 
     private Map<String, String> getStatesDetailData() {
         Map<String, String> map = new HashMap<>();
-        map.put("CountryISOCode",AppConfiguration.currentCountry);
+        map.put("CountryISOCode", AppConfiguration.currentCountry);
 
         return map;
     }
-
 
 
     // Api calling GetStatesDetailData
@@ -757,7 +810,7 @@ AppConfiguration.selectedStatesIdStr=String.valueOf(selectedIds.get(i));
 
     private Map<String, String> getCitiesDetailData() {
         Map<String, String> map = new HashMap<>();
-        map.put("StateId",statesIdStr);
+        map.put("StateId", statesIdStr);
         return map;
     }
 }

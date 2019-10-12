@@ -4,6 +4,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.app.Activity;
@@ -22,21 +25,23 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bharatarmy.Adapter.DisplaySFAUserAdapter;
 import com.bharatarmy.Country;
 import com.bharatarmy.CountryCodePicker;
+import com.bharatarmy.Models.GetSchoolNameModel;
 import com.bharatarmy.Models.ImageDetailModel;
 import com.bharatarmy.Models.ImageMainModel;
 import com.bharatarmy.Models.LogginModel;
 import com.bharatarmy.Models.MultiSelectModel;
 import com.bharatarmy.MultiSportsSelectDialog;
 import com.bharatarmy.R;
-import com.bharatarmy.UploadService;
 import com.bharatarmy.Utility.ApiHandler;
 import com.bharatarmy.Utility.AppConfiguration;
 import com.bharatarmy.Utility.NetworkClient;
@@ -66,7 +71,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Retrofit;
 
-public class SportsInterestActivity extends BaseActivity implements View.OnClickListener, ProgressRequestBody.UploadCallbacks {
+public class SportsInterestActivity extends AppCompatActivity implements View.OnClickListener, ProgressRequestBody.UploadCallbacks {
     private static final String TAG = SportsInterestActivity.class.getSimpleName();
     ActivitySportsInterestBinding activitySportsInterestBinding;
     Context mContext;
@@ -74,10 +79,14 @@ public class SportsInterestActivity extends BaseActivity implements View.OnClick
     Uri uri;
     File file = null;
     MultiSportsSelectDialog sportsSelectDialog;
-    String nameStr, genderStr = "0", emailStr, phonenoStr, sportsStr, countryCodeStr, sportsIdStr = "", appIdStr;
+    String nameStr, genderStr = "0", emailStr, phonenoStr, sportsStr,
+            countryCodeStr,countryISOcodeStr="", sportsIdStr = "", appIdStr,schoolnameStr="",usertypeStr="1";
     ProgressDialog mDialog;
     List<ImageDetailModel> sportsList;
     ArrayList<Integer> alreadySelectedSports;
+    ArrayList<String> schoolNamearray;
+    ArrayList<GetSchoolNameModel> schoolNameList;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,14 +96,18 @@ public class SportsInterestActivity extends BaseActivity implements View.OnClick
         mContext = SportsInterestActivity.this;
 
         ImageEditProfilePickerActivity.clearCache(this);
-        setTitleText("Sports Interest");
-        setBackButton(SportsInterestActivity.this);
+
 
         init();
         setLisitner();
     }
 
     public void init() {
+        activitySportsInterestBinding.toolbarTitleTxt.setText("SFA Data Entry");
+
+callSchoolNameData();
+
+
         callSportsDetailData();
     }
 
@@ -103,6 +116,8 @@ public class SportsInterestActivity extends BaseActivity implements View.OnClick
         activitySportsInterestBinding.imageuploadImage.setOnClickListener(this);
         activitySportsInterestBinding.sportsSelectionImg.setOnClickListener(this);
         activitySportsInterestBinding.saveBtn.setOnClickListener(this);
+        activitySportsInterestBinding.backImg.setOnClickListener(this);
+        activitySportsInterestBinding.logoutImg.setOnClickListener(this);
 
         activitySportsInterestBinding.genderRg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -111,6 +126,17 @@ public class SportsInterestActivity extends BaseActivity implements View.OnClick
                     genderStr = "1";
                 } else if (checkedId == R.id.female_rb) {
                     genderStr = "2";
+                }
+            }
+        });
+
+        activitySportsInterestBinding.userTypeRg.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if (checkedId == R.id.student_rb) {
+                    usertypeStr="1";
+                }else if (checkedId==R.id.coach_rb){
+                    usertypeStr="2";
                 }
             }
         });
@@ -162,6 +188,7 @@ public class SportsInterestActivity extends BaseActivity implements View.OnClick
             case R.id.sports_edt:
 //                Utils.ping(mContext,"hello");
                 openSportsSelectionDialog();
+
                 break;
             case R.id.sports_selection_img:
                 openSportsSelectionDialog();
@@ -169,6 +196,13 @@ public class SportsInterestActivity extends BaseActivity implements View.OnClick
             case R.id.save_btn:
                 getSubmitData();
                 break;
+            case R.id.back_img:
+                Intent userListIntent=new Intent(mContext,DisplaySFAUserActivity.class);
+                userListIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(userListIntent);
+                finish();
+                break;
+
         }
     }
 
@@ -274,20 +308,26 @@ public class SportsInterestActivity extends BaseActivity implements View.OnClick
     }
 
     public void openSportsSelectionDialog() {
-
         alreadySelectedSports = new ArrayList<>();
         if (sportsList != null && sportsList.size() > 0) {
             if (!sportsIdStr.equalsIgnoreCase("")) {
-                alreadySelectedSports.add(Integer.valueOf(sportsIdStr));
-            }
+                if (sportsIdStr.contains(",")) {
+                    String[] spiltvalue = sportsIdStr.split(",");
+                    for (int i = 0; i < spiltvalue.length; i++) {
+                        alreadySelectedSports.add(Integer.valueOf(spiltvalue[i]));
+                    }
+                } else {
+                    alreadySelectedSports.add(Integer.valueOf(sportsIdStr));
+                }
 
+            }
             //MultiSelectModel
             sportsSelectDialog = new MultiSportsSelectDialog()
                     .title("Sports") //setting title for dialog
                     .titleSize(16)
                     .positiveText("Done")
                     .negativeText("Cancel")
-                    .setMinSelectionLimit(1)
+                    .setMinSelectionLimit(0)
                     .setMaxSelectionLimit(sportsList.size())
                     .preSelectIDsList(alreadySelectedSports) //List of ids that you need to be selected
                     .multiSelectList((ArrayList<ImageDetailModel>) sportsList) // the multi select model list with ids and name
@@ -295,12 +335,15 @@ public class SportsInterestActivity extends BaseActivity implements View.OnClick
                         @Override
                         public void onSelected(ArrayList<Integer> selectedIds, ArrayList<String> selectedNames, String dataString, String dataIdString) {
                             //will return list of selected IDS
-                            for (int i = 0; i < selectedIds.size(); i++) {
-//                            Toast.makeText(SportsInterestActivity.this, "Selected Ids : " + selectedIds.get(i) + "\n" +
-//                                    "Selected Names : " + selectedNames.get(i) + "\n" +
-//                                    "DataString : " + dataString, Toast.LENGTH_SHORT).show();
-                                sportsIdStr = dataIdString;
+
+                            Log.d("string :", dataString);
+                            if (!dataString.equalsIgnoreCase("")) {
+                                sportsIdStr = dataIdString.trim();
                                 activitySportsInterestBinding.sportsEdt.setText(dataString);
+                            } else {
+                                sportsIdStr = "";
+                                activitySportsInterestBinding.sportsEdt.setText("");
+                                activitySportsInterestBinding.sportsEdt.setHint(getResources().getString(R.string.select));
                             }
 
 
@@ -318,120 +361,95 @@ public class SportsInterestActivity extends BaseActivity implements View.OnClick
         }
     }
 
+
     public void getSubmitData() {
         nameStr = activitySportsInterestBinding.nameEdt.getText().toString();
         countryCodeStr = activitySportsInterestBinding.ccp.getSelectedCountryCode();
         phonenoStr = activitySportsInterestBinding.phoneNoEdt.getText().toString();
         emailStr = activitySportsInterestBinding.emailEdt.getText().toString();
         sportsStr = activitySportsInterestBinding.sportsEdt.getText().toString();
+        countryISOcodeStr=AppConfiguration.currentCountry;
+        schoolnameStr=activitySportsInterestBinding.schoolNameTxt.getText().toString();
 
         Log.d("DataValue", "Name :" + nameStr + "countrycode:" + countryCodeStr
                 + "phone number:" + phonenoStr + "gender:" + genderStr + "sportsId:" + sportsIdStr
-                + "email:" + emailStr + "CountryNAmeCode: " + AppConfiguration.currentCountry);
+                + "email:" + emailStr + "CountryNAmeCode: " + AppConfiguration.currentCountry
+                + "schoolname:" +schoolnameStr + "userType:"+usertypeStr);
 
         if (!emailStr.equalsIgnoreCase("") && !phonenoStr.equalsIgnoreCase("")) {
             if (!nameStr.equalsIgnoreCase("")) {
-                if (!genderStr.equalsIgnoreCase("0")) {
-                    if (!emailStr.equalsIgnoreCase("")) {
-                        if (Utils.isValidEmailId(emailStr)) {
-                            if (countryCodeStr.length() > 0) {
-                                if (phonenoStr.length() > 0) {
-                                    if (Utils.isValidPhoneNumber(phonenoStr)) {
-                                        boolean status = Utils.validateUsing_libphonenumber(mContext, countryCodeStr, phonenoStr);
-                                        if (status) {
-                                            if (!sportsStr.equalsIgnoreCase("")) {
-                                                callsubmitIntrestData();
-
-                                            } else {
-                                                Utils.ping(mContext, "Please select sports");
-                                            }
-                                        } else {
-                                            activitySportsInterestBinding.phoneNoEdt.setError("Invalid Phone Number");
-                                        }
-                                    } else {
-                                        activitySportsInterestBinding.phoneNoEdt.setError("Invalid Phone Number");
-                                    }
+                if (!emailStr.equalsIgnoreCase("")) {
+                    if (Utils.isValidEmailId(emailStr)) {
+                        if (countryCodeStr.length() > 0) {
+                            if (phonenoStr.length() > 0) {
+                                if (Utils.isValidPhoneNumber(phonenoStr)) {
+//                                    boolean status = Utils.validateUsing_libphonenumber(mContext, countryCodeStr, phonenoStr);
+//                                    if (status) {
+                                        callsubmitIntrestData();
+//                                    } else {
+//                                        activitySportsInterestBinding.phoneNoEdt.setError("Invalid Phone Number");
+//                                    }
                                 } else {
-                                    activitySportsInterestBinding.phoneNoEdt.setError("Phone Number is required");
+                                    activitySportsInterestBinding.phoneNoEdt.setError("Invalid Phone Number");
                                 }
                             } else {
-                                Utils.ping(mContext, "Country Code is required");
+                                activitySportsInterestBinding.phoneNoEdt.setError("Phone Number is required");
                             }
                         } else {
-                            activitySportsInterestBinding.emailEdt.setError("Invalid Email Address");
+                            Utils.ping(mContext, "Country Code is required");
                         }
                     } else {
-                        activitySportsInterestBinding.emailEdt.setError("Email Address is required");
+                        activitySportsInterestBinding.emailEdt.setError("Invalid Email Address");
                     }
                 } else {
-                    Utils.ping(mContext, "Please select gender");
+                    activitySportsInterestBinding.emailEdt.setError("Email Address is required");
                 }
             } else {
                 activitySportsInterestBinding.nameEdt.setError("Name is required");
             }
         } else if (emailStr.equalsIgnoreCase("") && phonenoStr.equalsIgnoreCase("")) {
+            countryCodeStr="";
+            countryISOcodeStr="";
             if (!nameStr.equalsIgnoreCase("")) {
-                if (!genderStr.equalsIgnoreCase("0")) {
-                    if (!sportsStr.equalsIgnoreCase("")) {
-                        callsubmitIntrestData();
-                    } else {
-                        Utils.ping(mContext, "Please select sports");
-                    }
-                } else {
-                    Utils.ping(mContext, "Please select gender");
-                }
+                callsubmitIntrestData();
             } else {
                 activitySportsInterestBinding.nameEdt.setError("Name is required");
             }
         } else if (emailStr.equalsIgnoreCase("") && !phonenoStr.equalsIgnoreCase("")) {
             if (!nameStr.equalsIgnoreCase("")) {
-                if (!genderStr.equalsIgnoreCase("0")) {
-                    if (countryCodeStr.length() > 0) {
-                        if (phonenoStr.length() > 0) {
-                            if (Utils.isValidPhoneNumber(phonenoStr)) {
-                                boolean status = Utils.validateUsing_libphonenumber(mContext, countryCodeStr, phonenoStr);
-                                if (status) {
-                                    if (!sportsStr.equalsIgnoreCase("")) {
-                                        callsubmitIntrestData();
-                                    } else {
-                                        Utils.ping(mContext, "Please select sports");
-                                    }
-                                } else {
-                                    activitySportsInterestBinding.phoneNoEdt.setError("Invalid Phone Number");
-                                }
-                            } else {
-                                activitySportsInterestBinding.phoneNoEdt.setError("Invalid Phone Number");
-                            }
+                if (countryCodeStr.length() > 0) {
+                    if (phonenoStr.length() > 0) {
+                        if (Utils.isValidPhoneNumber(phonenoStr)) {
+//                            boolean status = Utils.validateUsing_libphonenumber(mContext, countryCodeStr, phonenoStr);
+//                            if (status) {
+                                callsubmitIntrestData();
+//                            } else {
+//                                activitySportsInterestBinding.phoneNoEdt.setError("Invalid Phone Number");
+//                            }
                         } else {
-                            activitySportsInterestBinding.phoneNoEdt.setError("Phone Number is required");
+                            activitySportsInterestBinding.phoneNoEdt.setError("Invalid Phone Number");
                         }
                     } else {
-                        Utils.ping(mContext, "Country Code is required");
+                        activitySportsInterestBinding.phoneNoEdt.setError("Phone Number is required");
                     }
                 } else {
-                    Utils.ping(mContext, "Please select gender");
+                    Utils.ping(mContext, "Country Code is required");
                 }
             } else {
                 activitySportsInterestBinding.nameEdt.setError("Name is required");
             }
         } else if (!emailStr.equalsIgnoreCase("") && phonenoStr.equalsIgnoreCase("")) {
+            countryCodeStr="";
+            countryISOcodeStr="";
             if (!nameStr.equalsIgnoreCase("")) {
-                if (!genderStr.equalsIgnoreCase("0")) {
-                    if (!emailStr.equalsIgnoreCase("")) {
-                        if (Utils.isValidEmailId(emailStr)) {
-                            if (!sportsStr.equalsIgnoreCase("")) {
-                                callsubmitIntrestData();
-                            } else {
-                                Utils.ping(mContext, "Please select sports");
-                            }
-                        } else {
-                            activitySportsInterestBinding.emailEdt.setError("Invalid Email Address");
-                        }
+                if (!emailStr.equalsIgnoreCase("")) {
+                    if (Utils.isValidEmailId(emailStr)) {
+                        callsubmitIntrestData();
                     } else {
-                        activitySportsInterestBinding.emailEdt.setError("Email Address is required");
+                        activitySportsInterestBinding.emailEdt.setError("Invalid Email Address");
                     }
                 } else {
-                    Utils.ping(mContext, "Please select gender");
+                    activitySportsInterestBinding.emailEdt.setError("Email Address is required");
                 }
             } else {
                 activitySportsInterestBinding.nameEdt.setError("Name is required");
@@ -492,16 +510,18 @@ public class SportsInterestActivity extends BaseActivity implements View.OnClick
         appIdStr = String.valueOf(Utils.getAppUserId(mContext));
         RequestBody appId = RequestBody.create(MediaType.parse("text/plain"), appIdStr);
         RequestBody fullname = RequestBody.create(MediaType.parse("text/plain"), nameStr);
-        RequestBody countryISOCode = RequestBody.create(MediaType.parse("text/plain"), AppConfiguration.currentCountry);
+        RequestBody countryISOCode = RequestBody.create(MediaType.parse("text/plain"),countryISOcodeStr);
         RequestBody countycode = RequestBody.create(MediaType.parse("text/plain"), countryCodeStr);
         RequestBody phoneno = RequestBody.create(MediaType.parse("text/plain"), phonenoStr);
         RequestBody gender = RequestBody.create(MediaType.parse("text/plain"), genderStr);
         RequestBody email = RequestBody.create(MediaType.parse("text/plain"), emailStr);
         RequestBody sports = RequestBody.create(MediaType.parse("text/plaim"), sportsIdStr);
+        RequestBody schoolname = RequestBody.create(MediaType.parse("text/plain"), schoolnameStr);
+        RequestBody usertype = RequestBody.create(MediaType.parse("text/plaim"), usertypeStr);
 
 //        ShowProgressDialog();
         Call<LogginModel> responseBodyCall = uploadAPIs.insertData(appId, fullname, countryISOCode,
-                countycode, phoneno, gender, email, sports, body);
+                countycode, phoneno, gender, email, sports,schoolname,usertype, body);
         Log.d("File", "" + responseBodyCall);
         responseBodyCall.enqueue(new Callback<LogginModel>() {
 
@@ -513,7 +533,27 @@ public class SportsInterestActivity extends BaseActivity implements View.OnClick
                     Utils.dismissDialog();
                 }
                 if (response.body().getIsValid() == 1) {
-                    showThanyouDialog();
+//                    showThanyouDialog();
+                    Utils.ping(mContext,"Added Successfully");
+                    activitySportsInterestBinding.imageuploadImage.setImageResource(R.drawable.proflie);
+                    activitySportsInterestBinding.nameEdt.setText("");
+                    activitySportsInterestBinding.emailEdt.setText("");
+                    activitySportsInterestBinding.phoneNoEdt.setText("");
+                    activitySportsInterestBinding.sportsEdt.setText("");
+                    activitySportsInterestBinding.schoolNameTxt.setText("");
+                    activitySportsInterestBinding.genderRg.clearCheck();
+                    activitySportsInterestBinding.studentRb.setChecked(true);
+                    usertypeStr="1";
+                    nameStr = "";
+                    genderStr = "0";
+                    emailStr = "";
+                    phonenoStr = "";
+                    sportsStr = "";
+                    countryCodeStr = "";
+                    sportsIdStr = "";
+                    appIdStr = "";
+                    schoolnameStr="";
+
                 } else {
                     Utils.ping(mContext, response.body().getMessage());
                 }
@@ -580,7 +620,10 @@ public class SportsInterestActivity extends BaseActivity implements View.OnClick
                 activitySportsInterestBinding.emailEdt.setText("");
                 activitySportsInterestBinding.phoneNoEdt.setText("");
                 activitySportsInterestBinding.sportsEdt.setText("");
+                activitySportsInterestBinding.schoolNameTxt.setText("");
                 activitySportsInterestBinding.genderRg.clearCheck();
+                activitySportsInterestBinding.studentRb.setChecked(true);
+                usertypeStr="1";
                 nameStr = "";
                 genderStr = "0";
                 emailStr = "";
@@ -589,7 +632,17 @@ public class SportsInterestActivity extends BaseActivity implements View.OnClick
                 countryCodeStr = "";
                 sportsIdStr = "";
                 appIdStr = "";
+                schoolnameStr="";
+
                 alertDialog.dismiss();
+
+                if (Utils.retriveLoginData(mContext) != null) {
+                    if (Utils.retriveLoginData(mContext).getMemberType().equalsIgnoreCase(",3,")) {
+                        finish();
+                    } else {
+                        finish();
+                    }
+                }
             }
         });
         notxt.setOnClickListener(new View.OnClickListener() {
@@ -597,10 +650,12 @@ public class SportsInterestActivity extends BaseActivity implements View.OnClick
             public void onClick(View v) {
                 try {
                     alertDialog.dismiss();
-                    Intent dashboardIntent = new Intent(mContext, DashboardActivity.class);
-                    startActivity(dashboardIntent);
-                    finish();
-
+                    if (Utils.retriveLoginData(mContext) != null) {
+                        Intent userListIntent=new Intent(mContext,DisplaySFAUserActivity.class);
+                        userListIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(userListIntent);
+                        finish();
+                    }
                 } catch (Exception e) {
 
                 }
@@ -663,5 +718,76 @@ public class SportsInterestActivity extends BaseActivity implements View.OnClick
     private Map<String, String> getSportsDetailData() {
         Map<String, String> map = new HashMap<>();
         return map;
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        Intent userListIntent=new Intent(mContext,DisplaySFAUserActivity.class);
+        userListIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(userListIntent);
+        finish();
+    }
+
+//    Calling Get the schoolName
+    public void callSchoolNameData() {
+        if (!Utils.checkNetwork(mContext)) {
+            Utils.showCustomDialog(getResources().getString(R.string.internet_error), getResources().getString(R.string.internet_connection_error), SportsInterestActivity.this);
+            return;
+        }
+
+//        Utils.showDialog(mContext);
+        ApiHandler.getApiService().getSchoolNameFromEntry(getSchoolData(), new retrofit.Callback<GetSchoolNameModel>() {
+            @Override
+            public void success(GetSchoolNameModel schoolNameModel, Response response) {
+                Utils.dismissDialog();
+
+                if (schoolNameModel == null) {
+                    Utils.ping(mContext, getString(R.string.something_wrong));
+                    return;
+                }
+                if (schoolNameModel.getIsValid() == null) {
+                    Utils.ping(mContext, getString(R.string.something_wrong));
+                    return;
+                }
+                if (schoolNameModel.getIsValid() == 0) {
+                    Utils.ping(mContext, mContext.getString(R.string.false_msg));
+                    return;
+                }
+                if (schoolNameModel.getIsValid() == 1) {
+                    if (schoolNameModel.getData()!=null && schoolNameModel.getData().size()>0){
+                        schoolNamearray=new ArrayList<>();
+
+                        for (int i=0;i<schoolNameModel.getData().size();i++){
+                            schoolNamearray.add(schoolNameModel.getData().get(i));
+                        }
+                        fillSchoolData();
+                    }
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Utils.dismissDialog();
+                error.printStackTrace();
+                error.getMessage();
+                Utils.ping(mContext, getString(R.string.something_wrong));
+            }
+        });
+
+    }
+
+    private Map<String, String> getSchoolData() {
+        Map<String, String> map = new HashMap<>();
+        return map;
+    }
+
+    public void fillSchoolData() {
+
+        ArrayAdapter adapter = new
+                ArrayAdapter(this,android.R.layout.simple_list_item_1,schoolNamearray);
+
+        activitySportsInterestBinding.schoolNameTxt.setThreshold(1);
+        activitySportsInterestBinding.schoolNameTxt.setAdapter(adapter);
     }
 }

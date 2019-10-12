@@ -43,7 +43,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Retrofit;
 
-public class OTPActivity extends AppCompatActivity implements View.OnClickListener , ProgressRequestBody.UploadCallbacks {
+public class OTPActivity extends AppCompatActivity implements View.OnClickListener, ProgressRequestBody.UploadCallbacks {
 
     ActivityOtpBinding activityOtpBinding;
     Context mContext;
@@ -51,7 +51,7 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
     String phoneNoStr, countryCodeStr;
     ProgressDialog mDialog;
     File file = null;
-    Uri uri,uri1;
+    Uri uri, uri1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,7 +88,7 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
             return;
         }
         MultipartBody.Part body = null;
-        Log.d("uri",uri.toString());
+        Log.d("uri", uri.toString());
         if (uri != null) {
 
             String filePath = Utils.getFilePathFromUri(mContext, uri);
@@ -114,7 +114,7 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
             if (file != null) {
                 if (file.exists()) {
 
-                    ProgressRequestBody fileBody = new ProgressRequestBody(file,this);
+                    ProgressRequestBody fileBody = new ProgressRequestBody(file, this);
                     body = MultipartBody.Part.createFormData("image", file.getName(), fileBody);
 
                 }
@@ -132,13 +132,22 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
         RequestBody fullname = RequestBody.create(MediaType.parse("text/plain"), getIntent().getStringExtra("EditFullName"));
         RequestBody countryISOCode = RequestBody.create(MediaType.parse("text/plain"), AppConfiguration.currentCountry);
         RequestBody countycode = RequestBody.create(MediaType.parse("text/plain"), getIntent().getStringExtra("countryCode"));
-        RequestBody phoneno = RequestBody.create(MediaType.parse("text/plain"),getIntent().getStringExtra("NewPhoneNumber"));
+        RequestBody phoneno = RequestBody.create(MediaType.parse("text/plain"), getIntent().getStringExtra("NewPhoneNumber"));
         RequestBody gender = RequestBody.create(MediaType.parse("text/plain"), getIntent().getStringExtra("gender"));
-        RequestBody otptext = RequestBody.create(MediaType.parse("text/plain"),finalgetOtpStr);
-        RequestBody smssentId=RequestBody.create(MediaType.parse("text/plaim"),getIntent().getStringExtra("OTP"));
+        RequestBody otptext = RequestBody.create(MediaType.parse("text/plain"), finalgetOtpStr);
+        RequestBody smssentId = RequestBody.create(MediaType.parse("text/plaim"), getIntent().getStringExtra("OTP"));
+        RequestBody addressLine1 = RequestBody.create(MediaType.parse("text/plain"), getIntent().getStringExtra("addressLine1"));
+        RequestBody addressLine2 = RequestBody.create(MediaType.parse("text/plain"), getIntent().getStringExtra("addressLine2"));
+        RequestBody area = RequestBody.create(MediaType.parse("text/plain"), getIntent().getStringExtra("area"));
+        RequestBody state = RequestBody.create(MediaType.parse("text/plain"), getIntent().getStringExtra("stateName"));
+        RequestBody city = RequestBody.create(MediaType.parse("text/plain"), getIntent().getStringExtra("stateId"));
+        RequestBody stateId = RequestBody.create(MediaType.parse("text/plain"), getIntent().getStringExtra("cityName"));
+        RequestBody citiesId = RequestBody.create(MediaType.parse("text/plain"), getIntent().getStringExtra("cityId"));
+        RequestBody pincode = RequestBody.create(MediaType.parse("text/plain"), getIntent().getStringExtra("pincode"));
 //        ShowProgressDialog();
         Call<LogginModel> responseBodyCall = uploadAPIs.updateprofile(appuserId, fullname, countryISOCode,
-                countycode, phoneno, gender,otptext,smssentId, body);
+                countycode, phoneno, gender, otptext, smssentId, addressLine1, addressLine2, area, stateId,
+                state,citiesId, city, pincode, body);
         Log.d("File", "" + responseBodyCall);
         responseBodyCall.enqueue(new Callback<LogginModel>() {
 
@@ -150,16 +159,7 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
                     Utils.dismissDialog();
                 }
                 if (response.body().getIsValid() == 1) {
-//                    Utils.setPref(mContext, "LoginUserName", response.body().getData().getName());
-//                    Utils.setPref(mContext, "LoginEmailId", response.body().getData().getEmail());
-//                    Utils.setPref(mContext, "LoginPhoneNo", response.body().getData().getPhoneNo());
-//                    Utils.setPref(mContext, "LoginProfilePic", response.body().getData().getProfilePicUrl());
-//                    Utils.setPref(mContext, "EmailVerified", String.valueOf(response.body().getData().getIsEmailVerified()));
-//                    Utils.setPref(mContext, "PhoneVerified", String.valueOf(response.body().getData().getIsNumberVerified()));
-//                    Utils.setPref(mContext, "AppUserId", String.valueOf(response.body().getData().getId()));
-//                    Utils.setPref(mContext, "Gender", String.valueOf(response.body().getData().getGender()));
-
-Utils.storeLoginData(response.body().getData(),mContext);
+                    Utils.storeLoginData(response.body().getData(), mContext);
 
                     Utils.ping(mContext, "Profile Updated Successfully");
                     Intent myprofileIntent = new Intent(mContext, MyProfileActivity.class);
@@ -323,10 +323,11 @@ Utils.storeLoginData(response.body().getData(),mContext);
                     startActivity(mobileIntent);
                     overridePendingTransition(0, 0);
 //                    finish();
-                }else if (strWheretocome.equalsIgnoreCase("EditProfile")){
-                    OTPActivity.this.finish();
-                }
-                else {
+                } else if (strWheretocome.equalsIgnoreCase("EditProfile")) {
+//                    Intent editIntent =new Intent(mContext,EditProfileActivity.class);
+//                    startActivity(editIntent);
+                    finish();
+                } else {
                     Intent mobileIntent = new Intent(mContext, MobileVerificationNewActivity.class);
                     startActivity(mobileIntent);
                     overridePendingTransition(0, 0);
@@ -351,9 +352,9 @@ Utils.storeLoginData(response.body().getData(),mContext);
                 getSignUp();
             } else if (strWheretocome.equalsIgnoreCase("EditProfile")) {
                 uri1 = getIntent().getData();
-                if (!uri1.equals("1")){
-                    uri= uri1;
-                }else{
+                if (!uri1.equals("1")) {
+                    uri = uri1;
+                } else {
 
                 }
                 getUpdateProfile();
@@ -445,13 +446,18 @@ Utils.storeLoginData(response.body().getData(),mContext);
                     if (loginModel.getData() != null) {
                         Utils.setPref(mContext, "IsLoginUser", "1");
 
-                        Utils.storeLoginData(loginModel.getData(),mContext);
+                        Utils.storeLoginData(loginModel.getData(), mContext);
                         Utils.storeLoginOtherData(loginModel.getOtherData(), mContext);
-                        Intent DashboardIntent = new Intent(mContext, DashboardActivity.class);
-                        AppConfiguration.position = 0;
-                        startActivity(DashboardIntent);
-                        finish();
-
+                        if (Utils.retriveLoginData(mContext).getMemberType().equalsIgnoreCase(",3,")){
+                            Intent SFAintent = new Intent(mContext, DisplaySFAUserActivity.class);
+                            startActivity(SFAintent);
+                            finish();
+                        }else{
+                            Intent DashboardIntent = new Intent(mContext, DashboardActivity.class);
+                            AppConfiguration.position = 0;
+                            startActivity(DashboardIntent);
+                            finish();
+                        }
                     }
 
                 }
@@ -478,7 +484,7 @@ Utils.storeLoginData(response.body().getData(),mContext);
         map.put("Password", strPassword);
         map.put("OTPText", finalgetOtpStr);
         map.put("SMSSentId", otpStr);
-        map.put("TokenId",Utils.getPref(mContext, "registration_id"));
+        map.put("TokenId", Utils.getPref(mContext, "registration_id"));
         return map;
     }
 
@@ -512,14 +518,13 @@ Utils.storeLoginData(response.body().getData(),mContext);
             startActivity(mobileIntent);
             overridePendingTransition(0, 0);
 //                    finish();
-        }else if (strWheretocome.equalsIgnoreCase("EditProfile")){
+        } else if (strWheretocome.equalsIgnoreCase("EditProfile")) {
             OTPActivity.this.finish();
-        }
-        else {
+        } else {
             Intent mobileIntent = new Intent(mContext, MobileVerificationNewActivity.class);
             startActivity(mobileIntent);
             overridePendingTransition(0, 0);
-                    finish();
+            finish();
         }
         super.onBackPressed();
     }

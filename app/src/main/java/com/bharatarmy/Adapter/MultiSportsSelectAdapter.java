@@ -61,19 +61,6 @@ public class MultiSportsSelectAdapter extends RecyclerView.Adapter<MultiSportsSe
             holder.dialog_item_checkbox.setChecked(false);
         }
 
-        /*holder.dialog_item_checkbox.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (holder.dialog_item_checkbox.isChecked()) {
-                    MultiSelectDialog.selectedIdsForCallback.add(mDataSet.get(holder.getAdapterPosition()).getId());
-                    holder.dialog_item_checkbox.setChecked(true);
-                } else {
-                    removeFromSelection(mDataSet.get(holder.getAdapterPosition()).getId());
-                    holder.dialog_item_checkbox.setChecked(false);
-                }
-            }
-        });*/
-
 
         holder.main_container.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,12 +69,12 @@ public class MultiSportsSelectAdapter extends RecyclerView.Adapter<MultiSportsSe
                     MultiSportsSelectDialog.selectedIdsForCallback.add(mDataSet.get(holder.getAdapterPosition()).getId());
                     holder.dialog_item_checkbox.setChecked(true);
                     mDataSet.get(holder.getAdapterPosition()).setSelected(true);
-                    notifyItemChanged(holder.getAdapterPosition());
+//                    notifyItemChanged(holder.getAdapterPosition());
                 } else {
                     removeFromSelection(mDataSet.get(holder.getAdapterPosition()).getId());
                     holder.dialog_item_checkbox.setChecked(false);
                     mDataSet.get(holder.getAdapterPosition()).setSelected(false);
-                    notifyItemChanged(holder.getAdapterPosition());
+//                    notifyItemChanged(holder.getAdapterPosition());
                 }
             }
         });

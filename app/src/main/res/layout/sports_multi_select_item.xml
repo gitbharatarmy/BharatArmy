@@ -4,9 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/layout_margin"
-    android:background="?android:attr/selectableItemBackground"
-    android:orientation="horizontal">
 
+    android:orientation="horizontal">
+<!--    android:background="?android:attr/selectableItemBackground"-->
     <CheckBox
         android:id="@+id/dialog_item_checkbox"
         android:layout_width="@dimen/_20sdp"
@@ -20,5 +20,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:textSize="@dimen/font_size_subheading" />
+        android:textSize="@dimen/font_size_subheading"
+        android:text="@string/sports"/>
 </LinearLayout>
