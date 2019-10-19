@@ -47,8 +47,7 @@ public class TravelFragment extends Fragment {
     public static List<TravelModel> popularcityarrayList;
     public static List<TravelModel> popularPackageList;
 
-    UltraPagerAdapter ultraPagerAdapter;
-    TravelPopularCItyAdapter popularCItyAdapter;
+
     TravelMainPageAdapter travelMainPageAdapter;
     BottomSheetDialogFragment bottomSheetDialogFragment;
 

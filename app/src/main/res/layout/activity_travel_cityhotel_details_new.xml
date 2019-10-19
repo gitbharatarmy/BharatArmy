@@ -182,7 +182,7 @@
                                 android:maxLines="1"
                                 android:paddingLeft="@dimen/_2sdp"
                                 android:text="Price"
-                                android:textColor="#8B8B8B"
+                                android:textColor="@color/unselected_view"
                                 android:textSize="@dimen/_11sdp" />
 
                             <TextView
@@ -211,7 +211,7 @@
                                 android:maxLines="1"
                                 android:paddingLeft="@dimen/_2sdp"
                                 android:text="Reviews"
-                                android:textColor="#8B8B8B"
+                                android:textColor="@color/unselected_view"
                                 android:textSize="@dimen/_11sdp" />
 
                             <com.whinc.widget.ratingbar.RatingBar

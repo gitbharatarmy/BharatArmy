@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.bharatarmy.Adapter.TravelMatchDetailHotelRecyclerAdapter;
@@ -17,12 +18,16 @@ import com.bharatarmy.Adapter.TravelMatchDetailRecyclerAdapter;
 import com.bharatarmy.Adapter.TravelMatchDetailSightseensRecyclerAdapter;
 import com.bharatarmy.Adapter.TravelMatchDetailTicketsRecyclerAdapter;
 import com.bharatarmy.Fragment.MatchFilterFragment;
+import com.bharatarmy.Models.MyScreenChnagesModel;
 import com.bharatarmy.Models.TravelModel;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.AppConfiguration;
 import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.ActivityTravelMatchDetailNewBinding;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +39,7 @@ public class TravelMatchDetailActivity extends AppCompatActivity implements View
 
     ActivityTravelMatchDetailNewBinding travelMatchDetailBinding;
     Context mContext;
-    String bgImageStr, tourMatchNameStr = "", titleNameStr;
+    String bgImageStr, tourMatchNameStr = "", titleNameStr,selectedroomNameStr="",selectedroomImageStr="",selectedposition="";
     BottomSheetDialogFragment bottomSheetDialogFragment;
 
     TravelMatchDetailRecyclerAdapter travelMatchDetailRecyclerAdapter;
@@ -57,10 +62,8 @@ public class TravelMatchDetailActivity extends AppCompatActivity implements View
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         travelMatchDetailBinding = DataBindingUtil.setContentView(this, R.layout.activity_travel_match_detail_new);
-
+        EventBus.getDefault().register(this);
         mContext = TravelMatchDetailActivity.this;
-
-
         init();
         setListiner();
         setscheduleListValue();
@@ -152,6 +155,25 @@ public class TravelMatchDetailActivity extends AppCompatActivity implements View
 
     }
 
+    @Subscribe
+    public void customEventReceived(MyScreenChnagesModel event) {
+        Log.d("event :",event.getPosition());
+        if (!event.getRoomName().equalsIgnoreCase("")) {
+            selectedroomNameStr=event.getRoomName();
+            selectedroomImageStr=event.getRoomImage();
+            selectedposition=event.getPosition();
+
+            if (travelMatchDetailRecyclerAdapter!=null) {
+                travelMatchDetailRecyclerAdapter.notifyItemChanged(Integer.parseInt(event.getPosition()+1), selectedposition+"|"+selectedroomNameStr+"|"+selectedroomImageStr);//
+            }
+
+            if (travelMatchDetailHotelRecyclerAdapter!=null){
+                travelMatchDetailHotelRecyclerAdapter.notifyItemChanged(1,selectedposition+"|"+selectedroomNameStr+"|"+selectedroomImageStr);
+            }
+        }
+
+    }
+
     public void setscheduleListValue() {
         listDataHeader = new ArrayList<String>();
 
@@ -159,7 +181,8 @@ public class TravelMatchDetailActivity extends AppCompatActivity implements View
             listDataHeader.add(String.valueOf(j));
 
         }
-        travelMatchDetailRecyclerAdapter = new TravelMatchDetailRecyclerAdapter(mContext, listDataHeader, titleNameStr);
+        travelMatchDetailRecyclerAdapter = new TravelMatchDetailRecyclerAdapter(mContext, listDataHeader, titleNameStr,
+                selectedroomNameStr,selectedroomImageStr);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(mContext, RecyclerView.VERTICAL, false);
         travelMatchDetailBinding.matchRcv.setLayoutManager(mLayoutManager);
         travelMatchDetailBinding.matchRcv.setItemAnimator(new DefaultItemAnimator());
@@ -220,7 +243,7 @@ public class TravelMatchDetailActivity extends AppCompatActivity implements View
         matchHotelList.add(new TravelModel(AppConfiguration.IMAGE_URL + "jwmarriott.jpg", "JW Marriott Mumbai Juhu", "Juhu, Mumbai", 3, "9000"));
 
 
-        travelMatchDetailHotelRecyclerAdapter = new TravelMatchDetailHotelRecyclerAdapter(mContext, matchHotelList, titleNameStr);
+        travelMatchDetailHotelRecyclerAdapter = new TravelMatchDetailHotelRecyclerAdapter(mContext, matchHotelList, titleNameStr,selectedroomNameStr,selectedroomImageStr);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(mContext, RecyclerView.VERTICAL, false);
         travelMatchDetailBinding.matchRcv.setLayoutManager(mLayoutManager);
         travelMatchDetailBinding.matchRcv.setItemAnimator(new DefaultItemAnimator());

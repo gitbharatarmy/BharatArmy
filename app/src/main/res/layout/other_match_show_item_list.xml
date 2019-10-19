@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout >
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/match_groupdetail_curveshape"
+        android:elevation="2dp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginBottom="@dimen/_5sdp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/header_linear"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@color/splash_bg_color">
+
+            <WebView
+                android:id="@+id/webView"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_150sdp"
+                tools:ignore="WebViewLayout" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:layout_marginBottom="@dimen/_20sdp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_20sdp"
+                    android:layout_marginLeft="@dimen/_7sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginRight="@dimen/_7sdp"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center_horizontal">
+
+                    <TextView
+                        android:id="@+id/match_type_txt"
+                        style="@style/title_text_font"
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_15sdp"
+                        android:background="@drawable/match_detail_bluecurveshape"
+                        android:gravity="center_vertical|center_horizontal"
+                        android:text="T20"
+                        android:textColor="@color/splash_bg_color"
+                        android:textSize="@dimen/_7sdp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/match_date_txt"
+                        style="@style/title_text_font"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="@dimen/_5sdp"
+                        android:text="Sat 03 Aug,10:30 AM(Local)"
+                        android:textColor="@color/unselected_view"
+                        android:textSize="@dimen/_9sdp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginBottom="@dimen/_5sdp"
+                    android:layout_gravity="center_horizontal"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/title_text_font"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:ellipsize="end"
+                        android:gravity="center_horizontal|center_vertical"
+                        android:maxLines="2"
+                        android:text="India"
+                        android:textColor="@color/heading_bg"
+                        android:textSize="@dimen/_14sdp" />
+
+
+                    <com.bharatarmy.RoundishImageView
+                        android:layout_width="@dimen/_22sdp"
+                        android:layout_height="@dimen/_17sdp"
+                        android:layout_marginLeft="@dimen/_3sdp"
+                        android:layout_marginRight="@dimen/_3sdp"
+                        android:adjustViewBounds="true"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/in_flag"
+                        app:cornerRadius="5dp"
+                        app:roundedCorners="topLeft|topRight|bottomLeft|bottomRight" />
+
+                    <TextView
+                        style="@style/title_text_font"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:ellipsize="end"
+                        android:gravity="center_horizontal|center_vertical"
+                        android:maxLines="2"
+                        android:text="vs"
+                        android:textColor="@color/heading_bg"
+                        android:textSize="@dimen/_14sdp" />
+
+                    <com.bharatarmy.RoundishImageView
+                        android:layout_width="@dimen/_22sdp"
+                        android:layout_height="@dimen/_17sdp"
+                        android:layout_marginLeft="@dimen/_3sdp"
+                        android:layout_marginRight="@dimen/_3sdp"
+                        android:adjustViewBounds="true"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/wl"
+                        app:cornerRadius="5dp"
+                        app:roundedCorners="topLeft|topRight|bottomLeft|bottomRight" />
+
+                    <TextView
+                        style="@style/title_text_font"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:ellipsize="end"
+                        android:gravity="center_vertical"
+                        android:maxLines="2"
+                        android:text="Windies"
+                        android:textColor="@color/heading_bg"
+                        android:textSize="@dimen/_14sdp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_7sdp"
+                    android:layout_marginRight="@dimen/_7sdp"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center_horizontal">
+
+                    <TextView
+                        style="@style/text_font"
+                        android:layout_width="@dimen/_140sdp"
+                        android:layout_height="wrap_content"
+                        android:text="Match 01 | Central Broward Regional Park Stadium Turf Ground, Lauderhill, Florida"
+                        android:textColor="@color/unselected_view"
+                        android:textSize="@dimen/_9sdp" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/title_text_font"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:text="Match Details"
+                    android:textColor="@color/heading_bg"
+                    android:textSize="@dimen/_16sdp" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_5sdp">
+
+                <TextView
+                    style="@style/text_font"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:text="@string/cheese_ipsum"
+                    android:textColor="@color/unselected_view"
+                    android:textSize="@dimen/_11sdp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginBottom="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_15sdp">
+
+                <TextView
+                    style="@style/title_text_font"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:text="Releated Tickets"
+                    android:textColor="@color/heading_bg"
+                    android:textSize="@dimen/_16sdp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+
+            android:weightSum="1">
+
+            <LinearLayout
+                android:id="@+id/main_groupLiner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_20sdp"
+                            android:layout_marginLeft="@dimen/_7sdp"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:layout_marginRight="@dimen/_7sdp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/packageprice_txt"
+                                style="@style/title_text_font"
+                                android:layout_width="@dimen/_20sdp"
+                                android:layout_height="@dimen/_15sdp"
+                                android:background="@drawable/match_detail_bluecurveshape"
+                                android:gravity="center_vertical|center_horizontal"
+                                android:text="T20"
+                                android:textColor="@color/splash_bg_color"
+                                android:textSize="@dimen/_7sdp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/packageplacename_txt"
+                                style="@style/title_text_font"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:padding="@dimen/_5sdp"
+                                android:text="Sat 03 Aug,10:30 AM(Local)"
+                                android:textColor="@color/unselected_view"
+                                android:textSize="@dimen/_9sdp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_30sdp"
+                            android:layout_marginLeft="@dimen/_7sdp"
+                            android:layout_marginRight="@dimen/_7sdp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                style="@style/title_text_font"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:ellipsize="end"
+                                android:gravity="center_horizontal|center_vertical"
+                                android:maxLines="2"
+                                android:text="India"
+                                android:textColor="@color/heading_bg"
+                                android:textSize="@dimen/_13sdp" />
+
+
+                            <com.bharatarmy.RoundishImageView
+                                android:layout_width="@dimen/_20sdp"
+                                android:layout_height="@dimen/_15sdp"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="@dimen/_3sdp"
+                                android:layout_marginRight="@dimen/_3sdp"
+                                android:adjustViewBounds="true"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/in_flag"
+                                app:cornerRadius="5dp"
+                                app:roundedCorners="topLeft|topRight|bottomLeft|bottomRight" />
+
+                            <TextView
+                                style="@style/title_text_font"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:ellipsize="end"
+                                android:gravity="center_horizontal|center_vertical"
+                                android:maxLines="2"
+                                android:text="vs"
+                                android:textColor="@color/heading_bg"
+                                android:textSize="@dimen/_13sdp" />
+
+                            <com.bharatarmy.RoundishImageView
+                                android:layout_width="@dimen/_20sdp"
+                                android:layout_height="@dimen/_15sdp"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="@dimen/_3sdp"
+                                android:layout_marginRight="@dimen/_3sdp"
+                                android:adjustViewBounds="true"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/wl"
+                                app:cornerRadius="5dp"
+                                app:roundedCorners="topLeft|topRight|bottomLeft|bottomRight" />
+
+                            <TextView
+                                style="@style/title_text_font"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:ellipsize="end"
+                                android:gravity="center_vertical"
+                                android:maxLines="2"
+                                android:text="Windies"
+                                android:textColor="@color/heading_bg"
+                                android:textSize="@dimen/_13sdp" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/_7sdp"
+                            android:layout_marginRight="@dimen/_7sdp"
+                            android:layout_marginBottom="@dimen/_3sdp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                style="@style/text_font"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:ellipsize="end"
+                                android:gravity="center_vertical"
+                                android:maxLines="3"
+                                android:paddingTop="@dimen/_2sdp"
+                                android:text="Match 01 | Central Broward Regional Park Stadium Turf Ground, Lauderhill, Florida"
+                                android:textColor="@color/unselected_view"
+                                android:textSize="@dimen/_9sdp" />
+
+                        </LinearLayout>
+
+
+                </LinearLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_3sdp"
+            android:layout_marginLeft="@dimen/_20sdp"
+            android:background="@drawable/gradiant_line"
+            android:visibility="visible" />
+    </LinearLayout>
+</layout>

@@ -1,4 +1,4 @@
-package com.bharatarmy.Utility;
+package com.bharatarmy;
 
 import android.content.Context;
 import android.util.AttributeSet;

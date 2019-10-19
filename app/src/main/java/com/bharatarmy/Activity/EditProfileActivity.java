@@ -246,6 +246,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
                         }).check();
                 break;
             case R.id.states_selection_img:
+
                 setstateValue();
                 break;
             case R.id.city_selection_img:
@@ -643,6 +644,8 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
                                 activityEditProfileBinding.statesEdt.setText(selectedNames.get(i));
 
                                 statesIdStr = String.valueOf(selectedIds.get(i));
+                                activityEditProfileBinding.cityEdt.setText("");
+                                activityEditProfileBinding.cityEdt.setHint("Select");
                                 Utils.hideKeyboard(EditProfileActivity.this);
                                 callCitiesDetailData();
                             }

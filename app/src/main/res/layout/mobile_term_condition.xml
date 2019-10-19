@@ -63,7 +63,7 @@
                 android:layout_height="5dp"
              android:layout_below="@+id/toolbar_linear"
                 android:background="@drawable/bg_gradiant_line" />
-            <com.bharatarmy.Utility.meghWebView
+            <com.bharatarmy.meghWebView
                 android:id="@+id/webView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

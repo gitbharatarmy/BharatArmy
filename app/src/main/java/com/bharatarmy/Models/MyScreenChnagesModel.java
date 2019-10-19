@@ -1,7 +1,11 @@
 package com.bharatarmy.Models;
 
 public class MyScreenChnagesModel {
-    private final String message;
+    String message;
+
+    String roomName;
+    String roomImage;
+    String position;
 
 
     public MyScreenChnagesModel(String message){
@@ -12,6 +16,22 @@ public class MyScreenChnagesModel {
     }
 
 
+    public MyScreenChnagesModel(String roomName,String roomImage,String position){
+        this.roomName=roomName;
+        this.roomImage=roomImage;
+        this.position=position;
+}
 
 
+    public String getRoomName() {
+        return roomName;
+    }
+
+    public String getRoomImage() {
+        return roomImage;
+    }
+
+    public String getPosition() {
+        return position;
+    }
 }

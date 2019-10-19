@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<layout>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -201,7 +202,24 @@
                             android:src="@drawable/silver_tickets"
                             android:tint="@color/gray" />
                     </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/hotelClickLinear"
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:layout_marginLeft="@dimen/_5sdp"
+                        android:background="@drawable/gray_circlering"
+                        android:orientation="vertical">
 
+                        <ImageView
+                            android:id="@+id/hotelImage"
+                            android:layout_width="@dimen/_10sdp"
+                            android:layout_height="@dimen/_10sdp"
+                            android:layout_margin="@dimen/_5sdp"
+                            android:src="@drawable/hotel"
+                            android:tint="@color/gray" />
+                    </LinearLayout>
                     <LinearLayout
                         android:id="@+id/hospitalityClickLinear"
                         android:layout_width="@dimen/_20sdp"
@@ -245,3 +263,4 @@
         android:background="@drawable/gradiant_line"
         android:visibility="visible" />
 </LinearLayout>
+</layout>

@@ -34,7 +34,7 @@ public class HotelDetailFragment extends Fragment {
     ArrayList<TravelModel> cityHotelAmenitiesList;
     CityHotelAmenitiesAdapter cityHotelAmenitiesAdapter;
     ArrayList<String> valueArray;
-    GridLayoutManager gridLayoutManager;
+
     public HotelDetailFragment() {
         // Required empty public constructor
     }

@@ -93,4 +93,5 @@
     <dimen name="frames_video_height">40dip</dimen>
     <dimen name="round_corner_radius">20dp</dimen>
     <integer name="add_remove_duration">450</integer>
+    <dimen name="round_image">@dimen/_5sdp</dimen>
 </resources>

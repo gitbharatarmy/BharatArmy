@@ -56,13 +56,30 @@ public class TravelModel {
     String main_desc;
     String button_name;
 
+    String matchroom_name;
+    String people_count1;
+    String people_count2;
+    String room_price;
+    String room_image;
+    String offers;
 
-    public TravelModel(String bg_iamge,String bg_name,String main_titleName,String main_desc,String button_name){
-        this.bg_iamge=bg_iamge;
-        this.bg_name=bg_name;
-        this.main_titleName=main_titleName;
-        this.main_desc=main_desc;
-        this.button_name=button_name;
+    String ticket_hospitality_bannerImage;
+    String ticket_hospitality_mainheader_title;
+    String ticket_hospitality_namecategory;
+    String ticket_hospitality_desc;
+    String ticket_hospitality_offers;
+    String ticket_hospitality_price;
+    String ticket_hospitality_inclusion;
+    String ticket_hospitality_clickhere;
+    String ticket_hospitality_selected;
+
+
+    public TravelModel(String bg_iamge, String bg_name, String main_titleName, String main_desc, String button_name) {
+        this.bg_iamge = bg_iamge;
+        this.bg_name = bg_name;
+        this.main_titleName = main_titleName;
+        this.main_desc = main_desc;
+        this.button_name = button_name;
     }
 
     public String getBg_iamge() {
@@ -105,12 +122,13 @@ public class TravelModel {
         this.button_name = button_name;
     }
 
-    public TravelModel(){}
+    public TravelModel() {
+    }
 
 
-    public TravelModel(int matchteamFlag,String matchteamVenues){
-        this.matchteamFlag=matchteamFlag;
-        this.matchteamVenues=matchteamVenues;
+    public TravelModel(int matchteamFlag, String matchteamVenues) {
+        this.matchteamFlag = matchteamFlag;
+        this.matchteamVenues = matchteamVenues;
     }
 
     public int getMatchteamFlag() {
@@ -129,9 +147,9 @@ public class TravelModel {
         this.matchteamVenues = matchteamVenues;
     }
 
-    public TravelModel(int changeMonth, int changeYear){
-        this.changeMonth=changeMonth;
-        this.changeYear=changeYear;
+    public TravelModel(int changeMonth, int changeYear) {
+        this.changeMonth = changeMonth;
+        this.changeYear = changeYear;
     }
 
     public int getChangeMonth() {
@@ -334,11 +352,11 @@ public class TravelModel {
     }
 
 
-    public TravelModel(String cityHotelRoomGallery, String cityHotelRoomType,int cityHotelRoomHeight,int cityHotelRoomWidth) {
+    public TravelModel(String cityHotelRoomGallery, String cityHotelRoomType, int cityHotelRoomHeight, int cityHotelRoomWidth) {
         this.cityHotelRoomGallery = cityHotelRoomGallery;
         this.cityHotelRoomType = cityHotelRoomType;
-        this.cityHotelRoomHeight=cityHotelRoomHeight;
-        this.cityHotelRoomWidth=cityHotelRoomWidth;
+        this.cityHotelRoomHeight = cityHotelRoomHeight;
+        this.cityHotelRoomWidth = cityHotelRoomWidth;
     }
 
     public String getCityHotelRoomGallery() {
@@ -373,10 +391,10 @@ public class TravelModel {
         this.cityHotelRoomWidth = cityHotelRoomWidth;
     }
 
-//    Amenities
-    public TravelModel(String cityHotelAmenitiesImage,String cityHotelAmenitiesName){
-        this.cityHotelAmenitiesImage=cityHotelAmenitiesImage;
-        this.cityHotelAmenitiesName=cityHotelAmenitiesName;
+    //    Amenities
+    public TravelModel(String cityHotelAmenitiesImage, String cityHotelAmenitiesName) {
+        this.cityHotelAmenitiesImage = cityHotelAmenitiesImage;
+        this.cityHotelAmenitiesName = cityHotelAmenitiesName;
     }
 
     public String getCityHotelAmenitiesImage() {
@@ -396,13 +414,13 @@ public class TravelModel {
     }
 
 
-//    CityAllHotel
-    public TravelModel(String cityAllHotelImage,String cityAllHotelName,String cityAllHotelLocation, int cityAllHotelRating, String cityAllHotelPrice){
-        this.cityAllHotelImage=cityAllHotelImage;
-        this.cityAllHotelName=cityAllHotelName;
-        this.cityAllHotelLocation=cityAllHotelLocation;
-        this.cityAllHotelRating=cityAllHotelRating;
-        this.cityAllHotelPrice=cityAllHotelPrice;
+    //    CityAllHotel
+    public TravelModel(String cityAllHotelImage, String cityAllHotelName, String cityAllHotelLocation, int cityAllHotelRating, String cityAllHotelPrice) {
+        this.cityAllHotelImage = cityAllHotelImage;
+        this.cityAllHotelName = cityAllHotelName;
+        this.cityAllHotelLocation = cityAllHotelLocation;
+        this.cityAllHotelRating = cityAllHotelRating;
+        this.cityAllHotelPrice = cityAllHotelPrice;
     }
 
     public String getCityAllHotelImage() {
@@ -443,5 +461,154 @@ public class TravelModel {
 
     public void setCityAllHotelPrice(String cityAllHotelPrice) {
         this.cityAllHotelPrice = cityAllHotelPrice;
+    }
+
+    //    room type for match hotel
+    public TravelModel(String matchroom_name, String people_count1, String people_count2, String room_price, String room_image, String offers) {
+        this.matchroom_name = matchroom_name;
+        this.people_count1 = people_count1;
+        this.people_count2 = people_count2;
+        this.room_price = room_price;
+        this.room_image = room_image;
+        this.offers = offers;
+    }
+
+    public String getMatchroom_name() {
+        return matchroom_name;
+    }
+
+    public void setMatchroom_name(String matchroom_name) {
+        this.matchroom_name = matchroom_name;
+    }
+
+    public String getPeople_count1() {
+        return people_count1;
+    }
+
+    public void setPeople_count1(String people_count1) {
+        this.people_count1 = people_count1;
+    }
+
+    public String getPeople_count2() {
+        return people_count2;
+    }
+
+    public void setPeople_count2(String people_count2) {
+        this.people_count2 = people_count2;
+    }
+
+    public String getRoom_price() {
+        return room_price;
+    }
+
+    public void setRoom_price(String room_price) {
+        this.room_price = room_price;
+    }
+
+    public String getRoom_image() {
+        return room_image;
+    }
+
+    public void setRoom_image(String room_image) {
+        this.room_image = room_image;
+    }
+
+    public String getOffers() {
+        return offers;
+    }
+
+    public void setOffers(String offers) {
+        this.offers = offers;
+    }
+
+
+//    Ticket and Hospitality
+    public TravelModel(String ticket_hospitality_bannerImage,String ticket_hospitality_mainheader_title,
+                       String ticket_hospitality_namecategory,String ticket_hospitality_desc,
+                       String ticket_hospitality_offers,String ticket_hospitality_price,
+                       String ticket_hospitality_inclusion,String ticket_hospitality_clickhere,String ticket_hospitality_selected){
+
+
+        this.ticket_hospitality_bannerImage=ticket_hospitality_bannerImage;
+        this.ticket_hospitality_mainheader_title=ticket_hospitality_mainheader_title;
+        this.ticket_hospitality_namecategory=ticket_hospitality_namecategory;
+        this.ticket_hospitality_desc=ticket_hospitality_desc;
+        this.ticket_hospitality_offers=ticket_hospitality_offers;
+        this.ticket_hospitality_price=ticket_hospitality_price;
+        this.ticket_hospitality_inclusion=ticket_hospitality_inclusion;
+        this.ticket_hospitality_clickhere = ticket_hospitality_clickhere;
+        this.ticket_hospitality_selected=ticket_hospitality_selected;
+    }
+
+    public String getTicket_hospitality_bannerImage() {
+        return ticket_hospitality_bannerImage;
+    }
+
+    public void setTicket_hospitality_bannerImage(String ticket_hospitality_bannerImage) {
+        this.ticket_hospitality_bannerImage = ticket_hospitality_bannerImage;
+    }
+
+    public String getTicket_hospitality_mainheader_title() {
+        return ticket_hospitality_mainheader_title;
+    }
+
+    public void setTicket_hospitality_mainheader_title(String ticket_hospitality_mainheader_title) {
+        this.ticket_hospitality_mainheader_title = ticket_hospitality_mainheader_title;
+    }
+
+    public String getTicket_hospitality_namecategory() {
+        return ticket_hospitality_namecategory;
+    }
+
+    public void setTicket_hospitality_namecategory(String ticket_hospitality_namecategory) {
+        this.ticket_hospitality_namecategory = ticket_hospitality_namecategory;
+    }
+
+    public String getTicket_hospitality_desc() {
+        return ticket_hospitality_desc;
+    }
+
+    public void setTicket_hospitality_desc(String ticket_hospitality_desc) {
+        this.ticket_hospitality_desc = ticket_hospitality_desc;
+    }
+
+    public String getTicket_hospitality_offers() {
+        return ticket_hospitality_offers;
+    }
+
+    public void setTicket_hospitality_offers(String ticket_hospitality_offers) {
+        this.ticket_hospitality_offers = ticket_hospitality_offers;
+    }
+
+    public String getTicket_hospitality_price() {
+        return ticket_hospitality_price;
+    }
+
+    public void setTicket_hospitality_price(String ticket_hospitality_price) {
+        this.ticket_hospitality_price = ticket_hospitality_price;
+    }
+
+    public String getTicket_hospitality_inclusion() {
+        return ticket_hospitality_inclusion;
+    }
+
+    public void setTicket_hospitality_inclusion(String ticket_hospitality_inclusion) {
+        this.ticket_hospitality_inclusion = ticket_hospitality_inclusion;
+    }
+
+    public String getTicket_hospitality_clickhere() {
+        return ticket_hospitality_clickhere;
+    }
+
+    public void setTicket_hospitality_clickhere(String ticket_hospitality_clickhere) {
+        this.ticket_hospitality_clickhere = ticket_hospitality_clickhere;
+    }
+
+    public String getTicket_hospitality_selected() {
+        return ticket_hospitality_selected;
+    }
+
+    public void setTicket_hospitality_selected(String ticket_hospitality_selected) {
+        this.ticket_hospitality_selected = ticket_hospitality_selected;
     }
 }

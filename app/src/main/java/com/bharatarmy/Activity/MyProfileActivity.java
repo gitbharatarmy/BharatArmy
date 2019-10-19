@@ -88,6 +88,7 @@ public class MyProfileActivity extends AppCompatActivity implements View.OnClick
                 Intent intent = new Intent(mContext, EditProfileActivity.class);
                 startActivity(intent);
                 finish();
+//                overridePendingTransition(R.anim.slide_out_right_new, 0);
                 break;
         }
     }

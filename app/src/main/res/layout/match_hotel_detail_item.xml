@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<layout>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/hotel_cardclick"
@@ -116,7 +117,79 @@
                         android:text="Jamsetji Nusserwanji Tata, founder of the Tata Group, opened the Taj Mahal Palace, a hotel in Mumbai (formerly called Bombay) overlooking the Arabian Sea, on 16 December 1903. It was the first Taj property and the first Taj hotel. There are several anecdotal stories about why Tata opened the Taj hotel."
                         android:textColor="@color/normal_font_color"
                         android:textSize="@dimen/_10sdp" />
+                    <LinearLayout
+                        android:id="@+id/select_room_linear"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="@dimen/_3sdp"
+                        android:layout_marginBottom="@dimen/_10sdp"
+                        android:weightSum="1">
 
+                        <com.bharatarmy.RoundishImageView
+                            android:id="@+id/room_img"
+                            android:layout_width="@dimen/_45sdp"
+                            android:layout_height="@dimen/_45sdp"
+                            android:adjustViewBounds="true"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/ajif"
+                            app:cornerRadius="@dimen/round_image"
+                            app:roundedCorners="all" />
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_marginLeft="@dimen/_7sdp">
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+                                <ImageView
+                                    android:layout_width="@dimen/_8sdp"
+                                    android:layout_height="@dimen/_8sdp"
+                                    android:src="@drawable/hotel"
+                                    android:layout_gravity="center_vertical"
+                                    android:tint="@color/unselected_view"/>
+                                <TextView
+                                    style="@style/title_text_font"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center_vertical"
+                                    android:text="@string/hotel_room"
+                                    android:layout_marginLeft="@dimen/_2sdp"
+                                    android:textColor="@color/unselected_view"
+                                    android:paddingTop="@dimen/_3sdp"
+                                    android:textSize="@dimen/_9sdp"
+                                    android:visibility="visible"
+                                    android:textAllCaps="true"/>
+                            </LinearLayout>
+
+                            <TextView
+                                android:id="@+id/room_nametxt"
+                                style="@style/title_text_font"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center_vertical"
+                                android:text="@string/hotel_room_type"
+                                android:textColor="@color/heading_bg"
+                                android:textSize="@dimen/_16sdp"
+                                android:layout_marginTop="-2dp"
+                                android:textAllCaps="true"/>
+
+                            <TextView
+                                style="@style/title_text_font"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:gravity="center_vertical"
+                                android:layout_gravity="left"
+                                android:text="@string/hotel_change"
+                                android:layout_marginRight="@dimen/_7sdp"
+                                android:textColor="@color/skip_color"
+                                android:textSize="@dimen/_7sdp"
+                                android:visibility="visible"
+                                android:textAllCaps="true"/>
+                        </LinearLayout>
+                    </LinearLayout>
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_1sdp"
@@ -233,3 +306,4 @@
 
     </LinearLayout>
 </androidx.cardview.widget.CardView>
+</layout>

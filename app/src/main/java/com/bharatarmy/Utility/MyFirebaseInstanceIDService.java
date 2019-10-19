@@ -1,12 +1,12 @@
 package com.bharatarmy.Utility;
 
 
-import com.google.firebase.iid.FirebaseInstanceIdService;
 
-public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
 
-    private static final String TAG = "MyFirebaseIIDService";
-
+//public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
+//
+//    private static final String TAG = "MyFirebaseIIDService";
+//
 
 
 //    @Override
@@ -38,4 +38,4 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
 //            e.printStackTrace();
 //        }
 //    }
-}
+//}

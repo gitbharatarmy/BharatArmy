@@ -7,6 +7,7 @@
         <item name="windowNoTitle">true</item>
         <item name="android:statusBarColor">@color/heading_bg</item>
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
+        <item name="android:windowAnimationStyle">@style/CustomActivityAnimation</item>
     </style>
     <style name="AppTheme.NoActionBar">
         <item name="android:windowTranslucentNavigation">false</item>
@@ -15,6 +16,7 @@
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:windowAnimationStyle">@style/CustomActivityAnimation</item>
 
     </style>
 
@@ -228,6 +230,14 @@
     <style name="MyPopupMenu" parent="@style/Widget.AppCompat.PopupMenu">
         <item name="android:dropDownHorizontalOffset">-20dp</item>
         <item name="android:dropDownVerticalOffset">4dp</item>
+    </style>
+
+
+    <style name="CustomActivityAnimation" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/slide_in_right_new</item>
+        <item name="android:activityOpenExitAnimation">@anim/slide_out_left_new</item>
+        <item name="android:activityCloseEnterAnimation">@anim/slide_in_left_new</item>
+        <item name="android:activityCloseExitAnimation">@anim/slide_out_right_new</item>
     </style>
 </resources>
 
