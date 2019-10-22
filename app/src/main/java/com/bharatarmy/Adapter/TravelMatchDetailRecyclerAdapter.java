@@ -131,12 +131,12 @@ public class TravelMatchDetailRecyclerAdapter extends RecyclerView.Adapter<Recyc
                 ((MyItemViewHolder) holder).travelMatchGroupdetailItemListBinding.ticketClickLinear.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-//                        ((MyItemViewHolder) holder).travelMatchGroupdetailItemListBinding.hospitalityClickLinear.setBackground(mContext.getDrawable(R.drawable.gray_circlering));
-//                        ((MyItemViewHolder) holder).travelMatchGroupdetailItemListBinding.hospitalityImage.setColorFilter(mContext.getResources().getColor(R.color.gray));
-//                        ((MyItemViewHolder) holder).travelMatchGroupdetailItemListBinding.hotelClickLinear.setBackground(mContext.getDrawable(R.drawable.gray_circlering));
-//                        ((MyItemViewHolder) holder).travelMatchGroupdetailItemListBinding.hotelImage.setColorFilter(mContext.getResources().getColor(R.color.gray));
-//                        ((MyItemViewHolder) holder).travelMatchGroupdetailItemListBinding.ticketClickLinear.setBackground(mContext.getDrawable(R.drawable.circle_graidant));
-//                        ((MyItemViewHolder) holder).travelMatchGroupdetailItemListBinding.ticketImage.setColorFilter(mContext.getResources().getColor(R.color.heading_bg));
+                        ((MyItemViewHolder) holder).travelMatchGroupdetailItemListBinding.hospitalityClickLinear.setBackground(mContext.getDrawable(R.drawable.gray_circlering));
+                        ((MyItemViewHolder) holder).travelMatchGroupdetailItemListBinding.hospitalityImage.setColorFilter(mContext.getResources().getColor(R.color.gray));
+                        ((MyItemViewHolder) holder).travelMatchGroupdetailItemListBinding.hotelClickLinear.setBackground(mContext.getDrawable(R.drawable.gray_circlering));
+                        ((MyItemViewHolder) holder).travelMatchGroupdetailItemListBinding.hotelImage.setColorFilter(mContext.getResources().getColor(R.color.gray));
+                        ((MyItemViewHolder) holder).travelMatchGroupdetailItemListBinding.ticketClickLinear.setBackground(mContext.getDrawable(R.drawable.circle_graidant));
+                        ((MyItemViewHolder) holder).travelMatchGroupdetailItemListBinding.ticketImage.setColorFilter(mContext.getResources().getColor(R.color.heading_bg));
 //                        matchIncludeArray = new ArrayList<>();
 //                        matchIncludeArray.add("1");
 //                        matchIncludeArray.add("2");
