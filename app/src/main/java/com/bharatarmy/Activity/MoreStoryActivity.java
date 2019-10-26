@@ -14,6 +14,7 @@ import androidx.databinding.DataBindingUtil;
 
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.AppConfiguration;
+import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.ActivityMoreStoryBinding;
 import com.bumptech.glide.Glide;
 
@@ -68,6 +69,7 @@ public class MoreStoryActivity extends BaseActivity implements View.OnClickListe
                 MoreStoryActivity.this.finish();
                 break;
             case R.id.share_img:
+                Utils.handleClickEvent(mContext,moreStoryBinding.shareImg);
                 Uri uri= Uri.parse(storyUrlStr);
                 //share image from other application
                 Intent shareIntent = new Intent();

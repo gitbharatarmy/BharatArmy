@@ -167,9 +167,6 @@ public class TravelCityHotelDetailsActivity extends AppCompatActivity implements
         activityTravelCityHotelDetailsBinding.htabTabs.addTab(activityTravelCityHotelDetailsBinding.htabTabs.newTab().setText("Room"));
         activityTravelCityHotelDetailsBinding.htabTabs.addTab(activityTravelCityHotelDetailsBinding.htabTabs.newTab().setText("Review"));
 
-//        activityTravelCityHotelDetailsBinding.htabTabs.getTabAt(0).setIcon(R.drawable.ic_image_icon);
-//        activityTravelCityHotelDetailsBinding.htabTabs.getTabAt(1).setIcon(R.drawable.ic_video_icon);
-//        activityTravelCityHotelDetailsBinding.htabTabs.getTabAt(2).setIcon(R.drawable.ic_album_icon);
         activityTravelCityHotelDetailsBinding.htabTabs.setTabMode(TabLayout.MODE_FIXED);
         activityTravelCityHotelDetailsBinding.htabTabs.setTabGravity(TabLayout.GRAVITY_FILL);
 

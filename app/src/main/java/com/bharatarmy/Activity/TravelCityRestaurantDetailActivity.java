@@ -130,8 +130,8 @@ activityTravelCityRestaurantDetailBinding.backImg.setOnClickListener(this);
 
         }
     };
-    @Override
 
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.back_img:

@@ -54,6 +54,7 @@ Utils.setImageInImageView(String.valueOf(R.drawable.first_match_map),locationMap
                 LocationMapActivity.this.finish();
                 break;
             case R.id.share_img:
+                Utils.handleClickEvent(mContext,locationMapBinding.shareImg);
                 //Use for Internal Storage file
                 File myDir = new File(getExternalCacheDir(), "camera");
                 myDir.mkdirs();

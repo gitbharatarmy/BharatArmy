@@ -29,6 +29,7 @@ public class TravelMatchHotelRoomTypeActivity extends AppCompatActivity implemen
     TravelMatchHotelRoomTypeAdapter travelMatchHotelRoomTypeAdapter;
     ArrayList<TravelModel> roomList;
     int selectedposition = -1;
+    int mainposition;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,9 +59,15 @@ public class TravelMatchHotelRoomTypeActivity extends AppCompatActivity implemen
             }
         }
 
-        travelMatchHotelRoomTypeAdapter = new TravelMatchHotelRoomTypeAdapter(mContext,roomList,selectedposition, new MorestoryClick() {
+        if (getIntent().getStringExtra("clickposition")!=null){
+            Log.d("roomtypeposition :",getIntent().getStringExtra("clickposition"));
+            mainposition= Integer.parseInt(getIntent().getStringExtra("clickposition"));
+        }
+
+        travelMatchHotelRoomTypeAdapter = new TravelMatchHotelRoomTypeAdapter(mContext,roomList,selectedposition,mainposition, new MorestoryClick() {
             @Override
             public void getmorestoryClick() {
+//                Log.d("hotelclickpositon : ",getIntent().getStringExtra("clickposition"));
                 String dataValue=travelMatchHotelRoomTypeAdapter.getDatas().toString();
                 dataValue= dataValue.substring(1, dataValue.length()-1);
                 String[]splitValue=dataValue.split("\\|");

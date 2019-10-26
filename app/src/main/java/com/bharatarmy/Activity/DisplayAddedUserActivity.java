@@ -146,7 +146,7 @@ public class DisplayAddedUserActivity extends AppCompatActivity implements View.
             case R.id.new_userfab_linear:
                 Intent userentry = new Intent(mContext, UserEntryActivity.class);
                 userentry.putExtra("userEditorNew", "new");
-                userentry.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                userentry.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_SINGLE_TOP|Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 mContext.startActivity(userentry);
                 finish();
                 break;

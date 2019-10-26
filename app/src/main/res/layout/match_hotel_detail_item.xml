@@ -54,14 +54,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:layout_marginTop="@dimen/_9sdp"
+                        android:layout_marginTop="@dimen/_11sdp"
                         android:layout_weight="1">
 
                     <TextView
                         android:id="@+id/hotelname_txt"
                         style="@style/title_text_font"
                         android:layout_width="0dp"
-                        android:layout_weight="0.9"
+                        android:layout_weight="0.8"
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
                         android:maxLines="2"
@@ -71,11 +71,11 @@
                         <TextView
                             style="@style/title_text_font"
                             android:layout_width="0dp"
-                            android:layout_weight="0.1"
+                            android:layout_weight="0.2"
                             android:layout_height="wrap_content"
                             android:layout_gravity="right"
                             android:gravity="right|center_vertical"
-                            android:text="per pax"
+                            android:text="per night"
                             android:textAllCaps="true"
                             android:textColor="@color/orange"
                             android:textSize="@dimen/_6sdp" />
@@ -87,7 +87,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
-
                         android:text="@string/bharat_army_story"
                         android:textColor="@color/heading_bg"
                         android:textSize="@dimen/_9sdp"
@@ -97,13 +96,13 @@
                         android:id="@+id/ratingBar"
                         android:layout_width="@dimen/_50sdp"
                         android:layout_height="@dimen/_16sdp"
-                        app:rb_click_rating="true"
+                        app:rb_click_rating="false"
                         app:rb_count="3"
                         app:rb_empty="@drawable/empty"
                         app:rb_fill="@drawable/fill"
                         app:rb_max_count="5"
                         app:rb_space="0dp"
-                        app:rb_touch_rating="true" />
+                        app:rb_touch_rating="false" />
 
                     <TextView
                         android:id="@+id/travel_cityhoteldesc_txt"
@@ -265,22 +264,32 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:layout_marginTop="@dimen/_114sdp"
+                android:layout_marginTop="@dimen/_110sdp"
                 android:layout_marginRight="@dimen/_10sdp"
                 android:background="@drawable/pacakageprice_curve_shape"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:visibility="visible">
-
+                <TextView
+                    style="@style/title_text_font"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:gravity="left|center_vertical"
+                    android:paddingTop="@dimen/_4sdp"
+                    android:paddingLeft="@dimen/_7sdp"
+                    android:text="Starting From"
+                    android:textAllCaps="true"
+                    android:textColor="@color/splash_bg_color"
+                    android:textSize="@dimen/_4sdp" />
                 <TextView
                     android:id="@+id/packageprice_txt"
                     style="@style/title_text_font"
-                    android:layout_width="@dimen/_90sdp"
-                    android:layout_height="@dimen/_25sdp"
-                    android:layout_gravity="center_horizontal|center_vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
                     android:layout_marginRight="@dimen/_2sdp"
-                    android:gravity="center_horizontal|center_vertical"
-                    android:paddingLeft="@dimen/_2sdp"
-                    android:paddingTop="@dimen/_3sdp"
+                    android:gravity="center_horizontal"
+                    android:paddingLeft="@dimen/_7sdp"
                     android:paddingRight="@dimen/_5sdp"
                     android:paddingBottom="@dimen/_2sdp"
                     android:text="₹ 10000"
@@ -289,7 +298,6 @@
                     android:textStyle="bold" />
 
             </LinearLayout>
-
             <ImageView
                 android:id="@+id/recommended_image"
                 android:layout_width="@dimen/_35sdp"

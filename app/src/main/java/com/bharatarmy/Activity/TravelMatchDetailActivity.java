@@ -164,11 +164,11 @@ public class TravelMatchDetailActivity extends AppCompatActivity implements View
             selectedposition=event.getPosition();
 
             if (travelMatchDetailRecyclerAdapter!=null) {
-                travelMatchDetailRecyclerAdapter.notifyItemChanged(Integer.parseInt(event.getPosition()+1), selectedposition+"|"+selectedroomNameStr+"|"+selectedroomImageStr);//
+                travelMatchDetailRecyclerAdapter.notifyItemChanged(Integer.parseInt(selectedposition), selectedposition+"|"+selectedroomNameStr+"|"+selectedroomImageStr);//
             }
 
             if (travelMatchDetailHotelRecyclerAdapter!=null){
-                travelMatchDetailHotelRecyclerAdapter.notifyItemChanged(1,selectedposition+"|"+selectedroomNameStr+"|"+selectedroomImageStr);
+                travelMatchDetailHotelRecyclerAdapter.notifyItemChanged(Integer.parseInt(selectedposition),selectedposition+"|"+selectedroomNameStr+"|"+selectedroomImageStr);
             }
         }
 

@@ -110,6 +110,7 @@ public class RegisterInterestActivity extends AppCompatActivity implements View.
                 bottomSheetDialogFragment.show(getSupportFragmentManager(), bottomSheetDialogFragment.getTag());
                 break;
             case R.id.submit_linear:
+                Utils.handleClickEvent(mContext,activityRegisterInterestBinding.submitLinear);
                 ArrayList<String> selectedtournamentId = new ArrayList<>();
                 for (int i = 0; i < tournamentDetailModel.size(); i++) {
                     if (tournamentDetailModel.get(i).getCheck().equalsIgnoreCase("1")) {

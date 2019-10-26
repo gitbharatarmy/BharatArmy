@@ -6,4 +6,5 @@
         android:bottomLeftRadius="20dp"
         android:bottomRightRadius="0dp" />
     <solid android:color="@color/splash_bg_color" />
+
 </shape>

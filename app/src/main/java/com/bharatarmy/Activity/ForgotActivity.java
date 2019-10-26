@@ -56,6 +56,7 @@ public class ForgotActivity extends AppCompatActivity {
         activityForgotBinding.submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Utils.handleClickEvent(mContext,activityForgotBinding.submitBtn);
                 emailStr = activityForgotBinding.forgotPasswordemailEdt.getText().toString();
                 if (!emailStr.equalsIgnoreCase("")) {
                     getForgotPassword();

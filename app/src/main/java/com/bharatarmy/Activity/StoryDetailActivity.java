@@ -190,6 +190,7 @@ LoginDataModel postedDataList;
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.user_image:
+                Utils.handleClickEvent(mContext,activityStoryDetailBinding.userImage);
                 Intent authorIntent = new Intent(mContext, StoryAuthorActivity.class);
                 authorIntent.putExtra("StoryauthorId", storyAuthorId);
                 mContext.startActivity(authorIntent);
@@ -201,6 +202,7 @@ LoginDataModel postedDataList;
                 StoryDetailActivity.this.finish();
                 break;
             case R.id.share_article:
+                Utils.handleClickEvent(mContext,activityStoryDetailBinding.shareArticle);
                 shareArticleValue();
                 break;
             case R.id.uLinear:

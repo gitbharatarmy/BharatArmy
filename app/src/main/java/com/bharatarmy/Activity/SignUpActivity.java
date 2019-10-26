@@ -183,9 +183,11 @@ activitySignUpBinding.fulluserNameEdt.setOnClickListener(this);
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.term_condition_txt:
+                Utils.handleClickEvent(mContext,activitySignUpBinding.termConditionTxt);
                 termconditionDialog();
                 break;
             case R.id.signup_btn:
+                Utils.handleClickEvent(mContext,activitySignUpBinding.signupBtn);
                 getDataValue();
                 break;
             case R.id.close_txt:

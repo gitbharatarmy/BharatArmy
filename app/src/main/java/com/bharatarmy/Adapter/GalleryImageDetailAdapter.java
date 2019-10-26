@@ -151,6 +151,7 @@ Uri uri;
         holder.galleryImageDetailListBinding.shareArticle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Utils.handleClickEvent(mContext,holder.galleryImageDetailListBinding.shareArticle);
                 if (Utils.isMember(mContext,"ImageUpload")){
                     image_click.image_more_click();
                 }

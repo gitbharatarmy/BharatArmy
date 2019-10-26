@@ -149,6 +149,7 @@ public class TravelMatchRoomDetailActivity extends AppCompatActivity implements 
                 finish();
                 break;
             case R.id.room_selection_txt:
+                Log.d("roomdetail position :",getIntent().getStringExtra("clickposition"));
                 EventBus.getDefault().post(new MyScreenChnagesModel(getIntent().getStringExtra("roomName"),
                         getIntent().getStringExtra("rooImage"),getIntent().getStringExtra("clickposition")));
                 finish();

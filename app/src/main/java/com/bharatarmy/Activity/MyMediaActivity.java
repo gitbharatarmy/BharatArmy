@@ -75,14 +75,17 @@ public class MyMediaActivity extends AppCompatActivity implements View.OnClickLi
             galleryimage = dbHandler.getMediaImageData();
             if (galleryimage != null && galleryimage.size() > 0) {
                 activityMyMediaBinding.showMediaRcv.setVisibility(View.VISIBLE);
+                activityMyMediaBinding.noRecordrel.setVisibility(View.GONE);
                 setDataList();
             } else {
                 activityMyMediaBinding.showMediaRcv.setVisibility(View.GONE);
-                Utils.ping(mContext, "No media available");
+                activityMyMediaBinding.noRecordrel.setVisibility(View.VISIBLE);
+//                Utils.ping(mContext, "No media available");
             }
         } else {
             activityMyMediaBinding.showMediaRcv.setVisibility(View.GONE);
-            Utils.ping(mContext, "No media available");
+//            Utils.ping(mContext, "No media available");
+            activityMyMediaBinding.noRecordrel.setVisibility(View.VISIBLE);
         }
 
     }
@@ -147,9 +150,11 @@ public class MyMediaActivity extends AppCompatActivity implements View.OnClickLi
                 }
             } else {
                 activityMyMediaBinding.showMediaRcv.setVisibility(View.GONE);
+                activityMyMediaBinding.noRecordrel.setVisibility(View.VISIBLE);
             }
         } else {
             activityMyMediaBinding.showMediaRcv.setVisibility(View.GONE);
+            activityMyMediaBinding.noRecordrel.setVisibility(View.VISIBLE);
         }
     }
 

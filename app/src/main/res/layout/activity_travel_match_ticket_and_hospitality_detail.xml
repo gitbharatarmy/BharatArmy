@@ -1,0 +1,565 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Activity.TravelMatchTicketAndHospitalityDetailActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_50sdp"
+        android:background="@color/heading_bg"
+        app:titleTextAppearance="@style/ToolbarTitle"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginLeft="@dimen/_5sdp"
+            android:layout_marginRight="@dimen/_5sdp">
+
+            <LinearLayout
+                android:id="@+id/back_img"
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="@dimen/_40sdp"
+                android:orientation="horizontal"
+                android:layout_alignParentLeft="true">
+                <ImageView
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_15sdp"
+                    android:src="@drawable/ic_left_arrow2"
+                    android:layout_gravity="left|center_vertical"
+                    android:tint="@color/splash_bg_color"/>
+            </LinearLayout>
+            <TextView
+                android:id="@+id/toolbar_title_txt"
+                style="@style/title_text_font"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_40sdp"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:layout_toRightOf="@+id/back_img"
+                android:maxLines="1"
+                android:paddingLeft="@dimen/_5sdp"
+                android:text="@string/heading"
+                android:textColor="@color/splash_bg_color"
+                android:textSize="@dimen/_14sdp" />
+        </RelativeLayout>
+    </androidx.appcompat.widget.Toolbar>
+<ScrollView
+    android:id="@+id/parent_scrollview"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:scrollbars="none">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_230sdp">
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/hospitalityGallery_viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <LinearLayout
+            android:id="@+id/viewPager_dotlinear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:orientation="horizontal"/>
+    </RelativeLayout>
+<View
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/_2sdp"
+    android:background="@drawable/bg_gradiant_line"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/heading_bg">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/hospitality_facility_rcv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:visibility="gone"/>
+<HorizontalScrollView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:fillViewport="true"
+    android:scrollbars="none">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:layout_marginRight="@dimen/_40sdp">
+        <LinearLayout
+            android:layout_width="@dimen/_95sdp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center_vertical">
+
+            <LinearLayout
+                android:id="@+id/hotel_linear"
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/circle_graidant"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/hotel_facility_img"
+                    android:layout_width="@dimen/_15sdp"
+                    android:layout_height="@dimen/_15sdp"
+                    android:layout_margin="@dimen/_12sdp"
+                    android:src="@drawable/seating"
+                    android:tint="@color/splash_bg_color" />
+            </LinearLayout>
+
+            <TextView
+                style="@style/title_text_font"
+                android:layout_width="@dimen/_95sdp"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:gravity="center_horizontal"
+                android:maxLines="2"
+                android:text="Premium Seating"
+                android:textAllCaps="true"
+                android:textColor="@color/splash_bg_color"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:textSize="@dimen/_8sdp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="@dimen/_95sdp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center_vertical">
+
+            <LinearLayout
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/circle_graidant"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/_15sdp"
+                    android:layout_height="@dimen/_15sdp"
+                    android:layout_margin="@dimen/_12sdp"
+                    android:src="@drawable/lunch"
+                    android:tint="@color/splash_bg_color" />
+            </LinearLayout>
+            <TextView
+                style="@style/title_text_font"
+                android:layout_width="@dimen/_95sdp"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:gravity="center_horizontal"
+                android:maxLines="2"
+                android:text="GRAZING"
+                android:textAllCaps="true"
+                android:textColor="@color/splash_bg_color"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:textSize="@dimen/_8sdp" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="@dimen/_95sdp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center_vertical">
+
+            <LinearLayout
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/circle_graidant"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/_15sdp"
+                    android:layout_height="@dimen/_15sdp"
+                    android:layout_margin="@dimen/_12sdp"
+                    android:src="@drawable/drink"
+                    android:tint="@color/splash_bg_color" />
+            </LinearLayout>
+            <TextView
+                style="@style/title_text_font"
+                android:layout_width="@dimen/_95sdp"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:gravity="center_horizontal"
+                android:maxLines="2"
+                android:text="PREMIUM BEVERAGES"
+                android:textAllCaps="true"
+                android:textColor="@color/splash_bg_color"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:textSize="@dimen/_8sdp" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="@dimen/_95sdp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_gravity="center_vertical">
+
+            <LinearLayout
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/circle_graidant"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/_15sdp"
+                    android:layout_height="@dimen/_15sdp"
+                    android:layout_margin="@dimen/_12sdp"
+                    android:src="@drawable/enterainment"
+                    android:tint="@color/splash_bg_color" />
+            </LinearLayout>
+            <TextView
+                style="@style/title_text_font"
+                android:layout_width="@dimen/_95sdp"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:gravity="center_horizontal"
+                android:maxLines="2"
+                android:text="LIVE Entertainment"
+                android:textAllCaps="true"
+                android:textColor="@color/splash_bg_color"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:textSize="@dimen/_8sdp" />
+        </LinearLayout>
+    </LinearLayout>
+
+</HorizontalScrollView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/hospitality_aboutus_linear"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginLeft="@dimen/_15sdp"
+        android:layout_marginRight="@dimen/_15sdp"
+        android:layout_marginTop="@dimen/_35sdp"
+        android:visibility="visible">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="visible">
+<!--        <LinearLayout-->
+<!--            android:layout_width="@dimen/_3sdp"-->
+<!--            android:layout_height="@dimen/_40sdp"-->
+<!--            android:background="@drawable/vertical_line"-->
+<!--            android:orientation="vertical"/>-->
+            <View
+                android:layout_width="@dimen/_3sdp"
+                android:layout_height="match_parent"
+                android:background="@drawable/vertical_line" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_7sdp"
+            android:orientation="vertical">
+            <TextView
+                style="@style/title_text_font"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:gravity="center_horizontal"
+                android:maxLines="2"
+                android:text="About The Hospitality"
+                android:textAllCaps="true"
+                android:textColor="@color/heading_bg"
+                android:textSize="@dimen/_16sdp" />
+            <TextView
+                android:id="@+id/army_popularcity_subtitle_txt"
+                style="@style/title_text_font"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical|left"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+                android:textColor="@color/gray"
+                android:textSize="@dimen/_11sdp" />
+        </LinearLayout>
+        </LinearLayout>
+
+        <TextView
+            style="@style/text_font"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:layout_marginTop="@dimen/_25sdp"
+            android:maxLines="3"
+            android:ellipsize="end"
+            android:text="Jarlsberg lancashire edam. Dolcelatte hard cheese brie st. agur blue
+    cheese caerphilly bavarian bergkase cheese and biscuits mascarpone. Cheeseburger swiss bavarian
+    bergkase cream cheese fromage frais cheesy feet port-salut airedale. St. agur blue cheese rubber
+    cheese caerphilly cheddar cheesecake cream cheese manchego lancashire. Roquefort squirty cheese
+    the big cheese.Jarlsberg lancashire edam. Dolcelatte hard cheese brie st."
+            android:textColor="@color/normal_font_color"
+            android:textSize="@dimen/_12sdp" />
+
+        <TextView
+            style="@style/title_text_font"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:text="Includes"
+            android:textAllCaps="true"
+            android:textColor="@color/normal_font_color"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:textSize="@dimen/_13sdp" />
+
+        <LinearLayout
+            android:id="@+id/inclusion_linear"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:orientation="vertical">
+
+        </LinearLayout>
+    </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/fixture_linear"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginLeft="@dimen/_15sdp"
+            android:layout_marginRight="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_30sdp"
+            android:visibility="visible">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:visibility="visible">
+<!--                <LinearLayout-->
+<!--                    android:layout_width="@dimen/_3sdp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:background="@drawable/vertical_line"-->
+<!--                    android:orientation="vertical"/>-->
+
+                <View
+                    android:layout_width="@dimen/_3sdp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/vertical_line"
+                    android:layout_marginTop="@dimen/_1sdp"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_7sdp"
+                    android:orientation="vertical">
+                    <TextView
+                        style="@style/title_text_font"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:maxLines="2"
+                        android:text="ICC World T20 Australia 2020 Fitures"
+                        android:textAllCaps="true"
+                        android:textColor="@color/heading_bg"
+                        android:textSize="@dimen/_16sdp" />
+                    <TextView
+                        style="@style/title_text_font"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:gravity="center_vertical|left"
+                        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+                        android:textColor="@color/gray"
+                        android:textSize="@dimen/_11sdp" />
+                </LinearLayout>
+            </LinearLayout>
+
+         <androidx.recyclerview.widget.RecyclerView
+             android:id="@+id/fixture_rcv"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:layout_marginTop="@dimen/_25sdp"
+             android:layout_marginBottom="@dimen/_10sdp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/cricket_ground_linear"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:visibility="visible">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:layout_gravity="center_horizontal">
+
+                <TextView
+                    style="@style/title_text_font"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:gravity="center_horizontal"
+                    android:maxLines="1"
+                    android:text="MelBourne"
+                    android:textAllCaps="true"
+                    android:textColor="@color/heading_bg"
+                    android:textSize="@dimen/_16sdp" />
+
+                <TextView
+                    style="@style/text_font"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:gravity="center_horizontal"
+                    android:maxLines="1"
+                    android:text="Cricket ground"
+                    android:textAllCaps="true"
+                    android:layout_marginLeft="@dimen/_3sdp"
+                    android:textColor="@color/gray"
+                    android:textSize="@dimen/_16sdp" />
+            </LinearLayout>
+
+            <com.alexvasilkov.gestures.views.GestureImageView
+                android:id="@+id/cricket_ground_img"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:src="@drawable/stadium_map"
+                android:scaleType="fitCenter"
+                android:adjustViewBounds="true" />
+
+            <TextView
+                style="@style/text_font"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:layout_marginTop="@dimen/_30sdp"
+                android:layout_marginLeft="@dimen/_15sdp"
+                android:layout_marginRight="@dimen/_15sdp"
+                android:maxLines="5"
+                android:ellipsize="end"
+                android:text="Jarlsberg lancashire edam. Dolcelatte hard cheese brie st. agur blue
+    cheese caerphilly bavarian bergkase cheese and biscuits mascarpone. Cheeseburger swiss bavarian
+    bergkase cream cheese fromage frais cheesy feet port-salut airedale. St. agur blue cheese rubber
+    cheese caerphilly cheddar cheesecake cream cheese manchego lancashire. Roquefort squirty cheese
+    the big cheese.Jarlsberg lancashire edam. Dolcelatte hard cheese brie st."
+                android:textColor="@color/normal_font_color"
+                android:textSize="@dimen/_12sdp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/near_by_ground_linear"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="@dimen/_30sdp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_marginLeft="@dimen/_15sdp"
+                android:layout_marginRight="@dimen/_15sdp"
+                android:orientation="horizontal"
+                android:visibility="visible">
+                <LinearLayout
+                    android:layout_width="@dimen/_3sdp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/vertical_line"
+                    android:orientation="vertical"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:orientation="vertical">
+                    <TextView
+                        style="@style/title_text_font"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:gravity="center_horizontal"
+                        android:maxLines="1"
+                        android:text="Near by melbourne cricket ground"
+                        android:textAllCaps="true"
+                        android:textColor="@color/heading_bg"
+                        android:textSize="@dimen/_16sdp" />
+                    <TextView
+                        style="@style/title_text_font"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:gravity="center_vertical|left"
+                        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+                        android:textColor="@color/gray"
+                        android:textSize="@dimen/_11sdp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView
+                style="@style/text_font"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:layout_marginLeft="@dimen/_15sdp"
+                android:layout_marginRight="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_25sdp"
+                android:maxLines="3"
+                android:ellipsize="end"
+                android:text="Jarlsberg lancashire edam. Dolcelatte hard cheese brie st. agur blue
+    cheese caerphilly bavarian bergkase cheese and biscuits mascarpone. Cheeseburger swiss bavarian
+    bergkase cream cheese fromage frais cheesy feet port-salut airedale. St. agur blue cheese rubber
+    cheese caerphilly cheddar cheesecake cream cheese manchego lancashire. Roquefort squirty cheese
+    the big cheese.Jarlsberg lancashire edam. Dolcelatte hard cheese brie st."
+                android:textColor="@color/normal_font_color"
+                android:textSize="@dimen/_12sdp" />
+          <RelativeLayout
+              android:layout_width="match_parent"
+              android:layout_height="@dimen/_300sdp">
+            <fragment
+                android:id="@+id/map"
+                class="com.google.android.gms.maps.SupportMapFragment"
+                android:layout_width="match_parent"
+                android:layout_gravity="center"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/_30sdp"
+                android:layout_marginBottom="@dimen/_30sdp" />
+
+              <View
+                  android:id="@+id/customView"
+                  android:layout_width="fill_parent"
+                  android:layout_height="fill_parent"
+                  android:background="@android:color/transparent" />
+          </RelativeLayout>
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>
+</LinearLayout>
+</layout>

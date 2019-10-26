@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+<LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="@dimen/_10sdp"
-    android:background="@drawable/match_detail_curveshape"
+    android:background="@drawable/match_deatil_orange_curveshape"
     android:elevation="50dp"
     android:orientation="vertical">
 
@@ -13,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:background="@drawable/match_groupdetail_curveshape"
         android:weightSum="1">
 
         <LinearLayout
@@ -69,11 +70,15 @@
                         <TextView
                             android:id="@+id/packageprice_txt"
                             style="@style/title_text_font"
-                            android:layout_width="@dimen/_20sdp"
-                            android:layout_height="@dimen/_15sdp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/_17sdp"
                             android:background="@drawable/match_detail_bluecurveshape"
                             android:gravity="center_vertical|center_horizontal"
                             android:text="T20"
+                            android:paddingLeft="@dimen/_5sdp"
+                            android:paddingRight="@dimen/_5sdp"
+                            android:paddingTop="@dimen/_3sdp"
+                            android:paddingBottom="@dimen/_3sdp"
                             android:textColor="@color/splash_bg_color"
                             android:textSize="@dimen/_7sdp"
                             android:textStyle="bold" />
@@ -243,23 +248,35 @@
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
-
-        <com.cooltechworks.views.shimmer.ShimmerRecyclerView
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/match_groupdetail_sub_curveshape"
+    android:orientation="vertical">
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/match_addRcv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/_3sdp"
-            android:layout_marginRight="@dimen/_3sdp"
+            android:layout_marginLeft="@dimen/_7sdp"
+            android:layout_marginRight="@dimen/_7sdp"
             android:layout_marginBottom="@dimen/_3sdp"
             android:layout_marginTop="@dimen/_3sdp"
-            android:visibility="gone" />
+            android:visibility="gone"/>
 
+    <LinearLayout
+        android:id="@+id/hotel_linear"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+android:layout_margin="@dimen/_10sdp"
+        android:orientation="vertical"
+        android:visibility="gone"/>
+</LinearLayout>
     </LinearLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/_3sdp"
-        android:layout_marginLeft="@dimen/_20sdp"
+        android:layout_marginLeft="@dimen/_15sdp"
         android:background="@drawable/gradiant_line"
         android:visibility="visible" />
 </LinearLayout>

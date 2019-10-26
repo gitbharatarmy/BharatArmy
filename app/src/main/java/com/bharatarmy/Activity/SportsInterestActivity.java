@@ -165,6 +165,7 @@ callSchoolNameData();
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.imageupload_image:
+                Utils.handleClickEvent(mContext,activitySportsInterestBinding.imageuploadImage);
                 Dexter.withActivity(SportsInterestActivity.this)
                         .withPermissions(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                         .withListener(new MultiplePermissionsListener() {

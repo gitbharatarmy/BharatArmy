@@ -69,6 +69,34 @@
         android:layout_alignParentBottom="true"
         android:background="@drawable/bg_gradiant_line" />
 
+    <RelativeLayout
+        android:id="@+id/no_recordrel"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/norecord_img"
+            android:layout_width="@dimen/_70sdp"
+            android:layout_height="@dimen/_70sdp"
+            android:src="@drawable/ic_image_icon"
+            android:layout_centerInParent="true"
+            android:tint="@color/heading_bg"/>
+        <TextView
+            style="@style/title_text_font"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="No media found"
+            android:textColor="@color/heading_bg"
+            android:textSize="@dimen/_16sdp"
+            android:layout_below="@id/norecord_img"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="@dimen/_5sdp"/>
+
+
+
+    </RelativeLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/show_mediaRcv"
         android:layout_width="match_parent"

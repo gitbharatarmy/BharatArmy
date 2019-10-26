@@ -10,7 +10,9 @@ import android.view.ViewGroup;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bharatarmy.Activity.TravelMatchSelectHotelActivity;
 import com.bharatarmy.Activity.TravelMatchTicketAndHosipitalityticketdetailActivity;
+import com.bharatarmy.Activity.TravelMatchTicketAndHospitalityDetailActivity;
 import com.bharatarmy.Interfaces.MorestoryClick;
 import com.bharatarmy.Models.TravelModel;
 import com.bharatarmy.R;
@@ -74,6 +76,16 @@ public class TravelMatchTicketHospitalityAdapter extends RecyclerView.Adapter<Tr
             holder.travelMatchTicketHospitalityItemListBinding.offersLinear.setVisibility(View.GONE);
         }
 
+        holder.travelMatchTicketHospitalityItemListBinding.offersLinear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Utils.handleClickEvent(mContext,holder.travelMatchTicketHospitalityItemListBinding.offersLinear);
+                   Intent selecthotelIntent=new Intent(mContext, TravelMatchSelectHotelActivity.class);
+                   selecthotelIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_SINGLE_TOP|Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                   mContext.startActivity(selecthotelIntent);
+            }
+        });
+
         if (detail.getTicket_hospitality_inclusion().equalsIgnoreCase("1")) {
             holder.travelMatchTicketHospitalityItemListBinding.hotelLinear.setVisibility(View.VISIBLE);
             holder.travelMatchTicketHospitalityItemListBinding.sightseenLinear.setVisibility(View.GONE);
@@ -92,15 +104,24 @@ public class TravelMatchTicketHospitalityAdapter extends RecyclerView.Adapter<Tr
             holder.travelMatchTicketHospitalityItemListBinding.ticketHospitalityLayout.setBackground(mContext.getResources().getDrawable(R.drawable.match_detail_curveshape));
         }
 
-        holder.travelMatchTicketHospitalityItemListBinding.tickethospitalityCard.setOnClickListener(new View.OnClickListener() {
+        holder.travelMatchTicketHospitalityItemListBinding.ticketHospitalityLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                selectedposition=position;
                notifyDataSetChanged();
-                Intent ticketCategoryIntent=new Intent(mContext, TravelMatchTicketAndHosipitalityticketdetailActivity.class);
-                ticketCategoryIntent.putExtra("categoryName",detail.getTicket_hospitality_namecategory());
-                ticketCategoryIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                mContext.startActivity(ticketCategoryIntent);
+
+               if (detail.getTicket_hospitality_clickhere().equalsIgnoreCase("ticket")){
+                   Intent ticketCategoryIntent=new Intent(mContext, TravelMatchTicketAndHosipitalityticketdetailActivity.class);
+                   ticketCategoryIntent.putExtra("categoryName",detail.getTicket_hospitality_namecategory());
+                   ticketCategoryIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                   mContext.startActivity(ticketCategoryIntent);
+               }else{
+                   Intent hospitalityCategoryIntent=new Intent(mContext, TravelMatchTicketAndHospitalityDetailActivity.class);
+                   hospitalityCategoryIntent.putExtra("categoryName",detail.getTicket_hospitality_namecategory());
+                   hospitalityCategoryIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                   mContext.startActivity(hospitalityCategoryIntent);
+               }
+
             }
         });
     }

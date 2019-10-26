@@ -92,6 +92,7 @@ public class VideoUploadActivity extends AppCompatActivity implements View.OnCli
                 break;
 
             case R.id.submit_linear:
+                Utils.handleClickEvent(mContext,activityVideoUploadBinding.submitLinear);
                 videoTitleStr = activityVideoUploadBinding.videoTitleEdt.getText().toString();
                 videoDescriptionStr = activityVideoUploadBinding.videodescEdt.getText().toString();
 

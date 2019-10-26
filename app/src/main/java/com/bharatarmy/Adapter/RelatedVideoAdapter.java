@@ -107,6 +107,7 @@ public class RelatedVideoAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             ((ItemViewHolder) holder).relatedVideoAdapterItemBinding.relatedVideoImg.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    Utils.handleClickEvent(mContext,((ItemViewHolder)holder).relatedVideoAdapterItemBinding.relatedVideoImg);
                     videoName = relatedVideoDetail.getVideoName();
                     dataCheck = new ArrayList<String>();
                     Utils.LikeMemberId = Utils.getAppUserId(mContext);

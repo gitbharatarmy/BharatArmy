@@ -61,7 +61,7 @@
     android:layout_centerVertical="true"
     android:layout_marginRight="@dimen/_5sdp"
     android:background="@drawable/white_book_btn"
-    android:visibility="gone">
+    android:visibility="visible">
     <ImageView
         android:layout_width="@dimen/_15sdp"
         android:layout_height="@dimen/_15sdp"

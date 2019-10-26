@@ -85,7 +85,9 @@ public class MyProfileActivity extends AppCompatActivity implements View.OnClick
 
                 break;
             case R.id.edit_linear:
+                Utils.handleClickEvent(mContext,activityMyProfileBinding.editLinear);
                 Intent intent = new Intent(mContext, EditProfileActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_SINGLE_TOP|Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 finish();
 //                overridePendingTransition(R.anim.slide_out_right_new, 0);

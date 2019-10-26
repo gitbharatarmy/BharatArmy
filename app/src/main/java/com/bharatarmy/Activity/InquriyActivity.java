@@ -146,6 +146,7 @@ public class InquriyActivity extends AppCompatActivity implements View.OnClickLi
                 InquriyActivity.this.finish();
                 break;
             case R.id.fab_linear:
+                Utils.handleClickEvent(mContext,activityInquriyBinding.fabLinear);
                 bottomSheetDialogFragment = new InquiryFilterFragment(filtertaglist, new image_click() {
                     @Override
                     public void image_more_click() {

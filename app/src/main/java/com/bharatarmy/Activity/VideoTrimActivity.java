@@ -16,6 +16,7 @@ import android.view.View;
 
 import com.bharatarmy.Models.GalleryImageModel;
 import com.bharatarmy.R;
+import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.VideoTrimmer.interfaces.OnHgLVideoListener;
 import com.bharatarmy.VideoTrimmer.interfaces.OnTrimVideoListener;
 import com.bharatarmy.VideoTrimmer.utils.FileUtils;
@@ -177,6 +178,7 @@ public class VideoTrimActivity extends AppCompatActivity implements View.OnClick
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.submit_linear:
+                Utils.handleClickEvent(mContext,activityVideoTrimBinding.submitLinear);
                 File f = new File(path);
                 findsize = f.length() / 1024;
                 Log.d("Videopath", path);

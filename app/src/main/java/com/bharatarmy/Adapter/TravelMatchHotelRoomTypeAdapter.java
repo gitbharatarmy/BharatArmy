@@ -25,14 +25,15 @@ public class TravelMatchHotelRoomTypeAdapter extends RecyclerView.Adapter<Travel
     Context mContext;
     ArrayList<TravelModel> roomList;
     MorestoryClick morestoryClick;
-    int selectedposition;
+    int selectedposition,mainposition;
     private ArrayList<String> dataCheck = new ArrayList<String>();
 
-    public TravelMatchHotelRoomTypeAdapter(Context mContext, ArrayList<TravelModel> roomList, int selectedposition, MorestoryClick morestoryClick) {
+    public TravelMatchHotelRoomTypeAdapter(Context mContext, ArrayList<TravelModel> roomList, int selectedposition, int mainposition, MorestoryClick morestoryClick) {
         this.mContext = mContext;
         this.roomList = roomList;
         this.selectedposition = selectedposition;
         this.morestoryClick = morestoryClick;
+        this.mainposition=mainposition;
     }
 
 
@@ -96,7 +97,7 @@ public class TravelMatchHotelRoomTypeAdapter extends RecyclerView.Adapter<Travel
                 roomDetailIntent.putExtra("roomName", roomList.get(position).getMatchroom_name());
                 roomDetailIntent.putExtra("rooImage",roomList.get(position).getRoom_image());
                 roomDetailIntent.putExtra("roomPrice",roomList.get(position).getRoom_price());
-                roomDetailIntent.putExtra("clickposition",String.valueOf(0));
+                roomDetailIntent.putExtra("clickposition",String.valueOf(mainposition));
                 roomDetailIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 mContext.startActivity(roomDetailIntent);
                 ((Activity)mContext).finish();
@@ -110,7 +111,7 @@ public class TravelMatchHotelRoomTypeAdapter extends RecyclerView.Adapter<Travel
                 roomDetailIntent.putExtra("roomName", roomList.get(position).getMatchroom_name());
                 roomDetailIntent.putExtra("rooImage",roomList.get(position).getRoom_image());
                 roomDetailIntent.putExtra("roomPrice",roomList.get(position).getRoom_price());
-                roomDetailIntent.putExtra("clickposition",String.valueOf(0));
+                roomDetailIntent.putExtra("clickposition",String.valueOf(mainposition));
                 roomDetailIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 mContext.startActivity(roomDetailIntent);
                 ((Activity)mContext).finish();
@@ -124,7 +125,7 @@ public class TravelMatchHotelRoomTypeAdapter extends RecyclerView.Adapter<Travel
                 roomDetailIntent.putExtra("roomName", roomList.get(position).getMatchroom_name());
                 roomDetailIntent.putExtra("rooImage",roomList.get(position).getRoom_image());
                 roomDetailIntent.putExtra("roomPrice",roomList.get(position).getRoom_price());
-                roomDetailIntent.putExtra("clickposition",String.valueOf(0));
+                roomDetailIntent.putExtra("clickposition",String.valueOf(mainposition));
                 roomDetailIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 mContext.startActivity(roomDetailIntent);
                 ((Activity)mContext).finish();

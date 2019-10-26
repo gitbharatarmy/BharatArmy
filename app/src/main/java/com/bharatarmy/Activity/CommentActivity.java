@@ -132,6 +132,7 @@ public class CommentActivity extends AppCompatActivity implements View.OnClickLi
             case R.id.back_linear:
                 break;
             case R.id.comment_sent_img:
+                Utils.handleClickEvent(mContext,activityCommentBinding.commentSentImg);
                 commentNotesStr = activityCommentBinding.commentEdt.getText().toString();
                 if (!commentNotesStr.equalsIgnoreCase("")) {
                     InsertComment();
@@ -152,7 +153,6 @@ public class CommentActivity extends AppCompatActivity implements View.OnClickLi
 
     }
     public void InsertComment() {
-
         if (!Utils.checkNetwork(mContext)) {
             Utils.showCustomDialog(mContext.getResources().getString(R.string.internet_error), mContext.getResources().getString(R.string.internet_connection_error), CommentActivity.this);
             return;

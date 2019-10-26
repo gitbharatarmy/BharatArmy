@@ -63,27 +63,27 @@ public class TravelMatchTicketAndHospitalityActivity extends AppCompatActivity i
 
         tickethospitalityList.add(new TravelModel("http://devenv.bharatarmy.com/Docs/Mobile/25cf4087-b.jpg", "Ticket Category",
                 "Category A", "Lorem Ipsum is simply dummy text.", "Extra 10% off* with Hotel.",
-                "₹ 500", "1", "click", "0"));
+                "₹ 500", "1", "ticket", "0"));
 
         tickethospitalityList.add(new TravelModel("https://3.imimg.com/data3/VE/IW/MY-16198270/hotel-management-service-500x500.jpg", "Hospitality Category",
                 "The Pavilion", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Dolor sed viverra ipsum nunc aliquet bibendum enim.",
-                "", "₹ 475", "3", "", "0"));
+                "", "₹ 475", "3", "hospitality", "0"));
 
         tickethospitalityList.add(new TravelModel("http://devenv.bharatarmy.com//Docs/e35eee60-7.jpg", "",
                 "Category B", "Lorem Ipsum is simply dummy text of the printing.", "",
-                "₹ 450", "1", "", "0"));
+                "₹ 450", "1", "ticket", "0"));
 
         tickethospitalityList.add(new TravelModel("https://i0.wp.com/www.perrygroup.com/wp-content/uploads/2016/01/service-pic3-1.jpg", "",
                 "Private Suites", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-                "Extra 20% off* with Hotel.", "₹ 600", "3", "click", "0"));
+                "Extra 20% off* with Hotel.", "₹ 600", "3", "hospitality", "0"));
 
         tickethospitalityList.add(new TravelModel("http://devenv.bharatarmy.com//Docs/5c6783ff-d.jpg", "",
                 "Category C", "Lorem Ipsum is simply dummy text of the printing.", "Extra 20% off* with Hotel.",
-                "₹ 350", "3", "click", "0"));
+                "₹ 350", "3", "ticket", "0"));
 
         tickethospitalityList.add(new TravelModel("https://www.morganrichardson.co.uk/wp-content/uploads/2017/11/Hotel-Insurance.jpg", "",
                 "Open Air Boxes", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-                "", "₹ 650", "1", "", "0"));
+                "", "₹ 650", "1", "hospitality", "0"));
 
         for (int i = 0; i < tickethospitalityList.size(); i++) {
             if (tickethospitalityList.get(i).getTicket_hospitality_selected().equalsIgnoreCase("1")) {

@@ -13,6 +13,7 @@ import com.bharatarmy.Adapter.TravelCityAllSightseenAdapter;
 import com.bharatarmy.Models.TravelModel;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.AppConfiguration;
+import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.ActivityTravelCityAllSightseeingBinding;
 
 import java.util.ArrayList;
@@ -82,6 +83,7 @@ public class TravelCityAllSightseeingActivity extends AppCompatActivity implemen
                 }
                 break;
             case R.id.mapview_img:
+                Utils.handleClickEvent(mContext,activityTravelCityAllSightseeingBinding.mapviewImg);
                 Intent mapIntent=new Intent(mContext,TravelCityAllSightseenMapViewActivity.class);
                 startActivity(mapIntent);
                 overridePendingTransition(R.anim.slide_up_dialog,R.anim.slide_up_dialog);

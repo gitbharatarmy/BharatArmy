@@ -74,6 +74,13 @@ public class TravelModel {
     String ticket_hospitality_selected;
 
 
+    String firstcountryname;
+    int firstcountryflag;
+    String secondcountryname;
+    int secondcountryflag;
+    String groundname;
+    String matchtype;
+
     public TravelModel(String bg_iamge, String bg_name, String main_titleName, String main_desc, String button_name) {
         this.bg_iamge = bg_iamge;
         this.bg_name = bg_name;
@@ -120,9 +127,6 @@ public class TravelModel {
 
     public void setButton_name(String button_name) {
         this.button_name = button_name;
-    }
-
-    public TravelModel() {
     }
 
 
@@ -522,22 +526,22 @@ public class TravelModel {
     }
 
 
-//    Ticket and Hospitality
-    public TravelModel(String ticket_hospitality_bannerImage,String ticket_hospitality_mainheader_title,
-                       String ticket_hospitality_namecategory,String ticket_hospitality_desc,
-                       String ticket_hospitality_offers,String ticket_hospitality_price,
-                       String ticket_hospitality_inclusion,String ticket_hospitality_clickhere,String ticket_hospitality_selected){
+    //    Ticket and Hospitality
+    public TravelModel(String ticket_hospitality_bannerImage, String ticket_hospitality_mainheader_title,
+                       String ticket_hospitality_namecategory, String ticket_hospitality_desc,
+                       String ticket_hospitality_offers, String ticket_hospitality_price,
+                       String ticket_hospitality_inclusion, String ticket_hospitality_clickhere, String ticket_hospitality_selected) {
 
 
-        this.ticket_hospitality_bannerImage=ticket_hospitality_bannerImage;
-        this.ticket_hospitality_mainheader_title=ticket_hospitality_mainheader_title;
-        this.ticket_hospitality_namecategory=ticket_hospitality_namecategory;
-        this.ticket_hospitality_desc=ticket_hospitality_desc;
-        this.ticket_hospitality_offers=ticket_hospitality_offers;
-        this.ticket_hospitality_price=ticket_hospitality_price;
-        this.ticket_hospitality_inclusion=ticket_hospitality_inclusion;
+        this.ticket_hospitality_bannerImage = ticket_hospitality_bannerImage;
+        this.ticket_hospitality_mainheader_title = ticket_hospitality_mainheader_title;
+        this.ticket_hospitality_namecategory = ticket_hospitality_namecategory;
+        this.ticket_hospitality_desc = ticket_hospitality_desc;
+        this.ticket_hospitality_offers = ticket_hospitality_offers;
+        this.ticket_hospitality_price = ticket_hospitality_price;
+        this.ticket_hospitality_inclusion = ticket_hospitality_inclusion;
         this.ticket_hospitality_clickhere = ticket_hospitality_clickhere;
-        this.ticket_hospitality_selected=ticket_hospitality_selected;
+        this.ticket_hospitality_selected = ticket_hospitality_selected;
     }
 
     public String getTicket_hospitality_bannerImage() {
@@ -610,5 +614,62 @@ public class TravelModel {
 
     public void setTicket_hospitality_selected(String ticket_hospitality_selected) {
         this.ticket_hospitality_selected = ticket_hospitality_selected;
+    }
+
+    public TravelModel(String firstcountryname, int firstcountryflag, String secondcountryname, int secondcountryflag, String groundname, String matchtype) {
+        this.firstcountryname = firstcountryname;
+        this.firstcountryflag = firstcountryflag;
+        this.secondcountryname = secondcountryname;
+        this.secondcountryflag = secondcountryflag;
+        this.groundname = groundname;
+        this.matchtype = matchtype;
+    }
+
+    public String getFirstcountryname() {
+        return firstcountryname;
+    }
+
+    public void setFirstcountryname(String firstcountryname) {
+        this.firstcountryname = firstcountryname;
+    }
+
+    public int getFirstcountryflag() {
+        return firstcountryflag;
+    }
+
+    public void setFirstcountryflag(int firstcountryflag) {
+        this.firstcountryflag = firstcountryflag;
+    }
+
+    public String getSecondcountryname() {
+        return secondcountryname;
+    }
+
+    public void setSecondcountryname(String secondcountryname) {
+        this.secondcountryname = secondcountryname;
+    }
+
+    public int getSecondcountryflag() {
+        return secondcountryflag;
+    }
+
+    public void setSecondcountryflag(int secondcountryflag) {
+        this.secondcountryflag = secondcountryflag;
+    }
+
+    public String getGroundname() {
+        return groundname;
+    }
+
+    public void setGroundname(String groundname) {
+        this.groundname = groundname;
+    }
+
+    public String getMatchtype() {
+        return matchtype;
+    }
+
+    public void setMatchtype(String matchtype) {
+        this.matchtype = matchtype;
     }
 }

@@ -10,6 +10,7 @@ import android.os.StrictMode;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -43,10 +44,10 @@ public class GalleryImageDetailActivity extends BaseActivity implements View.OnC
     public static Context mContext;
     GalleryImageDetailAdapter galleryImageDetailAdapter;
     ArrayList<String> imageList = new ArrayList<>();
-    ArrayList<String> imageAddusername=new ArrayList<>();
-    ArrayList<String> imageDuration=new ArrayList<>();
-    ArrayList<String> imageId=new ArrayList<>();
-    ArrayList<String> imageLike=new ArrayList<>();
+    ArrayList<String> imageAddusername = new ArrayList<>();
+    ArrayList<String> imageDuration = new ArrayList<>();
+    ArrayList<String> imageId = new ArrayList<>();
+    ArrayList<String> imageLike = new ArrayList<>();
     LinearLayoutManager linearLayoutManager;
     String selectedPosition;
     int positon = 0;
@@ -89,10 +90,10 @@ public class GalleryImageDetailActivity extends BaseActivity implements View.OnC
         selectedPosition = getIntent().getStringExtra("positon");
         final Bundle stringArrayList = getIntent().getExtras();
         imageList = stringArrayList.getStringArrayList("data");
-        imageAddusername=stringArrayList.getStringArrayList("dataName");
-imageDuration=stringArrayList.getStringArrayList("dataDuration");
-imageId=stringArrayList.getStringArrayList("dataId");
-imageLike=stringArrayList.getStringArrayList("dataLike");
+        imageAddusername = stringArrayList.getStringArrayList("dataName");
+        imageDuration = stringArrayList.getStringArrayList("dataDuration");
+        imageId = stringArrayList.getStringArrayList("dataId");
+        imageLike = stringArrayList.getStringArrayList("dataLike");
         Log.d("imageList", "" + imageList.size());
 
 
@@ -118,8 +119,8 @@ imageLike=stringArrayList.getStringArrayList("dataLike");
             }
         }
 
-        galleryImageDetailAdapter = new GalleryImageDetailAdapter(mContext,GalleryImageDetailActivity.this,
-                imageList,imageAddusername,imageDuration,imageId,imageLike, new image_click() {
+        galleryImageDetailAdapter = new GalleryImageDetailAdapter(mContext, GalleryImageDetailActivity.this,
+                imageList, imageAddusername, imageDuration, imageId, imageLike, new image_click() {
             @Override
             public void image_more_click() {
                 shareImage();
@@ -194,7 +195,7 @@ imageLike=stringArrayList.getStringArrayList("dataLike");
                         break;
                     }
                 }
-Log.d("imageNameStr :",imageNameStr);
+                Log.d("imageNameStr :", imageNameStr);
 
 //                String[] splitStr = imageNameStr.split("\\/");
 //                Log.d("stringName", splitStr[0] + " " + splitStr[1] + " " + splitStr[2] + " " + splitStr[3] + " " + splitStr[4]);
@@ -237,7 +238,7 @@ Log.d("imageNameStr :",imageNameStr);
     }
 
 
-    public void shareImage(){
+    public void shareImage() {
         String imageUriStr = "";
         showPositionImage = linearLayoutManager.findFirstCompletelyVisibleItemPosition();
         for (int i = 0; i < imageList.size(); i++) {

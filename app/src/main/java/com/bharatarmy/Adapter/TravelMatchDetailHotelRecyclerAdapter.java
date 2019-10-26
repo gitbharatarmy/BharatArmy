@@ -98,15 +98,9 @@ public class TravelMatchDetailHotelRecyclerAdapter extends RecyclerView.Adapter<
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder.getItemViewType() == ITEM) {
             final TravelModel cityallhoteldetail = matchHotelList.get(position - 1);
-            if (!selectedroomImageStr.equalsIgnoreCase("")){
-                Utils.setImageInImageView(selectedroomImageStr,
-                        ((MyItemViewHolder) holder).matchHotelDetailItemBinding.roomImg,mContext);
-            }else{ Utils.setImageInImageView(AppConfiguration.IMAGE_URL+"d_hotelroom1.jpg",((MyItemViewHolder) holder).matchHotelDetailItemBinding.roomImg,mContext);}
 
-
-            if (!selectedroomNameStr.equalsIgnoreCase("")){
-                ((MyItemViewHolder) holder).matchHotelDetailItemBinding.roomNametxt.setText(selectedroomNameStr);
-            }
+            Utils.setImageInImageView(AppConfiguration.IMAGE_URL+"d_hotelroom1.jpg",
+                    ((MyItemViewHolder) holder).matchHotelDetailItemBinding.roomImg,mContext);
 
             Utils.setImageInImageView(cityallhoteldetail.getCityAllHotelImage(),
                     ((MyItemViewHolder) holder).matchHotelDetailItemBinding.hotelImg, mContext);
@@ -128,7 +122,7 @@ public class TravelMatchDetailHotelRecyclerAdapter extends RecyclerView.Adapter<
                 @Override
                 public void onClick(View v) {
                     Intent roomIntent = new Intent(mContext, TravelMatchHotelRoomTypeActivity.class);
-                    roomIntent.putExtra("clickposition",String.valueOf(position-1));
+                    roomIntent.putExtra("clickposition",String.valueOf(position));
                     roomIntent.putExtra("roomName",((MyItemViewHolder) holder).matchHotelDetailItemBinding.roomNametxt.getText().toString());
                     roomIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     mContext.startActivity(roomIntent);

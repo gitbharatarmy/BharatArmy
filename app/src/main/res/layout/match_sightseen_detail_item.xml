@@ -76,13 +76,13 @@
                         android:id="@+id/ratingBar"
                         android:layout_width="@dimen/_50sdp"
                         android:layout_height="@dimen/_16sdp"
-                        app:rb_click_rating="true"
+                        app:rb_click_rating="false"
                         app:rb_count="3"
                         app:rb_empty="@drawable/empty"
                         app:rb_fill="@drawable/fill"
                         app:rb_max_count="5"
                         app:rb_space="0dp"
-                        app:rb_touch_rating="true" />
+                        app:rb_touch_rating="false" />
 
                     <TextView
                         android:id="@+id/sitedesc_txt"

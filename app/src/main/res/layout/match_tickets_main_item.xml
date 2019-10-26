@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="@dimen/_10sdp"
-    android:background="@drawable/match_detail_curveshape"
+    android:background="@drawable/match_deatil_orange_curveshape"
     android:elevation="50dp"
     android:orientation="vertical">
 
@@ -178,7 +178,11 @@
 
             </LinearLayout>
         </LinearLayout>
-
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/match_groupdetail_sub_curveshape"
+            android:orientation="vertical">
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/match_addRcv"
             android:layout_width="match_parent"
@@ -188,13 +192,14 @@
             android:layout_marginBottom="@dimen/_3sdp"
             android:layout_marginTop="@dimen/_3sdp"
             android:visibility="visible" />
+        </LinearLayout>
 
     </LinearLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/_3sdp"
-        android:layout_marginLeft="@dimen/_20sdp"
+        android:layout_marginLeft="@dimen/_15sdp"
         android:background="@drawable/gradiant_line"
         android:visibility="visible" />
 </LinearLayout>

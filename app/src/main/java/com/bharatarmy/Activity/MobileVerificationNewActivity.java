@@ -118,9 +118,11 @@ public class MobileVerificationNewActivity extends AppCompatActivity implements 
                 }
                 break;
             case R.id.mobile_verify_btn:
+                Utils.handleClickEvent(mContext,mobileVerificationNewBinding.mobileVerifyBtn);
                 getMobileverificationData();
                 break;
             case R.id.term_condition_txt:
+                Utils.handleClickEvent(mContext,mobileVerificationNewBinding.termConditionTxt);
                 termconditionDialog();
                 break;
         }

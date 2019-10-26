@@ -114,6 +114,7 @@ public class TravelPackageActivity extends AppCompatActivity {
         activityTravelPackageBinding.bookTxt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Utils.handleClickEvent(mContext,activityTravelPackageBinding.bookTxt);
                 Intent bookIntent = new Intent(mContext, TravelBookActivity.class);
                 bookIntent.putExtra("pacakgeName", "Australian Double Dhamaka: Honeymoon and adventure at one shot");
                 bookIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -123,6 +124,7 @@ public class TravelPackageActivity extends AppCompatActivity {
         activityTravelPackageBinding.summaryLinear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Utils.handleClickEvent(mContext,activityTravelPackageBinding.summaryLinear);
                 bottomSheetDialogFragment = new PacakgeSummaryBottomSheetDialogFragment();
                 //show it
                 bottomSheetDialogFragment.setCancelable(false);

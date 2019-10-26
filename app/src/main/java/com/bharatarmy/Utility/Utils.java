@@ -560,6 +560,7 @@ public class Utils {
                         activity.finish();
                     } else if (wheretocome.equalsIgnoreCase("imageUpload")) {
                         Intent intent = new Intent(activity, UploadService.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                         activity.startService(intent);
                         activity.finish();
                     } else if (wheretocome.equalsIgnoreCase("videoUpload")) {
@@ -822,6 +823,7 @@ public class Utils {
 
 
     public static void handleClickEvent(Context mContext, View view) {
+        view.setEnabled(false);
         new Handler().postDelayed(new Runnable() {
 
             @Override
@@ -831,8 +833,9 @@ public class Utils {
                 Log.d("clickresult", "resend1");
 
             }
-        }, 2000);
+        }, 5000);
     }
+
 
     public static boolean doesTableExist(SQLiteDatabase db, String tableName) {
         Cursor cursor = db.rawQuery("select DISTINCT tbl_name from sqlite_master where tbl_name = '" + tableName + "'", null);

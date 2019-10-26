@@ -6,14 +6,16 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="@dimen/_10sdp"
-    android:background="@drawable/match_detail_curveshape"
+    android:background="@drawable/match_deatil_orange_curveshape"
     android:elevation="50dp"
     android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/header_linear"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:background="@drawable/match_detail_curveshape"
         android:weightSum="1">
 
         <LinearLayout
@@ -220,7 +222,7 @@
         android:id="@+id/bottom_gradiant_view"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_3sdp"
-        android:layout_marginLeft="@dimen/_20sdp"
+        android:layout_marginLeft="@dimen/_15sdp"
 
         android:background="@drawable/gradiant_line"
         android:visibility="visible" />

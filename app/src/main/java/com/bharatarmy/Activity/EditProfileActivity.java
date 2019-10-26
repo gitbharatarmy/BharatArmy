@@ -219,12 +219,14 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
 
                 break;
             case R.id.save_btn:
+                Utils.handleClickEvent(mContext,activityEditProfileBinding.saveBtn);
                 getUpdateData();
                 break;
             case R.id.cancel_btn:
                 backActivity();
                 break;
             case R.id.profile_image:
+                Utils.handleClickEvent(mContext,activityEditProfileBinding.profileImage);
                 Dexter.withActivity(EditProfileActivity.this)
                         .withPermissions(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                         .withListener(new MultiplePermissionsListener() {
@@ -246,7 +248,6 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
                         }).check();
                 break;
             case R.id.states_selection_img:
-
                 setstateValue();
                 break;
             case R.id.city_selection_img:

@@ -172,7 +172,7 @@ public class DisplaySFAUserActivity extends AppCompatActivity implements View.On
 
             case R.id.sfanew_userfab_linear:
                 Intent userentry = new Intent(mContext, SportsInterestActivity.class);
-                userentry.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                userentry.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_SINGLE_TOP|Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 mContext.startActivity(userentry);
                 finish();
                 break;
@@ -191,6 +191,7 @@ public class DisplaySFAUserActivity extends AppCompatActivity implements View.On
                                 Utils.setPref(mContext, "IsLoginUser", "");
                                 Utils.ping(mContext, "You are logout suceessfully");
                                 Intent ilogin = new Intent(mContext, LoginActivity.class);
+                                ilogin.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_SINGLE_TOP|Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 ilogin.putExtra("whereTocomeLogin", "more");
                                 startActivity(ilogin);
                                 finish();

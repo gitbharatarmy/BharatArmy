@@ -157,18 +157,22 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.sign_up_txt:
+                Utils.handleClickEvent(mContext,loginBinding.signUpTxt);
                 Intent signupIntent = new Intent(mContext, SignUpActivity.class);
                 signupIntent.putExtra("wheretocome", "login_dialog_item");
                 startActivity(signupIntent);
                 break;
             case R.id.loggin_btn:
+                Utils.handleClickEvent(mContext,loginBinding.logginBtn);
                 verifyLoginDetails();
                 break;
             case R.id.forgot_txt:
+                Utils.handleClickEvent(mContext,loginBinding.forgotTxt);
                 Intent forgotIntent = new Intent(mContext, ForgotActivity.class);
                 startActivity(forgotIntent);
                 break;
             case R.id.skip_txt:
+                Utils.handleClickEvent(mContext,loginBinding.skipTxt);
 //                Utils.getCurrentUserIDName("0", "", mContext);
                 Utils.setPref(mContext, "IsSkipLogin", "1");
                 Intent DashboardIntent = new Intent(mContext, DashboardActivity.class);
@@ -190,6 +194,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     } else if(getIntent().getStringExtra("whereTocomeLogin").equalsIgnoreCase("storyDetail")){
                         Intent dashintent = new Intent(mContext, DashboardActivity.class);
                         dashintent.putExtra("whichPageRun", "4");
+                        startActivity(dashintent);
+                        finish();
+                    } else if(getIntent().getStringExtra("whereTocomeLogin").equalsIgnoreCase("Ticket Detail")){
+                        Intent dashintent = new Intent(mContext, DashboardActivity.class);
+                        dashintent.putExtra("whichPageRun", "2");
                         startActivity(dashintent);
                         finish();
                     }
@@ -297,6 +306,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             }else if(getIntent().getStringExtra("whereTocomeLogin").equalsIgnoreCase("storyDetail")){
                 Intent dashintent = new Intent(mContext, DashboardActivity.class);
                 dashintent.putExtra("whichPageRun", "4");
+                startActivity(dashintent);
+                finish();
+            }else if(getIntent().getStringExtra("whereTocomeLogin").equalsIgnoreCase("Ticket Detail")){
+                Intent dashintent = new Intent(mContext, DashboardActivity.class);
+                dashintent.putExtra("whichPageRun", "2");
                 startActivity(dashintent);
                 finish();
             } else {

@@ -12,6 +12,7 @@ import com.bharatarmy.Adapter.TravelCityAllRestaurantAdapter;
 import com.bharatarmy.Models.TravelModel;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.AppConfiguration;
+import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.ActivityTravelCityAllRestaurantsBinding;
 
 import java.util.ArrayList;
@@ -81,6 +82,7 @@ public class TravelCityAllRestaurantsActivity extends AppCompatActivity implemen
                 }
                 break;
             case R.id.mapview_img:
+                Utils.handleClickEvent(mContext,activityTravelCityAllRestaurantsBinding.mapviewImg);
                 Intent mapIntent=new Intent(mContext,TravelCityRestaurantMapViewActivity.class);
                 startActivity(mapIntent);
                 overridePendingTransition(R.anim.slide_up_dialog,R.anim.slide_up_dialog);

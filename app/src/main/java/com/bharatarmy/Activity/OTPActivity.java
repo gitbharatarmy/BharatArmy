@@ -308,6 +308,7 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.otp_img:
+                Utils.handleClickEvent(mContext,activityOtpBinding.otpImg);
                 getOtpData();
                 break;
             case R.id.back_linear:

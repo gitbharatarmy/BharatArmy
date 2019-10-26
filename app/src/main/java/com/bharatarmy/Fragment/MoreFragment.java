@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -70,6 +71,8 @@ public class MoreFragment extends Fragment implements View.OnClickListener {
     FragmentMoreBinding fragmentMoreBinding;
     SpeedDialView speedDial;
 
+    // variable to track event time
+    private long mLastClickTime = 0;
 
     public MoreFragment() {
         // Required empty public constructor
@@ -163,10 +166,15 @@ public class MoreFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
+//        // Preventing multiple clicks, using threshold of 1 second
+//        if (SystemClock.elapsedRealtime() - mLastClickTime < 1000) {
+//            return;
+//        }
+//        mLastClickTime = SystemClock.elapsedRealtime();
         switch (v.getId()) {
             case R.id.userprofile_linear:
                 Intent myProfile = new Intent(mContext, MyProfileActivity.class);
-                myProfile.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                myProfile.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_SINGLE_TOP|Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(myProfile);
                 break;
             case R.id.aboutus_linear:
@@ -174,17 +182,18 @@ public class MoreFragment extends Fragment implements View.OnClickListener {
                 aboutus.putExtra("Story Heading", "Ab Jeetega India");
                 aboutus.putExtra("StroyUrl", "http://ajif.in/");
                 aboutus.putExtra("whereTocome", "aboutus");
-                aboutus.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                aboutus.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_SINGLE_TOP|Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(aboutus);
                 break;
             case R.id.contactus_linear:
+                Utils.handleClickEvent(mContext,fragmentMoreBinding.userprofileLinear);
                 Intent contactus = new Intent(mContext, ContactusActivity.class);
-                contactus.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                contactus.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_SINGLE_TOP|Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(contactus);
                 break;
             case R.id.inquiry_linear:
                 Intent inquriy = new Intent(mContext, InquriyActivity.class);
-                inquriy.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                inquriy.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_SINGLE_TOP|Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(inquriy);
                 break;
             case R.id.logout_linear:
@@ -203,6 +212,7 @@ public class MoreFragment extends Fragment implements View.OnClickListener {
                                 Utils.ping(mContext, "You are logout suceessfully");
                                 Intent ilogin = new Intent(mContext, LoginActivity.class);
                                 ilogin.putExtra("whereTocomeLogin", "more");
+                                ilogin.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_SINGLE_TOP|Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(ilogin);
                                 getActivity().finish();
 //                                ((Activity)mContext).finish();
@@ -222,23 +232,23 @@ public class MoreFragment extends Fragment implements View.OnClickListener {
             case R.id.media_linear:
                 Utils.setPref(mContext, "cometonotification", "menu");
                 Intent media = new Intent(mContext, MyMediaActivity.class);
-                media.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                media.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_SINGLE_TOP|Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(media);
                 break;
             case R.id.withoutlogin_linear:
                 Intent intent = new Intent(mContext, LoginActivity.class);
                 intent.putExtra("whereTocomeLogin", "more");
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_SINGLE_TOP|Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 break;
             case R.id.sports_interest_linear:
                 Intent sportsintent = new Intent(mContext, DisplaySFAUserActivity.class);
-                sportsintent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                sportsintent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_SINGLE_TOP|Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(sportsintent);
                 break;
             case R.id.data_entry_linear:
                 Intent displayuserentry = new Intent(mContext, DisplayAddedUserActivity.class);
-                displayuserentry.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                displayuserentry.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_SINGLE_TOP|Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(displayuserentry);
                 break;
         }

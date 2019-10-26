@@ -68,6 +68,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
         activityChangePasswordBinding.submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Utils.handleClickEvent(mContext,activityChangePasswordBinding.submitBtn);
                getChangePasswordFillData();
             }
         });

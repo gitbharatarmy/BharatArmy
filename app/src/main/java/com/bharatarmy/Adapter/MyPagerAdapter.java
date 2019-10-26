@@ -15,6 +15,7 @@ import android.widget.TextView;
 import androidx.viewpager.widget.PagerAdapter;
 
 import com.bharatarmy.Activity.RegisterInterestActivity;
+import com.bharatarmy.Activity.TravelBookActivity;
 import com.bharatarmy.Activity.TravelMatchDetailActivity;
 import com.bharatarmy.Models.HomeTemplateDetailModel;
 import com.bharatarmy.Models.TravelModel;
@@ -61,7 +62,7 @@ public class MyPagerAdapter extends PagerAdapter {
                 public void onClick(View v) {
                     Intent registerIntent=new Intent(mContext, RegisterInterestActivity.class);
                     registerIntent.putExtra("tournamentId",homeTemplateDetailModelList.get(position).getReferenceId());
-                    registerIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    registerIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_SINGLE_TOP|Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     mContext.startActivity(registerIntent);
                 }
             });
@@ -88,8 +89,8 @@ public class MyPagerAdapter extends PagerAdapter {
             book_linear.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent registerIntent=new Intent(mContext, TravelMatchDetailActivity.class);
-                    registerIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    Intent registerIntent=new Intent(mContext, TravelBookActivity.class);
+                    registerIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_SINGLE_TOP|Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     mContext.startActivity(registerIntent);
                 }
             });

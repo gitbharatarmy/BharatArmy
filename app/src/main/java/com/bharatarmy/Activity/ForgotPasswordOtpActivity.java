@@ -160,6 +160,7 @@ public class ForgotPasswordOtpActivity extends AppCompatActivity implements View
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.forgot_passwordotp_img:
+                Utils.handleClickEvent(mContext,activityForgotPasswordOtpBinding.forgotPasswordotpImg);
                 getForgotPasswordOtpData();
                 break;
             case R.id.back_linear:

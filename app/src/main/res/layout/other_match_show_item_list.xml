@@ -6,7 +6,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:elevation="2dp"
-        android:layout_marginBottom="@dimen/_5sdp"
+        android:layout_marginBottom="@dimen/_10sdp"
         android:orientation="vertical">
 
         <LinearLayout
@@ -16,7 +16,7 @@
             android:layout_marginBottom="@dimen/_10sdp"
             android:orientation="vertical"
             android:background="@color/splash_bg_color"
-            android:visibility="gone"
+            android:visibility="visible"
             tools:ignore="WebViewLayout">
 <!--            <WebView-->
 <!--                android:id="@+id/webView"-->
@@ -37,15 +37,14 @@
                 android:orientation="horizontal"
                 android:layout_marginLeft="@dimen/_10sdp"
                 android:layout_marginRight="@dimen/_10sdp"
-                android:layout_marginTop="@dimen/_20sdp"
-                android:layout_marginBottom="@dimen/_20sdp"
+                android:layout_marginTop="@dimen/_35sdp"
+                android:layout_marginBottom="@dimen/_30sdp"
                 android:visibility="visible">
-                <LinearLayout
+                <View
                     android:layout_width="@dimen/_3sdp"
                     android:layout_height="match_parent"
-                    android:background="@drawable/vertical_line"
-                    android:orientation="vertical"/>
-<LinearLayout
+                    android:background="@drawable/vertical_line" />
+  <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -56,16 +55,16 @@
                     android:layout_gravity="left"
                     android:orientation="horizontal">
 
-                    <TextView
-                        style="@style/title_text_font"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:ellipsize="end"
-                        android:gravity="center_horizontal"
-                        android:maxLines="1"
-                        android:text="India"
-                        android:textColor="@color/heading_bg"
-                        android:textSize="@dimen/_16sdp" />
+                        <TextView
+                            style="@style/title_text_font"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:ellipsize="end"
+                            android:gravity="center_horizontal"
+                            android:maxLines="1"
+                            android:text="India"
+                            android:textColor="@color/heading_bg"
+                            android:textSize="@dimen/_16sdp" />
 
 
                     <com.bharatarmy.RoundishImageView
@@ -143,7 +142,8 @@
                 android:orientation="horizontal"
                 android:background="@drawable/book_btn"
                 android:layout_marginLeft="@dimen/_10sdp"
-                android:layout_marginRight="@dimen/_10sdp">
+                android:layout_marginRight="@dimen/_10sdp"
+                android:visibility="gone">
         <ImageView
             android:layout_width="@dimen/_15sdp"
             android:layout_height="match_parent"
@@ -168,8 +168,7 @@
                 android:orientation="vertical"
                 android:layout_marginLeft="@dimen/_10sdp"
                 android:layout_marginRight="@dimen/_10sdp"
-                android:layout_marginTop="@dimen/_20sdp"
-                android:layout_marginBottom="@dimen/_5sdp"
+                android:layout_marginBottom="@dimen/_20sdp"
                 android:visibility="visible">
 
                 <TextView
@@ -177,7 +176,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
-                    android:maxLines="4"
+                    android:maxLines="6"
                     android:ellipsize="end"
                     android:text="Jarlsberg lancashire edam. Dolcelatte hard cheese brie st. agur blue
     cheese caerphilly bavarian bergkase cheese and biscuits mascarpone. Cheeseburger swiss bavarian
@@ -192,16 +191,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginBottom="@dimen/_5sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:layout_marginLeft="@dimen/_10sdp"
                 android:layout_marginRight="@dimen/_10sdp"
                 android:visibility="visible">
-                <LinearLayout
+                <View
                     android:layout_width="@dimen/_3sdp"
                     android:layout_height="match_parent"
-                    android:background="@drawable/vertical_line"
-                    android:orientation="vertical"/>
+                    android:background="@drawable/vertical_line" />
                 <TextView
                     style="@style/title_text_font"
                     android:layout_width="wrap_content"
@@ -221,9 +219,15 @@
                 android:layout_marginLeft="@dimen/_10sdp"
                 android:layout_marginRight="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_5sdp"
-                android:background="@drawable/match_groupdetail_curveshape"
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:background="@drawable/match_deatil_orange_curveshape"
                 android:orientation="vertical"
                 android:elevation="3dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:background="@drawable/match_groupdetail_curveshape">
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -258,7 +262,7 @@
 
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="@dimen/_30sdp"
+                            android:layout_height="wrap_content"
                             android:layout_marginLeft="@dimen/_7sdp"
                             android:layout_marginRight="@dimen/_7sdp"
                             android:orientation="horizontal">
@@ -344,10 +348,11 @@
                                 android:textSize="@dimen/_9sdp" />
 
                         </LinearLayout>
+                </LinearLayout>
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_3sdp"
-                    android:layout_marginLeft="@dimen/_30sdp"
+                    android:layout_marginLeft="@dimen/_15sdp"
                     android:background="@drawable/gradiant_line"
                     android:visibility="visible" />
             </LinearLayout>

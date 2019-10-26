@@ -51,7 +51,7 @@ public class UserEntryActivity extends BaseActivity implements View.OnClickListe
                 break;
             case R.id.back_img:
                 Intent userListIntent=new Intent(mContext,DisplayAddedUserActivity.class);
-                userListIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                userListIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_SINGLE_TOP|Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(userListIntent);
                 finish();
                 break;
@@ -163,7 +163,7 @@ activityUserEntryBinding.backImg.setOnClickListener(this);
                            activityUserEntryBinding.passwordEdt.setText("");
                            activityUserEntryBinding.emailEdt.setBackground(null);
                            Intent userListIntent=new Intent(mContext,DisplayAddedUserActivity.class);
-                           userListIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                           userListIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_SINGLE_TOP|Intent.FLAG_ACTIVITY_CLEAR_TOP);
                            startActivity(userListIntent);
                            finish();
                        }
@@ -194,7 +194,7 @@ activityUserEntryBinding.backImg.setOnClickListener(this);
     @Override
     public void onBackPressed() {
         Intent userListIntent=new Intent(mContext,DisplayAddedUserActivity.class);
-        userListIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        userListIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_SINGLE_TOP|Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(userListIntent);
         finish();
     }

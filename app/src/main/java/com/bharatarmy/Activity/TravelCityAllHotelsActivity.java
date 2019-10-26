@@ -18,6 +18,7 @@ import com.bharatarmy.Adapter.TravelPopularCityDetailAdapter;
 import com.bharatarmy.Models.TravelModel;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.AppConfiguration;
+import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.ActivityTravelCityAllHotelsBinding;
 
 import java.util.ArrayList;
@@ -87,6 +88,7 @@ public class TravelCityAllHotelsActivity extends AppCompatActivity implements Vi
                 }
                 break;
             case R.id.mapview_img:
+                Utils.handleClickEvent(mContext,activityTravelCityAllHotelsBinding.mapviewImg);
                 Intent mapIntent=new Intent(mContext,TravelpopularCityHotelMapViewActivity.class);
                 startActivity(mapIntent);
                 overridePendingTransition(R.anim.slide_up_dialog,R.anim.slide_up_dialog);

@@ -136,14 +136,14 @@ public class RegisterIntrestAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 @Override
                 public void onClick(View v) {
                     if (((MyItemViewHolder) holder).registerInterestchildItemBinding.selectedChk.isChecked()) {
-                        ((MyItemViewHolder) holder).registerInterestchildItemBinding.mainContainer
-                                .setBackground(mContext.getResources().getDrawable(R.drawable.match_groupdetail_curveshape));
+                        ((MyItemViewHolder) holder).registerInterestchildItemBinding.headerLinear
+                                .setBackground(mContext.getResources().getDrawable(R.drawable.match_detail_curveshape));
                         ((MyItemViewHolder) holder).registerInterestchildItemBinding.bottomGradiantView.setVisibility(View.VISIBLE);
                         ((MyItemViewHolder) holder).registerInterestchildItemBinding.selectedChk.setChecked(false);
                         tournamentDetail.setCheck("0");
 
                     } else {
-                        ((MyItemViewHolder) holder).registerInterestchildItemBinding.mainContainer
+                        ((MyItemViewHolder) holder).registerInterestchildItemBinding.headerLinear
                                 .setBackground(mContext.getResources().getDrawable(R.drawable.travel_match_selectedchild_curveshape));
 
                         ((MyItemViewHolder) holder).registerInterestchildItemBinding.bottomGradiantView.setVisibility(View.GONE);
@@ -159,7 +159,7 @@ public class RegisterIntrestAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 @Override
                 public void onClick(View v) {
                     if (((MyItemViewHolder) holder).registerInterestchildItemBinding.selectedChk.isChecked()) {
-                        ((MyItemViewHolder) holder).registerInterestchildItemBinding.mainContainer
+                        ((MyItemViewHolder) holder).registerInterestchildItemBinding.headerLinear
                                 .setBackground(mContext.getResources().getDrawable(R.drawable.travel_match_selectedchild_curveshape));
 
                         ((MyItemViewHolder) holder).registerInterestchildItemBinding.bottomGradiantView.setVisibility(View.GONE);
@@ -168,8 +168,8 @@ public class RegisterIntrestAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                         tournamentDetail.setCheck("1");
                         dataCheck.add(String.valueOf(tournamentDetail.getTournamentMatchId()));
                     } else {
-                        ((MyItemViewHolder) holder).registerInterestchildItemBinding.mainContainer
-                                .setBackground(mContext.getResources().getDrawable(R.drawable.match_groupdetail_curveshape));
+                        ((MyItemViewHolder) holder).registerInterestchildItemBinding.headerLinear
+                                .setBackground(mContext.getResources().getDrawable(R.drawable.match_detail_curveshape));
                         ((MyItemViewHolder) holder).registerInterestchildItemBinding.bottomGradiantView.setVisibility(View.VISIBLE);
                         ((MyItemViewHolder) holder).registerInterestchildItemBinding.selectedChk.setChecked(false);
                         tournamentDetail.setCheck("0");
