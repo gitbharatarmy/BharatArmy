@@ -419,7 +419,8 @@ public class TravelModel {
 
 
     //    CityAllHotel
-    public TravelModel(String cityAllHotelImage, String cityAllHotelName, String cityAllHotelLocation, int cityAllHotelRating, String cityAllHotelPrice) {
+    public TravelModel(String cityAllHotelImage, String cityAllHotelName, String cityAllHotelLocation,
+                       int cityAllHotelRating, String cityAllHotelPrice) {
         this.cityAllHotelImage = cityAllHotelImage;
         this.cityAllHotelName = cityAllHotelName;
         this.cityAllHotelLocation = cityAllHotelLocation;
@@ -468,7 +469,8 @@ public class TravelModel {
     }
 
     //    room type for match hotel
-    public TravelModel(String matchroom_name, String people_count1, String people_count2, String room_price, String room_image, String offers) {
+    public TravelModel(String matchroom_name, String people_count1, String people_count2,
+                       String room_price, String room_image, String offers) {
         this.matchroom_name = matchroom_name;
         this.people_count1 = people_count1;
         this.people_count2 = people_count2;
@@ -530,7 +532,8 @@ public class TravelModel {
     public TravelModel(String ticket_hospitality_bannerImage, String ticket_hospitality_mainheader_title,
                        String ticket_hospitality_namecategory, String ticket_hospitality_desc,
                        String ticket_hospitality_offers, String ticket_hospitality_price,
-                       String ticket_hospitality_inclusion, String ticket_hospitality_clickhere, String ticket_hospitality_selected) {
+                       String ticket_hospitality_inclusion, String ticket_hospitality_clickhere,
+                       String ticket_hospitality_selected) {
 
 
         this.ticket_hospitality_bannerImage = ticket_hospitality_bannerImage;
@@ -616,7 +619,8 @@ public class TravelModel {
         this.ticket_hospitality_selected = ticket_hospitality_selected;
     }
 
-    public TravelModel(String firstcountryname, int firstcountryflag, String secondcountryname, int secondcountryflag, String groundname, String matchtype) {
+    public TravelModel(String firstcountryname, int firstcountryflag, String secondcountryname,
+                       int secondcountryflag, String groundname, String matchtype) {
         this.firstcountryname = firstcountryname;
         this.firstcountryflag = firstcountryflag;
         this.secondcountryname = secondcountryname;

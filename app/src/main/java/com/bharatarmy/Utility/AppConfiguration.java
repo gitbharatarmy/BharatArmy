@@ -9,7 +9,7 @@ public class AppConfiguration {
 
 //    public static final String BASEURL = "https://www.bharatarmy.com/API/v1/";
 
-    public static final String BASEURL = "http://devenv.bharatarmy.com/API/v1/";
+    public static final String BASEURL = "http://mob.bharatarmy.com/API/v1/";
 
     public static final String IMAGE_URL="https://www.bharatarmy.com/Docs/Mobile/";
     public static final String TERMSURL = "https://www.bharatarmy.com/legal/privacypolicy";

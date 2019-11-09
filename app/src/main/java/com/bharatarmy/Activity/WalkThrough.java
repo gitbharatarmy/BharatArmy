@@ -69,7 +69,7 @@ public class WalkThrough extends AppCompatActivity {
         btnSkip = (Button) findViewById(R.id.btn_skip);
         btnNext = (Button) findViewById(R.id.btn_next);
 
-        Utils.setPref(mContext,"IsFirstTime","1");
+        Utils.setPref(mContext, "IsFirstTime", "1");
         callWalkThroughData();
     }
 
@@ -222,7 +222,7 @@ public class WalkThrough extends AppCompatActivity {
                         btnSkip.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                Utils.goToLogin(mContext,"walkThrough");
+                                Utils.goToLogin(mContext, "walkThrough");
                                 finish();
                             }
                         });
@@ -237,8 +237,8 @@ public class WalkThrough extends AppCompatActivity {
                                     // move to next screen
                                     viewPager.setCurrentItem(current);
                                 } else {
-                                    Utils.goToLogin(mContext,"walkThrough");
-
+                                    Utils.goToLogin(mContext, "walkThrough");
+                                    finish();
                                 }
                             }
                         });

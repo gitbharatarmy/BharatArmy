@@ -22,23 +22,22 @@ import com.bharatarmy.R;
 import com.bharatarmy.Utility.ApiHandler;
 import com.bharatarmy.Utility.AppConfiguration;
 import com.bharatarmy.Utility.Utils;
-import com.bharatarmy.databinding.ActivityLoginBinding;
+
+import com.bharatarmy.databinding.ActivityLoginwithemailBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 import com.google.firebase.messaging.FirebaseMessaging;
-import com.google.gson.Gson;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
-    ActivityLoginBinding loginBinding;
+public class LoginwithEmailActivity extends AppCompatActivity implements View.OnClickListener {
+    ActivityLoginwithemailBinding loginBinding;
     Context mContext;
     String username_str, password_str;
     private String android_id;
@@ -47,19 +46,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        loginBinding = DataBindingUtil.setContentView(this, R.layout.activity_login);
-        mContext = LoginActivity.this;
+        loginBinding = DataBindingUtil.setContentView(this, R.layout.activity_loginwithemail);
+        mContext = LoginwithEmailActivity.this;
         setListner();
         getFCMTOken();
     }
 
     public void setListner() {
-        if (getIntent().getStringExtra("whereTocomeLogin")!=null){
-            if (getIntent().getStringExtra("whereTocomeLogin").equalsIgnoreCase("logout")){
-                loginBinding.backImg.setVisibility(View.GONE);
-            }
-        }
-
         loginBinding.logginBtn.setOnClickListener(this);
         loginBinding.signUpTxt.setOnClickListener(this);
         loginBinding.forgotTxt.setOnClickListener(this);
@@ -122,7 +115,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     public void getFCMTOken() {
-        android_id = Settings.Secure.getString(LoginActivity.this.getContentResolver(),
+        android_id = Settings.Secure.getString(LoginwithEmailActivity.this.getContentResolver(),
                 Settings.Secure.ANDROID_ID);
         Log.d("deviceID", android_id);
 
@@ -159,8 +152,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             case R.id.sign_up_txt:
                 Utils.handleClickEvent(mContext,loginBinding.signUpTxt);
                 Intent signupIntent = new Intent(mContext, SignUpActivity.class);
-                signupIntent.putExtra("wheretocome", "login_dialog_item");
+                signupIntent.putExtra( "whereTocomeLogin",getIntent().getStringExtra("whereTocomeLogin"));
                 startActivity(signupIntent);
+                finish();
                 break;
             case R.id.loggin_btn:
                 Utils.handleClickEvent(mContext,loginBinding.logginBtn);
@@ -169,7 +163,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             case R.id.forgot_txt:
                 Utils.handleClickEvent(mContext,loginBinding.forgotTxt);
                 Intent forgotIntent = new Intent(mContext, ForgotActivity.class);
+                forgotIntent.putExtra( "whereTocomeLogin",getIntent().getStringExtra("whereTocomeLogin"));
                 startActivity(forgotIntent);
+                finish();
                 break;
             case R.id.skip_txt:
                 Utils.handleClickEvent(mContext,loginBinding.skipTxt);
@@ -181,32 +177,60 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 break;
             case R.id.back_img:
                 if (getIntent().getStringExtra("whereTocomeLogin")!=null) {
-                    if (getIntent().getStringExtra("whereTocomeLogin").equalsIgnoreCase("ImageUpload")) {
-                        Intent dashboardIntent = new Intent(mContext, DashboardActivity.class);
-                        dashboardIntent.putExtra("whichPageRun", "1");
-                        startActivity(dashboardIntent);
-                        finish();
-                    } else if(getIntent().getStringExtra("whereTocomeLogin").equalsIgnoreCase("more")){
-                        Intent dashintent = new Intent(mContext, DashboardActivity.class);
-                        dashintent.putExtra("whichPageRun", "5");
-                        startActivity(dashintent);
-                        finish();
-                    } else if(getIntent().getStringExtra("whereTocomeLogin").equalsIgnoreCase("storyDetail")){
-                        Intent dashintent = new Intent(mContext, DashboardActivity.class);
-                        dashintent.putExtra("whichPageRun", "4");
-                        startActivity(dashintent);
-                        finish();
-                    } else if(getIntent().getStringExtra("whereTocomeLogin").equalsIgnoreCase("Ticket Detail")){
-                        Intent dashintent = new Intent(mContext, DashboardActivity.class);
-                        dashintent.putExtra("whichPageRun", "2");
-                        startActivity(dashintent);
+                    if (getIntent().getStringExtra("whereTocomeLogin").equalsIgnoreCase("more")) {
+                        if (Utils.retriveLoginData(mContext)!=null){
+                            if (Utils.retriveLoginData(mContext).getMemberType().equalsIgnoreCase(",3,")) {
+                                Intent SFAintent = new Intent(mContext, DisplaySFAUserActivity.class);
+                                startActivity(SFAintent);
+                                finish();
+                            } else {
+                                Intent signinIntent = new Intent(mContext, DashboardActivity.class);
+                                signinIntent.putExtra("whichPageRun", "5");
+                                startActivity(signinIntent);
+                                finish();
+                            }
+                        }else{
+                            Intent appLoginIntent=new Intent(mContext,AppLoginActivity.class);
+                            appLoginIntent.putExtra("whereTocomeLogin",getIntent().getStringExtra("whereTocomeLogin"));
+                            startActivity(appLoginIntent);
+                            finish();
+                        }
+                    } else {
                         finish();
                     }
                 }else{
-                    Intent walkintent = new Intent(mContext, WalkThrough.class);
-                    startActivity(walkintent);
+                    Intent appLoginIntent=new Intent(mContext,AppLoginActivity.class);
+                    startActivity(appLoginIntent);
                     finish();
                 }
+//                if (getIntent().getStringExtra("whereTocomeLogin")!=null) {
+//                    if (getIntent().getStringExtra("whereTocomeLogin").equalsIgnoreCase("ImageUpload")) {
+//                        Intent dashboardIntent = new Intent(mContext, DashboardActivity.class);
+//                        dashboardIntent.putExtra("whichPageRun", "1");
+//                        startActivity(dashboardIntent);
+//                        finish();
+//                    } else if(getIntent().getStringExtra("whereTocomeLogin").equalsIgnoreCase("more")){
+//                        Intent dashintent = new Intent(mContext, DashboardActivity.class);
+//                        dashintent.putExtra("whichPageRun", "5");
+//                        startActivity(dashintent);
+//                        finish();
+//                    } else if(getIntent().getStringExtra("whereTocomeLogin").equalsIgnoreCase("storyDetail")){
+//                        Intent dashintent = new Intent(mContext, DashboardActivity.class);
+//                        dashintent.putExtra("whichPageRun", "4");
+//                        startActivity(dashintent);
+//                        finish();
+//                    } else if(getIntent().getStringExtra("whereTocomeLogin").equalsIgnoreCase("Ticket Detail")){
+//                        Intent dashintent = new Intent(mContext, DashboardActivity.class);
+//                        dashintent.putExtra("whichPageRun", "2");
+//                        startActivity(dashintent);
+//                        finish();
+//                    }
+//                }else{
+//                    Intent walkintent = new Intent(mContext, WalkThrough.class);
+//                    startActivity(walkintent);
+//                    finish();
+//                }
+
                 break;
             case R.id.user_name_edt:
                 Utils.scrollScreen(loginBinding.scrollView);
@@ -216,7 +240,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     public void getLogin() {
         if (!Utils.checkNetwork(mContext)) {
-            Utils.showCustomDialog(getResources().getString(R.string.internet_error), getResources().getString(R.string.internet_connection_error), LoginActivity.this);
+            Utils.showCustomDialog(getResources().getString(R.string.internet_error), getResources().getString(R.string.internet_connection_error), LoginwithEmailActivity.this);
             return;
         }
 
@@ -282,42 +306,57 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onBackPressed() {
-//        finish();
-//        super.onBackPressed();
+        finish();
+        super.onBackPressed();
     }
 
     public void whereToBack(){
         if (getIntent().getStringExtra("whereTocomeLogin")!=null){
-            if (getIntent().getStringExtra("whereTocomeLogin").equalsIgnoreCase("ImageUpload")) {
-                Intent DashboardIntent = new Intent(mContext, DashboardActivity.class);
-                DashboardIntent.putExtra("whichPageRun", "1");
-                startActivity(DashboardIntent);
-                finish();
-            }else if(getIntent().getStringExtra("whereTocomeLogin").equalsIgnoreCase("more")){
-                if (Utils.retriveLoginData(mContext).getMemberType().equalsIgnoreCase(",3,")){
+            if(getIntent().getStringExtra("whereTocomeLogin").equalsIgnoreCase("more")) {
+                if (Utils.retriveLoginData(mContext).getMemberType().equalsIgnoreCase(",3,")) {
                     Intent SFAintent = new Intent(mContext, DisplaySFAUserActivity.class);
                     startActivity(SFAintent);
                     finish();
-                }else{
+                } else {
                     Intent DashboardIntent = new Intent(mContext, DashboardActivity.class);
+                    DashboardIntent.putExtra("whichPageRun", "5");
                     startActivity(DashboardIntent);
                     finish();
                 }
-            }else if(getIntent().getStringExtra("whereTocomeLogin").equalsIgnoreCase("storyDetail")){
-                Intent dashintent = new Intent(mContext, DashboardActivity.class);
-                dashintent.putExtra("whichPageRun", "4");
-                startActivity(dashintent);
-                finish();
-            }else if(getIntent().getStringExtra("whereTocomeLogin").equalsIgnoreCase("Ticket Detail")){
-                Intent dashintent = new Intent(mContext, DashboardActivity.class);
-                dashintent.putExtra("whichPageRun", "2");
-                startActivity(dashintent);
-                finish();
-            } else {
-                Intent DashboardIntent = new Intent(mContext, DashboardActivity.class);
-                startActivity(DashboardIntent);
+            }else{
                 finish();
             }
+
+//            if (getIntent().getStringExtra("whereTocomeLogin").equalsIgnoreCase("ImageUpload")) {
+//                Intent DashboardIntent = new Intent(mContext, DashboardActivity.class);
+//                DashboardIntent.putExtra("whichPageRun", "1");
+//                startActivity(DashboardIntent);
+//                finish();
+//            }else if(getIntent().getStringExtra("whereTocomeLogin").equalsIgnoreCase("more")){
+//                if (Utils.retriveLoginData(mContext).getMemberType().equalsIgnoreCase(",3,")){
+//                    Intent SFAintent = new Intent(mContext, DisplaySFAUserActivity.class);
+//                    startActivity(SFAintent);
+//                    finish();
+//                }else{
+//                    Intent DashboardIntent = new Intent(mContext, DashboardActivity.class);
+//                    startActivity(DashboardIntent);
+//                    finish();
+//                }
+//            }else if(getIntent().getStringExtra("whereTocomeLogin").equalsIgnoreCase("storyDetail")){
+//                Intent dashintent = new Intent(mContext, DashboardActivity.class);
+//                dashintent.putExtra("whichPageRun", "4");
+//                startActivity(dashintent);
+//                finish();
+//            }else if(getIntent().getStringExtra("whereTocomeLogin").equalsIgnoreCase("Ticket Detail")){
+//                Intent dashintent = new Intent(mContext, DashboardActivity.class);
+//                dashintent.putExtra("whichPageRun", "2");
+//                startActivity(dashintent);
+//                finish();
+//            } else {
+//                Intent DashboardIntent = new Intent(mContext, DashboardActivity.class);
+//                startActivity(DashboardIntent);
+//                finish();
+//            }
         }else{
             if (Utils.retriveLoginData(mContext).getMemberType().equalsIgnoreCase(",3,")){
                 Intent SFAintent = new Intent(mContext, DisplaySFAUserActivity.class);

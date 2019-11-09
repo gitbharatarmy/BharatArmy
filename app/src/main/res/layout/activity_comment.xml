@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout >
+<layout>
+
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
@@ -62,7 +63,7 @@
                     android:dropDownVerticalOffset="@dimen/_32sdp"
                     android:spinnerMode="dropdown"
                     android:theme="@style/Spinner_comment"
-                    android:visibility="gone"/>
+                    android:visibility="gone" />
 
             </LinearLayout>
         </androidx.appcompat.widget.Toolbar>
@@ -84,10 +85,10 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_above="@+id/comment_linear"
                 android:layout_marginLeft="@dimen/_10sdp"
                 android:layout_marginRight="@dimen/_10sdp"
                 android:layout_marginBottom="@dimen/_5sdp"
-              android:layout_above="@+id/comment_linear"
                 android:orientation="vertical">
 
                 <RelativeLayout
@@ -100,23 +101,22 @@
                         android:id="@+id/nocomment_img"
                         android:layout_width="@dimen/_70sdp"
                         android:layout_height="@dimen/_70sdp"
-                        android:src="@drawable/ic_comment"
-                    android:layout_centerInParent="true"/>
+                        android:layout_centerInParent="true"
+                        android:src="@drawable/ic_comment" />
+
                     <TextView
                         style="@style/title_text_font"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_below="@id/nocomment_img"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:gravity="center_horizontal"
                         android:text="No comment found"
                         android:textColor="@color/heading_bg"
-                        android:textSize="@dimen/_16sdp"
-                        android:layout_below="@id/nocomment_img"
-                        android:gravity="center_horizontal"
-                        android:layout_marginTop="@dimen/_5sdp"/>
-
+                        android:textSize="@dimen/_16sdp" />
 
 
                 </RelativeLayout>
-
 
 
                 <com.facebook.shimmer.ShimmerFrameLayout
@@ -130,15 +130,16 @@
                     <include layout="@layout/comment_dataholder" />
 
                 </com.facebook.shimmer.ShimmerFrameLayout>
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/comment_rcv"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
 
                     android:layout_marginBottom="@dimen/_5sdp"
-                    android:visibility="gone"
                     android:clipToPadding="false"
-                    android:paddingBottom="@dimen/_50sdp"/>
+                    android:paddingBottom="@dimen/_50sdp"
+                    android:visibility="gone" />
 
                 <ProgressBar
                     android:id="@+id/progressBar"
@@ -157,9 +158,9 @@
                 android:id="@+id/comment_linear"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
                 android:layout_alignParentBottom="true"
-                android:layout_marginBottom="@dimen/_10sdp">
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:orientation="vertical">
 
                 <View
                     android:layout_width="match_parent"
@@ -167,7 +168,7 @@
                     android:layout_alignParentBottom="true"
                     android:layout_marginBottom="@dimen/_10sdp"
                     android:background="@drawable/bg_gradiant_line" />
-<!--                android:background="@color/colorGrey200"-->
+                <!--                android:background="@color/colorGrey200"-->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -180,7 +181,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                      android:layout_marginLeft="@dimen/_10sdp"
+                        android:layout_marginLeft="@dimen/_10sdp"
                         android:layout_marginRight="@dimen/_10sdp"
                         android:layout_weight="1"
                         android:background="@drawable/rectangle_line"
@@ -200,18 +201,18 @@
                         android:textSize="@dimen/_12sdp" />
 
                     <ImageView
-                            android:id="@+id/comment_sent_img"
-                            android:layout_width="0dp"
-                            android:layout_height="@dimen/_25sdp"
-                            android:layout_gravity="center_vertical"
-                            android:layout_marginRight="@dimen/_10sdp"
-                            android:layout_weight="0.15"
-                            android:src="@drawable/ic_sent_mail"
-                            android:tint="@color/heading_bg"/>
-<!--                    </LinearLayout>-->
+                        android:id="@+id/comment_sent_img"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/_25sdp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="@dimen/_10sdp"
+                        android:layout_weight="0.15"
+                        android:src="@drawable/ic_sent_mail"
+                        android:tint="@color/heading_bg" />
+                    <!--                    </LinearLayout>-->
                 </LinearLayout>
             </LinearLayout>
         </RelativeLayout>
 
-</LinearLayout>
+    </LinearLayout>
 </layout>

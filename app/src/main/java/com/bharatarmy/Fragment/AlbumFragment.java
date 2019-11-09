@@ -185,6 +185,7 @@ public class AlbumFragment extends Fragment {
             @Override
             public void onRefresh() {
                 pageIndex=0;
+                fragmentAlbumBinding.bottomProgressbarLayout.setVisibility(View.GONE);
                 callAlbumImagePullData();
 
             }
@@ -426,7 +427,8 @@ public class AlbumFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-//        albumList.clear();
+
+
     }
 
     public void addOldNewValue(List<ImageDetailModel> result) {
@@ -470,6 +472,7 @@ public class AlbumFragment extends Fragment {
                         albumModelList = albumMainModel.getData();
 
                         isLoading=false;
+                        fragmentAlbumBinding.bottomProgressbarLayout.setVisibility(View.GONE);
                         staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, 1);
                         fragmentAlbumBinding.rvPosters.setLayoutManager(staggeredGridLayoutManager);
                         albumListAdapter = new AlbumListAdapter(mContext, albumModelList);

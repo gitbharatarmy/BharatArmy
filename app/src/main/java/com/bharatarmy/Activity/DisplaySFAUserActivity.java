@@ -21,7 +21,6 @@ import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.ActivityDisplaySfauserBinding;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -190,7 +189,7 @@ public class DisplaySFAUserActivity extends AppCompatActivity implements View.On
                                 Utils.setPref(mContext, "IsSkipLogin", "");
                                 Utils.setPref(mContext, "IsLoginUser", "");
                                 Utils.ping(mContext, "You are logout suceessfully");
-                                Intent ilogin = new Intent(mContext, LoginActivity.class);
+                                Intent ilogin = new Intent(mContext, AppLoginActivity.class);  //LoginwithEmailActivity
                                 ilogin.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_SINGLE_TOP|Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 ilogin.putExtra("whereTocomeLogin", "more");
                                 startActivity(ilogin);

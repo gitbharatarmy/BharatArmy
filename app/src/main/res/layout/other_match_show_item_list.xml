@@ -40,10 +40,11 @@
                 android:layout_marginTop="@dimen/_35sdp"
                 android:layout_marginBottom="@dimen/_30sdp"
                 android:visibility="visible">
-                <View
+                <LinearLayout
                     android:layout_width="@dimen/_3sdp"
                     android:layout_height="match_parent"
-                    android:background="@drawable/vertical_line" />
+                    android:background="@drawable/vertical_line"
+                    android:orientation="vertical"/>
   <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"

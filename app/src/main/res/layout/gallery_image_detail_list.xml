@@ -81,6 +81,7 @@
         android:visibility="visible">
 
         <LinearLayout
+            android:id="@+id/gallery_like_linear"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="@dimen/_10sdp"

@@ -1,11 +1,9 @@
 package com.bharatarmy.Activity;
 
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.Build;
 import android.os.StrictMode;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,19 +13,15 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSnapHelper;
-import androidx.recyclerview.widget.OrientationHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bharatarmy.Adapter.GalleryImageDetailAdapter;
-import com.bharatarmy.Interfaces.FragmentRefreshListener;
 import com.bharatarmy.Interfaces.image_click;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.AppConfiguration;
 import com.bharatarmy.Utility.SnapHelperOneByOne;
 import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.ActivityGalleryImageDetailBinding;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -119,6 +113,7 @@ public class GalleryImageDetailActivity extends BaseActivity implements View.OnC
             }
         }
 
+
         galleryImageDetailAdapter = new GalleryImageDetailAdapter(mContext, GalleryImageDetailActivity.this,
                 imageList, imageAddusername, imageDuration, imageId, imageLike, new image_click() {
             @Override
@@ -129,10 +124,14 @@ public class GalleryImageDetailActivity extends BaseActivity implements View.OnC
         linearLayoutManager = new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false);
         LinearSnapHelper linearSnapHelper = new SnapHelperOneByOne();
         linearSnapHelper.attachToRecyclerView(activityGalleryImageDetailBinding.imageDetailRcvList);
+
         activityGalleryImageDetailBinding.imageDetailRcvList.setLayoutManager(linearLayoutManager);
         activityGalleryImageDetailBinding.imageDetailRcvList.getLayoutManager().scrollToPosition(positon);
+
         activityGalleryImageDetailBinding.imageDetailRcvList.setItemAnimator(new DefaultItemAnimator());
         activityGalleryImageDetailBinding.imageDetailRcvList.setAdapter(galleryImageDetailAdapter);
+
+
 
         activityGalleryImageDetailBinding.imageDetailRcvList.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override

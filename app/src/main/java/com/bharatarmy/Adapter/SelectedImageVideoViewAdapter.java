@@ -4,31 +4,21 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.net.Uri;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bharatarmy.Activity.LoginActivity;
 import com.bharatarmy.Interfaces.image_click;
 import com.bharatarmy.Models.GalleryImageModel;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.SelectedImageVideoListItemBinding;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
-import com.squareup.picasso.Picasso;
 
 import java.io.File;
-import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.List;
 
 public class SelectedImageVideoViewAdapter extends RecyclerView.Adapter<SelectedImageVideoViewAdapter.MyViewHolder> {

@@ -230,6 +230,8 @@ public class VideoDetailHorizontalVideoAdapter extends RecyclerView.Adapter<Recy
                                 likeunlikecount+1);
 
                         EventBus.getDefault().post(new MyScreenChnagesModel(videoIdStr));
+                    }else{
+                        ((HeaderViewHolder) holder).videoDetailHorizontalHeaderBinding.videoLikeBtn.setLiked(false);
                     }
                 }
 
@@ -243,6 +245,8 @@ public class VideoDetailHorizontalVideoAdapter extends RecyclerView.Adapter<Recy
                                 likeunlikecount-1);
 
                         EventBus.getDefault().post(new MyScreenChnagesModel(videoIdStr));
+                    }else{
+                        ((HeaderViewHolder) holder).videoDetailHorizontalHeaderBinding.videoLikeBtn.setLiked(true);
                     }
                 }
             });

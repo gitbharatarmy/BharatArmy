@@ -1,4 +1,4 @@
-package com.bharatarmy.Utility;
+package com.bharatarmy;
 
 import android.view.MotionEvent;
 

@@ -96,6 +96,7 @@ public class TravelMatchSelectHotelAdapter extends RecyclerView.Adapter<TravelMa
                 Intent roomIntent = new Intent(mContext, TravelMatchHotelRoomTypeActivity.class);
                 roomIntent.putExtra("clickposition",String.valueOf(position));
                 roomIntent.putExtra("roomName",holder.travelMatchSelectHotelListItemBinding.roomNametxt.getText().toString());
+
                 roomIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 mContext.startActivity(roomIntent);
             }

@@ -90,6 +90,7 @@ public class TravelMatchHotelRoomTypeActivity extends AppCompatActivity implemen
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.back_img:
+                EventBus.getDefault().post(new MyScreenChnagesModel(getIntent().getStringExtra("roomName"),getIntent().getStringExtra("roomName"),getIntent().getStringExtra("clickposition")));
                 finish();
                 break;
         }

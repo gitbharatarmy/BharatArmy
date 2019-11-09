@@ -106,6 +106,10 @@ public interface WebServices {
                                     @Part("Area") RequestBody area, @Part("StateId") RequestBody stateid,
                                     @Part("strStateName") RequestBody strstatename,  @Part("CityId") RequestBody cityId,
                                     @Part("strCity") RequestBody strcity, @Part("Pincode") RequestBody pincode,
+                                    @Part("FacebookProfile") RequestBody facebookprofile,
+                                    @Part("TwitterProfile") RequestBody twitterprofile,
+                                    @Part("LinkedinProfile") RequestBody linkedinprofile,
+                                    @Part("InstagramProfile") RequestBody instagramprofile,
                                     @Part MultipartBody.Part file);
 
     @Multipart

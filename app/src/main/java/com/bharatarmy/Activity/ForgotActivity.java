@@ -15,7 +15,6 @@ import android.widget.TextView;
 import com.bharatarmy.Models.LogginModel;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.ApiHandler;
-import com.bharatarmy.Utility.AppConfiguration;
 import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.ActivityForgotBinding;
 
@@ -85,7 +84,13 @@ public class ForgotActivity extends AppCompatActivity {
         activityForgotBinding.backImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                if (getIntent().getStringExtra("whereTocomeLogin")!=null){
+                    finish();
+                }else{
+                    Intent iLogin = new Intent(mContext, LoginwithEmailActivity.class);
+                    startActivity(iLogin);
+                    finish();
+                }
             }
         });
     }
@@ -125,6 +130,7 @@ public class ForgotActivity extends AppCompatActivity {
                         Intent otpIntent = new Intent(mContext, ForgotPasswordOtpActivity.class);
                         otpIntent.putExtra("Forgototp", forgotModel.getData().getOTP());
                         otpIntent.putExtra("MemberId", forgotModel.getData().getId());
+                        otpIntent.putExtra( "whereTocomeLogin",getIntent().getStringExtra("whereTocomeLogin"));
                         startActivity(otpIntent);
                         finish();
                     }

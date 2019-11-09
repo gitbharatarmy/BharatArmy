@@ -84,9 +84,13 @@ public class ChangePasswordActivity extends AppCompatActivity {
         activityChangePasswordBinding.backImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext, LoginActivity.class);
-                startActivity(intent);
-                finish();
+                if (getIntent().getStringExtra("whereTocomeLogin")!=null){
+                    finish();
+                }else{
+                    Intent iLogin = new Intent(mContext, LoginwithEmailActivity.class);
+                    startActivity(iLogin);
+                    finish();
+                }
             }
         });
     }
@@ -144,7 +148,16 @@ public class ChangePasswordActivity extends AppCompatActivity {
                         Utils.setPref(mContext, "IsLoginUser", "1");
                         Utils.storeLoginData(changeModel.getData(),mContext);
                         Utils.storeLoginOtherData(changeModel.getOtherData(), mContext);
-Utils.showThanyouDialog(ChangePasswordActivity.this,"changePassword");
+                        if (getIntent().getStringExtra("whereTocomeLogin")!=null){
+                            if(getIntent().getStringExtra("whereTocomeLogin").equalsIgnoreCase("more")) {
+                                Utils.showThanyouDialog(ChangePasswordActivity.this,"changePassword|InApp");
+                            }else{
+                                Utils.showThanyouDialog(ChangePasswordActivity.this,"changePassword|finishApp");
+                            }
+                        }else{
+                            Utils.showThanyouDialog(ChangePasswordActivity.this,"changePassword");
+                        }
+
                     }
 
                 }

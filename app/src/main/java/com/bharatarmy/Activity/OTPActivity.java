@@ -64,20 +64,23 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
     }
 
     public void getIntentValue() {
-        strWheretocome = getIntent().getStringExtra("wheretocome");
+        if (getIntent().getStringExtra("wheretocome")!=null){
+            strWheretocome = getIntent().getStringExtra("wheretocome");
 
-        if (strWheretocome.equalsIgnoreCase("Signup")) {
-            otpStr = getIntent().getStringExtra("OTP");
-            phoneNoStr = getIntent().getStringExtra("OTPmobileno");
-            countryCodeStr = getIntent().getStringExtra("countrycode");
+            if (strWheretocome.equalsIgnoreCase("Signup")) {
+                otpStr = getIntent().getStringExtra("OTP");
+                phoneNoStr = getIntent().getStringExtra("OTPmobileno");
+                countryCodeStr = getIntent().getStringExtra("countrycode");
 
-            strFullName = getIntent().getStringExtra("signupFullname");
-            strEmail = getIntent().getStringExtra("signupEmail");
-            strCountrycode = getIntent().getStringExtra("signupCountryCode");
-            strMobileno = getIntent().getStringExtra("signupMobileno");
-            strPassword = getIntent().getStringExtra("signupPassword");
-            strCheck = getIntent().getStringExtra("signupCheck");
+                strFullName = getIntent().getStringExtra("signupFullname");
+                strEmail = getIntent().getStringExtra("signupEmail");
+                strCountrycode = getIntent().getStringExtra("signupCountryCode");
+                strMobileno = getIntent().getStringExtra("signupMobileno");
+                strPassword = getIntent().getStringExtra("signupPassword");
+                strCheck = getIntent().getStringExtra("signupCheck");
+            }
         }
+
 
     }
 
@@ -144,10 +147,16 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
         RequestBody stateId = RequestBody.create(MediaType.parse("text/plain"), getIntent().getStringExtra("cityName"));
         RequestBody citiesId = RequestBody.create(MediaType.parse("text/plain"), getIntent().getStringExtra("cityId"));
         RequestBody pincode = RequestBody.create(MediaType.parse("text/plain"), getIntent().getStringExtra("pincode"));
+        RequestBody facebookprofile = RequestBody.create(MediaType.parse("text/plain"), getIntent().getStringExtra("facebookprofile"));
+        RequestBody twitterprofile = RequestBody.create(MediaType.parse("text/plain"), getIntent().getStringExtra("twitterprofile"));
+        RequestBody linkedinprofile = RequestBody.create(MediaType.parse("text/plain"), getIntent().getStringExtra("linkedinprofile"));
+        RequestBody instagramprofile = RequestBody.create(MediaType.parse("text/plain"), getIntent().getStringExtra("instagramprofile"));
+
 //        ShowProgressDialog();
         Call<LogginModel> responseBodyCall = uploadAPIs.updateprofile(appuserId, fullname, countryISOCode,
                 countycode, phoneno, gender, otptext, smssentId, addressLine1, addressLine2, area, stateId,
-                state,citiesId, city, pincode, body);
+                state, citiesId, city, pincode, facebookprofile, twitterprofile, linkedinprofile, instagramprofile, body);
+
         Log.d("File", "" + responseBodyCall);
         responseBodyCall.enqueue(new Callback<LogginModel>() {
 
@@ -328,7 +337,9 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
 //                    Intent editIntent =new Intent(mContext,EditProfileActivity.class);
 //                    startActivity(editIntent);
                     finish();
-                } else {
+                } else if(getIntent().getStringExtra("whereTocomeLogin")!=null){
+                    finish();
+                }else {
                     Intent mobileIntent = new Intent(mContext, MobileVerificationNewActivity.class);
                     startActivity(mobileIntent);
                     overridePendingTransition(0, 0);
@@ -454,10 +465,28 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
                             startActivity(SFAintent);
                             finish();
                         }else{
-                            Intent DashboardIntent = new Intent(mContext, DashboardActivity.class);
-                            AppConfiguration.position = 0;
-                            startActivity(DashboardIntent);
-                            finish();
+                            if (getIntent().getStringExtra("whereTocomeLogin")!=null){
+                                if(getIntent().getStringExtra("whereTocomeLogin").equalsIgnoreCase("more")) {
+                                    if (Utils.retriveLoginData(mContext).getMemberType().equalsIgnoreCase(",3,")) {
+                                        Intent SFAintent = new Intent(mContext, DisplaySFAUserActivity.class);
+                                        startActivity(SFAintent);
+                                        finish();
+                                    } else {
+                                        Intent DashboardIntent = new Intent(mContext, DashboardActivity.class);
+                                        DashboardIntent.putExtra("whichPageRun", "5");
+                                        startActivity(DashboardIntent);
+                                        finish();
+                                    }
+                                }else{
+                                    finish();
+                                }
+                            }else{
+                                Intent DashboardIntent = new Intent(mContext, DashboardActivity.class);
+                                AppConfiguration.position = 0;
+                                startActivity(DashboardIntent);
+                                finish();
+                            }
+
                         }
                     }
 
@@ -519,6 +548,8 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
             startActivity(mobileIntent);
             overridePendingTransition(0, 0);
 //                    finish();
+        }else if(getIntent().getStringExtra("whereTocomeLogin")!=null){
+          finish();
         } else if (strWheretocome.equalsIgnoreCase("EditProfile")) {
             OTPActivity.this.finish();
         } else {

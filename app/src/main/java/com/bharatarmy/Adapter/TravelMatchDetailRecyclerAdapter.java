@@ -275,9 +275,10 @@ public class TravelMatchDetailRecyclerAdapter extends RecyclerView.Adapter<Recyc
 //                if (matchIncludesAdapter!=null){
 //                    matchIncludesAdapter.notifyItemChanged(Integer.parseInt(splitvalue[0]),payload.toString());
 //                }
-
-                room_nametxt.setText(splitvalue[1]);
-                Utils.setImageInImageView(splitvalue[2],room_img,mContext);
+                if (room_nametxt!=null && room_img!=null){
+                    room_nametxt.setText(splitvalue[1]);
+                    Utils.setImageInImageView(splitvalue[2],room_img,mContext);
+                }
 
             }
         }else{

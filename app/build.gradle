@@ -127,6 +127,18 @@ dependencies {
 
 //    photoview
     implementation 'com.commit451:PhotoView:1.2.4'
+
+//    google signup
+    implementation 'com.google.android.gms:play-services-auth:17.0.0'
+
+//    facebook signup
+    implementation 'com.facebook.android:facebook-login:5.0.1'
+
+    implementation 'com.github.androidquery:androidquery:0.26.9'
+
+//    SVG Loader
+    implementation 'com.github.ar-android:AndroidSvgLoader:1.0.0'
+
 }
 apply plugin: 'com.google.gms.google-services'
 repositories {

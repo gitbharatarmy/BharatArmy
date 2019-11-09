@@ -20,14 +20,27 @@ public class GalleryImageModel {
     String commentLikesTotal;
 
 
+    String imageStr;
 
 
     public GalleryImageModel() {
     }
 
 
-    public GalleryImageModel(String imageUri, String imageSize, String uploadcompelet,String videolength,String fileType,
-                             String videoTitle,String videoDesc,String videoHeight,String videoWidth) {
+    public GalleryImageModel(String imageStr){
+        this.imageStr=imageStr;
+    }
+
+    public String getImageStr() {
+        return imageStr;
+    }
+
+    public void setImageStr(String imageStr) {
+        this.imageStr = imageStr;
+    }
+
+    public GalleryImageModel(String imageUri, String imageSize, String uploadcompelet, String videolength, String fileType,
+                             String videoTitle, String videoDesc, String videoHeight, String videoWidth) {
         this.imageUri = imageUri;
         this.imageSize = imageSize;
         this.uploadcompelet = uploadcompelet;

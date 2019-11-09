@@ -231,6 +231,8 @@ public class VideoDetailVerticalAdapter extends RecyclerView.Adapter<RecyclerVie
                         notifyItemChanged(position,
                                 likeunlikecount+1);
                         EventBus.getDefault().post(new MyScreenChnagesModel(videoIdStr));
+                    }else{
+                        ((HeaderViewHolder) holder).videoDetailVerticaleHeaderBinding.videoLikeBtn.setLiked(false);
                     }
                 }
 
@@ -243,6 +245,8 @@ public class VideoDetailVerticalAdapter extends RecyclerView.Adapter<RecyclerVie
                         notifyItemChanged(position,
                                 likeunlikecount-1);
                         EventBus.getDefault().post(new MyScreenChnagesModel(videoIdStr));
+                    }else{
+                        ((HeaderViewHolder) holder).videoDetailVerticaleHeaderBinding.videoLikeBtn.setLiked(true);
                     }
                 }
             });

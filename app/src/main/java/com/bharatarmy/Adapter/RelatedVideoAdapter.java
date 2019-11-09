@@ -138,6 +138,8 @@ public class RelatedVideoAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     if (Utils.isMember(mContext, "galleryDetail")) {
                         Utils.LikeStatus = 1;
                         Utils.InsertLike(mContext, activity);
+                    }else{
+                        ((HeaderViewHolder) holder).relatedVideoHeaderBinding.videoLikeBtn.setLiked(false);
                     }
                 }
 
@@ -146,6 +148,8 @@ public class RelatedVideoAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     if (Utils.isMember(mContext, "galleryDetail")) {
                         Utils.LikeStatus = 0;
                         Utils.InsertLike(mContext, activity);
+                    }else{
+                        ((HeaderViewHolder) holder).relatedVideoHeaderBinding.videoLikeBtn.setLiked(true);
                     }
                 }
             });

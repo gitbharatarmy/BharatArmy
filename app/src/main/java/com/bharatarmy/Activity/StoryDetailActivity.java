@@ -49,9 +49,9 @@ public class StoryDetailActivity extends AppCompatActivity implements View.OnCli
     String storyHeaderImg;
     int storyAuthorId;
     int storyId;
-    boolean likeflag =false;
+    boolean likeflag = false;
     ImageMainModel storyDetailDataList;
-LoginDataModel postedDataList;
+    LoginDataModel postedDataList;
 
     @Override
 
@@ -102,46 +102,46 @@ LoginDataModel postedDataList;
         activityStoryDetailBinding.uLinear.setOnClickListener(this);
         activityStoryDetailBinding.backImg.setOnClickListener(this);
 
-            activityStoryDetailBinding.appbar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
-                boolean isShow = true;
-                int scrollRange = -1;
+        activityStoryDetailBinding.appbar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            boolean isShow = true;
+            int scrollRange = -1;
 
-                @Override
-                public void onOffsetChanged(final AppBarLayout appBarLayout, int verticalOffset) {
-                    //Initialize the size of the scroll
-                    if (scrollRange == -1) {
-                        scrollRange = appBarLayout.getTotalScrollRange();
-                    }
-                    //Check if the view is collapsed
-                    if (scrollRange + verticalOffset == 0) {
-                        activityStoryDetailBinding.toolbar.setBackgroundColor(ContextCompat.getColor(mContext, R.color.heading_bg));
-                        activityStoryDetailBinding.collapsingToolbar.setTitle(storyHeadingStr);
-                        Typeface typeface = ResourcesCompat.getFont(mContext, R.font.helveticaneueltstdbdcn);
-                        activityStoryDetailBinding.collapsingToolbar.setCollapsedTitleTypeface(typeface);
-                        activityStoryDetailBinding.collapsingToolbar.setExpandedTitleTypeface(typeface);
-                        activityStoryDetailBinding.collapsingToolbar.setCollapsedTitleGravity(Gravity.START);
-                        activityStoryDetailBinding.collapsingToolbar.setExpandedTitleGravity(Gravity.START);
-                        activityStoryDetailBinding.userImage.setVisibility(View.GONE);
-                        activityStoryDetailBinding.shareArticleLinear.setVisibility(View.VISIBLE);
-                        ViewGroup.LayoutParams params = activityStoryDetailBinding.toolbarBottomLeftView.getLayoutParams();
-                        params.width = ViewGroup.LayoutParams.MATCH_PARENT;
-                        activityStoryDetailBinding.toolbarBottomLeftView.setLayoutParams(params);
-                        isShow = true;
-                    } else if (isShow) {
-                        activityStoryDetailBinding.toolbar.setBackgroundColor(ContextCompat.getColor(mContext, R.color.transparent));
-                        activityStoryDetailBinding.collapsingToolbar.setTitle(" ");
-                        activityStoryDetailBinding.userImage.setVisibility(View.VISIBLE);
-                        activityStoryDetailBinding.shareArticleLinear.setVisibility(View.GONE);
-    //                    ViewGroup.LayoutParams params = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0.85f);
-    //                    activityStoryDetailBinding.toolbarBottomLeftView.setLayoutParams(params);
-                        ViewGroup.LayoutParams params = activityStoryDetailBinding.toolbarBottomLeftView.getLayoutParams();
-                        params.width = (int) 0.85f;
-                        activityStoryDetailBinding.toolbarBottomLeftView.setLayoutParams(params);
-                        isShow = false;
-                    }
-
+            @Override
+            public void onOffsetChanged(final AppBarLayout appBarLayout, int verticalOffset) {
+                //Initialize the size of the scroll
+                if (scrollRange == -1) {
+                    scrollRange = appBarLayout.getTotalScrollRange();
                 }
-            });
+                //Check if the view is collapsed
+                if (scrollRange + verticalOffset == 0) {
+                    activityStoryDetailBinding.toolbar.setBackgroundColor(ContextCompat.getColor(mContext, R.color.heading_bg));
+                    activityStoryDetailBinding.collapsingToolbar.setTitle(storyHeadingStr);
+                    Typeface typeface = ResourcesCompat.getFont(mContext, R.font.helveticaneueltstdbdcn);
+                    activityStoryDetailBinding.collapsingToolbar.setCollapsedTitleTypeface(typeface);
+                    activityStoryDetailBinding.collapsingToolbar.setExpandedTitleTypeface(typeface);
+                    activityStoryDetailBinding.collapsingToolbar.setCollapsedTitleGravity(Gravity.START);
+                    activityStoryDetailBinding.collapsingToolbar.setExpandedTitleGravity(Gravity.START);
+                    activityStoryDetailBinding.userImage.setVisibility(View.GONE);
+                    activityStoryDetailBinding.shareArticleLinear.setVisibility(View.VISIBLE);
+                    ViewGroup.LayoutParams params = activityStoryDetailBinding.toolbarBottomLeftView.getLayoutParams();
+                    params.width = ViewGroup.LayoutParams.MATCH_PARENT;
+                    activityStoryDetailBinding.toolbarBottomLeftView.setLayoutParams(params);
+                    isShow = true;
+                } else if (isShow) {
+                    activityStoryDetailBinding.toolbar.setBackgroundColor(ContextCompat.getColor(mContext, R.color.transparent));
+                    activityStoryDetailBinding.collapsingToolbar.setTitle(" ");
+                    activityStoryDetailBinding.userImage.setVisibility(View.VISIBLE);
+                    activityStoryDetailBinding.shareArticleLinear.setVisibility(View.GONE);
+                    //                    ViewGroup.LayoutParams params = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0.85f);
+                    //                    activityStoryDetailBinding.toolbarBottomLeftView.setLayoutParams(params);
+                    ViewGroup.LayoutParams params = activityStoryDetailBinding.toolbarBottomLeftView.getLayoutParams();
+                    params.width = (int) 0.85f;
+                    activityStoryDetailBinding.toolbarBottomLeftView.setLayoutParams(params);
+                    isShow = false;
+                }
+
+            }
+        });
 
 
         activityStoryDetailBinding.shareArticle.setOnClickListener(this);
@@ -190,7 +190,7 @@ LoginDataModel postedDataList;
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.user_image:
-                Utils.handleClickEvent(mContext,activityStoryDetailBinding.userImage);
+                Utils.handleClickEvent(mContext, activityStoryDetailBinding.userImage);
                 Intent authorIntent = new Intent(mContext, StoryAuthorActivity.class);
                 authorIntent.putExtra("StoryauthorId", storyAuthorId);
                 mContext.startActivity(authorIntent);
@@ -202,7 +202,7 @@ LoginDataModel postedDataList;
                 StoryDetailActivity.this.finish();
                 break;
             case R.id.share_article:
-                Utils.handleClickEvent(mContext,activityStoryDetailBinding.shareArticle);
+                Utils.handleClickEvent(mContext, activityStoryDetailBinding.shareArticle);
                 shareArticleValue();
                 break;
             case R.id.uLinear:
@@ -263,45 +263,45 @@ LoginDataModel postedDataList;
     private Map<String, String> getStoryDetailData() {
         Map<String, String> map = new HashMap<>();
         map.put("StoryId", String.valueOf(storyId));
-        map.put("MemberId",String.valueOf(Utils.getAppUserId(mContext)));
-        map.put("TokenId",Utils.getPref(mContext, "registration_id"));
+        map.put("MemberId", String.valueOf(Utils.getAppUserId(mContext)));
+        map.put("TokenId", Utils.getPref(mContext, "registration_id"));
         return map;
     }
 
 
     public void setAPIValue() {
-        if (postedDataList!=null){
-            if (postedDataList.getLikes()!=null){
-                if (postedDataList.getLikes().equals(0)){
+        if (postedDataList != null) {
+            if (postedDataList.getLikes() != null) {
+                if (postedDataList.getLikes().equals(0)) {
                     activityStoryDetailBinding.uprStoryTotalLikeTxt.setText("");
-                }else{
+                } else {
                     activityStoryDetailBinding.uprStoryTotalLikeTxt.setText(String.valueOf(postedDataList.getLikes()));
                 }
             }
         }
-        if (postedDataList!=null){
-            if (postedDataList.getPosted()!=null){
-                if (postedDataList.getPosted().equals(0)){
+        if (postedDataList != null) {
+            if (postedDataList.getPosted() != null) {
+                if (postedDataList.getPosted().equals(0)) {
                     activityStoryDetailBinding.totalPostedTxt.setText("");
-                }else{
+                } else {
                     activityStoryDetailBinding.totalPostedTxt.setText(String.valueOf(postedDataList.getPosted()));
                 }
             }
         }
-        if (postedDataList!=null){
-            if (postedDataList.getComments()!=null){
-                if (postedDataList.getComments().equals(0)){
+        if (postedDataList != null) {
+            if (postedDataList.getComments() != null) {
+                if (postedDataList.getComments().equals(0)) {
                     activityStoryDetailBinding.totalCommentTxt.setText("");
-                }else{
+                } else {
                     activityStoryDetailBinding.totalCommentTxt.setText(String.valueOf(postedDataList.getComments()));
                 }
             }
         }
-        if (postedDataList!=null){
-            if (postedDataList.getPostView()!=null){
-                if (postedDataList.getPostView().equals(0)){
+        if (postedDataList != null) {
+            if (postedDataList.getPostView() != null) {
+                if (postedDataList.getPostView().equals(0)) {
                     activityStoryDetailBinding.totalViewTxt.setText("");
-                }else{
+                } else {
                     activityStoryDetailBinding.totalViewTxt.setText(String.valueOf(postedDataList.getPostView()));
                 }
             }
@@ -314,10 +314,10 @@ LoginDataModel postedDataList;
         activityStoryDetailBinding.shimmerViewContainer.setVisibility(View.GONE);
         activityStoryDetailBinding.auhtorStoryDetailView.setVisibility(View.VISIBLE);
 
-        if (storyDetailDataList.getData().get(0).getIsLike().equals(1)){
+        if (storyDetailDataList.getData().get(0).getIsLike().equals(1)) {
             activityStoryDetailBinding.uprStoryLikeBtn.setLiked(true);
             activityStoryDetailBinding.bottomStoryLikeBtn.setLiked(true);
-        }else{
+        } else {
             activityStoryDetailBinding.uprStoryLikeBtn.setLiked(false);
             activityStoryDetailBinding.bottomStoryLikeBtn.setLiked(false);
         }
@@ -349,7 +349,7 @@ LoginDataModel postedDataList;
             Intent commentIntent = new Intent(mContext, CommentActivity.class);
             commentIntent.putExtra("referenceId", String.valueOf(storyId));
             commentIntent.putExtra("sourceType", "3");
-            commentIntent.putExtra("pageTitle",storyHeadingStr);
+            commentIntent.putExtra("pageTitle", storyHeadingStr);
             mContext.startActivity(commentIntent);
         }
     }
@@ -361,14 +361,19 @@ LoginDataModel postedDataList;
             Utils.LikeSourceType = 3;
             Utils.LikeStatus = likestatus;
             Utils.InsertLike(mContext, StoryDetailActivity.this);
-            int likeunlikecount=0;
-            likeunlikecount= Integer.parseInt(activityStoryDetailBinding.uprStoryTotalLikeTxt.getText().toString());
-if (Utils.LikeStatus==1){
-    activityStoryDetailBinding.uprStoryTotalLikeTxt.setText(String.valueOf(likeunlikecount+1));
-}else{
-    activityStoryDetailBinding.uprStoryTotalLikeTxt.setText(String.valueOf(likeunlikecount-1));
-}
-
+            int likeunlikecount = 0;
+            likeunlikecount = Integer.parseInt(activityStoryDetailBinding.uprStoryTotalLikeTxt.getText().toString());
+            if (Utils.LikeStatus == 1) {
+                activityStoryDetailBinding.uprStoryTotalLikeTxt.setText(String.valueOf(likeunlikecount + 1));
+            } else {
+                activityStoryDetailBinding.uprStoryTotalLikeTxt.setText(String.valueOf(likeunlikecount - 1));
+            }
+        }else{
+            if(likestatus == 1){
+                activityStoryDetailBinding.uprStoryLikeBtn.setLiked(false);
+            }else{
+                activityStoryDetailBinding.uprStoryLikeBtn.setLiked(true);
+            }
         }
     }
 
@@ -395,14 +400,14 @@ if (Utils.LikeStatus==1){
                 }
                 if (postedDataModel.getIsValid() == 0) {
 //                    Utils.ping(mContext, getString(R.string.false_msg));
-                    postedDataList=postedDataModel.getData();
-                   setAPIValue();
+                    postedDataList = postedDataModel.getData();
+                    setAPIValue();
                     return;
                 }
                 if (postedDataModel.getIsValid() == 1) {
 
                     if (postedDataModel.getData() != null) {
-                        postedDataList=postedDataModel.getData();
+                        postedDataList = postedDataModel.getData();
                         setAPIValue();
                     }
 

@@ -1,66 +1,42 @@
 package com.bharatarmy.Fragment;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import android.os.SystemClock;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
 
+import com.bharatarmy.Activity.AppLoginActivity;
 import com.bharatarmy.Activity.ContactusActivity;
 import com.bharatarmy.Activity.DisplayAddedUserActivity;
 import com.bharatarmy.Activity.DisplaySFAUserActivity;
 import com.bharatarmy.Activity.InquriyActivity;
-import com.bharatarmy.Activity.LoginActivity;
+import com.bharatarmy.Activity.LoginwithEmailActivity;
 import com.bharatarmy.Activity.MoreStoryActivity;
 import com.bharatarmy.Activity.MyMediaActivity;
 import com.bharatarmy.Activity.MyProfileActivity;
-import com.bharatarmy.Activity.SportsInterestActivity;
-import com.bharatarmy.Activity.UserEntryActivity;
-import com.bharatarmy.Adapter.StoryCategoryAdapter;
-import com.bharatarmy.Adapter.StoryLsitAdapter;
-import com.bharatarmy.Interfaces.image_click;
-import com.bharatarmy.Models.ImageDetailModel;
-import com.bharatarmy.Models.ImageMainModel;
 import com.bharatarmy.Models.MyScreenChnagesModel;
 import com.bharatarmy.R;
-import com.bharatarmy.Utility.ApiHandler;
-import com.bharatarmy.Utility.AppConfiguration;
 import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.FragmentMoreBinding;
-import com.bharatarmy.databinding.FragmentStoryBinding;
-import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.facebook.AccessToken;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.HttpMethod;
+import com.facebook.login.LoginManager;
 import com.leinardi.android.speeddial.SpeedDialView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import retrofit.RetrofitError;
-import retrofit.client.Response;
 
 
 public class MoreFragment extends Fragment implements View.OnClickListener {
@@ -174,7 +150,7 @@ public class MoreFragment extends Fragment implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.userprofile_linear:
                 Intent myProfile = new Intent(mContext, MyProfileActivity.class);
-                myProfile.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_SINGLE_TOP|Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                myProfile.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(myProfile);
                 break;
             case R.id.aboutus_linear:
@@ -182,18 +158,18 @@ public class MoreFragment extends Fragment implements View.OnClickListener {
                 aboutus.putExtra("Story Heading", "Ab Jeetega India");
                 aboutus.putExtra("StroyUrl", "http://ajif.in/");
                 aboutus.putExtra("whereTocome", "aboutus");
-                aboutus.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_SINGLE_TOP|Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                aboutus.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(aboutus);
                 break;
             case R.id.contactus_linear:
-                Utils.handleClickEvent(mContext,fragmentMoreBinding.userprofileLinear);
+                Utils.handleClickEvent(mContext, fragmentMoreBinding.userprofileLinear);
                 Intent contactus = new Intent(mContext, ContactusActivity.class);
-                contactus.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_SINGLE_TOP|Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                contactus.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(contactus);
                 break;
             case R.id.inquiry_linear:
                 Intent inquriy = new Intent(mContext, InquriyActivity.class);
-                inquriy.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_SINGLE_TOP|Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                inquriy.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(inquriy);
                 break;
             case R.id.logout_linear:
@@ -205,17 +181,34 @@ public class MoreFragment extends Fragment implements View.OnClickListener {
                 alertDialog2.setPositiveButton("YES",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                // Write your code here to execute after dialog
-                                Utils.removeLoginData(mContext);
-                                Utils.setPref(mContext, "IsSkipLogin", "");
-                                Utils.setPref(mContext, "IsLoginUser", "");
-                                Utils.ping(mContext, "You are logout suceessfully");
-                                Intent ilogin = new Intent(mContext, LoginActivity.class);
-                                ilogin.putExtra("whereTocomeLogin", "more");
-                                ilogin.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_SINGLE_TOP|Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                startActivity(ilogin);
-                                getActivity().finish();
+
+                                new GraphRequest(AccessToken.getCurrentAccessToken(), "/me/permissions/",
+                                        null, HttpMethod.DELETE, new GraphRequest
+                                        .Callback() {
+                                    @Override
+                                    public void onCompleted(GraphResponse graphResponse) {
+
+                                        LoginManager.getInstance().logOut();
+
+                                        // Write your code here to execute after dialog
+                                        Utils.removeLoginData(mContext);
+                                        Utils.setPref(mContext, "IsSkipLogin", "");
+                                        Utils.setPref(mContext, "IsLoginUser", "");
+                                        Utils.ping(mContext, "You are logout suceessfully");
+                                        Intent ilogin = new Intent(mContext, AppLoginActivity.class);  //LoginwithEmailActivity
+                                        ilogin.putExtra("whereTocomeLogin", "more");
+                                        ilogin.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                        startActivity(ilogin);
+                                        getActivity().finish();
 //                                ((Activity)mContext).finish();
+//                                        Intent logoutint = new Intent(DashBoard.this, MainActivity.class);
+//                                        logoutint.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                                        startActivity(logoutint);
+
+                                    }
+                                }).executeAsync();
+
+
 
                             }
                         });
@@ -232,28 +225,27 @@ public class MoreFragment extends Fragment implements View.OnClickListener {
             case R.id.media_linear:
                 Utils.setPref(mContext, "cometonotification", "menu");
                 Intent media = new Intent(mContext, MyMediaActivity.class);
-                media.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_SINGLE_TOP|Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                media.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(media);
                 break;
             case R.id.withoutlogin_linear:
-                Intent intent = new Intent(mContext, LoginActivity.class);
+                Intent intent = new Intent(mContext, AppLoginActivity.class);
                 intent.putExtra("whereTocomeLogin", "more");
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_SINGLE_TOP|Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 break;
             case R.id.sports_interest_linear:
                 Intent sportsintent = new Intent(mContext, DisplaySFAUserActivity.class);
-                sportsintent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_SINGLE_TOP|Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                sportsintent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(sportsintent);
                 break;
             case R.id.data_entry_linear:
                 Intent displayuserentry = new Intent(mContext, DisplayAddedUserActivity.class);
-                displayuserentry.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_SINGLE_TOP|Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                displayuserentry.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(displayuserentry);
                 break;
         }
     }
-
 
 
     @Subscribe

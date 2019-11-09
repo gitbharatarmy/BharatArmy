@@ -11,6 +11,8 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
 import androidx.databinding.DataBindingUtil;
@@ -41,6 +43,7 @@ public class GalleryImageDetailAdapter extends RecyclerView.Adapter<GalleryImage
     Activity activity;
 Uri uri;
     image_click image_click;
+    private int lastPosition = -1;
 
     private RecyclerViewOnTouchListener touchListener;
 
@@ -91,6 +94,7 @@ Uri uri;
     @SuppressLint("ResourceAsColor")
     @Override
     public void onBindViewHolder(GalleryImageDetailAdapter.MyViewHolder holder, int position) {
+        setAnimation(holder.itemView,position);
         Utils.setImageInImageView(imageList.get(position), holder.galleryImageDetailListBinding.imageFull, mContext);
 //        holder.galleryImageDetailListBinding.imageFull.getPositionAnimator().enter(holder.galleryImageDetailListBinding.imageDetailImg, false);
         holder.galleryImageDetailListBinding.uploadimageUserNametxt.setText(userNameList.get(position));
@@ -103,7 +107,6 @@ Uri uri;
         }else {
             holder.galleryImageDetailListBinding.bottomImageLikeBtn.setLiked(false);
         }
-
         holder.galleryImageDetailListBinding.bottomImageLikeBtn.setOnLikeListener(new OnLikeListener() {
             @Override
             public void liked(LikeButton likeButton) {
@@ -116,6 +119,8 @@ Uri uri;
                     Utils.InsertLike(mContext, activity);
 
                     EventBus.getDefault().post(new MyScreenChnagesModel(String.valueOf(position)));
+                }else{
+                    holder.galleryImageDetailListBinding.bottomImageLikeBtn.setLiked(false);
                 }
 
             }
@@ -130,10 +135,13 @@ Uri uri;
                     Utils.LikeStatus = 0;
                     Utils.InsertLike(mContext, activity);
                     EventBus.getDefault().post(new MyScreenChnagesModel(String.valueOf(position)));
+                }else{
+                    holder.galleryImageDetailListBinding.bottomImageLikeBtn.setLiked(true);
                 }
 
             }
         });
+
 
         holder.galleryImageDetailListBinding.commentLinear.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -177,5 +185,17 @@ Uri uri;
         return imageList.size();
     }
 
+    private void setAnimation(View viewToAnimate, int position) {
 
+        if (position > lastPosition) {
+            Animation animation = AnimationUtils.loadAnimation(mContext, R.anim.slide_in_right_new);
+            animation.setDuration(500);
+            viewToAnimate.startAnimation(animation);
+            lastPosition = position;
+        } else if ( position < lastPosition) {
+            Animation animation = AnimationUtils.loadAnimation(mContext, R.anim.slide_in_left_new);
+            viewToAnimate.startAnimation(animation);
+            lastPosition = position;
+        }
+    }
 }

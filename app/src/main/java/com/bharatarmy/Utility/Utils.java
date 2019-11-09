@@ -56,8 +56,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 
+import com.bharatarmy.Activity.AppLoginActivity;
 import com.bharatarmy.Activity.DashboardActivity;
-import com.bharatarmy.Activity.LoginActivity;
 import com.bharatarmy.Country;
 import com.bharatarmy.CountryCodePicker;
 import com.bharatarmy.Interfaces.submit_click;
@@ -535,6 +535,22 @@ public class Utils {
                         }
 
                     }
+                }else if (wheretocome.equalsIgnoreCase("changePassword|InApp")) {
+                    for (int i = 0; i < Utils.retriveLoginOtherData(activity).size(); i++) {
+                        if (Utils.retriveLoginOtherData(activity).get(i).getMessageId().equals(2)) {
+                            dialog_headertxt.setText(Utils.retriveLoginOtherData(activity).get(i).getMessageHeaderText());
+                            dialog_descriptiontxt.setText(Utils.retriveLoginOtherData(activity).get(i).getMessageDescription());
+                        }
+
+                    }
+                }else if (wheretocome.equalsIgnoreCase("changePassword|finishApp")) {
+                    for (int i = 0; i < Utils.retriveLoginOtherData(activity).size(); i++) {
+                        if (Utils.retriveLoginOtherData(activity).get(i).getMessageId().equals(2)) {
+                            dialog_headertxt.setText(Utils.retriveLoginOtherData(activity).get(i).getMessageHeaderText());
+                            dialog_descriptiontxt.setText(Utils.retriveLoginOtherData(activity).get(i).getMessageDescription());
+                        }
+
+                    }
                 } else if (wheretocome.equalsIgnoreCase("videoUpload")) {
                     for (int i = 0; i < Utils.retriveLoginOtherData(activity).size(); i++) {
                         if (Utils.retriveLoginOtherData(activity).get(i).getMessageId().equals(1)) {
@@ -558,7 +574,15 @@ public class Utils {
                         Intent intent = new Intent(activity, DashboardActivity.class);
                         activity.startActivity(intent);
                         activity.finish();
-                    } else if (wheretocome.equalsIgnoreCase("imageUpload")) {
+                    }else if (wheretocome.equalsIgnoreCase("changePassword|InApp")) {
+                        Intent dashboardIntent = new Intent(activity, DashboardActivity.class);
+                        dashboardIntent.putExtra("whichPageRun", "5");
+                        activity.startActivity(dashboardIntent);
+                        activity.finish();
+                    }else if (wheretocome.equalsIgnoreCase("changePassword|finishApp")) {
+                        activity.finish();
+                    }
+                    else if (wheretocome.equalsIgnoreCase("imageUpload")) {
                         Intent intent = new Intent(activity, UploadService.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                         activity.startService(intent);
@@ -896,10 +920,11 @@ public class Utils {
 
     public static boolean isMember(Context context, String whereTocome) {
         if (Utils.getAppUserId(context) == 0) {
-            Intent intent = new Intent(context, LoginActivity.class);
+            Intent intent = new Intent(context, AppLoginActivity.class);
             intent.putExtra("whereTocomeLogin", whereTocome);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
+
         } else {
             return true;
         }
@@ -907,7 +932,7 @@ public class Utils {
     }
 
     public static void goToLogin(Context mContext, String whereTocome) {
-        Intent intent = new Intent(mContext, LoginActivity.class);
+        Intent intent = new Intent(mContext, AppLoginActivity.class);
 //        intent.putExtra("whereTocomeLogin", whereTocome);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mContext.startActivity(intent);

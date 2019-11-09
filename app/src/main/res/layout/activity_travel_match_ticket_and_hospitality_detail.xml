@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
-<LinearLayout
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -265,15 +265,11 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:visibility="visible">
-<!--        <LinearLayout-->
-<!--            android:layout_width="@dimen/_3sdp"-->
-<!--            android:layout_height="@dimen/_40sdp"-->
-<!--            android:background="@drawable/vertical_line"-->
-<!--            android:orientation="vertical"/>-->
-            <View
+            <LinearLayout
                 android:layout_width="@dimen/_3sdp"
                 android:layout_height="match_parent"
-                android:background="@drawable/vertical_line" />
+                android:background="@drawable/vertical_line"
+                android:orientation="vertical"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -362,11 +358,11 @@
 <!--                    android:background="@drawable/vertical_line"-->
 <!--                    android:orientation="vertical"/>-->
 
-                <View
+                <LinearLayout
                     android:layout_width="@dimen/_3sdp"
                     android:layout_height="match_parent"
                     android:background="@drawable/vertical_line"
-                    android:layout_marginTop="@dimen/_1sdp"/>
+                    android:orientation="vertical"/>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -474,62 +470,61 @@
                 android:textSize="@dimen/_12sdp" />
 
         </LinearLayout>
+    <LinearLayout
+        android:id="@+id/near_by_ground_linear"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginLeft="@dimen/_15sdp"
+        android:layout_marginRight="@dimen/_15sdp"
+        android:layout_marginTop="@dimen/_30sdp"
+        android:visibility="visible">
 
         <LinearLayout
-            android:id="@+id/near_by_ground_linear"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="@dimen/_30sdp">
-
+            android:orientation="horizontal"
+            android:visibility="visible">
+            <LinearLayout
+                android:layout_width="@dimen/_3sdp"
+                android:layout_height="match_parent"
+                android:background="@drawable/vertical_line"
+                android:orientation="vertical"/>
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_40sdp"
-                android:layout_marginLeft="@dimen/_15sdp"
-                android:layout_marginRight="@dimen/_15sdp"
-                android:orientation="horizontal"
-                android:visibility="visible">
-                <LinearLayout
-                    android:layout_width="@dimen/_3sdp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_7sdp"
+                android:orientation="vertical">
+                <TextView
+                    style="@style/title_text_font"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/vertical_line"
-                    android:orientation="vertical"/>
-                <LinearLayout
+                    android:ellipsize="end"
+                    android:gravity="center_horizontal"
+                    android:maxLines="2"
+                    android:text="NEAR By Melbourne Cricket Ground"
+                    android:textAllCaps="true"
+                    android:textColor="@color/heading_bg"
+                    android:textSize="@dimen/_16sdp" />
+                <TextView
+                    android:id="@+id/cricket_ground_subtitle_txt"
+                    style="@style/title_text_font"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="@dimen/_10sdp"
-                    android:orientation="vertical">
-                    <TextView
-                        style="@style/title_text_font"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:ellipsize="end"
-                        android:gravity="center_horizontal"
-                        android:maxLines="1"
-                        android:text="Near by melbourne cricket ground"
-                        android:textAllCaps="true"
-                        android:textColor="@color/heading_bg"
-                        android:textSize="@dimen/_16sdp" />
-                    <TextView
-                        style="@style/title_text_font"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:maxLines="1"
-                        android:ellipsize="end"
-                        android:gravity="center_vertical|left"
-                        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-                        android:textColor="@color/gray"
-                        android:textSize="@dimen/_11sdp" />
-                </LinearLayout>
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical|left"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+                    android:textColor="@color/gray"
+                    android:textSize="@dimen/_11sdp" />
             </LinearLayout>
+        </LinearLayout>
 
             <TextView
                 style="@style/text_font"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:layout_marginLeft="@dimen/_15sdp"
-                android:layout_marginRight="@dimen/_15sdp"
                 android:layout_marginTop="@dimen/_25sdp"
                 android:maxLines="3"
                 android:ellipsize="end"

@@ -111,7 +111,7 @@ public class MobileVerificationNewActivity extends AppCompatActivity implements 
                     startActivity(a);
                     finish();
                 } else {
-                    Intent loginIntent = new Intent(mContext, LoginActivity.class);
+                    Intent loginIntent = new Intent(mContext, LoginwithEmailActivity.class);
                     startActivity(loginIntent);
 //                overridePendingTransition(R.anim.slide_in_left,0);
                     finish();

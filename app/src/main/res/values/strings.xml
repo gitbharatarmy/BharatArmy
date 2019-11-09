@@ -71,11 +71,30 @@
     <string name="female" translatable="false">Female</string>
     <string name="full_name" translatable="false">Full Name</string>
     <string name="edit" translatable="false">Edit</string>
+    <string name="facebook_txt" translatable="false">Facebook</string>
+    <string name="twitter_txt" translatable="false">Twitter</string>
+    <string name="instagram_txt" translatable="false">Instagram</string>
+    <string name="linkedin_txt" translatable="false">Linkedin</string>
+    <string name="facebook_txt_hint" translatable="false">https://www.facebook.com/</string>
+    <string name="twitter_txt_hint" translatable="false">http://www.twitter.com/</string>
+    <string name="instagram_txt_hint" translatable="false">http://www.instagram.com/</string>
+    <string name="linkedin_txt_hint" translatable="false">https://www.linkedin.com/in/</string>
+    <string name="continue_facebook" translatable="false">Continue with Facebook</string>
+    <string name="continue_google" translatable="false">Continue with Google</string>
+    <string name="continue_email" translatable="false">Continue with Email</string>
+    <string name="terms_view_txt" translatable="false">By continuing, you agree to our</string>
+    <string name="termsofservice" translatable="false">Terms of Service</string>
+    <string name="privacy_policy" translatable="false">Privacy Policy</string>
+    <string name="contentpolicy" translatable="false">Content Policy</string>
+    <string name="loading" translatable="false">Loading...</string>
+    <string name="facebook_app_id" translatable="false">569015383846103</string>
+    <string name="fb_login_protocol_scheme" translatable="false">fb569015383846103</string>
+
 
     <string name="hello_txt" translatable="false">Hello</string>
     <string name="upload" translatable="false">Upload Photo</string>
     <string name="personal_info" translatable="false">Personal Infomation</string>
-    <string name="address" translatable="false">Addresses</string>
+    <string name="address" translatable="false">Address</string>
     <string name="address_type" translatable="false">Addresses Type</string>
     <string name="save" translatable="false">Save</string>
     <string name="cancel" translatable="false">Cancel</string>

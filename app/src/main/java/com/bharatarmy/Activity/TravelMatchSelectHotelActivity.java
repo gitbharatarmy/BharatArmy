@@ -77,7 +77,7 @@ public class TravelMatchSelectHotelActivity extends AppCompatActivity implements
 
     @Subscribe
     public void customEventReceived(MyScreenChnagesModel event) {
-        Log.d("event :",event.getPosition());
+        Log.d("event :",event.getRoomName());
         if (!event.getRoomName().equalsIgnoreCase("")) {
             selectedroomNameStr=event.getRoomName();
             selectedroomImageStr=event.getRoomImage();

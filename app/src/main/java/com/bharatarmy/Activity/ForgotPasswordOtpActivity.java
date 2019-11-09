@@ -181,7 +181,9 @@ public class ForgotPasswordOtpActivity extends AppCompatActivity implements View
             if (finalgetOtpStr.equalsIgnoreCase(otpStr)) {
                 Intent changePasswordIntent = new Intent(mContext, ChangePasswordActivity.class);
                 changePasswordIntent.putExtra("memberId",memberIdStr);
+                changePasswordIntent.putExtra( "whereTocomeLogin",getIntent().getStringExtra("whereTocomeLogin"));
                 startActivity(changePasswordIntent);
+                finish();
             } else {
                 Utils.ping(mContext, "Please enter valid otp");
             }

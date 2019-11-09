@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/_80sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:elevation="2dp"
+        android:focusableInTouchMode="false"
+        android:orientation="vertical">
+
+        <com.bharatarmy.RoundishImageView
+            android:id="@+id/display_image"
+            android:layout_width="@dimen/_120sdp"
+            android:layout_height="@dimen/_120sdp"
+            android:layout_gravity="center_horizontal"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/australia_tour"
+            app:cornerRadius="@dimen/round_corner_radius"
+            app:roundedCorners="topRight|topLeft|bottomLeft|bottomRight" />
+
+    </LinearLayout>
+</layout>

@@ -1,21 +1,33 @@
 package com.bharatarmy.Fragment;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.TransitionDrawable;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.text.Html;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
 
@@ -26,14 +38,18 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import com.bharatarmy.Activity.AlbumImageVideoShowActivity;
 import com.bharatarmy.Activity.MoreStoryActivity;
 import com.bharatarmy.Activity.MyProfileActivity;
+import com.bharatarmy.Activity.TravelCityRestaurantDetailActivity;
 import com.bharatarmy.Activity.VideoDetailActivity;
 import com.bharatarmy.Adapter.BharatArmyStoriesAdapter;
 import com.bharatarmy.Adapter.MyBgpageAdapter;
 import com.bharatarmy.Adapter.MyPagerAdapter;
+import com.bharatarmy.Adapter.PartnersAdapter;
 import com.bharatarmy.Adapter.UpcomingDashboardAdapter;
 import com.bharatarmy.AlphaPageTransformer;
 import com.bharatarmy.Interfaces.image_click;
@@ -42,9 +58,11 @@ import com.bharatarmy.Models.DashboardModel;
 import com.bharatarmy.Models.HomeTemplateDetailModel;
 import com.bharatarmy.Models.HomeTemplateModel;
 import com.bharatarmy.Models.StoryDashboardData;
+import com.bharatarmy.Models.TravelModel;
 import com.bharatarmy.Models.UpcommingDashboardModel;
 import com.bharatarmy.R;
 import com.bharatarmy.CountDownClockHome;
+import com.bharatarmy.RoundishImageView;
 import com.bharatarmy.Utility.ApiHandler;
 import com.bharatarmy.Utility.AppConfiguration;
 import com.bharatarmy.Utility.Utils;
@@ -54,11 +72,13 @@ import com.leinardi.android.speeddial.SpeedDialView;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
@@ -80,6 +100,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     DashboardDataModel getDashboardDataModel;
     UpcomingDashboardAdapter upcomingDashboardAdapter;
     BharatArmyStoriesAdapter bharatArmyStoriesAdapter;
+    MyCustomerGalleryViewPagerAdapter customerGalleryViewPagerAdapter;
+    PartnersAdapter partnersAdapter;
+    private TextView[] dots;
+    List<TravelModel> customergalleryList;
+    List<TravelModel> partnerlist;
     List<HomeTemplateDetailModel> homeTemplateDetailModelList;
     String categoryIdStr, categoryNameStr, wheretocome;
     List<UpcommingDashboardModel> upcommingDashboardModelList;
@@ -90,6 +115,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     SpeedDialView speedDial;
     int mNextSelectedScreen, mCurrentSelectedScreen = 0;
     public static OnItemClick mListener;
+    String videopathStr, videoImagePathStr;
+    AudioManager audioManager;
+    int musicVolume, maxVolume;
+    int position = 0;
+    private MediaPlayer mediaPlayer;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -147,29 +177,37 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             Utils.showCustomDialog(getResources().getString(R.string.internet_error), getResources().getString(R.string.internet_connection_error), getActivity());
         } else {
             fragmentHomeBinding.shimmerViewContainerhome.startShimmerAnimation();
+
 //            Utils.showUpdateDialog(getActivity());
             callHomeBannerData();
             callDashboardData();
         }
+        init();
         setListiner();
-
 
     }
 
-    public void setListiner() {
+    public void init() {
+//        scrollview
+        fragmentHomeBinding.scrollHome.post(new Runnable() {
+            @Override
+            public void run() {
+                fragmentHomeBinding.scrollHome.fullScroll(View.FOCUS_UP);
+            }
+        });
 
-        if (Utils.retriveLoginData(mContext)!=null){
+
+//      fill user profile section data
+        if (Utils.retriveLoginData(mContext) != null) {
             fragmentHomeBinding.displayUserprofileLinear.setVisibility(View.VISIBLE);
-            if (Utils.retriveLoginData(mContext).getName()!=null){
+            if (Utils.retriveLoginData(mContext).getName() != null) {
                 fragmentHomeBinding.userprofileNameTxt.setText(Utils.retriveLoginData(mContext).getName());
             }
-        }else{
+        } else {
             fragmentHomeBinding.displayUserprofileLinear.setVisibility(View.GONE);
         }
 
-
-
-        //Countdown Timer
+//      Countdown Timer
         Date endDate = new Date();
         final long[] diffInMilis = new long[1];
         final Date startDate = new Date();
@@ -202,7 +240,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             }
         });
 
-        //  use for Advertisement image
+//      use for Advertisement image
         Animation in = AnimationUtils.loadAnimation(mContext, R.anim.fade_in);
         Animation out = AnimationUtils.loadAnimation(mContext, R.anim.fade_out);
         fragmentHomeBinding.advImg.setInAnimation(in);
@@ -239,17 +277,110 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             }
         });
 
+//     fill BA video
+        audioManager = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
 
+        videoImagePathStr = "http://devenv.bharatarmy.com//Docs/Media/Thumb/a983346f-b0ac-4a49-91c6-f7196efd4629-1570705345206.jpg";
+        Utils.setImageInImageView(videoImagePathStr, fragmentHomeBinding.image, mContext);
+
+        musicVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+
+//        Uri video = Uri.parse("http://devenv.bharatarmy.com//Docs/Media/e83c8278-f1f8-4aa6-b618-1d2302b80416-MP4_20191010_163200.mp4");
+        videopathStr = "http://devenv.bharatarmy.com//Docs/Media/e83c8278-f1f8-4aa6-b618-1d2302b80416-MP4_20191010_163200.mp4";
+
+
+//     Partners List
+        partnerlist = new ArrayList<>();
+
+        partnerlist.add(new TravelModel("https://www.bharatarmy.com/Docs/Partner-9.png",
+                "HighLights", "Bharat Army Highlights is the first of it’s kind sports fan ..."));
+
+        partnerlist.add(new TravelModel("https://www.bharatarmy.com/Docs/Partner-8.png",
+                "Red FM 93.5", "This World Cup; Bharat Army Travel & Red FM have a big ..."));
+
+        partnerlist.add(new TravelModel("https://www.bharatarmy.com/Docs/hotstar-logo.png",
+                "Hotstar", "The Bharat Army are pleased to announce that we ..."));
+
+        partnerlist.add(new TravelModel("https://www.bharatarmy.com/Docs/puma_logo.png",
+                "Puma", "PUMA sits at the top table of global sports brands ..."));
+
+        partnerlist.add(new TravelModel("https://www.bharatarmy.com/Docs/hublot_logo.png",
+                "Hublot", "When it comes to luxury watch brands, Hublot ..."));
+
+        partnerlist.add(new TravelModel("https://www.bharatarmy.com/Docs/oceanone8-logo.png",
+                "Ocean one8", "Ocean one8 takes the philosophy that Virat Kohli ..."));
+
+        partnerlist.add(new TravelModel("https://www.bharatarmy.com/Docs/uber_logo.png",
+                "Uber Eats", "Uber Eats is the top online food ordering and delivery platform in the world ..."));
+
+        partnerlist.add(new TravelModel("https://www.bharatarmy.com/Docs/prideview_logo.png",
+                "Prideview", "As a leading figure in the acquisition, management and sale of commercial ..."));
+
+
+        partnersAdapter = new PartnersAdapter(mContext, partnerlist);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
+        fragmentHomeBinding.partnersRcyList.setLayoutManager(mLayoutManager);
+        fragmentHomeBinding.partnersRcyList.setItemAnimator(new DefaultItemAnimator());
+        fragmentHomeBinding.partnersRcyList.setAdapter(partnersAdapter);
+
+//      Customer Gallery
+        customergalleryList = new ArrayList<>();
+        customergalleryList.add(new TravelModel("Apexa Patel", "http://devenv.bharatarmy.com//Docs/16636938-9.jpg",
+                "1", "I appreciate much for your teammates to serve our needs on the application with high professional.",
+                "", "", "Application Designer"));
+
+        customergalleryList.add(new TravelModel("Preksha Shah", "http://devenv.bharatarmy.com//Docs/16636938-9.jpg",
+                "2", "",
+                "http://devenv.bharatarmy.com//Docs/Media/Thumb/a983346f-b0ac-4a49-91c6-f7196efd4629-1570705345206.jpg",
+                "http://devenv.bharatarmy.com//Docs/Media/e83c8278-f1f8-4aa6-b618-1d2302b80416-MP4_20191010_163200.mp4", "Software Engg"));
+
+        customergalleryList.add(new TravelModel("Netika Robin", "http://devenv.bharatarmy.com//Docs/16636938-9.jpg",
+                "1", "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.",
+                "", "", "Quality Analyst"));
+
+        customergalleryList.add(new TravelModel("Nomrita Ben", "http://devenv.bharatarmy.com//Docs/16636938-9.jpg",
+                "2", "",
+                "http://devenv.bharatarmy.com//Docs/Media/Thumb/acdb7074-8588-4059-a5f4-67d09730785a-1570441108244.jpg",
+                "http://devenv.bharatarmy.com//Docs/Media/11f98532-8171-4c81-b8e1-60a33ccf193f-MP4_20191007_150748.mp4",
+                "Java Developer"));
+
+        addBottomDots(0);
+        customerGalleryViewPagerAdapter = new MyCustomerGalleryViewPagerAdapter();
+        fragmentHomeBinding.customerGalleryViewpager.setAdapter(customerGalleryViewPagerAdapter);
+        fragmentHomeBinding.customerGalleryViewpager.addOnPageChangeListener(viewPagerPageChangeListener);
+    }
+
+    public void setListiner() {
         fragmentHomeBinding.subTitleTxt.setVisibility(View.GONE);
         fragmentHomeBinding.titleTxt.setVisibility(View.GONE);
         fragmentHomeBinding.knowMore.setVisibility(View.GONE);
         fragmentHomeBinding.shimmerViewContainer.startShimmerAnimation();
         fragmentHomeBinding.upcomingRcyList.showShimmerAdapter();
-        fragmentHomeBinding.armyStoryRcyList.showShimmerAdapter();
+//        fragmentHomeBinding.armyStoryRcyList.showShimmerAdapter();
 
         fragmentHomeBinding.knowMore.setOnClickListener(this);
         fragmentHomeBinding.advImg.setOnClickListener(this);
         fragmentHomeBinding.userprofileViewtxt.setOnClickListener(this);
+        fragmentHomeBinding.startPauseMediaButton.setOnClickListener(this);
+        fragmentHomeBinding.fullScreenButton.setOnClickListener(this);
+        fragmentHomeBinding.volmueLinear.setOnClickListener(this);
+
+        fragmentHomeBinding.baVideo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (fragmentHomeBinding.baVideo.isPlaying()) {
+                    position = fragmentHomeBinding.baVideo.getCurrentPosition();
+                    fragmentHomeBinding.baVideo.pause();
+                    Log.d("videorunposition :", "" + position);
+                    fragmentHomeBinding.startPauseMediaButton.setVisibility(View.VISIBLE);
+                    fragmentHomeBinding.fullScreenButton.setVisibility(View.GONE);
+                    fragmentHomeBinding.volmueLinear.setVisibility(View.GONE);
+                } else {
+
+                    playvideo();
+                }
+            }
+        });
     }
 
     // Api calling GetDashboardData
@@ -282,6 +413,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                         getDashboardDataModel = getDashboardModel.getData();
                         fragmentHomeBinding.shimmerViewContainer.stopShimmerAnimation();
                         fragmentHomeBinding.shimmerViewContainer.setVisibility(View.GONE);
+
+
                         fragmentHomeBinding.subTitleTxt.setVisibility(View.VISIBLE);
                         fragmentHomeBinding.titleTxt.setVisibility(View.VISIBLE);
                         fragmentHomeBinding.knowMore.setVisibility(View.VISIBLE);
@@ -444,7 +577,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
     private Map<String, String> getHomeBannerData() {
         Map<String, String> map = new HashMap<>();
-        map.put("MemberId",String.valueOf(Utils.getAppUserId(mContext)));
+        map.put("MemberId", String.valueOf(Utils.getAppUserId(mContext)));
         return map;
     }
 
@@ -469,10 +602,29 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 mContext.startActivity(videoIntent);
                 break;
             case R.id.userprofile_viewtxt:
-                Intent profileintent=new Intent(mContext, MyProfileActivity.class);
+                Intent profileintent = new Intent(mContext, MyProfileActivity.class);
                 profileintent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 mContext.startActivity(profileintent);
                 break;
+            case R.id.start_pause_media_button:
+                playvideo();
+                break;
+            case R.id.full_screen_button:
+                fragmentHomeBinding.fullScreenButton.setVisibility(View.GONE);
+                fragmentHomeBinding.volmueLinear.setVisibility(View.GONE);
+                fragmentHomeBinding.image.setVisibility(View.VISIBLE);
+                fragmentHomeBinding.startPauseMediaButton.setVisibility(View.VISIBLE);
+                Intent showImageVideoIntent = new Intent(mContext, AlbumImageVideoShowActivity.class);
+                showImageVideoIntent.putExtra("AlbumImageThumb", videoImagePathStr);
+                showImageVideoIntent.putExtra("AlbumImageVideoPath", videopathStr);
+                showImageVideoIntent.putExtra("MediaType", "2");
+                showImageVideoIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                mContext.startActivity(showImageVideoIntent);
+                break;
+            case R.id.volmue_linear:
+                voluesetting();
+                break;
+
         }
     }
 
@@ -548,4 +700,283 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
 
     }
+
+    private void setVolume(int amount) {
+        final int max = 100;
+        final double numerator = max - amount > 0 ? Math.log(max - amount) : 0;
+        final float volume = (float) (1 - (numerator / Math.log(max)));
+        if (mediaPlayer != null) {
+            mediaPlayer.setVolume(volume, volume);
+        }
+    }
+
+    //  viewpager change listener
+    ViewPager.OnPageChangeListener viewPagerPageChangeListener = new ViewPager.OnPageChangeListener() {
+
+        @Override
+        public void onPageSelected(int position) {
+            addBottomDots(position);//position
+
+        }
+
+        @Override
+        public void onPageScrolled(int arg0, float arg1, int arg2) {
+
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int arg0) {
+
+        }
+    };
+
+    public void voluesetting() {
+        if (mediaPlayer != null) {
+            if (fragmentHomeBinding.muteVideoButton.isShown()) {
+                audioManager.adjustVolume(AudioManager.ADJUST_RAISE, AudioManager.FLAG_PLAY_SOUND);
+                setVolume(100);
+                fragmentHomeBinding.muteVideoButton.setVisibility(View.GONE);
+                fragmentHomeBinding.volmueVideoButton.setVisibility(View.VISIBLE);
+
+            } else {
+                setVolume(0);
+                fragmentHomeBinding.muteVideoButton.setVisibility(View.VISIBLE);
+                fragmentHomeBinding.volmueVideoButton.setVisibility(View.GONE);
+            }
+        }
+    }
+
+    public void playvideo() {
+        fragmentHomeBinding.baVideo.setVideoPath(videopathStr);
+        if (position == 0) {
+            fragmentHomeBinding.startPauseMediaButton.setVisibility(View.GONE);
+            fragmentHomeBinding.imageProgress.setVisibility(View.VISIBLE);
+
+            fragmentHomeBinding.baVideo.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                @Override
+                public void onPrepared(MediaPlayer mp) {
+                    mp.setLooping(true);
+                    fragmentHomeBinding.baVideo.start();
+                    mediaPlayer = mp;
+                    if (musicVolume == 0) {
+                        maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_RING);
+                        audioManager.adjustVolume(AudioManager.ADJUST_RAISE, AudioManager.FLAG_PLAY_SOUND);
+                    }
+                    setVolume(0);
+                    fragmentHomeBinding.fullScreenButton.setVisibility(View.VISIBLE);
+                    fragmentHomeBinding.volmueLinear.setVisibility(View.VISIBLE);
+                    fragmentHomeBinding.image.setVisibility(View.GONE);
+                    fragmentHomeBinding.imageProgress.setVisibility(View.GONE);
+                }
+            });
+
+            fragmentHomeBinding.baVideo.setOnErrorListener(new MediaPlayer.OnErrorListener() {
+                @Override
+                public boolean onError(MediaPlayer mp, int what, int extra) {
+                  fragmentHomeBinding.startPauseMediaButton.setVisibility(View.VISIBLE);
+                    fragmentHomeBinding.fullScreenButton.setVisibility(View.GONE);
+                    fragmentHomeBinding.volmueLinear.setVisibility(View.GONE);
+                    fragmentHomeBinding.image.setVisibility(View.VISIBLE);
+                    fragmentHomeBinding.imageProgress.setVisibility(View.GONE);
+                    return false;
+                }
+            });
+        } else {
+            fragmentHomeBinding.startPauseMediaButton.setVisibility(View.GONE);
+            fragmentHomeBinding.fullScreenButton.setVisibility(View.VISIBLE);
+            fragmentHomeBinding.volmueLinear.setVisibility(View.VISIBLE);
+            fragmentHomeBinding.baVideo.seekTo(position);
+            fragmentHomeBinding.baVideo.start();
+        }
+
+
+    }
+
+    @SuppressLint("ResourceAsColor")
+    private void addBottomDots(int currentPage) {
+        dots = new TextView[customergalleryList.size()];
+        List<String> colorsActiveList = new ArrayList<>();
+        List<String> colorsInactive = new ArrayList<>();
+        for (int i = 0; i < customergalleryList.size(); i++) {
+            colorsActiveList.add(String.valueOf(getResources().getColor(R.color.gray)));
+            colorsInactive.add(String.valueOf(getResources().getColor(R.color.black)));
+        }
+
+
+        fragmentHomeBinding.viewPagerDotlinear.removeAllViews();
+        for (int i = 0; i < dots.length; i++) {
+            dots[i] = new TextView(mContext);
+            dots[i].setText(Html.fromHtml("&#8226;"));
+            dots[i].setTextSize(35);
+            fragmentHomeBinding.viewPagerDotlinear.addView(dots[i]);
+        }
+
+        if (dots.length > 0)
+            dots[currentPage].setTextColor(Integer.parseInt(colorsActiveList.get(currentPage)));//colorsActive[currentPage]
+    }
+
+    private int getItem(int i) {
+        return fragmentHomeBinding.customerGalleryViewpager.getCurrentItem() + i;
+    }
+
+    public class MyCustomerGalleryViewPagerAdapter extends PagerAdapter {
+        private LayoutInflater layoutInflater;
+
+
+        public MyCustomerGalleryViewPagerAdapter() {
+
+        }
+
+        @Override
+        public Object instantiateItem(ViewGroup container, int position) {
+            layoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+            View view = layoutInflater.inflate(R.layout.customer_gallery_item, container, false);
+            RelativeLayout template1 = (RelativeLayout) view.findViewById(R.id.template1);
+            RelativeLayout template2 = (RelativeLayout) view.findViewById(R.id.template2);
+
+            RoundishImageView customer_img = (RoundishImageView) view.findViewById(R.id.customer_img);
+            ImageView start_pause_media_button = (ImageView) view.findViewById(R.id.start_pause_media_button);
+            CircleImageView profile_image = (CircleImageView) view.findViewById(R.id.profile_image);
+            CircleImageView profile1_image = (CircleImageView) view.findViewById(R.id.profile1_image);
+            TextView username_txt = (TextView) view.findViewById(R.id.username_txt);
+            TextView username1_txt = (TextView) view.findViewById(R.id.username1_txt);
+            TextView user_designation_txt = (TextView) view.findViewById(R.id.user_designation_txt);
+            TextView user1_designation_txt = (TextView) view.findViewById(R.id.user1_designation_txt);
+            TextView customer_desc_txt = (TextView) view.findViewById(R.id.customer_desc_txt);
+            username_txt.setText(customergalleryList.get(position).getTourCityName());
+            Utils.setImageInImageView(customergalleryList.get(position).getTourCountryName(), profile_image, mContext);
+            user_designation_txt.setText(customergalleryList.get(position).getbAImage());
+
+            username1_txt.setText(customergalleryList.get(position).getTourCityName());
+            Utils.setImageInImageView(customergalleryList.get(position).getTourCountryName(), profile1_image, mContext);
+            user1_designation_txt.setText(customergalleryList.get(position).getbAImage());
+
+            if (customergalleryList.get(position).getTourImage().equalsIgnoreCase("1")) {
+                template1.setVisibility(View.VISIBLE);
+                template2.setVisibility(View.GONE);
+                customer_desc_txt.setText(customergalleryList.get(position).getTourDescription());
+//                makeTextViewResizable(customer_desc_txt,4,"Read More",true);
+            } else if (customergalleryList.get(position).getTourImage().equalsIgnoreCase("2")) {
+                start_pause_media_button.setVisibility(View.VISIBLE);
+                template1.setVisibility(View.GONE);
+                template2.setVisibility(View.VISIBLE);
+                Utils.setImageInImageView(customergalleryList.get(position).getTourTotalView(), customer_img, mContext);
+            }
+
+
+            customer_img.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent showImageVideoIntent = new Intent(mContext, AlbumImageVideoShowActivity.class);
+                    showImageVideoIntent.putExtra("AlbumImageThumb", customergalleryList.get(position).getTourTotalView());
+                    showImageVideoIntent.putExtra("AlbumImageVideoPath", customergalleryList.get(position).getTourTotalComment());
+                    showImageVideoIntent.putExtra("MediaType", "2");
+                    showImageVideoIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    mContext.startActivity(showImageVideoIntent);
+                }
+            });
+            start_pause_media_button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent showImageVideoIntent = new Intent(mContext, AlbumImageVideoShowActivity.class);
+                    showImageVideoIntent.putExtra("AlbumImageThumb", customergalleryList.get(position).getTourTotalView());
+                    showImageVideoIntent.putExtra("AlbumImageVideoPath", customergalleryList.get(position).getTourTotalComment());
+                    showImageVideoIntent.putExtra("MediaType", "2");
+                    showImageVideoIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    mContext.startActivity(showImageVideoIntent);
+                }
+            });
+
+            container.addView(view);
+
+            return view;
+        }
+
+        @Override
+        public int getCount() {
+            return customergalleryList.size();
+        }
+
+        @Override
+        public boolean isViewFromObject(View view, Object obj) {
+            return view == obj;
+        }
+
+
+        @Override
+        public void destroyItem(ViewGroup container, int position, Object object) {
+            View view = (View) object;
+            container.removeView(view);
+        }
+
+        @Override
+        public int getItemPosition(@NonNull Object object) {
+            return super.getItemPosition(object);
+        }
+    }
+
+    public static void makeTextViewResizable(final TextView tv, final int maxLine, final String expandText, final boolean viewMore) {
+
+        if (tv.getTag() == null) {
+            tv.setTag(tv.getText());
+        }
+        ViewTreeObserver vto = tv.getViewTreeObserver();
+        vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+
+            @SuppressWarnings("deprecation")
+            @Override
+            public void onGlobalLayout() {
+                String text;
+                int lineEndIndex;
+                ViewTreeObserver obs = tv.getViewTreeObserver();
+                obs.removeGlobalOnLayoutListener(this);
+                if (maxLine == 0) {
+                    lineEndIndex = tv.getLayout().getLineEnd(0);
+                    text = tv.getText().subSequence(0, lineEndIndex - expandText.length() + 1) + " " + expandText;
+                } else if (maxLine > 0 && tv.getLineCount() >= maxLine) {
+                    lineEndIndex = tv.getLayout().getLineEnd(maxLine - 1);
+                    text = tv.getText().subSequence(0, lineEndIndex - expandText.length() + 1) + " " + expandText;
+                } else {
+                    lineEndIndex = tv.getLayout().getLineEnd(tv.getLayout().getLineCount() - 1);
+                    text = tv.getText().subSequence(0, lineEndIndex) + " " + expandText;
+                }
+                tv.setText(text);
+                tv.setMovementMethod(LinkMovementMethod.getInstance());
+                tv.setText(
+                        addClickablePartTextViewResizable(Html.fromHtml(tv.getText().toString()), tv, lineEndIndex, expandText,
+                                viewMore), TextView.BufferType.SPANNABLE);
+            }
+        });
+
+    }
+
+    private static SpannableStringBuilder addClickablePartTextViewResizable(final Spanned strSpanned, final TextView tv,
+                                                                            final int maxLine, final String spanableText, final boolean viewMore) {
+        String str = strSpanned.toString();
+        SpannableStringBuilder ssb = new SpannableStringBuilder(strSpanned);
+
+        if (str.contains(spanableText)) {
+            ssb.setSpan(new ClickableSpan() {
+
+                @Override
+                public void onClick(View widget) {
+                    tv.setLayoutParams(tv.getLayoutParams());
+                    tv.setText(tv.getTag().toString(), TextView.BufferType.SPANNABLE);
+                    tv.invalidate();
+                    if (viewMore) {
+                        makeTextViewResizable(tv, -1, "View Less", false);
+                    } else {
+                        makeTextViewResizable(tv, 3, "View More", true);
+                    }
+
+                }
+            }, str.indexOf(spanableText), str.indexOf(spanableText) + spanableText.length(), 0);
+
+        }
+        return ssb;
+
+    }
+
+
 }

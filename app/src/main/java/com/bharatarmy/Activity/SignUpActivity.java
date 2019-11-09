@@ -61,15 +61,22 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     ImageView image;
     private String android_id;
     String token;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activitySignUpBinding = DataBindingUtil.setContentView(this, R.layout.activity_sign_up);
 
         mContext = SignUpActivity.this;
+        init();
         setListiner();
         getFCMTOken();
     }
+
+    public void init() {
+
+    }
+
 
     // set the All Listiner and Data
     public void setListiner() {
@@ -78,7 +85,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         activitySignUpBinding.termConditionTxt.setOnClickListener(this);
         activitySignUpBinding.signupBtn.setOnClickListener(this);
         activitySignUpBinding.closeTxt.setOnClickListener(this);
-activitySignUpBinding.fulluserNameEdt.setOnClickListener(this);
+        activitySignUpBinding.fulluserNameEdt.setOnClickListener(this);
 
 
 
@@ -99,25 +106,28 @@ activitySignUpBinding.fulluserNameEdt.setOnClickListener(this);
                 }
             }
         });
-        if (getIntent().getStringExtra("wheretocome").equalsIgnoreCase("OTP")) {
-            strbckFullName = getIntent().getStringExtra("signupFullname");
-            strbckEmail = getIntent().getStringExtra("signupEmail");
-            strbckCountrycode = getIntent().getStringExtra("signupCountryCode");
-            strbckMobileno = getIntent().getStringExtra("signupMobileno");
-            strbckPassword = getIntent().getStringExtra("signupPassword");
-            strbckCheck = getIntent().getStringExtra("signupCheck");
+        if (getIntent().getStringExtra("wheretocome") != null) {
+            if (getIntent().getStringExtra("wheretocome").equalsIgnoreCase("OTP")) {
+                strbckFullName = getIntent().getStringExtra("signupFullname");
+                strbckEmail = getIntent().getStringExtra("signupEmail");
+                strbckCountrycode = getIntent().getStringExtra("signupCountryCode");
+                strbckMobileno = getIntent().getStringExtra("signupMobileno");
+                strbckPassword = getIntent().getStringExtra("signupPassword");
+                strbckCheck = getIntent().getStringExtra("signupCheck");
 
 
-            activitySignUpBinding.fulluserNameEdt.setText(strbckFullName);
-            activitySignUpBinding.emailEdt.setText(strbckEmail);
-            activitySignUpBinding.ccp.setCountryForNameCode(strbckCountrycode);
-            activitySignUpBinding.mobileEdt.setText(strbckMobileno);
-            activitySignUpBinding.userPasswordEdt.setText(strbckPassword);
+                activitySignUpBinding.fulluserNameEdt.setText(strbckFullName);
+                activitySignUpBinding.emailEdt.setText(strbckEmail);
+                activitySignUpBinding.ccp.setCountryForNameCode(strbckCountrycode);
+                activitySignUpBinding.mobileEdt.setText(strbckMobileno);
+                activitySignUpBinding.userPasswordEdt.setText(strbckPassword);
 
-            if (strbckCheck.equalsIgnoreCase("1")) {
-                activitySignUpBinding.termsChk.setChecked(true);
+                if (strbckCheck.equalsIgnoreCase("1")) {
+                    activitySignUpBinding.termsChk.setChecked(true);
+                }
             }
         }
+
     }
 
     // get the data user fill for singup
@@ -139,20 +149,20 @@ activitySignUpBinding.fulluserNameEdt.setOnClickListener(this);
                             if (Utils.isValidPhoneNumber(strMobileno)) {
 //                                    boolean status = Utils.validateUsing_libphonenumber(mContext, strCountrycode, strMobileno);
 //                                if (status) {
-                                    if (!strPassword.equalsIgnoreCase("")) {
-                                        if (strPassword.length() >= 5 && strPassword.length() <= 10) {
-                                            if (!strCheck.equalsIgnoreCase("0")) {
-                                                getOtpVerification();
-                                            } else {
-                                                Utils.ping(mContext, "Check the privacy policy");
-                                            }
-
+                                if (!strPassword.equalsIgnoreCase("")) {
+                                    if (strPassword.length() >= 5 && strPassword.length() <= 10) {
+                                        if (!strCheck.equalsIgnoreCase("0")) {
+                                            getOtpVerification();
                                         } else {
-                                            activitySignUpBinding.userPasswordEdt.setError("Password Length must be greter than 5 or less than 10");
+                                            Utils.ping(mContext, "Check the privacy policy");
                                         }
+
                                     } else {
-                                        activitySignUpBinding.userPasswordEdt.setError("Password is required");
+                                        activitySignUpBinding.userPasswordEdt.setError("Password Length must be greter than 5 or less than 10");
                                     }
+                                } else {
+                                    activitySignUpBinding.userPasswordEdt.setError("Password is required");
+                                }
 //                                } else {
 //                                    activitySignUpBinding.mobileEdt.setError("Invalid Phone Number");
 //                                }
@@ -183,23 +193,29 @@ activitySignUpBinding.fulluserNameEdt.setOnClickListener(this);
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.term_condition_txt:
-                Utils.handleClickEvent(mContext,activitySignUpBinding.termConditionTxt);
+                Utils.handleClickEvent(mContext, activitySignUpBinding.termConditionTxt);
                 termconditionDialog();
                 break;
             case R.id.signup_btn:
-                Utils.handleClickEvent(mContext,activitySignUpBinding.signupBtn);
+                Utils.handleClickEvent(mContext, activitySignUpBinding.signupBtn);
                 getDataValue();
                 break;
             case R.id.close_txt:
-                Intent iLogin = new Intent(mContext, LoginActivity.class);
-                startActivity(iLogin);
-                finish();
+                if (getIntent().getStringExtra("whereTocomeLogin")!=null){
+                    finish();
+                }else{
+                    Intent iLogin = new Intent(mContext, LoginwithEmailActivity.class);
+                    startActivity(iLogin);
+                    finish();
+                }
+
                 break;
             case R.id.fulluser_name_edt:
                 Utils.scrollScreen(activitySignUpBinding.signupScrollView);
                 break;
         }
     }
+
     public void getFCMTOken() {
         android_id = Settings.Secure.getString(SignUpActivity.this.getContentResolver(),
                 Settings.Secure.ANDROID_ID);
@@ -231,6 +247,7 @@ activitySignUpBinding.fulluserNameEdt.setOnClickListener(this);
                     }
                 });
     }
+
     // call the Otp Verification service and get the otp
     public void getOtpVerification() {
         if (!Utils.checkNetwork(mContext)) {
@@ -267,6 +284,7 @@ activitySignUpBinding.fulluserNameEdt.setOnClickListener(this);
                     otpIntent.putExtra("signupMobileno", strMobileno);
                     otpIntent.putExtra("signupPassword", strPassword);
                     otpIntent.putExtra("signupCheck", strCheck);
+                    otpIntent.putExtra("whereTocomeLogin", getIntent().getStringExtra("whereTocomeLogin"));
                     startActivity(otpIntent);
                     finish();
                 }
