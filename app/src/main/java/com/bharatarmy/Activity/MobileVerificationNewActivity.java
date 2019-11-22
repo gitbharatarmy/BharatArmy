@@ -65,8 +65,13 @@ public class MobileVerificationNewActivity extends AppCompatActivity implements 
     }
 
     public void setListiner() {
-        mobileVerificationNewBinding.ccp.setCountryForNameCode(AppConfiguration.currentCountry);
-        mobileVerificationNewBinding.phoneNoEdt.setText(Utils.getPref(mContext, "LoginPhoneNo"));
+
+        mobileVerificationNewBinding.ccp.setCountryForNameCode(AppConfiguration.currentCountryISOCode);
+        if (Utils.retriveLoginData(mContext)!=null){
+            if (Utils.retriveLoginData(mContext).getPhoneNo()!=null){
+                mobileVerificationNewBinding.phoneNoEdt.setText(Utils.retriveLoginData(mContext).getPhoneNo());
+            }
+        }
         mobileVerificationNewBinding.termConditionTxt.setOnClickListener(this);
         mobileVerificationNewBinding.mobileVerifyBtn.setOnClickListener(this);
         mobileVerificationNewBinding.backImg.setOnClickListener(this);
@@ -84,7 +89,7 @@ public class MobileVerificationNewActivity extends AppCompatActivity implements 
             @Override
             public void onCountrySelected(Country selectedCountry) {
                 mobileVerificationNewBinding.codeTxt.setText("+" + selectedCountry.getPhoneCode());
-                        AppConfiguration.currentCountry=mobileVerificationNewBinding.ccp.getSelectedCountryNameCode();
+                        AppConfiguration.currentCountryISOCode=mobileVerificationNewBinding.ccp.getSelectedCountryNameCode();
             }
         });
 
@@ -244,7 +249,7 @@ public class MobileVerificationNewActivity extends AppCompatActivity implements 
         agree_btn = (Button) layout.findViewById(R.id.agree_btn);
 //        close_btn = (Button) layout.findViewById(R.id.close_btn);
         close_btn = (TextView) layout.findViewById(R.id.close_btn1);
-        Glide.with(mContext).load(R.drawable.logo).into(image);
+        Glide.with(mContext).load(R.drawable.logo_new).into(image);
         image.setVisibility(View.VISIBLE);
 
         webView.setWebViewClient(new MyWebViewClient());

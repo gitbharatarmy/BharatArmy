@@ -44,6 +44,7 @@ public class GalleryImageDetailAdapter extends RecyclerView.Adapter<GalleryImage
 Uri uri;
     image_click image_click;
     private int lastPosition = -1;
+String IPAddress;
 
     private RecyclerViewOnTouchListener touchListener;
 
@@ -111,11 +112,10 @@ Uri uri;
             @Override
             public void liked(LikeButton likeButton) {
                 if (Utils.isMember(mContext,"ImageUpload")){
-                    Utils.LikeMemberId = Utils.getAppUserId(mContext);
-                    Utils.LikeReferenceId = Integer.parseInt(imageId.get(position));
-                    Utils.LikeSourceType = 1;
-
-                    Utils.LikeStatus = 1;
+                    Utils.LikeMemberId = String.valueOf(Utils.getAppUserId(mContext));
+                    Utils.LikeReferenceId = imageId.get(position);
+                    Utils.LikeSourceType = "1";
+                    Utils.LikeStatus = "1";
                     Utils.InsertLike(mContext, activity);
 
                     EventBus.getDefault().post(new MyScreenChnagesModel(String.valueOf(position)));
@@ -128,11 +128,10 @@ Uri uri;
             @Override
             public void unLiked(LikeButton likeButton) {
                 if (Utils.isMember(mContext,"ImageUpload")){
-                    Utils.LikeMemberId = Utils.getAppUserId(mContext);
-                    Utils.LikeReferenceId = Integer.parseInt(imageId.get(position));
-                    Utils.LikeSourceType = 1;
-
-                    Utils.LikeStatus = 0;
+                    Utils.LikeMemberId = String.valueOf(Utils.getAppUserId(mContext));
+                    Utils.LikeReferenceId = imageId.get(position);
+                    Utils.LikeSourceType = "1";
+                    Utils.LikeStatus = "0";
                     Utils.InsertLike(mContext, activity);
                     EventBus.getDefault().post(new MyScreenChnagesModel(String.valueOf(position)));
                 }else{

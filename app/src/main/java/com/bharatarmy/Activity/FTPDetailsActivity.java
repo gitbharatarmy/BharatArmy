@@ -219,6 +219,7 @@ public class FTPDetailsActivity extends AppCompatActivity implements View.OnClic
     private Map<String, String> getFtpDetailData() {
         Map<String, String> map = new HashMap<>();
         map.put("FTPId", String.valueOf(ftpId));
+        map.put("MemberId", String.valueOf(Utils.getAppUserId(mContext)));
         return map;
     }
 

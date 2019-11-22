@@ -7,6 +7,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSmoothScroller;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -21,8 +23,11 @@ import android.view.View;
 import com.androidquery.AQuery;
 import com.bharatarmy.Adapter.AppDisplayItemAdapter;
 import com.bharatarmy.Models.GalleryImageModel;
+import com.bharatarmy.Models.LogginModel;
 import com.bharatarmy.R;
 import com.bharatarmy.RecyclerViewDisabler;
+import com.bharatarmy.Utility.ApiHandler;
+import com.bharatarmy.Utility.AppConfiguration;
 import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.ActivityAppLoginBinding;
 import com.facebook.AccessToken;
@@ -33,6 +38,7 @@ import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
+import com.facebook.HttpMethod;
 import com.facebook.Profile;
 import com.facebook.ProfileTracker;
 import com.facebook.appevents.AppEventsLogger;
@@ -43,6 +49,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
+
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -50,27 +57,31 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 import com.google.firebase.messaging.FirebaseMessaging;
 
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Timer;
+import java.util.Map;
 
-import static androidx.recyclerview.widget.RecyclerView.SCROLL_STATE_DRAGGING;
-import static androidx.recyclerview.widget.RecyclerView.SCROLL_STATE_IDLE;
-import static androidx.recyclerview.widget.RecyclerView.SCROLL_STATE_SETTLING;
-import static androidx.recyclerview.widget.RecyclerView.TOUCH_SLOP_DEFAULT;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 /* Google client id
  * 718860760622-parj58505tgu73h704s5qq1kuffojg2r.apps.googleusercontent.com
- *
+
  * Client Secrect
  * RjGdOJJn_XZ_gkRbFGM2MiFh
  *
  * Api Key
- * AIzaSyBw5itHJQUAxBijO1FUxH-sLaQqFC1lOtM*/
+ * AIzaSyBw5itHJQUAxBijO1FUxH-sLaQqFC1lOtM
+ *
+ * project name bharatarmy-237313
+ * email id use id android.developer@bharatarmy.com
+ * */
 
 /* Facebook AppId
  * 569015383846103
@@ -104,11 +115,81 @@ public class AppLoginActivity extends AppCompatActivity implements View.OnClickL
     private AQuery aQuery;
     private AccessTokenTracker accessTokenTracker;
     private ProfileTracker profileTracker;
-
+    String email;
     /* ImageSlider*/
     LinearLayoutManager layoutManager;
 
-//Remove extra code 09/11/2019 & code backup in 09/11/2019
+    /*Login String*/
+    String personNameStr, personEmailStr, personImageStr, facebookpersonIdStr, facebookNameStr;
+
+    //Remove extra code 09/11/2019 & code backup in 09/11/2019
+    private FacebookCallback<LoginResult> callback = new FacebookCallback<LoginResult>() {
+        @Override
+        public void onSuccess(LoginResult loginResult) {
+            GraphRequest request = GraphRequest.newMeRequest(
+                    loginResult.getAccessToken(),
+                    new GraphRequest.GraphJSONObjectCallback() {
+                        @Override
+                        public void onCompleted(JSONObject object, GraphResponse response) {
+                            Log.v("LoginActivity", response.toString());
+
+                            // Application code
+                            try {
+                                Log.d("tttttt", object.getString("id"));
+                                String birthday = "";
+//                                if(object.has("birthday")){
+//                                    birthday = object.getString("birthday"); // 01/31/1980 format
+//                                }
+                                facebookNameStr = object.getString("first_name");
+                                personNameStr = object.getString("first_name") + " " + object.getString("last_name");
+                                facebookpersonIdStr = object.getString("id");
+                                personImageStr = "https://graph.facebook.com/" + facebookpersonIdStr + "/picture?type=large";
+                                if (object.has("email")) {
+                                    email = object.getString("email");
+                                }
+                                /*else {
+                                    Intent fbloginIntent = new Intent(mContext, FacebookLoginWithNoEmailActivity.class);
+                                    fbloginIntent.putExtra("firstName", facebookNameStr);
+                                    fbloginIntent.putExtra("personName", personNameStr);
+                                    fbloginIntent.putExtra("personImage", personImageStr);
+                                    startActivity(fbloginIntent);
+                                    finish();
+
+                                }*/
+
+
+                                Log.d("Profile", "personName:" + personNameStr + " \n" + "Email: " + email + " \n" + "ID: " + facebookpersonIdStr + " \n" + "Birth Date: " + birthday);
+                                Log.d("aswwww", personImageStr);
+
+
+                                Intent fbloginIntent = new Intent(mContext, DashboardActivity.class);
+                                fbloginIntent.putExtra("whichPageRun", "5");
+                                startActivity(fbloginIntent);
+                                finish();
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+                    });
+            Bundle parameters = new Bundle();
+            parameters.putString("fields", "id, first_name, last_name, email, location"); // gender, birthday,
+            request.setParameters(parameters);
+            request.executeAsync();
+
+        }
+
+        @Override
+        public void onCancel() {
+
+        }
+
+        @Override
+        public void onError(FacebookException error) {
+
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,11 +206,32 @@ public class AppLoginActivity extends AppCompatActivity implements View.OnClickL
     }
 
     public void init() {
-
         googleLogin();
-//        Utils.setImageInImageView("https://www.bharatarmy.com/Content/ThemeAus/images/logo.svg", activityAppLoginBinding.appLogo, mContext);
+        cycleRecyclerview();
+    }
 
+    public void setListiner() {
+        activityAppLoginBinding.skipLinear.setOnClickListener(this);
+        activityAppLoginBinding.loginWithemailLinear.setOnClickListener(this);
+        activityAppLoginBinding.loginwithgoogleLinear.setOnClickListener(this);
+        activityAppLoginBinding.loginwithfacebookLinear.setOnClickListener(this);
+        activityAppLoginBinding.loginButton.setOnClickListener(this);
 
+        activityAppLoginBinding.displayAppItemRcv.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    activityAppLoginBinding.displayAppItemRcv.stopScroll();
+                } else if (event.getAction() == MotionEvent.ACTION_UP) {
+                    autoScroll();
+                }
+                return true;
+            }
+        });
+
+    }
+//    marquee style recyclerview
+    public void cycleRecyclerview(){
         activityAppLoginBinding.shimmerViewContainer.setVisibility(View.GONE);
 
         displayItemList = new ArrayList<>();
@@ -160,78 +262,7 @@ public class AppLoginActivity extends AppCompatActivity implements View.OnClickL
         layoutManager.setOrientation(RecyclerView.HORIZONTAL);
         activityAppLoginBinding.displayAppItemRcv.setLayoutManager(layoutManager);
         activityAppLoginBinding.displayAppItemRcv.setAdapter(appDisplayItemAdapter);
-
-
     }
-
-    public void setListiner() {
-        activityAppLoginBinding.skipLinear.setOnClickListener(this);
-        activityAppLoginBinding.loginWithemailLinear.setOnClickListener(this);
-        activityAppLoginBinding.loginwithgoogleLinear.setOnClickListener(this);
-        activityAppLoginBinding.loginwithfacebookLinear.setOnClickListener(this);
-        activityAppLoginBinding.loginButton.setOnClickListener(this);
-
-
-//        activityAppLoginBinding.displayAppItemRcv.addOnScrollListener(new RecyclerView.OnScrollListener() {
-//            @Override
-//            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-//                super.onScrollStateChanged(recyclerView, newState);
-//                switch (newState) {
-//                    case SCROLL_STATE_IDLE:
-//                       autoScroll();
-//                        break;
-//                    default:
-//                        break;
-//                }
-//            }
-//        });
-
-        activityAppLoginBinding.displayAppItemRcv.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    activityAppLoginBinding.displayAppItemRcv.stopScroll();
-                } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                    autoScroll();
-                }
-                return true;
-            }
-        });
-//        activityAppLoginBinding.displayAppItemRcv.addOnItemTouchListener(mOnItemTouchListener);
-
-    }
-
-
-    RecyclerView.OnItemTouchListener mOnItemTouchListener = new RecyclerView.OnItemTouchListener() {
-        @Override
-        public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
-            if (e.getAction() == MotionEvent.ACTION_DOWN) { //&& rv.getScrollState() == RecyclerView.SCROLL_STATE_SETTLING
-                activityAppLoginBinding.displayAppItemRcv.stopScroll();
-                return true;
-            } else if (e.getAction() == MotionEvent.ACTION_UP) { //&& rv.getScrollState() == SCROLL_STATE_IDLE
-                autoScroll();
-                return true;
-            } /*else if (rv.getScrollState() == SCROLL_STATE_DRAGGING) {
-                activityAppLoginBinding.displayAppItemRcv.stopScroll();
-                return true;
-            }else if (rv.getScrollState() == SCROLL_STATE_SETTLING) {
-                autoScroll();
-                return true;
-            } */ else {
-                autoScroll();
-                return true;
-            }
-        }
-
-
-        @Override
-        public void onTouchEvent(RecyclerView rv, MotionEvent e) {
-        }
-
-        @Override
-        public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
-        }
-    };
 
     public void autoScroll() {
         final int speedScroll = 0;
@@ -287,11 +318,14 @@ public class AppLoginActivity extends AppCompatActivity implements View.OnClickL
                 break;
         }
     }
-
+//    get firebase token
     public void getFCMTOken() {
         android_id = Settings.Secure.getString(AppLoginActivity.this.getContentResolver(),
                 Settings.Secure.ANDROID_ID);
         Log.d("deviceID", android_id);
+
+
+
 
         FirebaseMessaging.getInstance().setAutoInitEnabled(true);
         FirebaseInstanceId.getInstance().getInstanceId()
@@ -321,13 +355,7 @@ public class AppLoginActivity extends AppCompatActivity implements View.OnClickL
                 });
     }
 
-
-    @Override
-    public void onBackPressed() {
-        finish();
-        super.onBackPressed();
-    }
-
+//    User Login with facebook
     public void facebookLogin() {
 //        AppEventsLogger.activateApp(this);
         callbackManager = CallbackManager.Factory.create();
@@ -352,44 +380,15 @@ public class AppLoginActivity extends AppCompatActivity implements View.OnClickL
         accessTokenTracker.startTracking();
         profileTracker.startTracking();
 
-
         activityAppLoginBinding.loginButton.setReadPermissions(Arrays.asList("public_profile", "email"));  //"user_birthday", "user_friends"
-        activityAppLoginBinding.loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-                getUserDetails(loginResult);
-            }
+        activityAppLoginBinding.loginButton.registerCallback(callbackManager, callback);
 
-            @Override
-            public void onCancel() {
-
-            }
-
-            @Override
-            public void onError(FacebookException error) {
-
-            }
-        });
-
-
-//        facebook logout
-//        new GraphRequest(AccessToken.getCurrentAccessToken(), "/me/permissions/", null, HttpMethod.DELETE, new GraphRequest
-//                .Callback() {
-//            @Override
-//            public void onCompleted(GraphResponse graphResponse) {
-//
-//                LoginManager.getInstance().logOut();
-//
-//                Intent logoutint = new Intent(DashBoard.this,MainActivity.class);
-//                logoutint.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                startActivity(logoutint);
-//
-//            }
-//        }).executeAsync();
     }
 
+//    User Login with google
     public void googleLogin() {
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getResources().getString(R.string.web_client_id))
                 .requestEmail()
                 .build();
 
@@ -397,34 +396,14 @@ public class AppLoginActivity extends AppCompatActivity implements View.OnClickL
                 .enableAutoManage(this, this)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
-
-
-//        private void signOut() {
-//            Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
-//                    new ResultCallback<Status>() {
-//                        @Override
-//                        public void onResult(Status status) {
-//                            updateUI(false);
-//                        }
-//                    });
-//        }
-//
-//        private void revokeAccess() {
-//            Auth.GoogleSignInApi.revokeAccess(mGoogleApiClient).setResultCallback(
-//                    new ResultCallback<Status>() {
-//                        @Override
-//                        public void onResult(Status status) {
-//                            updateUI(false);
-//                        }
-//                    });
-//        }
     }
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
+        Utils.ping(mContext,connectionResult.toString());
     }
 
+//    give google sign in result
     private void handleSignInResult(GoogleSignInResult result) {
         Log.d(TAG, "handleSignInResult:" + result.isSuccess());
         if (result.isSuccess()) {
@@ -432,73 +411,57 @@ public class AppLoginActivity extends AppCompatActivity implements View.OnClickL
             hideProgressDialog();
             GoogleSignInAccount acct = result.getSignInAccount();
 
-            Log.e(TAG, "display name: " + acct.getDisplayName());
+            Log.e(TAG, "display name: " + acct.getDisplayName()
+                    + "Family name:" + acct.getFamilyName()
+                    + "Given name:" + acct.getGivenName());
+            if (acct.getDisplayName()!=null) {
+                personNameStr = acct.getDisplayName();
+            }else{
+                personNameStr="";
+            }
 
-            String personName = acct.getDisplayName();
-            String personPhotoUrl = acct.getPhotoUrl().toString();
-            String email = acct.getEmail();
+            if (acct.getPhotoUrl()!=null){
+                personImageStr = acct.getPhotoUrl().toString();
+            }else{
+                personImageStr="";
+            }
 
+            personEmailStr = acct.getEmail();
 
-            Log.e(TAG, "Name: " + personName + ", email: " + email
-                    + ", Image: " + personPhotoUrl);
-
+            Log.e(TAG, "Name: " + personNameStr + ", email: " + personEmailStr
+                    + ", Image: " + personImageStr);
+            callGoogleSignUp();
 
         } else {
             hideProgressDialog();
             Utils.ping(mContext, "Failed");
         }
-    }
 
-    protected void getUserDetails(final LoginResult loginResult) {
-        GraphRequest data_request = GraphRequest.newMeRequest(
-                loginResult.getAccessToken(),
-                new GraphRequest.GraphJSONObjectCallback() {
-                    @Override
-                    public void onCompleted(JSONObject object, GraphResponse response) {
-                        try {
-                            String name = object.getString("name");
-//                            String fnm = object.getString("first_name");
-//                            String lnm = object.getString("last_name");
-                            String email = object.getString("email");
-
-                            String idfb = loginResult.getAccessToken().getUserId();
-                            Log.d("Profile", "Name: " + name + " \n" + "Email: " + email + " \n"
-                                    /*+"Gender: "+gender+" \n"*/ + "ID: " + idfb /*+ " \n" + "Birth Date: " + birthday*/);
-                            Log.d("aswwww", "https://graph.facebook.com/" + idfb + "/picture?type=large");
-
-                        } catch (JSONException ex) {
-                            ex.printStackTrace();
-                        }
-                    }
-
-                });
-        Bundle parameters = new Bundle();
-        parameters.putString("fields", "id,name,email");
-        data_request.setParameters(parameters);
-        data_request.executeAsync();
 
     }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (callbackManager != null) {
             callbackManager.onActivityResult(requestCode, resultCode, data);
-
         }
 
 
-        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
+//        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+
             handleSignInResult(result);
         }
+
     }
 
     private void showProgressDialog() {
         if (mProgressDialog == null) {
             mProgressDialog = new ProgressDialog(this);
-            mProgressDialog.setMessage(getString(R.string.loading));
+            mProgressDialog.setMessage(getString(R.string.verify_credential));
             mProgressDialog.setIndeterminate(true);
         }
 
@@ -509,5 +472,107 @@ public class AppLoginActivity extends AppCompatActivity implements View.OnClickL
         if (mProgressDialog != null && mProgressDialog.isShowing()) {
             mProgressDialog.hide();
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (profileTracker != null & accessTokenTracker != null) {
+            profileTracker.stopTracking();
+            accessTokenTracker.stopTracking();
+        }
+
+        super.onDestroy();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if ((mProgressDialog != null) && mProgressDialog.isShowing()) {
+            mProgressDialog.dismiss();
+            mProgressDialog = null;
+        }
+    }
+
+//    Use for google signup data entery in database
+    public void callGoogleSignUp() {
+        if (!Utils.checkNetwork(mContext)) {
+            Utils.showCustomDialog(getResources().getString(R.string.internet_error), getResources().getString(R.string.internet_connection_error), AppLoginActivity.this);
+            return;
+        }
+
+        Utils.showDialog(mContext);
+        ApiHandler.getApiService().getLoginwithGoogle(getGoogleSignUpData(), new retrofit.Callback<LogginModel>() {
+            @Override
+            public void success(LogginModel loginModel, Response response) {
+                Utils.dismissDialog();
+                if (loginModel == null) {
+                    Utils.dismissDialog();
+                    Utils.ping(mContext, getString(R.string.something_wrong));
+                    return;
+                }
+                if (loginModel.getIsValid() == null) {
+                    Utils.dismissDialog();
+                    Utils.ping(mContext, getString(R.string.something_wrong));
+                    return;
+                }
+                if (loginModel.getIsValid() == 0) {
+                    Utils.dismissDialog();
+                    Utils.ping(mContext, loginModel.getMessage());
+                    return;
+                }
+                if (loginModel.getIsValid() == 1) {
+                    if (loginModel.getData() != null) {
+                        Utils.setPref(mContext, "IsSkipLogin", "");
+                        Utils.setPref(mContext, "IsLoginUser", "1");
+                        Utils.setPref(mContext, "LoginType", "Gmail");
+                        Utils.storeLoginData(loginModel.getData(), mContext);
+                        Utils.storeCurrentLocationData(loginModel.getCurrentLocation(),mContext);
+                        Utils.storeLoginOtherData(loginModel.getOtherData(), mContext);
+                        if (getIntent().getStringExtra("whereTocomeLogin") != null) {
+                            if (getIntent().getStringExtra("whereTocomeLogin").equalsIgnoreCase("more")) {
+                                Intent DashboardIntent = new Intent(mContext, DashboardActivity.class);
+                                DashboardIntent.putExtra("whichPageRun", "5");
+                                startActivity(DashboardIntent);
+                                finish();
+                            } else {
+                                finish();
+                            }
+                        } else {
+
+                            Intent DashboardIntent = new Intent(mContext, DashboardActivity.class);
+                            AppConfiguration.position = 0;
+                            startActivity(DashboardIntent);
+                            finish();
+                        }
+                    }
+
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Utils.dismissDialog();
+                error.printStackTrace();
+                error.getMessage();
+                Utils.ping(mContext, getString(R.string.something_wrong));
+            }
+        });
+
+    }
+
+    private Map<String, String> getGoogleSignUpData() {
+        Map<String, String> map = new HashMap<>();
+        map.put("email", personEmailStr);
+        map.put("Name", personNameStr);
+        map.put("Image", personImageStr);
+        map.put("TokenId", Utils.getPref(mContext, "registration_id"));
+        map.put("ModelName", Utils.getDeviceName());
+        return map;
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+        super.onBackPressed();
     }
 }

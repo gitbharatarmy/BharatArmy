@@ -123,7 +123,6 @@ public class DisplayAddedUserActivity extends AppCompatActivity implements View.
     private Map<String, String> getDisplayUserData() {
         Map<String, String> map = new HashMap<>();
         map.put("AddedById", String.valueOf(Utils.getAppUserId(mContext)));
-
         return map;
     }
 

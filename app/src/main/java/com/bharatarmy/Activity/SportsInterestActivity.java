@@ -145,7 +145,7 @@ callSchoolNameData();
             @Override
             public void onCountrySelected(Country selectedCountry) {
 
-                AppConfiguration.currentCountry = activitySportsInterestBinding.ccp.getSelectedCountryNameCode();
+                AppConfiguration.currentCountryISOCode = activitySportsInterestBinding.ccp.getSelectedCountryNameCode();
 
             }
         });
@@ -369,12 +369,12 @@ callSchoolNameData();
         phonenoStr = activitySportsInterestBinding.phoneNoEdt.getText().toString();
         emailStr = activitySportsInterestBinding.emailEdt.getText().toString();
         sportsStr = activitySportsInterestBinding.sportsEdt.getText().toString();
-        countryISOcodeStr=AppConfiguration.currentCountry;
+        countryISOcodeStr=AppConfiguration.currentCountryISOCode;
         schoolnameStr=activitySportsInterestBinding.schoolNameTxt.getText().toString();
 
         Log.d("DataValue", "Name :" + nameStr + "countrycode:" + countryCodeStr
                 + "phone number:" + phonenoStr + "gender:" + genderStr + "sportsId:" + sportsIdStr
-                + "email:" + emailStr + "CountryNAmeCode: " + AppConfiguration.currentCountry
+                + "email:" + emailStr + "CountryNAmeCode: " + AppConfiguration.currentCountryISOCode
                 + "schoolname:" +schoolnameStr + "userType:"+usertypeStr);
 
         if (!emailStr.equalsIgnoreCase("") && !phonenoStr.equalsIgnoreCase("")) {
@@ -638,11 +638,11 @@ callSchoolNameData();
                 alertDialog.dismiss();
 
                 if (Utils.retriveLoginData(mContext) != null) {
-                    if (Utils.retriveLoginData(mContext).getMemberType().equalsIgnoreCase(",3,")) {
+                    /*if (Utils.retriveLoginData(mContext).getMemberType().equalsIgnoreCase(",3,")) {
                         finish();
-                    } else {
+                    } else {*/
                         finish();
-                    }
+//                    }
                 }
             }
         });

@@ -3,15 +3,12 @@ package com.bharatarmy.Activity;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
-import com.bharatarmy.Fragment.MoreFragment;
-import com.bharatarmy.Interfaces.MorestoryClick;
 import com.bharatarmy.Models.MyScreenChnagesModel;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.AppConfiguration;
@@ -19,11 +16,12 @@ import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.ActivityMyProfileBinding;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 public class MyProfileActivity extends AppCompatActivity implements View.OnClickListener {
     private Context mContext;
     ActivityMyProfileBinding activityMyProfileBinding;
-
+String countryFlagStr;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,30 +45,64 @@ public class MyProfileActivity extends AppCompatActivity implements View.OnClick
         activityMyProfileBinding.toolbarTitleTxt.setText("Member Profile");
 
         if (Utils.retriveLoginData(mContext) != null) {
-            activityMyProfileBinding.userShowTxt.setText(Utils.retriveLoginData(mContext).getName());
-            activityMyProfileBinding.emailShowTxt.setText(Utils.retriveLoginData(mContext).getEmail());
-            activityMyProfileBinding.phoneShowTxt.setText(Utils.retriveLoginData(mContext).getPhoneNo());
-
-
-            Utils.setImageInImageView(Utils.retriveLoginData(mContext).getProfilePicUrl(), activityMyProfileBinding.profileImage, mContext);
-            if (Utils.retriveLoginData(mContext).getGender().equals(1)) {
-                activityMyProfileBinding.genderShowTxt.setText("Male");
-            } else if (Utils.retriveLoginData(mContext).getGender().equals(2)) {
-                activityMyProfileBinding.genderShowTxt.setText("Female");
-            } else {
-                activityMyProfileBinding.genderShowTxt.setText("-");
+            if (Utils.retriveLoginData(mContext).getName() != null) {
+                activityMyProfileBinding.userShowTxt.setText(Utils.retriveLoginData(mContext).getName());
+            }
+            if (Utils.retriveLoginData(mContext).getEmail() != null) {
+                activityMyProfileBinding.emailShowTxt.setText(Utils.retriveLoginData(mContext).getEmail());
+            }
+            if(Utils.retriveLoginData(mContext).getCountryISOCode()!=null){
+                if (!Utils.retriveLoginData(mContext).getCountryISOCode().equalsIgnoreCase("")){
+                    activityMyProfileBinding.countryFlagImg.setVisibility(View.VISIBLE);
+                    countryFlagStr= AppConfiguration.FLAG_URL+Utils.retriveLoginData(mContext).getCountryISOCode()+".png";
+                    Utils.setImageInImageView(countryFlagStr,activityMyProfileBinding.countryFlagImg,mContext);
+                }else{
+                    activityMyProfileBinding.countryFlagImg.setVisibility(View.GONE);
+                }
+            }
+            if (Utils.retriveLoginData(mContext).getPhoneNo() != null && !Utils.retriveLoginData(mContext).getPhoneNo().equalsIgnoreCase("") ) {
+                activityMyProfileBinding.phoneShowTxt.setText(Utils.retriveLoginData(mContext).getPhoneNo());
+            }
+            if (Utils.retriveLoginData(mContext).getProfilePicUrl() != null) {
+                Utils.setImageInImageView(Utils.retriveLoginData(mContext).getProfilePicUrl(), activityMyProfileBinding.profileImage, mContext);
+            }
+            if (Utils.retriveLoginData(mContext).getGender() != null) {
+                if (Utils.retriveLoginData(mContext).getGender().equals(1)) {
+                    activityMyProfileBinding.genderShowTxt.setText("Male");
+                } else if (Utils.retriveLoginData(mContext).getGender().equals(2)) {
+                    activityMyProfileBinding.genderShowTxt.setText("Female");
+                } else {
+                    activityMyProfileBinding.genderShowTxt.setText("-");
+                }
             }
 
+            if (Utils.retriveLoginData(mContext).getAddressline1()!=null){
+                if (Utils.retriveLoginData(mContext).getAddressline2()!=null){
+                    if (Utils.retriveLoginData(mContext).getArea()!=null){
+                        if(Utils.retriveLoginData(mContext).getStrCityName()!=null){
+                            if (Utils.retriveLoginData(mContext).getStrState()!=null) {
+                                if (Utils.retriveLoginData(mContext).getCountryISOCode()!=null){
+                                    if (Utils.retriveLoginData(mContext).getPincode()!=null){
+                                        if (!Utils.retriveLoginData(mContext).getAddressline1().equalsIgnoreCase("")) {
+                                            activityMyProfileBinding.addressShowTxt.setText(Utils.retriveLoginData(mContext).getAddressline1() +
+                                                    ", " + Utils.retriveLoginData(mContext).getAddressline2() +
+                                                    ", " + Utils.retriveLoginData(mContext).getArea() +
+                                                    ", " + Utils.retriveLoginData(mContext).getStrCityName() +
+                                                    ", " + Utils.retriveLoginData(mContext).getStrState() +
+                                                    ", " + Utils.getCountryNameUsingCountryCode(Utils.retriveLoginData(mContext).getCountryISOCode()) +
+                                                    ", " + Utils.retriveLoginData(mContext).getPincode());
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
 
-            if (!Utils.retriveLoginData(mContext).getAddressline1().equalsIgnoreCase("")) {
-                activityMyProfileBinding.addressShowTxt.setText(Utils.retriveLoginData(mContext).getAddressline1() +
-                        ", " + Utils.retriveLoginData(mContext).getAddressline2()+
-                        ", "+Utils.retriveLoginData(mContext).getArea()+
-                        ", "+Utils.retriveLoginData(mContext).getStrCityName()+
-                        ", "+Utils.retriveLoginData(mContext).getStrState()+
-                        ", "+Utils.getCountryNameUsingCountryCode(Utils.retriveLoginData(mContext).getCountryISOCode())+
-                        ", "+Utils.retriveLoginData(mContext).getPincode());
+
+
             }
+
         }
 
     }
@@ -85,9 +117,9 @@ public class MyProfileActivity extends AppCompatActivity implements View.OnClick
 
                 break;
             case R.id.edit_linear:
-                Utils.handleClickEvent(mContext,activityMyProfileBinding.editLinear);
+                Utils.handleClickEvent(mContext, activityMyProfileBinding.editLinear);
                 Intent intent = new Intent(mContext, EditProfileActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_SINGLE_TOP|Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 finish();
 //                overridePendingTransition(R.anim.slide_out_right_new, 0);

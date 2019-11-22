@@ -1,7 +1,6 @@
 package com.bharatarmy.Activity;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -9,40 +8,33 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.NotificationManager;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.graphics.drawable.ColorDrawable;
-import android.media.MediaMetadataRetriever;
-import android.media.MediaPlayer;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.provider.MediaStore;
-import android.provider.Settings;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bharatarmy.Adapter.SelectedImageVideoViewAdapter;
 import com.bharatarmy.Interfaces.image_click;
 import com.bharatarmy.Models.GalleryImageModel;
+import com.bharatarmy.Models.MyScreenChnagesModel;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.DbHandler;
 import com.bharatarmy.Utility.Utils;
-import com.bharatarmy.databinding.ActivityImageVideoUploadBinding;
+import com.bharatarmy.databinding.ActivityImageUploadBinding;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.io.File;
 import java.text.DecimalFormat;
@@ -58,12 +50,11 @@ import static androidx.core.content.FileProvider.getUriForFile;
 
 /* delete extra code 22/08/2019 backup in 22/08/2019
  *  remove video code 17/09/2019 backup in 17/09/2019 morning*/
-public class ImageVideoUploadActivity extends AppCompatActivity implements View.OnClickListener {
-    ActivityImageVideoUploadBinding activityImageVideoUploadBinding;
+public class ImageUploadActivity extends AppCompatActivity implements View.OnClickListener {
+    ActivityImageUploadBinding activityImageUploadBinding;
     Context mContext;
     public static final int REQUEST_IMAGE = 100;
     Uri uri, selectedUri;
-
 
     SelectedImageVideoViewAdapter selectedImageVideoViewAdapter;
     LinearLayoutManager linearLayoutManager;
@@ -75,7 +66,7 @@ public class ImageVideoUploadActivity extends AppCompatActivity implements View.
     public static final int RC_PHOTO_PICKER_PERM = 123;
     private int MAX_ATTACHMENT_COUNT = 20;
     private ArrayList<String> photoPaths = new ArrayList<>();
-    public String fileName;
+    public String fileName,photoprivacyStr;
 
 
     // Database
@@ -84,8 +75,10 @@ public class ImageVideoUploadActivity extends AppCompatActivity implements View.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        activityImageVideoUploadBinding = DataBindingUtil.setContentView(this, R.layout.activity_image_video_upload);
-        mContext = ImageVideoUploadActivity.this;
+        activityImageUploadBinding = DataBindingUtil.setContentView(this, R.layout.activity_image_upload);
+        mContext = ImageUploadActivity.this;
+
+        EventBus.getDefault().register(this);
         init();
         setListiner();
     }
@@ -96,18 +89,25 @@ public class ImageVideoUploadActivity extends AppCompatActivity implements View.
 
         galleryImageList = new ArrayList<>();
     }
+    @Subscribe
+    public void customEventReceived(MyScreenChnagesModel event) {
+        Log.d("imageId :", event.getPrivacyname());
+        if (!event.getPrivacyname().equalsIgnoreCase("")) {
+           activityImageUploadBinding.privacyTxt.setText(event.getPrivacyname());
+        }
 
+    }
     public void setListiner() {
         imageorvideoStr = getIntent().getStringExtra("image/video");
         Utils.setPref(mContext, "image/video", imageorvideoStr);
         if (imageorvideoStr.equalsIgnoreCase("image")) {
-            activityImageVideoUploadBinding.selectedImageVideoLinear.setVisibility(View.VISIBLE);
+            activityImageUploadBinding.selectedImageVideoLinear.setVisibility(View.VISIBLE);
         }
-        activityImageVideoUploadBinding.backImg.setOnClickListener(this);
-        activityImageVideoUploadBinding.chooseFromGalleryLinear.setOnClickListener(this);
-        activityImageVideoUploadBinding.chooseFromCameraLinear.setOnClickListener(this);
-        activityImageVideoUploadBinding.submitLinear.setOnClickListener(this);
-
+        activityImageUploadBinding.backImg.setOnClickListener(this);
+        activityImageUploadBinding.chooseFromGalleryLinear.setOnClickListener(this);
+        activityImageUploadBinding.chooseFromCameraLinear.setOnClickListener(this);
+        activityImageUploadBinding.submitLinear.setOnClickListener(this);
+        activityImageUploadBinding.pictureChooseLinear.setOnClickListener(this);
 
     }
 
@@ -115,7 +115,7 @@ public class ImageVideoUploadActivity extends AppCompatActivity implements View.
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.back_img:
-                ImageVideoUploadActivity.this.finish();
+                ImageUploadActivity.this.finish();
                 break;
             case R.id.choose_from_camera_linear:
                 if (imageorvideoStr.equalsIgnoreCase("image")) {
@@ -132,7 +132,7 @@ public class ImageVideoUploadActivity extends AppCompatActivity implements View.
                 }
                 break;
             case R.id.submit_linear:
-                Utils.handleClickEvent(mContext, activityImageVideoUploadBinding.submitLinear);
+                Utils.handleClickEvent(mContext, activityImageUploadBinding.submitLinear);
 
                 boolean connected = Utils.checkNetwork(mContext);
 
@@ -143,19 +143,25 @@ public class ImageVideoUploadActivity extends AppCompatActivity implements View.
                             dbHandler.insertImageDetails(galleryImageList.get(i).getImageUri(), galleryImageList.get(i).getImageSize(),
                                     galleryImageList.get(i).getUploadcompelet(), galleryImageList.get(i).getVideolength(),
                                     galleryImageList.get(i).getFileType(), galleryImageList.get(i).getVideoTitle(),
-                                    galleryImageList.get(i).getVideoDesc(),galleryImageList.get(i).getVideoHeight(),
-                                    galleryImageList.get(i).getVideoWidth(),mContext);
+                                    galleryImageList.get(i).getVideoDesc(), galleryImageList.get(i).getVideoHeight(),
+                                    galleryImageList.get(i).getVideoWidth(), mContext);
                         }
 
-                        Utils.showThanyouDialog(ImageVideoUploadActivity.this, "imageUpload");
+                        Utils.showThanyouDialog(ImageUploadActivity.this, "imageUpload");
 
                     } else {
                         Utils.ping(mContext, "Please select image");
                     }
 
                 } else {
-                    Utils.showCustomDialog(getResources().getString(R.string.internet_error), getResources().getString(R.string.internet_connection_error), ImageVideoUploadActivity.this);
+                    Utils.showCustomDialog(getResources().getString(R.string.internet_error), getResources().getString(R.string.internet_connection_error), ImageUploadActivity.this);
                 }
+                break;
+            case R.id.picture_choose_linear:
+                photoprivacyStr =activityImageUploadBinding.privacyTxt.getText().toString();
+                Intent privacyIntent = new Intent(mContext, ImageVideoPrivacyActivity.class);
+                privacyIntent.putExtra("privacytxt",photoprivacyStr);
+                startActivity(privacyIntent);
                 break;
         }
 
@@ -236,13 +242,13 @@ public class ImageVideoUploadActivity extends AppCompatActivity implements View.
         for (int i = 0; i < filePaths.size(); i++) {
             File f = new File(filePaths.get(i));
             long findsize = f.length() / 1024;
-            galleryImageList.add(new GalleryImageModel(filePaths.get(i), size((int) findsize), "0", "0", "1", "", "","",""));
+            galleryImageList.add(new GalleryImageModel(filePaths.get(i), size((int) findsize), "0", "0", "1", "", "", "", ""));
         }
         loadProfile();
     }
 
     private void loadProfile() {
-        activityImageVideoUploadBinding.selectedImageVideoLinear.setVisibility(View.VISIBLE);
+        activityImageUploadBinding.selectedImageVideoLinear.setVisibility(View.VISIBLE);
         selectedImageVideoViewAdapter = new SelectedImageVideoViewAdapter(mContext, galleryImageList, new image_click() {
             @Override
             public void image_more_click() {
@@ -258,9 +264,9 @@ public class ImageVideoUploadActivity extends AppCompatActivity implements View.
             }
         });//,onTouchListener
         linearLayoutManager = new LinearLayoutManager(mContext, RecyclerView.VERTICAL, false);
-        activityImageVideoUploadBinding.selectedImagesView.setLayoutManager(linearLayoutManager);
-        activityImageVideoUploadBinding.selectedImagesView.setItemAnimator(new DefaultItemAnimator());
-        activityImageVideoUploadBinding.selectedImagesView.setAdapter(selectedImageVideoViewAdapter);
+        activityImageUploadBinding.selectedImagesView.setLayoutManager(linearLayoutManager);
+        activityImageUploadBinding.selectedImagesView.setItemAnimator(new DefaultItemAnimator());
+        activityImageUploadBinding.selectedImagesView.setAdapter(selectedImageVideoViewAdapter);
 
 
     }
@@ -296,7 +302,7 @@ public class ImageVideoUploadActivity extends AppCompatActivity implements View.
 
         Log.d("imageFile : ", "" + image);
 
-        return getUriForFile(ImageVideoUploadActivity.this, getPackageName() + ".provider", image);
+        return getUriForFile(ImageUploadActivity.this, getPackageName() + ".provider", image);
     }
 
     private void getCameraImagePath(String fileName) {
@@ -310,7 +316,7 @@ public class ImageVideoUploadActivity extends AppCompatActivity implements View.
         long findsize = Camerafile.length() / 1024;
         Log.d("findfilesize", "" + Camerafile.length() / 1024 + "kb" + " " + Camerafile.length() / (1024 * 1024));
 
-        galleryImageList.add(new GalleryImageModel(imageUrl, size((int) findsize), "0", "0", "1", "", "","",""));
+        galleryImageList.add(new GalleryImageModel(imageUrl, size((int) findsize), "0", "0", "1", "", "", "", ""));
 
         loadProfile();
 

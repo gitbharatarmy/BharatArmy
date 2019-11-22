@@ -1,6 +1,8 @@
 package com.bharatarmy.Utility;
 
 import android.Manifest;
+import android.accounts.Account;
+import android.accounts.AccountManager;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -84,13 +86,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
-import java.net.Inet4Address;
-import java.net.InetAddress;
-import java.net.NetworkInterface;
-import java.net.SocketException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -108,14 +105,14 @@ import static com.yalantis.ucrop.util.FileUtils.isGooglePhotosUri;
 import static com.yalantis.ucrop.util.FileUtils.isMediaDocument;
 
 public class Utils {
-    public static String strFullName, strEmail, strCountrycode, strMobileno, strPassword, strCheck = "0";
+    public static String strCountrycode, strCheck = "0";
     public static meghWebView webView;
     public static ImageView image;
     public static Button agree_btn;
     public static TextView close_btn;
     public static boolean isValid = false;
 
-    public static int LikeMemberId, LikeReferenceId, LikeStatus, LikeSourceType;
+    public static String LikeMemberId, LikeReferenceId, LikeStatus, LikeSourceType;
     public static String viewsMemberId, viewsTokenId, viewsReferenceId, viewsSourceType;
     public static Dialog dialog;
 
@@ -131,12 +128,13 @@ public class Utils {
         ConnectivityManager conManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo[] networkInfo = conManager.getAllNetworkInfo();
         for (NetworkInfo netInfo : networkInfo) {
-            if (netInfo.getTypeName().equalsIgnoreCase("WIFI"))
+            if (netInfo.getTypeName().equalsIgnoreCase("WIFI")) {
                 if (netInfo.isConnected())
                     wifiAvailable = true;
-            if (netInfo.getTypeName().equalsIgnoreCase("MOBILE"))
+            } else if (netInfo.getTypeName().equalsIgnoreCase("MOBILE")) {
                 if (netInfo.isConnected())
                     mobileAvailable = true;
+            }
         }
         return wifiAvailable || mobileAvailable;
     }
@@ -185,7 +183,7 @@ public class Utils {
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
             dialog.setContentView(R.layout.progressbar_dialog);
             imageView = (ImageView) dialog.findViewById(R.id.image);
-            Glide.with(context).load(R.drawable.logo_white).into(imageView);
+            Glide.with(context).load(R.drawable.logo_white_new).into(imageView);
             dialog.getWindow().setLayout(WindowManager.LayoutParams.FILL_PARENT,
                     WindowManager.LayoutParams.FILL_PARENT);
             Drawable d = new ColorDrawable(Color.BLACK);
@@ -204,8 +202,12 @@ public class Utils {
 
     public static void dismissDialog() {
         if (dialog != null) {
-            dialog.dismiss();
-            dialog = null;
+            if (dialog.isShowing()) {
+                dialog.dismiss();
+
+                dialog = null;
+            }
+
 
         }
     }
@@ -379,10 +381,10 @@ public class Utils {
         boolean isValid = phoneNumberUtil.isValidNumber(phoneNumber);
         if (isValid) {
             String internationalFormat = phoneNumberUtil.format(phoneNumber, PhoneNumberUtil.PhoneNumberFormat.NATIONAL);
-           Toast.makeText(context, "Phone Number is Valid " + internationalFormat, Toast.LENGTH_LONG).show();
+            Toast.makeText(context, "Phone Number is Valid " + internationalFormat, Toast.LENGTH_LONG).show();
             return true;
         } else {
-          Toast.makeText(context, "Phone Number is Invalid " + phoneNumber, Toast.LENGTH_LONG).show();
+            Toast.makeText(context, "Phone Number is Invalid " + phoneNumber, Toast.LENGTH_LONG).show();
             return false;
         }
     }
@@ -423,7 +425,7 @@ public class Utils {
     public static void setImageInImageView(String imageUrl, ImageView view, Context mContext) {
         Picasso.with(mContext)
                 .load(imageUrl)
-                .placeholder(R.drawable.loader)
+                .placeholder(R.drawable.loader_new)
                 .into(view);
 
     }
@@ -475,7 +477,7 @@ public class Utils {
         ImageView updateapp_img = (ImageView) dialog.findViewById(R.id.updateapp_img);
 
         Glide.with(activity)
-                .load(R.drawable.logo)
+                .load(R.drawable.logo_new)
                 .into(updateapp_img);
         update.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -535,7 +537,7 @@ public class Utils {
                         }
 
                     }
-                }else if (wheretocome.equalsIgnoreCase("changePassword|InApp")) {
+                } else if (wheretocome.equalsIgnoreCase("changePassword|InApp")) {
                     for (int i = 0; i < Utils.retriveLoginOtherData(activity).size(); i++) {
                         if (Utils.retriveLoginOtherData(activity).get(i).getMessageId().equals(2)) {
                             dialog_headertxt.setText(Utils.retriveLoginOtherData(activity).get(i).getMessageHeaderText());
@@ -543,7 +545,7 @@ public class Utils {
                         }
 
                     }
-                }else if (wheretocome.equalsIgnoreCase("changePassword|finishApp")) {
+                } else if (wheretocome.equalsIgnoreCase("changePassword|finishApp")) {
                     for (int i = 0; i < Utils.retriveLoginOtherData(activity).size(); i++) {
                         if (Utils.retriveLoginOtherData(activity).get(i).getMessageId().equals(2)) {
                             dialog_headertxt.setText(Utils.retriveLoginOtherData(activity).get(i).getMessageHeaderText());
@@ -574,15 +576,14 @@ public class Utils {
                         Intent intent = new Intent(activity, DashboardActivity.class);
                         activity.startActivity(intent);
                         activity.finish();
-                    }else if (wheretocome.equalsIgnoreCase("changePassword|InApp")) {
+                    } else if (wheretocome.equalsIgnoreCase("changePassword|InApp")) {
                         Intent dashboardIntent = new Intent(activity, DashboardActivity.class);
                         dashboardIntent.putExtra("whichPageRun", "5");
                         activity.startActivity(dashboardIntent);
                         activity.finish();
-                    }else if (wheretocome.equalsIgnoreCase("changePassword|finishApp")) {
+                    } else if (wheretocome.equalsIgnoreCase("changePassword|finishApp")) {
                         activity.finish();
-                    }
-                    else if (wheretocome.equalsIgnoreCase("imageUpload")) {
+                    } else if (wheretocome.equalsIgnoreCase("imageUpload")) {
                         Intent intent = new Intent(activity, UploadService.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                         activity.startService(intent);
@@ -592,7 +593,7 @@ public class Utils {
                         dashboardIntent.putExtra("whichPageRun", "1");
                         activity.startActivity(dashboardIntent);
                         activity.finish();
-                    }else if(wheretocome.equalsIgnoreCase("sports")){
+                    } else if (wheretocome.equalsIgnoreCase("sports")) {
                         Intent dashboardIntent = new Intent(activity, DashboardActivity.class);
                         dashboardIntent.putExtra("whichPageRun", "5");
                         activity.startActivity(dashboardIntent);
@@ -640,7 +641,7 @@ public class Utils {
         signup_btn = (Button) dialogView.findViewById(R.id.signup_btn);
 
 
-        AppConfiguration.currentCountry = ccp.getSelectedCountryNameCode();
+        AppConfiguration.currentCountryISOCode = ccp.getSelectedCountryNameCode();
 
 
         terms_chk.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -688,7 +689,7 @@ public class Utils {
                 agree_btn = (Button) layout.findViewById(R.id.agree_btn);
 //        close_btn = (Button) layout.findViewById(R.id.close_btn);
                 close_btn = (TextView) layout.findViewById(R.id.close_btn1);
-                Glide.with(activity).load(R.drawable.logo).into(image);
+                Glide.with(activity).load(R.drawable.logo_new).into(image);
                 image.setVisibility(View.VISIBLE);
 
                 webView.setWebViewClient(new MyWebViewClient());
@@ -709,7 +710,7 @@ public class Utils {
         ccp.setOnCountryChangeListener(new CountryCodePicker.OnCountryChangeListener() {
             @Override
             public void onCountrySelected(Country selectedCountry) {
-                AppConfiguration.currentCountry = ccp.getSelectedCountryNameCode();
+                AppConfiguration.currentCountryISOCode = ccp.getSelectedCountryNameCode();
             }
         });
 
@@ -720,7 +721,7 @@ public class Utils {
                 AppConfiguration.registerEmailStr = email_edt.getText().toString();
                 AppConfiguration.registerCountryCodeStr = ccp.getSelectedCountryCode();
                 AppConfiguration.registerMobileStr = mobile_edt.getText().toString();
-                AppConfiguration.registerCountryDialcodeStr = AppConfiguration.currentCountry;
+                AppConfiguration.registerCountryDialcodeStr = AppConfiguration.currentCountryISOCode;
                 Log.d("selectedcode", strCountrycode);
                 if (!AppConfiguration.registerNameStr.equalsIgnoreCase("")) {
                     if (!AppConfiguration.registerEmailStr.equalsIgnoreCase("")) {
@@ -730,12 +731,12 @@ public class Utils {
                                     if (Utils.isValidPhoneNumber(AppConfiguration.registerMobileStr)) {
 //                                        boolean status = Utils.validateUsing_libphonenumber(activity, AppConfiguration.registerCountryCodeStr, AppConfiguration.registerMobileStr);
 //                                        if (status) {
-                                            if (!strCheck.equalsIgnoreCase("0")) {
-                                                alertDialog.dismiss();
-                                                submit_click.getsubmitClick();
-                                            } else {
-                                                Utils.ping(activity, "Check the privacy policy");
-                                            }
+                                        if (!strCheck.equalsIgnoreCase("0")) {
+                                            alertDialog.dismiss();
+                                            submit_click.getsubmitClick();
+                                        } else {
+                                            Utils.ping(activity, "Check the privacy policy");
+                                        }
 //                                        } else {
 //                                            mobile_edt.setError("Invalid Phone Number");
 //                                        }
@@ -857,7 +858,7 @@ public class Utils {
                 Log.d("clickresult", "resend1");
 
             }
-        }, 5000);
+        }, 10000);
     }
 
 
@@ -874,7 +875,7 @@ public class Utils {
         return false;
     }
 
-    public static String getCountryNameUsingCountryCode(String code){
+    public static String getCountryNameUsingCountryCode(String code) {
         Locale l = new Locale("", code);
         String country = l.getDisplayCountry();
 
@@ -888,6 +889,21 @@ public class Utils {
         Log.d("LoginvaluesString", valuesString);
     }
 
+    public static void storeCurrentLocationData(LoginDataModel result,Context mContext){
+        Gson gsonupdate =new Gson();
+        String currentLocatiobString =gsonupdate.toJson(result);
+        Utils.setPref(mContext,"currentLocationData",currentLocatiobString);
+        Log.d("CurrentLocationString",currentLocatiobString);
+    }
+    public static LoginDataModel retriveCurrentLocationData(Context mContext) {
+        LoginDataModel loginList;
+        Type arrayListType2 = new TypeToken<LoginDataModel>() {
+        }.getType();
+
+        Gson gson2 = new Gson();
+        loginList = gson2.fromJson(Utils.getPref(mContext, "currentLocationData"), arrayListType2);
+        return loginList;
+    }
     public static LoginDataModel retriveLoginData(Context mContext) {
         LoginDataModel loginList;
         Type arrayListType2 = new TypeToken<LoginDataModel>() {
@@ -898,9 +914,11 @@ public class Utils {
         return loginList;
     }
 
+
     public static void removeLoginData(Context mContext) {
         Utils.setPref(mContext, "loginData", "");
     }
+
 
     public static void storeLoginOtherData(List<LoginOtherDataModel> result, Context mContext) {
         Gson gsonupdate = new Gson();
@@ -908,6 +926,9 @@ public class Utils {
         Utils.setPref(mContext, "loginOtherData", valuesString);
         Log.d("valuesString", valuesString);
     }
+
+
+
 
     public static List<LoginOtherDataModel> retriveLoginOtherData(Context mContext) {
         List<LoginOtherDataModel> messageList = new ArrayList<>();
@@ -996,12 +1017,13 @@ public class Utils {
 
     }
 
-    public static Map<String, Integer> getLikeData() {
-        Map<String, Integer> map = new HashMap<>();
+    public static Map<String, String> getLikeData() {
+        Map<String, String> map = new HashMap<>();
         map.put("MemberId", LikeMemberId);
         map.put("ReferenceId", LikeReferenceId);
         map.put("LikeStatus", LikeStatus);
         map.put("SourceType", LikeSourceType);
+
         return map;
 
     }
@@ -1059,6 +1081,7 @@ public class Utils {
         map.put("TokenId", viewsTokenId);
         map.put("ReferenceId", viewsReferenceId);
         map.put("SourceType", viewsSourceType);
+
         return map;
 
     }
@@ -1086,20 +1109,97 @@ public class Utils {
         return (Activity) context;
     }
 
-    public static String getLocalIpAddress() {
-        try {
-            for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements(); ) {
-                NetworkInterface intf = en.nextElement();
-                for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements(); ) {
-                    InetAddress inetAddress = enumIpAddr.nextElement();
-                    if (!inetAddress.isLoopbackAddress() && inetAddress instanceof Inet4Address) {
-                        return inetAddress.getHostAddress();
-                    }
-                }
-            }
-        } catch (SocketException ex) {
-            ex.printStackTrace();
+
+    /* public static String getDeviceIpAddress(Context context) {
+         String actualConnectedToNetwork = null;
+         ConnectivityManager connManager = (ConnectivityManager)context. getSystemService(Context.CONNECTIVITY_SERVICE);
+         if (connManager != null) {
+             NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+             if (mWifi.isConnected()) {
+                 actualConnectedToNetwork = getWifiIp(context);
+             }
+         }
+         if (TextUtils.isEmpty(actualConnectedToNetwork)) {
+             actualConnectedToNetwork = getNetworkInterfaceIpAddress();
+         }
+         if (TextUtils.isEmpty(actualConnectedToNetwork)) {
+             actualConnectedToNetwork = "127.0.0.1";
+         }
+         return actualConnectedToNetwork;
+     }
+
+
+     public static String getWifiIp(Context context) {
+         final WifiManager mWifiManager = (WifiManager)context. getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+         if (mWifiManager != null && mWifiManager.isWifiEnabled()) {
+             int ip = mWifiManager.getConnectionInfo().getIpAddress();
+             return (ip & 0xFF) + "." + ((ip >> 8) & 0xFF) + "." + ((ip >> 16) & 0xFF) + "."
+                     + ((ip >> 24) & 0xFF);
+         }
+         return null;
+     }
+
+     public static String getLocalIpAddress() {
+         try {
+             for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements();) {
+                 NetworkInterface intf = en.nextElement();
+                 for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements();) {
+                     InetAddress inetAddress = enumIpAddr.nextElement();
+                     if (!inetAddress.isLoopbackAddress()) {
+                         String ip = Formatter.formatIpAddress(inetAddress.hashCode());
+                         Log.i("Ip", "***** IP="+ ip);
+                         return ip;
+                     }
+                 }
+             }
+         } catch (SocketException ex) {
+             Log.e("Ip", ex.toString());
+         }
+         return null;
+     }
+
+     public static String getNetworkInterfaceIpAddress() {
+         try {
+             for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements(); ) {
+                 NetworkInterface networkInterface = en.nextElement();
+                 for (Enumeration<InetAddress> enumIpAddr = networkInterface.getInetAddresses(); enumIpAddr.hasMoreElements(); ) {
+                     InetAddress inetAddress = enumIpAddr.nextElement();
+                     if (!inetAddress.isLoopbackAddress() && inetAddress instanceof Inet4Address) {
+                         String host = inetAddress.getHostAddress();
+                         if (!TextUtils.isEmpty(host)) {
+                             return host;
+                         }
+                     }
+                 }
+
+             }
+         } catch (Exception ex) {
+             Log.e("IP Address", "getLocalIpAddress", ex);
+         }
+         return null;
+     }
+ */
+    public static String getDeviceName() {
+        String manufacturer = Build.MANUFACTURER;
+        String model = Build.MODEL;
+        if (model.toLowerCase().startsWith(manufacturer.toLowerCase())) {
+            return capitalize(model);
+        } else {
+            return capitalize(manufacturer) + " " + model;
         }
-        return null;
+    }
+
+
+    public static String capitalize(String s) {
+        if (s == null || s.length() == 0) {
+            return "";
+        }
+        char first = s.charAt(0);
+        if (Character.isUpperCase(first)) {
+            return s;
+        } else {
+            return Character.toUpperCase(first) + s.substring(1);
+        }
     }
 }
+

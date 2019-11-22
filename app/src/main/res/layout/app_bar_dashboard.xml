@@ -27,7 +27,7 @@
                         android:layout_height="@dimen/_60sdp"
                         android:layout_centerHorizontal="true"
                         android:layout_gravity="center_horizontal"
-                        android:src="@drawable/header_logo" />
+                        android:src="@drawable/header_logo_new" />
 
             </androidx.appcompat.widget.Toolbar>
             <View

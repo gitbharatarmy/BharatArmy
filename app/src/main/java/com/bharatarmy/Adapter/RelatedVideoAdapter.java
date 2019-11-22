@@ -86,11 +86,10 @@ public class RelatedVideoAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         if (holder.getItemViewType() == ITEM) {
             final ImageDetailModel relatedVideoDetail = relatedVideoList.get(position - 1);
             videoUserName = relatedVideoDetail.getUserName();
-
-            Utils.LikeMemberId = Utils.getAppUserId(mContext);
-            Utils.LikeReferenceId = relatedVideoDetail.getBAVideoGalleryId();
+            Utils.LikeMemberId = String.valueOf(Utils.getAppUserId(mContext));
+            Utils.LikeReferenceId = String.valueOf(relatedVideoDetail.getBAVideoGalleryId());
             referenceId = String.valueOf(relatedVideoDetail.getBAVideoGalleryId());
-            Utils.LikeSourceType = 2;
+            Utils.LikeSourceType = "2";
             Utils.setImageInImageView(relatedVideoDetail.getVideoImageURL(),
                     ((ItemViewHolder) holder).relatedVideoAdapterItemBinding.relatedVideoImg, mContext);
 
@@ -110,9 +109,9 @@ public class RelatedVideoAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     Utils.handleClickEvent(mContext,((ItemViewHolder)holder).relatedVideoAdapterItemBinding.relatedVideoImg);
                     videoName = relatedVideoDetail.getVideoName();
                     dataCheck = new ArrayList<String>();
-                    Utils.LikeMemberId = Utils.getAppUserId(mContext);
-                    Utils.LikeReferenceId = relatedVideoDetail.getBAVideoGalleryId();
-                    Utils.LikeSourceType = 2;
+                    Utils.LikeMemberId = String.valueOf(Utils.getAppUserId(mContext));
+                    Utils.LikeReferenceId = String.valueOf(relatedVideoDetail.getBAVideoGalleryId());
+                    Utils.LikeSourceType = "2";
                     dataCheck.add(relatedVideoDetail.getVideoFileURL() + "|" + relatedVideoDetail.getVideoName());
                     morestoryClick.image_more_click();
 
@@ -136,7 +135,7 @@ public class RelatedVideoAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 @Override
                 public void liked(LikeButton likeButton) {
                     if (Utils.isMember(mContext, "galleryDetail")) {
-                        Utils.LikeStatus = 1;
+                        Utils.LikeStatus = "1";
                         Utils.InsertLike(mContext, activity);
                     }else{
                         ((HeaderViewHolder) holder).relatedVideoHeaderBinding.videoLikeBtn.setLiked(false);
@@ -146,7 +145,7 @@ public class RelatedVideoAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 @Override
                 public void unLiked(LikeButton likeButton) {
                     if (Utils.isMember(mContext, "galleryDetail")) {
-                        Utils.LikeStatus = 0;
+                        Utils.LikeStatus = "0";
                         Utils.InsertLike(mContext, activity);
                     }else{
                         ((HeaderViewHolder) holder).relatedVideoHeaderBinding.videoLikeBtn.setLiked(true);

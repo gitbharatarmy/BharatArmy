@@ -18,19 +18,15 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.bharatarmy.Activity.GalleryImageDetailActivity;
 import com.bharatarmy.Activity.ImageEditProfilePickerActivity;
-import com.bharatarmy.Activity.ImageVideoUploadActivity;
-import com.bharatarmy.Activity.VideoDetailActivity;
+import com.bharatarmy.Activity.ImageUploadActivity;
+import com.bharatarmy.Activity.VideoDetailHorizontalActivity;
+import com.bharatarmy.Activity.VideoDetailVerticalActivity;
 import com.bharatarmy.Activity.VideoTrimActivity;
-import com.bharatarmy.Activity.VideoUploadActivity;
-import com.bharatarmy.Adapter.ImageListAdapter;
 import com.bharatarmy.Adapter.VideoListAdapter;
 import com.bharatarmy.Interfaces.image_click;
 import com.bharatarmy.Models.ImageDetailModel;
@@ -38,8 +34,7 @@ import com.bharatarmy.Models.ImageMainModel;
 import com.bharatarmy.Models.MyScreenChnagesModel;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.ApiHandler;
-import com.bharatarmy.Utility.EndlessRecyclerViewScrollListener;
-import com.bharatarmy.Utility.GridSpacingItemDecoration;
+import com.bharatarmy.Utility.AppConfiguration;
 import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.FragmentVideoBinding;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -94,10 +89,11 @@ public class VideoFragment extends Fragment {
     int pageIndex = 0;
     SpeedDialOverlayLayout overlayLayout;
     SpeedDialView speedDialView;
-    String imageorvideoStr;
+    String imageorvideoStr, videoClickData,videoDataStr,videoNameStr,videoUserNameStr,videoLikeStr,WhereToVideoComeStr,videoIdStr,videoThumbStr;
 
     Uri selectedUri;
     private static final int REQUEST_VIDEO_TRIMMER = 0x01;
+
     public VideoFragment() {
         // Required empty public constructor
     }
@@ -138,7 +134,7 @@ public class VideoFragment extends Fragment {
 
         rootView = fragmentVideoBinding.getRoot();
         mContext = getActivity().getApplicationContext();
-        EventBus.getDefault().register(this);
+//        EventBus.getDefault().register(this);
         ImageEditProfilePickerActivity.clearCache(mContext);
         setUserVisibleHint(true);
         return rootView;
@@ -162,35 +158,36 @@ public class VideoFragment extends Fragment {
             initSpeedDial();
         }
     }
+
     public void initSpeedDial() {  //boolean addActionItems
         speedDialView = (SpeedDialView) getActivity().findViewById(R.id.speedDial);
         overlayLayout = (SpeedDialOverlayLayout) getActivity().findViewById(R.id.overlay);
         speedDialView.setVisibility(View.VISIBLE);
 //        if (addActionItems) {
-            Drawable drawable = AppCompatResources.getDrawable(mContext, R.drawable.video_image_d);
-            FabWithLabelView fabWithvideoView = speedDialView.addActionItem(new SpeedDialActionItem.Builder(R.id
-                    .fab_no_label, drawable)
-                    .setLabel("Video Upload")
-                    .setLabelBackgroundColor(getResources().getColor(R.color.splash_bg_color))
-                    .setFabImageTintColor(getResources().getColor(R.color.splash_bg_color))
+        Drawable drawable = AppCompatResources.getDrawable(mContext, R.drawable.video_image_d);
+        FabWithLabelView fabWithvideoView = speedDialView.addActionItem(new SpeedDialActionItem.Builder(R.id
+                .fab_no_label, drawable)
+                .setLabel("Video Upload")
+                .setLabelBackgroundColor(getResources().getColor(R.color.splash_bg_color))
+                .setFabImageTintColor(getResources().getColor(R.color.splash_bg_color))
+                .create());
+        if (fabWithvideoView != null) {
+            fabWithvideoView.setSpeedDialActionItem(fabWithvideoView.getSpeedDialActionItemBuilder()
+                    .setFabBackgroundColor(getResources().getColor(R.color.heading_bg))
                     .create());
-            if (fabWithvideoView != null) {
-                fabWithvideoView.setSpeedDialActionItem(fabWithvideoView.getSpeedDialActionItemBuilder()
-                        .setFabBackgroundColor(getResources().getColor(R.color.heading_bg))
-                        .create());
-            }
-            Drawable drawableimage = AppCompatResources.getDrawable(mContext, R.drawable.image_d);
-            FabWithLabelView fabWithLabelView = speedDialView.addActionItem(new SpeedDialActionItem.Builder(R.id
-                    .fab_custom_color, drawableimage)
-                    .setLabel("Image Upload")
-                    .setLabelBackgroundColor(getResources().getColor(R.color.splash_bg_color))
-                    .setFabImageTintColor(getResources().getColor(R.color.splash_bg_color))
+        }
+        Drawable drawableimage = AppCompatResources.getDrawable(mContext, R.drawable.image_d);
+        FabWithLabelView fabWithLabelView = speedDialView.addActionItem(new SpeedDialActionItem.Builder(R.id
+                .fab_custom_color, drawableimage)
+                .setLabel("Image Upload")
+                .setLabelBackgroundColor(getResources().getColor(R.color.splash_bg_color))
+                .setFabImageTintColor(getResources().getColor(R.color.splash_bg_color))
+                .create());
+        if (fabWithLabelView != null) {
+            fabWithLabelView.setSpeedDialActionItem(fabWithLabelView.getSpeedDialActionItemBuilder()
+                    .setFabBackgroundColor(getResources().getColor(R.color.heading_bg))
                     .create());
-            if (fabWithLabelView != null) {
-                fabWithLabelView.setSpeedDialActionItem(fabWithLabelView.getSpeedDialActionItemBuilder()
-                        .setFabBackgroundColor(getResources().getColor(R.color.heading_bg))
-                        .create());
-            }
+        }
 //        }
 
         //Set main action clicklistener.
@@ -213,7 +210,7 @@ public class VideoFragment extends Fragment {
             public boolean onActionSelected(SpeedDialActionItem actionItem) {
                 switch (actionItem.getId()) {
                     case R.id.fab_no_label:
-                        if (Utils.isMember(mContext,"ImageUpload")) {
+                        if (Utils.isMember(mContext, "ImageUpload")) {
                             Dexter.withActivity(getActivity())
                                     .withPermissions(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE,
                                             Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -240,7 +237,7 @@ public class VideoFragment extends Fragment {
                         return false; // false will close it without animation
 
                     case R.id.fab_custom_color:
-                        if (Utils.isMember(mContext,"ImageUpload")) {
+                        if (Utils.isMember(mContext, "ImageUpload")) {
                             Dexter.withActivity(getActivity())
                                     .withPermissions(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE,
                                             Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -250,7 +247,7 @@ public class VideoFragment extends Fragment {
                                             if (report.areAllPermissionsGranted()) {
 
                                                 imageorvideoStr = "image";
-                                                Intent imagevideouploadIntent1 = new Intent(mContext, ImageVideoUploadActivity.class);
+                                                Intent imagevideouploadIntent1 = new Intent(mContext, ImageUploadActivity.class);
                                                 imagevideouploadIntent1.putExtra("image/video", imageorvideoStr);
                                                 imagevideouploadIntent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                                 mContext.startActivity(imagevideouploadIntent1);
@@ -276,6 +273,7 @@ public class VideoFragment extends Fragment {
             }
         });
     }
+
     public void setListiner() {
         staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, 1);
 //        gridLayoutManager.setOrientation(RecyclerView.VERTICAL); // set Horizontal Orientation
@@ -285,7 +283,7 @@ public class VideoFragment extends Fragment {
         fragmentVideoBinding.refreshView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                pageIndex=0;
+                pageIndex = 0;
                 callVideoGalleryPullData();
 
             }
@@ -305,7 +303,7 @@ public class VideoFragment extends Fragment {
                 lastVisibleItem = Math.max(lastPositions[0], lastPositions[1]);//findMax(lastPositions);
 
                 if (!isLoading) {
-                    if (staggeredGridLayoutManager != null && lastVisibleItem == videoDetailModelsList.size() - 1) {
+                    if (staggeredGridLayoutManager != null && lastVisibleItem == videoDetailModelsList.size() - 2) {
                         //bottom of list!
                         ispull = false;
                         pageIndex = pageIndex + 1;
@@ -383,12 +381,18 @@ public class VideoFragment extends Fragment {
         Map<String, String> map = new HashMap<>();
         map.put("PageIndex", String.valueOf(pageIndex));
         map.put("PageSize", "20");
-        map.put("MemberId",String.valueOf(Utils.getAppUserId(mContext)));
+        map.put("MemberId", String.valueOf(Utils.getAppUserId(mContext)));
         return map;
     }
 
     public void fillVideoGallery() {
-        videoListAdapter = new VideoListAdapter(mContext,getActivity(), videoDetailModelsList);
+        videoListAdapter = new VideoListAdapter(mContext, getActivity(), videoDetailModelsList, new image_click() {
+            @Override
+            public void image_more_click() {
+//               videoDataDirection();
+
+            }
+        });
         fragmentVideoBinding.videoRcvList.setAdapter(videoListAdapter);
 
     }
@@ -403,10 +407,11 @@ public class VideoFragment extends Fragment {
 
     private void loadMore() {
 
-       callVideoGalleryData();
+        callVideoGalleryData();
 
 
     }
+
     // Api calling GetVideoGalleryPullData
     public void callVideoGalleryPullData() {
         if (!Utils.checkNetwork(mContext)) {
@@ -439,10 +444,15 @@ public class VideoFragment extends Fragment {
                         videoUrl.clear();
                         videoDetailModelsList = videoMainModel.getData();
 
-                         isLoading=false;
+                        isLoading = false;
                         staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, 1);
                         fragmentVideoBinding.videoRcvList.setLayoutManager(staggeredGridLayoutManager);
-                        videoListAdapter = new VideoListAdapter(mContext,getActivity(), videoDetailModelsList);
+                        videoListAdapter = new VideoListAdapter(mContext, getActivity(), videoDetailModelsList, new image_click() {
+                            @Override
+                            public void image_more_click() {
+//                                videoDataDirection();
+                            }
+                        });
                         fragmentVideoBinding.videoRcvList.setAdapter(videoListAdapter);
                         fragmentVideoBinding.refreshView.setRefreshing(false);
 
@@ -466,11 +476,12 @@ public class VideoFragment extends Fragment {
 
     private Map<String, String> getVideoGalleryPullData() {
         Map<String, String> map = new HashMap<>();
-        map.put("PageIndex",String.valueOf(pageIndex));
+        map.put("PageIndex", String.valueOf(pageIndex));
         map.put("PageSize", "20");
-        map.put("MemberId",String.valueOf(Utils.getAppUserId(mContext)));
+        map.put("MemberId", String.valueOf(Utils.getAppUserId(mContext)));
         return map;
     }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -520,27 +531,81 @@ public class VideoFragment extends Fragment {
         if (resultCode == RESULT_OK) {
             if (requestCode == REQUEST_VIDEO_TRIMMER) {
                 selectedUri = data.getData();
-                Log.d("selectedVideoUri :",""+selectedUri);
+                Log.d("selectedVideoUri :", "" + selectedUri);
 
-                Intent videoTrimIntent=new Intent(mContext,VideoTrimActivity.class);
-                videoTrimIntent.putExtra("videoPath",selectedUri.toString());
+                Intent videoTrimIntent = new Intent(mContext, VideoTrimActivity.class);
+                videoTrimIntent.putExtra("videoPath", selectedUri.toString());
                 getActivity().startActivity(videoTrimIntent);
-
-
             }
         }
     }
 
 
-    @Subscribe
-    public void customEventReceived(MyScreenChnagesModel event) {
-        if (!event.getMessage().equalsIgnoreCase("")) {
-            for (int i=0;i<videoDetailModelsList.size();i++){
-                if (videoDetailModelsList.get(i).getBAVideoGalleryId()== Integer.valueOf(event.getMessage())){
-                    videoDetailModelsList.get(i).setIsLike(Utils.LikeStatus);
-                }
-            }
-        }
+//    @Subscribe
+//    public void customEventReceived(MyScreenChnagesModel event) {
+//        Log.d("VideoResponse :", String.valueOf(event.getImageLikeposition()));
+//        for (int i = 0; i < videoDetailModelsList.size(); i++) {
+//            if (videoDetailModelsList.get(i).getBAVideoGalleryId().equals(event.getImageLikeposition())) {
+////              videoLikeStr=Utils.LikeStatus;
+////              videoDetailModelsList.get(i).setIsLike(Integer.valueOf(Utils.LikeStatus));
+//
+//            }
+//        }
+//    }
 
+    public void videoDataDirection(){
+        int width, height;
+        videoClickData = "";
+        videoClickData = String.valueOf(videoListAdapter.getData());
+        videoClickData = videoClickData.substring(1, videoClickData.length() - 1);
+        Log.d("imageClickData", "" + videoClickData);
+        String[] splitValue = videoClickData.split("\\|");
+        videoDataStr=splitValue[5];
+        videoNameStr=splitValue[4];
+        videoUserNameStr=splitValue[3];
+        videoLikeStr=splitValue[2];
+        WhereToVideoComeStr="VideoFragment";
+        videoIdStr=splitValue[0];
+        videoThumbStr=splitValue[1];
+        width = Integer.parseInt(splitValue[6]);
+        height = Integer.parseInt(splitValue[7]);
+        Log.d("videoId",videoIdStr +"Video Like"+ videoLikeStr);
+        if (width > height) {
+            AppConfiguration.videoType = "horizontal";
+            Intent videogalleryhorizontaldetailIntent = new Intent(mContext, VideoDetailHorizontalActivity.class);
+            videogalleryhorizontaldetailIntent.putExtra("videoData", videoDataStr);
+            videogalleryhorizontaldetailIntent.putExtra("videoName", videoNameStr);
+            videogalleryhorizontaldetailIntent.putExtra("videoUserName", videoUserNameStr);
+            videogalleryhorizontaldetailIntent.putExtra("videoLike", videoLikeStr);
+            videogalleryhorizontaldetailIntent.putExtra("WhereToVideoCome", WhereToVideoComeStr);
+            videogalleryhorizontaldetailIntent.putExtra("videoId", videoIdStr);
+            videogalleryhorizontaldetailIntent.putExtra("videoThumb", videoThumbStr);
+            videogalleryhorizontaldetailIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            mContext.startActivity(videogalleryhorizontaldetailIntent);
+        } else if (width < height) {
+            AppConfiguration.videoType = "vertical";
+            Intent videogalleryverticaldetailIntent = new Intent(mContext, VideoDetailVerticalActivity.class);
+            videogalleryverticaldetailIntent.putExtra("videoData", videoDataStr);
+            videogalleryverticaldetailIntent.putExtra("videoName", videoNameStr);
+            videogalleryverticaldetailIntent.putExtra("videoUserName", videoUserNameStr);
+            videogalleryverticaldetailIntent.putExtra("videoLike", videoLikeStr);
+            videogalleryverticaldetailIntent.putExtra("WhereToVideoCome", WhereToVideoComeStr);
+            videogalleryverticaldetailIntent.putExtra("videoId", videoIdStr);
+            videogalleryverticaldetailIntent.putExtra("videoThumb", videoThumbStr);
+            videogalleryverticaldetailIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            mContext.startActivity(videogalleryverticaldetailIntent);
+        } else if (width == height) {
+            AppConfiguration.videoType = "horizontal";
+            Intent videogalleryhorizontaldetailIntent = new Intent(mContext, VideoDetailHorizontalActivity.class);
+            videogalleryhorizontaldetailIntent.putExtra("videoData", videoDataStr);
+            videogalleryhorizontaldetailIntent.putExtra("videoName", videoNameStr);
+            videogalleryhorizontaldetailIntent.putExtra("videoUserName", videoUserNameStr);
+            videogalleryhorizontaldetailIntent.putExtra("videoLike", videoLikeStr);
+            videogalleryhorizontaldetailIntent.putExtra("WhereToVideoCome", WhereToVideoComeStr);
+            videogalleryhorizontaldetailIntent.putExtra("videoId", videoIdStr);
+            videogalleryhorizontaldetailIntent.putExtra("videoThumb", videoThumbStr);
+            videogalleryhorizontaldetailIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            mContext.startActivity(videogalleryhorizontaldetailIntent);
+        }
     }
 }

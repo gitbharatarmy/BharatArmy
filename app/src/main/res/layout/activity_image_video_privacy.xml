@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Activity.ImageVideoPrivacyActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_50sdp"
+        android:background="@color/heading_bg"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:titleTextAppearance="@style/ToolbarTitle">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_5sdp"
+            android:layout_marginRight="@dimen/_5sdp"
+            android:orientation="horizontal"
+            android:weightSum="3">
+
+            <LinearLayout
+                android:id="@+id/back_img"
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_marginLeft="@dimen/_2sdp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_15sdp"
+                    android:layout_gravity="left|center_vertical"
+                    android:src="@drawable/ic_left_arrow2"
+                    android:tint="@color/splash_bg_color" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/toolbar_title_txt"
+                style="@style/title_text_font"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_40sdp"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:maxLines="1"
+                android:paddingLeft="@dimen/_5sdp"
+                android:text="Select Privacy"
+                android:textColor="@color/splash_bg_color"
+                android:textSize="@dimen/_14sdp" />
+        </LinearLayout>
+    </androidx.appcompat.widget.Toolbar>
+
+    <View
+        android:id="@+id/top_gradiant_view"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:layout_below="@+id/toolbar"
+        android:background="@drawable/bg_gradiant_line" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginLeft="@dimen/_15sdp"
+        android:layout_marginRight="@dimen/_15sdp"
+        android:layout_marginTop="@dimen/_15sdp">
+
+        <TextView
+            style="@style/title_text_font"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:text="@string/photo_privacy_header_txt"
+            android:textColor="@color/heading_bg"
+            android:textSize="@dimen/_13sdp" />
+
+        <TextView
+            style="@style/text_font"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:text="@string/photo_privacy_sub_txt"
+            android:textColor="@color/normal_font_color"
+            android:textSize="@dimen/_11sdp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/_5sdp">
+
+            <TextView
+                style="@style/text_font"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:text="@string/photo_privacy_more_txt"
+                android:textColor="@color/normal_font_color"
+                android:textSize="@dimen/_11sdp" />
+
+            <TextView
+                style="@style/text_font"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/_7sdp"
+                android:text="@string/photo_privacy_txt"
+                android:textColor="@color/skip_color"
+                android:textSize="@dimen/_11sdp" />
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/privacy_rcv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_15sdp"/>
+    </LinearLayout>
+</LinearLayout>
+</layout>

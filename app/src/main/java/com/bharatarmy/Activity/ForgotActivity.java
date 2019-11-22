@@ -84,23 +84,24 @@ public class ForgotActivity extends AppCompatActivity {
         activityForgotBinding.backImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (getIntent().getStringExtra("whereTocomeLogin")!=null){
-                    finish();
-                }else{
-                    Intent iLogin = new Intent(mContext, LoginwithEmailActivity.class);
-                    startActivity(iLogin);
-                    finish();
-                }
+                whereToBack();
             }
         });
     }
 
     @Override
     public void onBackPressed() {
-        finish();
+        whereToBack();
         super.onBackPressed();
     }
 
+
+    public void whereToBack(){
+        Intent iLogin = new Intent(mContext, LoginwithEmailActivity.class);
+        iLogin.putExtra("whereTocomeLogin",getIntent().getStringExtra("whereTocomeLogin"));
+        startActivity(iLogin);
+        finish();
+    }
     public void getForgotPassword() {
         if (!Utils.checkNetwork(mContext)) {
             Utils.showCustomDialog(getResources().getString(R.string.internet_error), getResources().getString(R.string.internet_connection_error), ForgotActivity.this);
@@ -152,6 +153,7 @@ public class ForgotActivity extends AppCompatActivity {
     private Map<String, String> getForgotData() {
         Map<String, String> map = new HashMap<>();
         map.put("EmailId", emailStr);
+        map.put("MemberId", String.valueOf(Utils.getAppUserId(mContext)));
         return map;
     }
 }

@@ -2,28 +2,17 @@ package com.bharatarmy.Adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
-import android.media.Image;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
-
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.bharatarmy.Activity.MoreStoryActivity;
-import com.bharatarmy.Interfaces.MorestoryClick;
-import com.bharatarmy.Models.StoryDashboardData;
 import com.bharatarmy.Models.TravelModel;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.HotelAmenitiesItemBinding;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.List;
+
 
 public class CityHotelAmenitiesListAdapter extends RecyclerView.Adapter<CityHotelAmenitiesListAdapter.MyViewHolder> {
     Context mContext;

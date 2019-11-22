@@ -43,8 +43,8 @@ android:layout_gravity="right"
         android:layout_height="wrap_content"
         android:layout_below="@+id/skip_linear"
         android:scaleType="centerInside"
-        android:layout_marginLeft="@dimen/_15sdp"
-        android:layout_marginRight="@dimen/_15sdp"
+        android:layout_marginLeft="@dimen/_20sdp"
+        android:layout_marginRight="@dimen/_20sdp"
         android:src="@drawable/ic_firstpage_logo"/>
 
     <com.facebook.shimmer.ShimmerFrameLayout

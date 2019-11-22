@@ -24,11 +24,7 @@ import com.bharatarmy.Utility.AppConfiguration;
 import com.bharatarmy.Utility.Utils;
 
 import com.bharatarmy.databinding.ActivityLoginwithemailBinding;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.InstanceIdResult;
-import com.google.firebase.messaging.FirebaseMessaging;
+
 
 import java.util.HashMap;
 import java.util.Map;
@@ -40,8 +36,7 @@ public class LoginwithEmailActivity extends AppCompatActivity implements View.On
     ActivityLoginwithemailBinding loginBinding;
     Context mContext;
     String username_str, password_str;
-    private String android_id;
-    String token;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,16 +44,14 @@ public class LoginwithEmailActivity extends AppCompatActivity implements View.On
         loginBinding = DataBindingUtil.setContentView(this, R.layout.activity_loginwithemail);
         mContext = LoginwithEmailActivity.this;
         setListner();
-        getFCMTOken();
+
     }
 
     public void setListner() {
         loginBinding.logginBtn.setOnClickListener(this);
         loginBinding.signUpTxt.setOnClickListener(this);
         loginBinding.forgotTxt.setOnClickListener(this);
-        loginBinding.skipTxt.setOnClickListener(this);
         loginBinding.backImg.setOnClickListener(this);
-
 
 
         loginBinding.userPasswordEdt.setOnEditorActionListener(new EditText.OnEditorActionListener() {
@@ -113,124 +106,29 @@ public class LoginwithEmailActivity extends AppCompatActivity implements View.On
         }
 
     }
-
-    public void getFCMTOken() {
-        android_id = Settings.Secure.getString(LoginwithEmailActivity.this.getContentResolver(),
-                Settings.Secure.ANDROID_ID);
-        Log.d("deviceID", android_id);
-
-        FirebaseMessaging.getInstance().setAutoInitEnabled(true);
-        FirebaseInstanceId.getInstance().getInstanceId()
-                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
-                        if (!task.isSuccessful()) {
-                            Log.w("getInstanceId failed", task.getException());
-                            return;
-                        }
-
-                        // Get new Instance ID token
-                        token = task.getResult().getToken();
-
-                        Log.d("token", token);
-                        //getting old saved token
-                        String old_token = Utils.getPref(getApplicationContext(), "registration_id");
-
-                        if (!old_token.equalsIgnoreCase(token)) {
-                            Utils.setPref(getApplicationContext(), "registration_id", token);
-                            // sendRegistrationToServer(refreshedToken);
-                        }
-
-
-                    }
-                });
-    }
-
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.sign_up_txt:
-                Utils.handleClickEvent(mContext,loginBinding.signUpTxt);
+                Utils.handleClickEvent(mContext, loginBinding.signUpTxt);
                 Intent signupIntent = new Intent(mContext, SignUpActivity.class);
-                signupIntent.putExtra( "whereTocomeLogin",getIntent().getStringExtra("whereTocomeLogin"));
+                signupIntent.putExtra("whereTocomeLogin", getIntent().getStringExtra("whereTocomeLogin"));
                 startActivity(signupIntent);
                 finish();
                 break;
             case R.id.loggin_btn:
-                Utils.handleClickEvent(mContext,loginBinding.logginBtn);
+                Utils.handleClickEvent(mContext, loginBinding.logginBtn);
                 verifyLoginDetails();
                 break;
             case R.id.forgot_txt:
-                Utils.handleClickEvent(mContext,loginBinding.forgotTxt);
+                Utils.handleClickEvent(mContext, loginBinding.forgotTxt);
                 Intent forgotIntent = new Intent(mContext, ForgotActivity.class);
-                forgotIntent.putExtra( "whereTocomeLogin",getIntent().getStringExtra("whereTocomeLogin"));
+                forgotIntent.putExtra("whereTocomeLogin", getIntent().getStringExtra("whereTocomeLogin"));
                 startActivity(forgotIntent);
                 finish();
                 break;
-            case R.id.skip_txt:
-                Utils.handleClickEvent(mContext,loginBinding.skipTxt);
-//                Utils.getCurrentUserIDName("0", "", mContext);
-                Utils.setPref(mContext, "IsSkipLogin", "1");
-                Intent DashboardIntent = new Intent(mContext, DashboardActivity.class);
-                startActivity(DashboardIntent);
-                finish();
-                break;
             case R.id.back_img:
-                if (getIntent().getStringExtra("whereTocomeLogin")!=null) {
-                    if (getIntent().getStringExtra("whereTocomeLogin").equalsIgnoreCase("more")) {
-                        if (Utils.retriveLoginData(mContext)!=null){
-                            if (Utils.retriveLoginData(mContext).getMemberType().equalsIgnoreCase(",3,")) {
-                                Intent SFAintent = new Intent(mContext, DisplaySFAUserActivity.class);
-                                startActivity(SFAintent);
-                                finish();
-                            } else {
-                                Intent signinIntent = new Intent(mContext, DashboardActivity.class);
-                                signinIntent.putExtra("whichPageRun", "5");
-                                startActivity(signinIntent);
-                                finish();
-                            }
-                        }else{
-                            Intent appLoginIntent=new Intent(mContext,AppLoginActivity.class);
-                            appLoginIntent.putExtra("whereTocomeLogin",getIntent().getStringExtra("whereTocomeLogin"));
-                            startActivity(appLoginIntent);
-                            finish();
-                        }
-                    } else {
-                        finish();
-                    }
-                }else{
-                    Intent appLoginIntent=new Intent(mContext,AppLoginActivity.class);
-                    startActivity(appLoginIntent);
-                    finish();
-                }
-//                if (getIntent().getStringExtra("whereTocomeLogin")!=null) {
-//                    if (getIntent().getStringExtra("whereTocomeLogin").equalsIgnoreCase("ImageUpload")) {
-//                        Intent dashboardIntent = new Intent(mContext, DashboardActivity.class);
-//                        dashboardIntent.putExtra("whichPageRun", "1");
-//                        startActivity(dashboardIntent);
-//                        finish();
-//                    } else if(getIntent().getStringExtra("whereTocomeLogin").equalsIgnoreCase("more")){
-//                        Intent dashintent = new Intent(mContext, DashboardActivity.class);
-//                        dashintent.putExtra("whichPageRun", "5");
-//                        startActivity(dashintent);
-//                        finish();
-//                    } else if(getIntent().getStringExtra("whereTocomeLogin").equalsIgnoreCase("storyDetail")){
-//                        Intent dashintent = new Intent(mContext, DashboardActivity.class);
-//                        dashintent.putExtra("whichPageRun", "4");
-//                        startActivity(dashintent);
-//                        finish();
-//                    } else if(getIntent().getStringExtra("whereTocomeLogin").equalsIgnoreCase("Ticket Detail")){
-//                        Intent dashintent = new Intent(mContext, DashboardActivity.class);
-//                        dashintent.putExtra("whichPageRun", "2");
-//                        startActivity(dashintent);
-//                        finish();
-//                    }
-//                }else{
-//                    Intent walkintent = new Intent(mContext, WalkThrough.class);
-//                    startActivity(walkintent);
-//                    finish();
-//                }
-
+                whereToBack();
                 break;
             case R.id.user_name_edt:
                 Utils.scrollScreen(loginBinding.scrollView);
@@ -264,9 +162,10 @@ public class LoginwithEmailActivity extends AppCompatActivity implements View.On
                 }
                 if (loginModel.getIsValid() == 1) {
                     if (loginModel.getData() != null) {
-                        Utils.setPref(mContext, "IsSkipLogin", "0");
+                        Utils.setPref(mContext, "IsSkipLogin", "");
                         Utils.setPref(mContext, "IsLoginUser", "1");
-                        Utils.storeLoginData(loginModel.getData(),mContext);
+                        Utils.storeLoginData(loginModel.getData(), mContext);
+                        Utils.storeCurrentLocationData(loginModel.getCurrentLocation(),mContext);
                         Utils.storeLoginOtherData(loginModel.getOtherData(), mContext);
 
 //                        Utils.getCurrentUserIDName(String.valueOf(loginModel.getData().getId()), loginModel.getData().getName(), mContext);
@@ -277,7 +176,8 @@ public class LoginwithEmailActivity extends AppCompatActivity implements View.On
                             startActivity(otpIntent);
                             finish();
                         } else {
-                           whereToBack();
+                            Utils.setPref(mContext, "LoginType", "Email");
+                            goToAfterLogin();
 
                         }
                     }
@@ -301,72 +201,50 @@ public class LoginwithEmailActivity extends AppCompatActivity implements View.On
         map.put("Email", username_str);
         map.put("Password", password_str);
         map.put("TokenId", Utils.getPref(mContext, "registration_id"));
+        map.put("ModelName",Utils.getDeviceName());
         return map;
     }
 
     @Override
     public void onBackPressed() {
-        finish();
+        whereToBack();
         super.onBackPressed();
     }
 
-    public void whereToBack(){
-        if (getIntent().getStringExtra("whereTocomeLogin")!=null){
-            if(getIntent().getStringExtra("whereTocomeLogin").equalsIgnoreCase("more")) {
-                if (Utils.retriveLoginData(mContext).getMemberType().equalsIgnoreCase(",3,")) {
+    public void whereToBack() {
+        Intent appLoginIntent = new Intent(mContext, AppLoginActivity.class);
+        appLoginIntent.putExtra("whereTocomeLogin", getIntent().getStringExtra("whereTocomeLogin"));
+        startActivity(appLoginIntent);
+        finish();
+    }
+
+    public void goToAfterLogin() {
+        if (getIntent().getStringExtra("whereTocomeLogin") != null) {
+            if (getIntent().getStringExtra("whereTocomeLogin").equalsIgnoreCase("more")) {
+                /*Direct goto SFA Screen*/
+                /*if (Utils.retriveLoginData(mContext).getMemberType().equalsIgnoreCase(",3,")) {
                     Intent SFAintent = new Intent(mContext, DisplaySFAUserActivity.class);
                     startActivity(SFAintent);
                     finish();
-                } else {
+                } else {*/
                     Intent DashboardIntent = new Intent(mContext, DashboardActivity.class);
                     DashboardIntent.putExtra("whichPageRun", "5");
                     startActivity(DashboardIntent);
                     finish();
-                }
-            }else{
+//                }
+            } else {
                 finish();
             }
-
-//            if (getIntent().getStringExtra("whereTocomeLogin").equalsIgnoreCase("ImageUpload")) {
-//                Intent DashboardIntent = new Intent(mContext, DashboardActivity.class);
-//                DashboardIntent.putExtra("whichPageRun", "1");
-//                startActivity(DashboardIntent);
-//                finish();
-//            }else if(getIntent().getStringExtra("whereTocomeLogin").equalsIgnoreCase("more")){
-//                if (Utils.retriveLoginData(mContext).getMemberType().equalsIgnoreCase(",3,")){
-//                    Intent SFAintent = new Intent(mContext, DisplaySFAUserActivity.class);
-//                    startActivity(SFAintent);
-//                    finish();
-//                }else{
-//                    Intent DashboardIntent = new Intent(mContext, DashboardActivity.class);
-//                    startActivity(DashboardIntent);
-//                    finish();
-//                }
-//            }else if(getIntent().getStringExtra("whereTocomeLogin").equalsIgnoreCase("storyDetail")){
-//                Intent dashintent = new Intent(mContext, DashboardActivity.class);
-//                dashintent.putExtra("whichPageRun", "4");
-//                startActivity(dashintent);
-//                finish();
-//            }else if(getIntent().getStringExtra("whereTocomeLogin").equalsIgnoreCase("Ticket Detail")){
-//                Intent dashintent = new Intent(mContext, DashboardActivity.class);
-//                dashintent.putExtra("whichPageRun", "2");
-//                startActivity(dashintent);
-//                finish();
-//            } else {
-//                Intent DashboardIntent = new Intent(mContext, DashboardActivity.class);
-//                startActivity(DashboardIntent);
-//                finish();
-//            }
-        }else{
-            if (Utils.retriveLoginData(mContext).getMemberType().equalsIgnoreCase(",3,")){
+        } else {
+            /*if (Utils.retriveLoginData(mContext).getMemberType().equalsIgnoreCase(",3,")) {
                 Intent SFAintent = new Intent(mContext, DisplaySFAUserActivity.class);
                 startActivity(SFAintent);
                 finish();
-            }else{
+            } else {*/
                 Intent DashboardIntent = new Intent(mContext, DashboardActivity.class);
                 startActivity(DashboardIntent);
                 finish();
-            }
+//            }
 
         }
     }

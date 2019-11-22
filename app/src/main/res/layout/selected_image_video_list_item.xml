@@ -3,7 +3,7 @@
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_90sdp"
+        android:layout_height="@dimen/_80sdp"
         android:orientation="vertical">
 
         <LinearLayout
@@ -19,7 +19,9 @@
                     android:id="@+id/selected_image"
                     android:layout_width="@dimen/_60sdp"
                     android:layout_height="@dimen/_60sdp"
-                    android:layout_margin="@dimen/_5sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginRight="@dimen/_5sdp"
+                    android:layout_marginLeft="@dimen/_3sdp"
                     android:scaleType="centerCrop"
                     android:src="@drawable/yashmittal" />
 
@@ -39,7 +41,7 @@
                     android:layout_weight="0.8"
                     android:layout_height="match_parent"
                     android:layout_alignParentLeft="true"
-                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_7sdp"
                     android:orientation="vertical">
 
                     <TextView

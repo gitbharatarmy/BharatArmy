@@ -68,20 +68,12 @@ public class WalkThrough extends AppCompatActivity {
         dotsLayout = (LinearLayout) findViewById(R.id.layoutDots);
         btnSkip = (Button) findViewById(R.id.btn_skip);
         btnNext = (Button) findViewById(R.id.btn_next);
-
+        Utils.setPref(mContext, "IsSkipLogin", "0");
+        Utils.setPref(mContext, "IsLoginUser", "0");
         Utils.setPref(mContext, "IsFirstTime", "1");
         callWalkThroughData();
     }
 
-
-    private void sendRegistrationToServer(String token, String uniqueID) {
-        Utils.setPref(mContext, "deviceId", uniqueID);
-        try {
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
 
     @SuppressLint("ResourceAsColor")

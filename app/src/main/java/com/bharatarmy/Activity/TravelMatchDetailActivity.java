@@ -72,7 +72,7 @@ public class TravelMatchDetailActivity extends AppCompatActivity implements View
     public void init() {
         bgImageStr = getIntent().getStringExtra("bgImage");
         tourMatchNameStr = getIntent().getStringExtra("tourName");
-        Utils.setImageInImageView("https://cdn.drivebird.com/user-content/140000000001/2017/09/627c6d094ccd59cdcf10035482d7497f.jpg",
+        Utils.setImageInImageView("https://wallpapershome.com/images/pages/pic_h/5050.jpg",
                 travelMatchDetailBinding.mainMatchBgImage, mContext);
 
         titleNameStr = "schedule";

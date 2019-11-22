@@ -2,21 +2,16 @@ package com.bharatarmy.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.media.MediaPlayer;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bharatarmy.Activity.VideoDetailActivity;
 import com.bharatarmy.Activity.VideoDetailHorizontalActivity;
 import com.bharatarmy.Activity.VideoDetailVerticalActivity;
 import com.bharatarmy.Interfaces.image_click;
@@ -24,7 +19,6 @@ import com.bharatarmy.Models.ImageDetailModel;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.AppConfiguration;
 import com.bharatarmy.Utility.Utils;
-import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,11 +29,14 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.Item
     Context mContext;
     image_click image_click;
 FragmentActivity activity;
+    private ArrayList<String> dataCheck;
 
-    public VideoListAdapter(Context mContext, FragmentActivity activity, List<ImageDetailModel> itemList) {
+    public VideoListAdapter(Context mContext, FragmentActivity activity, List<ImageDetailModel> itemList,
+                        image_click imageClick) {
         this.mContext = mContext;
         this.mItemList = itemList;
         this.activity=activity;
+        this.image_click=imageClick;
     }
 
     @NonNull
@@ -74,6 +71,13 @@ FragmentActivity activity;
                 Utils.viewsSourceType="2";
                 Utils.viewsTokenId= Utils.getPref(mContext, "registration_id");
                 Utils.InsertBAViews(mContext,activity);
+
+                dataCheck = new ArrayList<String>();
+//                dataCheck.add(String.valueOf(detail.getBAVideoGalleryId())+ "|" +
+//                        detail.getVideoImageURL()+"|"+String.valueOf(detail.getIsLike())+"|"+
+//                        detail.getUserName()+"|"+detail.getVideoName()+"|"+ detail.getVideoFileURL()+"|"+
+//                        detail.getWidth()+"|"+detail.getHeight());
+//                image_click.image_more_click();
 
                 if (detail.getWidth()> detail.getHeight()){
                     AppConfiguration.videoType="horizontal";
@@ -150,7 +154,9 @@ FragmentActivity activity;
             recommended_image = itemView.findViewById(R.id.recommended_image);
         }
     }
-
+    public ArrayList<String> getData() {
+        return dataCheck;
+    }
 
     public void addMoreDataToList(List<ImageDetailModel> result) {
         mItemList.addAll(result);

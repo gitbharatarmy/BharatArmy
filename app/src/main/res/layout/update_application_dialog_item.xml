@@ -15,7 +15,7 @@
             android:id="@+id/updateapp_img"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_90sdp"
-            android:src="@drawable/logo"
+            android:src="@drawable/logo_new"
             android:layout_gravity="center"
             android:layout_marginTop="@dimen/_140sdp"/>
 

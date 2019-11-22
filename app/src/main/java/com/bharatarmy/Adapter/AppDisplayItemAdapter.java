@@ -74,7 +74,7 @@ public class AppDisplayItemAdapter extends RecyclerView.Adapter<AppDisplayItemAd
 
     @Override
     public int getItemCount() {
-        return displayItemList == null ? 0 : displayItemList.size() * 100;
+        return displayItemList == null ? 0 : displayItemList.size() * 1000;
     }
 
 }

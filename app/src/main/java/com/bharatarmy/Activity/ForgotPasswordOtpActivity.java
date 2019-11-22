@@ -17,7 +17,6 @@ import android.widget.TextView;
 
 import com.bharatarmy.Interfaces.SmsListener;
 import com.bharatarmy.R;
-import com.bharatarmy.Utility.SmsReceiver;
 import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.ActivityForgotPasswordOtpBinding;
 
@@ -44,12 +43,7 @@ public class ForgotPasswordOtpActivity extends AppCompatActivity implements View
 
 
     public void setListiner() {
-        SmsReceiver.bindListener(new SmsListener() {
-            @Override
-            public void messageReceived(String messageText) {
-//                ed.setText(messageText);
-            }
-        });
+
 
         activityForgotPasswordOtpBinding.edit1.addTextChangedListener(new TextWatcher() {
             @Override
@@ -61,13 +55,14 @@ public class ForgotPasswordOtpActivity extends AppCompatActivity implements View
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 Integer textlength1 = activityForgotPasswordOtpBinding.edit1.getText().length();
                 activityForgotPasswordOtpBinding.edit1.setBackgroundResource(R.drawable.rectangle_line);
-                if (textlength1 >= 1) {
+                if (textlength1 == 1) {
                     activityForgotPasswordOtpBinding.edit1.setBackgroundResource(R.drawable.fill_rectangle_line);
                     activityForgotPasswordOtpBinding.edit2.requestFocus();
-                } else {
+                }
+                /*else {
                     activityForgotPasswordOtpBinding.edit1.requestFocus();
 
-                }
+                }*/
             }
 
             @Override
@@ -88,9 +83,10 @@ public class ForgotPasswordOtpActivity extends AppCompatActivity implements View
                 if (textlength1 == 1) {
                     activityForgotPasswordOtpBinding.edit2.setBackgroundResource(R.drawable.fill_rectangle_line);
                     activityForgotPasswordOtpBinding.edit3.requestFocus();
-                } else {
-                    activityForgotPasswordOtpBinding.edit1.requestFocus();
                 }
+                /*else {
+                    activityForgotPasswordOtpBinding.edit1.requestFocus();
+                }*/
             }
 
             @Override
@@ -111,9 +107,10 @@ public class ForgotPasswordOtpActivity extends AppCompatActivity implements View
                 if (textlength1 == 1) {
                     activityForgotPasswordOtpBinding.edit3.setBackgroundResource(R.drawable.fill_rectangle_line);
                     activityForgotPasswordOtpBinding.edit4.requestFocus();
-                } else {
-                    activityForgotPasswordOtpBinding.edit2.requestFocus();
                 }
+                /*else {
+                    activityForgotPasswordOtpBinding.edit2.requestFocus();
+                }*/
             }
 
             @Override
@@ -143,6 +140,40 @@ public class ForgotPasswordOtpActivity extends AppCompatActivity implements View
             }
         });
 
+        activityForgotPasswordOtpBinding.edit2.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                //You can identify which key pressed buy checking keyCode value with KeyEvent.KEYCODE_
+                if(keyCode == KeyEvent.KEYCODE_DEL) {
+                    //this is for backspace
+                    activityForgotPasswordOtpBinding.edit1.requestFocus();
+                }
+                return false;
+            }
+        });
+        activityForgotPasswordOtpBinding.edit3.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                //You can identify which key pressed buy checking keyCode value with KeyEvent.KEYCODE_
+                if(keyCode == KeyEvent.KEYCODE_DEL) {
+                    //this is for backspace
+                    activityForgotPasswordOtpBinding.edit2.requestFocus();
+                }
+                return false;
+            }
+        });
+        activityForgotPasswordOtpBinding.edit4.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                //You can identify which key pressed buy checking keyCode value with KeyEvent.KEYCODE_
+                if(keyCode == KeyEvent.KEYCODE_DEL) {
+                    //this is for backspace
+                    activityForgotPasswordOtpBinding.edit3.requestFocus();
+                }
+                return false;
+            }
+        });
+
         activityForgotPasswordOtpBinding.forgotPasswordotpImg.setOnClickListener(this);
         activityForgotPasswordOtpBinding.backLinear.setOnClickListener(this);
         activityForgotPasswordOtpBinding.edit4.setOnEditorActionListener(new EditText.OnEditorActionListener() {
@@ -164,11 +195,18 @@ public class ForgotPasswordOtpActivity extends AppCompatActivity implements View
                 getForgotPasswordOtpData();
                 break;
             case R.id.back_linear:
-                finish();
+             whereToBack();
                 break;
         }
     }
 
+
+    public void whereToBack(){
+        Intent iLogin = new Intent(mContext, ForgotActivity.class);
+        iLogin.putExtra("whereTocomeLogin",getIntent().getStringExtra("whereTocomeLogin"));
+        startActivity(iLogin);
+        finish();
+    }
     public void getForgotPasswordOtpData() {
 
         finalgetOtpStr = activityForgotPasswordOtpBinding.edit1.getText().toString() +
@@ -196,7 +234,7 @@ public class ForgotPasswordOtpActivity extends AppCompatActivity implements View
 
     @Override
     public void onBackPressed() {
-        finish();
+         whereToBack();
         super.onBackPressed();
     }
 }

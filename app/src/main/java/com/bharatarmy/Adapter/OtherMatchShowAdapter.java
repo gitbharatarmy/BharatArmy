@@ -55,7 +55,7 @@ public class OtherMatchShowAdapter extends RecyclerView.Adapter<OtherMatchShowAd
 
         Picasso.with(mContext)
                 .load("http://devenv.bharatarmy.com/docs/stadium_map.jpg")
-                .placeholder(R.drawable.loader)
+                .placeholder(R.drawable.loader_new)
                 .resize(Resources.getSystem().getDisplayMetrics().widthPixels,holder.otherMatchShowItemListBinding.webView.getHeight())
        .into(holder.otherMatchShowItemListBinding.webView);
 

@@ -74,4 +74,16 @@ public class LogginModel {
         this.otherData = otherData;
     }
 
+
+    @SerializedName("CurrentLocation")
+    @Expose
+    private LoginDataModel currentLocation;
+
+    public LoginDataModel getCurrentLocation() {
+        return currentLocation;
+    }
+
+    public void setCurrentLocation(LoginDataModel currentLocation) {
+        this.currentLocation = currentLocation;
+    }
 }

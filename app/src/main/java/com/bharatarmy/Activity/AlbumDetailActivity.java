@@ -25,6 +25,7 @@ import com.bharatarmy.Adapter.ImageListAdapter;
 import com.bharatarmy.Interfaces.image_click;
 import com.bharatarmy.Models.ImageDetailModel;
 import com.bharatarmy.Models.ImageMainModel;
+import com.bharatarmy.Models.MyScreenChnagesModel;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.ApiHandler;
 import com.bharatarmy.Utility.AppConfiguration;
@@ -35,6 +36,10 @@ import com.google.android.material.appbar.AppBarLayout;
 import com.like.LikeButton;
 import com.like.OnLikeListener;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -48,11 +53,18 @@ public class AlbumDetailActivity extends AppCompatActivity implements View.OnCli
     Context mContext;
     List<ImageDetailModel> albumdetailDataList;
     AlbumDetailListAdapter albumDetailListAdapter;
-String albumHeadingStr,albumIdStr, albumThumbStr;
+    String albumHeadingStr, albumIdStr, albumThumbStr;
     int pageIndex = 0;
     boolean isLoading = true;
     GridLayoutManager gridLayoutManager;
-
+    ArrayList<String> galleryImageUrl = new ArrayList<>();
+    ArrayList<String> galleryImageThumbUrl = new ArrayList<>();
+    ArrayList<String> galleryMediaType = new ArrayList<>();
+    ArrayList<String> galleryImageLike = new ArrayList<>();
+    ArrayList<String> galleryUserName = new ArrayList<>();
+    ArrayList<String> galleryImageDuration = new ArrayList<>();
+    ArrayList<String> galleryImageId = new ArrayList<>();
+    String albumClickData;
 
     @Override
 
@@ -61,7 +73,7 @@ String albumHeadingStr,albumIdStr, albumThumbStr;
         activityAlbumDetailBinding = DataBindingUtil.setContentView(this, R.layout.activity_album_detail);
 
         mContext = AlbumDetailActivity.this;
-
+        EventBus.getDefault().register(this);
         init();
 
         setListiner();
@@ -71,15 +83,16 @@ String albumHeadingStr,albumIdStr, albumThumbStr;
 
 
     public void init() {
-        albumIdStr=getIntent().getStringExtra("albumId");
-        albumHeadingStr=getIntent().getStringExtra("albumName");
-        albumThumbStr=getIntent().getStringExtra("albumThumb");
+        albumIdStr = getIntent().getStringExtra("albumId");
+        albumHeadingStr = getIntent().getStringExtra("albumName");
+        albumThumbStr = getIntent().getStringExtra("albumThumb");
         setSupportActionBar(activityAlbumDetailBinding.toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setDisplayShowHomeEnabled(false);
-        Utils.setImageInImageView(albumThumbStr,activityAlbumDetailBinding.backdrop,mContext);
+        Utils.setImageInImageView(albumThumbStr, activityAlbumDetailBinding.backdrop, mContext);
 //        activityAlbumDetailBinding.showAlbumTitleTxt.setText(albumHeadingStr);
+        activityAlbumDetailBinding.shimmerViewContainer.setVisibility(View.VISIBLE);
         activityAlbumDetailBinding.shimmerViewContainer.startShimmerAnimation();
 
         gridLayoutManager = new GridLayoutManager(mContext, 3);
@@ -105,7 +118,7 @@ String albumHeadingStr,albumIdStr, albumThumbStr;
         activityAlbumDetailBinding.albumRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                pageIndex=0;
+                pageIndex = 0;
                 callAlbumPullDetailData();
 
             }
@@ -218,11 +231,11 @@ String albumHeadingStr,albumIdStr, albumThumbStr;
                         activityAlbumDetailBinding.shimmerViewContainer.setVisibility(View.GONE);
                         activityAlbumDetailBinding.bottomProgressbarLayout.setVisibility(View.GONE);
                         albumdetailDataList = albumDeatilMainModel.getData();
-                        Log.d("list : ",""+albumdetailDataList.size());
+                        Log.d("list : ", "" + albumdetailDataList.size());
                         addOldNewValue(albumdetailDataList);
                         if (albumDetailListAdapter != null && albumdetailDataList.size() > 0) {
                             albumDetailListAdapter.addMoreDataToList(albumdetailDataList);
-                           isLoading=false;
+                            isLoading = false;
                             // just append more data to current list
                         } else if (albumDetailListAdapter != null && albumdetailDataList.size() == 0) {
                             isLoading = true;
@@ -252,17 +265,39 @@ String albumHeadingStr,albumIdStr, albumThumbStr;
 
     private Map<String, String> getAlbumDetailData() {
         Map<String, String> map = new HashMap<>();
-        map.put("AlbumId",albumIdStr);
-        map.put("PageIndex",String.valueOf(pageIndex));
-        map.put("PageSize","15");
-        map.put("MemberId",String.valueOf(Utils.getAppUserId(mContext)));
+        map.put("AlbumId", albumIdStr);
+        map.put("PageIndex", String.valueOf(pageIndex));
+        map.put("PageSize", "15");
+        map.put("MemberId", String.valueOf(Utils.getAppUserId(mContext)));
+
         return map;
     }
 
-    public void fillAlbumDetailImageList(){
+    public void fillAlbumDetailImageList() {
 
 
-        albumDetailListAdapter = new AlbumDetailListAdapter(mContext, albumdetailDataList);
+        albumDetailListAdapter = new AlbumDetailListAdapter(mContext, albumdetailDataList, new image_click() {
+            @Override
+            public void image_more_click() {
+                albumClickData = "";
+                albumClickData = String.valueOf(albumDetailListAdapter.getData());
+                albumClickData = albumClickData.replaceAll("\\[", "").replaceAll("\\]", "");
+                Log.d("albumClickData", "" + albumClickData);
+                Intent albumdetailIntent = new Intent(mContext, AlbumImageVideoShowActivity.class);
+                albumdetailIntent.putExtra("positon", albumClickData);
+                albumdetailIntent.putStringArrayListExtra("AlbumUrldata", galleryImageUrl);
+                albumdetailIntent.putStringArrayListExtra("AlbumThumbUrldata", galleryImageThumbUrl);
+                albumdetailIntent.putStringArrayListExtra("AlbumMediaType", galleryMediaType);
+                albumdetailIntent.putStringArrayListExtra("AlbumLike", galleryImageLike);
+                albumdetailIntent.putStringArrayListExtra("AlbumDuration",galleryImageDuration);
+                albumdetailIntent.putStringArrayListExtra("AlbumAddUser", galleryUserName);
+                albumdetailIntent.putStringArrayListExtra("AlbumId", galleryImageId);
+                albumdetailIntent.putExtra("MediaType", "Album");
+                albumdetailIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(albumdetailIntent);
+
+            }
+        });
         activityAlbumDetailBinding.albumDetailRcvList.setAdapter(albumDetailListAdapter);
 
     }
@@ -274,16 +309,17 @@ String albumHeadingStr,albumIdStr, albumThumbStr;
 
     public void addOldNewValue(List<ImageDetailModel> result) {
         for (int i = 0; i < result.size(); i++) {
-//            galleryImageUrl.addAll(Collections.singleton(result.get(i).getGalleryURL()));
-//            galleryImageUrlName.addAll(Collections.singleton(result.get(i).getAddedUserName()));
-//            galleryImageDuration.addAll(Collections.singleton(result.get(i).getStrAddedDuration()));
-//            galleryImageId.addAll(Collections.singleton(String.valueOf(result.get(i).getBAGalleryId())));
+            galleryImageUrl.addAll(Collections.singleton(result.get(i).getFileNameUrl()));
+            galleryImageThumbUrl.addAll(Collections.singleton(result.get(i).getThumbFileUrl()));
+            galleryMediaType.addAll(Collections.singleton(String.valueOf(result.get(i).getMediaTypeId())));
+            galleryImageLike.addAll(Collections.singleton(String.valueOf(result.get(i).getIsLike())));
+            galleryImageDuration.addAll(Collections.singleton(String.valueOf(result.get(i).getStrAddedDuration())));
+            galleryUserName.addAll(Collections.singleton(String.valueOf(result.get(i).getAddedUserName())));
+            galleryImageId.addAll(Collections.singleton(String.valueOf(result.get(i).getBAMediaId())));
         }
 //        Log.d("galleryImageUrl", "" + galleryImageUrl.size());
 
     }
-
-
 
 
     // Api calling GetAlbumDetailData
@@ -314,7 +350,16 @@ String albumHeadingStr,albumIdStr, albumThumbStr;
                 if (albumdetailMainModel.getIsValid() == 1) {
 
                     if (albumdetailMainModel.getData() != null) {
+                        galleryImageUrl.clear();
+                        galleryImageThumbUrl.clear();
+                        galleryMediaType.clear();
+                        galleryImageLike.clear();
+                        galleryImageDuration.clear();
+                        galleryUserName.clear();
+                        galleryImageId.clear();
+
                         albumdetailDataList = albumdetailMainModel.getData();
+                        addOldNewValue(albumdetailDataList);
                         fillAlbumDetailImageList();
                         activityAlbumDetailBinding.albumRefreshLayout.setRefreshing(false);
                     }
@@ -336,13 +381,22 @@ String albumHeadingStr,albumIdStr, albumThumbStr;
 
     private Map<String, String> getAlbumPullDetailData() {
         Map<String, String> map = new HashMap<>();
-        map.put("AlbumId",albumIdStr);
-        map.put("PageIndex",String.valueOf(pageIndex));
-        map.put("PageSize","15");
-        map.put("MemberId",String.valueOf(Utils.getAppUserId(mContext)));
+        map.put("AlbumId", albumIdStr);
+        map.put("PageIndex", String.valueOf(pageIndex));
+        map.put("PageSize", "15");
+        map.put("MemberId", String.valueOf(Utils.getAppUserId(mContext)));
+
         return map;
     }
 
-
-
+    @Subscribe
+    public void customEventReceived(MyScreenChnagesModel event) {
+        Log.d("albumId :", String.valueOf(event.getImageLikeposition()));
+        Log.d("mainmodelValue :", albumdetailDataList.toString());
+        for (int i = 0; i < galleryImageLike.size(); i++) {
+            if (i == event.getImageLikeposition()) {
+                galleryImageLike.set(i, String.valueOf(Utils.LikeStatus));
+            }
+        }
+    }
 }

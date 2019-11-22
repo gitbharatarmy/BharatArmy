@@ -11,6 +11,7 @@
     <string name="false_msg" translatable="false">Record not found</string>
     <string name="something_wrong" translatable="false">Something Wrong</string>
 
+
     <!--Login Activity String-->
     <string name="username" translatable="false">Email</string>
     <string name="password" translatable="false">Password</string>
@@ -31,17 +32,20 @@
 
     <!--    ForgotPassword & Change Password-->
     <string name="forgot_txt" translatable="false">To recover your password you need to enter your registered email address. We will sent the recovery code to your email</string>
+    <string name="change_password_alert_txt" translatable="false">We have sent the recovery code via registered Email or Mobile Number</string>
     <string name="change_txt" translatable="false">Use at least 5 characters. Don\'t share the password. </string>
     <string name="new_pass" translatable="false">Enter New Password</string>
     <string name="confirm_pass" translatable="false">Enter Confirm Password</string>
     <string name="submit" translatable="false">Submit</string>
-    <string name="otppass_str" translatable="false">We have sent you an access code via Email for your registered email</string>
+    <string name="otppass_str" translatable="false"> We have sent you an access code via registered Email or Mobile Number</string>
 
     <!--SingUp Activity String-->
     <string name="fullname" translatable="false">Name</string>
     <string name="emailid" translatable="false">Emailid</string>
     <string name="mobileno" translatable="false">Mobile Number</string>
     <string name="title_activity_dashboard" translatable="false">DashboardActivity</string>
+    <string name="firstname" translatable="false">First Name</string>
+    <string name="lastname" translatable="false">Last Name</string>
 
     <string name="nav_header_title" translatable="false">Android Studio</string>
     <string name="nav_header_subtitle" translatable="false">android.studio@android.com</string>
@@ -87,6 +91,7 @@
     <string name="privacy_policy" translatable="false">Privacy Policy</string>
     <string name="contentpolicy" translatable="false">Content Policy</string>
     <string name="loading" translatable="false">Loading...</string>
+    <string name="verify_credential" translatable="false">verifying credentials...</string>
     <string name="facebook_app_id" translatable="false">569015383846103</string>
     <string name="fb_login_protocol_scheme" translatable="false">fb569015383846103</string>
 
@@ -146,6 +151,14 @@
     <string name="dialog_permission_message" translatable="false">This app needs permission to use this feature. You can grant them in app settings.</string>
     <string name="go_to_settings" translatable="false">GOTO SETTINGS</string>
     <string name="rationale_photo_picker" translatable="false">We require this permission to select photo from gallery and camera.</string>
+    <string name="photo_privacy_header_txt" translatable="false">Who can see your picture?</string>
+    <string name="photo_privacy_sub_txt" translatable="false">Your picture will show up in gallery, on your profile and in search result.</string>
+    <string name="photo_privacy_more_txt" translatable="false">Learn more about</string>
+    <string name="photo_privacy_txt" translatable="false"><u>picture privacy</u></string>
+    <string name="photo_public_option_header_txt" translatable="false">Public</string>
+    <string name="photo_public_option_sub_txt" translatable="false">Anyone see your picture</string>
+    <string name="photo_private_option_header_txt" translatable="false">Private</string>
+    <string name="photo_private_option_sub_txt" translatable="false">No one see your picture</string>
 
     <!--History Screen String-->
     <string name="history_title_txt" translatable="false">Bharat Army Booking History</string>
@@ -340,6 +353,8 @@ Sincerity is the hallmark of Pan Pacific Hotels Group. The Group is known to its
     <string name="remove_image" translatable="false"><u>Remove</u></string>
     <string name="default_notification_channel_id" translatable="false">Channel ID</string>
     <string name="default_notification_channel_title" translatable="false">Title</string>
+    <!--google web client id-->
+    <string name="web_client_id" translatable="false">718860760622-parj58505tgu73h704s5qq1kuffojg2r.apps.googleusercontent.com</string>
 
 
     <!--VIdeo Trimmer-->

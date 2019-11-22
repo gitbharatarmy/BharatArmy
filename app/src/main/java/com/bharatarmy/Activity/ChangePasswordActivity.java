@@ -28,36 +28,37 @@ public class ChangePasswordActivity extends AppCompatActivity {
 
     ActivityChangePasswordBinding activityChangePasswordBinding;
     Context mContext;
-    String newPasswordStr,confirmPasswordStr,memberIdStr;
+    String newPasswordStr, confirmPasswordStr, memberIdStr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        activityChangePasswordBinding= DataBindingUtil.setContentView(this,R.layout.activity_change_password);
+        activityChangePasswordBinding = DataBindingUtil.setContentView(this, R.layout.activity_change_password);
 
-        mContext=ChangePasswordActivity.this;
+        mContext = ChangePasswordActivity.this;
 
         init();
         setListiner();
     }
 
-    public void init(){
-        if (getIntent().getStringExtra("memberId")!=null){
-            memberIdStr=getIntent().getStringExtra("memberId");
+    public void init() {
+        if (getIntent().getStringExtra("memberId") != null) {
+            memberIdStr = getIntent().getStringExtra("memberId");
         }
-        
+
     }
-    public void setListiner(){
+
+    public void setListiner() {
         activityChangePasswordBinding.newpasswordEdt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-              activityChangePasswordBinding.changepasswordScrollView.postDelayed(new Runnable() {
+                activityChangePasswordBinding.changepasswordScrollView.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        View lastChild =  activityChangePasswordBinding.changepasswordScrollView.getChildAt( activityChangePasswordBinding.changepasswordScrollView.getChildCount() - 1);
-                        int bottom = lastChild.getBottom() +  activityChangePasswordBinding.changepasswordScrollView.getPaddingBottom();
-                        int sy =  activityChangePasswordBinding.changepasswordScrollView.getScrollY();
-                        int sh =  activityChangePasswordBinding.changepasswordScrollView.getHeight();
+                        View lastChild = activityChangePasswordBinding.changepasswordScrollView.getChildAt(activityChangePasswordBinding.changepasswordScrollView.getChildCount() - 1);
+                        int bottom = lastChild.getBottom() + activityChangePasswordBinding.changepasswordScrollView.getPaddingBottom();
+                        int sy = activityChangePasswordBinding.changepasswordScrollView.getScrollY();
+                        int sh = activityChangePasswordBinding.changepasswordScrollView.getHeight();
                         int delta = bottom - (sy + sh);
                         activityChangePasswordBinding.changepasswordScrollView.smoothScrollBy(0, delta);
                     }
@@ -68,8 +69,8 @@ public class ChangePasswordActivity extends AppCompatActivity {
         activityChangePasswordBinding.submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Utils.handleClickEvent(mContext,activityChangePasswordBinding.submitBtn);
-               getChangePasswordFillData();
+                Utils.handleClickEvent(mContext, activityChangePasswordBinding.submitBtn);
+                getChangePasswordFillData();
             }
         });
         activityChangePasswordBinding.confirmpasswordEdt.setOnEditorActionListener(new EditText.OnEditorActionListener() {
@@ -84,36 +85,44 @@ public class ChangePasswordActivity extends AppCompatActivity {
         activityChangePasswordBinding.backImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (getIntent().getStringExtra("whereTocomeLogin")!=null){
-                    finish();
-                }else{
-                    Intent iLogin = new Intent(mContext, LoginwithEmailActivity.class);
-                    startActivity(iLogin);
-                    finish();
-                }
+                wheretoBack();
             }
         });
     }
 
-    public void getChangePasswordFillData(){
-        newPasswordStr=activityChangePasswordBinding.newpasswordEdt.getText().toString();
-        confirmPasswordStr=activityChangePasswordBinding.confirmpasswordEdt.getText().toString();
-        if(!newPasswordStr.equalsIgnoreCase("")){
-            if (newPasswordStr.length()>=5 && newPasswordStr.length()<=10){
+
+    @Override
+    public void onBackPressed() {
+        wheretoBack();
+        super.onBackPressed();
+    }
+
+    public void wheretoBack(){
+        Intent iLogin = new Intent(mContext, ForgotActivity.class);
+        iLogin.putExtra("whereTocomeLogin", getIntent().getStringExtra("whereTocomeLogin"));
+        startActivity(iLogin);
+        finish();
+    }
+
+    public void getChangePasswordFillData() {
+        newPasswordStr = activityChangePasswordBinding.newpasswordEdt.getText().toString();
+        confirmPasswordStr = activityChangePasswordBinding.confirmpasswordEdt.getText().toString();
+        if (!newPasswordStr.equalsIgnoreCase("")) {
+            if (newPasswordStr.length() >= 5 && newPasswordStr.length() <= 10) {
                 if (newPasswordStr.equalsIgnoreCase(confirmPasswordStr)) {
-                   if (!memberIdStr.equalsIgnoreCase("")){
-                       getChangePassword();
-                   }else{
-                       Utils.ping(mContext,"memberId blank");
-                   }
-                }else{
+                    if (!memberIdStr.equalsIgnoreCase("")) {
+                        getChangePassword();
+                    } else {
+                        Utils.ping(mContext, "memberId blank");
+                    }
+                } else {
                     activityChangePasswordBinding.confirmpasswordEdt.setError("confirm password and new password must be same");
                 }
-            }else{
+            } else {
                 activityChangePasswordBinding.newpasswordEdt.setError("password Length must be greter than 5 or less than 10");
             }
 
-        }else{
+        } else {
             activityChangePasswordBinding.newpasswordEdt.setError("blank filed not allowed");
         }
     }
@@ -146,16 +155,17 @@ public class ChangePasswordActivity extends AppCompatActivity {
                     if (changeModel.getData() != null) {
 
                         Utils.setPref(mContext, "IsLoginUser", "1");
-                        Utils.storeLoginData(changeModel.getData(),mContext);
+                        Utils.storeLoginData(changeModel.getData(), mContext);
+                        Utils.storeCurrentLocationData(changeModel.getCurrentLocation(),mContext);
                         Utils.storeLoginOtherData(changeModel.getOtherData(), mContext);
-                        if (getIntent().getStringExtra("whereTocomeLogin")!=null){
-                            if(getIntent().getStringExtra("whereTocomeLogin").equalsIgnoreCase("more")) {
-                                Utils.showThanyouDialog(ChangePasswordActivity.this,"changePassword|InApp");
-                            }else{
-                                Utils.showThanyouDialog(ChangePasswordActivity.this,"changePassword|finishApp");
+                        if (getIntent().getStringExtra("whereTocomeLogin") != null) {
+                            if (getIntent().getStringExtra("whereTocomeLogin").equalsIgnoreCase("more")) {
+                                Utils.showThanyouDialog(ChangePasswordActivity.this, "changePassword|InApp");
+                            } else {
+                                Utils.showThanyouDialog(ChangePasswordActivity.this, "changePassword|finishApp");
                             }
-                        }else{
-                            Utils.showThanyouDialog(ChangePasswordActivity.this,"changePassword");
+                        } else {
+                            Utils.showThanyouDialog(ChangePasswordActivity.this, "changePassword");
                         }
 
                     }
@@ -177,7 +187,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
     private Map<String, String> getChangePasswordData() {
         Map<String, String> map = new HashMap<>();
         map.put("NewPassword", newPasswordStr);
-        map.put("MemberId",memberIdStr);
+        map.put("MemberId", memberIdStr);
         return map;
     }
 }

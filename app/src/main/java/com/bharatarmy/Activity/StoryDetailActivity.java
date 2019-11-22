@@ -356,14 +356,14 @@ public class StoryDetailActivity extends AppCompatActivity implements View.OnCli
 
     public void LikeArticleValue(int likestatus) {
         if (Utils.isMember(mContext, "storyDetail")) {
-            Utils.LikeMemberId = Utils.getAppUserId(mContext);
-            Utils.LikeReferenceId = storyId;
-            Utils.LikeSourceType = 3;
-            Utils.LikeStatus = likestatus;
+            Utils.LikeMemberId = String.valueOf(Utils.getAppUserId(mContext));
+            Utils.LikeReferenceId = String.valueOf(storyId);
+            Utils.LikeSourceType = "3";
+            Utils.LikeStatus = String.valueOf(likestatus);
             Utils.InsertLike(mContext, StoryDetailActivity.this);
             int likeunlikecount = 0;
             likeunlikecount = Integer.parseInt(activityStoryDetailBinding.uprStoryTotalLikeTxt.getText().toString());
-            if (Utils.LikeStatus == 1) {
+            if (Utils.LikeStatus.equalsIgnoreCase("1")) {
                 activityStoryDetailBinding.uprStoryTotalLikeTxt.setText(String.valueOf(likeunlikecount + 1));
             } else {
                 activityStoryDetailBinding.uprStoryTotalLikeTxt.setText(String.valueOf(likeunlikecount - 1));

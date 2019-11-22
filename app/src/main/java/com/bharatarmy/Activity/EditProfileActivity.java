@@ -32,6 +32,7 @@ import com.bharatarmy.CountryCodePicker;
 import com.bharatarmy.Models.ImageDetailModel;
 import com.bharatarmy.Models.ImageMainModel;
 import com.bharatarmy.Models.LogginModel;
+import com.bharatarmy.Models.MyScreenChnagesModel;
 import com.bharatarmy.MultiSelectDialog;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.ApiHandler;
@@ -47,6 +48,8 @@ import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.squareup.picasso.Picasso;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
 import java.io.IOException;
@@ -71,10 +74,10 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
 
     ActivityEditProfileBinding activityEditProfileBinding;
     Context mContext;
-    String fullNameStr = "", countryCodeStr = "", phoneNoStr = "", genderStr = "0", appUser = "",
+    String emailStr = "", firstNameStr = "", lastNameStr = "", countryCodeStr = "", phoneNoStr = "", genderStr = "0", appUser = "",
             fileStr = "", countryISOCodeStr = "", countryPhoneNoStr = "", statesIdStr = "", citiesIdStr = "",
             addressLine1Str = "", addressLine2Str = "", areaStr = "", stateNameStr = "", cityNameStr = "",
-            pincodeStr = "", facebookprofileStr="", twitterprofileStr="", linkedinprofileStr="", instagramprofileStr="";
+            pincodeStr = "", facebookprofileStr = "", twitterprofileStr = "", linkedinprofileStr = "", instagramprofileStr = "";
     Uri uri;
     File file = null;
     int mFileLen;
@@ -92,81 +95,115 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         mContext = EditProfileActivity.this;
 
         ImageEditProfilePickerActivity.clearCache(this);
+        init();
         setDataValue();
         setListiner();
 
     }
 
+    public void init() {
+        if (Utils.retriveLoginData(mContext).getCountryISOCode() == null ||
+                Utils.retriveLoginData(mContext).getCountryISOCode().equalsIgnoreCase("")) {
+            AppConfiguration.currentCountryISOCode = Utils.retriveCurrentLocationData(mContext).getIsoCode();
+            Log.d("ISOCOde", AppConfiguration.currentCountryISOCode);
+        } else {
+            AppConfiguration.currentCountryISOCode = Utils.retriveLoginData(mContext).getCountryISOCode();
+        }
+
+    }
+
     public void setDataValue() {
+//        activityEditProfileBinding.ccp.setCountryForNameCode(AppConfiguration.currentCountryISOCode);
         activityEditProfileBinding.toolbarTitleTxt.setText("Edit Member Profile");
-        activityEditProfileBinding.ccp.setCountryForNameCode(Utils.retriveLoginData(mContext).getCountryPhoneNo());
-        activityEditProfileBinding.userNameEdt.setText(Utils.retriveLoginData(mContext).getName());
-        activityEditProfileBinding.emailEdt.setText(Utils.retriveLoginData(mContext).getEmail());
-        activityEditProfileBinding.phoneNoEdt.setText(Utils.retriveLoginData(mContext).getPhoneNo());
+        if (Utils.retriveLoginData(mContext) != null) {
+            if (Utils.retriveLoginData(mContext).getCountryPhoneNo() != null &&
+                    !Utils.retriveLoginData(mContext).getCountryPhoneNo().equalsIgnoreCase("")) {
+                activityEditProfileBinding.ccp.setCountryForNameCode(Utils.retriveLoginData(mContext).getCountryPhoneNo());
+            }
+            if (Utils.retriveLoginData(mContext).getFirstName() != null) {
+                activityEditProfileBinding.userFnameEdt.setText(Utils.retriveLoginData(mContext).getFirstName());
+            }
+            if (Utils.retriveLoginData(mContext).getLastName() != null) {
+                activityEditProfileBinding.userLnameEdt.setText(Utils.retriveLoginData(mContext).getLastName());
+            }
+            if (Utils.retriveLoginData(mContext).getEmail() != null) {
+                activityEditProfileBinding.emailEdt.setText(Utils.retriveLoginData(mContext).getEmail());
+            }
+            if (Utils.retriveLoginData(mContext).getPhoneNo() != null &&
+                    !Utils.retriveLoginData(mContext).getPhoneNo().equalsIgnoreCase("")) {
+                activityEditProfileBinding.phoneNoEdt.setText(Utils.retriveLoginData(mContext).getPhoneNo());
+            } else {
+                activityEditProfileBinding.phoneNoEdt.setHint(getResources().getString(R.string.phoneno));
+            }
+            if (Utils.retriveLoginData(mContext).getCountryISOCode() != null) {
+                if (!Utils.retriveLoginData(mContext).getCountryISOCode().equalsIgnoreCase("")) {
+                    AppConfiguration.currentCountryISOCode = Utils.retriveLoginData(mContext).getCountryISOCode();
+                } else {
+                    AppConfiguration.currentCountryISOCode = Utils.retriveCurrentLocationData(mContext).getIsoCode();
+                }
+            }
+            if (Utils.retriveLoginData(mContext).getGender() != null) {
+                if (Utils.retriveLoginData(mContext).getGender().equals(0)) {
+                    activityEditProfileBinding.maleRb.setChecked(false);
+                    activityEditProfileBinding.femaleRb.setChecked(false);
+                } else if (Utils.retriveLoginData(mContext).getGender().equals(1)) {
+                    activityEditProfileBinding.maleRb.setChecked(true);
+                    genderStr = "1";
+                } else if (Utils.retriveLoginData(mContext).getGender().equals(2)) {
+                    activityEditProfileBinding.femaleRb.setChecked(true);
+                    genderStr = "2";
+                }
+            }
+            if (Utils.retriveLoginData(mContext).getProfilePicUrl() != null) {
+                Picasso.with(mContext)
+                        .load(Utils.retriveLoginData(mContext).getProfilePicUrl())
+                        .placeholder(R.drawable.progress_animation)
+                        .into(activityEditProfileBinding.profileImage);
+            }
+            if (Utils.retriveLoginData(mContext).getAddressline1() != null) {
+                if (!Utils.retriveLoginData(mContext).getAddressline1().equalsIgnoreCase("")) {
+                    activityEditProfileBinding.address1Edt.setText(Utils.retriveLoginData(mContext).getAddressline1());
+                }
+            }
+            if (Utils.retriveLoginData(mContext).getAddressline2() != null) {
+                if (!Utils.retriveLoginData(mContext).getAddressline2().equalsIgnoreCase("")) {
+                    activityEditProfileBinding.address2Edt.setText(Utils.retriveLoginData(mContext).getAddressline2());
+                }
+            }
 
-//        countryISOCodeStr = Utils.getPref(mContext, "CountryISOCode");
-//        countryCodeStr = Utils.getPref(mContext, "CountryPhoneNo");
-        AppConfiguration.currentCountry =Utils.retriveLoginData(mContext).getCountryISOCode();
-        if (Utils.retriveLoginData(mContext).getGender()!=null) {
-            if (Utils.retriveLoginData(mContext).getGender().equals(0)) {
-                activityEditProfileBinding.maleRb.setChecked(false);
-                activityEditProfileBinding.femaleRb.setChecked(false);
-            } else if (Utils.retriveLoginData(mContext).getGender().equals(1)) {
-                activityEditProfileBinding.maleRb.setChecked(true);
-                genderStr = "1";
-            } else if (Utils.retriveLoginData(mContext).getGender().equals(2)) {
-                activityEditProfileBinding.femaleRb.setChecked(true);
-                genderStr = "2";
+            if (Utils.retriveLoginData(mContext).getArea() != null) {
+                if (!Utils.retriveLoginData(mContext).getArea().equalsIgnoreCase("")) {
+                    activityEditProfileBinding.areaEdt.setText(Utils.retriveLoginData(mContext).getArea());
+                }
             }
-        }
-        Picasso.with(mContext)
-                .load(Utils.retriveLoginData(mContext).getProfilePicUrl())
-                .placeholder(R.drawable.progress_animation)
-                .into(activityEditProfileBinding.profileImage);
+            if (Utils.retriveLoginData(mContext).getStrState() != null) {
+                if (!Utils.retriveLoginData(mContext).getStrState().equalsIgnoreCase("")) {
+                    activityEditProfileBinding.statesEdt.setText(Utils.retriveLoginData(mContext).getStrState());
 
-        if (Utils.retriveLoginData(mContext).getAddressline1()!=null) {
-            if (!Utils.retriveLoginData(mContext).getAddressline1().equalsIgnoreCase("")) {
-                activityEditProfileBinding.address1Edt.setText(Utils.retriveLoginData(mContext).getAddressline1());
+                }
             }
-        }
-        if (Utils.retriveLoginData(mContext).getAddressline2()!=null) {
-            if (!Utils.retriveLoginData(mContext).getAddressline2().equalsIgnoreCase("")) {
-                activityEditProfileBinding.address2Edt.setText(Utils.retriveLoginData(mContext).getAddressline2());
+            if (Utils.retriveLoginData(mContext).getStateId() != null) {
+                if (!Utils.retriveLoginData(mContext).getStateId().equals(0)) {
+                    statesIdStr = String.valueOf(Utils.retriveLoginData(mContext).getStateId());
+                    alreadySelectedState.add(Utils.retriveLoginData(mContext).getStateId());
+                    callCitiesDetailData();
+                }
             }
-        }
-
-        if (Utils.retriveLoginData(mContext).getArea()!=null){
-            if (!Utils.retriveLoginData(mContext).getArea().equalsIgnoreCase("")) {
-                activityEditProfileBinding.areaEdt.setText(Utils.retriveLoginData(mContext).getArea());
+            if (Utils.retriveLoginData(mContext).getStrCityName() != null) {
+                if (!Utils.retriveLoginData(mContext).getStrCityName().equalsIgnoreCase("")) {
+                    activityEditProfileBinding.cityEdt.setText(Utils.retriveLoginData(mContext).getStrCityName());
+                }
             }
-        }
-        if (Utils.retriveLoginData(mContext).getStrState()!=null) {
-            if (!Utils.retriveLoginData(mContext).getStrState().equalsIgnoreCase("")) {
-                activityEditProfileBinding.statesEdt.setText(Utils.retriveLoginData(mContext).getStrState());
-
+            if (Utils.retriveLoginData(mContext).getCityId() != null) {
+                if (!Utils.retriveLoginData(mContext).getCityId().equals(0)) {
+                    citiesIdStr = String.valueOf(Utils.retriveLoginData(mContext).getCityId());
+                    alreadySelectedCities.add(Utils.retriveLoginData(mContext).getCityId());
+                }
             }
-        }
-        if (Utils.retriveLoginData(mContext).getStateId()!=null) {
-            if (!Utils.retriveLoginData(mContext).getStateId().equals(0)) {
-                statesIdStr = String.valueOf(Utils.retriveLoginData(mContext).getStateId());
-                alreadySelectedState.add(Utils.retriveLoginData(mContext).getStateId());
-                callCitiesDetailData();
-            }
-        }
-        if (Utils.retriveLoginData(mContext).getStrCityName()!=null) {
-            if (!Utils.retriveLoginData(mContext).getStrCityName().equalsIgnoreCase("")) {
-                activityEditProfileBinding.cityEdt.setText(Utils.retriveLoginData(mContext).getStrCityName());
-            }
-        }
-        if (Utils.retriveLoginData(mContext).getCityId()!=null) {
-            if (!Utils.retriveLoginData(mContext).getCityId().equals(0)) {
-                citiesIdStr = String.valueOf(Utils.retriveLoginData(mContext).getCityId());
-                alreadySelectedCities.add(Utils.retriveLoginData(mContext).getCityId());
-            }
-        }
-        if (Utils.retriveLoginData(mContext).getPincode()!=null) {
-            if (!Utils.retriveLoginData(mContext).getPincode().equalsIgnoreCase("")) {
-                activityEditProfileBinding.pincodeEdt.setText(Utils.retriveLoginData(mContext).getPincode());
+            if (Utils.retriveLoginData(mContext).getPincode() != null) {
+                if (!Utils.retriveLoginData(mContext).getPincode().equalsIgnoreCase("")) {
+                    activityEditProfileBinding.pincodeEdt.setText(Utils.retriveLoginData(mContext).getPincode());
+                }
             }
         }
         callStatesDetailData();
@@ -218,7 +255,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
                 citiesIdStr = "";
                 alreadySelectedState.clear();
                 alreadySelectedCities.clear();
-                AppConfiguration.currentCountry = activityEditProfileBinding.ccp.getSelectedCountryNameCode();
+                AppConfiguration.currentCountryISOCode = activityEditProfileBinding.ccp.getSelectedCountryNameCode();
                 callStatesDetailData();
             }
         });
@@ -231,7 +268,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                     activityEditProfileBinding.facebookHandleInfoTxt.setText(mContext.getResources().getString(R.string.facebook_txt_hint)+activityEditProfileBinding.facebookUserNameEdt.getText().toString());
+                activityEditProfileBinding.facebookHandleInfoTxt.setText(mContext.getResources().getString(R.string.facebook_txt_hint) + activityEditProfileBinding.facebookUserNameEdt.getText().toString());
             }
 
             @Override
@@ -248,7 +285,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                activityEditProfileBinding.twitterHandleInfoTxt.setText(mContext.getResources().getString(R.string.twitter_txt_hint)+activityEditProfileBinding.twitterUserNameEdt.getText().toString());
+                activityEditProfileBinding.twitterHandleInfoTxt.setText(mContext.getResources().getString(R.string.twitter_txt_hint) + activityEditProfileBinding.twitterUserNameEdt.getText().toString());
             }
 
             @Override
@@ -265,7 +302,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                activityEditProfileBinding.linkedinHandleInfoTxt.setText(mContext.getResources().getString(R.string.linkedin_txt_hint)+activityEditProfileBinding.linkedinUserNameEdt.getText().toString());
+                activityEditProfileBinding.linkedinHandleInfoTxt.setText(mContext.getResources().getString(R.string.linkedin_txt_hint) + activityEditProfileBinding.linkedinUserNameEdt.getText().toString());
             }
 
             @Override
@@ -282,7 +319,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                activityEditProfileBinding.instagramHandleInfoTxt.setText(mContext.getResources().getString(R.string.instagram_txt_hint)+activityEditProfileBinding.instagramUserNameEdt.getText().toString());
+                activityEditProfileBinding.instagramHandleInfoTxt.setText(mContext.getResources().getString(R.string.instagram_txt_hint) + activityEditProfileBinding.instagramUserNameEdt.getText().toString());
             }
 
             @Override
@@ -300,14 +337,14 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
                 backActivity();
                 break;
             case R.id.save_btn:
-                Utils.handleClickEvent(mContext,activityEditProfileBinding.saveBtn);
+                Utils.handleClickEvent(mContext, activityEditProfileBinding.saveBtn);
                 getUpdateData();
                 break;
             case R.id.cancel_btn:
                 backActivity();
                 break;
             case R.id.profile_image:
-                Utils.handleClickEvent(mContext,activityEditProfileBinding.profileImage);
+                Utils.handleClickEvent(mContext, activityEditProfileBinding.profileImage);
                 Dexter.withActivity(EditProfileActivity.this)
                         .withPermissions(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                         .withListener(new MultiplePermissionsListener() {
@@ -500,8 +537,10 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         WebServices uploadAPIs = retrofit.create(WebServices.class);
 
         RequestBody appuserId = RequestBody.create(MediaType.parse("text/plain"), appUser);
-        RequestBody fullname = RequestBody.create(MediaType.parse("text/plain"), fullNameStr);
-        RequestBody countryISOCode = RequestBody.create(MediaType.parse("text/plain"), AppConfiguration.currentCountry);
+        RequestBody firstname = RequestBody.create(MediaType.parse("text/plain"), firstNameStr);
+        RequestBody lastname = RequestBody.create(MediaType.parse("text/plain"), lastNameStr);
+        RequestBody email = RequestBody.create(MediaType.parse("text/plain"), emailStr);
+        RequestBody countryISOCode = RequestBody.create(MediaType.parse("text/plain"), AppConfiguration.currentCountryISOCode);
         RequestBody countycode = RequestBody.create(MediaType.parse("text/plain"), countryCodeStr);
         RequestBody phoneno = RequestBody.create(MediaType.parse("text/plain"), phoneNoStr);
         RequestBody gender = RequestBody.create(MediaType.parse("text/plain"), genderStr);
@@ -521,7 +560,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         RequestBody instagramprofile = RequestBody.create(MediaType.parse("text/plain"), instagramprofileStr);
 
 //        ShowProgressDialog();
-        Call<LogginModel> responseBodyCall = uploadAPIs.updateprofile(appuserId, fullname, countryISOCode,
+        Call<LogginModel> responseBodyCall = uploadAPIs.updateprofile(appuserId, firstname, lastname, email, countryISOCode,
                 countycode, phoneno, gender, otptext, smssentId, addressLine1, addressLine2, area, stateId,
                 state, citiesId, city, pincode, facebookprofile, twitterprofile, linkedinprofile, instagramprofile, body);
         Log.d("File", "" + responseBodyCall);
@@ -537,7 +576,8 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
                 if (response.body().getIsValid() == 1) {
 
                     Utils.storeLoginData(response.body().getData(), mContext);
-
+                    Utils.storeCurrentLocationData(response.body().getCurrentLocation(), mContext);
+                    Log.d("profilepic", Utils.retriveLoginData(mContext).getProfilePicUrl());
                     Utils.ping(mContext, "Profile Updated Successfully");
                     AppConfiguration.position = 1;
                     backActivity();
@@ -591,7 +631,9 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
                     Intent otpIntent = new Intent(mContext, OTPActivity.class);
                     otpIntent.putExtra("OTP", loginModel.getData().getOTP());
                     otpIntent.putExtra("wheretocome", "EditProfile");
-                    otpIntent.putExtra("EditFullName", fullNameStr);
+                    otpIntent.putExtra("EditFirstName", firstNameStr);
+                    otpIntent.putExtra("EditLastName", lastNameStr);
+                    otpIntent.putExtra("Email", emailStr);
                     otpIntent.putExtra("NewPhoneNumber", phoneNoStr);
                     otpIntent.putExtra("countryCode", countryCodeStr);
                     otpIntent.putExtra("gender", genderStr);
@@ -603,10 +645,10 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
                     otpIntent.putExtra("cityName", cityNameStr);
                     otpIntent.putExtra("cityId", citiesIdStr);
                     otpIntent.putExtra("pincode", pincodeStr);
-                    otpIntent.putExtra("facebookprofile",facebookprofileStr);
-                    otpIntent.putExtra("twitterprofile",twitterprofileStr);
-                    otpIntent.putExtra("linkedinprofile",linkedinprofileStr);
-                    otpIntent.putExtra("instagramprofile",instagramprofileStr);
+                    otpIntent.putExtra("facebookprofile", facebookprofileStr);
+                    otpIntent.putExtra("twitterprofile", twitterprofileStr);
+                    otpIntent.putExtra("linkedinprofile", linkedinprofileStr);
+                    otpIntent.putExtra("instagramprofile", instagramprofileStr);
 
                     if (uri != null) {
                         otpIntent.setData(uri);
@@ -635,14 +677,16 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
     private Map<String, String> getOtpVerificationData() {
         Map<String, String> map = new HashMap<>();
         map.put("AppUserId", appUser);
-        map.put("Email", Utils.getPref(mContext, "LoginEmailId"));
-        map.put("PhoneNo", Utils.getPref(mContext, "LoginPhoneNo"));
-        map.put("CountryPhoneNo",countryCodeStr);
+        map.put("Email", emailStr);
+        map.put("PhoneNo", phoneNoStr);
+        map.put("CountryPhoneNo", countryCodeStr);
         return map;
     }
 
     public void getUpdateData() {
-        fullNameStr = activityEditProfileBinding.userNameEdt.getText().toString();
+        emailStr = activityEditProfileBinding.emailEdt.getText().toString();
+        firstNameStr = activityEditProfileBinding.userFnameEdt.getText().toString();
+        lastNameStr = activityEditProfileBinding.userLnameEdt.getText().toString();
         countryCodeStr = activityEditProfileBinding.ccp.getSelectedCountryCode();
         phoneNoStr = activityEditProfileBinding.phoneNoEdt.getText().toString();
         appUser = String.valueOf(Utils.getAppUserId(mContext));
@@ -652,40 +696,44 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         stateNameStr = activityEditProfileBinding.statesEdt.getText().toString();
         cityNameStr = activityEditProfileBinding.cityEdt.getText().toString();
         pincodeStr = activityEditProfileBinding.pincodeEdt.getText().toString();
-        facebookprofileStr=activityEditProfileBinding.facebookHandleInfoTxt.getText().toString();
-        twitterprofileStr=activityEditProfileBinding.twitterHandleInfoTxt.getText().toString();
-        linkedinprofileStr=activityEditProfileBinding.linkedinHandleInfoTxt.getText().toString();
-        instagramprofileStr=activityEditProfileBinding.instagramHandleInfoTxt.getText().toString();
+        facebookprofileStr = activityEditProfileBinding.facebookHandleInfoTxt.getText().toString();
+        twitterprofileStr = activityEditProfileBinding.twitterHandleInfoTxt.getText().toString();
+        linkedinprofileStr = activityEditProfileBinding.linkedinHandleInfoTxt.getText().toString();
+        instagramprofileStr = activityEditProfileBinding.instagramHandleInfoTxt.getText().toString();
 
-        Log.d("DataValue", "Name :" + fullNameStr + "countrycode:" + countryCodeStr
+        Log.d("DataValue", "Email:" + emailStr + "FirstName :" + firstNameStr + "LastName :" + lastNameStr + "countrycode:" + countryCodeStr
                 + "phone number:" + phoneNoStr + "userid:" + appUser + "gender:" + genderStr
-                + "CountryNAmeCode: " + AppConfiguration.currentCountry + "addressLine1:" + addressLine1Str
+                + "CountryNAmeCode: " + AppConfiguration.currentCountryISOCode + "addressLine1:" + addressLine1Str
                 + "addressLine2:" + addressLine2Str + "area:" + areaStr + "stateName:" + stateNameStr
                 + "cityName:" + cityNameStr + "pincode:" + pincodeStr + "cityId:" + citiesIdStr
                 + "stateId:" + statesIdStr + "facebook:" + facebookprofileStr + "twitter:" + twitterprofileStr
                 + "linkedin:" + linkedinprofileStr + "instagram:" + instagramprofileStr);
 
-        if (!fullNameStr.equalsIgnoreCase("")) {
-            if (!countryCodeStr.equalsIgnoreCase("")) {
-                if (!phoneNoStr.equalsIgnoreCase("")) {
-                    if (!genderStr.equalsIgnoreCase("0")) {
-                        if (Utils.retriveLoginData(mContext).getPhoneNo().equalsIgnoreCase(phoneNoStr)) {
-                            getUpdateProfile();
+        if (!firstNameStr.equalsIgnoreCase("")) {
+            if (!lastNameStr.equalsIgnoreCase("")) {
+                if (!countryCodeStr.equalsIgnoreCase("")) {
+                    if (!phoneNoStr.equalsIgnoreCase("")) {
+                        if (!genderStr.equalsIgnoreCase("0")) {
+                            if (Utils.retriveLoginData(mContext).getPhoneNo().equalsIgnoreCase(phoneNoStr)) {
+                                getUpdateProfile();
+                            } else {
+                                AppConfiguration.currentCountryISOCode = activityEditProfileBinding.ccp.getSelectedCountryNameCode();
+                                MobileNoUpdate();
+                            }
                         } else {
-                            AppConfiguration.currentCountry = activityEditProfileBinding.ccp.getSelectedCountryNameCode();
-                            MobileNoUpdate();
+                            Utils.ping(mContext, "Please select gender");
                         }
                     } else {
-                        Utils.ping(mContext, "Please select gender");
+                        activityEditProfileBinding.phoneNoEdt.setError("Please enter phonenumber");
                     }
                 } else {
-                    activityEditProfileBinding.phoneNoEdt.setError("Please enter phonenumber");
+                    Utils.ping(mContext, "Please select country code");
                 }
             } else {
-                Utils.ping(mContext, "Please select country code");
+                activityEditProfileBinding.userLnameEdt.setError("Please enter lastname");
             }
         } else {
-            activityEditProfileBinding.userNameEdt.setError("Please enter fullname");
+            activityEditProfileBinding.userFnameEdt.setError("Please enter firstname");
         }
     }
 
@@ -709,7 +757,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
 
     @Override
     public void onBackPressed() {
-       backActivity();
+        backActivity();
         super.onBackPressed();
     }
 
@@ -854,8 +902,8 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
 
     private Map<String, String> getStatesDetailData() {
         Map<String, String> map = new HashMap<>();
-        map.put("CountryISOCode", AppConfiguration.currentCountry);
-
+        map.put("CountryISOCode", AppConfiguration.currentCountryISOCode);
+        map.put("MemberId", String.valueOf(Utils.getAppUserId(mContext)));
         return map;
     }
 
@@ -909,6 +957,53 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
     private Map<String, String> getCitiesDetailData() {
         Map<String, String> map = new HashMap<>();
         map.put("StateId", statesIdStr);
+        map.put("MemberId", String.valueOf(Utils.getAppUserId(mContext)));
+        return map;
+    }
+
+    /*use for ApplicationUse*/
+    public void callApplicationUsesDetail(String go) {
+        if (!Utils.checkNetwork(mContext)) {
+            Utils.showCustomDialog(getResources().getString(R.string.internet_error), getResources().getString(R.string.internet_connection_error), EditProfileActivity.this);
+            return;
+        }
+
+//        Utils.showDialog(mContext);
+        ApiHandler.getApiService().getApplicationUsage(getapplicationuseData(), new retrofit.Callback<LogginModel>() {
+            @Override
+            public void success(LogginModel applicationuseModel, Response response) {
+                Utils.dismissDialog();
+                if (applicationuseModel == null) {
+                    Utils.ping(mContext, getString(R.string.something_wrong));
+                    return;
+                }
+                if (applicationuseModel.getIsValid() == null) {
+                    return;
+                }
+                if (applicationuseModel.getIsValid() == 0) {
+                    return;
+                }
+                if (applicationuseModel.getIsValid() == 1) {
+                    AppConfiguration.currentCountryISOCode = applicationuseModel.getCurrentLocation().getIsoCode();
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Utils.dismissDialog();
+                error.printStackTrace();
+                error.getMessage();
+                Utils.ping(mContext, getString(R.string.something_wrong));
+            }
+        });
+
+    }
+
+    private Map<String, String> getapplicationuseData() {
+        Map<String, String> map = new HashMap<>();
+        map.put("TokenId", Utils.getPref(mContext, "registration_id"));
+        map.put("ModelName", Utils.getDeviceName());
+        map.put("MemberId", String.valueOf(Utils.getAppUserId(mContext)));
         return map;
     }
 }

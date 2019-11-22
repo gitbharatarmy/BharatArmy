@@ -22,10 +22,53 @@ public class GalleryImageModel {
 
     String imageStr;
 
+    String headertxt;
+    String subtxt;
+    int headerImage;
+    String selectedposition;
+
 
     public GalleryImageModel() {
     }
 
+  public GalleryImageModel(String headertxt,String subtxt,int headerImage,String selectedposition){
+        this.headertxt=headertxt;
+        this.subtxt=subtxt;
+        this.headerImage=headerImage;
+        this.selectedposition=selectedposition;
+  }
+
+    public String getHeadertxt() {
+        return headertxt;
+    }
+
+    public void setHeadertxt(String headertxt) {
+        this.headertxt = headertxt;
+    }
+
+    public String getSubtxt() {
+        return subtxt;
+    }
+
+    public void setSubtxt(String subtxt) {
+        this.subtxt = subtxt;
+    }
+
+    public int getHeaderImage() {
+        return headerImage;
+    }
+
+    public void setHeaderImage(int headerImage) {
+        this.headerImage = headerImage;
+    }
+
+    public String getSelectedposition() {
+        return selectedposition;
+    }
+
+    public void setSelectedposition(String selectedposition) {
+        this.selectedposition = selectedposition;
+    }
 
     public GalleryImageModel(String imageStr){
         this.imageStr=imageStr;

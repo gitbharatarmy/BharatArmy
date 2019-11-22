@@ -23,10 +23,9 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bharatarmy.Activity.ImageEditProfilePickerActivity;
-import com.bharatarmy.Activity.ImageVideoUploadActivity;
+import com.bharatarmy.Activity.ImageUploadActivity;
 import com.bharatarmy.Activity.VideoTrimActivity;
 import com.bharatarmy.Adapter.AlbumListAdapter;
-import com.bharatarmy.Adapter.VideoListAdapter;
 import com.bharatarmy.Models.ImageDetailModel;
 import com.bharatarmy.Models.ImageMainModel;
 import com.bharatarmy.R;
@@ -168,8 +167,9 @@ public class AlbumFragment extends Fragment {
                 lastPositions = staggeredGridLayoutManager.findLastCompletelyVisibleItemPositions(lastPositions);
                 lastVisibleItem = Math.max(lastPositions[0], lastPositions[1]);//findMax(lastPositions);
 
+
                 if (!isLoading) {
-                    if (staggeredGridLayoutManager != null && lastVisibleItem == albumModelList.size() - 1) {
+                    if (staggeredGridLayoutManager != null && lastVisibleItem == albumModelList.size() - 2) {
                         //bottom of list!
                         ispull = false;
                         pageIndex = pageIndex + 1;
@@ -184,8 +184,8 @@ public class AlbumFragment extends Fragment {
         fragmentAlbumBinding.refreshView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                pageIndex=0;
                 fragmentAlbumBinding.bottomProgressbarLayout.setVisibility(View.GONE);
+                pageIndex=0;
                 callAlbumImagePullData();
 
             }
@@ -280,7 +280,7 @@ public class AlbumFragment extends Fragment {
                                             if (report.areAllPermissionsGranted()) {
 
                                                 imageorvideoStr = "image";
-                                                Intent imagevideouploadIntent1 = new Intent(mContext, ImageVideoUploadActivity.class);
+                                                Intent imagevideouploadIntent1 = new Intent(mContext, ImageUploadActivity.class);
                                                 imagevideouploadIntent1.putExtra("image/video", imageorvideoStr);
                                                 imagevideouploadIntent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                                 mContext.startActivity(imagevideouploadIntent1);
@@ -410,6 +410,7 @@ public class AlbumFragment extends Fragment {
         map.put("PageIndex", String.valueOf(pageIndex));
         map.put("PageSize", "20");
         map.put("MemberId", String.valueOf(Utils.getAppUserId(mContext)));
+
         return map;
     }
 
@@ -472,7 +473,6 @@ public class AlbumFragment extends Fragment {
                         albumModelList = albumMainModel.getData();
 
                         isLoading=false;
-                        fragmentAlbumBinding.bottomProgressbarLayout.setVisibility(View.GONE);
                         staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, 1);
                         fragmentAlbumBinding.rvPosters.setLayoutManager(staggeredGridLayoutManager);
                         albumListAdapter = new AlbumListAdapter(mContext, albumModelList);
@@ -500,6 +500,7 @@ public class AlbumFragment extends Fragment {
         map.put("PageIndex", String.valueOf(pageIndex));
         map.put("PageSize", "20");
         map.put("MemberId", String.valueOf(Utils.getAppUserId(mContext)));
+
         return map;
     }
 

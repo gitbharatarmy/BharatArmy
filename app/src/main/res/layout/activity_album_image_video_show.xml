@@ -10,34 +10,39 @@
         android:orientation="vertical"
         tools:context=".Activity.AlbumImageVideoShowActivity">
 
-<!-- android:background="@color/heading_bg"-->
-
-
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/album_detail_rcvList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:nestedScrollingEnabled="false" />
 
         <com.alexvasilkov.gestures.views.GestureImageView
             android:id="@+id/show_album_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:gest_doubleTapEnabled="true"
-            android:visibility="visible" />
+            android:visibility="visible"
+            app:gest_doubleTapEnabled="true" />
+
         <VideoView
             android:id="@+id/play_albumvideo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:layout_gravity="center"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
-            android:visibility="gone">
-        </VideoView>
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:visibility="gone"></VideoView>
+
         <ImageView
             android:id="@+id/videoView_thumbnail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone"
-            android:layout_centerInParent="true"/>
+            android:layout_centerInParent="true"
+            android:visibility="gone" />
+
         <ProgressBar
             android:id="@+id/image_progress"
             style="?android:attr/progressBarStyle"
@@ -48,20 +53,21 @@
             android:indeterminate="true"
             android:indeterminateTint="@color/white"
             android:visibility="gone" />
+
         <LinearLayout
             android:id="@+id/back_img"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_40sdp"
-            android:orientation="horizontal"
-            android:background="@drawable/reverse_dropshadow">
+            android:background="@drawable/reverse_dropshadow"
+            android:orientation="horizontal">
 
             <ImageView
                 android:layout_width="@dimen/_20sdp"
                 android:layout_height="@dimen/_15sdp"
-                android:layout_marginLeft="@dimen/_10sdp"
                 android:layout_gravity="left|center_vertical"
+                android:layout_marginLeft="@dimen/_10sdp"
                 android:src="@drawable/ic_left_arrow2"
-                android:tint="@color/white"/>
+                android:tint="@color/white" />
         </LinearLayout>
     </RelativeLayout>
 </layout>

@@ -40,6 +40,10 @@ public interface WebServices {
     void getLogin(@FieldMap Map<String, String> map, Callback<LogginModel> callback);
 
     @FormUrlEncoded
+    @POST("/LoginwithGoogle")
+    void getLoginwithGoogle(@FieldMap Map<String, String> map, Callback<LogginModel> callback);
+
+    @FormUrlEncoded
     @POST("/ForgotPassword")
     void getForgotPassword(@FieldMap Map<String, String> map, Callback<LogginModel> callback);
 
@@ -50,6 +54,10 @@ public interface WebServices {
     @FormUrlEncoded
     @POST("/AppSignup")
     void getSignup(@FieldMap Map<String, String> map, Callback<LogginModel> callback);
+
+    @FormUrlEncoded
+    @POST("/ApplicationUsage")
+    void getApplicationUsage(@FieldMap Map<String, String> map, Callback<LogginModel> callback);
 
     @FormUrlEncoded
     @POST("/GetUserDetails")
@@ -98,7 +106,8 @@ public interface WebServices {
     /* profile image uploading with multiple parameter*/
     @Multipart
     @retrofit2.http.POST("/API/v1/UpdateProfile")
-    Call<LogginModel> updateprofile(@Part("AppUserId") RequestBody userid, @Part("FullName") RequestBody fullname,
+    Call<LogginModel> updateprofile(@Part("AppUserId") RequestBody userid, @Part("FirstName") RequestBody firstname,
+                                    @Part("LastName") RequestBody lastname,@Part("EmailId") RequestBody email,
                                     @Part("CountryISOCode") RequestBody countryISOCode, @Part("CountryPhoneNo") RequestBody countycode,
                                     @Part("PhoneNo") RequestBody phoneno, @Part("Gender") RequestBody gender,
                                     @Part("OTPText") RequestBody otptext, @Part("SMSSentId") RequestBody smssentId,
@@ -185,7 +194,7 @@ public interface WebServices {
 
     @FormUrlEncoded
     @POST("/InsertBALike")
-    void getInsertBALike(@FieldMap Map<String, Integer> map, Callback<ImageMainModel> callback);
+    void getInsertBALike(@FieldMap Map<String, String> map, Callback<ImageMainModel> callback);
 
     @FormUrlEncoded
     @POST("/InsertBAComments")

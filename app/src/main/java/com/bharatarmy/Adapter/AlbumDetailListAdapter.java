@@ -10,7 +10,6 @@ import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bharatarmy.Activity.AlbumImageVideoShowActivity;
 import com.bharatarmy.Interfaces.image_click;
 import com.bharatarmy.Models.ImageDetailModel;
 import com.bharatarmy.R;
@@ -25,12 +24,13 @@ public class AlbumDetailListAdapter extends RecyclerView.Adapter<AlbumDetailList
 
     public List<ImageDetailModel> albumdetailDataList;
     Context mContext;
+     image_click imageClick;
+    private ArrayList<String> dataCheck;
 
-
-
-    public AlbumDetailListAdapter(Context mContext, List<ImageDetailModel> albumdetailDataList) {
+    public AlbumDetailListAdapter(Context mContext, List<ImageDetailModel> albumdetailDataList,image_click imageClick) {
         this.mContext=mContext;
         this.albumdetailDataList=albumdetailDataList;
+        this.imageClick=imageClick;
     }
 
     @NonNull
@@ -60,12 +60,16 @@ public class AlbumDetailListAdapter extends RecyclerView.Adapter<AlbumDetailList
         viewHolder.albumDetailListBinding.albumImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent showImageVideoIntent=new Intent(mContext, AlbumImageVideoShowActivity.class);
-                showImageVideoIntent.putExtra("AlbumImageThumb",detail.getThumbFileUrl());
-                showImageVideoIntent.putExtra("AlbumImageVideoPath",detail.getFileNameUrl());
-                showImageVideoIntent.putExtra("MediaType",String.valueOf(detail.getMediaTypeId()));
-                showImageVideoIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                mContext.startActivity(showImageVideoIntent);
+//                Intent showImageVideoIntent=new Intent(mContext, AlbumImageVideoShowActivity.class);
+//                showImageVideoIntent.putExtra("AlbumImageThumb",detail.getThumbFileUrl());
+//                showImageVideoIntent.putExtra("AlbumImageVideoPath",detail.getFileNameUrl());
+//                showImageVideoIntent.putExtra("MediaType","Album");
+//                showImageVideoIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                mContext.startActivity(showImageVideoIntent);
+
+                dataCheck = new ArrayList<String>();
+                dataCheck.add(detail.getFileNameUrl());
+                imageClick.image_more_click();
             }
         });
 
@@ -97,6 +101,9 @@ public class AlbumDetailListAdapter extends RecyclerView.Adapter<AlbumDetailList
             this.albumDetailListBinding = albumDetailListBinding;
 
         }
+    }
+    public ArrayList<String> getData() {
+        return dataCheck;
     }
 
     public void addMoreDataToList(List<ImageDetailModel> result) {

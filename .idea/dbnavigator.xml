@@ -501,7 +501,7 @@
     <ddl-file-settings>
       <extensions>
         <mapping file-type-id="VIEW" extensions="vw" />
-        <mapping file-type-id="TRIGGER" extensions="trg" />
+        <mapping file-type-id="TRIGGER" extensions="" />
         <mapping file-type-id="PROCEDURE" extensions="prc" />
         <mapping file-type-id="FUNCTION" extensions="fnc" />
         <mapping file-type-id="PACKAGE" extensions="pkg" />

@@ -289,6 +289,7 @@ public class TravelPackageActivity extends AppCompatActivity {
         Map<String, String> map = new HashMap<>();
         map.put("ItineraryId", "1");
         map.put("DayNo", AppConfiguration.tabPosition);
+        map.put("MemberId", String.valueOf(Utils.getAppUserId(mContext)));
         return map;
     }
 

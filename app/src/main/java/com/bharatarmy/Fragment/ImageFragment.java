@@ -1,7 +1,6 @@
 package com.bharatarmy.Fragment;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -25,11 +24,9 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bharatarmy.Activity.GalleryImageDetailActivity;
 import com.bharatarmy.Activity.ImageEditProfilePickerActivity;
-import com.bharatarmy.Activity.ImageVideoUploadActivity;
+import com.bharatarmy.Activity.ImageUploadActivity;
 import com.bharatarmy.Activity.VideoTrimActivity;
-import com.bharatarmy.Activity.VideoUploadActivity;
 import com.bharatarmy.Adapter.ImageListAdapter;
-import com.bharatarmy.Interfaces.FragmentRefreshListener;
 import com.bharatarmy.Interfaces.image_click;
 import com.bharatarmy.Models.ImageDetailModel;
 import com.bharatarmy.Models.ImageMainModel;
@@ -39,7 +36,6 @@ import com.bharatarmy.Utility.ApiHandler;
 import com.bharatarmy.Utility.EndlessRecyclerViewScrollListener;
 import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.FragmentImageBinding;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
@@ -249,7 +245,7 @@ public class ImageFragment extends Fragment {
                                             if (report.areAllPermissionsGranted()) {
 
                                                 imageorvideoStr = "image";
-                                                Intent imagevideouploadIntent1 = new Intent(mContext, ImageVideoUploadActivity.class);
+                                                Intent imagevideouploadIntent1 = new Intent(mContext, ImageUploadActivity.class);
                                                 imagevideouploadIntent1.putExtra("image/video", imageorvideoStr);
                                                 imagevideouploadIntent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                                 mContext.startActivity(imagevideouploadIntent1);

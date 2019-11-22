@@ -74,7 +74,7 @@ public class RegisterInterestActivity extends AppCompatActivity implements View.
         tournamentIdStr = getIntent().getStringExtra("tournamentId");
 
 
-        Utils.setImageInImageView("https://cdn.drivebird.com/user-content/140000000001/2017/09/627c6d094ccd59cdcf10035482d7497f.jpg",
+        Utils.setImageInImageView("https://wallpapershome.com/images/pages/pic_h/5050.jpg",
                 activityRegisterInterestBinding.mainPageBgImage, mContext);
 
         titleNameStr = "schedule";
@@ -237,6 +237,7 @@ public class RegisterInterestActivity extends AppCompatActivity implements View.
     private Map<String, String> getTournamentInterestDetailData() {
         Map<String, String> map = new HashMap<>();
         map.put("TournamentId", tournamentIdStr);
+        map.put("MemberId", String.valueOf(Utils.getAppUserId(mContext)));
         return map;
     }
 

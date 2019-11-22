@@ -47,21 +47,21 @@ public class DisplaySFAUserActivity extends AppCompatActivity implements View.On
 
     public void init() {
         if (Utils.retriveLoginData(mContext) != null) {
-            if (Utils.retriveLoginData(mContext).getMemberType().equalsIgnoreCase(",3,")) {
+            /*if (Utils.retriveLoginData(mContext).getMemberType().equalsIgnoreCase(",3,")) {
                 activityDisplaySfauserBinding.backImg.setVisibility(View.GONE);
                 activityDisplaySfauserBinding.logoutImg.setVisibility(View.VISIBLE);
                 activityDisplaySfauserBinding.shimmerViewContainer.setVisibility(View.GONE);
                 activityDisplaySfauserBinding.shimmerViewContainer.startShimmerAnimation();
                 activityDisplaySfauserBinding.SFAUserInfoRcv.setVisibility(View.GONE);
                 activityDisplaySfauserBinding.noOfRecordrel.setVisibility(View.VISIBLE);
-            }else{
+            }else{*/
                 activityDisplaySfauserBinding.backImg.setVisibility(View.VISIBLE);
                 activityDisplaySfauserBinding.logoutImg.setVisibility(View.GONE);
                 activityDisplaySfauserBinding.shimmerViewContainer.setVisibility(View.VISIBLE);
                 activityDisplaySfauserBinding.shimmerViewContainer.startShimmerAnimation();
                 activityDisplaySfauserBinding.SFAUserInfoRcv.setVisibility(View.GONE);
                 activityDisplaySfauserBinding.noOfRecordrel.setVisibility(View.GONE);
-            }
+//            }
         }
 
         activityDisplaySfauserBinding.toolbarTitleTxt.setText("SFA Data Entry");
@@ -107,20 +107,20 @@ public class DisplaySFAUserActivity extends AppCompatActivity implements View.On
                     if (userDataModel.getData() != null && userDataModel.getData().size()>0) {
 
                         if (Utils.retriveLoginData(mContext) != null) {
-                            if (Utils.retriveLoginData(mContext).getMemberType().equalsIgnoreCase(",3,")) {
+                            /*if (Utils.retriveLoginData(mContext).getMemberType().equalsIgnoreCase(",3,")) {
                                 activityDisplaySfauserBinding.shimmerViewContainer.stopShimmerAnimation();
                                 activityDisplaySfauserBinding.shimmerViewContainer.setVisibility(View.GONE);
                                 activityDisplaySfauserBinding.noRecordrel.setVisibility(View.GONE);
                                 activityDisplaySfauserBinding.SFAUserInfoRcv.setVisibility(View.GONE);
                                 activityDisplaySfauserBinding.noOfRecordrel.setVisibility(View.VISIBLE);
-                            }else{
+                            }else{*/
                                 activityDisplaySfauserBinding.shimmerViewContainer.stopShimmerAnimation();
                                 activityDisplaySfauserBinding.shimmerViewContainer.setVisibility(View.GONE);
                                 activityDisplaySfauserBinding.noRecordrel.setVisibility(View.GONE);
                                 activityDisplaySfauserBinding.SFAUserInfoRcv.setVisibility(View.VISIBLE);
                                 activityDisplaySfauserBinding.noOfRecordrel.setVisibility(View.GONE);
 
-                            }
+//                            }
                         }
 
                         sfausermodellist = userDataModel.getData();
@@ -148,7 +148,6 @@ public class DisplaySFAUserActivity extends AppCompatActivity implements View.On
     private Map<String, String> getDisplayUserData() {
         Map<String, String> map = new HashMap<>();
         map.put("AppUserId", String.valueOf(Utils.getAppUserId(mContext)));
-
         return map;
     }
 
@@ -179,7 +178,7 @@ public class DisplaySFAUserActivity extends AppCompatActivity implements View.On
                 android.app.AlertDialog.Builder alertDialog2 = new android.app.AlertDialog.Builder(this);
                 alertDialog2.setTitle("Logout Confirm");
                 alertDialog2.setMessage("Are you sure you want logout?");
-                alertDialog2.setIcon(R.drawable.app_logo);
+                alertDialog2.setIcon(R.drawable.app_logo_new);
                 alertDialog2.setCancelable(false);
                 alertDialog2.setPositiveButton("YES",
                         new DialogInterface.OnClickListener() {
@@ -212,11 +211,11 @@ public class DisplaySFAUserActivity extends AppCompatActivity implements View.On
     @Override
     public void onBackPressed() {
         if (Utils.retriveLoginData(mContext) != null) {
-            if (Utils.retriveLoginData(mContext).getMemberType().equalsIgnoreCase(",3,")) {
+           /* if (Utils.retriveLoginData(mContext).getMemberType().equalsIgnoreCase(",3,")) {
                 finish();
-            } else {
+            } else {*/
                 finish();
-            }
+//            }
         }
     }
 }

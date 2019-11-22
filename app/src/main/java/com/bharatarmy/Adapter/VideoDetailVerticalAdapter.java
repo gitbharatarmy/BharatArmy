@@ -96,11 +96,10 @@ public class VideoDetailVerticalAdapter extends RecyclerView.Adapter<RecyclerVie
         if (holder.getItemViewType() == ITEM) {
             final ImageDetailModel relatedVerticalVideoDetail = relatedVideoList.get(position - 1);
             videoUserName = relatedVerticalVideoDetail.getUserName();
+            Utils.LikeMemberId = String.valueOf(Utils.getAppUserId(mContext));
+            Utils.LikeReferenceId = videoIdStr;
 
-            Utils.LikeMemberId = Utils.getAppUserId(mContext);
-            Utils.LikeReferenceId = Integer.parseInt(videoIdStr);
-
-            Utils.LikeSourceType = 2;
+            Utils.LikeSourceType = "2";
             Utils.setImageInImageView(relatedVerticalVideoDetail.getVideoImageURL(),
                     ((ItemViewHolder) holder).videoDetailVerticaleAdapterItemBinding.verticaleRelatedVideoImg, mContext);
 
@@ -118,13 +117,14 @@ public class VideoDetailVerticalAdapter extends RecyclerView.Adapter<RecyclerVie
             ((ItemViewHolder) holder).videoDetailVerticaleAdapterItemBinding.verticaleRelatedVideoImg.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Utils.LikeMemberId = Utils.getAppUserId(mContext);
-                    Utils.LikeReferenceId = Integer.parseInt(videoIdStr);
-                    Utils.LikeSourceType = 2;
+                    Utils.LikeMemberId = String.valueOf(Utils.getAppUserId(mContext));
+                    Utils.LikeReferenceId = videoIdStr;
+                    Utils.LikeSourceType = "2";
                     Utils.viewsMemberId=String.valueOf(Utils.getAppUserId(mContext));
                     Utils.viewsReferenceId=videoIdStr;
                     Utils.viewsSourceType="2";
                     Utils.viewsTokenId= Utils.getPref(mContext, "registration_id");
+
                     Utils.InsertBAViews(mContext,activity);
 
                     if (relatedVerticalVideoDetail.getWidth()> relatedVerticalVideoDetail.getHeight()){
@@ -225,7 +225,7 @@ public class VideoDetailVerticalAdapter extends RecyclerView.Adapter<RecyclerVie
                 @Override
                 public void liked(LikeButton likeButton) {
                     if (Utils.isMember(mContext, "galleryDetail")) {
-                        Utils.LikeStatus = 1;
+                        Utils.LikeStatus = "1";
                         Utils.InsertLike(mContext, activity);
                         likeunlikecount= Integer.parseInt(((HeaderViewHolder)holder).videoDetailVerticaleHeaderBinding.totalLikeTxt.getText().toString());
                         notifyItemChanged(position,
@@ -239,7 +239,7 @@ public class VideoDetailVerticalAdapter extends RecyclerView.Adapter<RecyclerVie
                 @Override
                 public void unLiked(LikeButton likeButton) {
                     if (Utils.isMember(mContext, "galleryDetail")) {
-                        Utils.LikeStatus = 0;
+                        Utils.LikeStatus = "0";
                         Utils.InsertLike(mContext, activity);
                         likeunlikecount= Integer.parseInt(((HeaderViewHolder)holder).videoDetailVerticaleHeaderBinding.totalLikeTxt.getText().toString());
                         notifyItemChanged(position,

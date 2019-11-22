@@ -44,7 +44,7 @@
                         android:background="@color/heading_bg"
                         android:paddingLeft="@dimen/_2sdp"
                         android:paddingBottom="@dimen/_2sdp"
-                        android:src="@drawable/app_logo"
+                        android:src="@drawable/app_logo_new"
                         android:visibility="gone"/>
                     <TextView
                         android:id="@+id/header_txt"

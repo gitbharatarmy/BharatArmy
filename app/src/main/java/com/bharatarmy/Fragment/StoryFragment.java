@@ -219,6 +219,7 @@ public class StoryFragment extends Fragment {
         Map<String, String> map = new HashMap<>();
         map.put("PageIndex", String.valueOf(pageIndex));
         map.put("PageSize", AppConfiguration.pageSize);
+        map.put("MemberId", String.valueOf(Utils.getAppUserId(mContext)));
         return map;
     }
 
@@ -317,6 +318,7 @@ public class StoryFragment extends Fragment {
         Map<String, String> map = new HashMap<>();
         map.put("PageIndex", String.valueOf(pageIndex));
         map.put("PageSize", "14");
+        map.put("MemberId", String.valueOf(Utils.getAppUserId(mContext)));
         return map;
     }
 

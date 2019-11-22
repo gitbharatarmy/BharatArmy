@@ -59,8 +59,7 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
     implementation 'com.squareup.picasso:picasso:2.5.0'
     implementation 'com.google.android.gms:play-services-base:15.0.2'
-    implementation "com.google.firebase:firebase-core:17.0.1"
-    implementation "com.google.firebase:firebase-messaging:20.0.0"
+
     implementation 'de.hdodenhof:circleimageview:3.0.0'
 
 
@@ -130,17 +129,30 @@ dependencies {
 
 //    google signup
     implementation 'com.google.android.gms:play-services-auth:17.0.0'
+    // lib for SMS verification (Phone Auth)
+    implementation 'com.google.android.gms:play-services-auth-api-phone:17.0.0'
 
 //    facebook signup
     implementation 'com.facebook.android:facebook-login:5.0.1'
+//    implementation 'com.facebook.android:facebook-core:5.11.1'
+//    implementation 'com.facebook.android:facebook-login:5.11.1'
 
     implementation 'com.github.androidquery:androidquery:0.26.9'
 
 //    SVG Loader
     implementation 'com.github.ar-android:AndroidSvgLoader:1.0.0'
 
+//    firebase notification
+    implementation "com.google.firebase:firebase-core:17.0.1"
+    implementation 'com.google.firebase:firebase-messaging:20.0.1'
+    implementation 'com.google.firebase:firebase-analytics:17.2.1'
+
+//auto start permission
+    implementation 'com.github.judemanutd:autostarter:1.0.4'
 }
 apply plugin: 'com.google.gms.google-services'
 repositories {
     mavenCentral()
+    maven { url 'https://maven.fabric.io/public' }
+
 }

@@ -184,19 +184,6 @@
                         android:textSize="@dimen/_14sdp" />
                 </LinearLayout>
 
-                <TextView
-                    android:id="@+id/skip_txt"
-                    style="@style/text_font"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom|center_horizontal"
-                    android:layout_marginLeft="@dimen/_5sdp"
-                    android:layout_marginBottom="@dimen/_15sdp"
-                    android:paddingRight="@dimen/_5sdp"
-                    android:text="@string/skip"
-                    android:textColor="@color/skip_color"
-                    android:textSize="@dimen/_14sdp"
-                    android:visibility="gone"/>
             </LinearLayout>
 
         </LinearLayout>

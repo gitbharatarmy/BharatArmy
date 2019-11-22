@@ -1,8 +1,11 @@
 package com.bharatarmy.Fragment;
 
 import android.annotation.SuppressLint;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.graphics.drawable.TransitionDrawable;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -68,6 +71,7 @@ import com.bharatarmy.Utility.AppConfiguration;
 import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.FragmentHomeBinding;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.judemanutd.autostarter.AutoStartPermissionHelper;
 import com.leinardi.android.speeddial.SpeedDialView;
 
 import java.text.ParseException;
@@ -120,6 +124,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     int musicVolume, maxVolume;
     int position = 0;
     private MediaPlayer mediaPlayer;
+
+//    autostart
+    String manufacturer;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -348,6 +355,30 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         customerGalleryViewPagerAdapter = new MyCustomerGalleryViewPagerAdapter();
         fragmentHomeBinding.customerGalleryViewpager.setAdapter(customerGalleryViewPagerAdapter);
         fragmentHomeBinding.customerGalleryViewpager.addOnPageChangeListener(viewPagerPageChangeListener);
+
+//     Autostart
+       manufacturer = android.os.Build.MANUFACTURER;
+        if ("xiaomi".equalsIgnoreCase(manufacturer) || "oppo".equalsIgnoreCase(manufacturer)
+                || "vivo".equalsIgnoreCase(manufacturer) || "oneplus".equalsIgnoreCase(manufacturer)
+                || "asus".equalsIgnoreCase(manufacturer) /*|| "samsung".equalsIgnoreCase(manufacturer)*/
+                || "Letv".equalsIgnoreCase(manufacturer)|| "Honor".equalsIgnoreCase(manufacturer)) {
+
+            fragmentHomeBinding.settingLinear.setVisibility(View.VISIBLE);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+            );
+            params.setMargins(0, 0, 0, 200);
+            fragmentHomeBinding.settingLinear.setLayoutParams(params);
+        }else{
+            fragmentHomeBinding.settingLinear.setVisibility(View.GONE);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+            );
+            params.setMargins(0, 0, 0, 200);
+            fragmentHomeBinding.helpLinear.setLayoutParams(params);
+        }
     }
 
     public void setListiner() {
@@ -356,7 +387,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         fragmentHomeBinding.knowMore.setVisibility(View.GONE);
         fragmentHomeBinding.shimmerViewContainer.startShimmerAnimation();
         fragmentHomeBinding.upcomingRcyList.showShimmerAdapter();
-//        fragmentHomeBinding.armyStoryRcyList.showShimmerAdapter();
+        fragmentHomeBinding.armyStoryRcyList.showShimmerAdapter();
 
         fragmentHomeBinding.knowMore.setOnClickListener(this);
         fragmentHomeBinding.advImg.setOnClickListener(this);
@@ -364,23 +395,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         fragmentHomeBinding.startPauseMediaButton.setOnClickListener(this);
         fragmentHomeBinding.fullScreenButton.setOnClickListener(this);
         fragmentHomeBinding.volmueLinear.setOnClickListener(this);
+        fragmentHomeBinding.faqLinear.setOnClickListener(this);
+        fragmentHomeBinding.termsConditionLinear.setOnClickListener(this);
 
-        fragmentHomeBinding.baVideo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (fragmentHomeBinding.baVideo.isPlaying()) {
-                    position = fragmentHomeBinding.baVideo.getCurrentPosition();
-                    fragmentHomeBinding.baVideo.pause();
-                    Log.d("videorunposition :", "" + position);
-                    fragmentHomeBinding.startPauseMediaButton.setVisibility(View.VISIBLE);
-                    fragmentHomeBinding.fullScreenButton.setVisibility(View.GONE);
-                    fragmentHomeBinding.volmueLinear.setVisibility(View.GONE);
-                } else {
-
-                    playvideo();
-                }
-            }
-        });
+        fragmentHomeBinding.settingLinear.setOnClickListener(this);
+        fragmentHomeBinding.baVideo.setOnClickListener(this);
     }
 
     // Api calling GetDashboardData
@@ -624,10 +643,71 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             case R.id.volmue_linear:
                 voluesetting();
                 break;
-
+            case R.id.faq_linear:
+                Intent faqIntent = new Intent(mContext, MoreStoryActivity.class);
+                faqIntent.putExtra("Story Heading", "FAQ");
+                faqIntent.putExtra("StroyUrl", AppConfiguration.TERMSURL);
+                faqIntent.putExtra("whereTocome", "aboutus");
+                faqIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                mContext.startActivity(faqIntent);
+                break;
+            case R.id.terms_condition_linear:
+                Intent privacypolicyIntent = new Intent(mContext, MoreStoryActivity.class);
+                privacypolicyIntent.putExtra("Story Heading", "Privacy Policy");
+                privacypolicyIntent.putExtra("StroyUrl", AppConfiguration.TERMSURL);
+                privacypolicyIntent.putExtra("whereTocome", "aboutus");
+                privacypolicyIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                mContext.startActivity(privacypolicyIntent);
+                break;
+            case R.id.setting_linear:
+                       autoLaunchVivo(mContext);
+                break;
+            case R.id.ba_video:
+                if (fragmentHomeBinding.baVideo.isPlaying()) {
+                    position = fragmentHomeBinding.baVideo.getCurrentPosition();
+                    fragmentHomeBinding.baVideo.pause();
+                    Log.d("videorunposition :", "" + position);
+                    fragmentHomeBinding.startPauseMediaButton.setVisibility(View.VISIBLE);
+                    fragmentHomeBinding.fullScreenButton.setVisibility(View.GONE);
+                    fragmentHomeBinding.volmueLinear.setVisibility(View.GONE);
+                } else {
+                    playvideo();
+                }
+                break;
         }
     }
 
+    private  void autoLaunchVivo(Context context) {
+        try {
+            Intent intent = new Intent();
+            if ("xiaomi".equalsIgnoreCase(manufacturer)) {
+                intent.setComponent(new ComponentName("com.miui.securitycenter", "com.miui.permcenter.autostart.AutoStartManagementActivity"));
+            } else if ("oppo".equalsIgnoreCase(manufacturer)) {
+                intent.setComponent(new ComponentName("com.coloros.safecenter", "com.coloros.safecenter.permission.startup.StartupAppListActivity"));
+            } else if ("vivo".equalsIgnoreCase(manufacturer)) {
+                intent.setComponent(new ComponentName("com.vivo.permissionmanager", "com.vivo.permissionmanager.activity.BgStartUpManagerActivity"));
+            } else if ("Letv".equalsIgnoreCase(manufacturer)) {
+                intent.setComponent(new ComponentName("com.letv.android.letvsafe", "com.letv.android.letvsafe.AutobootManageActivity"));
+            } else if ("Honor".equalsIgnoreCase(manufacturer)) {
+                intent.setComponent(new ComponentName("com.huawei.systemmanager", "com.huawei.systemmanager.optimize.process.ProtectActivity"));
+            }else if("oneplus".equalsIgnoreCase(manufacturer)) {
+                intent.setComponent(new ComponentName("com.oneplus.security", "com.oneplus.security.chainlaunch.view.ChainLaunchAppListAct‌​ivity"));
+            } else if("asus".equalsIgnoreCase(manufacturer)) {
+                intent.setComponent(new ComponentName("com.asus.mobilemanager", "com.asus.mobilemanager.entry.FunctionActivity")).setData(android.net.Uri.parse("mobilemanager://function/entry/AutoStart"));
+            }
+//            else if("samsung".equalsIgnoreCase(manufacturer)) {
+//                intent.setComponent(new ComponentName("com.samsung.android.lool", "com.samsung.android.sm.ui.battery.BatteryActivity"));
+//            }
+
+            List<ResolveInfo> list = mContext.getPackageManager().queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
+            if (list.size() > 0) {
+                startActivity(intent);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     public void fillHomeBanner() {
         fragmentHomeBinding.mainPageDealsRcv.setAdapter(new MyBgpageAdapter(homeTemplateDetailModelList, mContext));
@@ -785,6 +865,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             fragmentHomeBinding.startPauseMediaButton.setVisibility(View.GONE);
             fragmentHomeBinding.fullScreenButton.setVisibility(View.VISIBLE);
             fragmentHomeBinding.volmueLinear.setVisibility(View.VISIBLE);
+            fragmentHomeBinding.imageProgress.setVisibility(View.VISIBLE);
             fragmentHomeBinding.baVideo.seekTo(position);
             fragmentHomeBinding.baVideo.start();
         }
@@ -813,10 +894,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
         if (dots.length > 0)
             dots[currentPage].setTextColor(Integer.parseInt(colorsActiveList.get(currentPage)));//colorsActive[currentPage]
-    }
-
-    private int getItem(int i) {
-        return fragmentHomeBinding.customerGalleryViewpager.getCurrentItem() + i;
     }
 
     public class MyCustomerGalleryViewPagerAdapter extends PagerAdapter {

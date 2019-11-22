@@ -3,36 +3,63 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.bharatarmy">
 
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:name=".Utility.MyApplication"
         android:allowBackup="true"
         android:hardwareAccelerated="true"
-        android:icon="@drawable/app_logo"
+        android:icon="@drawable/app_logo_new"
         android:label="@string/app_name"
         android:largeHeap="true"
-        android:roundIcon="@drawable/app_logo"
-        android:supportsRtl="true"
         android:resizeableActivity="false"
+        android:roundIcon="@drawable/app_logo_new"
+        android:supportsRtl="true"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Activity.AppLoginActivity"
+        <activity android:name=".Activity.ImageVideoPrivacyActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
-
-        </activity>
+            android:theme="@style/AppTheme"></activity>
+        <activity
+            android:name=".Activity.FacebookLoginWithNoEmailActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"></activity>
+        <activity
+            android:name=".Activity.ProfileChangePasswordActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".Activity.ProfileChangePasswordAlertActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".Activity.ProfileChangePasswordOtpActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".Activity.ProfileSettingActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".Activity.AppLoginActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Activity.DisplayOffersActivity"
             android:launchMode="singleTop"
@@ -248,7 +275,7 @@
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
-            android:name=".Activity.ImageVideoUploadActivity"
+            android:name=".Activity.ImageUploadActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
@@ -291,14 +318,6 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
-        <!--
-             The API key for Google Maps-based APIs is defined as a string resource.
-             (See the file "res/values/google_maps_api.xml").
-             Note that the API key is linked to the encryption key used to sign the APK.
-             You need a different API key for each encryption key, including the release key that is used to
-             sign the APK for publishing.
-             You can define the keys for the debug and release targets in src/debug/ and src/release/.
-        -->
         <activity
             android:name=".Activity.MoreStoryActivity"
             android:launchMode="singleTop"
@@ -308,7 +327,9 @@
             android:name=".Activity.OTPActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme">
+
+        </activity>
         <activity
             android:name=".Activity.ImageEditProfilePickerActivity"
             android:screenOrientation="portrait"
@@ -349,26 +370,16 @@
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity
             android:name="com.yalantis.ucrop.UCropActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
-
+            android:theme="@style/AppTheme.NoActionBar" /> <!-- google APP id -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key" />
-        <meta-data
-            android:name="firebase_messaging_auto_init_enabled"
-            android:value="false" />
-        <meta-data
-            android:name="firebase_analytics_collection_enabled"
-            android:value="false" />
-        <meta-data
-            android:name="com.google.firebase.messaging.default_notification_channel_id"
-            android:value="@string/default_notification_channel_id" />
-
+            android:value="@string/google_maps_key" /> <!-- file provider -->
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"
@@ -380,49 +391,55 @@
                 android:resource="@xml/file_paths"
                 tools:replace="android:resource" />
         </provider> <!-- cache directory file provider paths -->
-        <receiver android:name=".Utility.SmsReceiver">
+        <!-- SMS Receiver -->
+        <receiver
+            android:name=".Utility.SmsBroadcastReceiver"
+            android:exported="true">
             <intent-filter>
-                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+                <action android:name="com.google.android.gms.auth.api.phone.SMS_RETRIEVE" />
             </intent-filter>
-        </receiver>
-
+        </receiver> <!-- Firebase notification info -->
         <service
             android:name=".Utility.MyFirebaseMessagingService"
-            android:exported="true">
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
-        </service> <!-- <service android:name=".Utility.MyFirebaseInstanceIDService"> -->
-        <!-- <intent-filter> -->
-        <!-- <action android:name="com.google.firebase.INSTANCE_ID_EVENT" /> -->
-        <!-- </intent-filter> -->
-        <!-- </service> -->
-        <service android:name=".UploadService" />
+        </service>
 
+        <meta-data
+            android:name="firebase_messaging_auto_init_enabled"
+            android:value="false" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="@string/default_notification_channel_id" />
 
+        <service android:name=".UploadService" /> <!-- Facebook integration -->
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
 
-<!--        Facebook integration-->
-        <meta-data android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id"/>
-
-        <activity android:name="com.facebook.FacebookActivity"
-            android:configChanges=
-                "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name" />
+
+        <meta-data
+            android:name="com.facebook.sdk.AutoLogAppEventsEnabled"
+            android:value="false" />
+
         <activity
             android:name="com.facebook.CustomTabActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-<!--        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>-->
-<!--        <activity android:name="com.facebook.FacebookActivity"-->
-<!--            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"-->
-<!--            android:label="@string/app_name" />-->
     </application>
 
 </manifest>

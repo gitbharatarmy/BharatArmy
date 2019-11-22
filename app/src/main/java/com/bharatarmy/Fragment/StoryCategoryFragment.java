@@ -218,6 +218,7 @@ public class StoryCategoryFragment extends Fragment {
         Map<String, String> map = new HashMap<>();
         map.put("PageIndex", "0");
         map.put("PageSize", "14");
+        map.put("MemberId", String.valueOf(Utils.getAppUserId(mContext)));
         return map;
     }
 

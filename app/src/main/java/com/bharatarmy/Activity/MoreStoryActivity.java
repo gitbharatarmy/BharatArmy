@@ -54,7 +54,7 @@ public class MoreStoryActivity extends BaseActivity implements View.OnClickListe
         } else {
             moreStoryBinding.shareImg.setVisibility(View.GONE);
         }
-        Glide.with(mContext).load(R.drawable.logo).into(moreStoryBinding.image);
+        Glide.with(mContext).load(R.drawable.logo_new).into(moreStoryBinding.image);
 //        moreStoryBinding.toolbarTitleTxt.setText(storyHeadingStr);
         moreStoryBinding.moreStoryWebview.setWebViewClient(new MyWebViewClient());
         moreStoryBinding.moreStoryWebview.getSettings().setJavaScriptEnabled(true);

@@ -9,14 +9,17 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -36,11 +39,6 @@ import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.meghWebView;
 import com.bharatarmy.databinding.ActivitySignUpBinding;
 import com.bumptech.glide.Glide;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.InstanceIdResult;
-import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -52,15 +50,14 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     // dhaval sir nu 9574252404
     ActivitySignUpBinding activitySignUpBinding;
     Context mContext;
-    String strFullName, strEmail, strCountrycode, strMobileno, strPassword, strCheck = "0",
-            strbckFullName, strbckEmail, strbckCountrycode, strbckMobileno, strbckPassword, strbckCheck;
+    String strFirstName,strLastName,strEmail, strCountrycode, strMobileno, strPassword, strCheck = "0",
+            strbckFirstName,strbckLastName, strbckEmail, strbckCountrycode, strbckMobileno, strbckPassword, strbckCheck;
     AlertDialog alertDialogAndroid;
     Button agree_btn;
     meghWebView webView;
     TextView close_btn;
     ImageView image;
-    private String android_id;
-    String token;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,29 +67,53 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         mContext = SignUpActivity.this;
         init();
         setListiner();
-        getFCMTOken();
     }
 
     public void init() {
+        if (AppConfiguration.currentCountryISOCode!=null){
+            if (!AppConfiguration.currentCountryISOCode.equalsIgnoreCase("")){
+                activitySignUpBinding.ccp.setCountryForNameCode(AppConfiguration.currentCountryISOCode);
+            }
+        }
 
+        if (getIntent().getStringExtra("wheretocome") != null) {
+            if (getIntent().getStringExtra("wheretocome").equalsIgnoreCase("OTP")) {
+                strbckFirstName = getIntent().getStringExtra("signupFirstname");
+                strbckLastName =getIntent().getStringExtra("signupLastname") ;
+                strbckEmail = getIntent().getStringExtra("signupEmail");
+                strbckCountrycode = getIntent().getStringExtra("signupCountryCode");
+                strbckMobileno = getIntent().getStringExtra("signupMobileno");
+                strbckPassword = getIntent().getStringExtra("signupPassword");
+                strbckCheck = getIntent().getStringExtra("signupCheck");
+
+
+                activitySignUpBinding.firstNameEdt.setText(strbckFirstName);
+                activitySignUpBinding.lastNameEdt.setText(strbckLastName);
+                activitySignUpBinding.emailEdt.setText(strbckEmail);
+                activitySignUpBinding.ccp.setCountryForNameCode(strbckCountrycode);
+                activitySignUpBinding.mobileEdt.setText(strbckMobileno);
+                activitySignUpBinding.userPasswordEdt.setText(strbckPassword);
+
+                if (strbckCheck.equalsIgnoreCase("1")) {
+                    strCheck = "1";
+                    activitySignUpBinding.termsChk.setChecked(true);
+                }
+            }
+        }
     }
 
 
     // set the All Listiner and Data
     public void setListiner() {
-//        activitySignUpBinding.ccp.setCountryForNameCode(AppConfiguration.currentCountry);
-        activitySignUpBinding.ccp.setCountryForNameCode(AppConfiguration.currentCountry);
         activitySignUpBinding.termConditionTxt.setOnClickListener(this);
         activitySignUpBinding.signupBtn.setOnClickListener(this);
         activitySignUpBinding.closeTxt.setOnClickListener(this);
-        activitySignUpBinding.fulluserNameEdt.setOnClickListener(this);
-
-
+        activitySignUpBinding.firstNameEdt.setOnClickListener(this);
 
         activitySignUpBinding.ccp.setOnCountryChangeListener(new CountryCodePicker.OnCountryChangeListener() {
             @Override
             public void onCountrySelected(Country selectedCountry) {
-                AppConfiguration.currentCountry = activitySignUpBinding.ccp.getSelectedCountryNameCode();
+                AppConfiguration.currentCountryISOCode = activitySignUpBinding.ccp.getSelectedCountryNameCode();
             }
         });
 
@@ -106,83 +127,77 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                 }
             }
         });
-        if (getIntent().getStringExtra("wheretocome") != null) {
-            if (getIntent().getStringExtra("wheretocome").equalsIgnoreCase("OTP")) {
-                strbckFullName = getIntent().getStringExtra("signupFullname");
-                strbckEmail = getIntent().getStringExtra("signupEmail");
-                strbckCountrycode = getIntent().getStringExtra("signupCountryCode");
-                strbckMobileno = getIntent().getStringExtra("signupMobileno");
-                strbckPassword = getIntent().getStringExtra("signupPassword");
-                strbckCheck = getIntent().getStringExtra("signupCheck");
 
-
-                activitySignUpBinding.fulluserNameEdt.setText(strbckFullName);
-                activitySignUpBinding.emailEdt.setText(strbckEmail);
-                activitySignUpBinding.ccp.setCountryForNameCode(strbckCountrycode);
-                activitySignUpBinding.mobileEdt.setText(strbckMobileno);
-                activitySignUpBinding.userPasswordEdt.setText(strbckPassword);
-
-                if (strbckCheck.equalsIgnoreCase("1")) {
-                    activitySignUpBinding.termsChk.setChecked(true);
+        activitySignUpBinding.userPasswordEdt.setOnEditorActionListener(new EditText.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_NEXT){
+                    Utils.hideKeyboard(SignUpActivity.this);
                 }
+                return false;
             }
-        }
+        });
 
     }
 
     // get the data user fill for singup
     public void getDataValue() {
-        strFullName = activitySignUpBinding.fulluserNameEdt.getText().toString();
+        strFirstName = activitySignUpBinding.firstNameEdt.getText().toString();
+        strLastName=activitySignUpBinding.lastNameEdt.getText().toString();
         strEmail = activitySignUpBinding.emailEdt.getText().toString();
         strCountrycode = activitySignUpBinding.ccp.getSelectedCountryCode();
         strMobileno = activitySignUpBinding.mobileEdt.getText().toString();
         strPassword = activitySignUpBinding.userPasswordEdt.getText().toString();
-        AppConfiguration.currentCountry = activitySignUpBinding.ccp.getSelectedCountryNameCode();
+        AppConfiguration.currentCountryISOCode = activitySignUpBinding.ccp.getSelectedCountryNameCode();
 
         Log.d("selectedcode", strCountrycode);
 
-        if (!strFullName.equalsIgnoreCase("")) {
-            if (!strEmail.equalsIgnoreCase("")) {
-                if (Utils.isValidEmailId(strEmail)) {
-                    if (strCountrycode.length() > 0) {
-                        if (strMobileno.length() > 0) {
-                            if (Utils.isValidPhoneNumber(strMobileno)) {
+        if (!strFirstName.equalsIgnoreCase("")) {
+            if(!strLastName.equalsIgnoreCase("")) {
+                if (!strEmail.equalsIgnoreCase("")) {
+                    if (Utils.isValidEmailId(strEmail)) {
+                        if (strCountrycode.length() > 0) {
+                            if (strMobileno.length() > 0) {
+                                if (Utils.isValidPhoneNumber(strMobileno)) {
 //                                    boolean status = Utils.validateUsing_libphonenumber(mContext, strCountrycode, strMobileno);
 //                                if (status) {
-                                if (!strPassword.equalsIgnoreCase("")) {
-                                    if (strPassword.length() >= 5 && strPassword.length() <= 10) {
-                                        if (!strCheck.equalsIgnoreCase("0")) {
-                                            getOtpVerification();
-                                        } else {
-                                            Utils.ping(mContext, "Check the privacy policy");
-                                        }
+                                    if (!strPassword.equalsIgnoreCase("")) {
+                                        if (strPassword.length() >= 5 && strPassword.length() <= 10) {
+                                            if (!strCheck.equalsIgnoreCase("0")) {
+                                                getOtpVerification();
+                                            } else {
+                                                Utils.ping(mContext, "Check the privacy policy");
+                                            }
 
+                                        } else {
+                                            activitySignUpBinding.userPasswordEdt.setError("Password Length must be greter than 5 or less than 10");
+                                        }
                                     } else {
-                                        activitySignUpBinding.userPasswordEdt.setError("Password Length must be greter than 5 or less than 10");
+                                        activitySignUpBinding.userPasswordEdt.setError("Password is required");
                                     }
-                                } else {
-                                    activitySignUpBinding.userPasswordEdt.setError("Password is required");
-                                }
 //                                } else {
 //                                    activitySignUpBinding.mobileEdt.setError("Invalid Phone Number");
 //                                }
+                                } else {
+                                    activitySignUpBinding.mobileEdt.setError("Invalid Phone Number");
+                                }
                             } else {
-                                activitySignUpBinding.mobileEdt.setError("Invalid Phone Number");
+                                activitySignUpBinding.mobileEdt.setError("Phone Number is required");
                             }
                         } else {
-                            activitySignUpBinding.mobileEdt.setError("Phone Number is required");
+                            Utils.ping(mContext, "Country Code is required");
                         }
                     } else {
-                        Utils.ping(mContext, "Country Code is required");
+                        activitySignUpBinding.emailEdt.setError("Invalid Email Address");
                     }
                 } else {
-                    activitySignUpBinding.emailEdt.setError("Invalid Email Address");
+                    activitySignUpBinding.emailEdt.setError("Email Address is required");
                 }
-            } else {
-                activitySignUpBinding.emailEdt.setError("Email Address is required");
+            }else{
+                activitySignUpBinding.lastNameEdt.setError("Last Name is required");
             }
         } else {
-            activitySignUpBinding.fulluserNameEdt.setError("Full Name is required");
+            activitySignUpBinding.firstNameEdt.setError("First Name is required");
         }
 
 
@@ -201,14 +216,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                 getDataValue();
                 break;
             case R.id.close_txt:
-                if (getIntent().getStringExtra("whereTocomeLogin")!=null){
-                    finish();
-                }else{
-                    Intent iLogin = new Intent(mContext, LoginwithEmailActivity.class);
-                    startActivity(iLogin);
-                    finish();
-                }
-
+                   whereToBack();
                 break;
             case R.id.fulluser_name_edt:
                 Utils.scrollScreen(activitySignUpBinding.signupScrollView);
@@ -216,37 +224,6 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 
-    public void getFCMTOken() {
-        android_id = Settings.Secure.getString(SignUpActivity.this.getContentResolver(),
-                Settings.Secure.ANDROID_ID);
-        Log.d("deviceID", android_id);
-
-        FirebaseMessaging.getInstance().setAutoInitEnabled(true);
-        FirebaseInstanceId.getInstance().getInstanceId()
-                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
-                        if (!task.isSuccessful()) {
-                            Log.w("getInstanceId failed", task.getException());
-                            return;
-                        }
-
-                        // Get new Instance ID token
-                        token = task.getResult().getToken();
-
-                        Log.d("token", token);
-                        //getting old saved token
-                        String old_token = Utils.getPref(getApplicationContext(), "registration_id");
-
-                        if (!old_token.equalsIgnoreCase(token)) {
-                            Utils.setPref(getApplicationContext(), "registration_id", token);
-                            // sendRegistrationToServer(refreshedToken);
-                        }
-
-
-                    }
-                });
-    }
 
     // call the Otp Verification service and get the otp
     public void getOtpVerification() {
@@ -278,7 +255,8 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                     otpIntent.putExtra("OTPmobileno", strMobileno);
                     otpIntent.putExtra("countrycode", strCountrycode);
                     otpIntent.putExtra("wheretocome", "Signup");
-                    otpIntent.putExtra("signupFullname", strFullName);
+                    otpIntent.putExtra("signupFirstname", strFirstName);
+                    otpIntent.putExtra("signupLastname",strLastName);
                     otpIntent.putExtra("signupEmail", strEmail);
                     otpIntent.putExtra("signupCountryCode", strCountrycode);
                     otpIntent.putExtra("signupMobileno", strMobileno);
@@ -303,7 +281,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
     private Map<String, String> getOtpVerificationData() {
         Map<String, String> map = new HashMap<>();
-        map.put("AppUserId", "0");
+        map.put("AppUserId",String.valueOf(Utils.getAppUserId(mContext)));
         map.put("Email", strEmail);
         map.put("PhoneNo", strMobileno);
         map.put("CountryPhoneNo", strCountrycode);
@@ -344,7 +322,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         agree_btn = (Button) layout.findViewById(R.id.agree_btn);
 //        close_btn = (Button) layout.findViewById(R.id.close_btn);
         close_btn = (TextView) layout.findViewById(R.id.close_btn1);
-        Glide.with(mContext).load(R.drawable.logo).into(image);
+        Glide.with(mContext).load(R.drawable.logo_new).into(image);
         image.setVisibility(View.VISIBLE);
 
         webView.setWebViewClient(new MyWebViewClient());
@@ -384,4 +362,19 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
             image.setVisibility(View.GONE);
         }
     }
+
+
+    @Override
+    public void onBackPressed() {
+        whereToBack();
+        super.onBackPressed();
+    }
+
+    public void whereToBack(){
+        Intent iLogin = new Intent(mContext, LoginwithEmailActivity.class);
+        iLogin.putExtra("whereTocomeLogin",getIntent().getStringExtra("whereTocomeLogin"));
+        startActivity(iLogin);
+        finish();
+    }
 }
+

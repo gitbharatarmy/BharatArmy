@@ -64,12 +64,12 @@
                         android:src="@drawable/ic_user" />
 
                     <EditText
-                        android:id="@+id/fulluser_name_edt"
+                        android:id="@+id/first_name_edt"
                         style="@style/text_font"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_30sdp"
                         android:background="@android:color/transparent"
-                        android:hint="@string/fullname"
+                        android:hint="@string/firstname"
                         android:maxLines="1"
                         android:singleLine="true"
                         android:paddingLeft="@dimen/_5sdp"
@@ -77,7 +77,40 @@
                         android:textColor="@color/heading_bg"
                         android:textColorHint="@color/hint_txt_color"
                         android:textCursorDrawable="@drawable/color_cursor"
-                        android:textSize="@dimen/_12sdp" />
+                        android:textSize="@dimen/_12sdp"
+                        android:inputType="textCapSentences|textCapWords"
+                        android:imeOptions="actionNext"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/line_shape"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/_15sdp"
+                        android:layout_height="@dimen/_15sdp"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/ic_user" />
+
+                    <EditText
+                        android:id="@+id/last_name_edt"
+                        style="@style/text_font"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_30sdp"
+                        android:background="@android:color/transparent"
+                        android:hint="@string/lastname"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:paddingLeft="@dimen/_5sdp"
+                        android:paddingRight="@dimen/_7sdp"
+                        android:textColor="@color/heading_bg"
+                        android:textColorHint="@color/hint_txt_color"
+                        android:textCursorDrawable="@drawable/color_cursor"
+                        android:textSize="@dimen/_12sdp"
+                        android:inputType="textCapSentences|textCapWords"
+                        android:imeOptions="actionNext"/>
                 </LinearLayout>
 
                 <LinearLayout

@@ -9,18 +9,12 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.bharatarmy.Activity.AlbumImageVideoShowActivity;
-import com.bharatarmy.Models.ImageDetailModel;
 import com.bharatarmy.Models.TravelModel;
 import com.bharatarmy.R;
-import com.bharatarmy.Utility.Utils;
-import com.bharatarmy.databinding.AlbumDetailListBinding;
 import com.bharatarmy.databinding.HospitalityDetailFaclitityListItemBinding;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class HospitalityDetailFacilityAdapter  extends RecyclerView.Adapter<HospitalityDetailFacilityAdapter.ItemViewHolder> {
 
@@ -50,7 +44,7 @@ public class HospitalityDetailFacilityAdapter  extends RecyclerView.Adapter<Hosp
 
         Picasso.with(mContext)
                 .load(detail.getMatchteamFlag())
-                .placeholder(R.drawable.loader)
+                .placeholder(R.drawable.loader_new)
                 .into(viewHolder.hospitalityDetailFaclitityListItemBinding.hotelFacilityImg);
 
     }

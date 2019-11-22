@@ -3,11 +3,16 @@ package com.bharatarmy.Utility;
 import com.google.gson.Gson;
 import com.squareup.okhttp.OkHttpClient;
 
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
+import okhttp3.HttpUrl;
+import okhttp3.Interceptor;
+import okhttp3.Request;
 import retrofit.RestAdapter;
 import retrofit.client.OkClient;
 import retrofit.converter.GsonConverter;
+import retrofit2.Response;
 
 public class ApiHandler {
 
@@ -24,6 +29,7 @@ public class ApiHandler {
             okHttpClient.setConnectTimeout(6, TimeUnit.MINUTES);
             okHttpClient.setWriteTimeout(6, TimeUnit.MINUTES);
             okHttpClient.setReadTimeout(6, TimeUnit.MINUTES);
+
 
 
             RestAdapter restAdapter = new RestAdapter.Builder()

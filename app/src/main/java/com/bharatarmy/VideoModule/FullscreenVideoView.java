@@ -320,7 +320,7 @@ public class FullscreenVideoView extends FrameLayout {
             imageProgressBar.setVisibility(VISIBLE);
             Picasso.with(getContext())
                     .load(AppConfiguration.videoThumbStr)
-                    .placeholder(R.drawable.loader)
+                    .placeholder(R.drawable.loader_new)
                     .into(imageProgressBar);
 
 

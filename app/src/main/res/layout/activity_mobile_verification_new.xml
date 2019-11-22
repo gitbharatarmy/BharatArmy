@@ -47,7 +47,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_110sdp"
                     android:layout_gravity="center_vertical"
-                    android:src="@drawable/app_logo" />
+                    android:src="@drawable/app_logo_new" />
             </LinearLayout>
 
             <TextView
@@ -127,7 +127,6 @@
                         android:layout_height="@dimen/_30sdp"
                         android:gravity="center_vertical|center_horizontal"
                         android:text="+91"
-
                         android:textColor="@color/normal_font_color"
                         android:textSize="@dimen/_14sdp" />
 

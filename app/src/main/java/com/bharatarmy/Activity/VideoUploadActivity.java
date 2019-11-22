@@ -9,16 +9,21 @@ import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
 import com.bharatarmy.Models.GalleryImageModel;
+import com.bharatarmy.Models.MyScreenChnagesModel;
 import com.bharatarmy.R;
 import com.bharatarmy.UploadService;
 import com.bharatarmy.Utility.DbHandler;
 import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.ActivityVideoUploadBinding;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +35,7 @@ public class VideoUploadActivity extends AppCompatActivity implements View.OnCli
 
     public List<GalleryImageModel> galleryImageList;
 
-    String pathStr, durationStr, sizeStr, videoTitleStr, videoDescriptionStr, videoHeightStr, videoWidthStr;
+    String pathStr, durationStr, sizeStr, videoTitleStr, videoDescriptionStr, videoHeightStr, videoWidthStr,photoprivacyStr;
 
 
     DbHandler dbHandler;
@@ -40,6 +45,8 @@ public class VideoUploadActivity extends AppCompatActivity implements View.OnCli
         super.onCreate(savedInstanceState);
         activityVideoUploadBinding = DataBindingUtil.setContentView(this, R.layout.activity_video_upload);
         mContext = VideoUploadActivity.this;
+        EventBus.getDefault().register(this);
+
         init();
         setListiner();
     }
@@ -61,11 +68,19 @@ public class VideoUploadActivity extends AppCompatActivity implements View.OnCli
         }
 
     }
+    @Subscribe
+    public void customEventReceived(MyScreenChnagesModel event) {
+        Log.d("imageId :", event.getPrivacyname());
+        if (!event.getPrivacyname().equalsIgnoreCase("")) {
+            activityVideoUploadBinding.privacyTxt.setText(event.getPrivacyname());
+        }
 
+    }
     public void setListiner() {
         Utils.setPref(mContext, "image/video", "video");
         activityVideoUploadBinding.submitLinear.setOnClickListener(this);
         activityVideoUploadBinding.backImg.setOnClickListener(this);
+        activityVideoUploadBinding.pictureChooseLinear.setOnClickListener(this);
     }
 
     @Override
@@ -151,6 +166,7 @@ public class VideoUploadActivity extends AppCompatActivity implements View.OnCli
                                                 Intent dashboardIntent = new Intent(mContext, DashboardActivity.class);
                                                 dashboardIntent.putExtra("whichPageRun", "1");
                                                 startActivity(dashboardIntent);
+                                                finish();
                                             } catch (Exception e) {
 
                                             }
@@ -171,8 +187,14 @@ public class VideoUploadActivity extends AppCompatActivity implements View.OnCli
                         activityVideoUploadBinding.videoTitleEdt.setError("please enter video description");
                     }
                 } else {
-                    activityVideoUploadBinding.videoTitleEdt.setError("please enter video title");
+                    activityVideoUploadBinding.videodescEdt.setError("please enter video title");
                 }
+                break;
+            case R.id.picture_choose_linear:
+                photoprivacyStr =activityVideoUploadBinding.privacyTxt.getText().toString();
+                Intent privacyIntent = new Intent(mContext, ImageVideoPrivacyActivity.class);
+                privacyIntent.putExtra("privacytxt",photoprivacyStr);
+                startActivity(privacyIntent);
                 break;
         }
     }

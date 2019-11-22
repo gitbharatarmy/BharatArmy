@@ -173,6 +173,8 @@ public class InquiryChildInformationFragment extends BottomSheetDialogFragment {
     private Map<String, String> getInquriyDetailData() {
         Map<String, String> map = new HashMap<>();
         map.put("InquiryId", AppConfiguration.inquiryId);
+        map.put("MemberId", String.valueOf(Utils.getAppUserId(mContext)));
+
         return map;
     }
 
@@ -254,6 +256,7 @@ public class InquiryChildInformationFragment extends BottomSheetDialogFragment {
     private Map<String, String> getInquriyAssignUserData() {
         Map<String, String> map = new HashMap<>();
         map.put("InquiryId",AppConfiguration.inquiryId);
+        map.put("MemberId", String.valueOf(Utils.getAppUserId(mContext)));
         return map;
     }
 
@@ -320,6 +323,8 @@ public class InquiryChildInformationFragment extends BottomSheetDialogFragment {
         Map<String, String> map = new HashMap<>();
         map.put("InquiryId", AppConfiguration.inquiryId);
         map.put("AssignMemberId", String.valueOf(AppConfiguration.selectedposition));
+        map.put("MemberId", String.valueOf(Utils.getAppUserId(mContext)));
+
         return map;
     }
 

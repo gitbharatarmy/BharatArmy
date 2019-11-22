@@ -227,6 +227,7 @@ ImageView videoView_thumbnail;
         map.put("PageIndex", "0");
         map.put("PageSize", "20");
         map.put("MemberId",String.valueOf(Utils.getAppUserId(mContext)));
+
         return map;
     }
 

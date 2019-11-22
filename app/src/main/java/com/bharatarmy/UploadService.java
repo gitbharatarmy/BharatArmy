@@ -231,7 +231,7 @@ public class UploadService extends IntentService implements ProgressRequestBody.
             intent.putExtra("cometonotification", Utils.getPref(context, "cometonotification"));
             pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
             builder.setContentTitle(aMessage)                            // required
-                    .setSmallIcon(R.drawable.app_logo)   // required
+                    .setSmallIcon(R.drawable.app_logo_new)   // required
                     .setContentText(context.getString(R.string.app_name)) // required
                     .setDefaults(Notification.DEFAULT_VIBRATE)
                     .setVibrate(new long[]{-1}) //new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400}
@@ -250,7 +250,7 @@ public class UploadService extends IntentService implements ProgressRequestBody.
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
             builder.setContentTitle(aMessage)                            // required
-                    .setSmallIcon(R.drawable.app_logo)   // required
+                    .setSmallIcon(R.drawable.app_logo_new)   // required
                     .setContentText(context.getString(R.string.app_name)) // required
                     .setDefaults(Notification.DEFAULT_VIBRATE)
                     .setVibrate(new long[]{-1}) //new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400}

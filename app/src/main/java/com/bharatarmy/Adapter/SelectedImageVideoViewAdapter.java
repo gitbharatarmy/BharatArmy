@@ -74,7 +74,7 @@ public class SelectedImageVideoViewAdapter extends RecyclerView.Adapter<Selected
                 AlertDialog.Builder alertDialog2 = new AlertDialog.Builder(mContext);
                 alertDialog2.setTitle("Delete");
                 alertDialog2.setMessage("Are you sure you want delete?");
-                alertDialog2.setIcon(R.drawable.app_logo);
+                alertDialog2.setIcon(R.drawable.app_logo_new);
                 alertDialog2.setCancelable(false);
                 alertDialog2.setPositiveButton("YES",
                         new DialogInterface.OnClickListener() {

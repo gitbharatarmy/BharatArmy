@@ -64,6 +64,12 @@ public class LoginDataModel {
     @SerializedName("MemberType")
     @Expose
     private String memberType;
+    @SerializedName("FirstName")
+    @Expose
+    private String firstName;
+    @SerializedName("LastName")
+    @Expose
+    private String lastName;
 
     public String getEmail() {
         return email;
@@ -216,6 +222,7 @@ public class LoginDataModel {
     public void setPincode(String pincode) {
         this.pincode = pincode;
     }
+
     public String getMemberType() {
         return memberType;
     }
@@ -223,6 +230,23 @@ public class LoginDataModel {
     public void setMemberType(String memberType) {
         this.memberType = memberType;
     }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
     //    Signup Response
     @SerializedName("CountryISOCode")
     @Expose
@@ -248,7 +272,7 @@ public class LoginDataModel {
     }
 
 
-//     save Register Interest
+    //     save Register Interest
     @SerializedName("OrderId")
     @Expose
     private Integer orderId;
@@ -440,11 +464,11 @@ public class LoginDataModel {
         this.postView = postView;
     }
 
-//    SFA user entry
+    //    SFA user entry
 //    MemberName
-@SerializedName("BAMemberId")
-@Expose
-private Integer bAMemberId;
+    @SerializedName("BAMemberId")
+    @Expose
+    private Integer bAMemberId;
 
     @SerializedName("MemberName")
     @Expose
@@ -457,6 +481,7 @@ private Integer bAMemberId;
     public void setBAMemberId(Integer bAMemberId) {
         this.bAMemberId = bAMemberId;
     }
+
     public String getMemberName() {
         return memberName;
     }
@@ -464,4 +489,153 @@ private Integer bAMemberId;
     public void setMemberName(String memberName) {
         this.memberName = memberName;
     }
+
+
+    //    Current Country Code
+    @SerializedName("IPAddress")
+    @Expose
+    private Object iPAddress;
+    @SerializedName("IsoCode")
+    @Expose
+    private String isoCode;
+    @SerializedName("GeoNameId")
+    @Expose
+    private Object geoNameId;
+    @SerializedName("CurrencyId")
+    @Expose
+    private Integer currencyId;
+    @SerializedName("CurrencyName")
+    @Expose
+    private Object currencyName;
+    @SerializedName("CurrencySymbol")
+    @Expose
+    private Object currencySymbol;
+    @SerializedName("CurrencyPrefix")
+    @Expose
+    private Integer currencyPrefix;
+    @SerializedName("CurrentExchangeRate")
+    @Expose
+    private Object currentExchangeRate;
+    @SerializedName("RateMargin")
+    @Expose
+    private Object rateMargin;
+    @SerializedName("TotalExchangeRate")
+    @Expose
+    private Object totalExchangeRate;
+    @SerializedName("LogoFileName")
+    @Expose
+    private Object logoFileName;
+    @SerializedName("ShortName")
+    @Expose
+    private Object shortName;
+    @SerializedName("CountryIds")
+    @Expose
+    private Object countryIds;
+
+    public Object getIPAddress() {
+        return iPAddress;
+    }
+
+    public void setIPAddress(Object iPAddress) {
+        this.iPAddress = iPAddress;
+    }
+
+    public String getIsoCode() {
+        return isoCode;
+    }
+
+    public void setIsoCode(String isoCode) {
+        this.isoCode = isoCode;
+    }
+
+
+    public Object getGeoNameId() {
+        return geoNameId;
+    }
+
+    public void setGeoNameId(Object geoNameId) {
+        this.geoNameId = geoNameId;
+    }
+
+    public Integer getCurrencyId() {
+        return currencyId;
+    }
+
+    public void setCurrencyId(Integer currencyId) {
+        this.currencyId = currencyId;
+    }
+
+    public Object getCurrencyName() {
+        return currencyName;
+    }
+
+    public void setCurrencyName(Object currencyName) {
+        this.currencyName = currencyName;
+    }
+
+    public Object getCurrencySymbol() {
+        return currencySymbol;
+    }
+
+    public void setCurrencySymbol(Object currencySymbol) {
+        this.currencySymbol = currencySymbol;
+    }
+
+    public Integer getCurrencyPrefix() {
+        return currencyPrefix;
+    }
+
+    public void setCurrencyPrefix(Integer currencyPrefix) {
+        this.currencyPrefix = currencyPrefix;
+    }
+
+    public Object getCurrentExchangeRate() {
+        return currentExchangeRate;
+    }
+
+    public void setCurrentExchangeRate(Object currentExchangeRate) {
+        this.currentExchangeRate = currentExchangeRate;
+    }
+
+    public Object getRateMargin() {
+        return rateMargin;
+    }
+
+    public void setRateMargin(Object rateMargin) {
+        this.rateMargin = rateMargin;
+    }
+
+    public Object getTotalExchangeRate() {
+        return totalExchangeRate;
+    }
+
+    public void setTotalExchangeRate(Object totalExchangeRate) {
+        this.totalExchangeRate = totalExchangeRate;
+    }
+
+    public Object getLogoFileName() {
+        return logoFileName;
+    }
+
+    public void setLogoFileName(Object logoFileName) {
+        this.logoFileName = logoFileName;
+    }
+
+    public Object getShortName() {
+        return shortName;
+    }
+
+    public void setShortName(Object shortName) {
+        this.shortName = shortName;
+    }
+
+    public Object getCountryIds() {
+        return countryIds;
+    }
+
+    public void setCountryIds(Object countryIds) {
+        this.countryIds = countryIds;
+    }
+
+
 }
