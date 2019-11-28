@@ -415,6 +415,9 @@ Log.d("list : ",""+imageDetailModelsList.size());
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        if (imageDetailModelsList!=null){
+        imageDetailModelsList.clear();
+        }
 //        imageDetailModelsList.clear();
     }
 
@@ -532,11 +535,16 @@ Log.d("pullDataList : ",""+imageDetailModelsList.size());
 
     //    pick the video in gallery
     private void pickVideoFromGallery() {
-        Intent intent = new Intent();
-        intent.setTypeAndNormalize("video/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        startActivityForResult(Intent.createChooser(intent, getString(R.string.label_select_video)), REQUEST_VIDEO_TRIMMER);
+        Intent galleryIntent = new Intent(Intent.ACTION_PICK,
+                android.provider.MediaStore.Video.Media.EXTERNAL_CONTENT_URI);
+        galleryIntent.setType("video/*");
+        startActivityForResult(Intent.createChooser(galleryIntent, getString(R.string.label_select_video)), REQUEST_VIDEO_TRIMMER);
+
+        //        Intent intent = new Intent();
+//        intent.setTypeAndNormalize("video/*");
+//        intent.setAction(Intent.ACTION_GET_CONTENT);
+//        intent.addCategory(Intent.CATEGORY_OPENABLE);
+//        startActivityForResult(Intent.createChooser(intent, getString(R.string.label_select_video)), REQUEST_VIDEO_TRIMMER);
     }
 
     @Override
@@ -567,6 +575,7 @@ Log.d("pullDataList : ",""+imageDetailModelsList.size());
         }
 
     }
+
 }
 
 

@@ -160,26 +160,7 @@ public class MoreFragment extends Fragment implements View.OnClickListener, Goog
 
         }
     }
-/*else if (Utils.getPref(mContext, "UserName") != null) {
-        if (!Utils.getPref(mContext, "UserName").equalsIgnoreCase("")) {
-            fragmentMoreBinding.withloginLinear.setVisibility(View.VISIBLE);
-            fragmentMoreBinding.withoutloginLinear.setVisibility(View.GONE);
-            fragmentMoreBinding.header4Linear.setVisibility(View.VISIBLE);
-            fragmentMoreBinding.userNametxt.setText(Utils.getPref(mContext, "UserName"));
-        } else {
-            fragmentMoreBinding.header3Linear.setVisibility(View.GONE);
-            fragmentMoreBinding.header4Linear.setVisibility(View.GONE);
-            fragmentMoreBinding.withloginLinear.setVisibility(View.GONE);
-            fragmentMoreBinding.withoutloginLinear.setVisibility(View.VISIBLE);
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT
-            );
-            params.setMargins(0, 40, 0, 120);
-            fragmentMoreBinding.settingLinear.setLayoutParams(params);
 
-        }
-    }*/
     public void setListiner() {
         fragmentMoreBinding.userprofileLinear.setOnClickListener(this);
         fragmentMoreBinding.aboutusLinear.setOnClickListener(this);
@@ -325,7 +306,7 @@ public class MoreFragment extends Fragment implements View.OnClickListener, Goog
 
 
         }else{
-            Utils.ping(mContext,"error occurs");
+            Utils.ping(mContext,"error occured");
         }
     }
 

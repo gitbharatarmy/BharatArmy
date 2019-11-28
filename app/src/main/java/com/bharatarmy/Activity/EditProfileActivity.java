@@ -96,7 +96,6 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
 
         ImageEditProfilePickerActivity.clearCache(this);
         init();
-        setDataValue();
         setListiner();
 
     }
@@ -109,7 +108,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         } else {
             AppConfiguration.currentCountryISOCode = Utils.retriveLoginData(mContext).getCountryISOCode();
         }
-
+        setDataValue();
     }
 
     public void setDataValue() {
@@ -382,8 +381,9 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
     }
 
     public void backActivity() {
-        Intent myprofileIntent = new Intent(mContext, MyProfileActivity.class);
-        startActivity(myprofileIntent);
+//        Intent myprofileIntent = new Intent(mContext, MyProfileActivity.class);
+//        startActivity(myprofileIntent);
+        EventBus.getDefault().post(new MyScreenChnagesModel("change"));
         finish();
     }
 
@@ -658,6 +658,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
                     }
 
                     startActivity(otpIntent);
+                    finish();
                 }
             }
 
@@ -722,18 +723,28 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
                             }
                         } else {
                             Utils.ping(mContext, "Please select gender");
+                            activityEditProfileBinding.editScroll.scrollTo(0, activityEditProfileBinding.genderRg.getTop());
+
                         }
                     } else {
                         activityEditProfileBinding.phoneNoEdt.setError("Please enter phonenumber");
+                        activityEditProfileBinding.editScroll.scrollTo(0, activityEditProfileBinding.phoneNoEdt.getTop());
+                        activityEditProfileBinding.phoneNoEdt.requestFocus();
                     }
                 } else {
                     Utils.ping(mContext, "Please select country code");
+                    activityEditProfileBinding.editScroll.scrollTo(0, activityEditProfileBinding.ccp.getTop());
+                    activityEditProfileBinding.ccp.requestFocus();
                 }
             } else {
                 activityEditProfileBinding.userLnameEdt.setError("Please enter lastname");
+                activityEditProfileBinding.editScroll.scrollTo(0, activityEditProfileBinding.userLnameEdt.getTop());
+                activityEditProfileBinding.userLnameEdt.requestFocus();
             }
         } else {
             activityEditProfileBinding.userFnameEdt.setError("Please enter firstname");
+            activityEditProfileBinding.editScroll.scrollTo(0, activityEditProfileBinding.userFnameEdt.getTop());
+            activityEditProfileBinding.userFnameEdt.requestFocus();
         }
     }
 

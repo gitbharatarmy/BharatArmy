@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
@@ -38,7 +39,6 @@ public class VideoTrimActivity extends AppCompatActivity implements View.OnClick
     int maxDuration = 10;
     long findsize;
     String duration,videoHeight,videoWidth;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,12 +54,20 @@ public class VideoTrimActivity extends AppCompatActivity implements View.OnClick
         videoPath=getIntent().getStringExtra("videoPath");
         selectedUri= Uri.parse(videoPath);
         if (selectedUri != null) {
+//path= String.valueOf(selectedUri);
+//  path="/storage/document/acc%3D5%3Bdoc%3Dencoded%3DGxp3HRXcy3e7ezTNlEqQRay%2Ba78GzKJhJBW7dpG%2B%2BQLGumwl45f3kg%3D%3D";
+
+//            if (videoPath.contains("content://com.google.android.apps.docs")){
+//                path= String.valueOf(selectedUri);
+//            }else{
+
+//            }
 
             path = FileUtils.getPath(this, selectedUri);
             maxDuration = getMediaDuration(selectedUri);
             duration = getDuration(selectedUri);
             Log.d("duration :", "" + duration);
-
+            Log.d("path :", "" + path);
             if (path != null) {
 
                 if (activityVideoTrimBinding.timeLine != null) {
@@ -76,13 +84,17 @@ public class VideoTrimActivity extends AppCompatActivity implements View.OnClick
                     activityVideoTrimBinding.timeLine.setVideoInformationVisibility(true);
 
                 }
+            }else{
+                Utils.ping(mContext,"please select proper video");
             }
         }
 
     }
 
     public void setListiner(){
+
         activityVideoTrimBinding.submitLinear.setOnClickListener(this);
+
         activityVideoTrimBinding.backImg.setOnClickListener(this);
     }
 
@@ -189,6 +201,7 @@ public class VideoTrimActivity extends AppCompatActivity implements View.OnClick
                 intentVideoUpload.putExtra("videoheight",videoHeight);
                 intentVideoUpload.putExtra("videowidth",videoWidth);
                 startActivity(intentVideoUpload);
+                finish();
                 break;
 
             case R.id.back_img:

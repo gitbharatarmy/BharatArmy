@@ -15,6 +15,7 @@ import com.bharatarmy.Models.GalleryImageModel;
 import com.bharatarmy.Models.MoreDetailDataModel;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.AppConfiguration;
+import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.ImageVideoPrivacyListItemBinding;
 
 import java.util.ArrayList;
@@ -64,6 +65,13 @@ public class ImageVideoPrivacyAdapter extends RecyclerView.Adapter<ImageVideoPri
 
         holder.imageVideoPrivacyListItemBinding.privacyOptionTxt.setText(detailDataModel.getHeadertxt());
         holder.imageVideoPrivacyListItemBinding.privacySubTxt.setText(detailDataModel.getSubtxt());
+
+        if (detailDataModel.getHeadertxt().equalsIgnoreCase("Public")){
+            holder.imageVideoPrivacyListItemBinding.selectedOptionImg.setImageDrawable(mContext.getDrawable(R.drawable.ic_aboutus));
+        }else if (detailDataModel.getHeadertxt().equalsIgnoreCase("Private")){
+            holder.imageVideoPrivacyListItemBinding.selectedOptionImg.setImageDrawable(mContext.getDrawable(R.drawable.ic_private_user));
+        }
+
 
         if (selectedposition==position){
             holder.imageVideoPrivacyListItemBinding.selectedChk.setChecked(true);

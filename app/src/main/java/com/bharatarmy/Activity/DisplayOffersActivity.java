@@ -39,9 +39,6 @@ public class DisplayOffersActivity extends AppCompatActivity implements View.OnC
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.close_linear:
-                Intent dashboardIntent = new Intent(mContext, DashboardActivity.class);
-                dashboardIntent.putExtra("PageType", getIntent().getStringExtra("PageType"));
-                startActivity(dashboardIntent);
                 finish();
                 break;
         }

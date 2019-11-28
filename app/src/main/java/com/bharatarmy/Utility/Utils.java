@@ -8,6 +8,7 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.ContextWrapper;
@@ -23,6 +24,7 @@ import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.media.MediaMetadataRetriever;
 import android.media.ThumbnailUtils;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -121,6 +123,7 @@ public class Utils {
 
     public static List<GalleryImageModel> UpladingFiles;
     public static ArrayList<String> videoFile;
+
 
     public static boolean checkNetwork(Context context) {
         boolean wifiAvailable = false;
@@ -578,7 +581,7 @@ public class Utils {
                         activity.finish();
                     } else if (wheretocome.equalsIgnoreCase("changePassword|InApp")) {
                         Intent dashboardIntent = new Intent(activity, DashboardActivity.class);
-                        dashboardIntent.putExtra("whichPageRun", "5");
+                        dashboardIntent.putExtra("whichPageRun", "4");
                         activity.startActivity(dashboardIntent);
                         activity.finish();
                     } else if (wheretocome.equalsIgnoreCase("changePassword|finishApp")) {
@@ -808,7 +811,7 @@ public class Utils {
     }
 
     public static Bitmap createVideoThumbNail(String path) {
-        return ThumbnailUtils.createVideoThumbnail(path, MediaStore.Video.Thumbnails.FULL_SCREEN_KIND);
+        return ThumbnailUtils.createVideoThumbnail(path, MediaStore.Images.Thumbnails.FULL_SCREEN_KIND);
     }
 
     public static Bitmap createImageThumbNail(Bitmap bitmap) {
@@ -830,6 +833,15 @@ public class Utils {
             return null;
         }
         return bitmap;
+    }
+
+
+    public static Bitmap createThumbnailAtTime(String filePath){
+        MediaMetadataRetriever mMMR = new MediaMetadataRetriever();
+        mMMR.setDataSource(filePath);
+        int timeInSeconds =1;
+        //api time unit is microseconds                 *1000000
+        return mMMR.getFrameAtTime(timeInSeconds*1000, MediaMetadataRetriever.OPTION_CLOSEST_SYNC);
     }
 
     public static File saveBitmap(Bitmap bitmap, String name, Context mContext) {
@@ -895,6 +907,7 @@ public class Utils {
         Utils.setPref(mContext,"currentLocationData",currentLocatiobString);
         Log.d("CurrentLocationString",currentLocatiobString);
     }
+
     public static LoginDataModel retriveCurrentLocationData(Context mContext) {
         LoginDataModel loginList;
         Type arrayListType2 = new TypeToken<LoginDataModel>() {
@@ -904,6 +917,7 @@ public class Utils {
         loginList = gson2.fromJson(Utils.getPref(mContext, "currentLocationData"), arrayListType2);
         return loginList;
     }
+
     public static LoginDataModel retriveLoginData(Context mContext) {
         LoginDataModel loginList;
         Type arrayListType2 = new TypeToken<LoginDataModel>() {
@@ -914,11 +928,9 @@ public class Utils {
         return loginList;
     }
 
-
     public static void removeLoginData(Context mContext) {
         Utils.setPref(mContext, "loginData", "");
     }
-
 
     public static void storeLoginOtherData(List<LoginOtherDataModel> result, Context mContext) {
         Gson gsonupdate = new Gson();
@@ -926,9 +938,6 @@ public class Utils {
         Utils.setPref(mContext, "loginOtherData", valuesString);
         Log.d("valuesString", valuesString);
     }
-
-
-
 
     public static List<LoginOtherDataModel> retriveLoginOtherData(Context mContext) {
         List<LoginOtherDataModel> messageList = new ArrayList<>();
@@ -969,7 +978,6 @@ public class Utils {
         }
         return id;
     }
-
 
     public static void InsertLike(Context mContext, Activity activity) { //, int MemberId, int ReferenceId, int LikeStatus, int SourceType
 
@@ -1028,7 +1036,6 @@ public class Utils {
 
     }
 
-
     public static void InsertBAViews(Context mContext, Activity activity) { //, int MemberId, int ReferenceId, int LikeStatus, int SourceType
 
         if (!Utils.checkNetwork(mContext)) {
@@ -1086,7 +1093,6 @@ public class Utils {
 
     }
 
-
     public static void scrollScreen(ScrollView scrollView) {
         scrollView.postDelayed(new Runnable() {
             @Override
@@ -1109,76 +1115,6 @@ public class Utils {
         return (Activity) context;
     }
 
-
-    /* public static String getDeviceIpAddress(Context context) {
-         String actualConnectedToNetwork = null;
-         ConnectivityManager connManager = (ConnectivityManager)context. getSystemService(Context.CONNECTIVITY_SERVICE);
-         if (connManager != null) {
-             NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-             if (mWifi.isConnected()) {
-                 actualConnectedToNetwork = getWifiIp(context);
-             }
-         }
-         if (TextUtils.isEmpty(actualConnectedToNetwork)) {
-             actualConnectedToNetwork = getNetworkInterfaceIpAddress();
-         }
-         if (TextUtils.isEmpty(actualConnectedToNetwork)) {
-             actualConnectedToNetwork = "127.0.0.1";
-         }
-         return actualConnectedToNetwork;
-     }
-
-
-     public static String getWifiIp(Context context) {
-         final WifiManager mWifiManager = (WifiManager)context. getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-         if (mWifiManager != null && mWifiManager.isWifiEnabled()) {
-             int ip = mWifiManager.getConnectionInfo().getIpAddress();
-             return (ip & 0xFF) + "." + ((ip >> 8) & 0xFF) + "." + ((ip >> 16) & 0xFF) + "."
-                     + ((ip >> 24) & 0xFF);
-         }
-         return null;
-     }
-
-     public static String getLocalIpAddress() {
-         try {
-             for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements();) {
-                 NetworkInterface intf = en.nextElement();
-                 for (Enumeration<InetAddress> enumIpAddr = intf.getInetAddresses(); enumIpAddr.hasMoreElements();) {
-                     InetAddress inetAddress = enumIpAddr.nextElement();
-                     if (!inetAddress.isLoopbackAddress()) {
-                         String ip = Formatter.formatIpAddress(inetAddress.hashCode());
-                         Log.i("Ip", "***** IP="+ ip);
-                         return ip;
-                     }
-                 }
-             }
-         } catch (SocketException ex) {
-             Log.e("Ip", ex.toString());
-         }
-         return null;
-     }
-
-     public static String getNetworkInterfaceIpAddress() {
-         try {
-             for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements(); ) {
-                 NetworkInterface networkInterface = en.nextElement();
-                 for (Enumeration<InetAddress> enumIpAddr = networkInterface.getInetAddresses(); enumIpAddr.hasMoreElements(); ) {
-                     InetAddress inetAddress = enumIpAddr.nextElement();
-                     if (!inetAddress.isLoopbackAddress() && inetAddress instanceof Inet4Address) {
-                         String host = inetAddress.getHostAddress();
-                         if (!TextUtils.isEmpty(host)) {
-                             return host;
-                         }
-                     }
-                 }
-
-             }
-         } catch (Exception ex) {
-             Log.e("IP Address", "getLocalIpAddress", ex);
-         }
-         return null;
-     }
- */
     public static String getDeviceName() {
         String manufacturer = Build.MANUFACTURER;
         String model = Build.MODEL;
@@ -1188,7 +1124,6 @@ public class Utils {
             return capitalize(manufacturer) + " " + model;
         }
     }
-
 
     public static String capitalize(String s) {
         if (s == null || s.length() == 0) {
@@ -1201,5 +1136,15 @@ public class Utils {
             return Character.toUpperCase(first) + s.substring(1);
         }
     }
+
+    public static void clearCache(Context context) {
+        File path = new File(context.getExternalCacheDir(), "camera");
+        if (path.exists() && path.isDirectory()) {
+            for (File child : path.listFiles()) {
+                child.delete();
+            }
+        }
+    }
+
 }
 

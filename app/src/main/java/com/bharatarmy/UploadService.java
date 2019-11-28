@@ -17,6 +17,7 @@ import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
 
+import com.bharatarmy.Activity.ImageEditProfilePickerActivity;
 import com.bharatarmy.Activity.MyMediaActivity;
 import com.bharatarmy.Models.GalleryImageModel;
 import com.bharatarmy.Models.LogginModel;
@@ -57,10 +58,10 @@ public class UploadService extends IntentService implements ProgressRequestBody.
         super("UploadService");
     }
 
-
     // will be called asynchronously by Android
     @Override
     protected void onHandleIntent(Intent intent) {
+        Utils.clearCache(getApplicationContext());
         db = new DbHandler(getApplicationContext());
         if (Utils.UpladingFiles == null) {
             Utils.UpladingFiles = new ArrayList<>();
@@ -96,7 +97,7 @@ public class UploadService extends IntentService implements ProgressRequestBody.
         if (objfile.getFileType().equalsIgnoreCase("2")){
                       Utils.videoFile=new ArrayList<>();
             String path = FileUtils.getPath(getApplicationContext(),
-                    Utils.getImageUri(getApplicationContext(),Utils.createVideoThumbNail(objfile.getImageUri())));
+                    Utils.getImageUri(getApplicationContext(),Utils.createThumbnailAtTime(objfile.getImageUri())));
             Log.d("filename :", path);
             Utils.videoFile.add(objfile.getImageUri());
             Utils.videoFile.add(path);

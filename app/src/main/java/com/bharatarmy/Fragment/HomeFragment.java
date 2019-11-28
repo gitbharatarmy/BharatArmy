@@ -45,6 +45,7 @@ import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.bharatarmy.Activity.AlbumImageVideoShowActivity;
+import com.bharatarmy.Activity.DisplayOffersActivity;
 import com.bharatarmy.Activity.MoreStoryActivity;
 import com.bharatarmy.Activity.MyProfileActivity;
 import com.bharatarmy.Activity.TravelCityRestaurantDetailActivity;
@@ -195,6 +196,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     }
 
     public void init() {
+//        display offers page
+        Intent displayoffersIntent=new Intent(mContext, DisplayOffersActivity.class);
+        displayoffersIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        mContext.startActivity(displayoffersIntent);
+
+
+
 //        scrollview
         fragmentHomeBinding.scrollHome.post(new Runnable() {
             @Override

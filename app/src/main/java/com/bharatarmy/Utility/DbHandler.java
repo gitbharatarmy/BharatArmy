@@ -28,7 +28,7 @@ public class DbHandler extends SQLiteOpenHelper {
     private static final String KEY_VIDEODESC="videoDesc";
     private static final String KEY_VIDEOHEIGHT="videoHeight";
     private static final String KEY_VIDEOWIDTH="videoWidth";
-
+    SQLiteDatabase db;
 
     public DbHandler(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -212,6 +212,14 @@ public class DbHandler extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(TABLE_GALLERYUPLOAD, KEY_ID + " = ?", new String[]{String.valueOf(userid)});
         db.close();
+    }
+
+    @Override
+    public synchronized void close () {
+        if (db != null) {
+            db.close();
+            super.close();
+        }
     }
 
 

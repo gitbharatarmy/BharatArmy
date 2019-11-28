@@ -68,7 +68,7 @@ public class SelectedImageVideoViewAdapter extends RecyclerView.Adapter<Selected
         holder.selectedImageVideoListItemBinding.selectedImageSizeTxt.setText(imageDetailModel.get(position).getImageSize());
         holder.selectedImageVideoListItemBinding.selectedImageNameTxt.setText(name);
 
-        holder.selectedImageVideoListItemBinding.selectedImageRemoveTxt.setOnClickListener(new View.OnClickListener() {
+        holder.selectedImageVideoListItemBinding.closeLinear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder alertDialog2 = new AlertDialog.Builder(mContext);

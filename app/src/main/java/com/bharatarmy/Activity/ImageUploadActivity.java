@@ -85,15 +85,24 @@ public class ImageUploadActivity extends AppCompatActivity implements View.OnCli
 
     public void init() {
         dbHandler = new DbHandler(mContext);
-
-
         galleryImageList = new ArrayList<>();
+
+
+
     }
     @Subscribe
     public void customEventReceived(MyScreenChnagesModel event) {
         Log.d("imageId :", event.getPrivacyname());
-        if (!event.getPrivacyname().equalsIgnoreCase("")) {
-           activityImageUploadBinding.privacyTxt.setText(event.getPrivacyname());
+        if (!event.getPrivacyname().equalsIgnoreCase("")) {{
+            if (event.getPrivacyname().equalsIgnoreCase("Public")){
+                activityImageUploadBinding.privacyTxt.setText(event.getPrivacyname());
+                activityImageUploadBinding.privacyImage.setImageDrawable(getDrawable(R.drawable.ic_aboutus));
+            }else if (event.getPrivacyname().equalsIgnoreCase("Private")){
+                activityImageUploadBinding.privacyImage.setImageDrawable(getDrawable(R.drawable.ic_private_user));
+                activityImageUploadBinding.privacyTxt.setText(event.getPrivacyname());
+            }
+        }
+
         }
 
     }
@@ -118,6 +127,7 @@ public class ImageUploadActivity extends AppCompatActivity implements View.OnCli
                 ImageUploadActivity.this.finish();
                 break;
             case R.id.choose_from_camera_linear:
+                Utils.handleClickEvent(mContext,activityImageUploadBinding.chooseFromCameraLinear);
                 if (imageorvideoStr.equalsIgnoreCase("image")) {
                     if (galleryImageList.size() < MAX_ATTACHMENT_COUNT) {
                         openImageCapture();
@@ -127,6 +137,7 @@ public class ImageUploadActivity extends AppCompatActivity implements View.OnCli
                 }
                 break;
             case R.id.choose_from_gallery_linear:
+                Utils.handleClickEvent(mContext,activityImageUploadBinding.chooseFromGalleryLinear);
                 if (imageorvideoStr.equalsIgnoreCase("image")) {
                     pickPhotoClicked();
                 }
@@ -248,6 +259,11 @@ public class ImageUploadActivity extends AppCompatActivity implements View.OnCli
     }
 
     private void loadProfile() {
+        if (galleryImageList.size()>0){
+            activityImageUploadBinding.pictureMainLinear.setVisibility(View.VISIBLE);
+        }else{
+            activityImageUploadBinding.pictureMainLinear.setVisibility(View.GONE);
+        }
         activityImageUploadBinding.selectedImageVideoLinear.setVisibility(View.VISIBLE);
         selectedImageVideoViewAdapter = new SelectedImageVideoViewAdapter(mContext, galleryImageList, new image_click() {
             @Override
@@ -260,6 +276,11 @@ public class ImageUploadActivity extends AppCompatActivity implements View.OnCli
                         galleryImageList.remove(i);
                         selectedImageVideoViewAdapter.notifyDataSetChanged();
                     }
+                }
+                if (galleryImageList.size()>0){
+                    activityImageUploadBinding.pictureMainLinear.setVisibility(View.VISIBLE);
+                }else{
+                    activityImageUploadBinding.pictureMainLinear.setVisibility(View.GONE);
                 }
             }
         });//,onTouchListener
@@ -320,5 +341,12 @@ public class ImageUploadActivity extends AppCompatActivity implements View.OnCli
 
         loadProfile();
 
+    }
+    //Inside the activity that makes a connection to the helper class
+    @Override
+    protected void onDestroy () {
+        super.onDestroy();
+        //call close() of the helper class
+        dbHandler.close();
     }
 }

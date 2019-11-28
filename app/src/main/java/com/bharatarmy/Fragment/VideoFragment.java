@@ -4,9 +4,11 @@ import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ResolveInfo;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -94,6 +96,9 @@ public class VideoFragment extends Fragment {
     Uri selectedUri;
     private static final int REQUEST_VIDEO_TRIMMER = 0x01;
 
+
+    private boolean loading = true;
+    private int pastVisibleItems, visibleItemCount, totalItemCount;
     public VideoFragment() {
         // Required empty public constructor
     }
@@ -298,18 +303,36 @@ public class VideoFragment extends Fragment {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                lastPositions = new int[staggeredGridLayoutManager.getSpanCount()];
-                lastPositions = staggeredGridLayoutManager.findLastCompletelyVisibleItemPositions(lastPositions);
-                lastVisibleItem = Math.max(lastPositions[0], lastPositions[1]);//findMax(lastPositions);
+//                lastPositions = new int[staggeredGridLayoutManager.getSpanCount()];
+//                lastPositions = staggeredGridLayoutManager.findLastCompletelyVisibleItemPositions(lastPositions);
+//                lastVisibleItem = Math.max(lastPositions[0], lastPositions[1]);//findMax(lastPositions);
+//
+//                if (!isLoading) {                                            /*==*/
+//                    if (staggeredGridLayoutManager != null && lastVisibleItem == videoDetailModelsList.size()-1){//- 1 {
+//                        //bottom of list!
+//                        ispull = false;
+//                        pageIndex = pageIndex + 1;
+//                        fragmentVideoBinding.bottomProgressbarLayout.setVisibility(View.VISIBLE);
+//                        loadMore();
+//
+//                    }
+//                }
 
-                if (!isLoading) {
-                    if (staggeredGridLayoutManager != null && lastVisibleItem == videoDetailModelsList.size() - 2) {
-                        //bottom of list!
-                        ispull = false;
+                visibleItemCount = staggeredGridLayoutManager.getChildCount();
+                totalItemCount = staggeredGridLayoutManager.getItemCount();
+                int[] firstVisibleItems = null;
+                firstVisibleItems = staggeredGridLayoutManager.findFirstVisibleItemPositions(firstVisibleItems);
+                if(firstVisibleItems != null && firstVisibleItems.length > 0) {
+                    pastVisibleItems = firstVisibleItems[0];
+                }
+
+                if (loading) {
+                    if ((visibleItemCount + pastVisibleItems) >= totalItemCount) {
+                        loading = false;
+                        Log.d("tag", "LOAD NEXT ITEM");
                         pageIndex = pageIndex + 1;
                         fragmentVideoBinding.bottomProgressbarLayout.setVisibility(View.VISIBLE);
                         loadMore();
-
                     }
                 }
             }
@@ -519,11 +542,16 @@ public class VideoFragment extends Fragment {
 
     //    pick the video in gallery
     private void pickVideoFromGallery() {
-        Intent intent = new Intent();
-        intent.setTypeAndNormalize("video/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        startActivityForResult(Intent.createChooser(intent, getString(R.string.label_select_video)), REQUEST_VIDEO_TRIMMER);
+//        Intent intent = new Intent();
+//        intent.setTypeAndNormalize("video/*");
+//        intent.setAction(Intent.ACTION_GET_CONTENT);
+//        intent.addCategory(Intent.CATEGORY_OPENABLE);
+//        startActivityForResult(Intent.createChooser(intent, getString(R.string.label_select_video)), REQUEST_VIDEO_TRIMMER);
+
+        Intent galleryIntent = new Intent(Intent.ACTION_PICK,
+                android.provider.MediaStore.Video.Media.EXTERNAL_CONTENT_URI);
+        galleryIntent.setType("video/*");
+        startActivityForResult(galleryIntent, REQUEST_VIDEO_TRIMMER);
     }
 
     @Override

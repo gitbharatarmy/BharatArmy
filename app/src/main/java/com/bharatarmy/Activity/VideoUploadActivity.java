@@ -64,10 +64,18 @@ public class VideoUploadActivity extends AppCompatActivity implements View.OnCli
         videoWidthStr = getIntent().getStringExtra("videowidth");
 
         if (!pathStr.equalsIgnoreCase("")) {
-            activityVideoUploadBinding.chooseVideo.setImageBitmap(Utils.createVideoThumbNail(pathStr));
-        }
+//            activityVideoUploadBinding.chooseVideo.setImageBitmap(Utils.createVideoThumbNail(pathStr));
+//            activityVideoUploadBinding.chooseVideo.setImageBitmap(Utils.createImageThumbNail(Utils.getBitmap(pathStr)));
+            if (Utils.createThumbnailAtTime(pathStr)!=null){
+                activityVideoUploadBinding.chooseVideo.setImageBitmap(Utils.createThumbnailAtTime(pathStr));
+            }else{
+                Utils.ping(mContext,"video can't supported");
+            }
 
+        }
     }
+
+
     @Subscribe
     public void customEventReceived(MyScreenChnagesModel event) {
         Log.d("imageId :", event.getPrivacyname());
@@ -114,7 +122,7 @@ public class VideoUploadActivity extends AppCompatActivity implements View.OnCli
 
                 if (!videoTitleStr.equalsIgnoreCase("")) {
                     if (!videoDescriptionStr.equalsIgnoreCase("")) {
-                        if (Utils.createVideoThumbNail(pathStr) != null) {
+//                        if (Utils.createVideoThumbNail(pathStr) != null) {
                             galleryImageList.add(new GalleryImageModel(pathStr, sizeStr, "0", durationStr, "2", videoTitleStr, videoDescriptionStr,videoHeightStr,videoWidthStr));
                             boolean connected = Utils.checkNetwork(mContext);
 
@@ -180,9 +188,9 @@ public class VideoUploadActivity extends AppCompatActivity implements View.OnCli
                             } else {
                                 Utils.showCustomDialog(getResources().getString(R.string.internet_error), getResources().getString(R.string.internet_connection_error), VideoUploadActivity.this);
                             }
-                        } else {
-                            Utils.ping(mContext, "video can't support");
-                        }
+//                        } else {
+//                            Utils.ping(mContext, "video can't support");
+//                        }
                     } else {
                         activityVideoUploadBinding.videoTitleEdt.setError("please enter video description");
                     }

@@ -34,7 +34,7 @@ public class FTPDetailsActivity extends AppCompatActivity implements View.OnClic
 
     ActivityFtpdetailsBinding ftpdetailsBinding;
     Context mContext;
-    String ftpmaintitleStr, ftpdateStr, ftpshortdescStr, ftptourdescStr, ftpbannerimgStr,ftpstr1,ftpstr2,ftpstr3;
+    String ftpmaintitleStr, ftpdateStr, ftpshortdescStr, ftptourdescStr, ftpbannerimgStr,ftpstr1,ftpstr2,ftpstr3,ftpIdStr;
     int ftpId;
     ImageMainModel ftpDetailDataList;
     @Override
@@ -58,6 +58,7 @@ public class FTPDetailsActivity extends AppCompatActivity implements View.OnClic
         ftpstr2=getIntent().getStringExtra("str2");
         ftpstr3=getIntent().getStringExtra("str3");
         ftpId=getIntent().getIntExtra("ftpId",0);
+        ftpIdStr= String.valueOf(ftpId);
 
         Log.d("webview", ftptourdescStr);
         Utils.setImageInImageView(ftpbannerimgStr, ftpdetailsBinding.backdrop, mContext);
@@ -148,8 +149,10 @@ public class FTPDetailsActivity extends AppCompatActivity implements View.OnClic
 
                 break;
             case R.id.ftp_comment:
-                Intent bottomcommentIntent = new Intent(mContext, CommentActivity.class);
-                startActivity(bottomcommentIntent);
+                Intent commentIntent = new Intent(mContext, CommentActivity.class);
+                commentIntent.putExtra("referenceId", ftpIdStr);
+                commentIntent.putExtra("sourceType", "3");
+                startActivity(commentIntent);
                 break;
             case R.id.back_img:
                 FTPDetailsActivity.this.finish();

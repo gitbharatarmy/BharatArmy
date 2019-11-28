@@ -29,7 +29,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="@dimen/_10sdp"
                 android:layout_toRightOf="@id/selected_chk"
-                android:src="@drawable/ic_aboutus" />
+                android:src="@drawable/ic_private_user" />
 
             <LinearLayout
                 android:layout_width="wrap_content"

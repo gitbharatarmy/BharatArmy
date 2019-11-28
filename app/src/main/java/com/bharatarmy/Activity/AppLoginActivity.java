@@ -70,7 +70,9 @@ import java.util.Map;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-/* Google client id
+import static com.facebook.FacebookSdk.setAutoLogAppEventsEnabled;
+
+/* Google web client id
  * 718860760622-parj58505tgu73h704s5qq1kuffojg2r.apps.googleusercontent.com
 
  * Client Secrect
@@ -303,12 +305,14 @@ public class AppLoginActivity extends AppCompatActivity implements View.OnClickL
                 break;
 
             case R.id.loginwithgoogle_linear:
+                Utils.handleClickEvent(mContext, activityAppLoginBinding.loginwithgoogleLinear);
                 showProgressDialog();
                 Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
                 startActivityForResult(signInIntent, RC_SIGN_IN);
                 break;
 
             case R.id.loginwithfacebook_linear:
+                Utils.handleClickEvent(mContext, activityAppLoginBinding.loginwithfacebookLinear);
                 activityAppLoginBinding.loginButton.performClick();
                 break;
 
@@ -358,6 +362,7 @@ public class AppLoginActivity extends AppCompatActivity implements View.OnClickL
 //    User Login with facebook
     public void facebookLogin() {
 //        AppEventsLogger.activateApp(this);
+        setAutoLogAppEventsEnabled(false);
         callbackManager = CallbackManager.Factory.create();
         aQuery = new AQuery(this);
 
@@ -434,7 +439,7 @@ public class AppLoginActivity extends AppCompatActivity implements View.OnClickL
 
         } else {
             hideProgressDialog();
-            Utils.ping(mContext, "Failed");
+            Utils.ping(mContext, "error occured");
         }
 
 
@@ -531,7 +536,7 @@ public class AppLoginActivity extends AppCompatActivity implements View.OnClickL
                         if (getIntent().getStringExtra("whereTocomeLogin") != null) {
                             if (getIntent().getStringExtra("whereTocomeLogin").equalsIgnoreCase("more")) {
                                 Intent DashboardIntent = new Intent(mContext, DashboardActivity.class);
-                                DashboardIntent.putExtra("whichPageRun", "5");
+                                DashboardIntent.putExtra("whichPageRun", "4");
                                 startActivity(DashboardIntent);
                                 finish();
                             } else {

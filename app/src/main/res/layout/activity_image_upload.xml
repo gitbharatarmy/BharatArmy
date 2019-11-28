@@ -173,35 +173,29 @@
                 android:orientation="vertical">
 
                 <LinearLayout
+                    android:id="@+id/picture_main_linear"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_50sdp"
-
-                    android:orientation="vertical">
-
-                    <TextView
-                        style="@style/title_text_font"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:text="Choose Photo Privacy"
-                        android:textColor="@color/heading_bg"
-                        android:textSize="@dimen/_10sdp"
-                        android:visibility="visible" />
+                    android:layout_marginRight="@dimen/_3sdp"
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
                     <LinearLayout
                         android:id="@+id/picture_choose_linear"
                         android:layout_width="wrap_content"
                         android:layout_height="@dimen/_30sdp"
                         android:layout_marginTop="@dimen/_5sdp"
+                        android:layout_gravity="right"
                         android:background="@drawable/rectangle_line"
                         android:orientation="horizontal">
 
                         <ImageView
+                            android:id="@+id/privacy_image"
                             android:layout_width="@dimen/_13sdp"
                             android:layout_height="@dimen/_13sdp"
                             android:layout_gravity="center_vertical"
                             android:layout_marginLeft="@dimen/_5sdp"
-                            android:src="@drawable/ic_profilesetting"
+                            android:src="@drawable/ic_aboutus"
                             android:tint="@color/gray" />
 
                         <TextView

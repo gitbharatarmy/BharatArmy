@@ -27,6 +27,7 @@ import androidx.databinding.DataBindingUtil;
 import com.bharatarmy.Interfaces.OtpReceivedInterface;
 import com.bharatarmy.Interfaces.SmsListener;
 import com.bharatarmy.Models.LogginModel;
+import com.bharatarmy.Models.MyScreenChnagesModel;
 import com.bharatarmy.Models.OtpModel;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.ApiHandler;
@@ -47,6 +48,8 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
 import java.util.HashMap;
@@ -267,9 +270,10 @@ startSMSListener();
                     Utils.storeLoginData(response.body().getData(), mContext);
                     Utils.storeCurrentLocationData(response.body().getCurrentLocation(), mContext);
                     Utils.ping(mContext, "Profile Updated Successfully");
-                    Intent myprofileIntent = new Intent(mContext, MyProfileActivity.class);
-                    startActivity(myprofileIntent);
-
+//                    Intent myprofileIntent = new Intent(mContext, MyProfileActivity.class);
+//                    startActivity(myprofileIntent);
+                    EventBus.getDefault().post(new MyScreenChnagesModel("change"));
+                       finish();
                 } else {
                     Utils.ping(mContext, response.body().getMessage());
                 }
@@ -450,8 +454,8 @@ startSMSListener();
                     overridePendingTransition(0, 0);
 //                    finish();
                 } else if (strWheretocome.equalsIgnoreCase("EditProfile")) {
-//                    Intent editIntent =new Intent(mContext,EditProfileActivity.class);
-//                    startActivity(editIntent);
+                    Intent editIntent =new Intent(mContext,EditProfileActivity.class);
+                    startActivity(editIntent);
                     finish();
                 } else if (getIntent().getStringExtra("whereTocomeLogin") != null) {
                     finish();
@@ -472,7 +476,7 @@ startSMSListener();
                 activityOtpBinding.edit3.getText().toString() +
                 activityOtpBinding.edit4.getText().toString();
         Log.d("finalOtpStr", finalgetOtpStr);
-        Log.d("otpStr", otpStr);
+//        Log.d("otpStr", otpStr);
 
 
         if (!finalgetOtpStr.equalsIgnoreCase("")) {
@@ -599,7 +603,7 @@ startSMSListener();
                                         finish();
                                     } else {*/
                                 Intent DashboardIntent = new Intent(mContext, DashboardActivity.class);
-                                DashboardIntent.putExtra("whichPageRun", "5");
+                                DashboardIntent.putExtra("whichPageRun", "4");
                                 startActivity(DashboardIntent);
                                 finish();
 //                                    }
@@ -682,6 +686,8 @@ startSMSListener();
         } else if (getIntent().getStringExtra("whereTocomeLogin") != null) {
             finish();
         } else if (strWheretocome.equalsIgnoreCase("EditProfile")) {
+            Intent editIntent =new Intent(mContext,EditProfileActivity.class);
+            startActivity(editIntent);
             OTPActivity.this.finish();
         } else {
             Intent mobileIntent = new Intent(mContext, MobileVerificationNewActivity.class);

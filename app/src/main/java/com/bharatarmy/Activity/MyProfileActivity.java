@@ -21,7 +21,8 @@ import org.greenrobot.eventbus.Subscribe;
 public class MyProfileActivity extends AppCompatActivity implements View.OnClickListener {
     private Context mContext;
     ActivityMyProfileBinding activityMyProfileBinding;
-String countryFlagStr;
+    String countryFlagStr;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,16 +52,16 @@ String countryFlagStr;
             if (Utils.retriveLoginData(mContext).getEmail() != null) {
                 activityMyProfileBinding.emailShowTxt.setText(Utils.retriveLoginData(mContext).getEmail());
             }
-            if(Utils.retriveLoginData(mContext).getCountryISOCode()!=null){
-                if (!Utils.retriveLoginData(mContext).getCountryISOCode().equalsIgnoreCase("")){
+            if (Utils.retriveLoginData(mContext).getCountryISOCode() != null) {
+                if (!Utils.retriveLoginData(mContext).getCountryISOCode().equalsIgnoreCase("")) {
                     activityMyProfileBinding.countryFlagImg.setVisibility(View.VISIBLE);
-                    countryFlagStr= AppConfiguration.FLAG_URL+Utils.retriveLoginData(mContext).getCountryISOCode()+".png";
-                    Utils.setImageInImageView(countryFlagStr,activityMyProfileBinding.countryFlagImg,mContext);
-                }else{
+                    countryFlagStr = AppConfiguration.FLAG_URL + Utils.retriveLoginData(mContext).getCountryISOCode() + ".png";
+                    Utils.setImageInImageView(countryFlagStr, activityMyProfileBinding.countryFlagImg, mContext);
+                } else {
                     activityMyProfileBinding.countryFlagImg.setVisibility(View.GONE);
                 }
             }
-            if (Utils.retriveLoginData(mContext).getPhoneNo() != null && !Utils.retriveLoginData(mContext).getPhoneNo().equalsIgnoreCase("") ) {
+            if (Utils.retriveLoginData(mContext).getPhoneNo() != null && !Utils.retriveLoginData(mContext).getPhoneNo().equalsIgnoreCase("")) {
                 activityMyProfileBinding.phoneShowTxt.setText(Utils.retriveLoginData(mContext).getPhoneNo());
             }
             if (Utils.retriveLoginData(mContext).getProfilePicUrl() != null) {
@@ -76,13 +77,13 @@ String countryFlagStr;
                 }
             }
 
-            if (Utils.retriveLoginData(mContext).getAddressline1()!=null){
-                if (Utils.retriveLoginData(mContext).getAddressline2()!=null){
-                    if (Utils.retriveLoginData(mContext).getArea()!=null){
-                        if(Utils.retriveLoginData(mContext).getStrCityName()!=null){
-                            if (Utils.retriveLoginData(mContext).getStrState()!=null) {
-                                if (Utils.retriveLoginData(mContext).getCountryISOCode()!=null){
-                                    if (Utils.retriveLoginData(mContext).getPincode()!=null){
+            if (Utils.retriveLoginData(mContext).getAddressline1() != null) {
+                if (Utils.retriveLoginData(mContext).getAddressline2() != null) {
+                    if (Utils.retriveLoginData(mContext).getArea() != null) {
+                        if (Utils.retriveLoginData(mContext).getStrCityName() != null) {
+                            if (Utils.retriveLoginData(mContext).getStrState() != null) {
+                                if (Utils.retriveLoginData(mContext).getCountryISOCode() != null) {
+                                    if (Utils.retriveLoginData(mContext).getPincode() != null) {
                                         if (!Utils.retriveLoginData(mContext).getAddressline1().equalsIgnoreCase("")) {
                                             activityMyProfileBinding.addressShowTxt.setText(Utils.retriveLoginData(mContext).getAddressline1() +
                                                     ", " + Utils.retriveLoginData(mContext).getAddressline2() +
@@ -98,7 +99,6 @@ String countryFlagStr;
                         }
                     }
                 }
-
 
 
             }

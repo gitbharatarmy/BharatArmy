@@ -64,8 +64,8 @@ public class MyMediaAdapter extends RecyclerView.Adapter<MyMediaAdapter.MyViewHo
                 Utils.setGalleryImageInImageView(detailgallery.getImageUri(), holder.myMediaListItemBinding.uploadImage, mContext);
             } else {
                 File f=new File(detailgallery.getImageUri());
-                if (Utils.createVideoThumbNail(f.toString())!=null){
-                    holder.myMediaListItemBinding.uploadImage.setImageBitmap(Utils.createVideoThumbNail(f.toString()));
+                if (Utils.createThumbnailAtTime(f.toString())!=null){
+                    holder.myMediaListItemBinding.uploadImage.setImageBitmap(Utils.createThumbnailAtTime(f.toString()));
                 }else{
                     holder.myMediaListItemBinding.uploadImage.setImageResource(R.drawable.proflie);
                 }

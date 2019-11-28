@@ -169,7 +169,7 @@ public class AlbumFragment extends Fragment {
 
 
                 if (!isLoading) {
-                    if (staggeredGridLayoutManager != null && lastVisibleItem == albumModelList.size() - 2) {
+                    if (staggeredGridLayoutManager != null && lastVisibleItem == albumModelList.size() - 1) {
                         //bottom of list!
                         ispull = false;
                         pageIndex = pageIndex + 1;
@@ -472,7 +472,7 @@ public class AlbumFragment extends Fragment {
                         AlbumUrl.clear();
                         albumModelList = albumMainModel.getData();
 
-                        isLoading=false;
+                        isLoading=true;
                         staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, 1);
                         fragmentAlbumBinding.rvPosters.setLayoutManager(staggeredGridLayoutManager);
                         albumListAdapter = new AlbumListAdapter(mContext, albumModelList);
@@ -506,11 +506,16 @@ public class AlbumFragment extends Fragment {
 
     //    pick the video in gallery
     private void pickVideoFromGallery() {
-        Intent intent = new Intent();
-        intent.setTypeAndNormalize("video/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        startActivityForResult(Intent.createChooser(intent, getString(R.string.label_select_video)), REQUEST_VIDEO_TRIMMER);
+//        Intent intent = new Intent();
+//        intent.setTypeAndNormalize("video/*");
+//        intent.setAction(Intent.ACTION_GET_CONTENT);
+//        intent.addCategory(Intent.CATEGORY_OPENABLE);
+//        startActivityForResult(Intent.createChooser(intent, getString(R.string.label_select_video)), REQUEST_VIDEO_TRIMMER);
+
+        Intent galleryIntent = new Intent(Intent.ACTION_PICK,
+                android.provider.MediaStore.Video.Media.EXTERNAL_CONTENT_URI);
+        galleryIntent.setType("video/*");
+        startActivityForResult(galleryIntent, REQUEST_VIDEO_TRIMMER);
     }
 
     @Override

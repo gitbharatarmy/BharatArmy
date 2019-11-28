@@ -50,7 +50,7 @@ public class ImageVideoPrivacyActivity extends AppCompatActivity implements View
         privacyoptionList.add(new GalleryImageModel(getResources().getString(R.string.photo_public_option_header_txt), getResources().getString(R.string.photo_public_option_sub_txt),
                 R.drawable.ic_aboutus, "1"));
         privacyoptionList.add(new GalleryImageModel(getResources().getString(R.string.photo_private_option_header_txt), getResources().getString(R.string.photo_private_option_sub_txt),
-                R.drawable.ic_user, "0"));
+                R.drawable.ic_private_user, "0"));
 
 
         for (int i = 0; i < privacyoptionList.size(); i++) {
