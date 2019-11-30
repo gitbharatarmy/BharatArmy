@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.provider.OpenableColumns;
 import android.os.Bundle;
@@ -118,7 +119,9 @@ public class ImageEditProfilePickerActivity extends AppCompatActivity {
                     @Override
                     public void onPermissionsChecked(MultiplePermissionsReport report) {
                         if (report.areAllPermissionsGranted()) {
+
                             fileName = System.currentTimeMillis() + ".jpg";
+//                            fileName = String.format("Images %d.jpg", System.currentTimeMillis());
                             Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                             takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, getCacheImagePath(fileName));
                             if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
@@ -236,6 +239,14 @@ public class ImageEditProfilePickerActivity extends AppCompatActivity {
         File image = new File(path, fileName);
         return getUriForFile(ImageEditProfilePickerActivity.this, getPackageName() + ".provider", image);
     }
+
+//    private Uri getCacheImagePath(String fileName) {
+//        File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "BharatArmy");
+//        if (!file.exists()) file.mkdirs();
+//        File image = new File(file, fileName);
+//
+//        return getUriForFile(ImageEditProfilePickerActivity.this, getPackageName() + ".provider", image);
+//    }
 
     private static String queryName(ContentResolver resolver, Uri uri) {
         Cursor returnCursor =

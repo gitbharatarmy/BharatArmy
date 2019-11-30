@@ -69,7 +69,7 @@ public class VideoUploadActivity extends AppCompatActivity implements View.OnCli
             if (Utils.createThumbnailAtTime(pathStr)!=null){
                 activityVideoUploadBinding.chooseVideo.setImageBitmap(Utils.createThumbnailAtTime(pathStr));
             }else{
-                Utils.ping(mContext,"video can't supported");
+                Utils.ping(mContext,getResources().getString(R.string.video_error));
             }
 
         }
@@ -80,7 +80,15 @@ public class VideoUploadActivity extends AppCompatActivity implements View.OnCli
     public void customEventReceived(MyScreenChnagesModel event) {
         Log.d("imageId :", event.getPrivacyname());
         if (!event.getPrivacyname().equalsIgnoreCase("")) {
-            activityVideoUploadBinding.privacyTxt.setText(event.getPrivacyname());
+            activityVideoUploadBinding.privacyOptionTxt.setText(event.getPrivacyname());
+            if (event.getPrivacyname().equalsIgnoreCase("Public")){
+               activityVideoUploadBinding.selectedOptionImg.setImageDrawable(mContext.getDrawable(R.drawable.ic_aboutus));
+               activityVideoUploadBinding.privacySubTxt.setText(getResources().getString(R.string.photo_public_option_sub_txt));
+            }else{
+                activityVideoUploadBinding.selectedOptionImg.setImageDrawable(mContext.getDrawable(R.drawable.ic_private_user));
+                activityVideoUploadBinding.privacySubTxt.setText(getResources().getString(R.string.photo_private_option_sub_txt));
+            }
+
         }
 
     }
@@ -108,9 +116,9 @@ public class VideoUploadActivity extends AppCompatActivity implements View.OnCli
                 }, 200);
                 break;
             case R.id.back_img:
-                Intent dashboardIntent = new Intent(mContext, DashboardActivity.class);
-                dashboardIntent.putExtra("whichPageRun", "1");
-                startActivity(dashboardIntent);
+//                Intent dashboardIntent = new Intent(mContext, DashboardActivity.class);
+//                dashboardIntent.putExtra("whichPageRun", "1");
+//                startActivity(dashboardIntent);
                 finish();
                 break;
 
@@ -199,7 +207,7 @@ public class VideoUploadActivity extends AppCompatActivity implements View.OnCli
                 }
                 break;
             case R.id.picture_choose_linear:
-                photoprivacyStr =activityVideoUploadBinding.privacyTxt.getText().toString();
+                photoprivacyStr =activityVideoUploadBinding.privacyOptionTxt.getText().toString();
                 Intent privacyIntent = new Intent(mContext, ImageVideoPrivacyActivity.class);
                 privacyIntent.putExtra("privacytxt",photoprivacyStr);
                 startActivity(privacyIntent);

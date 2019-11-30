@@ -34,7 +34,7 @@ public class DisplaySFAUserActivity extends AppCompatActivity implements View.On
     DisplaySFAUserAdapter displaySFAUserAdapter;
     List<ImageDetailModel> sfausermodellist;
     ArrayList<String> schoolName;
-
+String entryTypeuserStr="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,24 +47,35 @@ public class DisplaySFAUserActivity extends AppCompatActivity implements View.On
 
     public void init() {
         if (Utils.retriveLoginData(mContext) != null) {
-            /*if (Utils.retriveLoginData(mContext).getMemberType().equalsIgnoreCase(",3,")) {
+            if (Utils.retriveLoginData(mContext).getMemberType().equalsIgnoreCase(",3,")) {
                 activityDisplaySfauserBinding.backImg.setVisibility(View.GONE);
                 activityDisplaySfauserBinding.logoutImg.setVisibility(View.VISIBLE);
                 activityDisplaySfauserBinding.shimmerViewContainer.setVisibility(View.GONE);
                 activityDisplaySfauserBinding.shimmerViewContainer.startShimmerAnimation();
                 activityDisplaySfauserBinding.SFAUserInfoRcv.setVisibility(View.GONE);
                 activityDisplaySfauserBinding.noOfRecordrel.setVisibility(View.VISIBLE);
-            }else{*/
+            }else{
                 activityDisplaySfauserBinding.backImg.setVisibility(View.VISIBLE);
                 activityDisplaySfauserBinding.logoutImg.setVisibility(View.GONE);
                 activityDisplaySfauserBinding.shimmerViewContainer.setVisibility(View.VISIBLE);
                 activityDisplaySfauserBinding.shimmerViewContainer.startShimmerAnimation();
                 activityDisplaySfauserBinding.SFAUserInfoRcv.setVisibility(View.GONE);
                 activityDisplaySfauserBinding.noOfRecordrel.setVisibility(View.GONE);
-//            }
+            }
         }
 
-        activityDisplaySfauserBinding.toolbarTitleTxt.setText("SFA Data Entry");
+        if (Utils.getPref(mContext,"entryType")!=null && !Utils.getPref(mContext,"entryType").equalsIgnoreCase("") ){
+            entryTypeuserStr=Utils.getPref(mContext,"entryType");
+            if (entryTypeuserStr.equalsIgnoreCase("1")){
+                activityDisplaySfauserBinding.toolbarTitleTxt.setText("SFA Data Entry");
+            }else{
+                activityDisplaySfauserBinding.toolbarTitleTxt.setText("Certification");
+            }
+        }else{
+            activityDisplaySfauserBinding.toolbarTitleTxt.setText("SFA Data Entry");
+        }
+
+
 
         callDisplaySFAUserData();
     }
@@ -107,20 +118,20 @@ public class DisplaySFAUserActivity extends AppCompatActivity implements View.On
                     if (userDataModel.getData() != null && userDataModel.getData().size()>0) {
 
                         if (Utils.retriveLoginData(mContext) != null) {
-                            /*if (Utils.retriveLoginData(mContext).getMemberType().equalsIgnoreCase(",3,")) {
+                            if (Utils.retriveLoginData(mContext).getMemberType().equalsIgnoreCase(",3,")) {
                                 activityDisplaySfauserBinding.shimmerViewContainer.stopShimmerAnimation();
                                 activityDisplaySfauserBinding.shimmerViewContainer.setVisibility(View.GONE);
                                 activityDisplaySfauserBinding.noRecordrel.setVisibility(View.GONE);
                                 activityDisplaySfauserBinding.SFAUserInfoRcv.setVisibility(View.GONE);
                                 activityDisplaySfauserBinding.noOfRecordrel.setVisibility(View.VISIBLE);
-                            }else{*/
+                            }else{
                                 activityDisplaySfauserBinding.shimmerViewContainer.stopShimmerAnimation();
                                 activityDisplaySfauserBinding.shimmerViewContainer.setVisibility(View.GONE);
                                 activityDisplaySfauserBinding.noRecordrel.setVisibility(View.GONE);
                                 activityDisplaySfauserBinding.SFAUserInfoRcv.setVisibility(View.VISIBLE);
                                 activityDisplaySfauserBinding.noOfRecordrel.setVisibility(View.GONE);
 
-//                            }
+                            }
                         }
 
                         sfausermodellist = userDataModel.getData();
@@ -148,6 +159,7 @@ public class DisplaySFAUserActivity extends AppCompatActivity implements View.On
     private Map<String, String> getDisplayUserData() {
         Map<String, String> map = new HashMap<>();
         map.put("AppUserId", String.valueOf(Utils.getAppUserId(mContext)));
+        map.put("EntryType",entryTypeuserStr);
         return map;
     }
 
@@ -187,6 +199,7 @@ public class DisplaySFAUserActivity extends AppCompatActivity implements View.On
                                 Utils.removeLoginData(mContext);
                                 Utils.setPref(mContext, "IsSkipLogin", "");
                                 Utils.setPref(mContext, "IsLoginUser", "");
+                                Utils.setPref(mContext,"entryType","");
                                 Utils.ping(mContext, "You are logout suceessfully");
                                 Intent ilogin = new Intent(mContext, AppLoginActivity.class);  //LoginwithEmailActivity
                                 ilogin.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_SINGLE_TOP|Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -211,11 +224,11 @@ public class DisplaySFAUserActivity extends AppCompatActivity implements View.On
     @Override
     public void onBackPressed() {
         if (Utils.retriveLoginData(mContext) != null) {
-           /* if (Utils.retriveLoginData(mContext).getMemberType().equalsIgnoreCase(",3,")) {
+           if (Utils.retriveLoginData(mContext).getMemberType().equalsIgnoreCase(",3,")) {
                 finish();
-            } else {*/
+            } else {
                 finish();
-//            }
+            }
         }
     }
 }

@@ -144,7 +144,6 @@ public class ImageUploadActivity extends AppCompatActivity implements View.OnCli
                 break;
             case R.id.submit_linear:
                 Utils.handleClickEvent(mContext, activityImageUploadBinding.submitLinear);
-
                 boolean connected = Utils.checkNetwork(mContext);
 
 

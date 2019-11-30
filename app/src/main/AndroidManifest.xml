@@ -339,7 +339,9 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
+            android:windowSoftInputMode="stateHidden|adjustResize" >
+
+        </activity>
         <activity
             android:name=".Activity.DashboardActivity"
             android:label="@string/title_activity_dashboard"

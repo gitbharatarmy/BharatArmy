@@ -118,6 +118,7 @@
     <string name="register_info" translatable="false">Register for other sports ?</string>
     <string name="sfa_entry" translatable="false">SFA Data Entry</string>
     <string name="data_entry" translatable="false">My User</string>
+    <string name="ceritificate_entry" translatable="false">Certificate</string>
     <string name="select" translatable="false">Select</string>
     <string name="school_name" translatable="false">School Name</string>
     <string name="student" translatable="false">Student</string>
@@ -227,6 +228,7 @@
     <string name="video_desc" translatable="false">Video Description</string>
     <string name="video_title_txt" translatable="false">Please Enter Video Title</string>
     <string name="video_desc_txt" translatable="false">Please Enter Video Description</string>
+    <string name="video_error" translatable="false">video is corrupt or the format is not supported.</string>
 
     <!--Travel String-->
     <string name="cheese_ipsum" translatable="false">Jarlsberg lancashire edam. Dolcelatte hard cheese brie st. agur blue

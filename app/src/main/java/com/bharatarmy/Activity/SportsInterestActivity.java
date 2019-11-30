@@ -14,6 +14,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -35,6 +36,7 @@ import android.widget.Toast;
 import com.bharatarmy.Adapter.DisplaySFAUserAdapter;
 import com.bharatarmy.Country;
 import com.bharatarmy.CountryCodePicker;
+import com.bharatarmy.Models.GalleryImageModel;
 import com.bharatarmy.Models.GetSchoolNameModel;
 import com.bharatarmy.Models.ImageDetailModel;
 import com.bharatarmy.Models.ImageMainModel;
@@ -62,30 +64,43 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import droidninja.filepicker.FilePickerBuilder;
+import droidninja.filepicker.FilePickerConst;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import pub.devrel.easypermissions.AfterPermissionGranted;
+import pub.devrel.easypermissions.EasyPermissions;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Retrofit;
 
+import static androidx.core.content.FileProvider.getUriForFile;
+
 public class SportsInterestActivity extends AppCompatActivity implements View.OnClickListener, ProgressRequestBody.UploadCallbacks {
     private static final String TAG = SportsInterestActivity.class.getSimpleName();
     ActivitySportsInterestBinding activitySportsInterestBinding;
     Context mContext;
     public static final int REQUEST_IMAGE = 100;
-    Uri uri;
+//    Uri uri;
     File file = null;
     MultiSportsSelectDialog sportsSelectDialog;
     String nameStr, genderStr = "0", emailStr, phonenoStr, sportsStr,
-            countryCodeStr,countryISOcodeStr="", sportsIdStr = "", appIdStr,schoolnameStr="",usertypeStr="1";
+            countryCodeStr, countryISOcodeStr = "", sportsIdStr = "",
+            appIdStr, schoolnameStr = "", usertypeStr = "1",
+            entryTypeStr = "", addedemailStr = "", addednameStr = "",filePath;
     ProgressDialog mDialog;
     List<ImageDetailModel> sportsList;
     ArrayList<Integer> alreadySelectedSports;
     ArrayList<String> schoolNamearray;
-    ArrayList<GetSchoolNameModel> schoolNameList;
+
+
+    private static final int CUSTOM_REQUEST_CODE = 532;
+    public static final int RC_PHOTO_PICKER_PERM = 123;
+    private int MAX_ATTACHMENT_COUNT = 1;
+    private ArrayList<String> photoPaths = new ArrayList<>();
 
 
     @Override
@@ -104,8 +119,18 @@ public class SportsInterestActivity extends AppCompatActivity implements View.On
 
     public void init() {
         activitySportsInterestBinding.toolbarTitleTxt.setText("SFA Data Entry");
+        addedemailStr = Utils.getAppUserEmail(mContext);
+        addednameStr = Utils.getAppUserName(mContext);
+        if (Utils.getPref(mContext, "entryType") != null) {
+            entryTypeStr = Utils.getPref(mContext, "entryType");
+        }
+        if (entryTypeStr.equalsIgnoreCase("1")) {
+            activitySportsInterestBinding.toolbarTitleTxt.setText("SFA Data Entry");
+        } else {
+            activitySportsInterestBinding.toolbarTitleTxt.setText("Certification");
+        }
 
-callSchoolNameData();
+        callSchoolNameData();
 
 
         callSportsDetailData();
@@ -134,9 +159,9 @@ callSchoolNameData();
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 if (checkedId == R.id.student_rb) {
-                    usertypeStr="1";
-                }else if (checkedId==R.id.coach_rb){
-                    usertypeStr="2";
+                    usertypeStr = "1";
+                } else if (checkedId == R.id.coach_rb) {
+                    usertypeStr = "2";
                 }
             }
         });
@@ -165,14 +190,16 @@ callSchoolNameData();
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.imageupload_image:
-                Utils.handleClickEvent(mContext,activitySportsInterestBinding.imageuploadImage);
+                Utils.handleClickEvent(mContext, activitySportsInterestBinding.imageuploadImage);
+
+
                 Dexter.withActivity(SportsInterestActivity.this)
-                        .withPermissions(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        .withPermissions(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE)
                         .withListener(new MultiplePermissionsListener() {
                             @Override
                             public void onPermissionsChecked(MultiplePermissionsReport report) {
                                 if (report.areAllPermissionsGranted()) {
-                                    showImagePickerOptions();
+                                    pickPhotoClicked();
                                 }
 
                                 if (report.isAnyPermissionPermanentlyDenied()) {
@@ -185,6 +212,7 @@ callSchoolNameData();
                                 token.continuePermissionRequest();
                             }
                         }).check();
+
                 break;
             case R.id.sports_edt:
 //                Utils.ping(mContext,"hello");
@@ -198,7 +226,7 @@ callSchoolNameData();
                 getSubmitData();
                 break;
             case R.id.back_img:
-                Intent userListIntent=new Intent(mContext,DisplaySFAUserActivity.class);
+                Intent userListIntent = new Intent(mContext, DisplaySFAUserActivity.class);
                 userListIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(userListIntent);
                 finish();
@@ -206,82 +234,15 @@ callSchoolNameData();
 
         }
     }
-
-    private void showImagePickerOptions() {
-        ImageEditProfilePickerActivity.showImagePickerOptions(this, new ImageEditProfilePickerActivity.PickerOptionListener() {
-            @Override
-            public void onTakeCameraSelected() {
-                launchCameraIntent();
-            }
-
-            @Override
-            public void onChooseGallerySelected() {
-                launchGalleryIntent();
-            }
-        });
-    }
-
-    private void launchCameraIntent() {
-        Intent intent = new Intent(SportsInterestActivity.this, ImageEditProfilePickerActivity.class);
-        intent.putExtra(ImageEditProfilePickerActivity.INTENT_IMAGE_PICKER_OPTION, ImageEditProfilePickerActivity.REQUEST_IMAGE_CAPTURE);
-
-        // setting aspect ratio
-        intent.putExtra(ImageEditProfilePickerActivity.INTENT_LOCK_ASPECT_RATIO, true);
-        intent.putExtra(ImageEditProfilePickerActivity.INTENT_ASPECT_RATIO_X, 1); // 16x9, 1x1, 3:4, 3:2
-        intent.putExtra(ImageEditProfilePickerActivity.INTENT_ASPECT_RATIO_Y, 1);
-
-        // setting maximum bitmap width and height
-        intent.putExtra(ImageEditProfilePickerActivity.INTENT_SET_BITMAP_MAX_WIDTH_HEIGHT, true);
-        intent.putExtra(ImageEditProfilePickerActivity.INTENT_BITMAP_MAX_WIDTH, 1000);
-        intent.putExtra(ImageEditProfilePickerActivity.INTENT_BITMAP_MAX_HEIGHT, 1000);
-
-        startActivityForResult(intent, REQUEST_IMAGE);
-    }
-
-    private void launchGalleryIntent() {
-        Intent intent = new Intent(SportsInterestActivity.this, ImageEditProfilePickerActivity.class);
-        intent.putExtra(ImageEditProfilePickerActivity.INTENT_IMAGE_PICKER_OPTION, ImageEditProfilePickerActivity.REQUEST_GALLERY_IMAGE);
-
-        // setting aspect ratio
-        intent.putExtra(ImageEditProfilePickerActivity.INTENT_LOCK_ASPECT_RATIO, true);
-        intent.putExtra(ImageEditProfilePickerActivity.INTENT_ASPECT_RATIO_X, 1); // 16x9, 1x1, 3:4, 3:2
-        intent.putExtra(ImageEditProfilePickerActivity.INTENT_ASPECT_RATIO_Y, 1);
-        startActivityForResult(intent, REQUEST_IMAGE);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        if (requestCode == REQUEST_IMAGE) {
-            if (resultCode == Activity.RESULT_OK) {
-                uri = data.getParcelableExtra("path");
-                Log.d("path", "" + uri);
-
-                try {
-                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), uri);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                loadProfile(uri.toString());
-
-            }
-        }
-    }
-
-    /**
-     * Showing Alert Dialog with Settings option
-     * Navigates user to app settings
-     * NOTE: Keep proper title and message depending on your app
-     */
     private void showSettingsDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(SportsInterestActivity.this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
         builder.setTitle(getString(R.string.dialog_permission_title));
         builder.setMessage(getString(R.string.dialog_permission_message));
         builder.setPositiveButton(getString(R.string.go_to_settings), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel();
-                SportsInterestActivity.this.openSettings();
+                openSettings();
             }
         });
         builder.setNegativeButton(getString(android.R.string.cancel), new DialogInterface.OnClickListener() {
@@ -297,16 +258,62 @@ callSchoolNameData();
     // navigating user to app settings
     private void openSettings() {
         Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-        Uri uri = Uri.fromParts("package", getPackageName(), null);
+        Uri uri = Uri.fromParts("package", mContext.getPackageName(), null);
         intent.setData(uri);
         startActivityForResult(intent, 101);
     }
 
-    private void loadProfile(String url) {
-        Log.d(TAG, "Image cache path: " + url);
-        Utils.setImageInImageView(url, activitySportsInterestBinding.imageuploadImage, mContext);
-//        Picasso.with(mContext).load(url).into(activityEditProfileBinding.profileImage);
+    @AfterPermissionGranted(RC_PHOTO_PICKER_PERM)
+    public void pickPhotoClicked() {
+        if (EasyPermissions.hasPermissions(this, FilePickerConst.PERMISSIONS_FILE_PICKER)) {
+            onPickPhoto();
+        } else {
+            // Ask for one permission
+            EasyPermissions.requestPermissions(this, getString(R.string.rationale_photo_picker),
+                    RC_PHOTO_PICKER_PERM, FilePickerConst.PERMISSIONS_FILE_PICKER);
+        }
     }
+
+    public void onPickPhoto() {
+        int maxCount = MAX_ATTACHMENT_COUNT;
+        FilePickerBuilder.getInstance()
+                .setMaxCount(MAX_ATTACHMENT_COUNT)
+                .setSelectedFiles(photoPaths)
+                .setActivityTheme(R.style.FilePickerTheme)
+                .setActivityTitle("")
+                .enableVideoPicker(false)
+                .enableCameraSupport(true)
+                .showGifs(false)
+                .showFolderView(true)
+                .enableSelectAll(false)
+                .enableImagePicker(true)
+                .withOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
+                .pickPhoto(this, CUSTOM_REQUEST_CODE);
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (resultCode == Activity.RESULT_OK) {
+           if (requestCode == CUSTOM_REQUEST_CODE) {
+                photoPaths = new ArrayList<>();
+                photoPaths.addAll(data.getStringArrayListExtra(FilePickerConst.KEY_SELECTED_MEDIA));
+
+               filePath=photoPaths.get(0);
+                addToView(photoPaths);
+            }
+
+        } else {
+            Log.e("tg", "resultCode = " + resultCode + " data " + data);
+        }
+    }
+
+    public void addToView(ArrayList<String> imagePaths) {
+    Log.d("image pSth :=",imagePaths.get(0));
+        Utils.setGalleryImageInImageView(imagePaths.get(0),activitySportsInterestBinding.imageuploadImage,mContext);
+    }
+
+
 
     public void openSportsSelectionDialog() {
         alreadySelectedSports = new ArrayList<>();
@@ -369,13 +376,15 @@ callSchoolNameData();
         phonenoStr = activitySportsInterestBinding.phoneNoEdt.getText().toString();
         emailStr = activitySportsInterestBinding.emailEdt.getText().toString();
         sportsStr = activitySportsInterestBinding.sportsEdt.getText().toString();
-        countryISOcodeStr=AppConfiguration.currentCountryISOCode;
-        schoolnameStr=activitySportsInterestBinding.schoolNameTxt.getText().toString();
+        countryISOcodeStr = AppConfiguration.currentCountryISOCode;
+        schoolnameStr = activitySportsInterestBinding.schoolNameTxt.getText().toString();
+
 
         Log.d("DataValue", "Name :" + nameStr + "countrycode:" + countryCodeStr
                 + "phone number:" + phonenoStr + "gender:" + genderStr + "sportsId:" + sportsIdStr
                 + "email:" + emailStr + "CountryNAmeCode: " + AppConfiguration.currentCountryISOCode
-                + "schoolname:" +schoolnameStr + "userType:"+usertypeStr);
+                + "schoolname:" + schoolnameStr + "userType:" + usertypeStr + "addedemail: "+addedemailStr
+                +"addedname: "+addednameStr + "entrytype:"+entryTypeStr);
 
         if (!emailStr.equalsIgnoreCase("") && !phonenoStr.equalsIgnoreCase("")) {
             if (!nameStr.equalsIgnoreCase("")) {
@@ -384,12 +393,7 @@ callSchoolNameData();
                         if (countryCodeStr.length() > 0) {
                             if (phonenoStr.length() > 0) {
                                 if (Utils.isValidPhoneNumber(phonenoStr)) {
-//                                    boolean status = Utils.validateUsing_libphonenumber(mContext, countryCodeStr, phonenoStr);
-//                                    if (status) {
-                                        callsubmitIntrestData();
-//                                    } else {
-//                                        activitySportsInterestBinding.phoneNoEdt.setError("Invalid Phone Number");
-//                                    }
+                                    callsubmitIntrestData();
                                 } else {
                                     activitySportsInterestBinding.phoneNoEdt.setError("Invalid Phone Number");
                                 }
@@ -409,8 +413,8 @@ callSchoolNameData();
                 activitySportsInterestBinding.nameEdt.setError("Name is required");
             }
         } else if (emailStr.equalsIgnoreCase("") && phonenoStr.equalsIgnoreCase("")) {
-            countryCodeStr="";
-            countryISOcodeStr="";
+            countryCodeStr = "";
+            countryISOcodeStr = "";
             if (!nameStr.equalsIgnoreCase("")) {
                 callsubmitIntrestData();
             } else {
@@ -421,12 +425,8 @@ callSchoolNameData();
                 if (countryCodeStr.length() > 0) {
                     if (phonenoStr.length() > 0) {
                         if (Utils.isValidPhoneNumber(phonenoStr)) {
-//                            boolean status = Utils.validateUsing_libphonenumber(mContext, countryCodeStr, phonenoStr);
-//                            if (status) {
-                                callsubmitIntrestData();
-//                            } else {
-//                                activitySportsInterestBinding.phoneNoEdt.setError("Invalid Phone Number");
-//                            }
+
+                            callsubmitIntrestData();
                         } else {
                             activitySportsInterestBinding.phoneNoEdt.setError("Invalid Phone Number");
                         }
@@ -440,8 +440,8 @@ callSchoolNameData();
                 activitySportsInterestBinding.nameEdt.setError("Name is required");
             }
         } else if (!emailStr.equalsIgnoreCase("") && phonenoStr.equalsIgnoreCase("")) {
-            countryCodeStr="";
-            countryISOcodeStr="";
+            countryCodeStr = "";
+            countryISOcodeStr = "";
             if (!nameStr.equalsIgnoreCase("")) {
                 if (!emailStr.equalsIgnoreCase("")) {
                     if (Utils.isValidEmailId(emailStr)) {
@@ -467,9 +467,9 @@ callSchoolNameData();
             return;
         }
         MultipartBody.Part body = null;
-        if (uri != null && uri.toString().length() > 0) {
+        if (filePath != null && filePath.toString().length() > 0) {
 
-            String filePath = Utils.getFilePathFromUri(mContext, uri);
+//            String filePath = Utils.getFilePathFromUri(mContext, uri);
 
             mDialog = new ProgressDialog(mContext);
             mDialog.setCancelable(false);
@@ -511,31 +511,35 @@ callSchoolNameData();
         appIdStr = String.valueOf(Utils.getAppUserId(mContext));
         RequestBody appId = RequestBody.create(MediaType.parse("text/plain"), appIdStr);
         RequestBody fullname = RequestBody.create(MediaType.parse("text/plain"), nameStr);
-        RequestBody countryISOCode = RequestBody.create(MediaType.parse("text/plain"),countryISOcodeStr);
+        RequestBody countryISOCode = RequestBody.create(MediaType.parse("text/plain"), countryISOcodeStr);
         RequestBody countycode = RequestBody.create(MediaType.parse("text/plain"), countryCodeStr);
         RequestBody phoneno = RequestBody.create(MediaType.parse("text/plain"), phonenoStr);
         RequestBody gender = RequestBody.create(MediaType.parse("text/plain"), genderStr);
         RequestBody email = RequestBody.create(MediaType.parse("text/plain"), emailStr);
-        RequestBody sports = RequestBody.create(MediaType.parse("text/plaim"), sportsIdStr);
+        RequestBody sports = RequestBody.create(MediaType.parse("text/plain"), sportsIdStr);
         RequestBody schoolname = RequestBody.create(MediaType.parse("text/plain"), schoolnameStr);
-        RequestBody usertype = RequestBody.create(MediaType.parse("text/plaim"), usertypeStr);
+        RequestBody usertype = RequestBody.create(MediaType.parse("text/plain"), usertypeStr);
+        RequestBody entryType = RequestBody.create(MediaType.parse("text/plain"),entryTypeStr);
+        RequestBody addedbyemail = RequestBody.create(MediaType.parse("text/plain"),addedemailStr);
+        RequestBody addedbyname = RequestBody.create(MediaType.parse("text/plain"),addednameStr);
+
 
 //        ShowProgressDialog();
         Call<LogginModel> responseBodyCall = uploadAPIs.insertData(appId, fullname, countryISOCode,
-                countycode, phoneno, gender, email, sports,schoolname,usertype, body);
+                countycode, phoneno, gender, email, sports, schoolname, usertype,entryType,addedbyemail,addedbyname, body);
         Log.d("File", "" + responseBodyCall);
         responseBodyCall.enqueue(new Callback<LogginModel>() {
 
             @Override
             public void onResponse(Call<LogginModel> call, retrofit2.Response<LogginModel> response) {
-                if (uri != null && uri.toString().length() > 0) {
+                if (filePath != null && filePath.toString().length() > 0) {
                     mDialog.dismiss();
                 } else {
                     Utils.dismissDialog();
                 }
                 if (response.body().getIsValid() == 1) {
 //                    showThanyouDialog();
-                    Utils.ping(mContext,"Added Successfully");
+                    Utils.ping(mContext, "Added Successfully");
                     activitySportsInterestBinding.imageuploadImage.setImageResource(R.drawable.proflie);
                     activitySportsInterestBinding.nameEdt.setText("");
                     activitySportsInterestBinding.emailEdt.setText("");
@@ -544,7 +548,7 @@ callSchoolNameData();
                     activitySportsInterestBinding.schoolNameTxt.setText("");
                     activitySportsInterestBinding.genderRg.clearCheck();
                     activitySportsInterestBinding.studentRb.setChecked(true);
-                    usertypeStr="1";
+                    usertypeStr = "1";
                     nameStr = "";
                     genderStr = "0";
                     emailStr = "";
@@ -553,7 +557,7 @@ callSchoolNameData();
                     countryCodeStr = "";
                     sportsIdStr = "";
                     appIdStr = "";
-                    schoolnameStr="";
+                    schoolnameStr = "";
 
                 } else {
                     Utils.ping(mContext, response.body().getMessage());
@@ -566,7 +570,7 @@ callSchoolNameData();
             public void onFailure(Call<LogginModel> call, Throwable t) {
                 Log.d("failure", "message = " + t.getMessage());
                 Log.d("failure", "cause = " + t.getCause());
-                if (uri != null) {
+                if (filePath != null) {
                     mDialog.dismiss();
                 } else {
                     Utils.dismissDialog();
@@ -593,82 +597,7 @@ callSchoolNameData();
         mDialog.setProgress(100);
     }
 
-    public void showThanyouDialog() {
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(mContext);
-        LayoutInflater inflater = getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.thankyou_dialog_sports_item, null);
-        dialogBuilder.setView(dialogView);
-        AlertDialog alertDialog = dialogBuilder.create();
-        alertDialog.setCanceledOnTouchOutside(false);
-        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-        TextView dialog_headertxt = (TextView) dialogView.findViewById(R.id.dialog_headertxt);
-        TextView dialog_descriptiontxt = (TextView) dialogView.findViewById(R.id.dialog_descriptiontxt);
-        TextView yestxt = (TextView) dialogView.findViewById(R.id.yes_txt);
-        TextView notxt = (TextView) dialogView.findViewById(R.id.no_txt);
 
-        dialog_headertxt.setText("Thank you for register your interest");
-        dialog_descriptiontxt.setText(getResources().getString(R.string.register_info));
-
-
-        yestxt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                uri = Uri.parse("");
-                Log.d("retrun uri", uri.toString());
-                activitySportsInterestBinding.imageuploadImage.setImageResource(R.drawable.proflie);
-                activitySportsInterestBinding.nameEdt.setText("");
-                activitySportsInterestBinding.emailEdt.setText("");
-                activitySportsInterestBinding.phoneNoEdt.setText("");
-                activitySportsInterestBinding.sportsEdt.setText("");
-                activitySportsInterestBinding.schoolNameTxt.setText("");
-                activitySportsInterestBinding.genderRg.clearCheck();
-                activitySportsInterestBinding.studentRb.setChecked(true);
-                usertypeStr="1";
-                nameStr = "";
-                genderStr = "0";
-                emailStr = "";
-                phonenoStr = "";
-                sportsStr = "";
-                countryCodeStr = "";
-                sportsIdStr = "";
-                appIdStr = "";
-                schoolnameStr="";
-
-                alertDialog.dismiss();
-
-                if (Utils.retriveLoginData(mContext) != null) {
-                    /*if (Utils.retriveLoginData(mContext).getMemberType().equalsIgnoreCase(",3,")) {
-                        finish();
-                    } else {*/
-                        finish();
-//                    }
-                }
-            }
-        });
-        notxt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    alertDialog.dismiss();
-                    if (Utils.retriveLoginData(mContext) != null) {
-                        Intent userListIntent=new Intent(mContext,DisplaySFAUserActivity.class);
-                        userListIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(userListIntent);
-                        finish();
-                    }
-                } catch (Exception e) {
-
-                }
-            }
-        });
-        try {
-            alertDialog.show();
-        } catch (Exception e) {
-
-        }
-
-    }
 
     // Api calling GetSportsDetailData
     public void callSportsDetailData() {
@@ -724,13 +653,13 @@ callSchoolNameData();
 
     @Override
     public void onBackPressed() {
-        Intent userListIntent=new Intent(mContext,DisplaySFAUserActivity.class);
+        Intent userListIntent = new Intent(mContext, DisplaySFAUserActivity.class);
         userListIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(userListIntent);
         finish();
     }
 
-//    Calling Get the schoolName
+    //    Calling Get the schoolName
     public void callSchoolNameData() {
         if (!Utils.checkNetwork(mContext)) {
             Utils.showCustomDialog(getResources().getString(R.string.internet_error), getResources().getString(R.string.internet_connection_error), SportsInterestActivity.this);
@@ -756,10 +685,10 @@ callSchoolNameData();
                     return;
                 }
                 if (schoolNameModel.getIsValid() == 1) {
-                    if (schoolNameModel.getData()!=null && schoolNameModel.getData().size()>0){
-                        schoolNamearray=new ArrayList<>();
+                    if (schoolNameModel.getData() != null && schoolNameModel.getData().size() > 0) {
+                        schoolNamearray = new ArrayList<>();
 
-                        for (int i=0;i<schoolNameModel.getData().size();i++){
+                        for (int i = 0; i < schoolNameModel.getData().size(); i++) {
                             schoolNamearray.add(schoolNameModel.getData().get(i));
                         }
                         fillSchoolData();
@@ -786,7 +715,7 @@ callSchoolNameData();
     public void fillSchoolData() {
 
         ArrayAdapter adapter = new
-                ArrayAdapter(this,android.R.layout.simple_list_item_1,schoolNamearray);
+                ArrayAdapter(this, android.R.layout.simple_list_item_1, schoolNamearray);
 
         activitySportsInterestBinding.schoolNameTxt.setThreshold(1);
         activitySportsInterestBinding.schoolNameTxt.setAdapter(adapter);

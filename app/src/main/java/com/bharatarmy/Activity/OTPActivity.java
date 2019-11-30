@@ -436,7 +436,7 @@ startSMSListener();
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.otp_img:
-                Utils.handleClickEvent(mContext, activityOtpBinding.otpImg);
+//                Utils.handleClickEvent(mContext, activityOtpBinding.otpImg);
                 getOtpData();
                 break;
             case R.id.back_linear:
@@ -560,8 +560,12 @@ startSMSListener();
             Utils.showCustomDialog(getResources().getString(R.string.internet_error), getResources().getString(R.string.internet_connection_error), OTPActivity.this);
             return;
         }
+        if (OTPActivity.this.getWindow().getDecorView().isShown()) {
 
-        Utils.showDialog(mContext);
+            //Show Your Progress Dialog
+            Utils.showDialog(mContext);
+        }
+
         ApiHandler.getApiService().getSignup(getSignUpData(), new retrofit.Callback<LogginModel>() {
             @Override
             public void success(LogginModel loginModel, Response response) {
@@ -590,35 +594,34 @@ startSMSListener();
                         Utils.storeCurrentLocationData(loginModel.getCurrentLocation(), mContext);
                         Utils.storeLoginOtherData(loginModel.getOtherData(), mContext);
                         /*SFA Screen Goto direct*/
-                        /*if (Utils.retriveLoginData(mContext).getMemberType().equalsIgnoreCase(",3,")){
+                        if (Utils.retriveLoginData(mContext).getMemberType().equalsIgnoreCase(",3,")){
                             Intent SFAintent = new Intent(mContext, DisplaySFAUserActivity.class);
                             startActivity(SFAintent);
                             finish();
-                        }else{*/
+                        }else{
                         if (getIntent().getStringExtra("whereTocomeLogin") != null) {
                             if (getIntent().getStringExtra("whereTocomeLogin").equalsIgnoreCase("more")) {
-                                   /* if (Utils.retriveLoginData(mContext).getMemberType().equalsIgnoreCase(",3,")) {
+                                    if (Utils.retriveLoginData(mContext).getMemberType().equalsIgnoreCase(",3,")) {
                                         Intent SFAintent = new Intent(mContext, DisplaySFAUserActivity.class);
                                         startActivity(SFAintent);
                                         finish();
-                                    } else {*/
+                                    } else {
                                 Intent DashboardIntent = new Intent(mContext, DashboardActivity.class);
-                                DashboardIntent.putExtra("whichPageRun", "4");
+//                                DashboardIntent.putExtra("whichPageRun", "4");
                                 startActivity(DashboardIntent);
                                 finish();
-//                                    }
+                                    }
                             } else {
                                 finish();
                             }
                         } else {
-                            Utils.dismissDialog();
                             Intent DashboardIntent = new Intent(mContext, DashboardActivity.class);
                             AppConfiguration.position = 0;
                             startActivity(DashboardIntent);
                             finish();
                         }
 
-//                        }
+                        }
                     }
 
                 }
@@ -726,5 +729,18 @@ startSMSListener();
     @Override
     public void onOtpTimeout() {
          Utils.ping(mContext,"Timeout");
+    }
+
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Utils.dismissDialog();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Utils.dismissDialog();
     }
 }

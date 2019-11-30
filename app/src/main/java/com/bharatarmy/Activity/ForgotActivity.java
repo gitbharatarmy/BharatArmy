@@ -55,12 +55,12 @@ public class ForgotActivity extends AppCompatActivity {
         activityForgotBinding.submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Utils.handleClickEvent(mContext,activityForgotBinding.submitBtn);
+//                Utils.handleClickEvent(mContext,activityForgotBinding.submitBtn);
                 emailStr = activityForgotBinding.forgotPasswordemailEdt.getText().toString();
-                if (!emailStr.equalsIgnoreCase("")) {
+                if (!emailStr.equalsIgnoreCase("") && Utils.isValidEmailId(emailStr)) {
                     getForgotPassword();
                 } else {
-                    activityForgotBinding.forgotPasswordemailEdt.setError("Please enter email id");
+                    activityForgotBinding.forgotPasswordemailEdt.setError("Please enter valid email id");
                 }
 
 
@@ -72,7 +72,7 @@ public class ForgotActivity extends AppCompatActivity {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     emailStr = activityForgotBinding.forgotPasswordemailEdt.getText().toString();
-                    if (!emailStr.equalsIgnoreCase("")) {
+                    if (!emailStr.equalsIgnoreCase("")&& Utils.isValidEmailId(emailStr)) {
                         getForgotPassword();
                     } else {
                         activityForgotBinding.forgotPasswordemailEdt.setError("Please enter email id");

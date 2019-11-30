@@ -212,7 +212,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                 termconditionDialog();
                 break;
             case R.id.signup_btn:
-                Utils.handleClickEvent(mContext, activitySignUpBinding.signupBtn);
+//                Utils.handleClickEvent(mContext, activitySignUpBinding.signupBtn);
                 getDataValue();
                 break;
             case R.id.close_txt:

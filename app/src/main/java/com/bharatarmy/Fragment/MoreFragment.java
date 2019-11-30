@@ -172,6 +172,7 @@ public class MoreFragment extends Fragment implements View.OnClickListener, Goog
         fragmentMoreBinding.sportsInterestLinear.setOnClickListener(this);
         fragmentMoreBinding.dataEntryLinear.setOnClickListener(this);
         fragmentMoreBinding.settingLinear.setOnClickListener(this);
+        fragmentMoreBinding.certificateLinear.setOnClickListener(this);
     }
 
     @Override
@@ -251,6 +252,7 @@ public class MoreFragment extends Fragment implements View.OnClickListener, Goog
                 startActivity(intent);
                 break;
             case R.id.sports_interest_linear:
+                Utils.setPref(mContext,"entryType","1");
                 Utils.handleClickEvent(mContext, fragmentMoreBinding.sportsInterestLinear);
                 Intent sportsintent = new Intent(mContext, DisplaySFAUserActivity.class);
                 sportsintent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -267,6 +269,13 @@ public class MoreFragment extends Fragment implements View.OnClickListener, Goog
                 Intent settingeIntent = new Intent(mContext, ProfileSettingActivity.class);
                 settingeIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(settingeIntent);
+                break;
+            case R.id.certificate_linear:
+                Utils.setPref(mContext,"entryType","2");
+                Utils.handleClickEvent(mContext, fragmentMoreBinding.sportsInterestLinear);
+                Intent certificateintent = new Intent(mContext, DisplaySFAUserActivity.class);
+                certificateintent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(certificateintent);
                 break;
         }
     }
@@ -294,6 +303,7 @@ public class MoreFragment extends Fragment implements View.OnClickListener, Goog
                             Utils.setPref(mContext, "IsSkipLogin", "");
                             Utils.setPref(mContext, "IsLoginUser", "");
                             Utils.setPref(mContext, "UserName", "");
+                            Utils.setPref(mContext,"entryType","");
                             Utils.ping(mContext, "You are logout suceessfully");
                             Intent ilogin = new Intent(mContext, AppLoginActivity.class);  //LoginwithEmailActivity
                             ilogin.putExtra("whereTocomeLogin", "more");
@@ -325,6 +335,7 @@ public class MoreFragment extends Fragment implements View.OnClickListener, Goog
                 Utils.setPref(mContext, "IsSkipLogin", "");
                 Utils.setPref(mContext, "IsLoginUser", "");
                 Utils.setPref(mContext, "UserName", "");
+                Utils.setPref(mContext,"entryType","");
                 Utils.ping(mContext, "You are logout suceessfully");
                 Intent ilogin = new Intent(mContext, AppLoginActivity.class);  //LoginwithEmailActivity
                 ilogin.putExtra("whereTocomeLogin", "more");
@@ -342,6 +353,7 @@ public class MoreFragment extends Fragment implements View.OnClickListener, Goog
         Utils.setPref(mContext, "IsSkipLogin", "");
         Utils.setPref(mContext, "IsLoginUser", "");
         Utils.setPref(mContext, "UserName", "");
+        Utils.setPref(mContext,"entryType","");
         Utils.ping(mContext, "You are logout suceessfully");
         Intent ilogin = new Intent(mContext, AppLoginActivity.class);  //LoginwithEmailActivity
         ilogin.putExtra("whereTocomeLogin", "more");

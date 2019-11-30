@@ -33,7 +33,7 @@ public class VideoTrimActivity extends AppCompatActivity implements View.OnClick
     Context mContext;
     Uri selectedUri;
     private static final int REQUEST_VIDEO_TRIMMER = 0x01;
-
+    private ProgressDialog mProgressDialog;
     String videoPath;
     String path = "";
     int maxDuration = 10;
@@ -54,14 +54,6 @@ public class VideoTrimActivity extends AppCompatActivity implements View.OnClick
         videoPath=getIntent().getStringExtra("videoPath");
         selectedUri= Uri.parse(videoPath);
         if (selectedUri != null) {
-//path= String.valueOf(selectedUri);
-//  path="/storage/document/acc%3D5%3Bdoc%3Dencoded%3DGxp3HRXcy3e7ezTNlEqQRay%2Ba78GzKJhJBW7dpG%2B%2BQLGumwl45f3kg%3D%3D";
-
-//            if (videoPath.contains("content://com.google.android.apps.docs")){
-//                path= String.valueOf(selectedUri);
-//            }else{
-
-//            }
 
             path = FileUtils.getPath(this, selectedUri);
             maxDuration = getMediaDuration(selectedUri);
@@ -190,7 +182,9 @@ public class VideoTrimActivity extends AppCompatActivity implements View.OnClick
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.submit_linear:
-                Utils.handleClickEvent(mContext,activityVideoTrimBinding.submitLinear);
+                showProgressDialog();
+//                Utils.showCustomDialog(getResources().getString(R.string.internet_error), getResources().getString(R.string.loading), VideoTrimActivity.this);
+//                Utils.handleClickEvent(mContext,activityVideoTrimBinding.submitLinear);
                 File f = new File(path);
                 findsize = f.length() / 1024;
                 Log.d("Videopath", path);
@@ -201,6 +195,7 @@ public class VideoTrimActivity extends AppCompatActivity implements View.OnClick
                 intentVideoUpload.putExtra("videoheight",videoHeight);
                 intentVideoUpload.putExtra("videowidth",videoWidth);
                 startActivity(intentVideoUpload);
+//                Utils.dismissDialog();
                 finish();
                 break;
 
@@ -209,4 +204,16 @@ public class VideoTrimActivity extends AppCompatActivity implements View.OnClick
                 break;
         }
     }
+
+
+    private void showProgressDialog() {
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(this);
+            mProgressDialog.setMessage(getString(R.string.loading));
+            mProgressDialog.setIndeterminate(true);
+        }
+
+        mProgressDialog.show();
+    }
+
 }

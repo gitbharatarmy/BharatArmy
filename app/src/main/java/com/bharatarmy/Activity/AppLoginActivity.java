@@ -305,7 +305,7 @@ public class AppLoginActivity extends AppCompatActivity implements View.OnClickL
                 break;
 
             case R.id.loginwithgoogle_linear:
-                Utils.handleClickEvent(mContext, activityAppLoginBinding.loginwithgoogleLinear);
+//                Utils.handleClickEvent(mContext, activityAppLoginBinding.loginwithgoogleLinear);
                 showProgressDialog();
                 Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
                 startActivityForResult(signInIntent, RC_SIGN_IN);
@@ -536,7 +536,7 @@ public class AppLoginActivity extends AppCompatActivity implements View.OnClickL
                         if (getIntent().getStringExtra("whereTocomeLogin") != null) {
                             if (getIntent().getStringExtra("whereTocomeLogin").equalsIgnoreCase("more")) {
                                 Intent DashboardIntent = new Intent(mContext, DashboardActivity.class);
-                                DashboardIntent.putExtra("whichPageRun", "4");
+//                                DashboardIntent.putExtra("whichPageRun", "4");
                                 startActivity(DashboardIntent);
                                 finish();
                             } else {

@@ -24,7 +24,7 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_weight="0.85"
                 android:layout_marginLeft="@dimen/_5sdp"
                 android:orientation="vertical">
 
@@ -65,6 +65,18 @@
                     android:layout_marginBottom="@dimen/_5sdp"/>
             </LinearLayout>
 
+            <RelativeLayout
+                android:id="@+id/download_pdf"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.15">
+                <ImageView
+                    android:layout_width="@dimen/_15sdp"
+                    android:layout_height="@dimen/_15sdp"
+                    android:src="@drawable/ic_download"
+                    android:layout_centerInParent="true"
+                    android:tint="@color/heading_bg"/>
+            </RelativeLayout>
         </LinearLayout>
         <View
             android:layout_width="match_parent"

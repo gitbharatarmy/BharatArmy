@@ -117,7 +117,7 @@ public class LoginwithEmailActivity extends AppCompatActivity implements View.On
                 finish();
                 break;
             case R.id.loggin_btn:
-                Utils.handleClickEvent(mContext, loginBinding.logginBtn);
+//                Utils.handleClickEvent(mContext, loginBinding.logginBtn);
                 verifyLoginDetails();
                 break;
             case R.id.forgot_txt:
@@ -222,29 +222,29 @@ public class LoginwithEmailActivity extends AppCompatActivity implements View.On
         if (getIntent().getStringExtra("whereTocomeLogin") != null) {
             if (getIntent().getStringExtra("whereTocomeLogin").equalsIgnoreCase("more")) {
                 /*Direct goto SFA Screen*/
-                /*if (Utils.retriveLoginData(mContext).getMemberType().equalsIgnoreCase(",3,")) {
+                if (Utils.retriveLoginData(mContext).getMemberType().equalsIgnoreCase(",3,")) {
                     Intent SFAintent = new Intent(mContext, DisplaySFAUserActivity.class);
                     startActivity(SFAintent);
                     finish();
-                } else {*/
+                } else {
                     Intent DashboardIntent = new Intent(mContext, DashboardActivity.class);
-                    DashboardIntent.putExtra("whichPageRun", "4");
+//                    DashboardIntent.putExtra("whichPageRun", "4");
                     startActivity(DashboardIntent);
                     finish();
-//                }
+                }
             } else {
                 finish();
             }
         } else {
-            /*if (Utils.retriveLoginData(mContext).getMemberType().equalsIgnoreCase(",3,")) {
+            if (Utils.retriveLoginData(mContext).getMemberType().equalsIgnoreCase(",3,")) {
                 Intent SFAintent = new Intent(mContext, DisplaySFAUserActivity.class);
                 startActivity(SFAintent);
                 finish();
-            } else {*/
+            } else {
                 Intent DashboardIntent = new Intent(mContext, DashboardActivity.class);
                 startActivity(DashboardIntent);
                 finish();
-//            }
+            }
 
         }
     }

@@ -336,7 +336,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
                 backActivity();
                 break;
             case R.id.save_btn:
-                Utils.handleClickEvent(mContext, activityEditProfileBinding.saveBtn);
+//                Utils.handleClickEvent(mContext, activityEditProfileBinding.saveBtn);
                 getUpdateData();
                 break;
             case R.id.cancel_btn:

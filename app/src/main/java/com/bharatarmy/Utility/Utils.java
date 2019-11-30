@@ -207,7 +207,6 @@ public class Utils {
         if (dialog != null) {
             if (dialog.isShowing()) {
                 dialog.dismiss();
-
                 dialog = null;
             }
 
@@ -444,12 +443,6 @@ public class Utils {
 
     }
 
-    public static boolean isBackGroundWorkAllowed(Context context) {
-        int storagePermissionGranted = ContextCompat.checkSelfPermission(context,
-                Manifest.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
-        return storagePermissionGranted == PackageManager.PERMISSION_GRANTED;
-    }
-
     @SuppressLint("NewApi")
     public static void checkPermission(Activity activity, String permissionString, int permissionCode) {
         if ((android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.M) || activity.getApplicationContext() == null)
@@ -581,7 +574,7 @@ public class Utils {
                         activity.finish();
                     } else if (wheretocome.equalsIgnoreCase("changePassword|InApp")) {
                         Intent dashboardIntent = new Intent(activity, DashboardActivity.class);
-                        dashboardIntent.putExtra("whichPageRun", "4");
+//                        dashboardIntent.putExtra("whichPageRun", "4");
                         activity.startActivity(dashboardIntent);
                         activity.finish();
                     } else if (wheretocome.equalsIgnoreCase("changePassword|finishApp")) {
@@ -841,7 +834,7 @@ public class Utils {
         mMMR.setDataSource(filePath);
         int timeInSeconds =1;
         //api time unit is microseconds                 *1000000
-        return mMMR.getFrameAtTime(timeInSeconds*1000, MediaMetadataRetriever.OPTION_CLOSEST_SYNC);
+        return mMMR.getFrameAtTime(timeInSeconds*1000000, MediaMetadataRetriever.OPTION_CLOSEST_SYNC);
     }
 
     public static File saveBitmap(Bitmap bitmap, String name, Context mContext) {
@@ -870,7 +863,7 @@ public class Utils {
                 Log.d("clickresult", "resend1");
 
             }
-        }, 10000);
+        }, 1000);
     }
 
 
@@ -978,7 +971,27 @@ public class Utils {
         }
         return id;
     }
+    public static String getAppUserEmail(Context mContext) {
+       String email="";
 
+        if (Utils.retriveLoginData(mContext) != null) {
+            email = Utils.retriveLoginData(mContext).getEmail();
+        } else {
+            email = "";
+        }
+        return email;
+    }
+
+    public static String getAppUserName(Context mContext) {
+        String name="";
+
+        if (Utils.retriveLoginData(mContext) != null) {
+            name = Utils.retriveLoginData(mContext).getName();
+        } else {
+            name = "";
+        }
+        return name;
+    }
     public static void InsertLike(Context mContext, Activity activity) { //, int MemberId, int ReferenceId, int LikeStatus, int SourceType
 
         if (!Utils.checkNetwork(mContext)) {

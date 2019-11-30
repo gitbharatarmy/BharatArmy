@@ -67,7 +67,7 @@ public class ProfileChangePasswordActivity extends AppCompatActivity {
         activityProfileChangePasswordBinding.submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Utils.handleClickEvent(mContext, activityProfileChangePasswordBinding.submitBtn);
+//                Utils.handleClickEvent(mContext, activityProfileChangePasswordBinding.submitBtn);
                 getChangePasswordFillData();
             }
         });

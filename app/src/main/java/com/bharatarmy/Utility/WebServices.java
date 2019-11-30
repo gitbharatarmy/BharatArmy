@@ -129,6 +129,8 @@ public interface WebServices {
                                  @Part("PhoneNo") RequestBody phoneno, @Part("Gender") RequestBody gender,
                                  @Part("Email") RequestBody email, @Part("InterestedSports") RequestBody interestedsports,
                                  @Part("SchoolName") RequestBody schoolname, @Part("UserType") RequestBody usertype,
+                                 @Part("EntryType") RequestBody entrytype,@Part("AddedByEmailId") RequestBody addedbyemailid,
+                                 @Part("AddedByName") RequestBody addedbyname,
                                  @Part MultipartBody.Part file);
 
     /* gallery image/video uploading with multiple parameter */

@@ -127,6 +127,7 @@ public class ImageDetailModel implements Serializable {
     public void setIsLike(Integer isLike) {
         this.isLike = isLike;
     }
+
     //Story Detail Model
     @SerializedName("AuthorImageURL")
     @Expose
@@ -766,7 +767,7 @@ public class ImageDetailModel implements Serializable {
     }
 
 
-//    Video Gallery
+    //    Video Gallery
     @SerializedName("BAVideoGalleryId")
     @Expose
     private Integer bAVideoGalleryId;
@@ -904,7 +905,7 @@ public class ImageDetailModel implements Serializable {
     }
 
 
-//    comment Detail
+    //    comment Detail
     @SerializedName("MemberProfileURL")
     @Expose
     private String memberProfileURL;
@@ -1131,7 +1132,7 @@ public class ImageDetailModel implements Serializable {
     }
 
 
-//    Get States and City
+    //    Get States and City
     @SerializedName("Id")
     @Expose
     private Integer id;
@@ -1166,10 +1167,10 @@ public class ImageDetailModel implements Serializable {
         this.selected = selected;
     }
 
-//    get Added User data
-@SerializedName("BAMemberId")
-@Expose
-private Integer bAMemberId;
+    //    get Added User data
+    @SerializedName("BAMemberId")
+    @Expose
+    private Integer bAMemberId;
     @SerializedName("MemberEmail")
     @Expose
     private String memberEmail;
@@ -1190,10 +1191,10 @@ private Integer bAMemberId;
         this.memberEmail = memberEmail;
     }
 
-//    get SFA User data
-@SerializedName("DataBankId")
-@Expose
-private Integer dataBankId;
+    //    get SFA User data
+    @SerializedName("DataBankId")
+    @Expose
+    private Integer dataBankId;
     @SerializedName("FirstName")
     @Expose
     private String firstName;
@@ -1212,6 +1213,9 @@ private Integer dataBankId;
     @SerializedName("ProfilePicUrl")
     @Expose
     private String profilePicUrl;
+    @SerializedName("EntryType")
+    @Expose
+    private String entryType;
 
     public Integer getDataBankId() {
         return dataBankId;
@@ -1260,11 +1264,20 @@ private Integer dataBankId;
     public void setOtherValueText(String otherValueText) {
         this.otherValueText = otherValueText;
     }
+
     public String getProfilePicUrl() {
         return profilePicUrl;
     }
 
     public void setProfilePicUrl(String profilePicUrl) {
         this.profilePicUrl = profilePicUrl;
+    }
+
+    public String getEntryType() {
+        return entryType;
+    }
+
+    public void setEntryType(String entryType) {
+        this.entryType = entryType;
     }
 }

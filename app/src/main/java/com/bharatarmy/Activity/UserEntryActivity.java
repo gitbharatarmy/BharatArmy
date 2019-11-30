@@ -154,9 +154,9 @@ activityUserEntryBinding.backImg.setOnClickListener(this);
                     return;
                 }
                 if (userDataModel.getIsValid() == 1) {
-                       if (userDataModel.getData().getBAMemberId()<0){
-                           Utils.ping(mContext,userDataModel.getData().getMemberName());
-                       }else {
+//                       if (userDataModel.getData().getBAMemberId()<0){
+//                           Utils.ping(mContext,userDataModel.getData().getMemberName());
+//                       }else {
                            Utils.ping(mContext,"Sucessfully enter");
                            activityUserEntryBinding.nameEdt.setText("");
                            activityUserEntryBinding.emailEdt.setText("");
@@ -166,7 +166,7 @@ activityUserEntryBinding.backImg.setOnClickListener(this);
                            userListIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_SINGLE_TOP|Intent.FLAG_ACTIVITY_CLEAR_TOP);
                            startActivity(userListIntent);
                            finish();
-                       }
+//                       }
                 }
             }
 
