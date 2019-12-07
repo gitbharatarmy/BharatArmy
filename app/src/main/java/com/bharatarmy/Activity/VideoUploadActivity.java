@@ -8,7 +8,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -64,8 +63,6 @@ public class VideoUploadActivity extends AppCompatActivity implements View.OnCli
         videoWidthStr = getIntent().getStringExtra("videowidth");
 
         if (!pathStr.equalsIgnoreCase("")) {
-//            activityVideoUploadBinding.chooseVideo.setImageBitmap(Utils.createVideoThumbNail(pathStr));
-//            activityVideoUploadBinding.chooseVideo.setImageBitmap(Utils.createImageThumbNail(Utils.getBitmap(pathStr)));
             if (Utils.createThumbnailAtTime(pathStr)!=null){
                 activityVideoUploadBinding.chooseVideo.setImageBitmap(Utils.createThumbnailAtTime(pathStr));
             }else{
@@ -200,10 +197,10 @@ public class VideoUploadActivity extends AppCompatActivity implements View.OnCli
 //                            Utils.ping(mContext, "video can't support");
 //                        }
                     } else {
-                        activityVideoUploadBinding.videoTitleEdt.setError("please enter video description");
+                        activityVideoUploadBinding.videodescEdt.setError("please enter video description");
                     }
                 } else {
-                    activityVideoUploadBinding.videodescEdt.setError("please enter video title");
+                    activityVideoUploadBinding.videoTitleEdt.setError("please enter video title");
                 }
                 break;
             case R.id.picture_choose_linear:

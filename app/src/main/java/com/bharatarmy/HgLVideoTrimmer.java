@@ -316,10 +316,24 @@ public class HgLVideoTrimmer extends FrameLayout {
         }
     }
 
+//    private String getDestinationPath() {
+//        if (mFinalPath == null) {
+//            File folder = Environment.getExternalStorageDirectory();
+//            mFinalPath = folder.getPath() + File.separator;
+//            Log.d(TAG, "Using default path " + mFinalPath);
+//        }
+//        return mFinalPath;
+//    }
+
     private String getDestinationPath() {
         if (mFinalPath == null) {
-            File folder = Environment.getExternalStorageDirectory();
-            mFinalPath = folder.getPath() + File.separator;
+//            File folder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+//            mFinalPath = folder.getPath()+ "BharatArmy" + File.separator;
+
+            File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "BharatArmy");
+            if (!file.exists()) file.mkdirs();
+            File image = new File(file,"BharatArmyVideo");
+             mFinalPath =image.getPath()+File.separator;
             Log.d(TAG, "Using default path " + mFinalPath);
         }
         return mFinalPath;

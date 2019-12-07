@@ -160,6 +160,8 @@
     <string name="photo_public_option_sub_txt" translatable="false">Anyone see your picture</string>
     <string name="photo_private_option_header_txt" translatable="false">Private</string>
     <string name="photo_private_option_sub_txt" translatable="false">No one see your picture</string>
+    <string name="remove_image" translatable="false"><u>Remove</u></string>
+    <string name="image_select_limit" translatable="false">Cannot select more than 20 items</string>
 
     <!--History Screen String-->
     <string name="history_title_txt" translatable="false">Bharat Army Booking History</string>
@@ -352,7 +354,7 @@ Sincerity is the hallmark of Pan Pacific Hotels Group. The Group is known to its
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
 
-    <string name="remove_image" translatable="false"><u>Remove</u></string>
+
     <string name="default_notification_channel_id" translatable="false">Channel ID</string>
     <string name="default_notification_channel_title" translatable="false">Title</string>
     <!--google web client id-->

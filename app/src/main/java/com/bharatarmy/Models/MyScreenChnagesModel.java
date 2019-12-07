@@ -12,6 +12,9 @@ public class MyScreenChnagesModel {
     String privacyimage;
     String privacyname;
 
+    String updateprofile;
+    String screen;
+
 
     public MyScreenChnagesModel(String message){
         this.message=message;
@@ -73,4 +76,6 @@ public class MyScreenChnagesModel {
     public void setPrivacyname(String privacyname) {
         this.privacyname = privacyname;
     }
+
+
 }

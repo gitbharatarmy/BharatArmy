@@ -1,9 +1,11 @@
 package com.bharatarmy.Activity;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Environment;
 import android.os.StrictMode;
 import android.os.Bundle;
 import android.util.Log;
@@ -49,7 +51,7 @@ public class GalleryImageDetailActivity extends BaseActivity implements View.OnC
     int currentVisibleItem, showPositionImage;
     Uri uri;
     String imageNameStr;
-
+    private ProgressDialog mProgressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -238,6 +240,7 @@ public class GalleryImageDetailActivity extends BaseActivity implements View.OnC
 
 
     public void shareImage() {
+        showProgressDialog();
         String imageUriStr = "";
         showPositionImage = linearLayoutManager.findFirstCompletelyVisibleItemPosition();
         for (int i = 0; i < imageList.size(); i++) {
@@ -247,13 +250,15 @@ public class GalleryImageDetailActivity extends BaseActivity implements View.OnC
             }
         }
         //Use for Internal Storage file
-        File myDir = new File(getExternalCacheDir(), "camera");
-        myDir.mkdirs();
-        Random generator = new Random();
-        int n = 10000;
-        n = generator.nextInt(n);
-        String fname = "Image-" + n + ".jpg";
-        File file = new File(myDir, fname);
+
+        File myDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "BharatArmy");
+        if (!myDir.exists()) myDir.mkdirs();
+//        Random generator = new Random();
+//        int n = 10000;
+//        n = generator.nextInt(n);
+//        String fname = "Image-" + n + ".jpg";
+        String fname ="IMG_"+Utils.imagesaveDate()+"_BA"+Utils.imagesavetime()+".jpg";
+        File file = new File(myDir,fname ); //Utils.camerafilesavepath()
         Log.i("file", "" + file);
         if (file.exists())
             file.delete();
@@ -265,6 +270,7 @@ public class GalleryImageDetailActivity extends BaseActivity implements View.OnC
         } catch (Exception e) {
             e.printStackTrace();
         }
+        hideProgressDialog();
         //share image from other application
         Intent shareIntent = new Intent();
         shareIntent.setAction(Intent.ACTION_SEND);
@@ -274,5 +280,28 @@ public class GalleryImageDetailActivity extends BaseActivity implements View.OnC
         shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         startActivity(Intent.createChooser(shareIntent, "Share It"));
     }
+    private void showProgressDialog() {
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(this);
+            mProgressDialog.setMessage(getString(R.string.loading));
+            mProgressDialog.setIndeterminate(true);
+        }
 
+        mProgressDialog.show();
+    }
+
+    private void hideProgressDialog() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.hide();
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if ((mProgressDialog != null) && mProgressDialog.isShowing()) {
+            mProgressDialog.dismiss();
+            mProgressDialog = null;
+        }
+    }
 }

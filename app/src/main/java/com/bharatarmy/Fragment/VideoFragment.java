@@ -140,7 +140,7 @@ public class VideoFragment extends Fragment {
         rootView = fragmentVideoBinding.getRoot();
         mContext = getActivity().getApplicationContext();
 //        EventBus.getDefault().register(this);
-        ImageEditProfilePickerActivity.clearCache(mContext);
+
         setUserVisibleHint(true);
         return rootView;
     }

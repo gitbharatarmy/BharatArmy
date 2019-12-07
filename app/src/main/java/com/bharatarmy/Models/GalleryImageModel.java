@@ -1,5 +1,7 @@
 package com.bharatarmy.Models;
 
+import java.util.Objects;
+
 public class GalleryImageModel {
 
     private String imageUri;
@@ -13,11 +15,7 @@ public class GalleryImageModel {
     private String videoHeight;
     private String videoWidth;
 
-    String commentuserName;
-    String commenttime;
-    String commentText;
-    String commentLikes;
-    String commentLikesTotal;
+
 
 
     String imageStr;
@@ -94,6 +92,8 @@ public class GalleryImageModel {
         this.videoHeight=videoHeight;
         this.videoWidth=videoWidth;
     }
+
+
 
     public GalleryImageModel(int id, String imageUri, String imageSize, String uploadcompelet,String videolength,String fileType,
                              String videoTitle,String videoDesc,String videoHeight,String videoWidth) {
@@ -189,52 +189,18 @@ public class GalleryImageModel {
         this.videolength = videolength;
     }
 
-    public GalleryImageModel(String commentuserName, String commenttime, String commentText,
-                             String commentLikes, String commentLikesTotal) {
-        this.commentuserName = commentuserName;
-        this.commenttime = commenttime;
-        this.commentText = commentText;
-        this.commentLikes = commentLikes;
-        this.commentLikesTotal = commentLikesTotal;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        GalleryImageModel that = (GalleryImageModel) o;
+        return id == that.id &&
+                Objects.equals(imageUri, that.imageUri);
     }
 
-    public String getCommentuserName() {
-        return commentuserName;
-    }
-
-    public void setCommentuserName(String commentuserName) {
-        this.commentuserName = commentuserName;
-    }
-
-    public String getCommenttime() {
-        return commenttime;
-    }
-
-    public void setCommenttime(String commenttime) {
-        this.commenttime = commenttime;
-    }
-
-    public String getCommentText() {
-        return commentText;
-    }
-
-    public void setCommentText(String commentText) {
-        this.commentText = commentText;
-    }
-
-    public String getCommentLikes() {
-        return commentLikes;
-    }
-
-    public void setCommentLikes(String commentLikes) {
-        this.commentLikes = commentLikes;
-    }
-
-    public String getCommentLikesTotal() {
-        return commentLikesTotal;
-    }
-
-    public void setCommentLikesTotal(String commentLikesTotal) {
-        this.commentLikesTotal = commentLikesTotal;
+    @Override
+    public int hashCode() {
+        return Objects.hash(imageUri);
     }
 }

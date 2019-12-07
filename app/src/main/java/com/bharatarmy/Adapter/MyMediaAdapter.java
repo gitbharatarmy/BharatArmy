@@ -3,6 +3,7 @@ package com.bharatarmy.Adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,9 +64,10 @@ public class MyMediaAdapter extends RecyclerView.Adapter<MyMediaAdapter.MyViewHo
             if (!Utils.getPref(mContext, "image/video").equalsIgnoreCase("video")) {
                 Utils.setGalleryImageInImageView(detailgallery.getImageUri(), holder.myMediaListItemBinding.uploadImage, mContext);
             } else {
-                File f=new File(detailgallery.getImageUri());
-                if (Utils.createThumbnailAtTime(f.toString())!=null){
-                    holder.myMediaListItemBinding.uploadImage.setImageBitmap(Utils.createThumbnailAtTime(f.toString()));
+//                File f=new File(detailgallery.getImageUri());
+                Log.d("MymediaimageUri:",detailgallery.getImageUri());
+                if (Utils.createThumbnailAtTime(detailgallery.getImageUri())!=null){
+                    holder.myMediaListItemBinding.uploadImage.setImageBitmap(Utils.createThumbnailAtTime(detailgallery.getImageUri()));
                 }else{
                     holder.myMediaListItemBinding.uploadImage.setImageResource(R.drawable.proflie);
                 }

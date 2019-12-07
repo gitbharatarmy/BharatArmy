@@ -20,6 +20,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import com.bharatarmy.R;
+import com.bharatarmy.Utility.Utils;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
@@ -120,8 +121,9 @@ public class ImageEditProfilePickerActivity extends AppCompatActivity {
                     public void onPermissionsChecked(MultiplePermissionsReport report) {
                         if (report.areAllPermissionsGranted()) {
 
-                            fileName = System.currentTimeMillis() + ".jpg";
-//                            fileName = String.format("Images %d.jpg", System.currentTimeMillis());
+//                            fileName = System.currentTimeMillis() + ".jpg";
+//                            fileName = String.format("Profile-Images-%d.jpg", System.currentTimeMillis());
+                            fileName = "IMG_"+Utils.imagesaveDate()+"_BA"+Utils.imagesavetime()+".jpg";
                             Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                             takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, getCacheImagePath(fileName));
                             if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
@@ -233,20 +235,20 @@ public class ImageEditProfilePickerActivity extends AppCompatActivity {
         finish();
     }
 
-    private Uri getCacheImagePath(String fileName) {
-        File path = new File(getExternalCacheDir(), "camera");
-        if (!path.exists()) path.mkdirs();
-        File image = new File(path, fileName);
-        return getUriForFile(ImageEditProfilePickerActivity.this, getPackageName() + ".provider", image);
-    }
-
 //    private Uri getCacheImagePath(String fileName) {
-//        File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "BharatArmy");
-//        if (!file.exists()) file.mkdirs();
-//        File image = new File(file, fileName);
-//
+//        File path = new File(getExternalCacheDir(), "camera");
+//        if (!path.exists()) path.mkdirs();
+//        File image = new File(path, fileName);
 //        return getUriForFile(ImageEditProfilePickerActivity.this, getPackageName() + ".provider", image);
 //    }
+
+    private Uri getCacheImagePath(String fileName) {
+        File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "BharatArmy");
+        if (!file.exists()) file.mkdirs();
+        File image = new File(file, fileName);
+
+        return getUriForFile(ImageEditProfilePickerActivity.this, getPackageName() + ".provider", image);
+    }
 
     private static String queryName(ContentResolver resolver, Uri uri) {
         Cursor returnCursor =
@@ -263,13 +265,13 @@ public class ImageEditProfilePickerActivity extends AppCompatActivity {
      * Calling this will delete the images from cache directory
      * useful to clear some memory
      */
-    public static void clearCache(Context context) {
+  /*  public static void clearCache(Context context) {
         File path = new File(context.getExternalCacheDir(), "camera");
         if (path.exists() && path.isDirectory()) {
             for (File child : path.listFiles()) {
                 child.delete();
             }
         }
-    }
+    }*/
 
 }

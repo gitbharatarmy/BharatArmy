@@ -125,7 +125,7 @@ public class AlbumFragment extends Fragment {
 
         rootView = fragmentAlbumBinding.getRoot();
         mContext = getActivity().getApplicationContext();
-        ImageEditProfilePickerActivity.clearCache(mContext);
+
         setUserVisibleHint(true);
         return rootView;
     }

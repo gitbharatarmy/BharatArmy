@@ -73,6 +73,7 @@ public class MyMediaActivity extends AppCompatActivity implements View.OnClickLi
 
         if (dbHandler.getMediaImageData() != null && dbHandler.getMediaImageData().size() > 0) {
             galleryimage = dbHandler.getMediaImageData();
+            Log.d("galleryimage :",""+galleryimage.size());
             if (galleryimage != null && galleryimage.size() > 0) {
                 activityMyMediaBinding.showMediaRcv.setVisibility(View.VISIBLE);
                 activityMyMediaBinding.noRecordrel.setVisibility(View.GONE);

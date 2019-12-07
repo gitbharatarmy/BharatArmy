@@ -1216,6 +1216,24 @@ public class ImageDetailModel implements Serializable {
     @SerializedName("EntryType")
     @Expose
     private String entryType;
+    @SerializedName("strId")
+    @Expose
+    private Object strId;
+    @SerializedName("value")
+    @Expose
+    private Object value;
+    @SerializedName("label")
+    @Expose
+    private Object label;
+    @SerializedName("graphbackcolor")
+    @Expose
+    private Object graphbackcolor;
+    @SerializedName("Text")
+    @Expose
+    private String text;
+    @SerializedName("Price")
+    @Expose
+    private Object price;
 
     public Integer getDataBankId() {
         return dataBankId;
@@ -1279,5 +1297,54 @@ public class ImageDetailModel implements Serializable {
 
     public void setEntryType(String entryType) {
         this.entryType = entryType;
+    }
+
+
+    public Object getStrId() {
+        return strId;
+    }
+
+    public void setStrId(Object strId) {
+        this.strId = strId;
+    }
+
+    public Object getValue() {
+        return value;
+    }
+
+    public void setValue(Object value) {
+        this.value = value;
+    }
+
+    public Object getLabel() {
+        return label;
+    }
+
+    public void setLabel(Object label) {
+        this.label = label;
+    }
+
+    public Object getGraphbackcolor() {
+        return graphbackcolor;
+    }
+
+    public void setGraphbackcolor(Object graphbackcolor) {
+        this.graphbackcolor = graphbackcolor;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public Object getPrice() {
+        return price;
+    }
+
+    public void setPrice(Object price) {
+        this.price = price;
     }
 }

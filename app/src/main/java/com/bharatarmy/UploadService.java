@@ -52,8 +52,9 @@ public class UploadService extends IntentService implements ProgressRequestBody.
     private NotificationManager notifManager;
     DbHandler db;
     String fileTypeId;
-    RequestBody appuserId, filetypeId, memberName,videoLength,videoTitle,videoDesc,videoHeight,videoWidth;
+    RequestBody appuserId, filetypeId, memberName, videoLength, videoTitle, videoDesc, videoHeight, videoWidth;
     Call<LogginModel> call;
+
     public UploadService() {
         super("UploadService");
     }
@@ -61,7 +62,7 @@ public class UploadService extends IntentService implements ProgressRequestBody.
     // will be called asynchronously by Android
     @Override
     protected void onHandleIntent(Intent intent) {
-        Utils.clearCache(getApplicationContext());
+
         db = new DbHandler(getApplicationContext());
         if (Utils.UpladingFiles == null) {
             Utils.UpladingFiles = new ArrayList<>();
@@ -70,9 +71,9 @@ public class UploadService extends IntentService implements ProgressRequestBody.
 
         if (Utils.UpladingFiles != null && Utils.UpladingFiles.size() > 0) {
 
-            createNotification(AppConfiguration.notificationtitle,getApplicationContext());
+            createNotification(AppConfiguration.notificationtitle, getApplicationContext());
             UploadFiles(Utils.UpladingFiles.get(0)); //, intent
-        }else{
+        } else {
             stopSelf();
         }
     }
@@ -88,19 +89,21 @@ public class UploadService extends IntentService implements ProgressRequestBody.
         memberName = RequestBody.create(MediaType.parse("text/plain"), Utils.retriveLoginData(getApplicationContext()).getName());
         appuserId = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(Utils.getAppUserId(getApplicationContext())));
         videoLength = RequestBody.create(MediaType.parse("text/plain"), objfile.getVideolength());
-        videoTitle=RequestBody.create(MediaType.parse("text/plain"),objfile.getVideoTitle());
-        videoDesc=RequestBody.create(MediaType.parse("text/plain"),objfile.getVideoDesc());
-        videoHeight=RequestBody.create(MediaType.parse("text/plain"),objfile.getVideoHeight());
-        videoWidth=RequestBody.create(MediaType.parse("text/plain"),objfile.getVideoWidth());
+        videoTitle = RequestBody.create(MediaType.parse("text/plain"), objfile.getVideoTitle());
+        videoDesc = RequestBody.create(MediaType.parse("text/plain"), objfile.getVideoDesc());
+        videoHeight = RequestBody.create(MediaType.parse("text/plain"), objfile.getVideoHeight());
+        videoWidth = RequestBody.create(MediaType.parse("text/plain"), objfile.getVideoWidth());
         Retrofit retrofit = NetworkClient.getRetrofitClient(getApplicationContext());
         WebServices uploadAPIs = retrofit.create(WebServices.class);
-        if (objfile.getFileType().equalsIgnoreCase("2")){
-                      Utils.videoFile=new ArrayList<>();
-            String path = FileUtils.getPath(getApplicationContext(),
-                    Utils.getImageUri(getApplicationContext(),Utils.createThumbnailAtTime(objfile.getImageUri())));
-            Log.d("filename :", path);
+        if (objfile.getFileType().equalsIgnoreCase("2")) {
+            Utils.videoFile = new ArrayList<>();
+
+//            create thumbnail and store in folder
+            String thumbnailpath = Utils.saveToInternalStorage(Utils.createThumbnailAtTime(objfile.getImageUri())).toString();
+
+            Log.d("videothumbnailpath", thumbnailpath);
             Utils.videoFile.add(objfile.getImageUri());
-            Utils.videoFile.add(path);
+            Utils.videoFile.add(thumbnailpath);
 
             MediaType mediaType = MediaType.parse("");//Based on the Postman logs,it's not specifying Content-Type, this is why I've made this empty content/mediaType
             MultipartBody.Part[] fileParts = new MultipartBody.Part[Utils.videoFile.size()];
@@ -110,14 +113,16 @@ public class UploadService extends IntentService implements ProgressRequestBody.
                 //Setting the file name as an empty string here causes the same issue, which is sending the request successfully without saving the files in the backend, so don't neglect the file name parameter.
                 fileParts[i] = MultipartBody.Part.createFormData(String.format(Locale.ENGLISH, "file[%d]", i), file.getName(), fileBody);
             }
-            call = uploadAPIs.uploadvideo(fileParts, filetypeId, appuserId, memberName,videoLength,videoTitle,videoDesc,videoHeight,videoWidth);
-        }else{
-            Utils.videoFile=new ArrayList<>();
-            String path = FileUtils.getPath(getApplicationContext(),
-                    Utils.getImageUri(getApplicationContext(),Utils.createImageThumbNail(Utils.getBitmap(objfile.getImageUri()))));
-            Log.d("filename :", path);
+            call = uploadAPIs.uploadvideo(fileParts, filetypeId, appuserId, memberName, videoLength, videoTitle, videoDesc, videoHeight, videoWidth);
+        } else {
+            Utils.videoFile = new ArrayList<>();
+//            create thumbnail and store in folder
+            String thumbnailpath = Utils.saveToInternalStorage(Utils.createImageThumbNail(Utils.getBitmap(objfile.getImageUri()))).toString();
+            Log.d("Imagethumbnailpath", thumbnailpath);
+
             Utils.videoFile.add(objfile.getImageUri());
-            Utils.videoFile.add(path);
+            Utils.videoFile.add(thumbnailpath);
+
 
             MediaType mediaType = MediaType.parse("");//Based on the Postman logs,it's not specifying Content-Type, this is why I've made this empty content/mediaType
             MultipartBody.Part[] fileParts = new MultipartBody.Part[Utils.videoFile.size()];
@@ -127,7 +132,7 @@ public class UploadService extends IntentService implements ProgressRequestBody.
                 //Setting the file name as an empty string here causes the same issue, which is sending the request successfully without saving the files in the backend, so don't neglect the file name parameter.
                 fileParts[i] = MultipartBody.Part.createFormData(String.format(Locale.ENGLISH, "file[%d]", i), file.getName(), fileBody);
             }
-            call = uploadAPIs.uploadvideo(fileParts, filetypeId, appuserId, memberName,videoLength,videoTitle,videoDesc,videoHeight,videoWidth);
+            call = uploadAPIs.uploadvideo(fileParts, filetypeId, appuserId, memberName, videoLength, videoTitle, videoDesc, videoHeight, videoWidth);
         }
 
         Log.d("File", "" + call);
@@ -156,7 +161,7 @@ public class UploadService extends IntentService implements ProgressRequestBody.
                                 notifManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
                             }
                             notifManager.cancel(NOTIFY_ID);
-                          stopSelf();
+                            stopSelf();
                         }
 
                     }
@@ -169,17 +174,17 @@ public class UploadService extends IntentService implements ProgressRequestBody.
                 Log.d("error :", t.toString());
                 Log.d("error :", t.getClass().getSimpleName());
 //                if (!t.getClass().getSimpleName().equalsIgnoreCase("FileNotFoundException")) {
-                    db.UpdateImageStatus("2", objfile.getId(), getApplicationContext());
-                    Utils.UpladingFiles.remove(objfile);
-                    if (Utils.UpladingFiles.size() > 0) {
-                        UploadFiles(Utils.UpladingFiles.get(0));//, intent
-                    } else {
-                        if (notifManager == null) {
-                            notifManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
-                        }
-                        notifManager.cancel(NOTIFY_ID);
-                       stopSelf();
+                db.UpdateImageStatus("2", objfile.getId(), getApplicationContext());
+                Utils.UpladingFiles.remove(objfile);
+                if (Utils.UpladingFiles.size() > 0) {
+                    UploadFiles(Utils.UpladingFiles.get(0));//, intent
+                } else {
+                    if (notifManager == null) {
+                        notifManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
                     }
+                    notifManager.cancel(NOTIFY_ID);
+                    stopSelf();
+                }
 //                } else {
 //                    db.DeleteImage(objfile.getId());
 //                }

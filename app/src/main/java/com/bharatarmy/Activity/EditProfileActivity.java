@@ -94,7 +94,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         activityEditProfileBinding = DataBindingUtil.setContentView(this, R.layout.activity_edit_profile);
         mContext = EditProfileActivity.this;
 
-        ImageEditProfilePickerActivity.clearCache(this);
+
         init();
         setListiner();
 

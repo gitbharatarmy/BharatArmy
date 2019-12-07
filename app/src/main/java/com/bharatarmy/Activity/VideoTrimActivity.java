@@ -38,21 +38,22 @@ public class VideoTrimActivity extends AppCompatActivity implements View.OnClick
     String path = "";
     int maxDuration = 10;
     long findsize;
-    String duration,videoHeight,videoWidth;
+    String duration, videoHeight, videoWidth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        activityVideoTrimBinding= DataBindingUtil.setContentView(this,R.layout.activity_video_trim);
+        activityVideoTrimBinding = DataBindingUtil.setContentView(this, R.layout.activity_video_trim);
 
-        mContext=VideoTrimActivity.this;
+        mContext = VideoTrimActivity.this;
 
         init();
         setListiner();
     }
 
-    public void init(){
-        videoPath=getIntent().getStringExtra("videoPath");
-        selectedUri= Uri.parse(videoPath);
+    public void init() {
+        videoPath = getIntent().getStringExtra("videoPath");
+        selectedUri = Uri.parse(videoPath);
         if (selectedUri != null) {
 
             path = FileUtils.getPath(this, selectedUri);
@@ -75,15 +76,16 @@ public class VideoTrimActivity extends AppCompatActivity implements View.OnClick
                     activityVideoTrimBinding.timeLine.setVideoURI(Uri.parse(path));
                     activityVideoTrimBinding.timeLine.setVideoInformationVisibility(true);
 
+
                 }
-            }else{
-                Utils.ping(mContext,"please select proper video");
+            } else {
+                Utils.ping(mContext, "please select proper video");
             }
         }
 
     }
 
-    public void setListiner(){
+    public void setListiner() {
 
         activityVideoTrimBinding.submitLinear.setOnClickListener(this);
 
@@ -107,7 +109,7 @@ public class VideoTrimActivity extends AppCompatActivity implements View.OnClick
     }
 
     @Override
-    public void getResult(Uri contentUri,int height,int width) {
+    public void getResult(Uri contentUri, int height, int width) {
         runOnUiThread(new Runnable() {
 
             @Override
@@ -115,9 +117,9 @@ public class VideoTrimActivity extends AppCompatActivity implements View.OnClick
                 try {
                     path = contentUri.getPath();
                     duration = getDuration(contentUri);
-                    videoHeight= String.valueOf(height);
-                    videoWidth= String.valueOf(width);
-                    Log.d("trimduration :", duration + "trimpath :"+ path + "height :"+height+"width :"+width);
+                    videoHeight = String.valueOf(height);
+                    videoWidth = String.valueOf(width);
+                    Log.d("trimduration :", duration + "trimpath :" + path + "height :" + height + "width :" + width);
 
                 } catch (Exception ex) {
                     ex.printStackTrace();
@@ -165,6 +167,7 @@ public class VideoTrimActivity extends AppCompatActivity implements View.OnClick
 
         return formatted;
     }
+
     public String size(int size) {
         String hrSize = "";
         double m = size / 1024.0;
@@ -177,10 +180,11 @@ public class VideoTrimActivity extends AppCompatActivity implements View.OnClick
         }
         return hrSize;
     }
-//    height :848width :480
+
+    //    height :848width :480
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.submit_linear:
                 showProgressDialog();
 //                Utils.showCustomDialog(getResources().getString(R.string.internet_error), getResources().getString(R.string.loading), VideoTrimActivity.this);
@@ -188,12 +192,12 @@ public class VideoTrimActivity extends AppCompatActivity implements View.OnClick
                 File f = new File(path);
                 findsize = f.length() / 1024;
                 Log.d("Videopath", path);
-                Intent intentVideoUpload=new Intent(mContext,VideoUploadActivity.class);
-                intentVideoUpload.putExtra("videoPath",path);
-                intentVideoUpload.putExtra("videoDuratiion",duration);
-                intentVideoUpload.putExtra("videoSize",size((int)findsize));
-                intentVideoUpload.putExtra("videoheight",videoHeight);
-                intentVideoUpload.putExtra("videowidth",videoWidth);
+                Intent intentVideoUpload = new Intent(mContext, VideoUploadActivity.class);
+                intentVideoUpload.putExtra("videoPath", path);
+                intentVideoUpload.putExtra("videoDuratiion", duration);
+                intentVideoUpload.putExtra("videoSize", size((int) findsize));
+                intentVideoUpload.putExtra("videoheight", videoHeight);
+                intentVideoUpload.putExtra("videowidth", videoWidth);
                 startActivity(intentVideoUpload);
 //                Utils.dismissDialog();
                 finish();
@@ -216,4 +220,12 @@ public class VideoTrimActivity extends AppCompatActivity implements View.OnClick
         mProgressDialog.show();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.dismiss();
+            mProgressDialog = null;
+        }
+    }
 }

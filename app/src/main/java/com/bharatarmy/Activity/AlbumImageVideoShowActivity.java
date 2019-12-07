@@ -14,6 +14,7 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.StrictMode;
 import android.util.Log;
 import android.view.SurfaceHolder;
@@ -194,13 +195,14 @@ public class AlbumImageVideoShowActivity extends AppCompatActivity implements Vi
         }
         Log.d("imageUriStr :",imageUriStr);
         //Use for Internal Storage file
-        File myDir = new File(getExternalCacheDir(), "camera");
-        myDir.mkdirs();
+        File myDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "BharatArmy");
+        if (!myDir.exists()) myDir.mkdirs();
         Random generator = new Random();
         int n = 10000;
         n = generator.nextInt(n);
-        String fname = "Image-" + n + ".jpg";
-        File file = new File(myDir, fname);
+//        String fname = "Image-" + n + ".jpg";
+        String fname ="IMG_"+Utils.imagesaveDate()+"_BA"+Utils.imagesavetime()+".jpg";
+        File file = new File(myDir,fname);
         Log.i("file", "" + file);
         if (file.exists())
             file.delete();

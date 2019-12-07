@@ -27,6 +27,9 @@ public class ImageMainModel  {
     @SerializedName("OtherData")
     @Expose
     private Object otherData;
+    @SerializedName("GlobalData")
+    @Expose
+    private List<ImageDetailModel> globalData = null;
 
     public Object getMessage() {
         return message;
@@ -76,7 +79,13 @@ public class ImageMainModel  {
         this.otherData = otherData;
     }
 
+    public List<ImageDetailModel> getGlobalData() {
+        return globalData;
+    }
 
+    public void setGlobalData(List<ImageDetailModel> globalData) {
+        this.globalData = globalData;
+    }
 
 
 

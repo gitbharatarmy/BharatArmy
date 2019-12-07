@@ -26,6 +26,7 @@ public class SelectedImageVideoViewAdapter extends RecyclerView.Adapter<Selected
     List<Uri> urlList;
     image_click image_click;
     int selectedpositionRemove;
+    String imageRemoveName;
     List<GalleryImageModel> imageDetailModel;
 
     public SelectedImageVideoViewAdapter(Context mContext, List<GalleryImageModel> imageDetailModel, image_click image_click) {
@@ -80,6 +81,7 @@ public class SelectedImageVideoViewAdapter extends RecyclerView.Adapter<Selected
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 // Write your code here to execute after dialog
+                                imageRemoveName=imageDetailModel.get(position).getImageUri();
                                 selectedpositionRemove = position;
                                 image_click.image_more_click();
                                 dialog.dismiss();
@@ -114,6 +116,10 @@ public class SelectedImageVideoViewAdapter extends RecyclerView.Adapter<Selected
     @Override
     public int getItemCount() {
         return imageDetailModel.size();
+    }
+
+    public String imageRemoveName(){
+        return imageRemoveName;
     }
 
     public int selectedpositionRemove() {

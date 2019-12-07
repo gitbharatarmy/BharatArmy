@@ -11,5 +11,5 @@
     android:textSize="@dimen/_13sdp"
     android:text="@string/hello_txt"
     android:textStyle="normal"
-    android:textColor="@color/splash_bg_color"
+    android:textColor="@color/heading_bg"
     android:background="@color/transparent"/>

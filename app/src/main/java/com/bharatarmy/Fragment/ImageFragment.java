@@ -129,9 +129,8 @@ public class ImageFragment extends Fragment {
         rootView = fragmentImageBinding.getRoot();
         mContext = getActivity().getApplicationContext();
         EventBus.getDefault().register(this);
-        ImageEditProfilePickerActivity.clearCache(mContext);
 
-//        initSpeedDial(savedInstanceState == null);
+
 
         setUserVisibleHint(true);
         return rootView;
@@ -564,8 +563,8 @@ Log.d("pullDataList : ",""+imageDetailModelsList.size());
 
     @Subscribe
     public void customEventReceived(MyScreenChnagesModel event) {
-        Log.d("imageId :", event.getMessage());
-        Log.d("mainmodelValue :", imageDetailModelsList.toString());
+//        Log.d("imageId :", event.getMessage());
+//        Log.d("mainmodelValue :", imageDetailModelsList.toString());
         if (!event.getMessage().equalsIgnoreCase("")) {
            for (int i=0;i<galleryImageLike.size();i++){
                if (i == Integer.parseInt(event.getMessage())) {

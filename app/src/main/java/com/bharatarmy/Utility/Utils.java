@@ -25,6 +25,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.MediaMetadataRetriever;
+import android.media.MediaScannerConnection;
 import android.media.ThumbnailUtils;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -84,12 +85,15 @@ import com.squareup.picasso.Picasso;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -100,6 +104,7 @@ import java.util.regex.Pattern;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
+import static com.facebook.FacebookSdk.getApplicationContext;
 import static com.yalantis.ucrop.util.FileUtils.getDataColumn;
 import static com.yalantis.ucrop.util.FileUtils.isDownloadsDocument;
 import static com.yalantis.ucrop.util.FileUtils.isExternalStorageDocument;
@@ -808,6 +813,7 @@ public class Utils {
     }
 
     public static Bitmap createImageThumbNail(Bitmap bitmap) {
+
         return ThumbnailUtils.extractThumbnail(bitmap, 512, 512);
     }
 
@@ -828,20 +834,41 @@ public class Utils {
         return bitmap;
     }
 
-
-    public static Bitmap createThumbnailAtTime(String filePath){
+    public static Bitmap createThumbnailAtTime(String filePath) {
         MediaMetadataRetriever mMMR = new MediaMetadataRetriever();
         mMMR.setDataSource(filePath);
-        int timeInSeconds =1;
+        int timeInSeconds = 1;
+
         //api time unit is microseconds                 *1000000
-        return mMMR.getFrameAtTime(timeInSeconds*1000000, MediaMetadataRetriever.OPTION_CLOSEST_SYNC);
+        return mMMR.getFrameAtTime(timeInSeconds * 1000000, MediaMetadataRetriever.OPTION_CLOSEST_SYNC);
     }
 
-    public static File saveBitmap(Bitmap bitmap, String name, Context mContext) {
-        File filesDir = mContext.getFilesDir();
-        File imageFile = new File(filesDir, name + ".jpg");
+    public static Uri saveToInternalStorage(Bitmap bitmapImage) {
+        String root = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).toString();
+        File myDir = new File(root, "BharatArmy");
+        if (!myDir.exists()) {
+            myDir.mkdirs();
+        }
+        String fname = "Thumb_" + Utils.imagesaveDate() + "_BA" + Utils.imagesavetime() + ".jpg";
+//        String fname = "Thumbnail" + System.currentTimeMillis() + ".jpg";
+        File file = new File(myDir, fname);
+        if (file.exists()) {
+            file.delete();
+        }
+        try {
+            file.createNewFile(); // if file already exists will do nothing
+            FileOutputStream out = new FileOutputStream(file);
+            //JPEG
+            bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, out);
+            out.flush();
+            out.close();
 
-        return imageFile;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Log.d("savestorageUri :", String.valueOf(Uri.parse(file.toString())));
+        MediaScannerConnection.scanFile(getApplicationContext(), new String[]{file.toString()}, new String[]{file.getName()}, null);
+        return Uri.parse(file.toString());
     }
 
     public static Uri getImageUri(Context inContext, Bitmap inImage) {
@@ -894,11 +921,11 @@ public class Utils {
         Log.d("LoginvaluesString", valuesString);
     }
 
-    public static void storeCurrentLocationData(LoginDataModel result,Context mContext){
-        Gson gsonupdate =new Gson();
-        String currentLocatiobString =gsonupdate.toJson(result);
-        Utils.setPref(mContext,"currentLocationData",currentLocatiobString);
-        Log.d("CurrentLocationString",currentLocatiobString);
+    public static void storeCurrentLocationData(LoginDataModel result, Context mContext) {
+        Gson gsonupdate = new Gson();
+        String currentLocatiobString = gsonupdate.toJson(result);
+        Utils.setPref(mContext, "currentLocationData", currentLocatiobString);
+        Log.d("CurrentLocationString", currentLocatiobString);
     }
 
     public static LoginDataModel retriveCurrentLocationData(Context mContext) {
@@ -971,8 +998,9 @@ public class Utils {
         }
         return id;
     }
+
     public static String getAppUserEmail(Context mContext) {
-       String email="";
+        String email = "";
 
         if (Utils.retriveLoginData(mContext) != null) {
             email = Utils.retriveLoginData(mContext).getEmail();
@@ -983,7 +1011,7 @@ public class Utils {
     }
 
     public static String getAppUserName(Context mContext) {
-        String name="";
+        String name = "";
 
         if (Utils.retriveLoginData(mContext) != null) {
             name = Utils.retriveLoginData(mContext).getName();
@@ -992,6 +1020,7 @@ public class Utils {
         }
         return name;
     }
+
     public static void InsertLike(Context mContext, Activity activity) { //, int MemberId, int ReferenceId, int LikeStatus, int SourceType
 
         if (!Utils.checkNetwork(mContext)) {
@@ -1150,14 +1179,20 @@ public class Utils {
         }
     }
 
-    public static void clearCache(Context context) {
-        File path = new File(context.getExternalCacheDir(), "camera");
-        if (path.exists() && path.isDirectory()) {
-            for (File child : path.listFiles()) {
-                child.delete();
-            }
-        }
+    public static String imagesaveDate() {
+        Date today = new Date();
+        SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
+        String dateToStr = format.format(today);
+        return dateToStr;
+    }
+
+    public static String imagesavetime() {
+        Date today = new Date();
+        SimpleDateFormat format = new SimpleDateFormat("hhmmss");
+        String timeToStr = format.format(today);
+        System.out.println(timeToStr);
+
+        return timeToStr;
     }
 
 }
-

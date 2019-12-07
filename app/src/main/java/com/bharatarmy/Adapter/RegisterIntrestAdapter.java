@@ -131,7 +131,6 @@ public class RegisterIntrestAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 ((MyItemViewHolder) holder).registerInterestchildItemBinding.matchnoStadiumnameTxt.setText("Match " +
                         tournamentDetail.getMatchNo() + " | " + tournamentDetail.getStadiumName());
             }
-
             ((MyItemViewHolder) holder).registerInterestchildItemBinding.mainContainer.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

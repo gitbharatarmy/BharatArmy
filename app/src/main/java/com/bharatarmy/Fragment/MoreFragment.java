@@ -283,8 +283,8 @@ public class MoreFragment extends Fragment implements View.OnClickListener, Goog
 
     @Subscribe
     public void customEventReceived(MyScreenChnagesModel event) {
-        Log.d("event :", event.getMessage());
-        if (event.getMessage().equalsIgnoreCase("change")) {
+//        Log.d("event :", event.getMessage());
+                                                                                                                                                                                                                          if (event.getMessage().equalsIgnoreCase("change")) {
             fragmentMoreBinding.userNametxt.setText(Utils.retriveLoginData(mContext).getFirstName()+" "+
                     Utils.retriveLoginData(mContext).getLastName());
             Utils.setImageInImageView(Utils.retriveLoginData(mContext).getProfilePicUrl(), fragmentMoreBinding.profileImage, mContext);

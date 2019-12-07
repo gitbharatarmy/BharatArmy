@@ -19,6 +19,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.util.Log;
@@ -60,6 +61,7 @@ import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -84,23 +86,25 @@ public class SportsInterestActivity extends AppCompatActivity implements View.On
     ActivitySportsInterestBinding activitySportsInterestBinding;
     Context mContext;
     public static final int REQUEST_IMAGE = 100;
-//    Uri uri;
+    //    Uri uri;
     File file = null;
     MultiSportsSelectDialog sportsSelectDialog;
     String nameStr, genderStr = "0", emailStr, phonenoStr, sportsStr,
             countryCodeStr, countryISOcodeStr = "", sportsIdStr = "",
             appIdStr, schoolnameStr = "", usertypeStr = "1",
-            entryTypeStr = "", addedemailStr = "", addednameStr = "",filePath;
+            entryTypeStr = "", addedemailStr = "", addednameStr = "",
+            filePath,fileName;//,fileName;
     ProgressDialog mDialog;
     List<ImageDetailModel> sportsList;
     ArrayList<Integer> alreadySelectedSports;
     ArrayList<String> schoolNamearray;
 
-
+    File Camerafile;
     private static final int CUSTOM_REQUEST_CODE = 532;
     public static final int RC_PHOTO_PICKER_PERM = 123;
-    private int MAX_ATTACHMENT_COUNT = 1;
+    private int MAX_ATTACHMENT_COUNT =1 ;
     private ArrayList<String> photoPaths = new ArrayList<>();
+    public ArrayList<String> cameraphotopaths=new ArrayList<>();
 
 
     @Override
@@ -109,9 +113,6 @@ public class SportsInterestActivity extends AppCompatActivity implements View.On
         activitySportsInterestBinding = DataBindingUtil.setContentView(this, R.layout.activity_sports_interest);
 
         mContext = SportsInterestActivity.this;
-
-        ImageEditProfilePickerActivity.clearCache(this);
-
 
         init();
         setLisitner();
@@ -194,11 +195,12 @@ public class SportsInterestActivity extends AppCompatActivity implements View.On
 
 
                 Dexter.withActivity(SportsInterestActivity.this)
-                        .withPermissions(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE)
+                        .withPermissions(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
                         .withListener(new MultiplePermissionsListener() {
                             @Override
                             public void onPermissionsChecked(MultiplePermissionsReport report) {
                                 if (report.areAllPermissionsGranted()) {
+//                                    showImagePickerOptions();
                                     pickPhotoClicked();
                                 }
 
@@ -234,6 +236,7 @@ public class SportsInterestActivity extends AppCompatActivity implements View.On
 
         }
     }
+
     private void showSettingsDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
         builder.setTitle(getString(R.string.dialog_permission_title));
@@ -263,6 +266,73 @@ public class SportsInterestActivity extends AppCompatActivity implements View.On
         startActivityForResult(intent, 101);
     }
 
+    //  for pic photo and click photo
+    private void showImagePickerOptions() {
+        ImageEditProfilePickerActivity.showImagePickerOptions(this, new ImageEditProfilePickerActivity.PickerOptionListener() {
+            @Override
+            public void onTakeCameraSelected() {
+                openImageCapture();
+            }
+
+            @Override
+            public void onChooseGallerySelected() {
+                pickPhotoClicked();
+            }
+        });
+    }
+    private void openImageCapture() {
+        Dexter.withActivity(this)
+                .withPermissions(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                .withListener(new MultiplePermissionsListener() {
+                    @Override
+                    public void onPermissionsChecked(MultiplePermissionsReport report) {
+                        if (report.areAllPermissionsGranted()) {
+//                            fileName = System.currentTimeMillis() + ".jpg";
+//                            fileName = String.format("Profile-Images-%d.jpg", System.currentTimeMillis());
+                            fileName ="IMG_"+Utils.imagesaveDate()+"_BA"+Utils.imagesavetime()+".jpg";
+                            Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, getCacheImagePath(fileName));
+                            if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+                                startActivityForResult(takePictureIntent, REQUEST_IMAGE);
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
+                        token.continuePermissionRequest();
+                    }
+                }).check();
+    }
+
+
+    private Uri getCacheImagePath(String fileName) {
+        File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "BharatArmy");
+        if (!file.exists()) file.mkdirs();
+        File image = new File(file, fileName);
+
+        return getUriForFile(SportsInterestActivity.this, getPackageName() + ".provider", image);
+    }
+    private void getCameraImagePath(String fileName) {
+//        File path = new File(getExternalCacheDir(), "camera");
+        File path = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "BharatArmy");
+        Camerafile = path;
+        File image = new File(path, fileName);
+
+        Log.d("imagegetFile : ", "" + image);
+        String imageUrl = String.valueOf(image);
+        cameraphotopaths = new ArrayList<>();
+        cameraphotopaths.addAll(Collections.singleton(imageUrl));
+
+        addToView(cameraphotopaths);
+
+    }
+
+
+
+
+
+//    choose from gallery
     @AfterPermissionGranted(RC_PHOTO_PICKER_PERM)
     public void pickPhotoClicked() {
         if (EasyPermissions.hasPermissions(this, FilePickerConst.PERMISSIONS_FILE_PICKER)) {
@@ -295,11 +365,13 @@ public class SportsInterestActivity extends AppCompatActivity implements View.On
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if (resultCode == Activity.RESULT_OK) {
-           if (requestCode == CUSTOM_REQUEST_CODE) {
+            if (requestCode == REQUEST_IMAGE){
+                getCameraImagePath(fileName);
+            } else if (requestCode == CUSTOM_REQUEST_CODE) {
                 photoPaths = new ArrayList<>();
                 photoPaths.addAll(data.getStringArrayListExtra(FilePickerConst.KEY_SELECTED_MEDIA));
 
-               filePath=photoPaths.get(0);
+                filePath = photoPaths.get(0);
                 addToView(photoPaths);
             }
 
@@ -309,10 +381,9 @@ public class SportsInterestActivity extends AppCompatActivity implements View.On
     }
 
     public void addToView(ArrayList<String> imagePaths) {
-    Log.d("image pSth :=",imagePaths.get(0));
-        Utils.setGalleryImageInImageView(imagePaths.get(0),activitySportsInterestBinding.imageuploadImage,mContext);
+        Log.d("image pSth :=", imagePaths.get(0));
+        Utils.setGalleryImageInImageView(imagePaths.get(0), activitySportsInterestBinding.imageuploadImage, mContext);
     }
-
 
 
     public void openSportsSelectionDialog() {
@@ -383,8 +454,8 @@ public class SportsInterestActivity extends AppCompatActivity implements View.On
         Log.d("DataValue", "Name :" + nameStr + "countrycode:" + countryCodeStr
                 + "phone number:" + phonenoStr + "gender:" + genderStr + "sportsId:" + sportsIdStr
                 + "email:" + emailStr + "CountryNAmeCode: " + AppConfiguration.currentCountryISOCode
-                + "schoolname:" + schoolnameStr + "userType:" + usertypeStr + "addedemail: "+addedemailStr
-                +"addedname: "+addednameStr + "entrytype:"+entryTypeStr);
+                + "schoolname:" + schoolnameStr + "userType:" + usertypeStr + "addedemail: " + addedemailStr
+                + "addedname: " + addednameStr + "entrytype:" + entryTypeStr);
 
         if (!emailStr.equalsIgnoreCase("") && !phonenoStr.equalsIgnoreCase("")) {
             if (!nameStr.equalsIgnoreCase("")) {
@@ -519,14 +590,14 @@ public class SportsInterestActivity extends AppCompatActivity implements View.On
         RequestBody sports = RequestBody.create(MediaType.parse("text/plain"), sportsIdStr);
         RequestBody schoolname = RequestBody.create(MediaType.parse("text/plain"), schoolnameStr);
         RequestBody usertype = RequestBody.create(MediaType.parse("text/plain"), usertypeStr);
-        RequestBody entryType = RequestBody.create(MediaType.parse("text/plain"),entryTypeStr);
-        RequestBody addedbyemail = RequestBody.create(MediaType.parse("text/plain"),addedemailStr);
-        RequestBody addedbyname = RequestBody.create(MediaType.parse("text/plain"),addednameStr);
+        RequestBody entryType = RequestBody.create(MediaType.parse("text/plain"), entryTypeStr);
+        RequestBody addedbyemail = RequestBody.create(MediaType.parse("text/plain"), addedemailStr);
+        RequestBody addedbyname = RequestBody.create(MediaType.parse("text/plain"), addednameStr);
 
 
 //        ShowProgressDialog();
         Call<LogginModel> responseBodyCall = uploadAPIs.insertData(appId, fullname, countryISOCode,
-                countycode, phoneno, gender, email, sports, schoolname, usertype,entryType,addedbyemail,addedbyname, body);
+                countycode, phoneno, gender, email, sports, schoolname, usertype, entryType, addedbyemail, addedbyname, body);
         Log.d("File", "" + responseBodyCall);
         responseBodyCall.enqueue(new Callback<LogginModel>() {
 
@@ -596,7 +667,6 @@ public class SportsInterestActivity extends AppCompatActivity implements View.On
     public void onFinish() {
         mDialog.setProgress(100);
     }
-
 
 
     // Api calling GetSportsDetailData
