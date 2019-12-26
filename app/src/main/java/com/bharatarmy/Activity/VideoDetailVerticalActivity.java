@@ -36,7 +36,6 @@ import com.bharatarmy.Models.MyScreenChnagesModel;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.ApiHandler;
 import com.bharatarmy.Utility.AppConfiguration;
-import com.bharatarmy.MyApplicationpip;
 import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.VideoModule.FullscreenVideoView;
 import com.facebook.shimmer.ShimmerFrameLayout;

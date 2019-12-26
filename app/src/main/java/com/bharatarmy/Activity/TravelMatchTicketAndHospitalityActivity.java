@@ -29,8 +29,6 @@ public class TravelMatchTicketAndHospitalityActivity extends AppCompatActivity i
     StaggeredGridLayoutManager staggeredGridLayoutManager;
     ArrayList<TravelModel> tickethospitalityList;
     boolean isUp;
-    Animation slideUp;
-    Animation slideDown;
     int selectedposition = -1;
 
     @Override
@@ -48,8 +46,7 @@ public class TravelMatchTicketAndHospitalityActivity extends AppCompatActivity i
     public void init() {
         isUp = false;
         activityTravelMatchTicketAndHospitalityBinding.toolbarTitleTxt.setText("Tickets and Hospitality");
-        slideUp = AnimationUtils.loadAnimation(mContext, R.anim.slide_up_with_interpolar);
-        slideDown = AnimationUtils.loadAnimation(mContext, R.anim.slide_out_down);
+
     }
 
     public void setListiner() {

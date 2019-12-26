@@ -1,7 +1,6 @@
 package com.bharatarmy.Adapter;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -15,15 +14,12 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bharatarmy.Activity.TravelBookActivity;
 import com.bharatarmy.Activity.TravelMatchHotelRoomTypeActivity;
-import com.bharatarmy.Activity.TravelMatchRoomDetailActivity;
 import com.bharatarmy.Interfaces.MorestoryClick;
 import com.bharatarmy.Models.TravelModel;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.AppConfiguration;
 import com.bharatarmy.Utility.Utils;
-import com.bharatarmy.databinding.TravelMatchHotelRoomTypeListItemBinding;
 import com.bharatarmy.databinding.TravelMatchSelectHotelListItemBinding;
 
 import java.util.ArrayList;

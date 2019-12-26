@@ -44,6 +44,7 @@ public class HomeTemplateDetailModel {
     @Expose
     private String referenceId;
 
+
     public String getMainHeaderText() {
         return mainHeaderText;
     }
@@ -148,6 +149,32 @@ public class HomeTemplateDetailModel {
         this.referenceId = referenceId;
     }
 
+
+    @SerializedName("SiteURL")
+    @Expose
+    private String siteURL;
+    @SerializedName("StoryDetails")
+    @Expose
+    private HomeTempleteStoryDetailModel storyDetails;
+
+
+    public String getSiteURL() {
+        return siteURL;
+    }
+
+    public void setSiteURL(String siteURL) {
+        this.siteURL = siteURL;
+    }
+
+    public HomeTempleteStoryDetailModel getStoryDetails() {
+        return storyDetails;
+    }
+
+    public void setStoryDetails(HomeTempleteStoryDetailModel storyDetails) {
+        this.storyDetails = storyDetails;
+    }
+
+
 //    ****************** Register Interest Detail **************************
 
 //   String
@@ -209,7 +236,6 @@ public class HomeTemplateDetailModel {
     @SerializedName("CheckboxStatus")
     @Expose
     private String check;
-
 
 
     public ObjFromCountry getObjFromCountry() {

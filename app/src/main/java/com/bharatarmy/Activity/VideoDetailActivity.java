@@ -2,41 +2,25 @@ package com.bharatarmy.Activity;
 
 import android.app.PictureInPictureParams;
 import android.content.Context;
-import android.content.Intent;
-import android.content.res.Configuration;
-import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.util.Log;
 import android.util.Rational;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
-
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bharatarmy.Adapter.RelatedVideoAdapter;
-import com.bharatarmy.Adapter.VideoListAdapter;
 import com.bharatarmy.Interfaces.image_click;
 import com.bharatarmy.Models.ImageDetailModel;
 import com.bharatarmy.Models.ImageMainModel;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.ApiHandler;
-import com.bharatarmy.Utility.AppConfiguration;
 import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.VideoModule.FullscreenVideoView;
-import com.bharatarmy.VideoModule.OrientationHelper;
-import com.cooltechworks.views.shimmer.ShimmerRecyclerView;
 import com.facebook.shimmer.ShimmerFrameLayout;
 
 

@@ -121,48 +121,47 @@ public class RegisterInterestFilterAdapter extends RecyclerView.Adapter<Recycler
                 ((RegisterInterestFilterAdapter.MyItemViewHolder) holder).registerInterestchildItemBinding.matchnoStadiumnameTxt.setText("Match " +
                         tournamentDetail.getMatchNo() + " | " + tournamentDetail.getStadiumName());
             }
-
             ((RegisterInterestFilterAdapter.MyItemViewHolder) holder).registerInterestchildItemBinding.mainContainer.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (((RegisterInterestFilterAdapter.MyItemViewHolder) holder).registerInterestchildItemBinding.selectedChk.isChecked()) {
-                        ((RegisterInterestFilterAdapter.MyItemViewHolder) holder).registerInterestchildItemBinding.mainContainer
-                                .setBackground(mContext.getResources().getDrawable(R.drawable.match_groupdetail_curveshape));
+//                        ((RegisterInterestFilterAdapter.MyItemViewHolder) holder).registerInterestchildItemBinding.headerLinear
+//                                .setBackground(mContext.getResources().getDrawable(R.drawable.match_detail_curveshape));
                         ((RegisterInterestFilterAdapter.MyItemViewHolder) holder).registerInterestchildItemBinding.bottomGradiantView.setVisibility(View.VISIBLE);
                         ((RegisterInterestFilterAdapter.MyItemViewHolder) holder).registerInterestchildItemBinding.selectedChk.setChecked(false);
                         tournamentDetail.setCheck("0");
-
+                        morestoryClick.getmorestoryClick();
                     } else {
-                        ((RegisterInterestFilterAdapter.MyItemViewHolder) holder).registerInterestchildItemBinding.mainContainer
-                                .setBackground(mContext.getResources().getDrawable(R.drawable.travel_match_selectedchild_curveshape));
+//                        ((RegisterInterestFilterAdapter.MyItemViewHolder) holder).registerInterestchildItemBinding.headerLinear
+//                                .setBackground(mContext.getResources().getDrawable(R.drawable.travel_match_selectedchild_curveshape));
 
-                        ((RegisterInterestFilterAdapter.MyItemViewHolder) holder).registerInterestchildItemBinding.bottomGradiantView.setVisibility(View.GONE);
+                        ((RegisterInterestFilterAdapter.MyItemViewHolder) holder).registerInterestchildItemBinding.bottomGradiantView.setVisibility(View.VISIBLE);
                         ((RegisterInterestFilterAdapter.MyItemViewHolder) holder).registerInterestchildItemBinding.selectedChk.setChecked(true);
                         tournamentDetail.setCheck("1");
-                        dataCheck.add(String.valueOf(tournamentDetail.getTournamentId()));
+                        morestoryClick.getmorestoryClick();
                     }
 
                 }
             });
-
             ((RegisterInterestFilterAdapter.MyItemViewHolder) holder).registerInterestchildItemBinding.selectedChk.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (((RegisterInterestFilterAdapter.MyItemViewHolder) holder).registerInterestchildItemBinding.selectedChk.isChecked()) {
-                        ((RegisterInterestFilterAdapter.MyItemViewHolder) holder).registerInterestchildItemBinding.mainContainer
-                                .setBackground(mContext.getResources().getDrawable(R.drawable.travel_match_selectedchild_curveshape));
+//                        ((RegisterInterestFilterAdapter.MyItemViewHolder) holder).registerInterestchildItemBinding.headerLinear
+//                                .setBackground(mContext.getResources().getDrawable(R.drawable.travel_match_selectedchild_curveshape));
 
-                        ((RegisterInterestFilterAdapter.MyItemViewHolder) holder).registerInterestchildItemBinding.bottomGradiantView.setVisibility(View.GONE);
+                        ((RegisterInterestFilterAdapter.MyItemViewHolder) holder).registerInterestchildItemBinding.bottomGradiantView.setVisibility(View.VISIBLE);
                         ((RegisterInterestFilterAdapter.MyItemViewHolder) holder).registerInterestchildItemBinding.selectedChk.setChecked(true);
 
                         tournamentDetail.setCheck("1");
-                        dataCheck.add(String.valueOf(tournamentDetail.getTournamentId()));
+                        morestoryClick.getmorestoryClick();
                     } else {
-                        ((RegisterInterestFilterAdapter.MyItemViewHolder) holder).registerInterestchildItemBinding.mainContainer
-                                .setBackground(mContext.getResources().getDrawable(R.drawable.match_groupdetail_curveshape));
+//                        ((RegisterInterestFilterAdapter.MyItemViewHolder) holder).registerInterestchildItemBinding.headerLinear
+//                                .setBackground(mContext.getResources().getDrawable(R.drawable.match_detail_curveshape));
                         ((RegisterInterestFilterAdapter.MyItemViewHolder) holder).registerInterestchildItemBinding.bottomGradiantView.setVisibility(View.VISIBLE);
                         ((RegisterInterestFilterAdapter.MyItemViewHolder) holder).registerInterestchildItemBinding.selectedChk.setChecked(false);
                         tournamentDetail.setCheck("0");
+                        morestoryClick.getmorestoryClick();
                     }
                 }
             });
@@ -172,8 +171,6 @@ public class RegisterInterestFilterAdapter extends RecyclerView.Adapter<Recycler
                 ((RegisterInterestFilterAdapter.MyItemViewHolder) holder).registerInterestchildItemBinding.selectedChk.setChecked(false);
             }
         } else if (holder.getItemViewType() == HEADER) {
-//            Utils.setImageInImageView("https://www.bharatarmy.com/Content/images/flags-mini/in.png", ((RegisterInterestFilterAdapter.HeaderViewHolder) holder).registerInteresttitleItemBinding.firstCountryflagImage, mContext);
-//            Utils.setImageInImageView("https://www.bharatarmy.com/Content/images/flags-mini/sou.png", ((RegisterInterestFilterAdapter.HeaderViewHolder) holder).registerInteresttitleItemBinding.secondCountryflagImage, mContext);
             ((RegisterInterestFilterAdapter.HeaderViewHolder) holder).registerInteresttitleItemBinding.titleTxtView.setText(titleNameStr);
             ((RegisterInterestFilterAdapter.HeaderViewHolder) holder).registerInteresttitleItemBinding.tourNameTxt.setText(tournamentDetailModelList.get(position).getTourName());
             registerIntetestCountryFlagAdapter = new RegisterIntetestCountryFlagAdapter(mContext, registerIntrestFilterDataModel);

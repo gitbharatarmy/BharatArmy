@@ -1,12 +1,10 @@
 package com.bharatarmy.Fragment;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,11 +13,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.bharatarmy.Adapter.TravelCityFilterAdapter;
 import com.bharatarmy.Adapter.TravelPacakgeFilterAdapter;
 import com.bharatarmy.Models.TravelModel;
 import com.bharatarmy.R;
-import com.bharatarmy.databinding.FragmentTravelCityFilterBinding;
 import com.bharatarmy.databinding.FragmentTravelPacakgeFilterBinding;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 

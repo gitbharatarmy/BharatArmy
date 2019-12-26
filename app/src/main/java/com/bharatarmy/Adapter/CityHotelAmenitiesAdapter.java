@@ -29,7 +29,7 @@ public class CityHotelAmenitiesAdapter extends RecyclerView.Adapter<RecyclerView
 
     public CityHotelAmenitiesAdapter(Context mContext, ArrayList<String> valueArray, ArrayList<TravelModel> cityHotelAmenitiesList) {
         this.mContext = mContext;
-        this.valueArray=valueArray;
+        this.valueArray = valueArray;
         this.cityHotelAmenitiesList = cityHotelAmenitiesList;
     }
 
@@ -54,14 +54,14 @@ public class CityHotelAmenitiesAdapter extends RecyclerView.Adapter<RecyclerView
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         switch (viewType) {
             case HEADER:
-                HotelDetailHeaderItemBinding hotelDetailHeaderItemBinding= DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
-                        R.layout.hotel_detail_header_item,parent,false);
+                HotelDetailHeaderItemBinding hotelDetailHeaderItemBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
+                        R.layout.hotel_detail_header_item, parent, false);
                 return new CityHotelAmenitiesAdapter.HeaderViewHolder(hotelDetailHeaderItemBinding);
 
             default:
-               HotelAmenitiesListItemBinding hotelAmenitiesListItemBinding=DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
-                       R.layout.hotel_amenities_list_item,parent,false);
-               return new CityHotelAmenitiesAdapter.ItemViewHolder(hotelAmenitiesListItemBinding);
+                HotelAmenitiesListItemBinding hotelAmenitiesListItemBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
+                        R.layout.hotel_amenities_list_item, parent, false);
+                return new CityHotelAmenitiesAdapter.ItemViewHolder(hotelAmenitiesListItemBinding);
         }
     }
 
@@ -88,18 +88,18 @@ public class CityHotelAmenitiesAdapter extends RecyclerView.Adapter<RecyclerView
         HeaderViewHolder(HotelDetailHeaderItemBinding hotelDetailHeaderItemBinding) {
             super(hotelDetailHeaderItemBinding.getRoot());
 
-            this.hotelDetailHeaderItemBinding=hotelDetailHeaderItemBinding;
+            this.hotelDetailHeaderItemBinding = hotelDetailHeaderItemBinding;
         }
     }
 
     static class ItemViewHolder extends RecyclerView.ViewHolder {
 
-HotelAmenitiesListItemBinding hotelAmenitiesListItemBinding;
+        HotelAmenitiesListItemBinding hotelAmenitiesListItemBinding;
 
         ItemViewHolder(HotelAmenitiesListItemBinding hotelAmenitiesListItemBinding) {
             super(hotelAmenitiesListItemBinding.getRoot());
 
-            this.hotelAmenitiesListItemBinding=hotelAmenitiesListItemBinding;
+            this.hotelAmenitiesListItemBinding = hotelAmenitiesListItemBinding;
         }
 
     }

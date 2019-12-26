@@ -24,6 +24,15 @@ public class HomeTemplateModel {
     @SerializedName("OtherData")
     @Expose
     private RegisterIntrestFilterDataModel otherData;
+    @SerializedName("CurrentLocation")
+    @Expose
+    private Object currentLocation;
+    @SerializedName("GlobalData")
+    @Expose
+    private Object globalData;
+    @SerializedName("RecordCount")
+    @Expose
+    private Integer recordCount;
 
     public Object getMessage() {
         return message;
@@ -71,5 +80,29 @@ public class HomeTemplateModel {
 
     public void setOtherData(RegisterIntrestFilterDataModel otherData) {
         this.otherData = otherData;
+    }
+
+    public Object getCurrentLocation() {
+        return currentLocation;
+    }
+
+    public void setCurrentLocation(Object currentLocation) {
+        this.currentLocation = currentLocation;
+    }
+
+    public Object getGlobalData() {
+        return globalData;
+    }
+
+    public void setGlobalData(Object globalData) {
+        this.globalData = globalData;
+    }
+
+    public Integer getRecordCount() {
+        return recordCount;
+    }
+
+    public void setRecordCount(Integer recordCount) {
+        this.recordCount = recordCount;
     }
 }

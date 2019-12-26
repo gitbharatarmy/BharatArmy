@@ -27,7 +27,8 @@
             android:layout_height="wrap_content"
             android:clipToPadding="false"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            android:paddingBottom="@dimen/_60sdp"/>
+            android:paddingBottom="@dimen/_60sdp"
+            android:visibility="gone"/>
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 <!--        <ProgressBar-->

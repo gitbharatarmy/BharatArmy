@@ -44,6 +44,10 @@ public interface WebServices {
     void getLoginwithGoogle(@FieldMap Map<String, String> map, Callback<LogginModel> callback);
 
     @FormUrlEncoded
+    @POST("/LoginwithFacebook")
+    void getLoginwithFacebook(@FieldMap Map<String, String> map, Callback<LogginModel> callback);
+
+    @FormUrlEncoded
     @POST("/ForgotPassword")
     void getForgotPassword(@FieldMap Map<String, String> map, Callback<LogginModel> callback);
 
@@ -151,7 +155,8 @@ public interface WebServices {
                                   @Part("Title") RequestBody videoTitle,
                                   @Part("TitleDescription") RequestBody titleDescription,
                                   @Part("height") RequestBody height,
-                                  @Part("width") RequestBody width); //@Part("FileTypeId") RequestBody userid,
+                                  @Part("width") RequestBody width,
+                                  @Part("PrivacySetting") RequestBody privacysetting); //@Part("FileTypeId") RequestBody userid,
     //if we pass array of imagethen use MultipartBody.Part[] file
 
     @FormUrlEncoded

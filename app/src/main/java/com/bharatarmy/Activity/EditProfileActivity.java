@@ -154,10 +154,11 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
                 }
             }
             if (Utils.retriveLoginData(mContext).getProfilePicUrl() != null) {
-                Picasso.with(mContext)
-                        .load(Utils.retriveLoginData(mContext).getProfilePicUrl())
-                        .placeholder(R.drawable.progress_animation)
-                        .into(activityEditProfileBinding.profileImage);
+//                Picasso.with(mContext)
+//                        .load(Utils.retriveLoginData(mContext).getProfilePicUrl())
+//                        .placeholder(R.drawable.progress_animation)
+//                        .into(activityEditProfileBinding.profileImage);
+                Utils.setImageInImageView(Utils.retriveLoginData(mContext).getProfilePicUrl(),activityEditProfileBinding.profileImage,mContext);
             }
             if (Utils.retriveLoginData(mContext).getAddressline1() != null) {
                 if (!Utils.retriveLoginData(mContext).getAddressline1().equalsIgnoreCase("")) {

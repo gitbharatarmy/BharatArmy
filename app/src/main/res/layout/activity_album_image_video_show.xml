@@ -13,7 +13,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/album_detail_rcvList"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_centerVertical="true"
             android:nestedScrollingEnabled="false" />
 
@@ -28,14 +28,13 @@
             android:id="@+id/play_albumvideo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true"
-            android:layout_gravity="center"
+            android:layout_centerInParent="true"
             android:layout_marginTop="@dimen/_5sdp"
             android:visibility="gone"></VideoView>
-
+        <!--        android:layout_alignParentLeft="true"-->
+        <!--        android:layout_alignParentTop="true"-->
+        <!--        android:layout_alignParentRight="true"-->
+        <!--        android:layout_alignParentBottom="true"-->
         <ImageView
             android:id="@+id/videoView_thumbnail"
             android:layout_width="match_parent"

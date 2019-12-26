@@ -15,7 +15,6 @@ import com.bharatarmy.Activity.TravelMatchRoomDetailActivity;
 import com.bharatarmy.Interfaces.MorestoryClick;
 import com.bharatarmy.Models.TravelModel;
 import com.bharatarmy.R;
-import com.bharatarmy.Utility.AppConfiguration;
 import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.TravelMatchHotelRoomTypeListItemBinding;
 

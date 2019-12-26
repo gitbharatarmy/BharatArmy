@@ -14,6 +14,7 @@
         app:cardCornerRadius="10dp">
 
         <LinearLayout
+            android:id="@+id/verticale_video_linear"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -98,39 +99,13 @@
         android:text="World Cup 2019: Bring o..."
         android:textColor="@color/heading_bg"
         android:textSize="@dimen/_13sdp" />
-    <LinearLayout
-        android:id="@+id/verticale_ba_recommended_linear"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_5sdp"
-        android:layout_below="@id/vertical_show_video_title_txt"
-        android:background="@drawable/recommended_bg_shape"
-        android:orientation="horizontal"
-        android:visibility="gone">
 
-
-        <TextView
-            style="@style/title_text_font"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal|center_vertical"
-            android:layout_marginRight="@dimen/_2sdp"
-            android:gravity="center_horizontal|center_vertical"
-         android:paddingLeft="@dimen/_4sdp"
-            android:paddingRight="@dimen/_3sdp"
-            android:paddingTop="@dimen/_3sdp"
-            android:paddingBottom="@dimen/_3sdp"
-            android:text="Recommended By Bharat Army"
-            android:textColor="@color/splash_bg_color"
-            android:textSize="@dimen/_6sdp"
-            android:textStyle="bold" />
-    </LinearLayout>
     <TextView
         android:id="@+id/vertical_show_video_description_txt"
         style="@style/text_font"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/verticale_ba_recommended_linear"
+        android:layout_below="@+id/vertical_show_video_title_txt"
         android:ellipsize="end"
         android:maxLines="3"
         android:layout_marginTop="@dimen/_5sdp"

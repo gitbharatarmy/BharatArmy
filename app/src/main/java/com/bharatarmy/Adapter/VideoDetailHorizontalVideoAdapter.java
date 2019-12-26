@@ -16,7 +16,6 @@ import com.bharatarmy.Activity.VideoDetailVerticalActivity;
 import com.bharatarmy.Interfaces.image_click;
 import com.bharatarmy.Models.ImageDetailModel;
 import com.bharatarmy.Models.LoginDataModel;
-import com.bharatarmy.Models.MyScreenChnagesModel;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.AppConfiguration;
 import com.bharatarmy.Utility.Utils;
@@ -25,7 +24,6 @@ import com.bharatarmy.databinding.VideoDetailHorizontalHeaderBinding;
 import com.like.LikeButton;
 import com.like.OnLikeListener;
 
-import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -108,8 +106,8 @@ public class VideoDetailHorizontalVideoAdapter extends RecyclerView.Adapter<Recy
             } else {
                 ((ItemViewHolder) holder).videoDetailHorizontalAdapterItemBinding.horizontalRecommendedImage.setVisibility(View.GONE);
             }
-
-            ((ItemViewHolder) holder).videoDetailHorizontalAdapterItemBinding.horizontalRelatedVideoImg.setOnClickListener(new View.OnClickListener() {
+//            horizontalRelatedVideoImg
+            ((ItemViewHolder) holder).videoDetailHorizontalAdapterItemBinding.horizontalVideoLinear.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Utils.LikeMemberId = String.valueOf(Utils.getAppUserId(mContext));

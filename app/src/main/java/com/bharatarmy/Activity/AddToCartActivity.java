@@ -29,10 +29,6 @@ public class AddToCartActivity extends AppCompatActivity implements View.OnClick
     }
 
     public void init() {
-//        if (getIntent().getStringExtra("bookingItemName")!=null){
-//            activityAddToCartBinding.toolbarTitleTxt.setText(getIntent().getStringExtra("bookingItemName"));
-//        }
-
         if (Utils.retriveLoginData(mContext)!=null){
             activityAddToCartBinding.userNameEdt.setText(Utils.retriveLoginData(mContext).getName());
             activityAddToCartBinding.userEmailEdt.setText(Utils.retriveLoginData(mContext).getEmail());

@@ -2,18 +2,15 @@ package com.bharatarmy.Fragment;
 
 import android.content.Context;
 import android.graphics.Typeface;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.StyleSpan;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,8 +22,6 @@ import com.bharatarmy.R;
 import com.bharatarmy.databinding.FragmentRegisterInterestFilterBinding;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.tabs.TabLayout;
-
-import java.util.ArrayList;
 
 
 public class RegisterInterestFilterFragment extends BottomSheetDialogFragment implements ViewPager.OnPageChangeListener{
@@ -93,8 +88,9 @@ public class RegisterInterestFilterFragment extends BottomSheetDialogFragment im
         fragmentRegisterInterestFilterBinding.filterapplyLinear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dismiss();
-morestoryClick.getmorestoryClick();
+
+                        dismiss();
+                        morestoryClick.getmorestoryClick();
 
 
             }

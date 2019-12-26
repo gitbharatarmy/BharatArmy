@@ -7,8 +7,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -19,18 +17,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bharatarmy.Activity.TravelMatchHotelRoomTypeActivity;
 import com.bharatarmy.Activity.TravelMatchTicketAndHospitalityActivity;
-import com.bharatarmy.Models.MyScreenChnagesModel;
 import com.bharatarmy.Models.TravelModel;
 import com.bharatarmy.R;
 import com.bharatarmy.RoundishImageView;
 import com.bharatarmy.Utility.AppConfiguration;
 import com.bharatarmy.Utility.Utils;
-import com.bharatarmy.databinding.DHotelItemListBinding;
 import com.bharatarmy.databinding.MatchDetailtitleItemBinding;
 import com.bharatarmy.databinding.TravelMatchGroupdetailItemListBinding;
-import com.cooltechworks.views.shimmer.ShimmerRecyclerView;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;

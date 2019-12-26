@@ -82,8 +82,6 @@ public class RegisterIntrestAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = null;
-        LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         switch (viewType) {
             case HEADER:
                 RegisterInteresttitleItemBinding registerInteresttitleItemBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
@@ -134,22 +132,23 @@ public class RegisterIntrestAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             ((MyItemViewHolder) holder).registerInterestchildItemBinding.mainContainer.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (((MyItemViewHolder) holder).registerInterestchildItemBinding.selectedChk.isChecked()) {
-                        ((MyItemViewHolder) holder).registerInterestchildItemBinding.headerLinear
-                                .setBackground(mContext.getResources().getDrawable(R.drawable.match_detail_curveshape));
-                        ((MyItemViewHolder) holder).registerInterestchildItemBinding.bottomGradiantView.setVisibility(View.VISIBLE);
-                        ((MyItemViewHolder) holder).registerInterestchildItemBinding.selectedChk.setChecked(false);
-                        tournamentDetail.setCheck("0");
+                        if (((MyItemViewHolder) holder).registerInterestchildItemBinding.selectedChk.isChecked()) {
+//                            ((MyItemViewHolder) holder).registerInterestchildItemBinding.headerLinear
+//                                    .setBackground(mContext.getResources().getDrawable(R.drawable.match_detail_curveshape));
+                            ((MyItemViewHolder) holder).registerInterestchildItemBinding.bottomGradiantView.setVisibility(View.VISIBLE);
+                            ((MyItemViewHolder) holder).registerInterestchildItemBinding.selectedChk.setChecked(false);
+                            tournamentDetail.setCheck("0");
+                           morestoryClick.getmorestoryClick();
+                        } else {
+//                            ((MyItemViewHolder) holder).registerInterestchildItemBinding.headerLinear
+//                                    .setBackground(mContext.getResources().getDrawable(R.drawable.travel_match_selectedchild_curveshape));
 
-                    } else {
-                        ((MyItemViewHolder) holder).registerInterestchildItemBinding.headerLinear
-                                .setBackground(mContext.getResources().getDrawable(R.drawable.travel_match_selectedchild_curveshape));
+                            ((MyItemViewHolder) holder).registerInterestchildItemBinding.bottomGradiantView.setVisibility(View.VISIBLE);
+                            ((MyItemViewHolder) holder).registerInterestchildItemBinding.selectedChk.setChecked(true);
+                            tournamentDetail.setCheck("1");
 
-                        ((MyItemViewHolder) holder).registerInterestchildItemBinding.bottomGradiantView.setVisibility(View.GONE);
-                        ((MyItemViewHolder) holder).registerInterestchildItemBinding.selectedChk.setChecked(true);
-                        tournamentDetail.setCheck("1");
-                        dataCheck.add(String.valueOf(tournamentDetail.getTournamentMatchId()));
-                    }
+                            morestoryClick.getmorestoryClick();
+                        }
 
                 }
             });
@@ -158,20 +157,21 @@ public class RegisterIntrestAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 @Override
                 public void onClick(View v) {
                     if (((MyItemViewHolder) holder).registerInterestchildItemBinding.selectedChk.isChecked()) {
-                        ((MyItemViewHolder) holder).registerInterestchildItemBinding.headerLinear
-                                .setBackground(mContext.getResources().getDrawable(R.drawable.travel_match_selectedchild_curveshape));
+//                        ((MyItemViewHolder) holder).registerInterestchildItemBinding.headerLinear
+//                                .setBackground(mContext.getResources().getDrawable(R.drawable.travel_match_selectedchild_curveshape));
 
-                        ((MyItemViewHolder) holder).registerInterestchildItemBinding.bottomGradiantView.setVisibility(View.GONE);
+                        ((MyItemViewHolder) holder).registerInterestchildItemBinding.bottomGradiantView.setVisibility(View.VISIBLE);
                         ((MyItemViewHolder) holder).registerInterestchildItemBinding.selectedChk.setChecked(true);
 
                         tournamentDetail.setCheck("1");
-                        dataCheck.add(String.valueOf(tournamentDetail.getTournamentMatchId()));
+                        morestoryClick.getmorestoryClick();
                     } else {
-                        ((MyItemViewHolder) holder).registerInterestchildItemBinding.headerLinear
-                                .setBackground(mContext.getResources().getDrawable(R.drawable.match_detail_curveshape));
+//                        ((MyItemViewHolder) holder).registerInterestchildItemBinding.headerLinear
+//                                .setBackground(mContext.getResources().getDrawable(R.drawable.match_detail_curveshape));
                         ((MyItemViewHolder) holder).registerInterestchildItemBinding.bottomGradiantView.setVisibility(View.VISIBLE);
                         ((MyItemViewHolder) holder).registerInterestchildItemBinding.selectedChk.setChecked(false);
                         tournamentDetail.setCheck("0");
+                        morestoryClick.getmorestoryClick();
                     }
                 }
             });
@@ -184,6 +184,7 @@ public class RegisterIntrestAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             ((HeaderViewHolder) holder).registerInteresttitleItemBinding.titleTxtView.setText(titleNameStr);
             ((HeaderViewHolder) holder).registerInteresttitleItemBinding.tourNameTxt.setText(tournamentDetailModelList.get(position).getTourName());
 
+
             registerIntetestCountryFlagAdapter = new RegisterIntetestCountryFlagAdapter(mContext, registerIntrestFilterDataModel);
             FlexboxLayoutManager layoutManager = new FlexboxLayoutManager(mContext);
             layoutManager.setFlexWrap(FlexWrap.WRAP);
@@ -192,22 +193,6 @@ public class RegisterIntrestAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             ((HeaderViewHolder) holder).registerInteresttitleItemBinding.registerInterestFlagRcv.setLayoutManager(layoutManager); // set LayoutManager to RecyclerView
             ((HeaderViewHolder) holder).registerInteresttitleItemBinding.registerInterestFlagRcv.setAdapter(registerIntetestCountryFlagAdapter);
 
-//            if (!noofodiStr.equalsIgnoreCase("0")) {
-//                ((HeaderViewHolder) holder).registerInteresttitleItemBinding.matchODIcount1Txt.setText(noofodiStr+" ODI,");
-//            } else {
-//                ((HeaderViewHolder) holder).registerInteresttitleItemBinding.matchODIcount1Txt.setVisibility(View.GONE);
-//            }
-//            if (!nooft20Str.equalsIgnoreCase("0")) {
-//                ((HeaderViewHolder) holder).registerInteresttitleItemBinding.matchT20countTxt.setText(nooft20Str+" T20");
-//            } else {
-//                ((HeaderViewHolder) holder).registerInteresttitleItemBinding.matchODIcount1Txt.setVisibility(View.GONE);
-//            }
-//
-//            if (!nooftestStr.equalsIgnoreCase("0")) {
-//                ((HeaderViewHolder) holder).registerInteresttitleItemBinding.matchTESTcount2Txt.setText(nooftestStr+" TEST,");
-//            } else {
-//                ((HeaderViewHolder) holder).registerInteresttitleItemBinding.matchTESTcount2Txt.setVisibility(View.GONE);
-//            }((HeaderViewHolder)holder).registerInteresttitleItemBinding.registerInterestFlagRcv
         }
 
     }
@@ -231,6 +216,7 @@ public class RegisterIntrestAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     public List<String> getTournamentSelectedList() {
         return dataCheck;
     }
+
 }
 
 

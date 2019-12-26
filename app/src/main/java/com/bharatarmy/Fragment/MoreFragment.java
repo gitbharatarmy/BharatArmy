@@ -10,22 +10,20 @@ import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.bharatarmy.Activity.AppLoginActivity;
-import com.bharatarmy.Activity.ContactusActivity;
 import com.bharatarmy.Activity.DisplayAddedUserActivity;
 import com.bharatarmy.Activity.DisplaySFAUserActivity;
 import com.bharatarmy.Activity.InquriyActivity;
-import com.bharatarmy.Activity.LoginwithEmailActivity;
-import com.bharatarmy.Activity.MoreStoryActivity;
+import com.bharatarmy.Activity.MoreInformationActivity;
 import com.bharatarmy.Activity.MyMediaActivity;
 import com.bharatarmy.Activity.MyProfileActivity;
 import com.bharatarmy.Activity.ProfileSettingActivity;
+import com.bharatarmy.Activity.RemoveAccountActivity;
 import com.bharatarmy.Models.MyScreenChnagesModel;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.Utils;
@@ -36,21 +34,17 @@ import com.facebook.GraphResponse;
 import com.facebook.HttpMethod;
 import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.leinardi.android.speeddial.SpeedDialView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-import java.util.concurrent.Executor;
 
 
 public class MoreFragment extends Fragment implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
@@ -173,6 +167,7 @@ public class MoreFragment extends Fragment implements View.OnClickListener, Goog
         fragmentMoreBinding.dataEntryLinear.setOnClickListener(this);
         fragmentMoreBinding.settingLinear.setOnClickListener(this);
         fragmentMoreBinding.certificateLinear.setOnClickListener(this);
+        fragmentMoreBinding.removeAccountLinear.setOnClickListener(this);
     }
 
     @Override
@@ -186,23 +181,29 @@ public class MoreFragment extends Fragment implements View.OnClickListener, Goog
                 break;
             case R.id.aboutus_linear:
                 Utils.handleClickEvent(mContext, fragmentMoreBinding.aboutusLinear);
-                Intent aboutus = new Intent(mContext, MoreStoryActivity.class);
-                aboutus.putExtra("Story Heading", "Ab Jeetega India");
-                aboutus.putExtra("StroyUrl", "http://ajif.in/");
+                Intent aboutus = new Intent(mContext, MoreInformationActivity.class);
+                aboutus.putExtra("Story Heading", "About Us");
+                aboutus.putExtra("StroyUrl", "https://www.bharatarmy.com/BAFoundation/sfanow?isapp=1");
                 aboutus.putExtra("whereTocome", "aboutus");
-                aboutus.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                aboutus.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(aboutus);
                 break;
             case R.id.contactus_linear:
                 Utils.handleClickEvent(mContext, fragmentMoreBinding.contactusLinear);
-                Intent contactus = new Intent(mContext, ContactusActivity.class);
-                contactus.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                Intent contactus = new Intent(mContext, ContactusActivity.class);
+//                contactus.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                startActivity(contactus);
+                Intent contactus = new Intent(mContext, MoreInformationActivity.class);
+                contactus.putExtra("Story Heading", "Contact Us");
+                contactus.putExtra("StroyUrl", "https://www.bharatarmy.com/contact?isapp=1");
+                contactus.putExtra("whereTocome", "aboutus");
+//                contactus.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(contactus);
                 break;
             case R.id.inquiry_linear:
                 Utils.handleClickEvent(mContext, fragmentMoreBinding.inquiryLinear);
                 Intent inquriy = new Intent(mContext, InquriyActivity.class);
-                inquriy.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                inquriy.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(inquriy);
                 break;
             case R.id.logout_linear:
@@ -217,10 +218,13 @@ public class MoreFragment extends Fragment implements View.OnClickListener, Goog
                             public void onClick(DialogInterface dialog, int which) {
                                 if (Utils.getPref(mContext, "LoginType") != null) {
                                     if (Utils.getPref(mContext, "LoginType").equalsIgnoreCase("Email")) {
+//                                     Utils.showProgressDialog(mContext);
                                         emailSignOut();
                                     } else if (Utils.getPref(mContext, "LoginType").equalsIgnoreCase("Facebook")) {
+//                                        Utils.showProgressDialog(mContext);
                                         facebookSignOut();
                                     } else if (Utils.getPref(mContext, "LoginType").equalsIgnoreCase("Gmail")) {
+//                                        Utils.showProgressDialog(mContext);
                                         googleSignOut();
                                     }
                                 }
@@ -241,41 +245,46 @@ public class MoreFragment extends Fragment implements View.OnClickListener, Goog
                 Utils.handleClickEvent(mContext, fragmentMoreBinding.mediaLinear);
                 Utils.setPref(mContext, "cometonotification", "menu");
                 Intent media = new Intent(mContext, MyMediaActivity.class);
-                media.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                media.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(media);
                 break;
             case R.id.withoutlogin_linear:
                 Utils.handleClickEvent(mContext, fragmentMoreBinding.withoutloginLinear);
                 Intent intent = new Intent(mContext, AppLoginActivity.class);
                 intent.putExtra("whereTocomeLogin", "more");
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 break;
             case R.id.sports_interest_linear:
                 Utils.setPref(mContext,"entryType","1");
                 Utils.handleClickEvent(mContext, fragmentMoreBinding.sportsInterestLinear);
                 Intent sportsintent = new Intent(mContext, DisplaySFAUserActivity.class);
-                sportsintent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                sportsintent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(sportsintent);
                 break;
             case R.id.data_entry_linear:
                 Utils.handleClickEvent(mContext, fragmentMoreBinding.dataEntryLinear);
                 Intent displayuserentry = new Intent(mContext, DisplayAddedUserActivity.class);
-                displayuserentry.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                displayuserentry.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(displayuserentry);
                 break;
             case R.id.setting_linear:
                 Utils.handleClickEvent(mContext,fragmentMoreBinding.settingLinear);
                 Intent settingeIntent = new Intent(mContext, ProfileSettingActivity.class);
-                settingeIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                settingeIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(settingeIntent);
                 break;
             case R.id.certificate_linear:
                 Utils.setPref(mContext,"entryType","2");
                 Utils.handleClickEvent(mContext, fragmentMoreBinding.sportsInterestLinear);
                 Intent certificateintent = new Intent(mContext, DisplaySFAUserActivity.class);
-                certificateintent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                certificateintent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(certificateintent);
+                break;
+            case R.id.remove_account_linear:
+                Utils.handleClickEvent(mContext, fragmentMoreBinding.removeAccountLinear);
+                Intent removeintent = new Intent(mContext, RemoveAccountActivity.class);
+                startActivity(removeintent);
                 break;
         }
     }
@@ -310,6 +319,7 @@ public class MoreFragment extends Fragment implements View.OnClickListener, Goog
                             ilogin.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                             startActivity(ilogin);
                             getActivity().finish();
+                            Utils.hideProgressDialog();
                         }
                     });
 
@@ -342,6 +352,7 @@ public class MoreFragment extends Fragment implements View.OnClickListener, Goog
                 ilogin.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(ilogin);
                 getActivity().finish();
+                Utils.hideProgressDialog();
 
             }
         }).executeAsync();
@@ -360,6 +371,7 @@ public class MoreFragment extends Fragment implements View.OnClickListener, Goog
         ilogin.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(ilogin);
         getActivity().finish();
+        Utils.hideProgressDialog();
     }
 
     @Override
@@ -374,6 +386,12 @@ public class MoreFragment extends Fragment implements View.OnClickListener, Goog
             mGoogleApiClient.stopAutoManage(getActivity());
             mGoogleApiClient.disconnect();
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Utils.hideProgressDialog();
     }
 }
 

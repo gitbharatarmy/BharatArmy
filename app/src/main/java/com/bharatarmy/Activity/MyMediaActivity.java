@@ -31,13 +31,10 @@ public class MyMediaActivity extends AppCompatActivity implements View.OnClickLi
     ActivityMyMediaBinding activityMyMediaBinding;
     public List<GalleryImageModel> updatearray;
     MyMediaAdapter myMediaAdapter;
-    final int NOTIFY_ID = 0; // ID of notification
-    private NotificationManager notifManager;
-    int progress = 1;
-    List<GalleryImageModel> galleryimage;
 
-    int selectedItemPosition = -1;
-    // Database
+       List<GalleryImageModel> galleryimage;
+
+       // Database
     DbHandler dbHandler;
     Handler timerHandler;
     Runnable timerRunnable;
@@ -99,20 +96,6 @@ public class MyMediaActivity extends AppCompatActivity implements View.OnClickLi
             myMediaAdapter = new MyMediaAdapter(mContext, galleryimage, new image_click() {
                 @Override
                 public void image_more_click() {
-//                    selectedItemPosition = myMediaAdapter.SelectedPosition();
-//                    GalleryImageModel image = galleryimage.get(myMediaAdapter.SelectedPosition());
-//                    Log.d("selectedposition : ", "" + selectedItemPosition);
-//                    boolean connected = Utils.checkNetwork(mContext);
-//                    if (connected == true) {
-//                        dbHandler.UpdateImageStatus("0", image.getId(), mContext);
-//                        if (!Utils.isMyServiceRunning(mContext)) {
-//                            Intent intent = new Intent(mContext, UploadService.class);
-//                            startService(intent);
-//                        }
-////                        createNotification(AppConfiguration.notificationtitle, getApplicationContext());
-//                    } else {
-//                        Utils.ping(mContext, "No internet available");
-//                    }
                 }
             });//,onTouchListener
             GridLayoutManager gridLayoutManager = new GridLayoutManager(mContext, 3);

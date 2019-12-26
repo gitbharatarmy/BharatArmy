@@ -2,18 +2,15 @@ package com.bharatarmy.Activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.provider.Settings;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
@@ -146,17 +143,20 @@ public class LoginwithEmailActivity extends AppCompatActivity implements View.On
         ApiHandler.getApiService().getLogin(getLoginData(), new retrofit.Callback<LogginModel>() {
             @Override
             public void success(LogginModel loginModel, Response response) {
-                Utils.dismissDialog();
+//                Utils.dismissDialog();
 
                 if (loginModel == null) {
+                    Utils.dismissDialog();
                     Utils.ping(mContext, getString(R.string.something_wrong));
                     return;
                 }
                 if (loginModel.getIsValid() == null) {
+                    Utils.dismissDialog();
                     Utils.ping(mContext, getString(R.string.something_wrong));
                     return;
                 }
                 if (loginModel.getIsValid() == 0) {
+                    Utils.dismissDialog();
                     Utils.ping(mContext, loginModel.getMessage());
                     return;
                 }
@@ -168,8 +168,6 @@ public class LoginwithEmailActivity extends AppCompatActivity implements View.On
                         Utils.storeCurrentLocationData(loginModel.getCurrentLocation(),mContext);
                         Utils.storeLoginOtherData(loginModel.getOtherData(), mContext);
 
-//                        Utils.getCurrentUserIDName(String.valueOf(loginModel.getData().getId()), loginModel.getData().getName(), mContext);
-
                         if (loginModel.getData().getIsNumberVerified() == 0) {
                             Intent otpIntent = new Intent(mContext, MobileVerificationNewActivity.class);
                             AppConfiguration.wheretocomemobile = "Login";
@@ -178,8 +176,10 @@ public class LoginwithEmailActivity extends AppCompatActivity implements View.On
                         } else {
                             Utils.setPref(mContext, "LoginType", "Email");
                             goToAfterLogin();
-
+                           Utils.dismissDialog();
                         }
+                    }else{
+                        Utils.dismissDialog();
                     }
 
                 }

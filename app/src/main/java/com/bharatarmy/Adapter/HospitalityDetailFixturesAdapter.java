@@ -14,13 +14,9 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bharatarmy.Activity.TravelMatchTicketAndHospitalityActivity;
 import com.bharatarmy.Models.TravelModel;
 import com.bharatarmy.R;
-import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.HospitalityDetailFixturesItemListBinding;
-import com.bharatarmy.databinding.MatchDetailtitleItemBinding;
-import com.bharatarmy.databinding.TravelMatchGroupdetailItemListBinding;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -18,7 +18,7 @@ import com.bharatarmy.Adapter.OtherMatchShowAdapter;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.ActivityTravelMatchTicketAndHosipitalityticketdetailBinding;
-import com.bharatarmy.listener.HidingScrollListener;
+
 
 import java.util.ArrayList;
 

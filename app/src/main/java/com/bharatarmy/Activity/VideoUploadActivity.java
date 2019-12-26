@@ -35,7 +35,8 @@ public class VideoUploadActivity extends AppCompatActivity implements View.OnCli
     public List<GalleryImageModel> galleryImageList;
 
     String pathStr, durationStr, sizeStr, videoTitleStr, videoDescriptionStr, videoHeightStr, videoWidthStr,photoprivacyStr;
-
+    String privacysettingstr="";
+    String thumbnailpath;
 
     DbHandler dbHandler;
 
@@ -61,9 +62,10 @@ public class VideoUploadActivity extends AppCompatActivity implements View.OnCli
         sizeStr = getIntent().getStringExtra("videoSize");
         videoHeightStr = getIntent().getStringExtra("videoheight");
         videoWidthStr = getIntent().getStringExtra("videowidth");
-
+        privacysettingstr = activityVideoUploadBinding.privacyOptionTxt.getText().toString();
         if (!pathStr.equalsIgnoreCase("")) {
             if (Utils.createThumbnailAtTime(pathStr)!=null){
+           thumbnailpath = Utils.saveToInternalStorage(Utils.createThumbnailAtTime(pathStr)).toString();
                 activityVideoUploadBinding.chooseVideo.setImageBitmap(Utils.createThumbnailAtTime(pathStr));
             }else{
                 Utils.ping(mContext,getResources().getString(R.string.video_error));
@@ -81,9 +83,11 @@ public class VideoUploadActivity extends AppCompatActivity implements View.OnCli
             if (event.getPrivacyname().equalsIgnoreCase("Public")){
                activityVideoUploadBinding.selectedOptionImg.setImageDrawable(mContext.getDrawable(R.drawable.ic_aboutus));
                activityVideoUploadBinding.privacySubTxt.setText(getResources().getString(R.string.photo_public_option_sub_txt));
+                privacysettingstr = activityVideoUploadBinding.privacyOptionTxt.getText().toString();
             }else{
                 activityVideoUploadBinding.selectedOptionImg.setImageDrawable(mContext.getDrawable(R.drawable.ic_private_user));
                 activityVideoUploadBinding.privacySubTxt.setText(getResources().getString(R.string.photo_private_option_sub_txt));
+                privacysettingstr = activityVideoUploadBinding.privacyOptionTxt.getText().toString();
             }
 
         }
@@ -128,7 +132,7 @@ public class VideoUploadActivity extends AppCompatActivity implements View.OnCli
                 if (!videoTitleStr.equalsIgnoreCase("")) {
                     if (!videoDescriptionStr.equalsIgnoreCase("")) {
 //                        if (Utils.createVideoThumbNail(pathStr) != null) {
-                            galleryImageList.add(new GalleryImageModel(pathStr, sizeStr, "0", durationStr, "2", videoTitleStr, videoDescriptionStr,videoHeightStr,videoWidthStr));
+                            galleryImageList.add(new GalleryImageModel(pathStr, sizeStr, "0", durationStr, "2", videoTitleStr, videoDescriptionStr,videoHeightStr,videoWidthStr,privacysettingstr,thumbnailpath));
                             boolean connected = Utils.checkNetwork(mContext);
 
                             if (connected == true) {
@@ -143,6 +147,8 @@ public class VideoUploadActivity extends AppCompatActivity implements View.OnCli
                                                 galleryImageList.get(i).getVideoDesc(),
                                                 galleryImageList.get(i).getVideoHeight(),
                                                 galleryImageList.get(i).getVideoWidth(),
+                                                galleryImageList.get(i).getPrivacySetting(),
+                                                galleryImageList.get(i).getThumbnail(),
                                                 mContext);
                                     }
                                     Intent intent = new Intent(mContext, UploadService.class);

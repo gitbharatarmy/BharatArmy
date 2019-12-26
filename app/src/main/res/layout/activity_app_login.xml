@@ -1,268 +1,287 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:fillViewport="true"
-    android:scrollbars="none"
-    android:orientation="vertical"
-    tools:context=".Activity.AppLoginActivity">
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
-    <LinearLayout
-        android:id="@+id/skip_linear"
-        android:layout_width="@dimen/_80sdp"
-        android:layout_height="@dimen/_25sdp"
-        android:layout_below="@+id/close_linear"
-android:layout_gravity="right"
-        android:layout_marginTop="@dimen/_20sdp"
-        android:layout_marginRight="@dimen/_15sdp"
-        android:background="@drawable/offers_skip_shape"
-        android:elevation="5dp"
-        android:orientation="horizontal"
-        android:visibility="visible">
 
-        <TextView
-            style="@style/text_font"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical|center_horizontal"
-            android:text="Skip"
-            android:textColor="@color/normal_font_color"
-            android:textSize="@dimen/_12sdp" />
-
-    </LinearLayout>
-
-    <ImageView
-        android:id="@+id/app_logo"
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/skip_linear"
-        android:scaleType="centerInside"
-        android:layout_marginLeft="@dimen/_20sdp"
-        android:layout_marginRight="@dimen/_20sdp"
-        android:src="@drawable/ic_firstpage_logo"/>
-
-    <com.facebook.shimmer.ShimmerFrameLayout
-        android:id="@+id/shimmer_view_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/app_logo"
-        android:layout_gravity="center"
-        android:layout_marginTop="@dimen/_10sdp"
+        android:fillViewport="true"
         android:orientation="vertical"
-        android:visibility="gone">
-
-        <include layout="@layout/app_display_item_dataholder" />
-
-
-    </com.facebook.shimmer.ShimmerFrameLayout>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/display_app_item_rcv"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/_140sdp"
-        android:layout_below="@id/app_logo"
-        android:layout_marginBottom="@dimen/_32sdp"/>
-
-<LinearLayout
-    android:id="@+id/login_linear"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:layout_above="@+id/temrs_linear"
-    android:layout_marginBottom="@dimen/_15sdp"
-    android:elevation="5dp">
-    <LinearLayout
-        android:id="@+id/loginwithfacebook_linear"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/_45sdp"
-        android:background="@drawable/rectangle_line"
-        android:orientation="horizontal"
-        android:layout_marginLeft="@dimen/_15sdp"
-        android:layout_marginRight="@dimen/_15sdp">
-
-        <ImageView
-            android:layout_width="@dimen/_23sdp"
-            android:layout_height="@dimen/_23sdp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="@dimen/_10sdp"
-            android:layout_marginRight="@dimen/_5sdp"
-            android:src="@drawable/ic_facebook_login"/>
-        <TextView
-            android:id="@+id/continue_facebook_txt"
-            style="@style/text_font"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_45sdp"
-            android:text="@string/continue_facebook"
-            android:gravity="center_vertical"
-            android:paddingLeft="@dimen/_5sdp"
-            android:textColor="@color/heading_bg"
-            android:textSize="@dimen/_12sdp"
-            android:textStyle="bold"/>
-
-
-    </LinearLayout>
-    <com.facebook.login.widget.LoginButton
-        android:id="@+id/login_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="30dp"
-        android:layout_marginBottom="30dp"
-        android:visibility="gone"/>
-    <LinearLayout
-        android:id="@+id/loginwithgoogle_linear"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/_45sdp"
-        android:background="@drawable/rectangle_line"
-        android:orientation="horizontal"
-        android:layout_marginLeft="@dimen/_15sdp"
-        android:layout_marginRight="@dimen/_15sdp"
-        android:layout_marginTop="@dimen/_10sdp">
-
-        <ImageView
-            android:layout_width="@dimen/_22sdp"
-            android:layout_height="@dimen/_22sdp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="@dimen/_10sdp"
-            android:layout_marginRight="@dimen/_5sdp"
-            android:src="@drawable/ic_google"/>
-        <TextView
-            android:id="@+id/continue_google_txt"
-            style="@style/text_font"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_45sdp"
-            android:text="@string/continue_google"
-            android:gravity="center_vertical"
-            android:paddingLeft="@dimen/_5sdp"
-            android:textColor="@color/heading_bg"
-            android:textSize="@dimen/_12sdp"
-            android:textStyle="bold"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/login_withemail_linear"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/_45sdp"
-        android:background="@drawable/rectangle_line"
-        android:orientation="horizontal"
-        android:layout_marginLeft="@dimen/_15sdp"
-        android:layout_marginRight="@dimen/_15sdp"
-        android:layout_marginTop="@dimen/_10sdp">
-
-        <ImageView
-            android:layout_width="@dimen/_22sdp"
-            android:layout_height="@dimen/_22sdp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="@dimen/_10sdp"
-            android:layout_marginRight="@dimen/_5sdp"
-            android:src="@drawable/ic_envelope"
-            android:tint="@color/heading_bg"/>
-        <TextView
-            android:id="@+id/continue_email_txt"
-            style="@style/text_font"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/_45sdp"
-            android:text="@string/continue_email"
-            android:gravity="center_vertical"
-            android:paddingLeft="@dimen/_5sdp"
-            android:textColor="@color/heading_bg"
-            android:textSize="@dimen/_12sdp"
-            android:textStyle="bold"/>
-    </LinearLayout>
-</LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/temrs_linear"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:orientation="vertical"
-        android:layout_marginBottom="@dimen/_5sdp">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/terms_view_txt"
-            android:gravity="center_horizontal"
-            style="@style/text_font"
-            android:textColor="@color/unselected_view"
-            android:textSize="@dimen/_9sdp"/>
+        android:scrollbars="none"
+        tools:context=".Activity.AppLoginActivity">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
             <LinearLayout
-                android:layout_width="@dimen/_70sdp"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:id="@+id/skip_linear"
+                android:layout_width="@dimen/_80sdp"
+                android:layout_height="@dimen/_25sdp"
+                android:layout_below="@+id/close_linear"
+                android:layout_gravity="right"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:layout_marginRight="@dimen/_15sdp"
+                android:background="@drawable/offers_skip_shape"
+                android:elevation="5dp"
+                android:orientation="horizontal"
+                android:visibility="visible">
 
                 <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/termsofservice"
                     style="@style/text_font"
-                    android:textColor="@color/unselected_view"
-                    android:textSize="@dimen/_8sdp"
-                    android:gravity="center_horizontal"/>
-                <ImageView
-                    android:layout_width="@dimen/_60sdp"
-                    android:layout_height="@dimen/_3sdp"
-                    android:layout_marginTop="@dimen/_1sdp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginLeft="@dimen/_2sdp"
-                 android:src="@drawable/dotted_line"/>
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:text="Skip"
+                    android:textColor="@color/normal_font_color"
+                    android:textSize="@dimen/_12sdp" />
+
             </LinearLayout>
-            <LinearLayout
-                android:layout_width="@dimen/_55sdp"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-            <TextView
+
+            <ImageView
+                android:id="@+id/app_logo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/privacy_policy"
-                style="@style/text_font"
-                android:textColor="@color/unselected_view"
-                android:textSize="@dimen/_8sdp"
-                android:gravity="center_horizontal"/>
+                android:layout_below="@+id/skip_linear"
+                android:layout_marginLeft="@dimen/_20sdp"
+                android:layout_marginRight="@dimen/_20sdp"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_firstpage_logo" />
 
-                <ImageView
-                    android:layout_width="@dimen/_45sdp"
-                    android:layout_height="@dimen/_3sdp"
-                    android:layout_marginTop="@dimen/_1sdp"
-                    android:src="@drawable/dotted_line"
-                    android:layout_gravity="center_horizontal"/>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="@dimen/_55sdp"
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:id="@+id/shimmer_view_container"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/app_logo"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <include layout="@layout/app_display_item_dataholder" />
+
+
+            </com.facebook.shimmer.ShimmerFrameLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/display_app_item_rcv"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_140sdp"
+                android:layout_below="@id/app_logo"
+                android:layout_marginBottom="@dimen/_32sdp" />
+
+            <LinearLayout
+                android:id="@+id/login_linear"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/temrs_linear"
+                android:layout_marginBottom="@dimen/_15sdp"
+                android:elevation="5dp"
                 android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/loginwithfacebook_linear"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_45sdp"
+                    android:layout_marginLeft="@dimen/_15sdp"
+                    android:layout_marginRight="@dimen/_15sdp"
+                    android:background="@drawable/rectangle_line"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/_23sdp"
+                        android:layout_height="@dimen/_23sdp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="@dimen/_10sdp"
+                        android:layout_marginRight="@dimen/_5sdp"
+                        android:src="@drawable/ic_facebook_login" />
+
+                    <TextView
+                        android:id="@+id/continue_facebook_txt"
+                        style="@style/text_font"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_45sdp"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="@dimen/_5sdp"
+                        android:text="@string/continue_facebook"
+                        android:textColor="@color/heading_bg"
+                        android:textSize="@dimen/_12sdp"
+                        android:textStyle="bold" />
+
+
+                </LinearLayout>
+
+                <com.facebook.login.widget.LoginButton
+                    android:id="@+id/login_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginBottom="30dp"
+                    android:visibility="gone" />
+
+                <LinearLayout
+                    android:id="@+id/loginwithgoogle_linear"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_45sdp"
+                    android:layout_marginLeft="@dimen/_15sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginRight="@dimen/_15sdp"
+                    android:background="@drawable/rectangle_line"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/_22sdp"
+                        android:layout_height="@dimen/_22sdp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="@dimen/_10sdp"
+                        android:layout_marginRight="@dimen/_5sdp"
+                        android:src="@drawable/ic_google" />
+
+                    <TextView
+                        android:id="@+id/continue_google_txt"
+                        style="@style/text_font"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_45sdp"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="@dimen/_5sdp"
+                        android:text="@string/continue_google"
+                        android:textColor="@color/heading_bg"
+                        android:textSize="@dimen/_12sdp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/login_withemail_linear"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_45sdp"
+                    android:layout_marginLeft="@dimen/_15sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginRight="@dimen/_15sdp"
+                    android:background="@drawable/rectangle_line"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/_22sdp"
+                        android:layout_height="@dimen/_22sdp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="@dimen/_10sdp"
+                        android:layout_marginRight="@dimen/_5sdp"
+                        android:src="@drawable/ic_envelope"
+                        android:tint="@color/heading_bg" />
+
+                    <TextView
+                        android:id="@+id/continue_email_txt"
+                        style="@style/text_font"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_45sdp"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="@dimen/_5sdp"
+                        android:text="@string/continue_email"
+                        android:textColor="@color/heading_bg"
+                        android:textSize="@dimen/_12sdp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/temrs_linear"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:orientation="vertical">
+
                 <TextView
+                    style="@style/text_font"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/contentpolicy"
-                    style="@style/text_font"
+                    android:gravity="center_horizontal"
+                    android:text="@string/terms_view_txt"
                     android:textColor="@color/unselected_view"
-                    android:textSize="@dimen/_8sdp"
-                    android:gravity="center_horizontal"/>
-                <ImageView
-                    android:layout_width="@dimen/_50sdp"
-                    android:layout_height="@dimen/_3sdp"
-                    android:layout_marginTop="@dimen/_1sdp"
-                    android:src="@drawable/dotted_line"
-                    android:layout_gravity="center_horizontal"/>
-            </LinearLayout>
+                    android:textSize="@dimen/_9sdp" />
 
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:id="@+id/terms_of_service_linear"
+                        android:layout_width="@dimen/_70sdp"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/text_font"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+                            android:text="@string/termsofservice"
+                            android:textColor="@color/unselected_view"
+                            android:textSize="@dimen/_8sdp" />
+
+                        <ImageView
+                            android:layout_width="@dimen/_60sdp"
+                            android:layout_height="@dimen/_3sdp"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginLeft="@dimen/_2sdp"
+                            android:layout_marginTop="@dimen/_1sdp"
+                            android:src="@drawable/dotted_line" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/privacy_policy_linear"
+                        android:layout_width="@dimen/_55sdp"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/text_font"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+                            android:text="@string/privacy_policy"
+                            android:textColor="@color/unselected_view"
+                            android:textSize="@dimen/_8sdp" />
+
+                        <ImageView
+                            android:layout_width="@dimen/_45sdp"
+                            android:layout_height="@dimen/_3sdp"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="@dimen/_1sdp"
+                            android:src="@drawable/dotted_line" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/content_policy_linear"
+                        android:layout_width="@dimen/_55sdp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_3sdp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/text_font"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_horizontal"
+                            android:text="@string/contentpolicy"
+                            android:textColor="@color/unselected_view"
+                            android:textSize="@dimen/_8sdp" />
+                        <ImageView
+                            android:layout_width="@dimen/_50sdp"
+
+                            android:layout_height="@dimen/_3sdp"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="@dimen/_1sdp"
+                            android:src="@drawable/dotted_line" />
+                    </LinearLayout>
+
+                </LinearLayout>
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
-</LinearLayout>
-</ScrollView>
+    </ScrollView>
 </layout>

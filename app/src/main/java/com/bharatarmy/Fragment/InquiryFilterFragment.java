@@ -15,7 +15,6 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bharatarmy.Adapter.InquiryOrderTypeAdapter;
-import com.bharatarmy.Adapter.RegisterIntrestAdapter;
 import com.bharatarmy.Interfaces.MorestoryClick;
 import com.bharatarmy.Interfaces.image_click;
 import com.bharatarmy.Models.InquiryOrderTypeModel;

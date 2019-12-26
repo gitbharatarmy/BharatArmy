@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
@@ -27,6 +28,8 @@ import com.bharatarmy.Models.WalkthroughData;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.ApiHandler;
 import com.bharatarmy.Utility.Utils;
+import com.bharatarmy.databinding.WalkthroughBinding;
+import com.bharatarmy.databinding.WelcomeSlide1Binding;
 import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 
@@ -40,18 +43,20 @@ import java.util.Map;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
+
 // remove comment code 07-06-2019
 public class WalkThrough extends AppCompatActivity {
 
-    private ViewPager viewPager;
+    WalkthroughBinding walkthroughBinding;
     private MyViewPagerAdapter myViewPagerAdapter;
-    private LinearLayout dotsLayout;
     private ImageView[] dots;
     private ArrayList<Integer> layouts;
     private List<WalkthroughData> walkthroughDataList;
-    private Button btnSkip, btnNext;
     Context mContext;
     PrefManager prefManager;
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,18 +67,14 @@ public class WalkThrough extends AppCompatActivity {
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
         }
 
-        setContentView(R.layout.walkthrough);
+        walkthroughBinding = DataBindingUtil.setContentView(this, R.layout.walkthrough);
 
-        viewPager = (ViewPager) findViewById(R.id.view_pager);
-        dotsLayout = (LinearLayout) findViewById(R.id.layoutDots);
-        btnSkip = (Button) findViewById(R.id.btn_skip);
-        btnNext = (Button) findViewById(R.id.btn_next);
+
         Utils.setPref(mContext, "IsSkipLogin", "0");
         Utils.setPref(mContext, "IsLoginUser", "0");
         Utils.setPref(mContext, "IsFirstTime", "1");
         callWalkThroughData();
     }
-
 
 
     @SuppressLint("ResourceAsColor")
@@ -95,7 +96,7 @@ public class WalkThrough extends AppCompatActivity {
         int width = 30;
         int height = 30;
 
-        dotsLayout.removeAllViews();
+        walkthroughBinding.layoutDots.removeAllViews();
         for (int i = 0; i < dots.length; i++) {
             dots[i] = new ImageView(this);
 //            dots[i].setText(Html.fromHtml("&#8226;"));
@@ -105,7 +106,7 @@ public class WalkThrough extends AppCompatActivity {
             dots[i].setLayoutParams(parms);
             dots[i].setImageResource(Integer.parseInt(colorsInactive.get(currentPage)));//   colorsInactive[currentPage]
 
-            dotsLayout.addView(dots[i]);
+            walkthroughBinding.layoutDots.addView(dots[i]);
         }
 
         if (dots.length > 0)
@@ -113,7 +114,7 @@ public class WalkThrough extends AppCompatActivity {
     }
 
     private int getItem(int i) {
-        return viewPager.getCurrentItem() + i;
+        return walkthroughBinding.viewPager.getCurrentItem() + i;
     }
 
     private void launchHomeScreen() {
@@ -121,6 +122,9 @@ public class WalkThrough extends AppCompatActivity {
         startActivity(new Intent(WalkThrough.this, Splash_Screen.class));
         finish();
     }
+
+
+
 
     //  viewpager change listener
     ViewPager.OnPageChangeListener viewPagerPageChangeListener = new ViewPager.OnPageChangeListener() {
@@ -133,12 +137,12 @@ public class WalkThrough extends AppCompatActivity {
             // changing the next button text 'NEXT' / 'GOT IT'
             if (position == layouts.size() - 1) {
                 // last page. make button text to GOT IT
-                btnNext.setText(getString(R.string.start));
-                btnSkip.setVisibility(View.GONE);
+                walkthroughBinding.btnNext.setText(getString(R.string.start));
+                walkthroughBinding.btnSkip.setVisibility(View.GONE);
             } else {
                 // still pages are left
-                btnNext.setText(getString(R.string.next));
-                btnSkip.setVisibility(View.VISIBLE);
+                walkthroughBinding.btnNext.setText(getString(R.string.next));
+                walkthroughBinding.btnSkip.setVisibility(View.VISIBLE);
             }
         }
 
@@ -204,14 +208,14 @@ public class WalkThrough extends AppCompatActivity {
                         changeStatusBarColor();
 
                         myViewPagerAdapter = new MyViewPagerAdapter();
-                        viewPager.setAdapter(myViewPagerAdapter);
+                        walkthroughBinding.viewPager.setAdapter(myViewPagerAdapter);
 
-                        btnNext.setVisibility(View.VISIBLE);
-                        btnSkip.setVisibility(View.VISIBLE);
+                        walkthroughBinding.btnNext.setVisibility(View.VISIBLE);
+                        walkthroughBinding.btnSkip.setVisibility(View.VISIBLE);
 
-                        viewPager.addOnPageChangeListener(viewPagerPageChangeListener);
+                        walkthroughBinding.viewPager.addOnPageChangeListener(viewPagerPageChangeListener);
 
-                        btnSkip.setOnClickListener(new View.OnClickListener() {
+                        walkthroughBinding.btnSkip.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 Utils.goToLogin(mContext, "walkThrough");
@@ -219,7 +223,7 @@ public class WalkThrough extends AppCompatActivity {
                             }
                         });
 
-                        btnNext.setOnClickListener(new View.OnClickListener() {
+                        walkthroughBinding.btnNext.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 // checking for last page
@@ -227,7 +231,7 @@ public class WalkThrough extends AppCompatActivity {
                                 int current = getItem(+1);
                                 if (current < layouts.size()) {
                                     // move to next screen
-                                    viewPager.setCurrentItem(current);
+                                    walkthroughBinding.viewPager.setCurrentItem(current);
                                 } else {
                                     Utils.goToLogin(mContext, "walkThrough");
                                     finish();
@@ -260,38 +264,22 @@ public class WalkThrough extends AppCompatActivity {
      * View pager adapter
      */
     public class MyViewPagerAdapter extends PagerAdapter {
-        private LayoutInflater layoutInflater;
-        private ImageView banner_img;
-        private TextView header_txt;
 
         public MyViewPagerAdapter() {
         }
 
         @Override
-        public Object instantiateItem(ViewGroup container, int position) {
-            layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        public Object instantiateItem(ViewGroup parent, int position) {
+            WelcomeSlide1Binding welcomeSlide1Binding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
+                    R.layout.welcome_slide1, parent, false);
 
-            View view = layoutInflater.inflate(R.layout.welcome_slide1, container, false);
+            Utils.setImageInImageView(walkthroughDataList.get(position).getBannerImageURL(), welcomeSlide1Binding.walkthroughBannerImg, mContext);
 
+            welcomeSlide1Binding.headingTxt.setText(walkthroughDataList.get(position).getHeaderText());
 
-            banner_img = (ImageView) view.findViewById(R.id.walkthrough_banner_img);
+            parent.addView(welcomeSlide1Binding.getRoot());
 
-            header_txt = (TextView) view.findViewById(R.id.heading_txt);
-
-
-//            Glide.with(mContext)
-//                    .load(walkthroughDataList.get(position).getBannerImageURL())
-//                    .placeholder(R.drawable.loader)
-//                    .centerCrop()
-//                    .into(banner_img);
-
-            Utils.setImageInImageView(walkthroughDataList.get(position).getBannerImageURL(), banner_img, mContext);
-
-            header_txt.setText(walkthroughDataList.get(position).getHeaderText());
-
-            container.addView(view);
-
-            return view;
+            return welcomeSlide1Binding.getRoot();
         }
 
         @Override

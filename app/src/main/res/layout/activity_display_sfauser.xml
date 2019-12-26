@@ -18,25 +18,22 @@
             <androidx.appcompat.widget.Toolbar
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_50sdp"
-                android:background="@color/heading_bg"
-                android:minHeight="?attr/actionBarSize"
-                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                app:titleTextAppearance="@style/ToolbarTitle">
-
-                <LinearLayout
+                android:background="@color/heading_bg">
+<!--                android:minHeight="?attr/actionBarSize"-->
+<!--                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"-->
+<!--                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"-->
+<!--                app:titleTextAppearance="@style/ToolbarTitle"-->
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/_4sdp"
-                    android:layout_marginRight="@dimen/_5sdp"
-                    android:orientation="horizontal"
-                    android:weightSum="3">
+                    android:layout_marginLeft="@dimen/_15sdp"
+                    android:layout_marginRight="@dimen/_15sdp"
+                    android:orientation="horizontal">
 
                     <LinearLayout
                         android:id="@+id/back_img"
                         android:layout_width="@dimen/_40sdp"
                         android:layout_height="@dimen/_40sdp"
-                        android:layout_marginLeft="@dimen/_4sdp"
                         android:orientation="horizontal">
 
                         <ImageView
@@ -50,9 +47,9 @@
                     <TextView
                         android:id="@+id/toolbar_title_txt"
                         style="@style/title_text_font"
-                        android:layout_width="0dp"
+                        android:layout_width="match_parent"
                         android:layout_height="@dimen/_40sdp"
-                        android:layout_weight="2.5"
+                        android:layout_toRightOf="@+id/back_img"
                         android:ellipsize="end"
                         android:gravity="center_vertical"
                         android:maxLines="1"
@@ -63,10 +60,9 @@
 
                     <LinearLayout
                         android:id="@+id/share_linear"
-                        android:layout_width="0dp"
+                        android:layout_width="@dimen/_25sdp"
                         android:layout_height="@dimen/_40sdp"
                         android:layout_alignParentRight="true"
-                        android:layout_weight="0.5"
                         android:orientation="vertical"
                         android:visibility="visible">
 
@@ -76,7 +72,6 @@
                             android:layout_height="@dimen/_20sdp"
                             android:layout_gravity="center_horizontal"
                             android:layout_marginTop="@dimen/_12sdp"
-                            android:layout_marginRight="@dimen/_4sdp"
                             android:src="@drawable/ic_search"
                             android:tint="@color/splash_bg_color"
                             android:visibility="gone" />
@@ -91,18 +86,9 @@
                             android:tint="@color/splash_bg_color"
                             android:visibility="gone" />
 
-                        <TextView
-                            style="@style/text_font"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:gravity="center_horizontal"
-                            android:text="edit"
-                            android:textColor="@color/splash_bg_color"
-                            android:textSize="@dimen/_10sdp"
-                            android:visibility="gone" />
                     </LinearLayout>
 
-                </LinearLayout>
+                </RelativeLayout>
             </androidx.appcompat.widget.Toolbar>
 
         </LinearLayout>
@@ -148,9 +134,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/search_linear"
-            android:layout_marginLeft="@dimen/_15sdp"
+            android:layout_marginLeft="@dimen/_16sdp"
             android:layout_marginTop="@dimen/_5sdp"
-            android:layout_marginRight="@dimen/_15sdp"
+            android:layout_marginRight="@dimen/_16sdp"
             android:layout_marginBottom="@dimen/_5sdp"
             android:orientation="vertical"
             android:visibility="gone">
@@ -164,9 +150,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/search_linear"
-            android:layout_marginLeft="@dimen/_15sdp"
+            android:layout_marginLeft="@dimen/_16sdp"
             android:layout_marginTop="@dimen/_5sdp"
-            android:layout_marginRight="@dimen/_15sdp"
+            android:layout_marginRight="@dimen/_16sdp"
             android:layout_marginBottom="@dimen/_5sdp"
             android:orientation="vertical"
             android:visibility="gone">
@@ -185,9 +171,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/_15sdp"
+                android:layout_marginLeft="@dimen/_16sdp"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:layout_marginRight="@dimen/_15sdp"
+                android:layout_marginRight="@dimen/_16sdp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -222,9 +208,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/_15sdp"
+                android:layout_marginLeft="@dimen/_16sdp"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:layout_marginRight="@dimen/_15sdp"
+                android:layout_marginRight="@dimen/_16sdp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -265,9 +251,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/_15sdp"
+                android:layout_marginLeft="@dimen/_16sdp"
                 android:layout_marginTop="@dimen/_10sdp"
-                android:layout_marginRight="@dimen/_15sdp"
+                android:layout_marginRight="@dimen/_16sdp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -335,9 +321,9 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_below="@+id/search_linear"
-            android:layout_marginLeft="@dimen/_15sdp"
+            android:layout_marginLeft="@dimen/_16sdp"
             android:layout_marginTop="@dimen/_10sdp"
-            android:layout_marginRight="@dimen/_15sdp"
+            android:layout_marginRight="@dimen/_16sdp"
             android:layout_marginBottom="@dimen/_3sdp"
             android:visibility="gone">
 
@@ -364,9 +350,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/total_count_linear"
-            android:layout_marginLeft="@dimen/_15sdp"
+            android:layout_marginLeft="@dimen/_16sdp"
             android:layout_marginTop="@dimen/_10sdp"
-            android:layout_marginRight="@dimen/_15sdp"
+            android:layout_marginRight="@dimen/_16sdp"
             android:layout_marginBottom="@dimen/_5sdp" />
 
         <LinearLayout

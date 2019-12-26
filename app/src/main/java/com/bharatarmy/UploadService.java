@@ -52,7 +52,7 @@ public class UploadService extends IntentService implements ProgressRequestBody.
     private NotificationManager notifManager;
     DbHandler db;
     String fileTypeId;
-    RequestBody appuserId, filetypeId, memberName, videoLength, videoTitle, videoDesc, videoHeight, videoWidth;
+    RequestBody appuserId, filetypeId, memberName, videoLength, videoTitle, videoDesc, videoHeight, videoWidth,videoprivacysetting;
     Call<LogginModel> call;
 
     public UploadService() {
@@ -93,17 +93,18 @@ public class UploadService extends IntentService implements ProgressRequestBody.
         videoDesc = RequestBody.create(MediaType.parse("text/plain"), objfile.getVideoDesc());
         videoHeight = RequestBody.create(MediaType.parse("text/plain"), objfile.getVideoHeight());
         videoWidth = RequestBody.create(MediaType.parse("text/plain"), objfile.getVideoWidth());
+        videoprivacysetting=RequestBody.create(MediaType.parse("text/plain"),objfile.getPrivacySetting());
         Retrofit retrofit = NetworkClient.getRetrofitClient(getApplicationContext());
         WebServices uploadAPIs = retrofit.create(WebServices.class);
         if (objfile.getFileType().equalsIgnoreCase("2")) {
             Utils.videoFile = new ArrayList<>();
 
 //            create thumbnail and store in folder
-            String thumbnailpath = Utils.saveToInternalStorage(Utils.createThumbnailAtTime(objfile.getImageUri())).toString();
+//            String thumbnailpath = Utils.saveToInternalStorage(Utils.createThumbnailAtTime(objfile.getImageUri())).toString();
 
-            Log.d("videothumbnailpath", thumbnailpath);
+//            Log.d("videothumbnailpath", thumbnailpath);
             Utils.videoFile.add(objfile.getImageUri());
-            Utils.videoFile.add(thumbnailpath);
+            Utils.videoFile.add(objfile.getThumbnail());
 
             MediaType mediaType = MediaType.parse("");//Based on the Postman logs,it's not specifying Content-Type, this is why I've made this empty content/mediaType
             MultipartBody.Part[] fileParts = new MultipartBody.Part[Utils.videoFile.size()];
@@ -113,15 +114,15 @@ public class UploadService extends IntentService implements ProgressRequestBody.
                 //Setting the file name as an empty string here causes the same issue, which is sending the request successfully without saving the files in the backend, so don't neglect the file name parameter.
                 fileParts[i] = MultipartBody.Part.createFormData(String.format(Locale.ENGLISH, "file[%d]", i), file.getName(), fileBody);
             }
-            call = uploadAPIs.uploadvideo(fileParts, filetypeId, appuserId, memberName, videoLength, videoTitle, videoDesc, videoHeight, videoWidth);
+            call = uploadAPIs.uploadvideo(fileParts, filetypeId, appuserId, memberName, videoLength, videoTitle, videoDesc, videoHeight, videoWidth,videoprivacysetting);
         } else {
             Utils.videoFile = new ArrayList<>();
 //            create thumbnail and store in folder
-            String thumbnailpath = Utils.saveToInternalStorage(Utils.createImageThumbNail(Utils.getBitmap(objfile.getImageUri()))).toString();
-            Log.d("Imagethumbnailpath", thumbnailpath);
+//            String thumbnailpath = Utils.saveToInternalStorage(Utils.createImageThumbNail(Utils.getBitmap(objfile.getImageUri()))).toString();
+//            Log.d("Imagethumbnailpath", thumbnailpath);
 
             Utils.videoFile.add(objfile.getImageUri());
-            Utils.videoFile.add(thumbnailpath);
+            Utils.videoFile.add(objfile.getThumbnail());
 
 
             MediaType mediaType = MediaType.parse("");//Based on the Postman logs,it's not specifying Content-Type, this is why I've made this empty content/mediaType
@@ -132,7 +133,9 @@ public class UploadService extends IntentService implements ProgressRequestBody.
                 //Setting the file name as an empty string here causes the same issue, which is sending the request successfully without saving the files in the backend, so don't neglect the file name parameter.
                 fileParts[i] = MultipartBody.Part.createFormData(String.format(Locale.ENGLISH, "file[%d]", i), file.getName(), fileBody);
             }
-            call = uploadAPIs.uploadvideo(fileParts, filetypeId, appuserId, memberName, videoLength, videoTitle, videoDesc, videoHeight, videoWidth);
+
+
+            call = uploadAPIs.uploadvideo(fileParts, filetypeId, appuserId, memberName, videoLength, videoTitle, videoDesc, videoHeight, videoWidth,videoprivacysetting);
         }
 
         Log.d("File", "" + call);
@@ -166,6 +169,13 @@ public class UploadService extends IntentService implements ProgressRequestBody.
 
                     }
                 }
+                /*else{
+                    if (notifManager == null) {
+                        notifManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
+                    }
+                    notifManager.cancel(NOTIFY_ID);
+                    stopSelf();
+                }*/
 
             }
 

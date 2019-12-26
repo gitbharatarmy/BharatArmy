@@ -110,7 +110,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="16dp"
                             android:layout_gravity="center_vertical|center_horizontal"
-                            android:src="@drawable/cart"
+                            android:src="@drawable/ic_cart"
                             android:tint="@color/splash_bg_color" />
                     </LinearLayout>
                     <LinearLayout

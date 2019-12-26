@@ -5,9 +5,13 @@
     android:id="@+id/main_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="@dimen/_10sdp"
+    android:layout_marginTop="@dimen/_5sdp"
+    android:layout_marginLeft="@dimen/_5sdp"
+    android:layout_marginRight="@dimen/_5sdp"
+    android:layout_marginBottom="@dimen/_5sdp"
     android:background="@drawable/match_deatil_orange_curveshape"
-    android:elevation="50dp"
+    android:elevation="3dp"
+    app:cardMaxElevation="6dp"
     android:orientation="vertical">
 
     <LinearLayout
@@ -135,7 +139,7 @@
                             android:layout_marginRight="@dimen/_3sdp"
                             android:adjustViewBounds="true"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/in_flag"
+                            android:src="@drawable/flag_india"
                             app:cornerRadius="5dp"
                             app:roundedCorners="topLeft|topRight|bottomLeft|bottomRight" />
 

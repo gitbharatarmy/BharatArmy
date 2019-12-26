@@ -16,11 +16,8 @@ import android.view.ViewGroup;
 import com.bharatarmy.Adapter.MatchFilterVenuesAdapter;
 import com.bharatarmy.Models.InquiryStatusModel;
 import com.bharatarmy.Models.RegisterIntrestFilterDataModel;
-import com.bharatarmy.Models.TravelModel;
 import com.bharatarmy.R;
 import com.bharatarmy.databinding.FragmentMatchFilterVenuesBinding;
-
-import java.util.ArrayList;
 import java.util.List;
 
 

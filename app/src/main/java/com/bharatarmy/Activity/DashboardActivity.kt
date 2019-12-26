@@ -118,10 +118,10 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, StoryFragme
 
     fun bottomNavigationView() {
         bottomNavigation.add(MeowBottomNavigation.Model(1, R.drawable.ic_fans_new))
-        bottomNavigation.add(MeowBottomNavigation.Model(2, R.drawable.ic_study)) //ic_travel_new
+        bottomNavigation.add(MeowBottomNavigation.Model(2, R.drawable.ic_travel_new)) //ic_travel_new  ic_study
         bottomNavigation.add(MeowBottomNavigation.Model(3, R.drawable.ic_home_new))
 //        bottomNavigation.add(MeowBottomNavigation.Model(4, R.drawable.ic_ftp_new))
-        bottomNavigation.add(MeowBottomNavigation.Model(4, R.drawable.ic_main_profile))
+        bottomNavigation.add(MeowBottomNavigation.Model(4, R.drawable.ic_study))
         bottomNavigation.add(MeowBottomNavigation.Model(5, R.drawable.ic_more))
         bottomNavigation.setOnClickMenuListener {
             when (it.id) {
@@ -131,10 +131,10 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, StoryFragme
                     loadFragment(fragment as FansFragment)
                 }
                 2 -> {
-                    navItemIndex = 6
-                    fragment = StoryFragment()
-                    loadFragment(fragment as StoryFragment)
-//                    navItemIndex = 8
+
+                    navItemIndex = 8
+                    fragment = NewTravelFragment()
+                    loadFragment(fragment as NewTravelFragment)
 //                    fragment = TravelFragment()
 //                    loadFragment(fragment as TravelFragment)
                 }
@@ -145,12 +145,12 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, StoryFragme
 //                    loadHomeFragment()
                 }
                 4 -> {
-//                    navItemIndex = 6
-//                    fragment = StoryFragment()
-//                    loadFragment(fragment as StoryFragment)
                     navItemIndex = 6
-                    fragment = ProfileFragment()
-                    loadFragment(fragment as ProfileFragment)
+                    fragment = StoryFragment()
+                    loadFragment(fragment as StoryFragment)
+//                    navItemIndex = 6
+//                    fragment = ProfileFragment()
+//                    loadFragment(fragment as ProfileFragment)
                 }
                 5 -> {
                     navItemIndex = 7
@@ -193,27 +193,29 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, StoryFragme
                 val page = intent.getStringExtra("whichPageRun")
                 if (page.equals("1", ignoreCase = true)) {
                     bottomNavigation.show(1, true)
-                    intent.putExtra("whichPageRun","")
+                    intent.putExtra("whichPageRun", "")
                     navItemIndex = 3
                     fragment = FansFragment()
                     loadFragment(fragment as FansFragment)
-                } else if(page.equals("4",ignoreCase = true)){
+                } /*else if (page.equals("4", ignoreCase = true)) {
                     bottomNavigation.show(4, true)
-                    intent.putExtra("whichPageRun","")
+                    intent.putExtra("whichPageRun", "")
                     navItemIndex = 7
                     fragment = ProfileFragment()
                     loadFragment(fragment as ProfileFragment)
-                }/*else if(page.equals("4",ignoreCase = true)) {
+                }*/else if(page.equals("4",ignoreCase = true)) {
                     bottomNavigation.show(4, true)
                     intent.putExtra("whichPageRun","")
                     fragment = StoryFragment()
                     loadFragment(fragment as StoryFragment)
-                } */
-                else if(page.equals("2",ignoreCase = true)) {
+                }
+                else if (page.equals("2", ignoreCase = true)) {
                     bottomNavigation.show(2, true)
                     intent.putExtra("whichPageRun", "")
-                    fragment = StoryFragment()
-                    loadFragment(fragment as StoryFragment)
+//                    fragment = TravelFragment()
+//                    loadFragment(fragment as TravelFragment)
+                    fragment = NewTravelFragment()
+                    loadFragment(fragment as NewTravelFragment)
                 } else {
                     bottomNavigation.show(3, true)
                     fragment = HomeFragment()
@@ -291,9 +293,9 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, StoryFragme
             drawer.closeDrawers()
             return
         }
-        if(speedDial.isOpen){
+        if (speedDial.isOpen) {
             speedDial.close(true);
-        }else {
+        } else {
             // This code loads home fragment when back key is pressed
             // when user is in other fragment than home
             if (shouldLoadHomeFragOnBackPress) {

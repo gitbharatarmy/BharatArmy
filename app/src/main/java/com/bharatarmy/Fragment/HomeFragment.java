@@ -9,7 +9,6 @@ import android.content.pm.ResolveInfo;
 import android.graphics.drawable.TransitionDrawable;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -29,7 +28,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
@@ -45,10 +43,8 @@ import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.bharatarmy.Activity.AlbumImageVideoShowActivity;
-import com.bharatarmy.Activity.DisplayOffersActivity;
-import com.bharatarmy.Activity.MoreStoryActivity;
+import com.bharatarmy.Activity.MoreInformationActivity;
 import com.bharatarmy.Activity.MyProfileActivity;
-import com.bharatarmy.Activity.TravelCityRestaurantDetailActivity;
 import com.bharatarmy.Activity.VideoDetailActivity;
 import com.bharatarmy.Adapter.BharatArmyStoriesAdapter;
 import com.bharatarmy.Adapter.MyBgpageAdapter;
@@ -66,13 +62,11 @@ import com.bharatarmy.Models.TravelModel;
 import com.bharatarmy.Models.UpcommingDashboardModel;
 import com.bharatarmy.R;
 import com.bharatarmy.CountDownClockHome;
-import com.bharatarmy.RoundishImageView;
 import com.bharatarmy.Utility.ApiHandler;
 import com.bharatarmy.Utility.AppConfiguration;
 import com.bharatarmy.Utility.Utils;
+import com.bharatarmy.databinding.CustomerGalleryItemBinding;
 import com.bharatarmy.databinding.FragmentHomeBinding;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.judemanutd.autostarter.AutoStartPermissionHelper;
 import com.leinardi.android.speeddial.SpeedDialView;
 
 import java.text.ParseException;
@@ -83,7 +77,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
@@ -126,7 +119,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     int position = 0;
     private MediaPlayer mediaPlayer;
 
-//    autostart
+    //    autostart
     String manufacturer;
 
     public HomeFragment() {
@@ -197,10 +190,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
     public void init() {
 //        display offers page
-        Intent displayoffersIntent=new Intent(mContext, DisplayOffersActivity.class);
+       /* Intent displayoffersIntent=new Intent(mContext, DisplayOffersActivity.class);
         displayoffersIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        mContext.startActivity(displayoffersIntent);
-
+        mContext.startActivity(displayoffersIntent);*/
 
 
 //        scrollview
@@ -217,6 +209,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             fragmentHomeBinding.displayUserprofileLinear.setVisibility(View.VISIBLE);
             if (Utils.retriveLoginData(mContext).getName() != null) {
                 fragmentHomeBinding.userprofileNameTxt.setText(Utils.retriveLoginData(mContext).getName());
+                fragmentHomeBinding.userprofileNumberViewtxt.setText(Utils.retriveLoginData(mContext).getPhoneNo());
             }
         } else {
             fragmentHomeBinding.displayUserprofileLinear.setVisibility(View.GONE);
@@ -340,24 +333,25 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
 //      Customer Gallery
         customergalleryList = new ArrayList<>();
-        customergalleryList.add(new TravelModel("Apexa Patel", "http://devenv.bharatarmy.com//Docs/16636938-9.jpg",
-                "1", "I appreciate much for your teammates to serve our needs on the application with high professional.",
-                "", "", "Application Designer"));
+        customergalleryList.add(new TravelModel("Sri Ram", "http://devenv.bharatarmy.com//Docs/16636938-9.jpg",
+                "1", "Fantastic Service, beautiful thing they are doing for the culture long may it continue \uD83D\uDC4F\uD83C\uDFFD\uD83D\uDC4F\uD83C\uDFFD\uD83D\uDC4F\uD83C\uDFFD.",
+                "", "", "5")); //Application Designer
 
-        customergalleryList.add(new TravelModel("Preksha Shah", "http://devenv.bharatarmy.com//Docs/16636938-9.jpg",
+        customergalleryList.add(new TravelModel("Ricky Chand", "http://devenv.bharatarmy.com//Docs/16636938-9.jpg",
                 "2", "",
                 "http://devenv.bharatarmy.com//Docs/Media/Thumb/a983346f-b0ac-4a49-91c6-f7196efd4629-1570705345206.jpg",
-                "http://devenv.bharatarmy.com//Docs/Media/e83c8278-f1f8-4aa6-b618-1d2302b80416-MP4_20191010_163200.mp4", "Software Engg"));
+                "http://devenv.bharatarmy.com//Docs/Media/e83c8278-f1f8-4aa6-b618-1d2302b80416-MP4_20191010_163200.mp4",
+                "5")); //Software Engg
 
-        customergalleryList.add(new TravelModel("Netika Robin", "http://devenv.bharatarmy.com//Docs/16636938-9.jpg",
-                "1", "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.",
-                "", "", "Quality Analyst"));
+        customergalleryList.add(new TravelModel("Ajay GUPTA", "http://devenv.bharatarmy.com//Docs/16636938-9.jpg",
+                "1", "Great service and offers. Certainly recommend the service and membership.",
+                "", "", "4"));
 
-        customergalleryList.add(new TravelModel("Nomrita Ben", "http://devenv.bharatarmy.com//Docs/16636938-9.jpg",
+        customergalleryList.add(new TravelModel("Balu Ramachandran", "http://devenv.bharatarmy.com//Docs/16636938-9.jpg",
                 "2", "",
                 "http://devenv.bharatarmy.com//Docs/Media/Thumb/acdb7074-8588-4059-a5f4-67d09730785a-1570441108244.jpg",
                 "http://devenv.bharatarmy.com//Docs/Media/11f98532-8171-4c81-b8e1-60a33ccf193f-MP4_20191007_150748.mp4",
-                "Java Developer"));
+                "5"));
 
         addBottomDots(0);
         customerGalleryViewPagerAdapter = new MyCustomerGalleryViewPagerAdapter();
@@ -365,11 +359,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         fragmentHomeBinding.customerGalleryViewpager.addOnPageChangeListener(viewPagerPageChangeListener);
 
 //     Autostart
-       manufacturer = android.os.Build.MANUFACTURER;
+        manufacturer = android.os.Build.MANUFACTURER;
         if ("xiaomi".equalsIgnoreCase(manufacturer) || "oppo".equalsIgnoreCase(manufacturer)
                 || "vivo".equalsIgnoreCase(manufacturer) || "oneplus".equalsIgnoreCase(manufacturer)
                 || "asus".equalsIgnoreCase(manufacturer) /*|| "samsung".equalsIgnoreCase(manufacturer)*/
-                || "Letv".equalsIgnoreCase(manufacturer)|| "Honor".equalsIgnoreCase(manufacturer)) {
+                || "Letv".equalsIgnoreCase(manufacturer) || "Honor".equalsIgnoreCase(manufacturer)) {
 
             fragmentHomeBinding.settingLinear.setVisibility(View.VISIBLE);
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
@@ -378,7 +372,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             );
             params.setMargins(0, 0, 0, 200);
             fragmentHomeBinding.settingLinear.setLayoutParams(params);
-        }else{
+        } else {
             fragmentHomeBinding.settingLinear.setVisibility(View.GONE);
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT,
@@ -613,7 +607,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.know_more:
 //                DisplayAboutUs();
-                Intent webviewIntent = new Intent(mContext, MoreStoryActivity.class);
+                Intent webviewIntent = new Intent(mContext, MoreInformationActivity.class);
                 webviewIntent.putExtra("Story Heading", "Ab Jeetega India");
                 webviewIntent.putExtra("StroyUrl", "http://ajif.in/");
                 webviewIntent.putExtra("whereTocome", "aboutus");
@@ -652,7 +646,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 voluesetting();
                 break;
             case R.id.faq_linear:
-                Intent faqIntent = new Intent(mContext, MoreStoryActivity.class);
+                Intent faqIntent = new Intent(mContext, MoreInformationActivity.class);
                 faqIntent.putExtra("Story Heading", "FAQ");
                 faqIntent.putExtra("StroyUrl", AppConfiguration.TERMSURL);
                 faqIntent.putExtra("whereTocome", "aboutus");
@@ -660,7 +654,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 mContext.startActivity(faqIntent);
                 break;
             case R.id.terms_condition_linear:
-                Intent privacypolicyIntent = new Intent(mContext, MoreStoryActivity.class);
+                Intent privacypolicyIntent = new Intent(mContext, MoreInformationActivity.class);
                 privacypolicyIntent.putExtra("Story Heading", "Privacy Policy");
                 privacypolicyIntent.putExtra("StroyUrl", AppConfiguration.TERMSURL);
                 privacypolicyIntent.putExtra("whereTocome", "aboutus");
@@ -668,7 +662,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 mContext.startActivity(privacypolicyIntent);
                 break;
             case R.id.setting_linear:
-                       autoLaunchVivo(mContext);
+                autoLaunchVivo(mContext);
                 break;
             case R.id.ba_video:
                 if (fragmentHomeBinding.baVideo.isPlaying()) {
@@ -685,7 +679,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    private  void autoLaunchVivo(Context context) {
+    private void autoLaunchVivo(Context context) {
         try {
             Intent intent = new Intent();
             if ("xiaomi".equalsIgnoreCase(manufacturer)) {
@@ -698,9 +692,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 intent.setComponent(new ComponentName("com.letv.android.letvsafe", "com.letv.android.letvsafe.AutobootManageActivity"));
             } else if ("Honor".equalsIgnoreCase(manufacturer)) {
                 intent.setComponent(new ComponentName("com.huawei.systemmanager", "com.huawei.systemmanager.optimize.process.ProtectActivity"));
-            }else if("oneplus".equalsIgnoreCase(manufacturer)) {
+            } else if ("oneplus".equalsIgnoreCase(manufacturer)) {
                 intent.setComponent(new ComponentName("com.oneplus.security", "com.oneplus.security.chainlaunch.view.ChainLaunchAppListAct‌​ivity"));
-            } else if("asus".equalsIgnoreCase(manufacturer)) {
+            } else if ("asus".equalsIgnoreCase(manufacturer)) {
                 intent.setComponent(new ComponentName("com.asus.mobilemanager", "com.asus.mobilemanager.entry.FunctionActivity")).setData(android.net.Uri.parse("mobilemanager://function/entry/AutoStart"));
             }
 //            else if("samsung".equalsIgnoreCase(manufacturer)) {
@@ -861,7 +855,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             fragmentHomeBinding.baVideo.setOnErrorListener(new MediaPlayer.OnErrorListener() {
                 @Override
                 public boolean onError(MediaPlayer mp, int what, int extra) {
-                  fragmentHomeBinding.startPauseMediaButton.setVisibility(View.VISIBLE);
+                    fragmentHomeBinding.startPauseMediaButton.setVisibility(View.VISIBLE);
                     fragmentHomeBinding.fullScreenButton.setVisibility(View.GONE);
                     fragmentHomeBinding.volmueLinear.setVisibility(View.GONE);
                     fragmentHomeBinding.image.setVisibility(View.VISIBLE);
@@ -905,52 +899,38 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     }
 
     public class MyCustomerGalleryViewPagerAdapter extends PagerAdapter {
-        private LayoutInflater layoutInflater;
-
 
         public MyCustomerGalleryViewPagerAdapter() {
-
         }
 
         @Override
-        public Object instantiateItem(ViewGroup container, int position) {
-            layoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        public Object instantiateItem(ViewGroup parent, int position) {
 
-            View view = layoutInflater.inflate(R.layout.customer_gallery_item, container, false);
-            RelativeLayout template1 = (RelativeLayout) view.findViewById(R.id.template1);
-            RelativeLayout template2 = (RelativeLayout) view.findViewById(R.id.template2);
+            CustomerGalleryItemBinding customerGalleryItemBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
+                    R.layout.customer_gallery_item, parent, false);
 
-            RoundishImageView customer_img = (RoundishImageView) view.findViewById(R.id.customer_img);
-            ImageView start_pause_media_button = (ImageView) view.findViewById(R.id.start_pause_media_button);
-            CircleImageView profile_image = (CircleImageView) view.findViewById(R.id.profile_image);
-            CircleImageView profile1_image = (CircleImageView) view.findViewById(R.id.profile1_image);
-            TextView username_txt = (TextView) view.findViewById(R.id.username_txt);
-            TextView username1_txt = (TextView) view.findViewById(R.id.username1_txt);
-            TextView user_designation_txt = (TextView) view.findViewById(R.id.user_designation_txt);
-            TextView user1_designation_txt = (TextView) view.findViewById(R.id.user1_designation_txt);
-            TextView customer_desc_txt = (TextView) view.findViewById(R.id.customer_desc_txt);
-            username_txt.setText(customergalleryList.get(position).getTourCityName());
-            Utils.setImageInImageView(customergalleryList.get(position).getTourCountryName(), profile_image, mContext);
-            user_designation_txt.setText(customergalleryList.get(position).getbAImage());
+            customerGalleryItemBinding.usernameTxt.setText(customergalleryList.get(position).getTourCityName());
+            customerGalleryItemBinding.userDesignationTxt.setText(customergalleryList.get(position).getbAImage());
 
-            username1_txt.setText(customergalleryList.get(position).getTourCityName());
-            Utils.setImageInImageView(customergalleryList.get(position).getTourCountryName(), profile1_image, mContext);
-            user1_designation_txt.setText(customergalleryList.get(position).getbAImage());
+            customerGalleryItemBinding.username1Txt.setText(customergalleryList.get(position).getTourCityName());
 
+            customerGalleryItemBinding.ratingBar.setCount(Integer.parseInt(customergalleryList.get(position).getbAImage()));
+            customerGalleryItemBinding.ratingBar1.setCount(Integer.parseInt(customergalleryList.get(position).getbAImage()));
             if (customergalleryList.get(position).getTourImage().equalsIgnoreCase("1")) {
-                template1.setVisibility(View.VISIBLE);
-                template2.setVisibility(View.GONE);
-                customer_desc_txt.setText(customergalleryList.get(position).getTourDescription());
+                customerGalleryItemBinding.template1.setVisibility(View.VISIBLE);
+                customerGalleryItemBinding.template2.setVisibility(View.GONE);
+                customerGalleryItemBinding.customerDescTxt.setText(customergalleryList.get(position).getTourDescription());
+
 //                makeTextViewResizable(customer_desc_txt,4,"Read More",true);
             } else if (customergalleryList.get(position).getTourImage().equalsIgnoreCase("2")) {
-                start_pause_media_button.setVisibility(View.VISIBLE);
-                template1.setVisibility(View.GONE);
-                template2.setVisibility(View.VISIBLE);
-                Utils.setImageInImageView(customergalleryList.get(position).getTourTotalView(), customer_img, mContext);
+                customerGalleryItemBinding.startPauseMediaButton.setVisibility(View.VISIBLE);
+                customerGalleryItemBinding.template1.setVisibility(View.GONE);
+                customerGalleryItemBinding.template2.setVisibility(View.VISIBLE);
+                Utils.setImageInImageView(customergalleryList.get(position).getTourTotalView(), customerGalleryItemBinding.customerImg, mContext);
             }
 
 
-            customer_img.setOnClickListener(new View.OnClickListener() {
+            customerGalleryItemBinding.customerImg.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent showImageVideoIntent = new Intent(mContext, AlbumImageVideoShowActivity.class);
@@ -961,7 +941,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                     mContext.startActivity(showImageVideoIntent);
                 }
             });
-            start_pause_media_button.setOnClickListener(new View.OnClickListener() {
+            customerGalleryItemBinding.startPauseMediaButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent showImageVideoIntent = new Intent(mContext, AlbumImageVideoShowActivity.class);
@@ -973,9 +953,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 }
             });
 
-            container.addView(view);
+            parent.addView(customerGalleryItemBinding.getRoot());
 
-            return view;
+            return customerGalleryItemBinding.getRoot();
         }
 
         @Override

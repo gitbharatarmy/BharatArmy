@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bharatarmy.Activity.TravelPopularCityDetailActivity;
 import com.bharatarmy.Models.TravelModel;
 import com.bharatarmy.R;
-import com.bharatarmy.Utility.Utils;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;

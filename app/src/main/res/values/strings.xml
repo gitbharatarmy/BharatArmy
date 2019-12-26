@@ -30,6 +30,7 @@
     <string name="mobile_veri" translatable="false">Phone Verification</string>
     <string name="verifycode" translatable="false">Verification</string>
 
+
     <!--    ForgotPassword & Change Password-->
     <string name="forgot_txt" translatable="false">To recover your password you need to enter your registered email address. We will sent the recovery code to your email</string>
     <string name="change_password_alert_txt" translatable="false">We have sent the recovery code via registered Email or Mobile Number</string>
@@ -38,6 +39,15 @@
     <string name="confirm_pass" translatable="false">Enter Confirm Password</string>
     <string name="submit" translatable="false">Submit</string>
     <string name="otppass_str" translatable="false"> We have sent you an access code via registered Email or Mobile Number</string>
+    <string name="change_password_main" translatable="false">Change Password</string>
+    <string name="all_notification" translatable="false">All Notification</string>
+    <string name="notification_pagetitle" translatable="false">Notification Setting</string>
+    <string name="mobile_notification" translatable="false">Mobile Notification</string>
+    <string name="email_notification" translatable="false">Email Notification</string>
+    <string name="sms_notification" translatable="false">SMS Notification</string>
+    <string name="change_password_alert" translatable="false">Change Password Alert ?</string>
+    <string name="remove_account" translatable="false">Remove Account Alert ?</string>
+    <string name="remove_account_alert_txt" translatable="false">Remove this account you will lose all your message along with any media and files you shared.</string>
 
     <!--SingUp Activity String-->
     <string name="fullname" translatable="false">Name</string>
@@ -372,4 +382,10 @@ Sincerity is the hallmark of Pan Pacific Hotels Group. The Group is known to its
     <string name="commnet_str" translatable="false">I really would like to suggest the following application is very nice.It is very usefull and user friendly.</string>
     <string name="comment_hint" translatable="false">Write your comment here...</string>
     <string name="comment_txt" translatable="false">I completely agree with <b>@DJ Dhaval Shah</b>.</string>
+
+    <!--Showcase view-->
+    <string name="previous" translatable="false">Previous</string>
+    <string name="finish" translatable="false">OK</string>
+
+
 </resources>

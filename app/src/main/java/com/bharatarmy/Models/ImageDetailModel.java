@@ -1347,4 +1347,5 @@ public class ImageDetailModel implements Serializable {
     public void setPrice(Object price) {
         this.price = price;
     }
+
 }

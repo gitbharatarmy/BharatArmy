@@ -27,6 +27,7 @@ import com.bharatarmy.R;
 import com.bharatarmy.Utility.AppConfiguration;
 import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.ActivityTravelPacakagePlaceDetailBinding;
+import com.bharatarmy.databinding.HotelGalleryViewpageBinding;
 import com.google.android.material.appbar.AppBarLayout;
 
 import java.util.ArrayList;
@@ -178,26 +179,30 @@ activityTravelPacakagePlaceDetailBinding.backImg.setOnClickListener(this);
     }
 
     public class MyPacakgePlaceGalleryViewPagerAdapter extends PagerAdapter {
-        private LayoutInflater layoutInflater;
-        ImageView hotel_gallery_image;
+//        private LayoutInflater layoutInflater;
+//        ImageView hotel_gallery_image;
 
         public MyPacakgePlaceGalleryViewPagerAdapter() {
         }
 
         @Override
-        public Object instantiateItem(ViewGroup container, int position) {
-            layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        public Object instantiateItem(ViewGroup parent, int position) {
+//            layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//
+//            View view = layoutInflater.inflate(R.layout.hotel_gallery_viewpage, container, false);
+//
+//            hotel_gallery_image = (ImageView) view.findViewById(R.id.hotel_gallery_image);
 
-            View view = layoutInflater.inflate(R.layout.hotel_gallery_viewpage, container, false);
+            HotelGalleryViewpageBinding hotelGalleryViewpageBinding =DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
+                    R.layout.hotel_gallery_viewpage,parent,false);
 
-            hotel_gallery_image = (ImageView) view.findViewById(R.id.hotel_gallery_image);
 
-            Utils.setImageInImageView(cityRestaurantGalleryList.get(position).getCityHotelAmenitiesImage(), hotel_gallery_image, mContext);
+            Utils.setImageInImageView(cityRestaurantGalleryList.get(position).getCityHotelAmenitiesImage(),hotelGalleryViewpageBinding.hotelGalleryImage, mContext);
 
             Log.d("HotelGalleeryAdapter : ", cityRestaurantGalleryList.get(position).getCityHotelAmenitiesImage());
-            container.addView(view);
+            parent.addView(hotelGalleryViewpageBinding.getRoot());
 
-            return view;
+            return hotelGalleryViewpageBinding.getRoot();
         }
 
         @Override

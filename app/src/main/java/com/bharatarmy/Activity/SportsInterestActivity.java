@@ -4,9 +4,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.app.Activity;
@@ -15,8 +12,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.graphics.Bitmap;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -29,20 +24,14 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.RadioGroup;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.bharatarmy.Adapter.DisplaySFAUserAdapter;
 import com.bharatarmy.Country;
 import com.bharatarmy.CountryCodePicker;
-import com.bharatarmy.Models.GalleryImageModel;
 import com.bharatarmy.Models.GetSchoolNameModel;
 import com.bharatarmy.Models.ImageDetailModel;
 import com.bharatarmy.Models.ImageMainModel;
 import com.bharatarmy.Models.LogginModel;
-import com.bharatarmy.Models.MultiSelectModel;
 import com.bharatarmy.MultiSportsSelectDialog;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.ApiHandler;
@@ -59,7 +48,6 @@ import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -372,6 +360,9 @@ public class SportsInterestActivity extends AppCompatActivity implements View.On
                 photoPaths.addAll(data.getStringArrayListExtra(FilePickerConst.KEY_SELECTED_MEDIA));
 
                 filePath = photoPaths.get(0);
+
+
+                Log.d("filepath",filePath);
                 addToView(photoPaths);
             }
 
@@ -538,8 +529,9 @@ public class SportsInterestActivity extends AppCompatActivity implements View.On
             return;
         }
         MultipartBody.Part body = null;
-        if (filePath != null && filePath.toString().length() > 0) {
 
+        if (filePath != null && filePath.toString().length() > 0) {
+            Log.d("filepath : ",filePath);
 //            String filePath = Utils.getFilePathFromUri(mContext, uri);
 
             mDialog = new ProgressDialog(mContext);

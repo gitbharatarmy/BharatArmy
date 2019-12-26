@@ -1,6 +1,5 @@
 package com.bharatarmy.Activity;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -9,27 +8,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.LinearLayout;
 
 import com.bharatarmy.Adapter.DisplayAddedUserAdapter;
-import com.bharatarmy.Adapter.InquiryListAdapter;
-import com.bharatarmy.Fragment.InquiryChildInformationFragment;
-import com.bharatarmy.Interfaces.MorestoryClick;
-import com.bharatarmy.Interfaces.image_click;
 import com.bharatarmy.Models.ImageDetailModel;
 import com.bharatarmy.Models.ImageMainModel;
-import com.bharatarmy.Models.MoreDataModel;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.ApiHandler;
-import com.bharatarmy.Utility.AppConfiguration;
 import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.ActivityDisplayAddedUserBinding;
-import com.facebook.shimmer.ShimmerFrameLayout;
 
 import java.util.HashMap;
 import java.util.List;

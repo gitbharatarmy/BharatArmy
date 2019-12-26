@@ -12,7 +12,6 @@ import android.widget.TextView;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bharatarmy.Activity.TravelCityHotelDetailsActivity;
 import com.bharatarmy.Activity.TravelCityRestaurantDetailActivity;
 import com.bharatarmy.Interfaces.image_click;
 import com.bharatarmy.Models.TravelModel;

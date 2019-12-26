@@ -60,6 +60,21 @@ public class MyProfileActivity extends AppCompatActivity implements View.OnClick
                 } else {
                     activityMyProfileBinding.countryFlagImg.setVisibility(View.GONE);
                 }
+            }else{
+                if (Utils.retriveCurrentLocationData(mContext)!=null){
+                    if (Utils.retriveCurrentLocationData(mContext).getIsoCode()!=null){
+                        if (!Utils.retriveCurrentLocationData(mContext).getIsoCode().equalsIgnoreCase("")) {
+                            activityMyProfileBinding.countryFlagImg.setVisibility(View.VISIBLE);
+                            countryFlagStr = AppConfiguration.FLAG_URL + Utils.retriveCurrentLocationData(mContext).getIsoCode() + ".png";
+                            Utils.setImageInImageView(countryFlagStr, activityMyProfileBinding.countryFlagImg, mContext);
+                        }else{
+                            activityMyProfileBinding.countryFlagImg.setVisibility(View.GONE);
+                        }
+                    }
+                }else{
+                    activityMyProfileBinding.countryFlagImg.setVisibility(View.GONE);
+                }
+
             }
             if (Utils.retriveLoginData(mContext).getPhoneNo() != null && !Utils.retriveLoginData(mContext).getPhoneNo().equalsIgnoreCase("")) {
                 activityMyProfileBinding.phoneShowTxt.setText(Utils.retriveLoginData(mContext).getPhoneNo());

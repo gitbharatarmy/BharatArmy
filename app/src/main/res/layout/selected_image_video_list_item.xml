@@ -26,7 +26,7 @@
                     android:id="@+id/selected_image"
                     android:layout_width="@dimen/_60sdp"
                     android:layout_height="@dimen/_60sdp"
-                    android:src="@drawable/yashmittal" />
+                    android:src="@drawable/australia_tour" />
 
 
             </androidx.cardview.widget.CardView>

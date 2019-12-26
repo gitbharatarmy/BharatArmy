@@ -39,6 +39,10 @@
     <dimen name="more_rowLeft">@dimen/_15sdp</dimen>
     <dimen name="more_rowRight">@dimen/_15sdp</dimen>
     <dimen name="welcome_images_size">360.0dip</dimen>
+    <dimen name="labeled_default_width">72dp</dimen>
+    <dimen name="labeled_default_height">32dp</dimen>
+
+
     <!--walkthorugh-->
     <!--Welcome sliding page  -->
     <dimen name="welcome_images_margin_top">0.0dip</dimen>
@@ -49,8 +53,15 @@
     <dimen name="welcome_content_min_height">96.0dip</dimen>
     <dimen name="welcome_content">@dimen/_13sdp</dimen>
     <dimen name="detail_backdrop_height">@dimen/_300sdp</dimen>
-
+    <dimen name="detail_backdrop_height_travel_schedule">@dimen/_370sdp</dimen>
+    <dimen name="detail_alert_margin">@dimen/_350sdp</dimen>
     <!--Travel-->
+    <!--Integer Value that number of column in RecyclerView-->
+    <integer name="photo_list_preview_columns">1</integer>
+
+    <!-- inter spacing between RecyclerView's Item-->
+    <dimen name="photos_list_spacing">2dp</dimen>
+
     <dimen name="detail_travelbackdrop_height">@dimen/_400sdp</dimen>
     <dimen name="card_margin">16dp</dimen>
     <dimen name="font_size_heading">25sp</dimen>
@@ -94,4 +105,16 @@
     <dimen name="round_corner_radius">20dp</dimen>
     <integer name="add_remove_duration">450</integer>
     <dimen name="round_image">@dimen/_5sdp</dimen>
+
+
+    <!--showcase view-->
+    <dimen name="text_title">16sp</dimen>
+    <dimen name="spacing_normal">16dp</dimen>
+    <dimen name="text_normal">14sp</dimen>
+    <dimen name="line_width">1dp</dimen>
+
+    <dimen name="circle_size">8dp</dimen>
+    <dimen name="circle_margin">2dp</dimen>
+    <dimen name="buttom_width_small">85dp</dimen>
+
 </resources>

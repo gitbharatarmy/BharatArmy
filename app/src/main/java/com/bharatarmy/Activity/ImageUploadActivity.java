@@ -471,7 +471,7 @@ public class ImageUploadActivity extends AppCompatActivity implements View.OnCli
     Context mContext;
     public static final int REQUEST_IMAGE = 100;
     Uri uri, selectedUri;
-
+    String thumbnailpath;
     SelectedImageVideoViewAdapter selectedImageVideoViewAdapter;
     LinearLayoutManager linearLayoutManager;
 
@@ -484,6 +484,7 @@ public class ImageUploadActivity extends AppCompatActivity implements View.OnCli
     private ArrayList<String> photoPaths = new ArrayList<>();
     public String  photoprivacyStr,fileName; //fileName;
      int imageid=0;
+     String privacysettingstr="";
 
     // Database
     DbHandler dbHandler;
@@ -502,7 +503,7 @@ public class ImageUploadActivity extends AppCompatActivity implements View.OnCli
     public void init() {
         dbHandler = new DbHandler(mContext);
         galleryImageList = new ArrayList<>();
-
+       privacysettingstr = activityImageUploadBinding.privacyTxt.getText().toString();
 
     }
 
@@ -514,9 +515,11 @@ public class ImageUploadActivity extends AppCompatActivity implements View.OnCli
                 if (event.getPrivacyname().equalsIgnoreCase("Public")) {
                     activityImageUploadBinding.privacyTxt.setText(event.getPrivacyname());
                     activityImageUploadBinding.privacyImage.setImageDrawable(getDrawable(R.drawable.ic_aboutus));
+                    privacysettingstr = activityImageUploadBinding.privacyTxt.getText().toString();
                 } else if (event.getPrivacyname().equalsIgnoreCase("Private")) {
                     activityImageUploadBinding.privacyImage.setImageDrawable(getDrawable(R.drawable.ic_private_user));
                     activityImageUploadBinding.privacyTxt.setText(event.getPrivacyname());
+                    privacysettingstr = activityImageUploadBinding.privacyTxt.getText().toString();
                 }
             }
 
@@ -574,7 +577,8 @@ public class ImageUploadActivity extends AppCompatActivity implements View.OnCli
                                     galleryImageList.get(i).getUploadcompelet(), galleryImageList.get(i).getVideolength(),
                                     galleryImageList.get(i).getFileType(), galleryImageList.get(i).getVideoTitle(),
                                     galleryImageList.get(i).getVideoDesc(), galleryImageList.get(i).getVideoHeight(),
-                                    galleryImageList.get(i).getVideoWidth(), mContext);
+                                    galleryImageList.get(i).getVideoWidth(),galleryImageList.get(i).getPrivacySetting(),
+                                    galleryImageList.get(i).getThumbnail(),mContext);
                         }
 
                         Utils.showThanyouDialog(ImageUploadActivity.this, "imageUpload");
@@ -673,20 +677,10 @@ public class ImageUploadActivity extends AppCompatActivity implements View.OnCli
         for (int i = 0; i < filePaths.size(); i++) {
             File f = new File(filePaths.get(i));
             long findsize = f.length() / 1024;
-            galleryImageList.add(0,new GalleryImageModel(filePaths.get(i), size((int) findsize), "0", "0", "1", "", "", "", ""));
+            thumbnailpath = Utils.saveToInternalStorage(Utils.createImageThumbNail(Utils.getBitmap(filePaths.get(i)))).toString();
+            galleryImageList.add(0,new GalleryImageModel(filePaths.get(i), size((int) findsize), "0", "0", "1", "", "", "", "",privacysettingstr,thumbnailpath));
         }
-
-
-//
         loadProfile();
-    }
-    private void addToArrayList(List<GalleryImageModel> model){
-        if(galleryImageList.contains(model)){
-            galleryImageList.remove(model);
-        }else{
-            galleryImageList.add((GalleryImageModel) model);
-        }
-
     }
 
     private void loadProfile() {
@@ -696,11 +690,6 @@ public class ImageUploadActivity extends AppCompatActivity implements View.OnCli
             activityImageUploadBinding.pictureMainLinear.setVisibility(View.GONE);
         }
         activityImageUploadBinding.selectedImageVideoLinear.setVisibility(View.VISIBLE);
-
-
-//        Set<GalleryImageModel> foo = new HashSet<GalleryImageModel>(galleryImageList);
-//        galleryImageList.clear();
-//        galleryImageList.addAll(foo);
 
         Set<GalleryImageModel> unique = new LinkedHashSet<GalleryImageModel>(galleryImageList);
         galleryImageList = new ArrayList<GalleryImageModel>(unique);
@@ -793,8 +782,8 @@ public class ImageUploadActivity extends AppCompatActivity implements View.OnCli
 
         long findsize = Camerafile.length() / 1024;
         Log.d("findfilesize", "" + Camerafile.length() / 1024 + "kb" + " " + Camerafile.length() / (1024 * 1024));
-
-        galleryImageList.add(0,new GalleryImageModel(imageUrl, size((int) findsize), "0", "0", "1", "", "", "", ""));
+        thumbnailpath = Utils.saveToInternalStorage(Utils.createImageThumbNail(Utils.getBitmap(imageUrl))).toString();
+        galleryImageList.add(0,new GalleryImageModel(imageUrl, size((int) findsize), "0", "0", "1", "", "", "", "",privacysettingstr,thumbnailpath));
 
         loadProfile();
 

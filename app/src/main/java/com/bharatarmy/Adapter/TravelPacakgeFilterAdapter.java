@@ -11,8 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bharatarmy.Models.TravelModel;
 import com.bharatarmy.R;
-import com.bharatarmy.databinding.FragmentTravelPacakgeFilterBinding;
-import com.bharatarmy.databinding.TravelFilterCityItemBinding;
 import com.bharatarmy.databinding.TravelFilterPacakgeItemBinding;
 
 import java.util.ArrayList;

@@ -15,7 +15,6 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.bharatarmy.Interfaces.SmsListener;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.ActivityProfileChangePasswordOtpBinding;
@@ -170,7 +169,7 @@ String userEnterOtpStr,accessOtpStr;
             }
         });
         activityProfileChangePasswordOtpBinding.forgotPasswordotpImg.setOnClickListener(this);
-        activityProfileChangePasswordOtpBinding.backLinear.setOnClickListener(this);
+        activityProfileChangePasswordOtpBinding.backImg.setOnClickListener(this);
         activityProfileChangePasswordOtpBinding.edit4.setOnEditorActionListener(new EditText.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -190,7 +189,7 @@ String userEnterOtpStr,accessOtpStr;
                 Utils.handleClickEvent(mContext,activityProfileChangePasswordOtpBinding.forgotPasswordotpImg);
                 changePasswordOtpData();
                 break;
-            case R.id.back_linear:
+            case R.id.back_img:
                 whereToBack();
                 break;
         }

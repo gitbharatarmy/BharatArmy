@@ -149,6 +149,7 @@ dependencies {
 
 //auto start permission
     implementation 'com.github.judemanutd:autostarter:1.0.4'
+
 }
 apply plugin: 'com.google.gms.google-services'
 repositories {

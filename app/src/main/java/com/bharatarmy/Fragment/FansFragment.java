@@ -2,7 +2,6 @@ package com.bharatarmy.Fragment;
 
 import android.content.Context;
 import android.graphics.Typeface;
-import android.net.Uri;
 import android.os.Bundle;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -107,8 +106,9 @@ public class FansFragment extends Fragment implements ViewPager.OnPageChangeList
 
         adapter = new FansPageAdapter(getFragmentManager(), fragmentFansBinding.tabLayoutFans.getTabCount());
 //Adding adapter to pager
-        fragmentFansBinding.pager.setOffscreenPageLimit(1);
+        fragmentFansBinding.pager.setOffscreenPageLimit(2);
         fragmentFansBinding.pager.setAdapter(adapter);
+fragmentFansBinding.pager.getAdapter().notifyDataSetChanged();
 
     }
 

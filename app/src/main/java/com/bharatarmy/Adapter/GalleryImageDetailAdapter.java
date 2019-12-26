@@ -41,10 +41,8 @@ public class GalleryImageDetailAdapter extends RecyclerView.Adapter<GalleryImage
     ArrayList<String> imageId;
     ArrayList<String> imageLike;
     Activity activity;
-Uri uri;
     image_click image_click;
     private int lastPosition = -1;
-String IPAddress;
 
     private RecyclerViewOnTouchListener touchListener;
 

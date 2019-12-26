@@ -33,6 +33,7 @@ public class ProfileSettingActivity extends AppCompatActivity implements View.On
 
     public void setLisitner(){
         activityProfileSettingBinding.changePasswordRel.setOnClickListener(this);
+        activityProfileSettingBinding.notificationRel.setOnClickListener(this);
         activityProfileSettingBinding.backImg.setOnClickListener(this);
     }
 
@@ -41,8 +42,12 @@ public class ProfileSettingActivity extends AppCompatActivity implements View.On
         switch(v.getId()){
             case R.id.change_password_rel:
                 Intent alertIntent =new Intent(mContext,ProfileChangePasswordAlertActivity.class);
-                alertIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_SINGLE_TOP|Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(alertIntent);
+                finish();
+                break;
+            case R.id.notification_rel:
+                Intent notificationalertIntent =new Intent(mContext,AllNotificationActivity.class);
+                startActivity(notificationalertIntent);
                 finish();
                 break;
             case R.id.back_img:

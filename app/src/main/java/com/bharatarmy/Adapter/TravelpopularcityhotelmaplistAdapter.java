@@ -13,14 +13,11 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bharatarmy.Activity.TravelCityHotelDetailsActivity;
-import com.bharatarmy.Activity.TravelPopularCityDetailActivity;
 import com.bharatarmy.Interfaces.image_click;
 import com.bharatarmy.Models.TravelModel;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.Utils;
-import com.squareup.picasso.Picasso;
 
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;

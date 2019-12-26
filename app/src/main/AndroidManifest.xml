@@ -26,15 +26,30 @@
         android:roundIcon="@drawable/app_logo_new"
         android:supportsRtl="true"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Activity.ImageVideoPrivacyActivity"
+        <activity android:name=".Activity.TravelMatchScheduleActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"></activity>
         <activity
+            android:name=".Activity.RemoveAccountActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".Activity.AllNotificationActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".Activity.ImageVideoPrivacyActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
             android:name=".Activity.FacebookLoginWithNoEmailActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".Activity.ProfileChangePasswordActivity"
             android:launchMode="singleTop"
@@ -153,11 +168,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".Activity.DemoActivity"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" />
-        <activity
             android:name=".Activity.ForgotPasswordOtpActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
@@ -183,7 +193,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".Activity.RegisterInterestActivity"
+            android:name=".Activity.RegisterInterestActivityNew"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
@@ -258,11 +268,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".Activity.ContactusActivity"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" />
-        <activity
             android:name=".Activity.CommentActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
@@ -290,11 +295,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".Activity.LocationMapActivity"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" />
-        <activity
             android:name=".Activity.MobileVerificationNewActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
@@ -304,9 +304,7 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
-        <activity
-            android:name=".Activity.BaseActivity"
-            android:configChanges="orientation|screenSize|keyboardHidden" />
+
         <activity
             android:name=".Activity.VideoDetailActivity"
             android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
@@ -319,7 +317,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".Activity.MoreStoryActivity"
+            android:name=".Activity.MoreInformationActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
@@ -327,9 +325,7 @@
             android:name=".Activity.OTPActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme">
-
-        </activity>
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".Activity.ImageEditProfilePickerActivity"
             android:screenOrientation="portrait"
@@ -339,9 +335,7 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
-            android:windowSoftInputMode="stateHidden|adjustResize" >
-
-        </activity>
+            android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".Activity.DashboardActivity"
             android:label="@string/title_activity_dashboard"
@@ -362,7 +356,9 @@
             android:name=".Activity.WalkThrough"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar" >
+
+        </activity>
         <activity
             android:name=".Activity.Splash_Screen"
             android:launchMode="singleTop"
@@ -370,7 +366,6 @@
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>

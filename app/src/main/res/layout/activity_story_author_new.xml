@@ -157,7 +157,7 @@
                                 android:layout_width="@dimen/_15sdp"
                                 android:layout_height="@dimen/_25sdp"
                                 android:layout_gravity="center"
-                                android:src="@drawable/ic_instagram"
+                                android:src="@drawable/ic_instagram_handle"
                                 android:tint="@color/splash_bg_color" />
                         </LinearLayout>
 

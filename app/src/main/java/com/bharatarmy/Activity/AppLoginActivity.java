@@ -7,8 +7,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSmoothScroller;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.accounts.Account;
-import android.accounts.AccountManager;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -37,8 +35,10 @@ import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
+import com.facebook.HttpMethod;
 import com.facebook.Profile;
 import com.facebook.ProfileTracker;
+import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -143,9 +143,10 @@ public class AppLoginActivity extends AppCompatActivity implements View.OnClickL
                                 facebookpersonIdStr = object.getString("id");
                                 personImageStr = "https://graph.facebook.com/" + facebookpersonIdStr + "/picture?type=large";
                                 if (object.has("email")) {
-                                    email = object.getString("email");
-                                }
-                                /*else {
+                                    personEmailStr = object.getString("email");
+                                    callFacebookSignUp();
+                                } else {
+                                    showProgressDialog();
                                     Intent fbloginIntent = new Intent(mContext, FacebookLoginWithNoEmailActivity.class);
                                     fbloginIntent.putExtra("firstName", facebookNameStr);
                                     fbloginIntent.putExtra("personName", personNameStr);
@@ -153,17 +154,10 @@ public class AppLoginActivity extends AppCompatActivity implements View.OnClickL
                                     startActivity(fbloginIntent);
                                     finish();
 
-                                }*/
+                                }
 
-
-                                Log.d("Profile", "personName:" + personNameStr + " \n" + "Email: " + email + " \n" + "ID: " + facebookpersonIdStr + " \n" + "Birth Date: " + birthday);
+                                Log.d("Profile", "personName:" + personNameStr + " \n" + "Email: " + personEmailStr + " \n" + "HomeTempleteIDModel: " + facebookpersonIdStr + " \n" + "Birth Date: " + birthday);
                                 Log.d("aswwww", personImageStr);
-
-
-                                Intent fbloginIntent = new Intent(mContext, DashboardActivity.class);
-                                fbloginIntent.putExtra("whichPageRun", "5");
-                                startActivity(fbloginIntent);
-                                finish();
 
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -214,6 +208,9 @@ public class AppLoginActivity extends AppCompatActivity implements View.OnClickL
         activityAppLoginBinding.loginwithgoogleLinear.setOnClickListener(this);
         activityAppLoginBinding.loginwithfacebookLinear.setOnClickListener(this);
         activityAppLoginBinding.loginButton.setOnClickListener(this);
+        activityAppLoginBinding.termsOfServiceLinear.setOnClickListener(this);
+        activityAppLoginBinding.privacyPolicyLinear.setOnClickListener(this);
+        activityAppLoginBinding.contentPolicyLinear.setOnClickListener(this);
 
         activityAppLoginBinding.displayAppItemRcv.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -228,15 +225,16 @@ public class AppLoginActivity extends AppCompatActivity implements View.OnClickL
         });
 
     }
-//    marquee style recyclerview
-    public void cycleRecyclerview(){
+
+    //    marquee style recyclerview
+    public void cycleRecyclerview() {
         activityAppLoginBinding.shimmerViewContainer.setVisibility(View.GONE);
 
         displayItemList = new ArrayList<>();
-        displayItemList.add(new GalleryImageModel("https://www.bharatarmy.com/Docs/BA-01.png"));
-        displayItemList.add(new GalleryImageModel("https://www.bharatarmy.com/Docs/BA-02.png"));
-        displayItemList.add(new GalleryImageModel("https://www.bharatarmy.com/Docs/BA-03.png"));
-        displayItemList.add(new GalleryImageModel("https://www.bharatarmy.com/Docs/BA-04.png"));
+        displayItemList.add(new GalleryImageModel(AppConfiguration.MAINDASHBOARDIMAGEURL + "BA-01.png"));
+        displayItemList.add(new GalleryImageModel(AppConfiguration.MAINDASHBOARDIMAGEURL + "BA-02.png"));
+        displayItemList.add(new GalleryImageModel(AppConfiguration.MAINDASHBOARDIMAGEURL + "BA-03.png"));
+//        displayItemList.add(new GalleryImageModel(AppConfiguration.MAINDASHBOARDIMAGEURL + "BA-04.png"));
 
 
         appDisplayItemAdapter = new AppDisplayItemAdapter(mContext, displayItemList);
@@ -309,22 +307,50 @@ public class AppLoginActivity extends AppCompatActivity implements View.OnClickL
 
             case R.id.loginwithfacebook_linear:
                 Utils.handleClickEvent(mContext, activityAppLoginBinding.loginwithfacebookLinear);
-                activityAppLoginBinding.loginButton.performClick();
+                if (personEmailStr != null) {
+                    if (!personEmailStr.equalsIgnoreCase("")) {
+                        facebooklogout();
+                    } else {
+                        activityAppLoginBinding.loginButton.performClick();
+                    }
+                } else {
+                    activityAppLoginBinding.loginButton.performClick();
+                }
+//
                 break;
 
             case R.id.login_button:
                 facebookLogin();
+                break;
 
+            case R.id.terms_of_service_linear:
+                privacyscreenGo("Terms of Service");
+                break;
+            case R.id.privacy_policy_linear:
+                privacyscreenGo("Privacy Policy");
+                break;
+            case R.id.content_policy_linear:
+                privacyscreenGo("Content Policy");
                 break;
         }
     }
-//    get firebase token
+
+    public void privacyscreenGo(String text) {
+        Intent privacypolicyIntent = new Intent(mContext, MoreInformationActivity.class);
+        privacypolicyIntent.putExtra("Story Heading", text);
+        privacypolicyIntent.putExtra("StroyUrl", AppConfiguration.TERMSURL);
+        privacypolicyIntent.putExtra("whereTocome", "aboutus");
+        privacypolicyIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        mContext.startActivity(privacypolicyIntent);
+        startActivity(privacypolicyIntent);
+    }
+
+
+    //    get firebase token
     public void getFCMTOken() {
         android_id = Settings.Secure.getString(AppLoginActivity.this.getContentResolver(),
                 Settings.Secure.ANDROID_ID);
         Log.d("deviceID", android_id);
-
-
 
 
         FirebaseMessaging.getInstance().setAutoInitEnabled(true);
@@ -337,7 +363,7 @@ public class AppLoginActivity extends AppCompatActivity implements View.OnClickL
                             return;
                         }
 
-                        // Get new Instance ID token
+                        // Get new Instance HomeTempleteIDModel token
                         token = task.getResult().getToken();
 
                         Log.d("token", token);
@@ -355,7 +381,7 @@ public class AppLoginActivity extends AppCompatActivity implements View.OnClickL
                 });
     }
 
-//    User Login with facebook
+    //    User Login with facebook
     public void facebookLogin() {
 //        AppEventsLogger.activateApp(this);
         setAutoLogAppEventsEnabled(false);
@@ -386,7 +412,21 @@ public class AppLoginActivity extends AppCompatActivity implements View.OnClickL
 
     }
 
-//    User Login with google
+    public void facebooklogout() {
+        new GraphRequest(AccessToken.getCurrentAccessToken(), "/me/permissions/",
+                null, HttpMethod.DELETE, new GraphRequest
+                .Callback() {
+            @Override
+            public void onCompleted(GraphResponse graphResponse) {
+
+                LoginManager.getInstance().logOut();
+
+                personEmailStr="";
+            }
+        }).executeAsync();
+    }
+
+    //    User Login with google
     public void googleLogin() {
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getResources().getString(R.string.web_client_id))
@@ -401,10 +441,10 @@ public class AppLoginActivity extends AppCompatActivity implements View.OnClickL
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        Utils.ping(mContext,connectionResult.toString());
+//        Utils.ping(mContext,connectionResult.toString());
     }
 
-//    give google sign in result
+    //    give google sign in result
     private void handleSignInResult(GoogleSignInResult result) {
         Log.d(TAG, "handleSignInResult:" + result.isSuccess());
         if (result.isSuccess()) {
@@ -415,16 +455,16 @@ public class AppLoginActivity extends AppCompatActivity implements View.OnClickL
             Log.e(TAG, "display name: " + acct.getDisplayName()
                     + "Family name:" + acct.getFamilyName()
                     + "Given name:" + acct.getGivenName());
-            if (acct.getDisplayName()!=null) {
+            if (acct.getDisplayName() != null) {
                 personNameStr = acct.getDisplayName();
-            }else{
-                personNameStr="";
+            } else {
+                personNameStr = "";
             }
 
-            if (acct.getPhotoUrl()!=null){
+            if (acct.getPhotoUrl() != null) {
                 personImageStr = acct.getPhotoUrl().toString();
-            }else{
-                personImageStr="";
+            } else {
+                personImageStr = "";
             }
 
             personEmailStr = acct.getEmail();
@@ -435,7 +475,7 @@ public class AppLoginActivity extends AppCompatActivity implements View.OnClickL
 
         } else {
             hideProgressDialog();
-            Utils.ping(mContext, "error occured");
+//            Utils.ping(mContext, "error occured");
         }
 
 
@@ -494,7 +534,7 @@ public class AppLoginActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
-//    Use for google signup data entery in database
+    //    Use for google signup data entery in database
     public void callGoogleSignUp() {
         if (!Utils.checkNetwork(mContext)) {
             Utils.showCustomDialog(getResources().getString(R.string.internet_error), getResources().getString(R.string.internet_connection_error), AppLoginActivity.this);
@@ -518,6 +558,7 @@ public class AppLoginActivity extends AppCompatActivity implements View.OnClickL
                 }
                 if (loginModel.getIsValid() == 0) {
                     Utils.dismissDialog();
+
                     Utils.ping(mContext, loginModel.getMessage());
                     return;
                 }
@@ -527,7 +568,7 @@ public class AppLoginActivity extends AppCompatActivity implements View.OnClickL
                         Utils.setPref(mContext, "IsLoginUser", "1");
                         Utils.setPref(mContext, "LoginType", "Gmail");
                         Utils.storeLoginData(loginModel.getData(), mContext);
-                        Utils.storeCurrentLocationData(loginModel.getCurrentLocation(),mContext);
+                        Utils.storeCurrentLocationData(loginModel.getCurrentLocation(), mContext);
                         Utils.storeLoginOtherData(loginModel.getOtherData(), mContext);
                         if (getIntent().getStringExtra("whereTocomeLogin") != null) {
                             if (getIntent().getStringExtra("whereTocomeLogin").equalsIgnoreCase("more")) {
@@ -555,6 +596,7 @@ public class AppLoginActivity extends AppCompatActivity implements View.OnClickL
                 Utils.dismissDialog();
                 error.printStackTrace();
                 error.getMessage();
+                facebooklogout();
                 Utils.ping(mContext, getString(R.string.something_wrong));
             }
         });
@@ -571,9 +613,100 @@ public class AppLoginActivity extends AppCompatActivity implements View.OnClickL
         return map;
     }
 
+    //    Use for facebook signup data entery in database
+    public void callFacebookSignUp() {
+        if (!Utils.checkNetwork(mContext)) {
+            Utils.showCustomDialog(getResources().getString(R.string.internet_error), getResources().getString(R.string.internet_connection_error), AppLoginActivity.this);
+            return;
+        }
+
+        Utils.showDialog(mContext);
+        ApiHandler.getApiService().getLoginwithFacebook(getFacebookSignUpData(), new retrofit.Callback<LogginModel>() {
+            @Override
+            public void success(LogginModel loginModel, Response response) {
+                Utils.dismissDialog();
+                if (loginModel == null) {
+                    Utils.dismissDialog();
+                    Utils.ping(mContext, getString(R.string.something_wrong));
+                    return;
+                }
+                if (loginModel.getIsValid() == null) {
+                    Utils.dismissDialog();
+                    Utils.ping(mContext, getString(R.string.something_wrong));
+                    return;
+                }
+                if (loginModel.getIsValid() == 0) {
+                    Utils.dismissDialog();
+                    Utils.ping(mContext, loginModel.getMessage());
+                    return;
+                }
+                if (loginModel.getIsValid() == 1) {
+                    if (loginModel.getData() != null) {
+                        Utils.setPref(mContext, "IsSkipLogin", "");
+                        Utils.setPref(mContext, "IsLoginUser", "1");
+                        Utils.setPref(mContext, "LoginType", "Facebook");
+                        Utils.storeLoginData(loginModel.getData(), mContext);
+                        Utils.storeCurrentLocationData(loginModel.getCurrentLocation(), mContext);
+                        Utils.storeLoginOtherData(loginModel.getOtherData(), mContext);
+                        if (getIntent().getStringExtra("whereTocomeLogin") != null) {
+                            if (getIntent().getStringExtra("whereTocomeLogin").equalsIgnoreCase("more")) {
+                                Intent DashboardIntent = new Intent(mContext, DashboardActivity.class);
+//                                DashboardIntent.putExtra("whichPageRun", "4");
+                                startActivity(DashboardIntent);
+                                finish();
+                            } else {
+                                finish();
+                            }
+                        } else {
+                            Intent DashboardIntent = new Intent(mContext, DashboardActivity.class);
+                            AppConfiguration.position = 0;
+                            startActivity(DashboardIntent);
+                            finish();
+                        }
+                    }
+
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Utils.dismissDialog();
+                error.printStackTrace();
+                error.getMessage();
+
+                Utils.ping(mContext, getString(R.string.something_wrong));
+            }
+        });
+
+    }
+
+    private Map<String, String> getFacebookSignUpData() {
+        Map<String, String> map = new HashMap<>();
+        map.put("email", personEmailStr);
+        map.put("Name", personNameStr);
+        map.put("Image", personImageStr);
+        map.put("TokenId", Utils.getPref(mContext, "registration_id"));
+        map.put("ModelName", Utils.getDeviceName());
+        map.put("PhoneNo", "");
+        map.put("CountryISOCode", "");
+        map.put("CountryDialCode", "");
+        return map;
+    }
+
     @Override
     public void onBackPressed() {
-        finish();
+        if (getIntent().getStringExtra("whereTocomeLogin") != null) {
+            if (getIntent().getStringExtra("whereTocomeLogin").equalsIgnoreCase("profile")) {
+                Intent DashboardIntent = new Intent(mContext, DashboardActivity.class);
+//                                DashboardIntent.putExtra("whichPageRun", "4");
+                startActivity(DashboardIntent);
+                finish();
+            }else{
+                finish();
+            }
+        }else{
+            finish();
+        }
         super.onBackPressed();
     }
 }

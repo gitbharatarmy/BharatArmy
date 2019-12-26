@@ -9,13 +9,11 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.bharatarmy.Adapter.TravelPacakgeTabAdapter;
-import com.bharatarmy.Models.ImageDetailModel;
 import com.bharatarmy.Models.TravelDetailModel;
 import com.bharatarmy.Models.TravelMainModel;
 import com.bharatarmy.R;
@@ -24,8 +22,6 @@ import com.bharatarmy.Utility.AppConfiguration;
 import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.FragmentPackageTabBinding;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,8 +36,9 @@ public class PackageTabFragment extends Fragment {
     Context mContext;
     TravelPacakgeTabAdapter travelPacakgeTabAdapter;
     List<TravelDetailModel> travelPacakgeTabList;
-  HashMap<Integer,List<TravelDetailModel>> storeData = new HashMap<>();
-  int count=0;
+    HashMap<Integer, List<TravelDetailModel>> storeData = new HashMap<>();
+    int count = 0;
+
     public PackageTabFragment() {
     }
 
@@ -52,6 +49,7 @@ public class PackageTabFragment extends Fragment {
         pane.setArguments(args);
         return pane;
     }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,18 +75,10 @@ public class PackageTabFragment extends Fragment {
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser && rootView != null) {
-//            setDataList();
-//            if (AppConfiguration.tabselected==true){
-//            using sharedpreffrence daywise done
-
             fragmentPackageTabBinding.pacakgeDayRcv.setVisibility(View.GONE);
             fragmentPackageTabBinding.shimmerViewContainer.setVisibility(View.VISIBLE);
-                fragmentPackageTabBinding.shimmerViewContainer.startShimmerAnimation();
-                callTabPacakgeDetailData();
-//            }else{
-//
-//            }
-
+            fragmentPackageTabBinding.shimmerViewContainer.startShimmerAnimation();
+            callTabPacakgeDetailData();
         }
     }
 

@@ -23,7 +23,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.bharatarmy.Activity.GalleryImageDetailActivity;
-import com.bharatarmy.Activity.ImageEditProfilePickerActivity;
 import com.bharatarmy.Activity.ImageUploadActivity;
 import com.bharatarmy.Activity.VideoTrimActivity;
 import com.bharatarmy.Adapter.ImageListAdapter;
@@ -33,7 +32,6 @@ import com.bharatarmy.Models.ImageMainModel;
 import com.bharatarmy.Models.MyScreenChnagesModel;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.ApiHandler;
-import com.bharatarmy.Utility.EndlessRecyclerViewScrollListener;
 import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.FragmentImageBinding;
 import com.karumi.dexter.Dexter;
@@ -84,8 +82,6 @@ public class ImageFragment extends Fragment {
     boolean isMoreDataAvailable = true;
     String imageClickData;
     int pageIndex = 0;
-    // Store a member variable for the listener
-    private EndlessRecyclerViewScrollListener scrollListener;
     boolean isLoading = false;
     GridLayoutManager gridLayoutManager;
     boolean ispull;

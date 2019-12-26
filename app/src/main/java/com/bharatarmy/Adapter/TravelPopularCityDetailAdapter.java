@@ -2,7 +2,6 @@ package com.bharatarmy.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +17,6 @@ import com.bharatarmy.Activity.TravelCityAllHotelsActivity;
 import com.bharatarmy.Activity.TravelCityAllRestaurantsActivity;
 import com.bharatarmy.Activity.TravelCityAllSightseeingActivity;
 import com.bharatarmy.Activity.TravelPackageActivity;
-import com.bharatarmy.Activity.TravelpopularCityHotelMapViewActivity;
 import com.bharatarmy.Models.TravelModel;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.AppConfiguration;

@@ -12,11 +12,9 @@ import android.util.Log;
 import android.view.View;
 
 import com.bharatarmy.Adapter.ImageVideoPrivacyAdapter;
-import com.bharatarmy.Adapter.InquiryAssignAdapter;
 import com.bharatarmy.Interfaces.MorestoryClick;
 import com.bharatarmy.Models.GalleryImageModel;
 import com.bharatarmy.Models.MyScreenChnagesModel;
-import com.bharatarmy.Models.TravelModel;
 import com.bharatarmy.R;
 import com.bharatarmy.databinding.ActivityImageVideoPrivacyBinding;
 

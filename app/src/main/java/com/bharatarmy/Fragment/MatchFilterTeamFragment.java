@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,12 +17,8 @@ import android.view.ViewGroup;
 import com.bharatarmy.Adapter.MatchFilterTeamAdapter;
 import com.bharatarmy.Models.InquiryStatusModel;
 import com.bharatarmy.Models.RegisterIntrestFilterDataModel;
-import com.bharatarmy.Models.TravelModel;
 import com.bharatarmy.R;
-import com.bharatarmy.Utility.AppConfiguration;
 import com.bharatarmy.databinding.FragmentMatchFilterTeamBinding;
-
-import java.util.ArrayList;
 import java.util.List;
 
 

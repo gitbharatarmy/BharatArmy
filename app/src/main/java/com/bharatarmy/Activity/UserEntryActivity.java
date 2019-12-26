@@ -24,7 +24,7 @@ import java.util.Map;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class UserEntryActivity extends BaseActivity implements View.OnClickListener {
+public class UserEntryActivity extends AppCompatActivity implements View.OnClickListener {
     ActivityUserEntryBinding activityUserEntryBinding;
     Context mContext;
     String userEmailStr="", userPasswordStr="", userNameStr="",userIdStr="";

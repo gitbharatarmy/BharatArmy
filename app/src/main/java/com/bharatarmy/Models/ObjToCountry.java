@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class ObjToCountry {
-    @SerializedName("ID")
+    @SerializedName("HomeTempleteIDModel")
     @Expose
     private Integer iD;
     @SerializedName("Name")

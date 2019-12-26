@@ -36,12 +36,12 @@ public class BharatArmyStoriesAdapter extends RecyclerView.Adapter<BharatArmySto
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
-BharatArmyStoriesListNewBinding bharatArmyStoriesListNewBinding;
+        BharatArmyStoriesListNewBinding bharatArmyStoriesListNewBinding;
 
         public MyViewHolder(BharatArmyStoriesListNewBinding bharatArmyStoriesListNewBinding) {
             super(bharatArmyStoriesListNewBinding.getRoot());
 
-            this.bharatArmyStoriesListNewBinding=bharatArmyStoriesListNewBinding;
+            this.bharatArmyStoriesListNewBinding = bharatArmyStoriesListNewBinding;
 
         }
     }
@@ -49,8 +49,8 @@ BharatArmyStoriesListNewBinding bharatArmyStoriesListNewBinding;
 
     @Override
     public BharatArmyStoriesAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        BharatArmyStoriesListNewBinding bharatArmyStoriesListNewBinding= DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
-                R.layout.bharat_army_stories_list_new,parent,false);
+        BharatArmyStoriesListNewBinding bharatArmyStoriesListNewBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
+                R.layout.bharat_army_stories_list_new, parent, false);
         return new BharatArmyStoriesAdapter.MyViewHolder(bharatArmyStoriesListNewBinding);
     }
 
@@ -66,44 +66,44 @@ BharatArmyStoriesListNewBinding bharatArmyStoriesListNewBinding;
         holder.bharatArmyStoriesListNewBinding.viewsTxt.setText(storiesData.getStrViewCount());
         holder.bharatArmyStoriesListNewBinding.usernameTxt.setText(storiesData.getAuthorName());
 
-        Utils.setImageInImageView(storiesData.getStrThumbImageName(),holder.bharatArmyStoriesListNewBinding.bannerImg,mcontext);
+        Utils.setImageInImageView(storiesData.getStrThumbImageName(), holder.bharatArmyStoriesListNewBinding.bannerImg, mcontext);
 
-        Utils.setImageInImageView(storiesData.getAuthorImageURL(),holder.bharatArmyStoriesListNewBinding.profileImage,mcontext);
+        Utils.setImageInImageView(storiesData.getAuthorImageURL(), holder.bharatArmyStoriesListNewBinding.profileImage, mcontext);
 
 
         holder.bharatArmyStoriesListNewBinding.storyCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                  Intent webviewIntent=new Intent(mcontext, StoryDetailActivity.class);
+                Intent webviewIntent = new Intent(mcontext, StoryDetailActivity.class);
                 webviewIntent.putExtra("Story Heading", storiesData.getStoryTitle());
                 webviewIntent.putExtra("StroyUrl", storiesData.getStoryWebURL());
-                webviewIntent.putExtra("StoryCategorytype",storiesData.getBASubCategoryName());
-                webviewIntent.putExtra("StoryAuthor",storiesData.getAuthorImageURL());
-                webviewIntent.putExtra("StoryHeaderImg",storiesData.getStrThumbImageName());
+                webviewIntent.putExtra("StoryCategorytype", storiesData.getBASubCategoryName());
+                webviewIntent.putExtra("StoryAuthor", storiesData.getAuthorImageURL());
+                webviewIntent.putExtra("StoryHeaderImg", storiesData.getStrThumbImageName());
                 webviewIntent.putExtra("StoryId", storiesData.getBAStoryId());
                 webviewIntent.putExtra("StoryauthorId", storiesData.getAuthorId());
-                  webviewIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                  mcontext.startActivity(webviewIntent);
+                webviewIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                mcontext.startActivity(webviewIntent);
 //                  ((Activity)  mcontext).overridePendingTransition(R.anim.slide_in_left,0);
             }
         });
         holder.bharatArmyStoriesListNewBinding.authorLinear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent authorIntent=new Intent(mcontext, StoryAuthorActivity.class);
+                Intent authorIntent = new Intent(mcontext, StoryAuthorActivity.class);
                 authorIntent.putExtra("StoryauthorId", storiesData.getAuthorId());
                 authorIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 mcontext.startActivity(authorIntent);
             }
         });
-        holder.bharatArmyStoriesListNewBinding.typeTxt.setOnClickListener(new View.OnClickListener() {
+      /*  holder.bharatArmyStoriesListNewBinding.typeTxt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dataCheck=new ArrayList<>();
-                dataCheck.add(storiesData.getStrCategories()+"|"+storiesData.getBASubCategoryName());
+                dataCheck = new ArrayList<>();
+                dataCheck.add(storiesData.getStrCategories() + "|" + storiesData.getBASubCategoryName());
                 image_click.image_more_click();
             }
-        });
+        });*/
 
         holder.bharatArmyStoriesListNewBinding.shareImg.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,7 +113,7 @@ BharatArmyStoriesListNewBinding bharatArmyStoriesListNewBinding;
                 shareIntent.putExtra(Intent.EXTRA_SUBJECT, AppConfiguration.SHARETEXT);
                 shareIntent.putExtra(Intent.EXTRA_TEXT, storiesData.getStoryURL() + "\n\n" + AppConfiguration.SHARETEXT);
                 shareIntent.setType("text/plain");
-                shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION|Intent.FLAG_ACTIVITY_NEW_TASK);
+                shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_ACTIVITY_NEW_TASK);
                 mcontext.startActivity(Intent.createChooser(shareIntent, "Share It"));
             }
         });

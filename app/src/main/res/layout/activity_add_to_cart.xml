@@ -24,18 +24,18 @@
             android:layout_height="@dimen/_50sdp"
             android:background="@color/heading_bg">
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/_4sdp"
+                android:layout_marginLeft="@dimen/_10sdp"
                 android:layout_marginRight="@dimen/_10sdp"
-                android:orientation="horizontal"
-                android:weightSum="3">
+                android:orientation="horizontal">
 
                 <LinearLayout
                     android:id="@+id/back_img"
                     android:layout_width="@dimen/_40sdp"
                     android:layout_height="@dimen/_40sdp"
+                    android:layout_alignParentLeft="true"
                     android:orientation="horizontal">
 
                     <ImageView
@@ -49,27 +49,27 @@
                 <TextView
                     android:id="@+id/toolbar_title_txt"
                     style="@style/title_text_font"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="@dimen/_40sdp"
-                    android:layout_weight="2.6"
                     android:ellipsize="end"
                     android:gravity="center_vertical"
                     android:maxLines="1"
+                    android:layout_toRightOf="@+id/back_img"
                     android:paddingLeft="@dimen/_5sdp"
-                    android:text="Enter Your Details"
+                    android:text="Enter Your Detail"
                     android:textAllCaps="true"
                     android:textColor="@color/splash_bg_color"
                     android:textSize="@dimen/_14sdp" />
 
                 <ImageView
                     android:id="@+id/share_img"
-                    android:layout_width="0dp"
+                    android:layout_width="@dimen/_15sdp"
                     android:layout_height="@dimen/_15sdp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_weight="0.2"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerInParent="true"
                     android:src="@drawable/ic_share"
                     android:visibility="gone" />
-            </LinearLayout>
+            </RelativeLayout>
         </androidx.appcompat.widget.Toolbar>
 
         <View
@@ -93,8 +93,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/top_gradiant_view"
-                android:layout_marginLeft="@dimen/_13sdp"
-                android:layout_marginRight="@dimen/_13sdp"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginRight="@dimen/_10sdp"
                 android:orientation="vertical">
 
                 <TextView

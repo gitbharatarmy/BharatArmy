@@ -2,23 +2,11 @@ package com.bharatarmy.Activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
-import android.widget.Button;
 import android.widget.CompoundButton;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
@@ -31,10 +19,8 @@ import com.bharatarmy.R;
 import com.bharatarmy.Utility.ApiHandler;
 import com.bharatarmy.Utility.AppConfiguration;
 import com.bharatarmy.Utility.Utils;
-import com.bharatarmy.meghWebView;
 import com.bharatarmy.CountryCodePicker;
 import com.bharatarmy.databinding.ActivityMobileVerificationNewBinding;
-import com.bumptech.glide.Glide;
 
 
 import java.util.HashMap;
@@ -49,11 +35,6 @@ public class MobileVerificationNewActivity extends AppCompatActivity implements 
     Context mContext;
     String phoneNoStr, countryCodeStr, strCheck = "0";
     AlertDialog alertDialogAndroid;
-    meghWebView webView;
-    //     WebView webView;
-    Button agree_btn;
-    TextView close_btn;
-    ImageView image;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,7 +109,13 @@ public class MobileVerificationNewActivity extends AppCompatActivity implements 
                 break;
             case R.id.term_condition_txt:
                 Utils.handleClickEvent(mContext,mobileVerificationNewBinding.termConditionTxt);
-                termconditionDialog();
+                Intent privacypolicyIntent = new Intent(mContext, MoreInformationActivity.class);
+                privacypolicyIntent.putExtra("Story Heading", "Privacy Policy");
+                privacypolicyIntent.putExtra("StroyUrl", AppConfiguration.TERMSURL);
+                privacypolicyIntent.putExtra("whereTocome", "aboutus");
+                privacypolicyIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                mContext.startActivity(privacypolicyIntent);
+                startActivity(privacypolicyIntent);
                 break;
         }
     }
@@ -214,87 +201,5 @@ public class MobileVerificationNewActivity extends AppCompatActivity implements 
         map.put("CountryCode", countryCodeStr);
         return map;
     }
-
-
-    public void termconditionDialog() {
-        LayoutInflater lInflater = (LayoutInflater) mContext
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        final View layout = lInflater.inflate(R.layout.mobile_term_condition, null);
-
-        AlertDialog.Builder alertDialogBuilderUserInput = new AlertDialog.Builder(mContext);
-        alertDialogBuilderUserInput.setView(layout);
-
-        alertDialogAndroid = alertDialogBuilderUserInput.create();
-        alertDialogAndroid.setCancelable(false);
-        alertDialogAndroid.show();
-        Window window = alertDialogAndroid.getWindow();
-        window.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        WindowManager.LayoutParams wlp = window.getAttributes();
-        window.setGravity(Gravity.LEFT | Gravity.TOP);
-        wlp.x = 1;
-        wlp.y = 100;
-        wlp.flags = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
-        window.setAttributes(wlp);
-        alertDialogAndroid.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-        alertDialogAndroid.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT,
-                WindowManager.LayoutParams.MATCH_PARENT);
-
-        Drawable d = new ColorDrawable(getResources().getColor(R.color.black_dialog));
-//        d.setAlpha(100);
-        alertDialogAndroid.getWindow().setBackgroundDrawable(d);
-        alertDialogAndroid.show();
-
-        webView = (meghWebView) layout.findViewById(R.id.webView);
-        image = (ImageView) layout.findViewById(R.id.image);
-        agree_btn = (Button) layout.findViewById(R.id.agree_btn);
-//        close_btn = (Button) layout.findViewById(R.id.close_btn);
-        close_btn = (TextView) layout.findViewById(R.id.close_btn1);
-        Glide.with(mContext).load(R.drawable.logo_new).into(image);
-        image.setVisibility(View.VISIBLE);
-
-        webView.setWebViewClient(new MyWebViewClient());
-        webView.getSettings().setJavaScriptEnabled(true);
-        webView.loadUrl(AppConfiguration.TERMSURL);
-        webView.setVerticalScrollBarEnabled(true);
-        webView.setOnClickListener(this);
-
-
-//        agree_btn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                getOtpVerification();
-//            }
-//        });
-        close_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDialogAndroid.dismiss();
-            }
-        });
-    }
-
-    public class MyWebViewClient extends WebViewClient {
-        @Override
-        public void onPageStarted(WebView view, String url, Bitmap favicon) {
-            // TODO Auto-generated method stub
-            super.onPageStarted(view, url, favicon);
-        }
-
-        @Override
-        public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            // TODO Auto-generated method stub
-            image.setVisibility(View.VISIBLE);
-            view.loadUrl(url);
-            return true;
-        }
-
-        @Override
-        public void onPageFinished(WebView view, String url) {
-            // TODO Auto-generated method stub
-            super.onPageFinished(view, url);
-            image.setVisibility(View.GONE);
-        }
-    }
-
 
 }

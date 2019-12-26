@@ -47,9 +47,9 @@ public class TravelpopularCityHotelMapViewActivity extends AppCompatActivity imp
 
     ArrayList<TravelModel> cityHotelList;
     TravelpopularcityhotelmaplistAdapter travelpopularcityhotelmaplistAdapter;
-String headerStr;
+    String headerStr;
 
-    Marker markertaj,markerhyatt,markerfourseason,markerleela,markermarriot,markertrident;
+    Marker markertaj, markerhyatt, markerfourseason, markerleela, markermarriot, markertrident;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +65,7 @@ String headerStr;
 
 
     public void init() {
-        headerStr=getIntent().getStringExtra("cityName");
+        headerStr = getIntent().getStringExtra("cityName");
         activityTravelpopularCityMapBinding.toolbarTitleTxt.setText("Mumbai - Hotels");
 
         activityTravelpopularCityMapBinding.cityHotelRcv.showShimmerAdapter();
@@ -76,7 +76,7 @@ String headerStr;
 
     public void setListiner() {
         activityTravelpopularCityMapBinding.backImg.setOnClickListener(this);
-activityTravelpopularCityMapBinding.listImg.setOnClickListener(this);
+        activityTravelpopularCityMapBinding.listImg.setOnClickListener(this);
 
     }
 
@@ -86,11 +86,11 @@ activityTravelpopularCityMapBinding.listImg.setOnClickListener(this);
         switch (v.getId()) {
             case R.id.back_img:
                 TravelpopularCityHotelMapViewActivity.this.finish();
-                overridePendingTransition(R.anim.slide_out_down,R.anim.slide_out_down);
+                overridePendingTransition(R.anim.slide_out_down, R.anim.slide_out_down);
                 break;
             case R.id.list_img:
                 TravelpopularCityHotelMapViewActivity.this.finish();
-                overridePendingTransition(R.anim.slide_out_down,R.anim.slide_out_down);
+                overridePendingTransition(R.anim.slide_out_down, R.anim.slide_out_down);
                 break;
         }
     }
@@ -106,7 +106,7 @@ activityTravelpopularCityMapBinding.listImg.setOnClickListener(this);
             googleMap.getUiSettings().setMyLocationButtonEnabled(true);
             googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
 
-            googleMapj=googleMap;
+            googleMapj = googleMap;
 
             CameraUpdate center =
                     CameraUpdateFactory.newLatLng(new LatLng(19.076090, 72.877426));
@@ -122,31 +122,31 @@ activityTravelpopularCityMapBinding.listImg.setOnClickListener(this);
                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
 //            marker.showInfoWindow();
 
-            markerhyatt= googleMapj.addMarker(new MarkerOptions()
+            markerhyatt = googleMapj.addMarker(new MarkerOptions()
                     .position(new LatLng(19.1055, 72.8625))
                     .anchor(0.9f, 0.9f)
                     .title("Hotel Hyatt")
                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
 
-            markerfourseason= googleMapj.addMarker(new MarkerOptions()
+            markerfourseason = googleMapj.addMarker(new MarkerOptions()
                     .position(new LatLng(18.9934, 72.8207))
                     .anchor(0.9f, 0.9f)
                     .title("Four Season Hotel")
                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
 
-            markerleela= googleMapj.addMarker(new MarkerOptions()
+            markerleela = googleMapj.addMarker(new MarkerOptions()
                     .position(new LatLng(19.1055, 72.8625))
                     .anchor(0.9f, 0.9f)
                     .title("The Leela")
                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
 
-            markertrident=googleMapj.addMarker(new MarkerOptions()
+            markertrident = googleMapj.addMarker(new MarkerOptions()
                     .position(new LatLng(18.9277, 72.8212))
                     .anchor(0.9f, 0.9f)
                     .title("JW Marriott Juhu")
                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
 
-            markermarriot= googleMapj.addMarker(new MarkerOptions()
+            markermarriot = googleMapj.addMarker(new MarkerOptions()
                     .position(new LatLng(19.1019, 72.8263))
                     .anchor(0.9f, 0.9f)
                     .title("JW Marriott Juhu")
@@ -155,7 +155,7 @@ activityTravelpopularCityMapBinding.listImg.setOnClickListener(this);
             googleMapj.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
                 @Override
                 public boolean onMarkerClick(Marker marker) {
-                    Intent cityHotelDetail=new Intent(mContext,TravelCityHotelDetailsActivity.class);
+                    Intent cityHotelDetail = new Intent(mContext, TravelCityHotelDetailsActivity.class);
                     startActivity(cityHotelDetail);
                     return true;
                 }
@@ -171,23 +171,23 @@ activityTravelpopularCityMapBinding.listImg.setOnClickListener(this);
     public void setDataList() {
         cityHotelList = new ArrayList<TravelModel>();
 
-        cityHotelList.add(new TravelModel("Taj Mahal Hotel",AppConfiguration.IMAGE_URL+"mumbai.jpg", "4.3",
+        cityHotelList.add(new TravelModel("Taj Mahal Hotel", AppConfiguration.IMAGE_URL + "mumbai.jpg", "4.3",
                 "The Taj Mahal Palace opened in Mumbai, then Bombay, in 1903, giving birth to the country’s first harbour landmark. The recently trademarked flagship hotel overlooks the majestic Gateway of India."));
 
-        cityHotelList.add(new TravelModel("Hyatt Regency Mumbai",AppConfiguration.IMAGE_URL+"hyatt.jpg", "4.7",
+        cityHotelList.add(new TravelModel("Hyatt Regency Mumbai", AppConfiguration.IMAGE_URL + "hyatt.jpg", "4.7",
                 "This hotel features 2 restaurants, a full-service spa and an outdoor pool. Free WiFi in public areas and free valet parking are also provided. Additionally, a fitness centre, a bar/lounge and a coffee shop/café are on-site. All 401 rooms boast deep soaking bathtubs, and offer free WiFi and iPod docking stations."));
 
-        cityHotelList.add(new TravelModel("Four Seasons Hotel Mumbai",AppConfiguration.IMAGE_URL+"fourseason.jpg", "4.7",
+        cityHotelList.add(new TravelModel("Four Seasons Hotel Mumbai", AppConfiguration.IMAGE_URL + "fourseason.jpg", "4.7",
                 "Set 3 km from the Siddhivinayak Temple, this plush high-rise hotel with a glass facade is 8 km from both Girgaum Chowpatty beach and Mahatma Jyotiba Phule Mandai market"));
 
-        cityHotelList.add(new TravelModel("The Leela Mumbai",AppConfiguration.IMAGE_URL+"lela.jpg",  "4.7",
+        cityHotelList.add(new TravelModel("The Leela Mumbai", AppConfiguration.IMAGE_URL + "lela.jpg", "4.7",
                 "This hotel features 2 restaurants, a full-service spa and an outdoor pool. Free WiFi in public areas and free valet parking are also provided. Additionally, a fitness centre, a bar/lounge and a coffee shop/café are on-site. All 401 rooms boast deep soaking bathtubs, and offer free WiFi and iPod docking stations."));
 
-        cityHotelList.add(new TravelModel("Trident Bandra Kurla Mumbai",AppConfiguration.IMAGE_URL+"trident.jpg", "4.7",
+        cityHotelList.add(new TravelModel("Trident Bandra Kurla Mumbai", AppConfiguration.IMAGE_URL + "trident.jpg", "4.7",
                 "The Trident Nariman Point is a 35-storey skyscraper hotel on Marine Drive in Nariman Point, Mumbai, India, operated by the Trident Hotels division of The Oberoi Group. On completion in 1973, it was the tallest building in South Asia, surpassing the 105 metres (344 ft) Express Towers, located next door.[1] It stayed the tallest building in South Asia until 1980, when Phiroze Jeejeebhoy Towers were completed."));
 
-        cityHotelList.add(new TravelModel("JW Marriott Mumbai Juhu",AppConfiguration.IMAGE_URL+"jwmarriott.jpg", "4.7",
-                "In a modern, gated property on Juhu Beach, this upscale hotel is 7 km from Chhatrapati Shivaji International Airport Mumbai." ));
+        cityHotelList.add(new TravelModel("JW Marriott Mumbai Juhu", AppConfiguration.IMAGE_URL + "jwmarriott.jpg", "4.7",
+                "In a modern, gated property on Juhu Beach, this upscale hotel is 7 km from Chhatrapati Shivaji International Airport Mumbai."));
 
 
         travelpopularcityhotelmaplistAdapter = new TravelpopularcityhotelmaplistAdapter(mContext, cityHotelList, new image_click() {
@@ -206,30 +206,28 @@ activityTravelpopularCityMapBinding.listImg.setOnClickListener(this);
                     googleMapj.moveCamera(center);
                     googleMapj.animateCamera(zoom);
 
-                }
-                else if(getHotelData.equalsIgnoreCase("1")){
+                } else if (getHotelData.equalsIgnoreCase("1")) {
                     CameraUpdate center =
                             CameraUpdateFactory.newLatLng(new LatLng(19.1055, 72.8625));
                     CameraUpdate zoom = CameraUpdateFactory.zoomTo(18);
 
                     googleMapj.moveCamera(center);
                     googleMapj.animateCamera(zoom);
-                }else if(getHotelData.equalsIgnoreCase("2")){
+                } else if (getHotelData.equalsIgnoreCase("2")) {
                     CameraUpdate center =
                             CameraUpdateFactory.newLatLng(new LatLng(18.9934, 72.8207));
                     CameraUpdate zoom = CameraUpdateFactory.zoomTo(18);
 
                     googleMapj.moveCamera(center);
                     googleMapj.animateCamera(zoom);
-                }else if(getHotelData.equalsIgnoreCase("3")){
+                } else if (getHotelData.equalsIgnoreCase("3")) {
                     CameraUpdate center =
                             CameraUpdateFactory.newLatLng(new LatLng(19.1055, 72.8625));
                     CameraUpdate zoom = CameraUpdateFactory.zoomTo(18);
 
                     googleMapj.moveCamera(center);
                     googleMapj.animateCamera(zoom);
-                }
-                 else if(getHotelData.equalsIgnoreCase("4")){
+                } else if (getHotelData.equalsIgnoreCase("4")) {
                     CameraUpdate center =
                             CameraUpdateFactory.newLatLng(new LatLng(18.9277, 72.8212));
                     CameraUpdate zoom = CameraUpdateFactory.zoomTo(18);
@@ -237,7 +235,7 @@ activityTravelpopularCityMapBinding.listImg.setOnClickListener(this);
                     googleMapj.moveCamera(center);
                     googleMapj.animateCamera(zoom);
 
-                }else if(getHotelData.equalsIgnoreCase("5")){
+                } else if (getHotelData.equalsIgnoreCase("5")) {
                     CameraUpdate center =
                             CameraUpdateFactory.newLatLng(new LatLng(19.1019, 72.8263));
                     CameraUpdate zoom = CameraUpdateFactory.zoomTo(18);

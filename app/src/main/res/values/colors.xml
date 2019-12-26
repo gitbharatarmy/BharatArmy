@@ -64,7 +64,6 @@
     <color name="defaultBackgroundColor">@android:color/transparent</color>
 
 
-
     <color name="accentColor">#303F9F</color>
     <color name="backColor">#FFFFFF</color>
     <color name="textColor">#303F9F</color>
@@ -80,5 +79,10 @@
     <color name="shadow_color">#FF000000</color>
     <color name="line_button">#565758</color>
     <color name="black_translucent">#50000000</color>
+    <color name="black_translucent1">#90000000</color>
 
+
+    <!--showcase view-->
+    <color name="shadow">#B0000000</color>
+    <color name="light_gray">#DDDDDD</color>
 </resources>

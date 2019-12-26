@@ -114,7 +114,7 @@
                             android:layout_marginRight="@dimen/_3sdp"
                             android:adjustViewBounds="true"
                             android:scaleType="centerCrop"
-                            android:src="@drawable/in_flag"
+                            android:src="@drawable/flag_india"
                             app:cornerRadius="5dp"
                             app:roundedCorners="topLeft|topRight|bottomLeft|bottomRight" />
 

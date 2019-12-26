@@ -16,32 +16,28 @@
         android:orientation="vertical">
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/_50sdp"
         android:orientation="vertical">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_50sdp"
-            android:background="@color/heading_bg"
-            android:minHeight="?attr/actionBarSize"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            app:titleTextAppearance="@style/ToolbarTitle">
+            android:background="@color/heading_bg">
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/_5sdp"
-                android:layout_marginRight="@dimen/_5sdp"
-                android:orientation="horizontal"
-                android:weightSum="3">
+                android:layout_marginLeft="@dimen/_14sdp"
+                android:layout_marginRight="@dimen/_14sdp"
+                android:orientation="horizontal">
 
                 <LinearLayout
                     android:id="@+id/back_img"
                     android:layout_width="@dimen/_40sdp"
                     android:layout_height="@dimen/_40sdp"
-                    android:layout_marginLeft="@dimen/_2sdp"
+                    android:layout_alignParentLeft="true"
                     android:orientation="horizontal">
 
                     <ImageView
@@ -55,56 +51,34 @@
                 <TextView
                     android:id="@+id/toolbar_title_txt"
                     style="@style/title_text_font"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="@dimen/_40sdp"
-                    android:layout_weight="2.6"
                     android:ellipsize="end"
                     android:gravity="center_vertical"
                     android:maxLines="1"
+                    android:layout_toRightOf="@+id/back_img"
                     android:paddingLeft="@dimen/_5sdp"
                     android:text="Facebook Login"
+                    android:textAllCaps="true"
                     android:textColor="@color/splash_bg_color"
                     android:textSize="@dimen/_14sdp" />
 
-                <LinearLayout
-                    android:id="@+id/share_linear"
-                    android:layout_width="0dp"
-                    android:layout_height="@dimen/_40sdp"
+                <ImageView
+                    android:id="@+id/share_img"
+                    android:layout_width="@dimen/_15sdp"
+                    android:layout_height="@dimen/_15sdp"
                     android:layout_alignParentRight="true"
-                    android:layout_weight="0.4"
-                    android:orientation="vertical"
-                    android:visibility="visible">
-
-                    <ImageView
-                        android:id="@+id/share_img"
-                        android:layout_width="@dimen/_15sdp"
-                        android:layout_height="@dimen/_15sdp"
-                        android:layout_gravity="center_vertical|center_horizontal"
-                        android:layout_marginTop="@dimen/_5sdp"
-                        android:src="@drawable/ic_share"
-                        android:visibility="gone" />
-
-                    <TextView
-                        style="@style/text_font"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_horizontal"
-                        android:text="edit"
-                        android:textColor="@color/splash_bg_color"
-                        android:textSize="@dimen/_10sdp"
-                        android:visibility="gone" />
-                </LinearLayout>
-
-            </LinearLayout>
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/ic_share"
+                    android:visibility="gone" />
+            </RelativeLayout>
         </androidx.appcompat.widget.Toolbar>
-
         <View
             android:id="@+id/top_gradiant_view"
             android:layout_width="match_parent"
             android:layout_height="5dp"
             android:layout_below="@+id/toolbar"
             android:background="@drawable/bg_gradiant_line" />
-
 
 
                 <LinearLayout
@@ -133,6 +107,8 @@
                     android:id="@+id/user_info_linear"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_15sdp"
+                    android:layout_marginRight="@dimen/_15sdp"
                     android:layout_marginTop="@dimen/_25sdp"
                     android:layout_below="@+id/profile_image_linear"
                     android:orientation="vertical"
@@ -142,8 +118,7 @@
                         style="@style/title_text_font"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/_15sdp"
-                        android:layout_marginRight="@dimen/_15sdp"
+
                         android:gravity="center_vertical"
                         android:paddingTop="@dimen/_5sdp"
                         android:paddingBottom="@dimen/_5sdp"
@@ -154,8 +129,6 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/_15sdp"
-                        android:layout_marginRight="@dimen/_15sdp"
                         android:layout_marginBottom="@dimen/_10sdp"
                         android:background="@drawable/rectangle_line"
                         android:orientation="horizontal">
@@ -167,10 +140,11 @@
                             android:layout_height="@dimen/_30sdp"
                             android:background="@android:color/transparent"
                             android:hint="@string/fullname"
-                            android:imeOptions="actionNone"
+                            android:imeOptions="actionNext"
                             android:inputType="textEmailAddress"
                             android:maxLines="1"
                             android:paddingLeft="@dimen/_5sdp"
+                            android:paddingRight="@dimen/_5sdp"
                             android:textColor="@color/heading_bg"
                             android:textColorHint="@color/hint_txt_color"
                             android:textCursorDrawable="@drawable/color_cursor"
@@ -182,8 +156,6 @@
                         style="@style/title_text_font"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/_15sdp"
-                        android:layout_marginRight="@dimen/_15sdp"
                         android:gravity="center_vertical"
                         android:paddingTop="@dimen/_5sdp"
                         android:paddingBottom="@dimen/_5sdp"
@@ -194,8 +166,6 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/_15sdp"
-                        android:layout_marginRight="@dimen/_15sdp"
                         android:layout_marginBottom="@dimen/_10sdp"
                         android:background="@drawable/rectangle_line"
                         android:orientation="horizontal">
@@ -207,10 +177,11 @@
                             android:layout_height="@dimen/_30sdp"
                             android:background="@android:color/transparent"
                             android:hint="@string/email"
-                            android:imeOptions="actionNone"
+                            android:imeOptions="actionNext"
                             android:inputType="textEmailAddress"
                             android:maxLines="1"
                             android:paddingLeft="@dimen/_5sdp"
+                            android:paddingRight="@dimen/_5sdp"
                             android:textColor="@color/heading_bg"
                             android:textColorHint="@color/hint_txt_color"
                             android:textCursorDrawable="@drawable/color_cursor"
@@ -221,8 +192,6 @@
                         style="@style/title_text_font"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/_15sdp"
-                        android:layout_marginRight="@dimen/_15sdp"
                         android:gravity="center_vertical"
                         android:paddingTop="@dimen/_5sdp"
                         android:paddingBottom="@dimen/_5sdp"
@@ -235,8 +204,6 @@
                         android:layout_height="wrap_content"
                         android:background="@drawable/rectangle_line"
                         android:orientation="horizontal"
-                        android:layout_marginLeft="@dimen/_15sdp"
-                        android:layout_marginRight="@dimen/_15sdp"
                         android:layout_marginBottom="@dimen/_10sdp">
                         <com.bharatarmy.CountryCodePicker
                             android:id="@+id/ccp"
@@ -260,11 +227,12 @@
                             android:inputType="phone"
                             android:maxLength="12"
                             android:paddingLeft="@dimen/_5sdp"
+                            android:paddingRight="@dimen/_5sdp"
                             android:textColor="@color/heading_bg"
                             android:textColorHint="@color/hint_txt_color"
                             android:textCursorDrawable="@drawable/color_cursor"
                             android:textSize="@dimen/_12sdp"
-                            android:imeOptions="actionNext"
+                            android:imeOptions="actionNone"
                             />
                     </LinearLayout>
 

@@ -6,22 +6,16 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.bharatarmy.Activity.TravelBookActivity;
 import com.bharatarmy.Activity.TravelCityHotelDetailsActivity;
 import com.bharatarmy.Activity.TravelMatchHotelRoomTypeActivity;
-import com.bharatarmy.Models.MyScreenChnagesModel;
 import com.bharatarmy.Models.TravelModel;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.AppConfiguration;
@@ -29,8 +23,6 @@ import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.MatchDetailtitleItemBinding;
 import com.bharatarmy.databinding.MatchHotelDetailItemBinding;
 
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;

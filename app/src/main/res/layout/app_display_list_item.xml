@@ -19,7 +19,6 @@
             android:layout_gravity="center_horizontal"
             android:adjustViewBounds="true"
             android:scaleType="centerCrop"
-            android:src="@drawable/australia_tour"
             app:cornerRadius="@dimen/round_corner_radius"
             app:roundedCorners="topRight|topLeft|bottomLeft|bottomRight" />
 

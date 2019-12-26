@@ -146,7 +146,9 @@ public class FTPDetailsActivity extends AppCompatActivity implements View.OnClic
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.inquriy_btn:
+                if(Utils.isMember(mContext,"FTP Detail")){
 
+                }
                 break;
             case R.id.ftp_comment:
                 Intent commentIntent = new Intent(mContext, CommentActivity.class);

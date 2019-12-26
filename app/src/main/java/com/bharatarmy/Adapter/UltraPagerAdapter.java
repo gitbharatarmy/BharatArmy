@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.cardview.widget.CardView;
@@ -23,20 +22,20 @@ public class UltraPagerAdapter extends PagerAdapter {
     private boolean isMultiScr;
     private LayoutInflater layoutInflater;
     Context mContext;
-    List<TravelModel> content;
+    List<TravelModel> traveltourlist;
     ImageView travel_main_banner_img;
     TextView travel_main_title_txt,travel_sub_title_txt;
     CardView card_click;
 
-    public UltraPagerAdapter(boolean isMultiScr, Context mContext, List<TravelModel> content) {
+    public UltraPagerAdapter(boolean isMultiScr, Context mContext, List<TravelModel> traveltourlist) {
         this.isMultiScr = isMultiScr;
         this.mContext=mContext;
-        this.content=content;
+        this.traveltourlist=traveltourlist;
     }
 
     @Override
     public int getCount() {
-        return content.size();
+        return traveltourlist.size();
     }
 
     @Override
@@ -50,7 +49,7 @@ public class UltraPagerAdapter extends PagerAdapter {
 
         View view = layoutInflater.inflate(R.layout.travel_ultrapage_list_item, container, false);
 
-        TravelModel traveldetail=content.get(position);
+        TravelModel traveldetail=traveltourlist.get(position);
 
         travel_main_banner_img=(ImageView)view.findViewById(R.id.travel_main_banner_img);
         travel_main_title_txt=(TextView)view.findViewById(R.id.travel_main_title_txt);

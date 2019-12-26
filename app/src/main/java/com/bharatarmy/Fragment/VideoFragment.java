@@ -4,11 +4,9 @@ import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.ResolveInfo;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -24,7 +22,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.bharatarmy.Activity.ImageEditProfilePickerActivity;
 import com.bharatarmy.Activity.ImageUploadActivity;
 import com.bharatarmy.Activity.VideoDetailHorizontalActivity;
 import com.bharatarmy.Activity.VideoDetailVerticalActivity;
@@ -33,7 +30,6 @@ import com.bharatarmy.Adapter.VideoListAdapter;
 import com.bharatarmy.Interfaces.image_click;
 import com.bharatarmy.Models.ImageDetailModel;
 import com.bharatarmy.Models.ImageMainModel;
-import com.bharatarmy.Models.MyScreenChnagesModel;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.ApiHandler;
 import com.bharatarmy.Utility.AppConfiguration;
@@ -50,8 +46,6 @@ import com.leinardi.android.speeddial.SpeedDialActionItem;
 import com.leinardi.android.speeddial.SpeedDialOverlayLayout;
 import com.leinardi.android.speeddial.SpeedDialView;
 
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -161,6 +155,8 @@ public class VideoFragment extends Fragment {
             speedDialView.setVisibility(View.VISIBLE);
 
             initSpeedDial();
+        }else{
+//            fragmentVideoBinding.videoRcvList.setVisibility(View.GONE);
         }
     }
 
@@ -368,6 +364,7 @@ public class VideoFragment extends Fragment {
 
                     if (imageMainModel.getData() != null) {
                         fragmentVideoBinding.shimmerViewContainer.stopShimmerAnimation();
+                        fragmentVideoBinding.videoRcvList.setVisibility(View.VISIBLE);
                         fragmentVideoBinding.shimmerViewContainer.setVisibility(View.GONE);
                         fragmentVideoBinding.bottomProgressbarLayout.setVisibility(View.GONE);
                         videoDetailModelsList = imageMainModel.getData();

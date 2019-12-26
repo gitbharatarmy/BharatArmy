@@ -152,7 +152,13 @@ public class VideoTrimActivity extends AppCompatActivity implements View.OnClick
 
     private int getMediaDuration(Uri uriOfFile) {
         MediaPlayer mp = MediaPlayer.create(this, uriOfFile);
-        int duration = mp.getDuration();
+        int duration=0;
+        if (mp!=null){
+            duration = mp.getDuration();
+       }
+//
+
+
         return duration;
 
     }

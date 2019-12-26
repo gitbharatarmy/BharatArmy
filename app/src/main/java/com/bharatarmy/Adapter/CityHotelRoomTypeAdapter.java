@@ -25,7 +25,6 @@ import kotlin.jvm.internal.StringCompanionObject;
 
 public class CityHotelRoomTypeAdapter extends RecyclerView.Adapter {
     private final ConstraintSet set = new ConstraintSet();
-    private final RequestOptions requestOptions = (new RequestOptions()).placeholder(R.drawable.progress_animation);
     Context mContext;
     List<TravelModel> roomDetailModelsList;
 

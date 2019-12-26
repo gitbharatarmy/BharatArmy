@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bharatarmy.Activity.TravelMatchSelectHotelActivity;
 import com.bharatarmy.Activity.TravelMatchTicketAndHosipitalityticketdetailActivity;
 import com.bharatarmy.Activity.TravelMatchTicketAndHospitalityDetailActivity;
-import com.bharatarmy.Interfaces.MorestoryClick;
 import com.bharatarmy.Models.TravelModel;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.Utils;

@@ -81,6 +81,99 @@ public class TravelModel {
     String groundname;
     String matchtype;
 
+    int facilityIcon;
+    String facilityName;
+    String facilityOffer;
+
+
+    int travelschedulefirstcountryflage;
+    String travelschedulefirstcountryname;
+    int travelschedulesecondcountryflag;
+    String travelschedulesecondcountryname;
+    String travelscheduletimedate;
+    String travelscheduleground;
+    String travelscheduleType;
+    String travelmatchimage;
+
+    public TravelModel(int travelschedulefirstcountryflage, String travelschedulefirstcountryname,
+                       int travelschedulesecondcountryflag, String travelschedulesecondcountryname,
+                       String travelscheduletimedate, String travelscheduleground, String travelscheduleType ,
+                       String travelmatchimage) {
+
+        this.travelschedulefirstcountryflage = travelschedulefirstcountryflage;
+        this.travelschedulefirstcountryname = travelschedulefirstcountryname;
+        this.travelschedulesecondcountryflag = travelschedulesecondcountryflag;
+        this.travelschedulesecondcountryname = travelschedulesecondcountryname;
+        this.travelscheduletimedate = travelscheduletimedate;
+        this.travelscheduleground = travelscheduleground;
+        this.travelscheduleType = travelscheduleType;
+        this.travelmatchimage=travelmatchimage;
+    }
+
+    public int getTravelschedulefirstcountryflage() {
+        return travelschedulefirstcountryflage;
+    }
+
+    public void setTravelschedulefirstcountryflage(int travelschedulefirstcountryflage) {
+        this.travelschedulefirstcountryflage = travelschedulefirstcountryflage;
+    }
+
+    public String getTravelschedulefirstcountryname() {
+        return travelschedulefirstcountryname;
+    }
+
+    public void setTravelschedulefirstcountryname(String travelschedulefirstcountryname) {
+        this.travelschedulefirstcountryname = travelschedulefirstcountryname;
+    }
+
+    public int getTravelschedulesecondcountryflag() {
+        return travelschedulesecondcountryflag;
+    }
+
+    public void setTravelschedulesecondcountryflag(int travelschedulesecondcountryflag) {
+        this.travelschedulesecondcountryflag = travelschedulesecondcountryflag;
+    }
+
+    public String getTravelschedulesecondcountryname() {
+        return travelschedulesecondcountryname;
+    }
+
+    public void setTravelschedulesecondcountryname(String travelschedulesecondcountryname) {
+        this.travelschedulesecondcountryname = travelschedulesecondcountryname;
+    }
+
+    public String getTravelscheduletimedate() {
+        return travelscheduletimedate;
+    }
+
+    public void setTravelscheduletimedate(String travelscheduletimedate) {
+        this.travelscheduletimedate = travelscheduletimedate;
+    }
+
+    public String getTravelscheduleground() {
+        return travelscheduleground;
+    }
+
+    public void setTravelscheduleground(String travelscheduleground) {
+        this.travelscheduleground = travelscheduleground;
+    }
+
+    public String getTravelscheduleType() {
+        return travelscheduleType;
+    }
+
+    public void setTravelscheduleType(String travelscheduleType) {
+        this.travelscheduleType = travelscheduleType;
+    }
+
+    public String getTravelmatchimage() {
+        return travelmatchimage;
+    }
+
+    public void setTravelmatchimage(String travelmatchimage) {
+        this.travelmatchimage = travelmatchimage;
+    }
+
     public TravelModel(String bg_iamge, String bg_name, String main_titleName, String main_desc, String button_name) {
         this.bg_iamge = bg_iamge;
         this.bg_name = bg_name;
@@ -196,6 +289,35 @@ public class TravelModel {
         this.match_shortDesc = match_shortDesc;
     }
 
+    public TravelModel(int facilityIcon, String facilityName, String facilityOffer) {
+        this.facilityIcon = facilityIcon;
+        this.facilityName = facilityName;
+        this.facilityOffer = facilityOffer;
+    }
+
+    public int getFacilityIcon() {
+        return facilityIcon;
+    }
+
+    public void setFacilityIcon(int facilityIcon) {
+        this.facilityIcon = facilityIcon;
+    }
+
+    public String getFacilityName() {
+        return facilityName;
+    }
+
+    public void setFacilityName(String facilityName) {
+        this.facilityName = facilityName;
+    }
+
+    public String getFacilityOffer() {
+        return facilityOffer;
+    }
+
+    public void setFacilityOffer(String facilityOffer) {
+        this.facilityOffer = facilityOffer;
+    }
 
     public TravelModel(String popularcity_image, String popularcity_name, String popularcity_image_count) {
         this.popularcity_image = popularcity_image;

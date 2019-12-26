@@ -18,6 +18,8 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 import com.bharatarmy.Adapter.VideoDetailHorizontalVideoAdapter;
 import com.bharatarmy.Models.ImageMainModel;
@@ -70,21 +72,33 @@ public class StoryDetailActivity extends AppCompatActivity implements View.OnCli
 
 
     public void getsetIntentValue() {
-        storyHeadingStr = getIntent().getStringExtra("Story Heading");
-        storyUrlStr = getIntent().getStringExtra("StroyUrl");
-        storyCategory = getIntent().getStringExtra("StoryCategorytype");
-        storyAuthor = getIntent().getStringExtra("StoryAuthor");
-        storyHeaderImg = getIntent().getStringExtra("StoryHeaderImg");
-        storyId = getIntent().getIntExtra("StoryId", 0);
-        storyAuthorId = getIntent().getIntExtra("StoryauthorId", 0);
+        if (getIntent().getStringExtra("Story Heading") != null) {
+            storyHeadingStr = getIntent().getStringExtra("Story Heading");
+            activityStoryDetailBinding.showStoryTitleTxt.setText(storyHeadingStr);
+        }
+        if (getIntent().getStringExtra("StroyUrl") != null) {
+            storyUrlStr = getIntent().getStringExtra("StroyUrl");
+        }
+        if (getIntent().getStringExtra("StoryCategorytype") != null) {
+            storyCategory = getIntent().getStringExtra("StoryCategorytype");
+            activityStoryDetailBinding.typeTxt.setText(storyCategory);
+        }
+        if (getIntent().getStringExtra("StoryAuthor") != null) {
+            storyAuthor = getIntent().getStringExtra("StoryAuthor");
+            Utils.setImageInImageView(storyAuthor, activityStoryDetailBinding.userImage, mContext);
+        }
+        if (getIntent().getStringExtra("StoryHeaderImg") != null) {
+            storyHeaderImg = getIntent().getStringExtra("StoryHeaderImg");
+            Utils.setImageInImageView(storyHeaderImg, activityStoryDetailBinding.backdrop, mContext);
+        }
+        if (getIntent().getIntExtra("StoryId", 0) > 0) {
+            storyId = getIntent().getIntExtra("StoryId", 0);
+        }
+        if (getIntent().getIntExtra("StoryauthorId", 0) > 0) {
+            storyAuthorId = getIntent().getIntExtra("StoryauthorId", 0);
+        }
 
         Log.d("StoryId", "" + storyId + "AuthorId :" + storyAuthorId);
-
-        activityStoryDetailBinding.showStoryTitleTxt.setText(storyHeadingStr);
-
-        activityStoryDetailBinding.typeTxt.setText(storyCategory);
-        Utils.setImageInImageView(storyAuthor, activityStoryDetailBinding.userImage, mContext);
-        Utils.setImageInImageView(storyHeaderImg, activityStoryDetailBinding.backdrop, mContext);
 
         callStoryDetailData();
     }
@@ -306,6 +320,48 @@ public class StoryDetailActivity extends AppCompatActivity implements View.OnCli
                 }
             }
         }
+
+//        if (storyHeadingStr == null) {
+//            if (storyHeadingStr.equalsIgnoreCase("")) {
+//                storyHeadingStr = storyDetailDataList.getData().get(0).getStoryTitle();
+//                activityStoryDetailBinding.showStoryTitleTxt.setText(storyHeadingStr);
+//            }
+//        }
+//
+//        if (storyUrlStr == null) {
+//            if (storyUrlStr.equalsIgnoreCase("")) {
+//                storyUrlStr = storyDetailDataList.getData().get(0).getStoryWebURL();
+//            }
+//        }
+//
+//        if (storyCategory == null) {
+//            if (storyCategory.equalsIgnoreCase("")) {
+//                storyCategory = storyDetailDataList.getData().get(0).getBASubCategoryName();
+//                activityStoryDetailBinding.typeTxt.setText(storyCategory);
+//            }
+//        }
+//
+//        if (storyAuthor == null) {
+//            if (storyAuthor.equalsIgnoreCase("")) {
+//                storyAuthor = storyDetailDataList.getData().get(0).getAuthorImageURL();
+//                Utils.setImageInImageView(storyAuthor, activityStoryDetailBinding.userImage, mContext);
+//            }
+//        }
+//
+//        if (storyHeaderImg == null) {
+//            if (storyHeaderImg.equalsIgnoreCase("")) {
+//                storyHeaderImg = storyDetailDataList.getData().get(0).getStrThumbImageName();
+//                Utils.setImageInImageView(storyHeaderImg, activityStoryDetailBinding.backdrop, mContext);
+//            }
+//        }
+//
+//        if (storyAuthorId <= 0) {
+//            storyAuthorId = storyDetailDataList.getData().get(0).getAuthorId();
+//        }
+//
+//        if (storyId <= 0) {
+//            storyId = storyDetailDataList.getData().get(0).getStoryId();
+//        }
         //Font must be placed in assets/fonts folder
         String text = "<html><style type='text/css'>@font-face { font-family: thesansplain; src: url('fonts/thesansplain.ttf'); } body p {font-family: thesansplain;}</style>"
                 + "<body >" + "<p align=\"justify\" style=\"font-size: 22px; font-family: spqr;\">" + storyDetailDataList.getData().get(0).getStoryDescription() + "</p> " + "</body></html>";
@@ -327,6 +383,25 @@ public class StoryDetailActivity extends AppCompatActivity implements View.OnCli
         activityStoryDetailBinding.storyDetailView.setVerticalScrollBarEnabled(false);
         activityStoryDetailBinding.storyDetailView.loadDataWithBaseURL("file:///android_asset/", text, "text/html", "UTF-8", null);
 
+
+        activityStoryDetailBinding.storyDetailView.setWebViewClient(new WebViewClient() {
+
+
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                // check the URL, and do whatever you need to do according to the URL
+//                if(url.equals("hrupin://second_activity")){
+//                    Intent intent = new Intent(mContext, MoreInformationActivity.class);
+//                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); //ugly solution to avoid starting 2 activities, not ideal but it works
+//                    startActivity(intent);
+
+//                }
+
+
+                // return true; // if you handled URL, and WebView should not load it
+                return false; // for the WebView to load the URL
+            }
+        });
     }
 
 
@@ -368,10 +443,10 @@ public class StoryDetailActivity extends AppCompatActivity implements View.OnCli
             } else {
                 activityStoryDetailBinding.uprStoryTotalLikeTxt.setText(String.valueOf(likeunlikecount - 1));
             }
-        }else{
-            if(likestatus == 1){
+        } else {
+            if (likestatus == 1) {
                 activityStoryDetailBinding.uprStoryLikeBtn.setLiked(false);
-            }else{
+            } else {
                 activityStoryDetailBinding.uprStoryLikeBtn.setLiked(true);
             }
         }

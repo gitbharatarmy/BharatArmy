@@ -1,8 +1,5 @@
 package com.bharatarmy.Utility;
 
-import android.Manifest;
-import android.accounts.Account;
-import android.accounts.AccountManager;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -40,7 +37,6 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.util.Patterns;
 import android.util.TypedValue;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -49,11 +45,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -63,16 +55,12 @@ import androidx.core.content.ContextCompat;
 
 import com.bharatarmy.Activity.AppLoginActivity;
 import com.bharatarmy.Activity.DashboardActivity;
-import com.bharatarmy.Country;
-import com.bharatarmy.CountryCodePicker;
-import com.bharatarmy.Interfaces.submit_click;
 import com.bharatarmy.Models.GalleryImageModel;
 import com.bharatarmy.Models.ImageMainModel;
 import com.bharatarmy.Models.LoginDataModel;
 import com.bharatarmy.Models.LoginOtherDataModel;
 import com.bharatarmy.R;
 import com.bharatarmy.UploadService;
-import com.bharatarmy.meghWebView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.gson.Gson;
@@ -112,11 +100,8 @@ import static com.yalantis.ucrop.util.FileUtils.isGooglePhotosUri;
 import static com.yalantis.ucrop.util.FileUtils.isMediaDocument;
 
 public class Utils {
-    public static String strCountrycode, strCheck = "0";
-    public static meghWebView webView;
+
     public static ImageView image;
-    public static Button agree_btn;
-    public static TextView close_btn;
     public static boolean isValid = false;
 
     public static String LikeMemberId, LikeReferenceId, LikeStatus, LikeSourceType;
@@ -129,7 +114,7 @@ public class Utils {
     public static List<GalleryImageModel> UpladingFiles;
     public static ArrayList<String> videoFile;
 
-
+    public static ProgressDialog mProgressDialog;
     public static boolean checkNetwork(Context context) {
         boolean wifiAvailable = false;
         boolean mobileAvailable = false;
@@ -197,7 +182,7 @@ public class Utils {
             Drawable d = new ColorDrawable(Color.BLACK);
             d.setAlpha(30);
             dialog.getWindow().setBackgroundDrawable(d);
-            dialog.setCancelable(true);
+            dialog.setCancelable(false);
             dialog.setCanceledOnTouchOutside(false);
             dialog.show();
         }
@@ -458,9 +443,9 @@ public class Utils {
         activity.requestPermissions(new String[]{permissionString}, permissionCode);
     }
 
-    public static int dpToPx(int dp) {
-        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, Resources.getSystem().getDisplayMetrics());
-    }
+//    public static int dpToPx(int dp) {
+//        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, Resources.getSystem().getDisplayMetrics());
+//    }
 
 
     public static void showUpdateDialog(final Activity activity) {
@@ -595,10 +580,7 @@ public class Utils {
                         activity.startActivity(dashboardIntent);
                         activity.finish();
                     } else if (wheretocome.equalsIgnoreCase("sports")) {
-                        Intent dashboardIntent = new Intent(activity, DashboardActivity.class);
-                        dashboardIntent.putExtra("whichPageRun", "5");
-                        activity.startActivity(dashboardIntent);
-                        activity.finish();
+
                     }
 
                 } catch (Exception e) {
@@ -614,188 +596,6 @@ public class Utils {
 
     }
 
-
-    public static void showSubmitRegisterDialog(final Activity activity, String wheretocome, submit_click submit_click) {
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity);
-        LayoutInflater inflater = activity.getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.submit_login_dialog_item, null);
-        dialogBuilder.setView(dialogView);
-        AlertDialog alertDialog = dialogBuilder.create();
-        alertDialog.setCanceledOnTouchOutside(false);
-        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-        EditText fulluser_name_edt, email_edt, mobile_edt;
-        TextView term_condition_txt;
-        CheckBox terms_chk;
-        Button signup_btn;
-        CountryCodePicker ccp;
-        LinearLayout close_linear;
-
-        ccp = (CountryCodePicker) dialogView.findViewById(R.id.ccp);
-        fulluser_name_edt = (EditText) dialogView.findViewById(R.id.fulluser_name_edt);
-        email_edt = (EditText) dialogView.findViewById(R.id.email_edt);
-        mobile_edt = (EditText) dialogView.findViewById(R.id.mobile_edt);
-
-        close_linear = (LinearLayout) dialogView.findViewById(R.id.close_linear);
-        term_condition_txt = (TextView) dialogView.findViewById(R.id.term_condition_txt);
-        terms_chk = (CheckBox) dialogView.findViewById(R.id.terms_chk);
-
-        signup_btn = (Button) dialogView.findViewById(R.id.signup_btn);
-
-
-        AppConfiguration.currentCountryISOCode = ccp.getSelectedCountryNameCode();
-
-
-        terms_chk.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    strCheck = "1";
-                } else {
-                    strCheck = "0";
-                }
-            }
-        });
-        term_condition_txt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LayoutInflater lInflater = (LayoutInflater) activity
-                        .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                final View layout = lInflater.inflate(R.layout.mobile_term_condition, null);
-
-                AlertDialog.Builder alertDialogBuilderUserInput = new AlertDialog.Builder(activity);
-                alertDialogBuilderUserInput.setView(layout);
-
-                AlertDialog alertDialogAndroid = alertDialogBuilderUserInput.create();
-                alertDialogAndroid.setCancelable(false);
-                alertDialogAndroid.show();
-                Window window = alertDialogAndroid.getWindow();
-                window.setLayout(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-                WindowManager.LayoutParams wlp = window.getAttributes();
-                window.setGravity(Gravity.LEFT | Gravity.TOP);
-                wlp.x = 1;
-                wlp.y = 100;
-                wlp.flags = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
-                window.setAttributes(wlp);
-                alertDialogAndroid.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-                alertDialogAndroid.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT,
-                        WindowManager.LayoutParams.MATCH_PARENT);
-
-                Drawable d = new ColorDrawable(activity.getResources().getColor(R.color.black_dialog));
-//        d.setAlpha(100);
-                alertDialogAndroid.getWindow().setBackgroundDrawable(d);
-                alertDialogAndroid.show();
-
-                webView = (meghWebView) layout.findViewById(R.id.webView);
-                image = (ImageView) layout.findViewById(R.id.image);
-                agree_btn = (Button) layout.findViewById(R.id.agree_btn);
-//        close_btn = (Button) layout.findViewById(R.id.close_btn);
-                close_btn = (TextView) layout.findViewById(R.id.close_btn1);
-                Glide.with(activity).load(R.drawable.logo_new).into(image);
-                image.setVisibility(View.VISIBLE);
-
-                webView.setWebViewClient(new MyWebViewClient());
-                webView.getSettings().setJavaScriptEnabled(true);
-                webView.loadUrl(AppConfiguration.TERMSURL);
-                webView.setVerticalScrollBarEnabled(true);
-                webView.setOnClickListener(this);
-
-                close_btn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        alertDialogAndroid.dismiss();
-                    }
-                });
-            }
-        });
-
-        ccp.setOnCountryChangeListener(new CountryCodePicker.OnCountryChangeListener() {
-            @Override
-            public void onCountrySelected(Country selectedCountry) {
-                AppConfiguration.currentCountryISOCode = ccp.getSelectedCountryNameCode();
-            }
-        });
-
-        signup_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AppConfiguration.registerNameStr = fulluser_name_edt.getText().toString();
-                AppConfiguration.registerEmailStr = email_edt.getText().toString();
-                AppConfiguration.registerCountryCodeStr = ccp.getSelectedCountryCode();
-                AppConfiguration.registerMobileStr = mobile_edt.getText().toString();
-                AppConfiguration.registerCountryDialcodeStr = AppConfiguration.currentCountryISOCode;
-                Log.d("selectedcode", strCountrycode);
-                if (!AppConfiguration.registerNameStr.equalsIgnoreCase("")) {
-                    if (!AppConfiguration.registerEmailStr.equalsIgnoreCase("")) {
-                        if (Utils.isValidEmailId(AppConfiguration.registerEmailStr)) {
-                            if (AppConfiguration.registerCountryCodeStr.length() > 0) {
-                                if (AppConfiguration.registerMobileStr.length() > 0) {
-                                    if (Utils.isValidPhoneNumber(AppConfiguration.registerMobileStr)) {
-//                                        boolean status = Utils.validateUsing_libphonenumber(activity, AppConfiguration.registerCountryCodeStr, AppConfiguration.registerMobileStr);
-//                                        if (status) {
-                                        if (!strCheck.equalsIgnoreCase("0")) {
-                                            alertDialog.dismiss();
-                                            submit_click.getsubmitClick();
-                                        } else {
-                                            Utils.ping(activity, "Check the privacy policy");
-                                        }
-//                                        } else {
-//                                            mobile_edt.setError("Invalid Phone Number");
-//                                        }
-                                    } else {
-                                        mobile_edt.setError("Invalid Phone Number");
-                                    }
-                                } else {
-                                    mobile_edt.setError("Phone Number is required");
-                                }
-                            } else {
-                                Utils.ping(activity, "Country Code is required");
-                            }
-                        } else {
-                            email_edt.setError("Invalid Email Address");
-                        }
-                    } else {
-                        email_edt.setError("Email Address is required");
-                    }
-                } else {
-                    fulluser_name_edt.setError("Full Name is required");
-                }
-            }
-        });
-
-        close_linear.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                alertDialog.dismiss();
-            }
-        });
-
-        alertDialog.show();
-    }
-
-
-    // use for webview adavnce facility funcation
-    public static class MyWebViewClient extends WebViewClient {
-        @Override
-        public void onPageStarted(WebView view, String url, Bitmap favicon) {
-            // TODO Auto-generated method stub
-            super.onPageStarted(view, url, favicon);
-        }
-
-        @Override
-        public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            // TODO Auto-generated method stub
-            image.setVisibility(View.VISIBLE);
-            view.loadUrl(url);
-            return true;
-        }
-
-        @Override
-        public void onPageFinished(WebView view, String url) {
-            // TODO Auto-generated method stub
-            super.onPageFinished(view, url);
-            image.setVisibility(View.GONE);
-        }
-    }
 
 
     public static boolean isMyServiceRunning(Context context) {
@@ -1194,5 +994,28 @@ public class Utils {
 
         return timeToStr;
     }
+    public static void showProgressDialog(Context context) {
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(context);
+            mProgressDialog.setMessage(context.getString(R.string.loading));
+            mProgressDialog.setIndeterminate(true);
+        }
 
+        mProgressDialog.show();
+    }
+
+    public static void hideProgressDialog() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.hide();
+        }
+    }
+
+
+    public static int pxToDp(int px) {
+        return (int) (px / Resources.getSystem().getDisplayMetrics().density);
+    }
+
+    public static int dpToPx(int dp) {
+        return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
+    }
 }

@@ -42,7 +42,7 @@ public class InquiryStatusModel {
 
 //    *************  RegisterInterest Fitler Country **************
 
-    @SerializedName("ID")
+    @SerializedName("HomeTempleteIDModel")
     @Expose
     private Integer iD;
     @SerializedName("Name")

@@ -249,7 +249,7 @@
                             android:layout_height="@dimen/_13sdp"
                             android:layout_centerVertical="true"
                             android:layout_toLeftOf="@+id/phone_show_txt"
-                            android:src="@drawable/in_flag"
+                            android:src="@drawable/flag_india"
                             android:visibility="gone"/>
 
                         <TextView

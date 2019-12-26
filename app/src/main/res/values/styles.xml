@@ -8,6 +8,7 @@
         <item name="android:statusBarColor">@color/heading_bg</item>
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
         <item name="android:windowAnimationStyle">@style/CustomActivityAnimation</item>
+
     </style>
     <style name="AppTheme.NoActionBar">
         <item name="android:windowTranslucentNavigation">false</item>
@@ -52,6 +53,9 @@
         <item name="android:fontFamily">@font/helveticaneueltstdbdcn</item>
     </style>
 
+    <style name="title_desc_font">
+        <item name="android:fontFamily">@font/helveticaneueltstdcn</item>
+    </style>
     <style name="AppTheme.WhiteAccent">
         <item name="colorAccent">@color/splash_bg_color</item> <!-- Whatever color you want-->
     </style>
@@ -62,15 +66,15 @@
         <item name="android:minWidth">200dp</item>
     </style>
 
-    <style name="CustomProgressBar" parent="android:Widget.ProgressBar.Horizontal">
-        <item name="android:indeterminateOnly">false</item>
-        <item name="android:progressDrawable">@drawable/the_bharat_mob</item>
-        <item name="android:minHeight">@dimen/_50sdp</item>
-        <item name="android:maxHeight">@dimen/_90sdp</item>
-        <item name="android:minWidth">@dimen/_50sdp</item>
-        <item name="android:maxWidth">@dimen/_100sdp</item>
+<!--    <style name="CustomProgressBar" parent="android:Widget.ProgressBar.Horizontal">-->
+<!--        <item name="android:indeterminateOnly">false</item>-->
+<!--        <item name="android:progressDrawable">@drawable/the_bharat_mob</item>-->
+<!--        <item name="android:minHeight">@dimen/_50sdp</item>-->
+<!--        <item name="android:maxHeight">@dimen/_90sdp</item>-->
+<!--        <item name="android:minWidth">@dimen/_50sdp</item>-->
+<!--        <item name="android:maxWidth">@dimen/_100sdp</item>-->
 
-    </style>
+<!--    </style>-->
 
 
 
@@ -238,6 +242,24 @@
         <item name="android:activityOpenExitAnimation">@anim/slide_out_left_new</item>
         <item name="android:activityCloseEnterAnimation">@anim/slide_in_left_new</item>
         <item name="android:activityCloseExitAnimation">@anim/slide_out_right_new</item>
+    </style>
+
+    <style name="SwitchTheme" parent="Theme.AppCompat.Light">
+        <item name="android:colorControlActivated">@color/heading_bg</item>
+        <item name="android:colorControlNormal">@color/green</item>
+    </style>
+
+
+    <style name="ShowCase" parent="@style/ThemeOverlay.AppCompat.Dialog.Alert">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowAnimationStyle">@null</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
     </style>
 </resources>
 

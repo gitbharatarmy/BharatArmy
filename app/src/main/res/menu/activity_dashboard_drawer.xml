@@ -30,29 +30,29 @@
             <!--android:icon="@drawable/ic_news"-->
             <!--android:title="STORY" />-->
 
-        <item
-            android:id="@+id/nav_history"
-            android:icon="@drawable/ic_history"
-            android:title="HISTORY" />
+<!--        <item-->
+<!--            android:id="@+id/nav_history"-->
+<!--            android:icon="@drawable/ic_history"-->
+<!--            android:title="HISTORY" />-->
 
-        <item
-            android:id="@+id/nav_aboutus"
-            android:icon="@drawable/ic_profile"
-            android:title="ABOUT US" />
+<!--        <item-->
+<!--            android:id="@+id/nav_aboutus"-->
+<!--            android:icon="@drawable/ic_profile"-->
+<!--            android:title="ABOUT US" />-->
 
-        <item
-            android:id="@+id/nav_contactus"
-            android:icon="@drawable/ic_profile"
-            android:title="CONTACT US" />
+<!--        <item-->
+<!--            android:id="@+id/nav_contactus"-->
+<!--            android:icon="@drawable/ic_profile"-->
+<!--            android:title="CONTACT US" />-->
 
-        <item
-            android:id="@+id/nav_rateus"
-            android:icon="@drawable/ic_profile"
-            android:title="RATE US" />
-        <item
-            android:id="@+id/nav_logout"
-            android:icon="@drawable/ic_logout"
-            android:title="LOGOUT" />
+<!--        <item-->
+<!--            android:id="@+id/nav_rateus"-->
+<!--            android:icon="@drawable/ic_profile"-->
+<!--            android:title="RATE US" />-->
+<!--        <item-->
+<!--            android:id="@+id/nav_logout"-->
+<!--            android:icon="@drawable/ic_logout"-->
+<!--            android:title="LOGOUT" />-->
     </group>
 
 

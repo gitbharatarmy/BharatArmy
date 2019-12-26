@@ -30,7 +30,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         // If you want to send messages to this application instance or
         // manage this apps subscriptions on the server side, send the
-        // Instance ID token to your app server.
+        // Instance HomeTempleteIDModel token to your app server.
 //        sendRegistrationToServer(token);
     }
 
@@ -53,7 +53,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     //It is same as we did in earlier posts
     private void sendNotification(RemoteMessage remoteMessage) {
         final int NOTIFY_ID = (int) (System.currentTimeMillis() & 0xfffffff);
-        ; // ID of notification
+        ; // HomeTempleteIDModel of notification
         String id = context.getString(R.string.default_notification_channel_id); // default_channel_id
 
         String title = context.getString(R.string.default_notification_channel_title); // Default Channel

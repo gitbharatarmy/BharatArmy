@@ -28,11 +28,12 @@ public class MyMediaAdapter extends RecyclerView.Adapter<MyMediaAdapter.MyViewHo
     private ArrayList<String> dataCheck;
     int SelectedPosition;
     image_click image_click;
-    boolean firstclick=true;
+    boolean firstclick = true;
+
     public MyMediaAdapter(Context mContext, List<GalleryImageModel> content, image_click image_click) {
         this.mContext = mContext;
         this.imageDetailModel = content;
-        this.image_click=image_click;
+        this.image_click = image_click;
     }
 
 
@@ -61,11 +62,17 @@ public class MyMediaAdapter extends RecyclerView.Adapter<MyMediaAdapter.MyViewHo
     public void onBindViewHolder(MyMediaAdapter.MyViewHolder holder, final int position) {
         GalleryImageModel detailgallery = imageDetailModel.get(position);
 
-            if (!Utils.getPref(mContext, "image/video").equalsIgnoreCase("video")) {
-                Utils.setGalleryImageInImageView(detailgallery.getImageUri(), holder.myMediaListItemBinding.uploadImage, mContext);
-            } else {
+       /* if (!Utils.getPref(mContext, "image/video").equalsIgnoreCase("video")) {
+            Utils.setGalleryImageInImageView(detailgallery.getImageUri(), holder.myMediaListItemBinding.uploadImage, mContext);
+        } else {
 //                File f=new File(detailgallery.getImageUri());
-                Log.d("MymediaimageUri:",detailgallery.getImageUri());
+            Log.d("MymediaimageUri:",detailgallery.getImageUri());
+//                if (Utils.createThumbnailAtTime(detailgallery.getImageUri())!=null){
+//                    holder.myMediaListItemBinding.uploadImage.setImageBitmap(Utils.createThumbnailAtTime(detailgallery.getImageUri()));
+//                }else{
+//                    holder.myMediaListItemBinding.uploadImage.setImageResource(R.drawable.proflie);
+//                }
+            if (!detailgallery.getImageUri().equalsIgnoreCase("")) {
                 if (Utils.createThumbnailAtTime(detailgallery.getImageUri())!=null){
                     holder.myMediaListItemBinding.uploadImage.setImageBitmap(Utils.createThumbnailAtTime(detailgallery.getImageUri()));
                 }else{
@@ -73,18 +80,22 @@ public class MyMediaAdapter extends RecyclerView.Adapter<MyMediaAdapter.MyViewHo
                 }
 
             }
+        }*/
+
+
+
+        Utils.setGalleryImageInImageView(detailgallery.getThumbnail(), holder.myMediaListItemBinding.uploadImage, mContext);
+
         if (detailgallery.getUploadcompelet().equalsIgnoreCase("1")) {
             holder.myMediaListItemBinding.uploadsuccesLinear.setVisibility(View.VISIBLE);
             holder.myMediaListItemBinding.uploadStatus.setText("Uploading...");
         } else if (detailgallery.getUploadcompelet().equalsIgnoreCase("2")) {
             holder.myMediaListItemBinding.uploadsuccesLinear.setVisibility(View.VISIBLE);
             holder.myMediaListItemBinding.uploadStatus.setText("Failed");
-        }
-        else if (detailgallery.getUploadcompelet().equalsIgnoreCase("0")){
+        } else if (detailgallery.getUploadcompelet().equalsIgnoreCase("0")) {
             holder.myMediaListItemBinding.uploadsuccesLinear.setVisibility(View.VISIBLE);
             holder.myMediaListItemBinding.uploadStatus.setText("Pending...");
         }
-
 
 
     }
@@ -92,7 +103,7 @@ public class MyMediaAdapter extends RecyclerView.Adapter<MyMediaAdapter.MyViewHo
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position, @NonNull List<Object> payloads) {
 
-        if (!payloads.isEmpty()){
+        if (!payloads.isEmpty()) {
             for (final Object payload : payloads) {
                 if (payload.equals("1")) {
                     // in this case only name will be updated
@@ -102,7 +113,7 @@ public class MyMediaAdapter extends RecyclerView.Adapter<MyMediaAdapter.MyViewHo
                     // only age will be updated
                     holder.myMediaListItemBinding.uploadsuccesLinear.setVisibility(View.VISIBLE);
                     holder.myMediaListItemBinding.uploadStatus.setText("Failed");
-                }else if(payload.equals("0")){
+                } else if (payload.equals("0")) {
                     holder.myMediaListItemBinding.uploadsuccesLinear.setVisibility(View.VISIBLE);
                     holder.myMediaListItemBinding.uploadStatus.setText("Pending...");
                 }
@@ -129,10 +140,12 @@ public class MyMediaAdapter extends RecyclerView.Adapter<MyMediaAdapter.MyViewHo
     public int getItemCount() {
         return imageDetailModel.size();
     }
+
     public ArrayList<String> getDatas() {
         return dataCheck;
     }
-    public int SelectedPosition(){
+
+    public int SelectedPosition() {
         return SelectedPosition;
     }
 

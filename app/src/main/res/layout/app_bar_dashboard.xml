@@ -50,7 +50,7 @@
             app:mbn_countTextColor="#ffffff"
             app:mbn_defaultIconColor="@color/splash_bg_color"
             app:mbn_rippleColor="#2f424242"
-            app:mbn_selectedIconColor="@color/splash_bg_color"
+            app:mbn_selectedIconColor="@color/skip_color"
             app:mbn_shadowColor="#1f212121" />
 
 

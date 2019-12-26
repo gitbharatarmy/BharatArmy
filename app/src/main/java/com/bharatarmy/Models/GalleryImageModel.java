@@ -14,8 +14,8 @@ public class GalleryImageModel {
     private String videoDesc;
     private String videoHeight;
     private String videoWidth;
-
-
+    private String privacySetting;
+    private String thumbnail;
 
 
     String imageStr;
@@ -29,12 +29,12 @@ public class GalleryImageModel {
     public GalleryImageModel() {
     }
 
-  public GalleryImageModel(String headertxt,String subtxt,int headerImage,String selectedposition){
-        this.headertxt=headertxt;
-        this.subtxt=subtxt;
-        this.headerImage=headerImage;
-        this.selectedposition=selectedposition;
-  }
+    public GalleryImageModel(String headertxt, String subtxt, int headerImage, String selectedposition) {
+        this.headertxt = headertxt;
+        this.subtxt = subtxt;
+        this.headerImage = headerImage;
+        this.selectedposition = selectedposition;
+    }
 
     public String getHeadertxt() {
         return headertxt;
@@ -68,8 +68,8 @@ public class GalleryImageModel {
         this.selectedposition = selectedposition;
     }
 
-    public GalleryImageModel(String imageStr){
-        this.imageStr=imageStr;
+    public GalleryImageModel(String imageStr) {
+        this.imageStr = imageStr;
     }
 
     public String getImageStr() {
@@ -81,32 +81,37 @@ public class GalleryImageModel {
     }
 
     public GalleryImageModel(String imageUri, String imageSize, String uploadcompelet, String videolength, String fileType,
-                             String videoTitle, String videoDesc, String videoHeight, String videoWidth) {
+                             String videoTitle, String videoDesc, String videoHeight, String videoWidth, String privacysetting,
+                             String thumbnail) {
         this.imageUri = imageUri;
         this.imageSize = imageSize;
         this.uploadcompelet = uploadcompelet;
-        this.videolength=videolength;
-        this.fileType=fileType;
-        this.videoTitle=videoTitle;
-        this.videoDesc=videoDesc;
-        this.videoHeight=videoHeight;
-        this.videoWidth=videoWidth;
+        this.videolength = videolength;
+        this.fileType = fileType;
+        this.videoTitle = videoTitle;
+        this.videoDesc = videoDesc;
+        this.videoHeight = videoHeight;
+        this.videoWidth = videoWidth;
+        this.privacySetting = privacysetting;
+        this.thumbnail = thumbnail;
     }
 
 
-
-    public GalleryImageModel(int id, String imageUri, String imageSize, String uploadcompelet,String videolength,String fileType,
-                             String videoTitle,String videoDesc,String videoHeight,String videoWidth) {
+    public GalleryImageModel(int id, String imageUri, String imageSize, String uploadcompelet, String videolength, String fileType,
+                             String videoTitle, String videoDesc, String videoHeight, String videoWidth, String privacySetting,
+                             String thumbnail) {
         this.id = id;
         this.imageUri = imageUri;
         this.imageSize = imageSize;
         this.uploadcompelet = uploadcompelet;
-        this.videolength=videolength;
-        this.fileType=fileType;
-        this.videoTitle=videoTitle;
-        this.videoDesc=videoDesc;
-        this.videoHeight=videoHeight;
-        this.videoWidth=videoWidth;
+        this.videolength = videolength;
+        this.fileType = fileType;
+        this.videoTitle = videoTitle;
+        this.videoDesc = videoDesc;
+        this.videoHeight = videoHeight;
+        this.videoWidth = videoWidth;
+        this.privacySetting = privacySetting;
+        this.thumbnail = thumbnail;
     }
 
     public String getVideoHeight() {
@@ -189,6 +194,21 @@ public class GalleryImageModel {
         this.videolength = videolength;
     }
 
+    public String getPrivacySetting() {
+        return privacySetting;
+    }
+
+    public void setPrivacySetting(String privacySetting) {
+        this.privacySetting = privacySetting;
+    }
+
+    public String getThumbnail() {
+        return thumbnail;
+    }
+
+    public void setThumbnail(String thumbnail) {
+        this.thumbnail = thumbnail;
+    }
 
     @Override
     public boolean equals(Object o) {

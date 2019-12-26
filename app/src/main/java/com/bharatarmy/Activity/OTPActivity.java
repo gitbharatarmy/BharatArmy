@@ -17,15 +17,12 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
 import com.bharatarmy.Interfaces.OtpReceivedInterface;
-import com.bharatarmy.Interfaces.SmsListener;
 import com.bharatarmy.Models.LogginModel;
 import com.bharatarmy.Models.MyScreenChnagesModel;
 import com.bharatarmy.Models.OtpModel;
@@ -420,7 +417,7 @@ startSMSListener();
             }
         });
         activityOtpBinding.otpImg.setOnClickListener(this);
-        activityOtpBinding.backLinear.setOnClickListener(this);
+        activityOtpBinding.backImg.setOnClickListener(this);
         activityOtpBinding.edit4.setOnEditorActionListener(new EditText.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -439,7 +436,7 @@ startSMSListener();
 //                Utils.handleClickEvent(mContext, activityOtpBinding.otpImg);
                 getOtpData();
                 break;
-            case R.id.back_linear:
+            case R.id.back_img:
                 if (strWheretocome.equalsIgnoreCase("Signup")) {
                     Intent mobileIntent = new Intent(mContext, SignUpActivity.class);
                     mobileIntent.putExtra("wheretocome", "OTP");
@@ -622,6 +619,8 @@ startSMSListener();
                         }
 
                         }
+                    }else{
+                        Utils.dismissDialog();
                     }
 
                 }

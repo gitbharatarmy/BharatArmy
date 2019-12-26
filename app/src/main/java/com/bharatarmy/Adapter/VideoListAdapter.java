@@ -28,15 +28,15 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.Item
     public List<ImageDetailModel> mItemList;
     Context mContext;
     image_click image_click;
-FragmentActivity activity;
+    FragmentActivity activity;
     private ArrayList<String> dataCheck;
 
     public VideoListAdapter(Context mContext, FragmentActivity activity, List<ImageDetailModel> itemList,
-                        image_click imageClick) {
+                            image_click imageClick) {
         this.mContext = mContext;
         this.mItemList = itemList;
-        this.activity=activity;
-        this.image_click=imageClick;
+        this.activity = activity;
+        this.image_click = imageClick;
     }
 
     @NonNull
@@ -66,11 +66,11 @@ FragmentActivity activity;
         viewHolder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Utils.viewsMemberId=String.valueOf(Utils.getAppUserId(mContext));
-                Utils.viewsReferenceId=String.valueOf(detail.getBAVideoGalleryId());
-                Utils.viewsSourceType="2";
-                Utils.viewsTokenId= Utils.getPref(mContext, "registration_id");
-                Utils.InsertBAViews(mContext,activity);
+                Utils.viewsMemberId = String.valueOf(Utils.getAppUserId(mContext));
+                Utils.viewsReferenceId = String.valueOf(detail.getBAVideoGalleryId());
+                Utils.viewsSourceType = "2";
+                Utils.viewsTokenId = Utils.getPref(mContext, "registration_id");
+                Utils.InsertBAViews(mContext, activity);
 
                 dataCheck = new ArrayList<String>();
 //                dataCheck.add(String.valueOf(detail.getBAVideoGalleryId())+ "|" +
@@ -79,40 +79,40 @@ FragmentActivity activity;
 //                        detail.getWidth()+"|"+detail.getHeight());
 //                image_click.image_more_click();
 
-                if (detail.getWidth()> detail.getHeight()){
-                    AppConfiguration.videoType="horizontal";
+                if (detail.getWidth() > detail.getHeight()) {
+                    AppConfiguration.videoType = "horizontal";
                     Intent videogalleryhorizontaldetailIntent = new Intent(mContext, VideoDetailHorizontalActivity.class);
                     videogalleryhorizontaldetailIntent.putExtra("videoData", detail.getVideoFileURL());
                     videogalleryhorizontaldetailIntent.putExtra("videoName", detail.getVideoName());
                     videogalleryhorizontaldetailIntent.putExtra("videoUserName", detail.getUserName());
                     videogalleryhorizontaldetailIntent.putExtra("videoLike", String.valueOf(detail.getIsLike()));
                     videogalleryhorizontaldetailIntent.putExtra("WhereToVideoCome", "VideoFragment");
-                    videogalleryhorizontaldetailIntent.putExtra("videoId",String.valueOf(detail.getBAVideoGalleryId()));
-                    videogalleryhorizontaldetailIntent.putExtra("videoThumb",detail.getVideoImageURL());
+                    videogalleryhorizontaldetailIntent.putExtra("videoId", String.valueOf(detail.getBAVideoGalleryId()));
+                    videogalleryhorizontaldetailIntent.putExtra("videoThumb", detail.getVideoImageURL());
                     videogalleryhorizontaldetailIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     mContext.startActivity(videogalleryhorizontaldetailIntent);
-                }else if(detail.getWidth()<detail.getHeight()){
-                    AppConfiguration.videoType="vertical";
+                } else if (detail.getWidth() < detail.getHeight()) {
+                    AppConfiguration.videoType = "vertical";
                     Intent videogalleryverticaldetailIntent = new Intent(mContext, VideoDetailVerticalActivity.class);
                     videogalleryverticaldetailIntent.putExtra("videoData", detail.getVideoFileURL());
                     videogalleryverticaldetailIntent.putExtra("videoName", detail.getVideoName());
                     videogalleryverticaldetailIntent.putExtra("videoUserName", detail.getUserName());
                     videogalleryverticaldetailIntent.putExtra("videoLike", String.valueOf(detail.getIsLike()));
                     videogalleryverticaldetailIntent.putExtra("WhereToVideoCome", "VideoFragment");
-                    videogalleryverticaldetailIntent.putExtra("videoId",String.valueOf(detail.getBAVideoGalleryId()));
-                    videogalleryverticaldetailIntent.putExtra("videoThumb",detail.getVideoImageURL());
+                    videogalleryverticaldetailIntent.putExtra("videoId", String.valueOf(detail.getBAVideoGalleryId()));
+                    videogalleryverticaldetailIntent.putExtra("videoThumb", detail.getVideoImageURL());
                     videogalleryverticaldetailIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     mContext.startActivity(videogalleryverticaldetailIntent);
-                } else if(detail.getWidth().equals(detail.getHeight())){
-                    AppConfiguration.videoType="horizontal";
+                } else if (detail.getWidth().equals(detail.getHeight())) {
+                    AppConfiguration.videoType = "horizontal";
                     Intent videogalleryhorizontaldetailIntent = new Intent(mContext, VideoDetailHorizontalActivity.class);
                     videogalleryhorizontaldetailIntent.putExtra("videoData", detail.getVideoFileURL());
                     videogalleryhorizontaldetailIntent.putExtra("videoName", detail.getVideoName());
                     videogalleryhorizontaldetailIntent.putExtra("videoUserName", detail.getUserName());
                     videogalleryhorizontaldetailIntent.putExtra("videoLike", String.valueOf(detail.getIsLike()));
                     videogalleryhorizontaldetailIntent.putExtra("WhereToVideoCome", "VideoFragment");
-                    videogalleryhorizontaldetailIntent.putExtra("videoId",String.valueOf(detail.getBAVideoGalleryId()));
-                    videogalleryhorizontaldetailIntent.putExtra("videoThumb",detail.getVideoImageURL());
+                    videogalleryhorizontaldetailIntent.putExtra("videoId", String.valueOf(detail.getBAVideoGalleryId()));
+                    videogalleryhorizontaldetailIntent.putExtra("videoThumb", detail.getVideoImageURL());
                     videogalleryhorizontaldetailIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     mContext.startActivity(videogalleryhorizontaldetailIntent);
                 }
@@ -154,6 +154,7 @@ FragmentActivity activity;
             recommended_image = itemView.findViewById(R.id.recommended_image);
         }
     }
+
     public ArrayList<String> getData() {
         return dataCheck;
     }

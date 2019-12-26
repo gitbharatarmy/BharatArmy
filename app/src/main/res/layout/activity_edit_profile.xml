@@ -517,7 +517,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:tint="@color/gray"
-            android:src="@drawable/spinner_selection"/>
+            android:src="@drawable/ic_more"/>
     </RelativeLayout>
 
     <TextView
@@ -572,7 +572,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:tint="@color/gray"
-            android:src="@drawable/spinner_selection"/>
+            android:src="@drawable/ic_more"/>
     </RelativeLayout>
     <TextView
         android:id="@+id/pincode_info_txt"
@@ -612,8 +612,7 @@
             android:textColorHint="@color/hint_txt_color"
             android:textCursorDrawable="@drawable/color_cursor"
             android:textSize="@dimen/_12sdp"
-            android:imeOptions="actionDone"
-            android:imeActionLabel="Ok"/>
+            android:imeOptions="actionNone" />
     </LinearLayout>
     </LinearLayout>
     <LinearLayout

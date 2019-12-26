@@ -20,7 +20,7 @@
                 android:layout_width="@dimen/_20sdp"
                 android:layout_height="@dimen/_15sdp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/in_flag"
+                android:src="@drawable/flag_india"
                 android:layout_margin="@dimen/_1sdp"/>
         </LinearLayout>
 

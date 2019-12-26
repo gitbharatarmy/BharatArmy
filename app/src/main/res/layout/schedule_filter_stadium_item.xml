@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/match_venues_Linear"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_40sdp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/match_venues_txt"
+            android:layout_width="@dimen/_240sdp"
+            android:layout_height="match_parent"
+            style="@style/text_font"
+            android:textColor="@color/normal_font_color"
+            android:text="India"
+            android:textSize="@dimen/_13sdp"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="@dimen/_5sdp"
+            android:layout_marginRight="@dimen/_5sdp"/>
+
+        <CheckBox
+            android:id="@+id/selected_chk"
+            android:layout_width="@dimen/_18sdp"
+            android:layout_height="@dimen/_18sdp"
+            android:button="@drawable/round_checkbox_indicator"/>
+    </LinearLayout>
+</layout>

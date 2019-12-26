@@ -13,7 +13,7 @@
         android:layout_marginLeft="@dimen/_5sdp"
         android:layout_marginRight="@dimen/_5sdp"
         android:layout_gravity="center_vertical"
-        android:src="@drawable/in_flag"/>
+        android:src="@drawable/flag_india"/>
 
     <TextView
         android:id="@+id/match_team_txt"

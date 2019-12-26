@@ -26,9 +26,8 @@ public class TravelCityFilterFragment extends BottomSheetDialogFragment {
     FragmentTravelCityFilterBinding travelCityFilterBinding;
     View rootView;
     Context mContext;
-TravelCityFilterAdapter travelCityFilterAdapter;
+    TravelCityFilterAdapter travelCityFilterAdapter;
     ArrayList<TravelModel> travelcityList;
-
 
 
     static TravelCityFilterFragment newInstance() {
@@ -58,7 +57,7 @@ TravelCityFilterAdapter travelCityFilterAdapter;
         return rootView;
     }
 
-    public void init(){
+    public void init() {
         travelCityFilterBinding.filtercloseLinear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -78,7 +77,7 @@ TravelCityFilterAdapter travelCityFilterAdapter;
         travelcityList.add(new TravelModel(R.drawable.flag_australia, "Dehli"));
         travelcityList.add(new TravelModel(R.drawable.flag_bangladesh, "Ahemedabad"));
         travelcityList.add(new TravelModel(R.drawable.flag_united_kingdom, "Indore"));
-        travelcityList.add(new TravelModel(R.drawable.in_flag, "Dehradun"));
+        travelcityList.add(new TravelModel(R.drawable.flag_india, "Dehradun"));
 
         travelCityFilterAdapter = new TravelCityFilterAdapter(mContext, travelcityList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(mContext, RecyclerView.VERTICAL, false);
