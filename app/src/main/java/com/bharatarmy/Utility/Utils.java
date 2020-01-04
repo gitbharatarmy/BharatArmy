@@ -65,9 +65,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.google.i18n.phonenumbers.NumberParseException;
-import com.google.i18n.phonenumbers.PhoneNumberUtil;
-import com.google.i18n.phonenumbers.Phonenumber;
 import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
@@ -359,27 +356,27 @@ public class Utils {
         return false;
     }
 
-    public static boolean validateUsing_libphonenumber(Context context, String countryCode, String phNumber) {
-        PhoneNumberUtil phoneNumberUtil = PhoneNumberUtil.getInstance();
-        String isoCode = phoneNumberUtil.getRegionCodeForCountryCode(Integer.parseInt(countryCode));
-        Phonenumber.PhoneNumber phoneNumber = null;
-        try {
-            //phoneNumber = phoneNumberUtil.parse(phNumber, "IN");  //if you want to pass region code
-            phoneNumber = phoneNumberUtil.parse(phNumber, isoCode);
-        } catch (NumberParseException e) {
-            System.err.println(e);
-        }
-
-        boolean isValid = phoneNumberUtil.isValidNumber(phoneNumber);
-        if (isValid) {
-            String internationalFormat = phoneNumberUtil.format(phoneNumber, PhoneNumberUtil.PhoneNumberFormat.NATIONAL);
-            Toast.makeText(context, "Phone Number is Valid " + internationalFormat, Toast.LENGTH_LONG).show();
-            return true;
-        } else {
-            Toast.makeText(context, "Phone Number is Invalid " + phoneNumber, Toast.LENGTH_LONG).show();
-            return false;
-        }
-    }
+//    public static boolean validateUsing_libphonenumber(Context context, String countryCode, String phNumber) {
+//        PhoneNumberUtil phoneNumberUtil = PhoneNumberUtil.getInstance();
+//        String isoCode = phoneNumberUtil.getRegionCodeForCountryCode(Integer.parseInt(countryCode));
+//        Phonenumber.PhoneNumber phoneNumber = null;
+//        try {
+//            //phoneNumber = phoneNumberUtil.parse(phNumber, "IN");  //if you want to pass region code
+//            phoneNumber = phoneNumberUtil.parse(phNumber, isoCode);
+//        } catch (NumberParseException e) {
+//            System.err.println(e);
+//        }
+//
+//        boolean isValid = phoneNumberUtil.isValidNumber(phoneNumber);
+//        if (isValid) {
+//            String internationalFormat = phoneNumberUtil.format(phoneNumber, PhoneNumberUtil.PhoneNumberFormat.NATIONAL);
+//            Toast.makeText(context, "Phone Number is Valid " + internationalFormat, Toast.LENGTH_LONG).show();
+//            return true;
+//        } else {
+//            Toast.makeText(context, "Phone Number is Invalid " + phoneNumber, Toast.LENGTH_LONG).show();
+//            return false;
+//        }
+//    }
 
     public static Bitmap DrawableToBitMap(int first_match_map, Context mContext) {
         Drawable myDrawable = mContext.getResources().getDrawable(first_match_map);

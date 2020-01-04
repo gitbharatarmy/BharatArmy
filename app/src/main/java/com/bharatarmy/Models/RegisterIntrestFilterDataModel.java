@@ -12,6 +12,9 @@ public class RegisterIntrestFilterDataModel {
     @SerializedName("Stadiums")
     @Expose
     private List<InquiryStatusModel> stadiums = null;
+    @SerializedName("City")
+    @Expose
+    private List<InquiryStatusModel> city = null;
 
     public List<InquiryStatusModel> getCountries() {
         return countries;
@@ -29,6 +32,11 @@ public class RegisterIntrestFilterDataModel {
         this.stadiums = stadiums;
     }
 
+    public List<InquiryStatusModel> getCity() {
+        return city;
+    }
 
-
+    public void setCity(List<InquiryStatusModel> city) {
+        this.city = city;
+    }
 }

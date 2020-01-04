@@ -89,35 +89,35 @@ public class TravelMatchHotelRoomTypeAdapter extends RecyclerView.Adapter<Travel
             }
         });
 
-        holder.travelMatchHotelRoomTypeListItemBinding.roomTitleTxt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent roomDetailIntent =new Intent(mContext, TravelMatchRoomDetailActivity.class);
-                roomDetailIntent.putExtra("roomName", roomList.get(position).getMatchroom_name());
-                roomDetailIntent.putExtra("rooImage",roomList.get(position).getRoom_image());
-                roomDetailIntent.putExtra("roomPrice",roomList.get(position).getRoom_price());
-                roomDetailIntent.putExtra("clickposition",String.valueOf(mainposition));
-                roomDetailIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                mContext.startActivity(roomDetailIntent);
-                ((Activity)mContext).finish();
-            }
-        });
+//        holder.travelMatchHotelRoomTypeListItemBinding.roomTitleTxt.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent roomDetailIntent =new Intent(mContext, TravelMatchRoomDetailActivity.class);
+//                roomDetailIntent.putExtra("roomName", roomList.get(position).getMatchroom_name());
+//                roomDetailIntent.putExtra("rooImage",roomList.get(position).getRoom_image());
+//                roomDetailIntent.putExtra("roomPrice",roomList.get(position).getRoom_price());
+//                roomDetailIntent.putExtra("clickposition",String.valueOf(mainposition));
+//                roomDetailIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                mContext.startActivity(roomDetailIntent);
+//                ((Activity)mContext).finish();
+//            }
+//        });
+//
+//        holder.travelMatchHotelRoomTypeListItemBinding.descRoomTxt.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent roomDetailIntent =new Intent(mContext, TravelMatchRoomDetailActivity.class);
+//                roomDetailIntent.putExtra("roomName", roomList.get(position).getMatchroom_name());
+//                roomDetailIntent.putExtra("rooImage",roomList.get(position).getRoom_image());
+//                roomDetailIntent.putExtra("roomPrice",roomList.get(position).getRoom_price());
+//                roomDetailIntent.putExtra("clickposition",String.valueOf(mainposition));
+//                roomDetailIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                mContext.startActivity(roomDetailIntent);
+//                ((Activity)mContext).finish();
+//            }
+//        });
 
-        holder.travelMatchHotelRoomTypeListItemBinding.descRoomTxt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent roomDetailIntent =new Intent(mContext, TravelMatchRoomDetailActivity.class);
-                roomDetailIntent.putExtra("roomName", roomList.get(position).getMatchroom_name());
-                roomDetailIntent.putExtra("rooImage",roomList.get(position).getRoom_image());
-                roomDetailIntent.putExtra("roomPrice",roomList.get(position).getRoom_price());
-                roomDetailIntent.putExtra("clickposition",String.valueOf(mainposition));
-                roomDetailIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                mContext.startActivity(roomDetailIntent);
-                ((Activity)mContext).finish();
-            }
-        });
-
-        holder.travelMatchHotelRoomTypeListItemBinding.viewMoreRoomtxt.setOnClickListener(new View.OnClickListener() {
+        holder.travelMatchHotelRoomTypeListItemBinding.viewMoreLinear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent roomDetailIntent =new Intent(mContext, TravelMatchRoomDetailActivity.class);

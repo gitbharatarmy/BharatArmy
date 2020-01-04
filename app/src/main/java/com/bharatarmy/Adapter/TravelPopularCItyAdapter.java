@@ -64,6 +64,8 @@ public class TravelPopularCItyAdapter extends RecyclerView.Adapter<TravelPopular
                 .load(citydetail.getPopularcity_image())
                 .into(holder.travel_popular_city_banner_img);
 
+
+
         holder.travel_popular_city_name_txt.setText(citydetail.getPopularcity_name());
         holder.travel_popularcity_pic_count_txt.setText(citydetail.getPopularcity_image_count());
 

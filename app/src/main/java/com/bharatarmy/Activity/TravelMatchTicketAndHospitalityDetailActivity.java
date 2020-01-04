@@ -8,6 +8,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
@@ -29,6 +30,7 @@ import android.widget.TextView;
 
 import com.bharatarmy.Adapter.HospitalityDetailFacilityAdapter;
 import com.bharatarmy.Adapter.HospitalityDetailFixturesAdapter;
+import com.bharatarmy.Adapter.TravelMatchHospitalityAdapter;
 import com.bharatarmy.Adapter.UpcomingDashboardAdapter;
 import com.bharatarmy.Models.TravelModel;
 import com.bharatarmy.R;
@@ -60,6 +62,8 @@ public class TravelMatchTicketAndHospitalityDetailActivity extends AppCompatActi
     private TextView[] dots;
     HospitalityDetailFacilityAdapter hospitalityDetailFacilityAdapter;
     HospitalityDetailFixturesAdapter hospitalityDetailFixturesAdapter;
+
+    StaggeredGridLayoutManager staggeredGridLayoutManager;
 
     GoogleMap googleMapj;
     SupportMapFragment mapFragment;
@@ -171,13 +175,34 @@ public class TravelMatchTicketAndHospitalityDetailActivity extends AppCompatActi
         }
 //    fixtures list
         travelHospitalityFixturesList=new ArrayList<TravelModel>();
-        travelHospitalityFixturesList.add(new TravelModel("India",R.drawable.flag_india,
-                 "South Africa",R.drawable.south_flag,"Match 2 | Karen Rolton Oval",
-                "T20 | WOMEN'S"));
-        travelHospitalityFixturesList.add(new TravelModel("India",R.drawable.flag_india,
-                "Pakistan",R.drawable.flag_pakistan,"Allan Border Field","T20 | MEN'S"));
-        travelHospitalityFixturesList.add(new TravelModel("South Africa",R.drawable.south_flag,"New Zealand",R.drawable.flag_new_zealand,
-                "Match 3 | Karen Rolton Oval","T20 | MEN'S"));
+//        travelHospitalityFixturesList.add(new TravelModel("India",R.drawable.flag_india,
+//                 "South Africa",R.drawable.south_flag,"Match 2 | Karen Rolton Oval",
+//                "T20 | WOMEN'S"));
+//        travelHospitalityFixturesList.add(new TravelModel("India",R.drawable.flag_india,
+//                "Pakistan",R.drawable.flag_pakistan,"Allan Border Field","T20 | MEN'S"));
+//        travelHospitalityFixturesList.add(new TravelModel("South Africa",R.drawable.south_flag,"New Zealand",R.drawable.flag_new_zealand,
+//                "Match 3 | Karen Rolton Oval","T20 | MEN'S"));
+
+        travelHospitalityFixturesList.add(new TravelModel("https://3.imimg.com/data3/VE/IW/MY-16198270/hotel-management-service-500x500.jpg", "Hospitality Category",
+                "The Pavilion", "The Pavilion is the ultimate hospitality experience that will deliver a sophisticated, yet relaxed environment to be shared with family, friends or business associates.",
+                "Extra 10% off* with Hotel.", "₹ 475", "3", "hospitality", "0"));
+
+        travelHospitalityFixturesList.add(new TravelModel("https://www.astiregnatia.com/assets/media/PICTURES/Astir%20Executive%20Suite%20with%20private%20pool/astir-executive-suite-pricate-pool-3-2955.jpg", "",
+                "Private Suites", "Private Suites provide the ultimate hospitality experience.",
+                "Extra 20% off* with Hotel.", "₹ 600", "3", "hospitality", "0"));
+
+        travelHospitalityFixturesList.add(new TravelModel("https://3.imimg.com/data3/VE/IW/MY-16198270/hotel-management-service-500x500.jpg", "",
+                "Open Air Boxes", "Open Air Boxes are a casual entertainment option providing you and your guests everything you need for an effortless day of cricket enjoyment.",
+                "Extra 20% off* with Hotel.", "₹ 650", "1", "hospitality", "0"));
+
+        travelHospitalityFixturesList.add(new TravelModel("https://i0.wp.com/www.perrygroup.com/wp-content/uploads/2016/01/service-pic3-1.jpg", "",
+                "Club 20/20", "Club 20/20 packages suit those seeking an informal entertainment experience that still provides hospitality with outstanding service.",
+                "Extra 10% off* with Hotel.", "₹ 750", "2", "hospitality", "0"));
+
+//        hospitalityDetailFixturesAdapter = new HospitalityDetailFixturesAdapter(mContext,travelHospitalityFixturesList);
+//        staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, 1);
+//        activityTravelMatchTicketAndHospitalityDetailBinding.fixtureRcv.setLayoutManager(staggeredGridLayoutManager);
+//        activityTravelMatchTicketAndHospitalityDetailBinding.fixtureRcv.setAdapter(hospitalityDetailFixturesAdapter);
 
         hospitalityDetailFixturesAdapter=new HospitalityDetailFixturesAdapter(mContext,travelHospitalityFixturesList);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);

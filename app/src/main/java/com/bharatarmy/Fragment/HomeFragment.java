@@ -662,7 +662,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 mContext.startActivity(privacypolicyIntent);
                 break;
             case R.id.setting_linear:
-                autoLaunchVivo(mContext);
+                autoStartNotificationPermissionDialog(mContext);
                 break;
             case R.id.ba_video:
                 if (fragmentHomeBinding.baVideo.isPlaying()) {
@@ -679,7 +679,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    private void autoLaunchVivo(Context context) {
+    private void autoStartNotificationPermissionDialog(Context context) {
         try {
             Intent intent = new Intent();
             if ("xiaomi".equalsIgnoreCase(manufacturer)) {

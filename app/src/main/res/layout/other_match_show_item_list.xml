@@ -6,229 +6,241 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:elevation="2dp"
-        android:layout_marginBottom="@dimen/_10sdp"
+
         android:orientation="vertical">
 
-        <LinearLayout
-            android:id="@+id/header_linear"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/_10sdp"
-            android:orientation="vertical"
-            android:background="@color/splash_bg_color"
-            android:visibility="visible"
-            tools:ignore="WebViewLayout">
-<!--            <WebView-->
-<!--                android:id="@+id/webView"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:src="@drawable/stadium_map"-->
-<!--                />-->
-            <com.alexvasilkov.gestures.views.GestureImageView
-                android:id="@+id/webView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/stadium_map"
-                android:scaleType="fitCenter"
-                android:adjustViewBounds="true" />
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginLeft="@dimen/_10sdp"
-                android:layout_marginRight="@dimen/_10sdp"
-                android:layout_marginTop="@dimen/_35sdp"
-                android:layout_marginBottom="@dimen/_30sdp"
-                android:visibility="visible">
-                <LinearLayout
-                    android:layout_width="@dimen/_3sdp"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/vertical_line"
-                    android:orientation="vertical"/>
-  <LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:layout_marginLeft="@dimen/_10sdp">
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="@dimen/_20sdp"
-                    android:layout_gravity="left"
-                    android:orientation="horizontal">
-
-                        <TextView
-                            style="@style/title_text_font"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:ellipsize="end"
-                            android:gravity="center_horizontal"
-                            android:maxLines="1"
-                            android:text="India"
-                            android:textColor="@color/heading_bg"
-                            android:textSize="@dimen/_16sdp" />
-
-
-                    <com.bharatarmy.RoundishImageView
-                        android:layout_width="@dimen/_20sdp"
-                        android:layout_height="@dimen/_15sdp"
-                        android:layout_marginLeft="@dimen/_3sdp"
-                        android:layout_marginRight="@dimen/_3sdp"
-                        android:layout_marginTop="@dimen/_1sdp"
-                        android:adjustViewBounds="true"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/flag_india"
-                        app:cornerRadius="5dp"
-                        app:roundedCorners="topLeft|topRight|bottomLeft|bottomRight" />
-
-                    <TextView
-                        style="@style/title_text_font"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:ellipsize="end"
-                        android:gravity="center_horizontal"
-                        android:maxLines="1"
-                        android:text="vs"
-                        android:textColor="@color/heading_bg"
-                        android:textSize="@dimen/_16sdp" />
-
-                    <com.bharatarmy.RoundishImageView
-                        android:layout_width="@dimen/_20sdp"
-                        android:layout_height="@dimen/_15sdp"
-                        android:layout_marginLeft="@dimen/_3sdp"
-                        android:layout_marginRight="@dimen/_3sdp"
-                        android:layout_marginTop="@dimen/_1sdp"
-                        android:layout_gravity=""
-                        android:adjustViewBounds="true"
-                        android:scaleType="centerCrop"
-                        android:src="@drawable/wl"
-                        app:cornerRadius="5dp"
-                        app:roundedCorners="topLeft|topRight|bottomLeft|bottomRight" />
-
-                    <TextView
-                        style="@style/title_text_font"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:ellipsize="end"
-                        android:gravity="center_horizontal"
-                        android:maxLines="1"
-                        android:text="Windies"
-                        android:textColor="@color/heading_bg"
-                        android:textSize="@dimen/_16sdp" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        style="@style/text_font"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Match 01 | Central Broward Regional Park Stadium Turf Ground, Lauderhill, Florida"
-                        android:textColor="@color/unselected_view"
-                        android:textSize="@dimen/_11sdp" />
-
-                </LinearLayout>
-
-</LinearLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/add_to_cart_linear"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/_27sdp"
-                android:layout_gravity="right"
-                android:orientation="horizontal"
-                android:background="@drawable/book_btn"
-                android:layout_marginLeft="@dimen/_10sdp"
-                android:layout_marginRight="@dimen/_10sdp"
-                android:visibility="gone">
-        <ImageView
-            android:layout_width="@dimen/_15sdp"
-            android:layout_height="match_parent"
-            android:src="@drawable/ic_cart"
-            android:layout_gravity="center_vertical"
-            android:tint="@color/splash_bg_color"
-            android:layout_marginLeft="@dimen/_6sdp"/>
-                <TextView
-                    android:layout_width="@dimen/_65sdp"
-                    android:layout_height="match_parent"
-                    android:text="Add to Cart"
-                    android:paddingRight="@dimen/_1sdp"
-                    android:gravity="center_vertical|center_horizontal"
-                    style="@style/title_text_font"
-                    android:textColor="@color/splash_bg_color"
-                    android:textSize="@dimen/_11sdp"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginLeft="@dimen/_10sdp"
-                android:layout_marginRight="@dimen/_10sdp"
-                android:layout_marginBottom="@dimen/_20sdp"
-                android:visibility="visible">
-
-                <TextView
-                    style="@style/text_font"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:maxLines="6"
-                    android:ellipsize="end"
-                    android:text="Jarlsberg lancashire edam. Dolcelatte hard cheese brie st. agur blue
-    cheese caerphilly bavarian bergkase cheese and biscuits mascarpone. Cheeseburger swiss bavarian
-    bergkase cream cheese fromage frais cheesy feet port-salut airedale. St. agur blue cheese rubber
-    cheese caerphilly cheddar cheesecake cream cheese manchego lancashire. Roquefort squirty cheese
-    the big cheese.Jarlsberg lancashire edam. Dolcelatte hard cheese brie st."
-                    android:textColor="@color/normal_font_color"
-                    android:textSize="@dimen/_12sdp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="@dimen/_10sdp"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:layout_marginLeft="@dimen/_10sdp"
-                android:layout_marginRight="@dimen/_10sdp"
-                android:visibility="visible">
-                <View
-                    android:layout_width="@dimen/_3sdp"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/vertical_line" />
-                <TextView
-                    style="@style/title_text_font"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/_10sdp"
-                    android:text="Releated Tickets"
-                    android:textColor="@color/heading_bg"
-                    android:textSize="@dimen/_16sdp" />
-            </LinearLayout>
-        </LinearLayout>
-
-            <LinearLayout
+            <androidx.cardview.widget.CardView
                 android:id="@+id/main_groupLiner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_marginLeft="@dimen/_10sdp"
                 android:layout_marginRight="@dimen/_10sdp"
-                android:layout_marginTop="@dimen/_5sdp"
+                android:layout_marginTop="@dimen/_10sdp"
                 android:layout_marginBottom="@dimen/_5sdp"
-                android:background="@drawable/match_deatil_orange_curveshape"
                 android:orientation="vertical"
-                android:elevation="3dp">
+                android:elevation="3dp"
+                app:cardMaxElevation="6dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="1">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.35">
+
+                        <ImageView
+                            android:id="@+id/match_image"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:adjustViewBounds="true"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/t20defaultimage" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.65"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_13sdp"
+                            android:layout_marginLeft="@dimen/_5sdp"
+                            android:layout_marginTop="@dimen/_10sdp"
+                            android:layout_marginRight="@dimen/_4sdp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/match_type_tag_txt"
+                                style="@style/title_text_font"
+                                android:layout_width="27dp"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/square_tag_shape"
+                                android:gravity="center_vertical|center_horizontal"
+                                android:text="T20"
+                                android:textColor="@color/splash_bg_color"
+                                android:textSize="@dimen/_8sdp"
+                                android:textStyle="bold"
+                                android:visibility="visible" />
+
+                            <TextView
+                                android:id="@+id/match_date_time_txt"
+                                style="@style/title_text_font"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginLeft="@dimen/_5sdp"
+                                android:gravity="center_vertical"
+                                android:text="Sat 03 Aug,10:30 AM(Local)"
+                                android:textColor="@color/unselected_view"
+                                android:textSize="@dimen/_10sdp" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_9sdp"
+                            android:layout_marginBottom="@dimen/_9sdp"
+                            android:orientation="horizontal">
+
+
+                            <TextView
+                                android:id="@+id/first_country_Name_txt"
+                                style="@style/title_text_font"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="@dimen/_5sdp"
+                                android:ellipsize="end"
+                                android:gravity="top|left"
+                                android:maxLines="2"
+                                android:paddingRight="@dimen/_5sdp"
+                                android:text="India"
+                                android:textColor="@color/heading_bg"
+                                android:textSize="@dimen/_11sdp" />
+
+                            <RelativeLayout
+                                android:id="@+id/flag_boder_linear"
+                                android:layout_width="@dimen/_33sdp"
+                                android:layout_height="@dimen/_21sdp"
+                                android:background="@drawable/curve_flag_boader_shape">
+
+                                <com.bharatarmy.RoundishImageView
+                                    android:id="@+id/first_countryflag_image"
+                                    android:layout_width="@dimen/_32sdp"
+                                    android:layout_height="@dimen/_20sdp"
+                                    android:layout_centerInParent="true"
+                                    android:scaleType="centerCrop"
+                                    android:src="@drawable/flag_india"
+                                    app:cornerRadius="3dp"
+                                    app:roundedCorners="topLeft|topRight|bottomLeft|bottomRight" />
+
+                            </RelativeLayout>
+
+                            <TextView
+                                style="@style/title_text_font"
+                                android:layout_width="@dimen/_15sdp"
+                                android:layout_height="match_parent"
+                                android:gravity="center_horizontal|center_vertical"
+                                android:text="v"
+                                android:textColor="@color/heading_bg"
+                                android:textSize="@dimen/_11sdp" />
+
+                            <RelativeLayout
+                                android:layout_width="@dimen/_33sdp"
+                                android:layout_height="@dimen/_21sdp"
+                                android:background="@drawable/curve_flag_boader_shape">
+
+                                <com.bharatarmy.RoundishImageView
+                                    android:id="@+id/second_countryflag_image"
+                                    android:layout_width="@dimen/_32sdp"
+                                    android:layout_height="@dimen/_20sdp"
+                                    android:layout_centerInParent="true"
+                                    android:scaleType="centerCrop"
+                                    android:src="@drawable/south_flag"
+                                    app:cornerRadius="3dp"
+                                    app:roundedCorners="topLeft|topRight|bottomLeft|bottomRight" />
+                            </RelativeLayout>
+
+                            <TextView
+                                android:id="@+id/second_country_Name_txt"
+                                style="@style/title_text_font"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginRight="@dimen/_5sdp"
+                                android:ellipsize="end"
+                                android:gravity="top"
+                                android:maxLines="2"
+                                android:paddingLeft="@dimen/_5sdp"
+                                android:text="South Africa"
+                                android:textColor="@color/heading_bg"
+                                android:textSize="@dimen/_11sdp" />
+
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/_5sdp"
+                            android:layout_marginRight="@dimen/_4sdp"
+
+                            android:orientation="horizontal"
+                            android:visibility="visible">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent">
+
+                                <ImageView
+                                    android:layout_width="@dimen/_9sdp"
+                                    android:layout_height="@dimen/_8sdp"
+                                    android:layout_marginTop="@dimen/_2sdp"
+                                    android:src="@drawable/ic_location"
+                                    android:tint="@color/unselected_view"
+                                    android:visibility="visible" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:backgroundTint="@color/unselected_view">
+
+                                <TextView
+                                    android:id="@+id/match_ground_location_txt"
+                                    style="@style/title_desc_font"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:ellipsize="end"
+                                    android:gravity="center_vertical"
+                                    android:maxLines="3"
+                                    android:paddingLeft="@dimen/_2sdp"
+                                    android:text="Sydney Cricket Ground, Sydney, Australia"
+                                    android:textColor="@color/unselected_view"
+                                    android:textSize="@dimen/_10sdp" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_5sdp">
+                            <TextView
+                                android:id="@+id/match_ticket_buy_tag_txt"
+                                style="@style/title_text_font"
+                                android:layout_width="@dimen/_75sdp"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:paddingLeft="@dimen/_5sdp"
+                                android:paddingRight="@dimen/_5sdp"
+                                android:paddingTop="@dimen/_7sdp"
+                                android:paddingBottom="@dimen/_7sdp"
+                                android:textAllCaps="true"
+                                android:background="@drawable/travel_buy_ticket_shape"
+                                android:gravity="center_vertical|center_horizontal"
+                                android:text="Add To Cart"
+                                android:textColor="@color/splash_bg_color"
+                                android:textSize="@dimen/_10sdp"
+                                android:textStyle="bold"
+                                android:visibility="visible" />
+                        </RelativeLayout>
+
+                    </LinearLayout>
+                    </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:background="@drawable/match_groupdetail_curveshape">
+                    android:background="@drawable/match_groupdetail_curveshape"
+                    android:visibility="gone">
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -355,8 +367,8 @@
                     android:layout_height="@dimen/_3sdp"
                     android:layout_marginLeft="@dimen/_15sdp"
                     android:background="@drawable/gradiant_line"
-                    android:visibility="visible" />
-            </LinearLayout>
+                    android:visibility="gone" />
+            </androidx.cardview.widget.CardView>
 
     </LinearLayout>
 </layout>

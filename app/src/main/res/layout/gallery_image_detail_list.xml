@@ -9,7 +9,9 @@
     <com.alexvasilkov.gestures.views.GestureImageView
         android:id="@+id/image_full"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:src="@drawable/ajif"
+        app:gest_doubleTapEnabled="true"/>
 
     <LinearLayout
         android:layout_width="match_parent"

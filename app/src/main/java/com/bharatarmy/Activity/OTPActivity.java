@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -61,8 +62,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Retrofit;
 
-public class OTPActivity extends AppCompatActivity implements View.OnClickListener, ProgressRequestBody.UploadCallbacks ,GoogleApiClient.ConnectionCallbacks,
-        OtpReceivedInterface, GoogleApiClient.OnConnectionFailedListener{
+public class OTPActivity extends AppCompatActivity implements View.OnClickListener, ProgressRequestBody.UploadCallbacks, GoogleApiClient.ConnectionCallbacks,
+        OtpReceivedInterface, GoogleApiClient.OnConnectionFailedListener {
 
     ActivityOtpBinding activityOtpBinding;
     Context mContext;
@@ -72,7 +73,7 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
     File file = null;
     Uri uri, uri1;
 
-//    otp retrive
+    //    otp retrive
     GoogleApiClient mGoogleApiClient;
     SmsBroadcastReceiver mSmsBroadcastReceiver;
     private int RESOLVE_HINT = 2;
@@ -89,7 +90,7 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
         setListiner();
     }
 
-    public void init(){
+    public void init() {
         // init broadcast receiver
         mSmsBroadcastReceiver = new SmsBroadcastReceiver();
 
@@ -107,7 +108,7 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
 
         // get mobile number from phone
 //        getHintPhoneNumber();
-startSMSListener();
+        startSMSListener();
     }
 
     public void getHintPhoneNumber() {
@@ -133,7 +134,7 @@ startSMSListener();
                     Credential credential = data.getParcelableExtra(Credential.EXTRA_KEY);
                     // credential.getId();  <-- will need to process phone number string
 //                    inputMobileNumber.setText(credential.getId());
-                    Log.d("id",credential.getId());
+                    Log.d("id", credential.getId());
 //                    activityOtpBinding.edit1.setText(credential.getId());
                 }
 
@@ -145,12 +146,14 @@ startSMSListener();
         SmsRetrieverClient mClient = SmsRetriever.getClient(this);
         Task<Void> mTask = mClient.startSmsRetriever();
         mTask.addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override public void onSuccess(Void aVoid) {
+            @Override
+            public void onSuccess(Void aVoid) {
             }
         });
         mTask.addOnFailureListener(new OnFailureListener() {
-            @Override public void onFailure(@NonNull Exception e) {
-                Utils.ping(mContext,"error occurs");
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Utils.ping(mContext, "error occurs");
             }
         });
     }
@@ -187,35 +190,42 @@ startSMSListener();
         MultipartBody.Part body = null;
         Log.d("uri", uri.toString());
         if (uri != null) {
+            if (!uri.toString().equalsIgnoreCase("1")) {
+                String filePath = Utils.getFilePathFromUri(mContext, uri);
 
-            String filePath = Utils.getFilePathFromUri(mContext, uri);
+                mDialog = new ProgressDialog(mContext);
+                mDialog.setCancelable(false);
+                mDialog.setMessage("Uploading Profile Picture");
+                mDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+                mDialog.setIndeterminate(false);
+                mDialog.show();
+                try {
+                    file = new File(filePath);
 
-            mDialog = new ProgressDialog(mContext);
-            mDialog.setCancelable(false);
-            mDialog.setMessage("Uploading Profile Picture");
-            mDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-            mDialog.setIndeterminate(false);
-            mDialog.show();
-            try {
-                file = new File(filePath);
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            if (file != null) {
-                if (file.exists()) {
-                    filePath = file.getAbsolutePath();
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-            }
-
-            if (file != null) {
-                if (file.exists()) {
-
-                    ProgressRequestBody fileBody = new ProgressRequestBody(file, this);
-                    body = MultipartBody.Part.createFormData("image", file.getName(), fileBody);
-
+                if (file != null) {
+                    if (file.exists()) {
+                        filePath = file.getAbsolutePath();
+                    }
                 }
+
+                if (file != null) {
+                    if (file.exists()) {
+
+                        ProgressRequestBody fileBody = new ProgressRequestBody(file, this);
+                        body = MultipartBody.Part.createFormData("image", file.getName(), fileBody);
+
+                    }
+                }
+            } else {
+                Utils.showDialog(mContext);
+                RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), "");
+
+                body = MultipartBody.Part.createFormData("file", "", requestFile);
             }
+
         } else {
             Utils.showDialog(mContext);
             RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), "");
@@ -259,7 +269,12 @@ startSMSListener();
             @Override
             public void onResponse(Call<LogginModel> call, retrofit2.Response<LogginModel> response) {
                 if (uri != null) {
-                    mDialog.dismiss();
+                    if (!uri.toString().equalsIgnoreCase("1")) {
+                        mDialog.dismiss();
+                    } else {
+                        Utils.dismissDialog();
+                    }
+
                 } else {
                     Utils.dismissDialog();
                 }
@@ -270,7 +285,7 @@ startSMSListener();
 //                    Intent myprofileIntent = new Intent(mContext, MyProfileActivity.class);
 //                    startActivity(myprofileIntent);
                     EventBus.getDefault().post(new MyScreenChnagesModel("change"));
-                       finish();
+                    finish();
                 } else {
                     Utils.ping(mContext, response.body().getMessage());
                 }
@@ -451,7 +466,7 @@ startSMSListener();
                     overridePendingTransition(0, 0);
 //                    finish();
                 } else if (strWheretocome.equalsIgnoreCase("EditProfile")) {
-                    Intent editIntent =new Intent(mContext,EditProfileActivity.class);
+                    Intent editIntent = new Intent(mContext, EditProfileActivity.class);
                     startActivity(editIntent);
                     finish();
                 } else if (getIntent().getStringExtra("whereTocomeLogin") != null) {
@@ -478,19 +493,20 @@ startSMSListener();
 
         if (!finalgetOtpStr.equalsIgnoreCase("")) {
 //            if (otpStr.equalsIgnoreCase(finalgetOtpStr)) {
-                if (strWheretocome.equalsIgnoreCase("Signup")) {
-                    callSignUp();
-                } else if (strWheretocome.equalsIgnoreCase("EditProfile")) {
-                    uri1 = getIntent().getData();
-                    if (!uri1.equals("1")) {
-                        uri = uri1;
-                    } else {
-
-                    }
-                    callUpdateProfile();
+            if (strWheretocome.equalsIgnoreCase("Signup")) {
+                callSignUp();
+            } else if (strWheretocome.equalsIgnoreCase("EditProfile")) {
+                uri1 = getIntent().getData();
+                if (!uri1.equals("1")) {
+                    uri = uri1;
                 } else {
-                    VerificationPhone();
+
                 }
+                Log.d("uri", uri.toString());
+                callUpdateProfile();
+            } else {
+                VerificationPhone();
+            }
 //            } else {
 //                Utils.ping(mContext, "Please Enter Valid OTP");
 //            }
@@ -591,35 +607,35 @@ startSMSListener();
                         Utils.storeCurrentLocationData(loginModel.getCurrentLocation(), mContext);
                         Utils.storeLoginOtherData(loginModel.getOtherData(), mContext);
                         /*SFA Screen Goto direct*/
-                        if (Utils.retriveLoginData(mContext).getMemberType().equalsIgnoreCase(",3,")){
+                        if (Utils.retriveLoginData(mContext).getMemberType().equalsIgnoreCase(",3,")) {
                             Intent SFAintent = new Intent(mContext, DisplaySFAUserActivity.class);
                             startActivity(SFAintent);
                             finish();
-                        }else{
-                        if (getIntent().getStringExtra("whereTocomeLogin") != null) {
-                            if (getIntent().getStringExtra("whereTocomeLogin").equalsIgnoreCase("more")) {
+                        } else {
+                            if (getIntent().getStringExtra("whereTocomeLogin") != null) {
+                                if (getIntent().getStringExtra("whereTocomeLogin").equalsIgnoreCase("more")) {
                                     if (Utils.retriveLoginData(mContext).getMemberType().equalsIgnoreCase(",3,")) {
                                         Intent SFAintent = new Intent(mContext, DisplaySFAUserActivity.class);
                                         startActivity(SFAintent);
                                         finish();
                                     } else {
-                                Intent DashboardIntent = new Intent(mContext, DashboardActivity.class);
+                                        Intent DashboardIntent = new Intent(mContext, DashboardActivity.class);
 //                                DashboardIntent.putExtra("whichPageRun", "4");
+                                        startActivity(DashboardIntent);
+                                        finish();
+                                    }
+                                } else {
+                                    finish();
+                                }
+                            } else {
+                                Intent DashboardIntent = new Intent(mContext, DashboardActivity.class);
+                                AppConfiguration.position = 0;
                                 startActivity(DashboardIntent);
                                 finish();
-                                    }
-                            } else {
-                                finish();
                             }
-                        } else {
-                            Intent DashboardIntent = new Intent(mContext, DashboardActivity.class);
-                            AppConfiguration.position = 0;
-                            startActivity(DashboardIntent);
-                            finish();
-                        }
 
                         }
-                    }else{
+                    } else {
                         Utils.dismissDialog();
                     }
 
@@ -688,7 +704,7 @@ startSMSListener();
         } else if (getIntent().getStringExtra("whereTocomeLogin") != null) {
             finish();
         } else if (strWheretocome.equalsIgnoreCase("EditProfile")) {
-            Intent editIntent =new Intent(mContext,EditProfileActivity.class);
+            Intent editIntent = new Intent(mContext, EditProfileActivity.class);
             startActivity(editIntent);
             OTPActivity.this.finish();
         } else {
@@ -717,17 +733,17 @@ startSMSListener();
 
     @Override
     public void onOtpReceived(String otp) {
-        activityOtpBinding.edit1.setText(otp.substring(0,1));
-        activityOtpBinding.edit2.setText(otp.substring(1,2));
-        activityOtpBinding.edit3.setText(otp.substring(2,3));
-        activityOtpBinding.edit4.setText(otp.substring(3,4));
+        activityOtpBinding.edit1.setText(otp.substring(0, 1));
+        activityOtpBinding.edit2.setText(otp.substring(1, 2));
+        activityOtpBinding.edit3.setText(otp.substring(2, 3));
+        activityOtpBinding.edit4.setText(otp.substring(3, 4));
 
-        Log.d("otp",otp);
+        Log.d("otp", otp);
     }
 
     @Override
     public void onOtpTimeout() {
-         Utils.ping(mContext,"Timeout");
+        Utils.ping(mContext, "Timeout");
     }
 
 

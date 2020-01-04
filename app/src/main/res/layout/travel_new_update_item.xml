@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/newsclick_linear"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/_9sdp"
+        android:layout_marginRight="@dimen/_9sdp"
+        android:layout_marginBottom="@dimen/_5sdp"
+        android:elevation="3dp"
+        android:orientation="vertical"
+        app:cardCornerRadius="10dp">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="1">
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.35">
+
+                <com.bharatarmy.RoundishImageView
+                    android:id="@+id/travel_newsupdate_img"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ajif"
+                    app:cornerRadius="@dimen/_7sdp"
+                    app:roundedCorners="topLeft|topRight|bottomLeft|bottomRight" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_90sdp"
+                android:layout_weight="0.65"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/travel_newsupdate_title_txt"
+                        style="@style/title_text_font"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:maxLines="3"
+                        android:paddingTop="@dimen/_5sdp"
+                        android:paddingRight="@dimen/_10sdp"
+                        android:text="World Cup 2019: Bring o..."
+                        android:textColor="@color/heading_bg"
+                        android:textSize="@dimen/_13sdp" />
+
+                    <TextView
+                        android:id="@+id/travel_newsupdate_description_txt"
+                        style="@style/text_font"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/travel_newsupdate_title_txt"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:ellipsize="end"
+                        android:maxLines="3"
+                        android:paddingRight="@dimen/_10sdp"
+                        android:text="World Cup 2019: Bring o.. \n World Cup 2019: Bring o.. \n World Cup 2019: Bring o.."
+                        android:textColor="@color/normal_font_color"
+                        android:textSize="@dimen/_9sdp" />
+                </RelativeLayout>
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_1sdp"
+            android:layout_marginLeft="@dimen/_5sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:background="@drawable/divider"/>
+    </LinearLayout>
+</layout>
+
+
+    <!--<?xml version="1.0" encoding="utf-8"?>-->
+    <!--<layout>-->
+    <!--    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--        xmlns:app="http://schemas.android.com/apk/res-auto"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginLeft="@dimen/_10sdp"-->
+    <!--        android:layout_marginRight="@dimen/_10sdp"-->
+    <!--        android:layout_marginBottom="@dimen/_5sdp"-->
+    <!--        android:elevation="3dp"-->
+    <!--        android:orientation="vertical"-->
+    <!--        app:cardCornerRadius="10dp">-->
+
+    <!--        <LinearLayout-->
+    <!--            android:id="@+id/horizontal_video_linear"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:orientation="horizontal"-->
+    <!--            android:weightSum="1">-->
+
+    <!--            <RelativeLayout-->
+    <!--                android:layout_width="0dp"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:layout_weight="0.4">-->
+
+    <!--                <com.bharatarmy.RoundishImageView-->
+    <!--                    android:id="@+id/travel_newsupdate_img"-->
+    <!--                    android:layout_width="match_parent"-->
+    <!--                    android:layout_height="wrap_content"-->
+    <!--                    android:layout_margin="@dimen/_7sdp"-->
+    <!--                    android:adjustViewBounds="true"-->
+    <!--                    android:scaleType="centerCrop"-->
+    <!--                    android:src="@drawable/ajif"-->
+    <!--                    app:cornerRadius="@dimen/_7sdp"-->
+    <!--                    app:roundedCorners="topLeft|topRight|bottomLeft|bottomRight"/>-->
+    <!--            </RelativeLayout>-->
+
+    <!--            <LinearLayout-->
+    <!--                android:layout_width="0dp"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:layout_weight="0.6"-->
+    <!--                android:orientation="vertical">-->
+
+    <!--                <RelativeLayout-->
+    <!--                    android:layout_width="match_parent"-->
+    <!--                    android:layout_height="match_parent">-->
+    <!--                    <TextView-->
+    <!--                        android:id="@+id/travel_newsupdate_title_txt"-->
+    <!--                        style="@style/title_text_font"-->
+    <!--                        android:layout_width="match_parent"-->
+    <!--                        android:layout_height="wrap_content"-->
+    <!--                        android:ellipsize="end"-->
+    <!--                        android:maxLines="3"-->
+    <!--                        android:paddingTop="@dimen/_5sdp"-->
+    <!--                        android:paddingRight="@dimen/_10sdp"-->
+    <!--                        android:text="World Cup 2019: Bring o..."-->
+    <!--                        android:textColor="@color/heading_bg"-->
+    <!--                        android:textSize="@dimen/_13sdp" />-->
+    <!--                    <TextView-->
+    <!--                        android:id="@+id/travel_newsupdate_description_txt"-->
+    <!--                        style="@style/text_font"-->
+    <!--                        android:layout_width="match_parent"-->
+    <!--                        android:layout_height="wrap_content"-->
+    <!--                        android:layout_below="@+id/travel_newsupdate_title_txt"-->
+    <!--                        android:ellipsize="end"-->
+    <!--                        android:maxLines="3"-->
+    <!--                        android:layout_marginTop="@dimen/_5sdp"-->
+    <!--                        android:paddingRight="@dimen/_10sdp"-->
+    <!--                        android:text="World Cup 2019: Bring o.."-->
+    <!--                        android:textColor="@color/normal_font_color"-->
+    <!--                        android:textSize="@dimen/_9sdp" />-->
+    <!--                </RelativeLayout>-->
+    <!--            </LinearLayout>-->
+
+    <!--        </LinearLayout>-->
+
+    <!--    -->
+    <!--    </LinearLayout>-->
+    <!--</layout>-->

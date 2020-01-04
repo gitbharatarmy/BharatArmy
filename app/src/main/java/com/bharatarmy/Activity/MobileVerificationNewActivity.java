@@ -114,7 +114,6 @@ public class MobileVerificationNewActivity extends AppCompatActivity implements 
                 privacypolicyIntent.putExtra("StroyUrl", AppConfiguration.TERMSURL);
                 privacypolicyIntent.putExtra("whereTocome", "aboutus");
                 privacypolicyIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                mContext.startActivity(privacypolicyIntent);
                 startActivity(privacypolicyIntent);
                 break;
         }

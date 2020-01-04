@@ -45,19 +45,19 @@ public class OtherMatchShowAdapter extends RecyclerView.Adapter<OtherMatchShowAd
     @SuppressLint("ResourceAsColor")
     @Override
     public void onBindViewHolder(OtherMatchShowAdapter.MyViewHolder holder, int position) {
-        if (position == 0) {
-            holder.otherMatchShowItemListBinding.headerLinear.setVisibility(View.VISIBLE);
-            holder.otherMatchShowItemListBinding.mainGroupLiner.setVisibility(View.GONE);
-        } else {
-            holder.otherMatchShowItemListBinding.headerLinear.setVisibility(View.GONE);
+//        if (position == 0) {
+//            holder.otherMatchShowItemListBinding.headerLinear.setVisibility(View.VISIBLE);
+//            holder.otherMatchShowItemListBinding.mainGroupLiner.setVisibility(View.GONE);
+//        } else {
+//            holder.otherMatchShowItemListBinding.headerLinear.setVisibility(View.GONE);
             holder.otherMatchShowItemListBinding.mainGroupLiner.setVisibility(View.VISIBLE);
-        }
+//        }
 
-        Picasso.with(mContext)
-                .load("http://devenv.bharatarmy.com/docs/stadium_map.jpg")
-                .placeholder(R.drawable.loader_new)
-                .resize(Resources.getSystem().getDisplayMetrics().widthPixels,holder.otherMatchShowItemListBinding.webView.getHeight())
-       .into(holder.otherMatchShowItemListBinding.webView);
+//        Picasso.with(mContext)
+//                .load("http://devenv.bharatarmy.com/docs/stadium_map.jpg")
+//                .placeholder(R.drawable.loader_new)
+//                .resize(Resources.getSystem().getDisplayMetrics().widthPixels,holder.otherMatchShowItemListBinding.webView.getHeight())
+//       .into(holder.otherMatchShowItemListBinding.webView);
 
     }
 
@@ -75,7 +75,7 @@ public class OtherMatchShowAdapter extends RecyclerView.Adapter<OtherMatchShowAd
 
     @Override
     public int getItemCount() {
-        return othermatchshowList.size()+1;
+        return othermatchshowList.size();
     }
 
 }

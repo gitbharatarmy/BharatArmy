@@ -16,15 +16,17 @@ public class MyScreenChnagesModel {
     String screen;
 
 
-    public MyScreenChnagesModel(String message){
-        this.message=message;
+
+    public MyScreenChnagesModel(String message) {
+        this.message = message;
     }
+
     public String getMessage() {
         return message;
     }
 
-    public MyScreenChnagesModel(int ImageLikeposition){
-        this.ImageLikeposition=ImageLikeposition;
+    public MyScreenChnagesModel(int ImageLikeposition) {
+        this.ImageLikeposition = ImageLikeposition;
     }
 
     public int getImageLikeposition() {
@@ -35,11 +37,11 @@ public class MyScreenChnagesModel {
         ImageLikeposition = imageLikeposition;
     }
 
-    public MyScreenChnagesModel(String roomName, String roomImage, String position){
-        this.roomName=roomName;
-        this.roomImage=roomImage;
-        this.position=position;
-}
+    public MyScreenChnagesModel(String roomName, String roomImage, String position) {
+        this.roomName = roomName;
+        this.roomImage = roomImage;
+        this.position = position;
+    }
 
 
     public String getRoomName() {
@@ -55,10 +57,9 @@ public class MyScreenChnagesModel {
     }
 
 
-
-    public MyScreenChnagesModel(String privacyname,String privacyimage){
-        this.privacyimage=privacyimage;
-        this.privacyname=privacyname;
+    public MyScreenChnagesModel(String privacyname, String privacyimage) {
+        this.privacyimage = privacyimage;
+        this.privacyname = privacyname;
     }
 
     public String getPrivacyimage() {

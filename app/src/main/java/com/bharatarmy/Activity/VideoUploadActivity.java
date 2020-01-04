@@ -132,7 +132,7 @@ public class VideoUploadActivity extends AppCompatActivity implements View.OnCli
                 if (!videoTitleStr.equalsIgnoreCase("")) {
                     if (!videoDescriptionStr.equalsIgnoreCase("")) {
 //                        if (Utils.createVideoThumbNail(pathStr) != null) {
-                            galleryImageList.add(new GalleryImageModel(pathStr, sizeStr, "0", durationStr, "2", videoTitleStr, videoDescriptionStr,videoHeightStr,videoWidthStr,privacysettingstr,thumbnailpath));
+                            galleryImageList.add(new GalleryImageModel(pathStr, sizeStr, "0", durationStr, "2", videoTitleStr, videoDescriptionStr,videoHeightStr,videoWidthStr,privacysettingstr/*,thumbnailpath*/));
                             boolean connected = Utils.checkNetwork(mContext);
 
                             if (connected == true) {
@@ -148,7 +148,7 @@ public class VideoUploadActivity extends AppCompatActivity implements View.OnCli
                                                 galleryImageList.get(i).getVideoHeight(),
                                                 galleryImageList.get(i).getVideoWidth(),
                                                 galleryImageList.get(i).getPrivacySetting(),
-                                                galleryImageList.get(i).getThumbnail(),
+                                              /*  galleryImageList.get(i).getThumbnail(),*/
                                                 mContext);
                                     }
                                     Intent intent = new Intent(mContext, UploadService.class);

@@ -95,9 +95,86 @@ public class TravelModel {
     String travelscheduleType;
     String travelmatchimage;
 
+
+    String cityHotelImageStr;
+    String cityHotelNameStr;
+    String cityHotelDescStr;
+    int cityHotelRatingStr;
+    String cityHotelPriceStr;
+    String cityHotelCityStr;
+    String cityHotelTeamStr;
+
+
+    public TravelModel(String cityHotelImageStr, String cityHotelNameStr, String cityHotelDescStr, int cityHotelRatingStr,
+                       String cityHotelPriceStr, String cityHotelCityStr, String cityHotelTeamStr) {
+        this.cityHotelImageStr = cityHotelImageStr;
+        this.cityHotelNameStr = cityHotelNameStr;
+        this.cityHotelDescStr = cityHotelDescStr;
+        this.cityHotelRatingStr = cityHotelRatingStr;
+        this.cityHotelPriceStr =cityHotelPriceStr;
+        this.cityHotelCityStr=cityHotelCityStr;
+        this.cityHotelTeamStr = cityHotelTeamStr;
+    }
+
+    public String getCityHotelImageStr() {
+        return cityHotelImageStr;
+    }
+
+    public void setCityHotelImageStr(String cityHotelImageStr) {
+        this.cityHotelImageStr = cityHotelImageStr;
+    }
+
+    public String getCityHotelNameStr() {
+        return cityHotelNameStr;
+    }
+
+    public void setCityHotelNameStr(String cityHotelNameStr) {
+        this.cityHotelNameStr = cityHotelNameStr;
+    }
+
+    public String getCityHotelDescStr() {
+        return cityHotelDescStr;
+    }
+
+    public void setCityHotelDescStr(String cityHotelDescStr) {
+        this.cityHotelDescStr = cityHotelDescStr;
+    }
+
+    public int getCityHotelRatingStr() {
+        return cityHotelRatingStr;
+    }
+
+    public void setCityHotelRatingStr(int cityHotelRatingStr) {
+        this.cityHotelRatingStr = cityHotelRatingStr;
+    }
+
+    public String getCityHotelPriceStr() {
+        return cityHotelPriceStr;
+    }
+
+    public void setCityHotelPriceStr(String cityHotelPriceStr) {
+        this.cityHotelPriceStr = cityHotelPriceStr;
+    }
+
+    public String getCityHotelCityStr() {
+        return cityHotelCityStr;
+    }
+
+    public void setCityHotelCityStr(String cityHotelCityStr) {
+        this.cityHotelCityStr = cityHotelCityStr;
+    }
+
+    public String getCityHotelTeamStr() {
+        return cityHotelTeamStr;
+    }
+
+    public void setCityHotelTeamStr(String cityHotelTeamStr) {
+        this.cityHotelTeamStr = cityHotelTeamStr;
+    }
+
     public TravelModel(int travelschedulefirstcountryflage, String travelschedulefirstcountryname,
                        int travelschedulesecondcountryflag, String travelschedulesecondcountryname,
-                       String travelscheduletimedate, String travelscheduleground, String travelscheduleType ,
+                       String travelscheduletimedate, String travelscheduleground, String travelscheduleType,
                        String travelmatchimage) {
 
         this.travelschedulefirstcountryflage = travelschedulefirstcountryflage;
@@ -107,8 +184,9 @@ public class TravelModel {
         this.travelscheduletimedate = travelscheduletimedate;
         this.travelscheduleground = travelscheduleground;
         this.travelscheduleType = travelscheduleType;
-        this.travelmatchimage=travelmatchimage;
+        this.travelmatchimage = travelmatchimage;
     }
+
 
     public int getTravelschedulefirstcountryflage() {
         return travelschedulefirstcountryflage;

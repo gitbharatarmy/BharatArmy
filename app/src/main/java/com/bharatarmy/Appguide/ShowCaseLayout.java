@@ -302,7 +302,7 @@ public class ShowCaseLayout extends FrameLayout {
                     for (int i = 0; i < tutorsListSize; i++) {
                         View viewCircle = this.viewGroupIndicator.getChildAt(i);
                         if (i == currentTutorIndex) {
-                            viewCircle.setBackground(getResources().getDrawable(R.drawable.ball_scroll_primary));
+                            viewCircle.setBackground(getResources().getDrawable(R.drawable.ball_scroll_primary1));
                         } else {
                             viewCircle.setBackground(getResources().getDrawable(R.drawable.ball_scroll));
                         }
@@ -317,7 +317,7 @@ public class ShowCaseLayout extends FrameLayout {
                         viewCircle.setBackgroundResource(this.circleBackgroundDrawableRes);
                         if (i == currentTutorIndex) {
 //                            viewCircle.setSelected(true);
-                            viewCircle.setBackground(getResources().getDrawable(R.drawable.ball_scroll_primary));
+                            viewCircle.setBackground(getResources().getDrawable(R.drawable.ball_scroll_primary1));
                         }
                         this.viewGroupIndicator.addView(viewCircle);
                     }

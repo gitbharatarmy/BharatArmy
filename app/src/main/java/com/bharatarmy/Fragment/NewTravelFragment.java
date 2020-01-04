@@ -1,6 +1,7 @@
 package com.bharatarmy.Fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 
@@ -12,24 +13,37 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bharatarmy.Activity.DashboardActivity;
+import com.bharatarmy.Activity.TravelMatchHospitalityActivity;
+import com.bharatarmy.Activity.TravelMatchHotelActivity;
 import com.bharatarmy.Activity.TravelMatchScheduleActivity;
+import com.bharatarmy.Activity.TravelMatchStadiumActivity;
+import com.bharatarmy.Activity.TravelMatchTicketActivity;
+import com.bharatarmy.Adapter.PartnersAdapter;
+import com.bharatarmy.Adapter.TravelNewandUpdatesAdapter;
+import com.bharatarmy.Adapter.TravelPartnersAdapter;
 import com.bharatarmy.Adapter.TravelPopularPackageAdapter;
 import com.bharatarmy.Adapter.TravelFacilityMainAdapter;
 import com.bharatarmy.Adapter.TravelPopularCItyAdapter;
+import com.bharatarmy.Adapter.TravelVideoAdapter;
 import com.bharatarmy.Adapter.UltraPagerAdapter;
 import com.bharatarmy.Appguide.ShowCaseBuilder;
 import com.bharatarmy.Appguide.ShowCaseContentPosition;
 import com.bharatarmy.Appguide.ShowCaseDialog;
 import com.bharatarmy.Appguide.ShowCaseObject;
+import com.bharatarmy.Interfaces.MorestoryClick;
+import com.bharatarmy.Models.MyScreenChnagesModel;
 import com.bharatarmy.Models.TravelModel;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.AppConfiguration;
@@ -39,6 +53,9 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.leinardi.android.speeddial.SpeedDialView;
 import com.tmall.ultraviewpager.UltraViewPager;
 import com.tmall.ultraviewpager.transformer.UltraScaleTransformer;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,16 +78,22 @@ public class NewTravelFragment extends Fragment implements View.OnClickListener 
 
     SpeedDialView speedDial;
     /*list object of travel different section*/
-    public static List<TravelModel> traveltourList;
-    public static List<TravelModel> popularcityarrayList;
-    public static List<TravelModel> popularPackageList;
-    public static List<TravelModel> travelfacilityList;
+    public List<TravelModel> traveltourList;
+    public List<TravelModel> popularcityarrayList;
+    public List<TravelModel> popularPackageList;
+    public List<TravelModel> travelfacilityList;
+    public List<TravelModel> travelpartnerList;
+    public List<TravelModel> travelnewsupdatesList;
+    public List<TravelModel> travelvideoList;
 
     /*Travel adapter list*/
     UltraPagerAdapter ultraPagerAdapter;
     TravelFacilityMainAdapter travelFacilityAdapter;
     TravelPopularCItyAdapter popularCityAdapter;
     TravelPopularPackageAdapter popularPackageAdapter;
+    TravelNewandUpdatesAdapter travelNewandUpdatesAdapter;
+    TravelVideoAdapter travelVideoAdapter;
+    TravelPartnersAdapter travelPartnersAdapter;
     GridLayoutManager gridLayoutManager;
 
     /*filter city and package list*/
@@ -80,6 +103,7 @@ public class NewTravelFragment extends Fragment implements View.OnClickListener 
     private ShowCaseDialog showCaseDialog;
     public static final String SHOWCASE_TAG = "sample_showcase_tag";
 
+    String tournameStr;
 
     public NewTravelFragment() {
         // Required empty public constructor
@@ -123,6 +147,14 @@ public class NewTravelFragment extends Fragment implements View.OnClickListener 
     }
 
     public void init() {
+        //        scrollview
+        travelnewbinding.scrolltravel.post(new Runnable() {
+            @Override
+            public void run() {
+                travelnewbinding.scrolltravel.fullScroll(View.FOCUS_UP);
+            }
+        });
+
         /*Travel match schedule*/
         traveltourList = new ArrayList<TravelModel>();
         traveltourList.add(new TravelModel(AppConfiguration.IMAGE_URL + "ee5d232c-9.jpg",
@@ -195,35 +227,79 @@ public class NewTravelFragment extends Fragment implements View.OnClickListener 
         travelfacilityList.add(new TravelModel(R.drawable.ic_travel_page_stadium,
                 "Stadium", ""));
 
+        //News and updates List
+        travelnewsupdatesList = new ArrayList<TravelModel>();
 
-//        travelfacilityList.add(new TravelModel(R.drawable.ic_travel_page_more,
-//                "More", ""));
+        travelnewsupdatesList.add(new TravelModel("https://www.bharatarmy.com//Docs/ec0dfda1-3.jpg", "IPL Auctions 2020: An Overview",
+                "The IPL Auctions 2020 threw up some interesting buys and picks from the teams. The event commenced from 3:30 PM IST in Kolkata and going ahead in this piece; we look at some other interesting from the auction."));
+
+        travelnewsupdatesList.add(new TravelModel("https://www.bharatarmy.com//Docs/baf32af5-d.jpg", "IND v WI: Team India roar back to life in Vizag",
+                "Team India thrashed West Indies in the second ODI in Vizag thanks to some amazing batting and bowling displays."));
+
+        travelnewsupdatesList.add(new TravelModel("https://www.bharatarmy.com//Docs/5aec8786-8.jpg", "The Best Day Trips from Perth",
+                "Perth’s buzzy boutiques and sunny beaches will draw you in, but eerie rock formations and furry island animals will have you leaving the city behind."));
+
+        travelnewsupdatesList.add(new TravelModel("https://www.bharatarmy.com//Docs/970afed2-5.jpg", "IND v WI: Can Team India seal the T20I series in Mumbai?",
+                "Team India will look to win the final T20I against West Indies in Mumbai today and win the series 2-1. Without further ado, here we glide into a comprehensive preview of the upcoming encounter."));
+
+        //News and updates List
+        travelnewsupdatesList = new ArrayList<TravelModel>();
+
+        travelnewsupdatesList.add(new TravelModel("https://www.bharatarmy.com//Docs/e7911418-b.jpg", "Melbourne\u0027s Hidden Gems",
+                "Melbourne has so many hidden gems that it would take years to discover them all. We explored th.."));
+
+        travelnewsupdatesList.add(new TravelModel("https://www.bharatarmy.com//Docs/baf32af5-d.jpg", "IND v WI: Team India roar back to life in Vizag",
+                "Team India thrashed West Indies in the second ODI in Vizag thanks to some amazing batting and bowling displays."));
+
+        travelnewsupdatesList.add(new TravelModel("https://www.bharatarmy.com//Docs/5aec8786-8.jpg", "The Best Day Trips from Perth",
+                "Perth’s buzzy boutiques and sunny beaches will draw you in, but eerie rock formations and furry island animals will have you leaving the city behind."));
+
+        travelnewsupdatesList.add(new TravelModel("https://www.bharatarmy.com//Docs/970afed2-5.jpg", "IND v WI: Can Team India seal the T20I series in Mumbai?",
+                "Team India will look to win the final T20I against West Indies in Mumbai today and win the series 2-1. Without further ado, here we glide into a comprehensive preview of the upcoming encounter."));
+
+        //travel videos List
+        travelvideoList = new ArrayList<TravelModel>();
+
+        travelvideoList.add(new TravelModel("http://devenv.bharatarmy.com//Docs/Media/Thumb/a983346f-b0ac-4a49-91c6-f7196efd4629-1570705345206.jpg",
+                "http://devenv.bharatarmy.com//Docs/Media/e83c8278-f1f8-4aa6-b618-1d2302b80416-MP4_20191010_163200.mp4"));
+
+        travelvideoList.add(new TravelModel("http://devenv.bharatarmy.com//Docs/Media/Thumb/acdb7074-8588-4059-a5f4-67d09730785a-1570441108244.jpg",
+                "http://devenv.bharatarmy.com//Docs/Media/11f98532-8171-4c81-b8e1-60a33ccf193f-MP4_20191007_150748.mp4"));
+
+        //     Partners List
+        travelpartnerList = new ArrayList<>();
+
+        travelpartnerList.add(new TravelModel("https://www.bharatarmy.com/Docs/Partner-9.png",
+                "HighLights", "Bharat Army Highlights is the first of it’s kind sports fan ..."));
+
+        travelpartnerList.add(new TravelModel("https://www.bharatarmy.com/Docs/Partner-8.png",
+                "Red FM 93.5", "This World Cup; Bharat Army Travel & Red FM have a big ..."));
+
+        travelpartnerList.add(new TravelModel("https://www.bharatarmy.com/Docs/hotstar-logo.png",
+                "Hotstar", "The Bharat Army are pleased to announce that we ..."));
+
+        travelpartnerList.add(new TravelModel("https://www.bharatarmy.com/Docs/puma_logo.png",
+                "Puma", "PUMA sits at the top table of global sports brands ..."));
+
+        travelpartnerList.add(new TravelModel("https://www.bharatarmy.com/Docs/hublot_logo.png",
+                "Hublot", "When it comes to luxury watch brands, Hublot ..."));
+
+        travelpartnerList.add(new TravelModel("https://www.bharatarmy.com/Docs/oceanone8-logo.png",
+                "Ocean one8", "Ocean one8 takes the philosophy that Virat Kohli ..."));
+
+        travelpartnerList.add(new TravelModel("https://www.bharatarmy.com/Docs/uber_logo.png",
+                "Uber Eats", "Uber Eats is the top online food ordering and delivery platform in the world ..."));
+
+        travelpartnerList.add(new TravelModel("https://www.bharatarmy.com/Docs/prideview_logo.png",
+                "Prideview", "As a leading figure in the acquisition, management and sale of commercial ..."));
 
 
-        /*showCaseDialog = new ShowCaseBuilder()
-                .setPackageName(getActivity().getPackageName())
-                .titleTextColorRes(android.R.color.white)
-                .textColorRes(android.R.color.white)
-                .shadowColorRes(R.color.shadow)
-                .titleTextSizeRes(R.dimen.text_title)
-                .textSizeRes(R.dimen.text_normal)
-                .spacingRes(R.dimen.spacing_normal)
-                .backgroundContentColorRes(R.color.blue)
-                .circleIndicatorBackgroundDrawableRes(R.drawable.showcaseview_indicator)
-                .prevStringRes(R.string.previous)
-                .nextStringRes(R.string.next)
-                .finishStringRes(R.string.finish)
-                .useCircleIndicator(true)
-                .clickable(true)
-                .useArrow(true)
-                .useSkipWord(true)
-                .build();*/
     }
 
     public void setListiner() {
         travelnewbinding.travelCityFilterImage.setOnClickListener(this);
         travelnewbinding.travelPacakageFilterImage.setOnClickListener(this);
-
+        travelnewbinding.saveBtn.setOnClickListener(this);
         travelnewbinding.travelFacilityHeadingTxt.setOnClickListener(this);
 
 
@@ -253,11 +329,73 @@ public class NewTravelFragment extends Fragment implements View.OnClickListener 
         //construct built-in indicator, and add it to  UltraViewPager
         travelnewbinding.ultraViewpager.getIndicator().build();
 
+                tournameStr = traveltourList.get(1).getPopularcity_name();
+                Log.d("tournameStr :", tournameStr);
+
+        travelnewbinding.ultraViewpager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                Log.d("pageselected",""+position);
+
+                for (int i=0;i<traveltourList.size();i++){
+                    if (position == i){
+                        tournameStr = traveltourList.get(i).getPopularcity_name();
+                        Log.d("tournameStr :", tournameStr);
+
+                    }
+                }
+                if (!tournameStr.equalsIgnoreCase("")){
+
+                }
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
 
         /*fill facility list*/
         travelnewbinding.travelFacilityRcv.setHasFixedSize(true);
         travelnewbinding.travelFacilityRcv.setNestedScrollingEnabled(false);
-        travelFacilityAdapter = new TravelFacilityMainAdapter(mContext, travelfacilityList);
+        travelFacilityAdapter = new TravelFacilityMainAdapter(mContext, travelfacilityList, new MorestoryClick() {
+            @Override
+            public void getmorestoryClick() {
+                String activityNameStr = travelFacilityAdapter.activityName().toString();
+                if (activityNameStr.equalsIgnoreCase("Schedule")) {
+                    Intent travelmatchscheduleIntent = new Intent(mContext, TravelMatchScheduleActivity.class);
+                    travelmatchscheduleIntent.putExtra("tourtitle",tournameStr);
+                    travelmatchscheduleIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    mContext.startActivity(travelmatchscheduleIntent);
+                } else if (activityNameStr.equalsIgnoreCase("Ticket")) {
+                    Intent travelmatchticketIntent = new Intent(mContext, TravelMatchTicketActivity.class);
+                    travelmatchticketIntent.putExtra("tourtitle",tournameStr);
+                    travelmatchticketIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    mContext.startActivity(travelmatchticketIntent);
+                } else if(activityNameStr.equalsIgnoreCase("Stadium")){
+                    Intent travelmatchstadiumIntent = new Intent(mContext, TravelMatchStadiumActivity.class);
+                    travelmatchstadiumIntent.putExtra("tourtitle",tournameStr);
+                    travelmatchstadiumIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    mContext.startActivity(travelmatchstadiumIntent);
+                }else if(activityNameStr.equalsIgnoreCase("Hospitality")){
+                    Intent travelmatchhospitalityIntent = new Intent(mContext, TravelMatchHospitalityActivity.class);
+                    travelmatchhospitalityIntent.putExtra("tourtitle",tournameStr);
+                    travelmatchhospitalityIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    mContext.startActivity(travelmatchhospitalityIntent);
+                }else if(activityNameStr.equalsIgnoreCase("Hotel")){
+                    Intent travelmatchhotelIntent = new Intent(mContext, TravelMatchHotelActivity.class);
+                    travelmatchhotelIntent.putExtra("tourtitle",tournameStr);
+                    travelmatchhotelIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    mContext.startActivity(travelmatchhotelIntent);
+                }
+            }
+        });
         gridLayoutManager = new GridLayoutManager(mContext, 3, GridLayoutManager.VERTICAL, false);
         travelnewbinding.travelFacilityRcv.setLayoutManager(gridLayoutManager);
         travelnewbinding.travelFacilityRcv.setItemAnimator(new DefaultItemAnimator());
@@ -268,6 +406,27 @@ public class NewTravelFragment extends Fragment implements View.OnClickListener 
         travelnewbinding.travelFacilityRcv.addItemDecoration(Hdivider);
         travelnewbinding.travelFacilityRcv.addItemDecoration(Vdivider);
         travelnewbinding.travelFacilityRcv.setAdapter(travelFacilityAdapter);
+
+        /*fill travel partners list*/
+        travelPartnersAdapter = new TravelPartnersAdapter(mContext, travelpartnerList);
+        RecyclerView.LayoutManager partnermLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
+        travelnewbinding.travelPatnersListRcv.setLayoutManager(partnermLayoutManager);
+        travelnewbinding.travelPatnersListRcv.setItemAnimator(new DefaultItemAnimator());
+        travelnewbinding.travelPatnersListRcv.setAdapter(travelPartnersAdapter);
+
+        /*fill travel news and updates list*/
+        travelNewandUpdatesAdapter = new TravelNewandUpdatesAdapter(mContext, travelnewsupdatesList);
+        RecyclerView.LayoutManager newsupdatemLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
+        travelnewbinding.travelLatestNewsListRcv.setLayoutManager(newsupdatemLayoutManager);
+        travelnewbinding.travelLatestNewsListRcv.setItemAnimator(new DefaultItemAnimator());
+        travelnewbinding.travelLatestNewsListRcv.setAdapter(travelNewandUpdatesAdapter);
+
+        /*fill travel video list*/
+        travelVideoAdapter = new TravelVideoAdapter(mContext, travelvideoList);
+        RecyclerView.LayoutManager videomLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
+        travelnewbinding.travelVideosListRcv.setLayoutManager(videomLayoutManager);
+        travelnewbinding.travelVideosListRcv.setItemAnimator(new DefaultItemAnimator());
+        travelnewbinding.travelVideosListRcv.setAdapter(travelVideoAdapter);
 
         /*fill travel popularcity*/
         popularCityAdapter = new TravelPopularCItyAdapter(mContext, popularcityarrayList);
@@ -284,12 +443,6 @@ public class NewTravelFragment extends Fragment implements View.OnClickListener 
         travelnewbinding.tourPackageListRcv.setLayoutManager(layoutManager);
         travelnewbinding.tourPackageListRcv.setItemAnimator(new DefaultItemAnimator());
         travelnewbinding.tourPackageListRcv.setAdapter(popularPackageAdapter);
-       /* new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                travelnewbinding.travelFacilityHeadingTxt.performClick();
-            }
-        }, 400);*/
 
     }
 
@@ -298,6 +451,7 @@ public class NewTravelFragment extends Fragment implements View.OnClickListener 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.travel_city_filterImage:
+
                 bottomSheetDialogFragment = new TravelCityFilterFragment();
                 //show it
                 bottomSheetDialogFragment.show(getChildFragmentManager(), bottomSheetDialogFragment.getTag());
@@ -306,6 +460,9 @@ public class NewTravelFragment extends Fragment implements View.OnClickListener 
                 bottomSheetDialogFragment = new TravelPacakgeFilterFragment();
                 //show it
                 bottomSheetDialogFragment.show(getChildFragmentManager(), bottomSheetDialogFragment.getTag());
+                break;
+            case R.id.save_btn:
+                EventBus.getDefault().post(new MyScreenChnagesModel("viewmore","4"));
                 break;
             case R.id.travel_facility_heading_txt:
          /*       final ArrayList<ShowCaseObject> showCaseList = new ArrayList<>();
@@ -338,4 +495,7 @@ public class NewTravelFragment extends Fragment implements View.OnClickListener 
                 break;
         }
     }
+
+
+
 }

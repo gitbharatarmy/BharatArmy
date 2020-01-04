@@ -15,7 +15,7 @@ public class GalleryImageModel {
     private String videoHeight;
     private String videoWidth;
     private String privacySetting;
-    private String thumbnail;
+//    private String thumbnail;
 
 
     String imageStr;
@@ -81,8 +81,8 @@ public class GalleryImageModel {
     }
 
     public GalleryImageModel(String imageUri, String imageSize, String uploadcompelet, String videolength, String fileType,
-                             String videoTitle, String videoDesc, String videoHeight, String videoWidth, String privacysetting,
-                             String thumbnail) {
+                             String videoTitle, String videoDesc, String videoHeight, String videoWidth, String privacysetting/*,
+                             String thumbnail*/) {
         this.imageUri = imageUri;
         this.imageSize = imageSize;
         this.uploadcompelet = uploadcompelet;
@@ -93,13 +93,13 @@ public class GalleryImageModel {
         this.videoHeight = videoHeight;
         this.videoWidth = videoWidth;
         this.privacySetting = privacysetting;
-        this.thumbnail = thumbnail;
+//        this.thumbnail = thumbnail;
     }
 
 
     public GalleryImageModel(int id, String imageUri, String imageSize, String uploadcompelet, String videolength, String fileType,
-                             String videoTitle, String videoDesc, String videoHeight, String videoWidth, String privacySetting,
-                             String thumbnail) {
+                             String videoTitle, String videoDesc, String videoHeight, String videoWidth, String privacySetting) {
+        //                             String thumbnail
         this.id = id;
         this.imageUri = imageUri;
         this.imageSize = imageSize;
@@ -111,7 +111,7 @@ public class GalleryImageModel {
         this.videoHeight = videoHeight;
         this.videoWidth = videoWidth;
         this.privacySetting = privacySetting;
-        this.thumbnail = thumbnail;
+//        this.thumbnail = thumbnail;
     }
 
     public String getVideoHeight() {
@@ -202,13 +202,13 @@ public class GalleryImageModel {
         this.privacySetting = privacySetting;
     }
 
-    public String getThumbnail() {
-        return thumbnail;
-    }
-
-    public void setThumbnail(String thumbnail) {
-        this.thumbnail = thumbnail;
-    }
+//    public String getThumbnail() {
+//        return thumbnail;
+//    }
+//
+//    public void setThumbnail(String thumbnail) {
+//        this.thumbnail = thumbnail;
+//    }
 
     @Override
     public boolean equals(Object o) {

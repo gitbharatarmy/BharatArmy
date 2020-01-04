@@ -5,32 +5,28 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
-import android.view.View
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-
-import androidx.appcompat.app.ActionBarDrawerToggle
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.cardview.widget.CardView
-import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import com.bharatarmy.Fragment.*
-
+import com.bharatarmy.Models.MyScreenChnagesModel
 import com.bharatarmy.R
 import com.bharatarmy.Utility.AppConfiguration
-import com.bharatarmy.Utility.Utils
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation
 import com.google.android.material.navigation.NavigationView
 import com.leinardi.android.speeddial.SpeedDialOverlayLayout
 import com.leinardi.android.speeddial.SpeedDialView
 import kotlinx.android.synthetic.main.app_bar_dashboard.*
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
 
 
 // remove code 29/07/2019
@@ -42,7 +38,7 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, StoryFragme
     private var fragment: Fragment? = null
     internal lateinit var drawer: DrawerLayout
 
-
+    var viewmoreStr: String? = ""
     internal lateinit var user_profile_img: ImageView
     internal lateinit var proflie_linear: LinearLayout
     internal lateinit var user_name_txt: TextView
@@ -69,6 +65,11 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, StoryFragme
                 else -> return HomeFragment()
             }
         }
+
+    override fun onStart() {
+        super.onStart()
+        EventBus.getDefault().register(this)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -116,6 +117,9 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, StoryFragme
 
     }
 
+
+
+
     fun bottomNavigationView() {
         bottomNavigation.add(MeowBottomNavigation.Model(1, R.drawable.ic_fans_new))
         bottomNavigation.add(MeowBottomNavigation.Model(2, R.drawable.ic_travel_new)) //ic_travel_new  ic_study
@@ -126,13 +130,13 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, StoryFragme
         bottomNavigation.setOnClickMenuListener {
             when (it.id) {
                 1 -> {
-                    navItemIndex = 3
+                    navItemIndex = 1
                     fragment = FansFragment()
                     loadFragment(fragment as FansFragment)
                 }
                 2 -> {
 
-                    navItemIndex = 8
+                    navItemIndex = 2
                     fragment = NewTravelFragment()
                     loadFragment(fragment as NewTravelFragment)
 //                    fragment = TravelFragment()
@@ -145,7 +149,7 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, StoryFragme
 //                    loadHomeFragment()
                 }
                 4 -> {
-                    navItemIndex = 6
+                    navItemIndex = 4
                     fragment = StoryFragment()
                     loadFragment(fragment as StoryFragment)
 //                    navItemIndex = 6
@@ -153,7 +157,7 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, StoryFragme
 //                    loadFragment(fragment as ProfileFragment)
                 }
                 5 -> {
-                    navItemIndex = 7
+                    navItemIndex = 5
                     fragment = MoreFragment()
                     loadFragment(fragment as MoreFragment)
 
@@ -194,7 +198,7 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, StoryFragme
                 if (page.equals("1", ignoreCase = true)) {
                     bottomNavigation.show(1, true)
                     intent.putExtra("whichPageRun", "")
-                    navItemIndex = 3
+                    navItemIndex = 1
                     fragment = FansFragment()
                     loadFragment(fragment as FansFragment)
                 } /*else if (page.equals("4", ignoreCase = true)) {
@@ -203,13 +207,13 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, StoryFragme
                     navItemIndex = 7
                     fragment = ProfileFragment()
                     loadFragment(fragment as ProfileFragment)
-                }*/else if(page.equals("4",ignoreCase = true)) {
+                }*/ else if (page.equals("4", ignoreCase = true)) {
                     bottomNavigation.show(4, true)
-                    intent.putExtra("whichPageRun","")
+                    intent.putExtra("whichPageRun", "")
                     fragment = StoryFragment()
                     loadFragment(fragment as StoryFragment)
-                }
-                else if (page.equals("2", ignoreCase = true)) {
+                } else if (page.equals("2", ignoreCase = true)) {
+                    navItemIndex = 2
                     bottomNavigation.show(2, true)
                     intent.putExtra("whichPageRun", "")
 //                    fragment = TravelFragment()
@@ -307,15 +311,39 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, StoryFragme
 
 
                 if (navItemIndex != 0) {
-                    navItemIndex = 0
-                    CURRENT_TAG = TAG_HOME
-                    loadHomeFragment()
-                    return
+                    if (navItemIndex != 1) {
+                        if (!viewmoreStr.equals("", ignoreCase = true)) {
+                            bottomNavigation.show(2, true)
+                            intent.putExtra("whichPageRun", "")
+                            navItemIndex = 1
+                            fragment = NewTravelFragment()
+                            loadFragment(fragment as NewTravelFragment)
+                            return
+                        } else {
+                            viewmoreStr = ""
+                            navItemIndex = 0
+                            CURRENT_TAG = TAG_HOME
+                            loadHomeFragment()
+                            return
+                        }
+                    } else {
+                        viewmoreStr = ""
+                        navItemIndex = 0
+                        CURRENT_TAG = TAG_HOME
+                        loadHomeFragment()
+                        return
+                    }
+
                 }
 
 
             }
-            super.onBackPressed()
+            try {
+                super.onBackPressed()
+            } catch (exp: IllegalStateException) { // can output some information here
+                finish()
+            }
+//            super.onBackPressed()
         }
 
 
@@ -370,7 +398,7 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, StoryFragme
 
     override fun onStoryCategory(categoryId: String?, categoryName: String?, wheretocome: String?) {
 
-        navItemIndex = 3
+        navItemIndex = 4
         val fragment = StoryCategoryFragment()
         val bundle = Bundle()
         bundle.putString("categoryId", categoryId)
@@ -388,7 +416,7 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, StoryFragme
             transaction.replace(R.id.frame_container, fragment as HomeFragment)
             transaction.commit()
         } else {
-            navItemIndex = 3
+            navItemIndex = 4
             fragment = StoryFragment()
             val transaction = supportFragmentManager.beginTransaction().setCustomAnimations(R.anim.slide_out_right, R.anim.slide_in_left)
             transaction.replace(R.id.frame_container, fragment as StoryFragment)
@@ -416,4 +444,22 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, StoryFragme
         transaction.commit()
     }
 
+    @Subscribe
+    fun customEventReceived(event: MyScreenChnagesModel) {
+//        Log.d("imageId :", event.getMessage());
+//        Log.d("mainmodelValue :", imageDetailModelsList.toString());
+        if (!event.privacyimage.equals("", ignoreCase = true)) {
+            viewmoreStr = event.privacyname;
+            navItemIndex = 4
+            bottomNavigation.show(4, true)
+            intent.putExtra("whichPageRun", "")
+            fragment = StoryFragment()
+            loadFragment(fragment as StoryFragment)
+        }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        EventBus.getDefault().unregister(this)
+    }
 }

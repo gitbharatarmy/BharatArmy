@@ -306,7 +306,7 @@
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:layout_marginTop="@dimen/_25sdp"
-            android:maxLines="3"
+            android:maxLines="4"
             android:ellipsize="end"
             android:text="Jarlsberg lancashire edam. Dolcelatte hard cheese brie st. agur blue
     cheese caerphilly bavarian bergkase cheese and biscuits mascarpone. Cheeseburger swiss bavarian
@@ -342,8 +342,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginLeft="@dimen/_15sdp"
-            android:layout_marginRight="@dimen/_15sdp"
+            android:layout_marginLeft="@dimen/_12sdp"
+            android:layout_marginRight="@dimen/_12sdp"
             android:layout_marginTop="@dimen/_30sdp"
             android:visibility="visible">
 
@@ -351,12 +351,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:layout_marginLeft="@dimen/_3sdp"
+                android:layout_marginRight="@dimen/_3sdp"
                 android:visibility="visible">
-<!--                <LinearLayout-->
-<!--                    android:layout_width="@dimen/_3sdp"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:background="@drawable/vertical_line"-->
-<!--                    android:orientation="vertical"/>-->
 
                 <LinearLayout
                     android:layout_width="@dimen/_3sdp"
@@ -395,8 +392,7 @@
              android:id="@+id/fixture_rcv"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
-             android:layout_marginTop="@dimen/_25sdp"
-             android:layout_marginBottom="@dimen/_10sdp"/>
+             android:layout_marginTop="@dimen/_25sdp"/>
 
         </LinearLayout>
 

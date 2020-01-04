@@ -105,16 +105,39 @@
                             android:src="@drawable/ic_left_arrow2"
                             android:tint="@color/splash_bg_color" />
                     </LinearLayout>
-
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_40sdp"
+                        android:layout_toRightOf="@+id/back_img"
+                        android:orientation="vertical">
                     <TextView
                         android:id="@+id/toolbar_title_txt"
                         style="@style/title_text_font"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/_40sdp"
+                        android:layout_height="@dimen/_27sdp"
+                        android:ellipsize="end"
                         android:gravity="center_vertical"
-                        android:textAllCaps="false"
+                        android:maxLines="1"
+                        android:paddingLeft="@dimen/_5sdp"
+                        android:text="Tickets"
+                        android:textAllCaps="true"
                         android:textColor="@color/splash_bg_color"
                         android:textSize="@dimen/_14sdp" />
+                    <TextView
+                        android:id="@+id/toolbar_subtitle_txt"
+                        style="@style/title_text_font"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:gravity="center_vertical"
+                        android:maxLines="1"
+                        android:paddingLeft="@dimen/_5sdp"
+                        android:text="Schedule"
+                        android:textAllCaps="true"
+                        android:textColor="@color/splash_bg_color"
+                        android:textSize="@dimen/_8sdp"
+                        />
+                    </LinearLayout>
                 </androidx.appcompat.widget.Toolbar>
 
             </com.google.android.material.appbar.CollapsingToolbarLayout>
@@ -125,7 +148,7 @@
             android:id="@+id/nestedScroll"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/_5sdp"
+
             android:background="@color/colorGrey50"
             android:orientation="vertical"
             android:visibility="visible"

@@ -104,6 +104,34 @@
                 android:layout_marginRight="@dimen/_10sdp"
                 android:orientation="vertical"
                 android:paddingTop="@dimen/_10sdp">
+                <RelativeLayout
+                    android:id="@+id/no_recordrel"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_140sdp"
+                    android:layout_gravity="center_vertical"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:id="@+id/norecord_img"
+                        android:layout_width="@dimen/_70sdp"
+                        android:layout_height="@dimen/_70sdp"
+                        android:layout_centerInParent="true"
+                        android:src="@drawable/ic_sfaentry"
+                        android:tint="@color/heading_bg" />
+
+                    <TextView
+                        style="@style/title_text_font"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/norecord_img"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:gravity="center_horizontal"
+                        android:text="No record found"
+                        android:textColor="@color/heading_bg"
+                        android:textSize="@dimen/_16sdp" />
+
+
+                </RelativeLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"

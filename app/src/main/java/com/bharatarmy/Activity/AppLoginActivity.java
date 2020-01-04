@@ -18,7 +18,6 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
-import com.androidquery.AQuery;
 import com.bharatarmy.Adapter.AppDisplayItemAdapter;
 import com.bharatarmy.Models.GalleryImageModel;
 import com.bharatarmy.Models.LogginModel;
@@ -110,7 +109,7 @@ public class AppLoginActivity extends AppCompatActivity implements View.OnClickL
 
     /* facebook sign in*/
     CallbackManager callbackManager;
-    private AQuery aQuery;
+
     private AccessTokenTracker accessTokenTracker;
     private ProfileTracker profileTracker;
     String email;
@@ -341,7 +340,6 @@ public class AppLoginActivity extends AppCompatActivity implements View.OnClickL
         privacypolicyIntent.putExtra("StroyUrl", AppConfiguration.TERMSURL);
         privacypolicyIntent.putExtra("whereTocome", "aboutus");
         privacypolicyIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        mContext.startActivity(privacypolicyIntent);
         startActivity(privacypolicyIntent);
     }
 
@@ -386,7 +384,7 @@ public class AppLoginActivity extends AppCompatActivity implements View.OnClickL
 //        AppEventsLogger.activateApp(this);
         setAutoLogAppEventsEnabled(false);
         callbackManager = CallbackManager.Factory.create();
-        aQuery = new AQuery(this);
+
 
         callbackManager = CallbackManager.Factory.create();
 

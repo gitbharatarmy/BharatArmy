@@ -62,7 +62,7 @@ public class MyMediaAdapter extends RecyclerView.Adapter<MyMediaAdapter.MyViewHo
     public void onBindViewHolder(MyMediaAdapter.MyViewHolder holder, final int position) {
         GalleryImageModel detailgallery = imageDetailModel.get(position);
 
-       /* if (!Utils.getPref(mContext, "image/video").equalsIgnoreCase("video")) {
+       if (!Utils.getPref(mContext, "image/video").equalsIgnoreCase("video")) {
             Utils.setGalleryImageInImageView(detailgallery.getImageUri(), holder.myMediaListItemBinding.uploadImage, mContext);
         } else {
 //                File f=new File(detailgallery.getImageUri());
@@ -80,11 +80,11 @@ public class MyMediaAdapter extends RecyclerView.Adapter<MyMediaAdapter.MyViewHo
                 }
 
             }
-        }*/
+        }
 
 
 
-        Utils.setGalleryImageInImageView(detailgallery.getThumbnail(), holder.myMediaListItemBinding.uploadImage, mContext);
+//        Utils.setGalleryImageInImageView(detailgallery.getThumbnail(), holder.myMediaListItemBinding.uploadImage, mContext);
 
         if (detailgallery.getUploadcompelet().equalsIgnoreCase("1")) {
             holder.myMediaListItemBinding.uploadsuccesLinear.setVisibility(View.VISIBLE);

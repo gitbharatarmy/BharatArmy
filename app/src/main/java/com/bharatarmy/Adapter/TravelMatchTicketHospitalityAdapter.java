@@ -85,15 +85,15 @@ public class TravelMatchTicketHospitalityAdapter extends RecyclerView.Adapter<Tr
             }
         });
 
-        if (detail.getTicket_hospitality_inclusion().equalsIgnoreCase("1")) {
-            holder.travelMatchTicketHospitalityItemListBinding.hotelLinear.setVisibility(View.VISIBLE);
-            holder.travelMatchTicketHospitalityItemListBinding.sightseenLinear.setVisibility(View.GONE);
-            holder.travelMatchTicketHospitalityItemListBinding.restaurantLinear.setVisibility(View.GONE);
-        } else {
-            holder.travelMatchTicketHospitalityItemListBinding.hotelLinear.setVisibility(View.VISIBLE);
-            holder.travelMatchTicketHospitalityItemListBinding.sightseenLinear.setVisibility(View.VISIBLE);
-            holder.travelMatchTicketHospitalityItemListBinding.restaurantLinear.setVisibility(View.VISIBLE);
-        }
+//        if (detail.getTicket_hospitality_inclusion().equalsIgnoreCase("1")) {
+//            holder.travelMatchTicketHospitalityItemListBinding.hotelLinear.setVisibility(View.VISIBLE);
+//            holder.travelMatchTicketHospitalityItemListBinding.sightseenLinear.setVisibility(View.GONE);
+//            holder.travelMatchTicketHospitalityItemListBinding.restaurantLinear.setVisibility(View.GONE);
+//        } else {
+//            holder.travelMatchTicketHospitalityItemListBinding.hotelLinear.setVisibility(View.VISIBLE);
+//            holder.travelMatchTicketHospitalityItemListBinding.sightseenLinear.setVisibility(View.VISIBLE);
+//            holder.travelMatchTicketHospitalityItemListBinding.restaurantLinear.setVisibility(View.VISIBLE);
+//        }
 
         if (selectedposition == position){
             holder.travelMatchTicketHospitalityItemListBinding.ticketHospitalitysCartAddimage.setImageResource(R.drawable.fill_selected_checkbox);

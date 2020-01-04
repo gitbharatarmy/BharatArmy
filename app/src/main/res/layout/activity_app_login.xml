@@ -48,7 +48,7 @@
                 android:layout_marginLeft="@dimen/_20sdp"
                 android:layout_marginRight="@dimen/_20sdp"
                 android:scaleType="centerInside"
-                android:src="@drawable/ic_firstpage_logo" />
+                app:srcCompat="@drawable/ic_firstpage_logo"/>
 
             <com.facebook.shimmer.ShimmerFrameLayout
                 android:id="@+id/shimmer_view_container"

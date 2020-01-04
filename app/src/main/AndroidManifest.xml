@@ -26,10 +26,31 @@
         android:roundIcon="@drawable/app_logo_new"
         android:supportsRtl="true"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Activity.TravelMatchScheduleActivity"
+        <activity
+            android:name=".Activity.TravelMatchStadiumActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".Activity.TravelMatchHospitalityActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".Activity.TravelMatchHotelActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".Activity.TravelMatchTicketActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".Activity.TravelMatchScheduleActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".Activity.RemoveAccountActivity"
             android:launchMode="singleTop"
@@ -304,7 +325,6 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
-
         <activity
             android:name=".Activity.VideoDetailActivity"
             android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
@@ -356,9 +376,7 @@
             android:name=".Activity.WalkThrough"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar" >
-
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".Activity.Splash_Screen"
             android:launchMode="singleTop"
@@ -366,6 +384,7 @@
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>

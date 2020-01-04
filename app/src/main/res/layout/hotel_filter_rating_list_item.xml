@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/ratingselectedLinear"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_50sdp"
+        android:orientation="horizontal">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_toLeftOf="@+id/selected_chk"
+    android:layout_marginTop="@dimen/_5sdp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/hotel_star_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            style="@style/title_text_font"
+            android:textColor="@color/normal_font_color"
+            android:text="2"
+            android:textAllCaps="true"
+            android:textSize="@dimen/_13sdp"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="@dimen/_3sdp"
+            />
+
+        <TextView
+            android:id="@+id/hotel_rating_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            style="@style/title_text_font"
+            android:textColor="@color/normal_font_color"
+            android:text="Star"
+            android:textAllCaps="true"
+            android:textSize="@dimen/_13sdp"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="@dimen/_2sdp"/>
+    </LinearLayout>
+    <com.whinc.widget.ratingbar.RatingBar
+        android:id="@+id/ratingBar"
+        android:layout_width="@dimen/_70sdp"
+        android:layout_height="@dimen/_16sdp"
+        android:layout_centerVertical="true"
+        app:rb_click_rating="false"
+        app:rb_count="3"
+        app:rb_fill="@drawable/fill"
+        app:rb_max_count="5"
+        app:rb_space="-5dp"
+        app:rb_touch_rating="false" />
+</LinearLayout>
+
+
+        <CheckBox
+            android:id="@+id/selected_chk"
+            android:layout_width="@dimen/_18sdp"
+            android:layout_height="@dimen/_18sdp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:layout_centerInParent="true"
+            android:button="@drawable/round_checkbox_indicator" />
+    </RelativeLayout>
+</layout>

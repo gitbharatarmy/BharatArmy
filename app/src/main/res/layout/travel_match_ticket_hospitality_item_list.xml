@@ -1,61 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <LinearLayout
         android:id="@+id/tickethospitality_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_5sdp"
-        android:layout_marginBottom="@dimen/_3sdp"
+        android:layout_margin="@dimen/_2sdp"
         android:orientation="vertical">
 
         <RelativeLayout
             android:id="@+id/header_title_rel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-          android:layout_marginLeft="@dimen/_5sdp"
-            android:layout_marginRight="@dimen/_5sdp"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:layout_marginBottom="@dimen/_15sdp">
+            android:layout_margin="@dimen/_2sdp">
+
             <TextView
                 android:id="@+id/ticket_type_txt"
                 style="@style/title_text_font"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:text="Tickets Category"
-               android:layout_alignParentLeft="true"
                 android:textAllCaps="true"
                 android:textColor="@color/heading_bg"
                 android:textSize="@dimen/_11sdp" />
 
-           <LinearLayout
-               android:layout_width="@dimen/_15sdp"
-               android:layout_height="@dimen/_15sdp"
-               android:layout_alignParentRight="true"
-               android:background="@drawable/ic_blank_check">
-               <TextView
-                   style="@style/title_text_font"
-                   android:layout_width="match_parent"
-                   android:layout_height="match_parent"
-                   android:text="i"
-                   android:gravity="center"
-                   android:textColor="@color/splash_bg_color"
-                   android:textSize="@dimen/_10sdp" />
+            <LinearLayout
+                android:layout_width="@dimen/_15sdp"
+                android:layout_height="@dimen/_15sdp"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/ic_blank_check">
 
-           </LinearLayout>
+                <TextView
+                    style="@style/title_text_font"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="i"
+                    android:textColor="@color/splash_bg_color"
+                    android:textSize="@dimen/_10sdp" />
+
+            </LinearLayout>
 
         </RelativeLayout>
+
         <RelativeLayout
             android:id="@+id/ticket_hospitality_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/_2sdp"
+            android:layout_marginTop="@dimen/_2sdp"
+            android:layout_marginRight="@dimen/_2sdp"
+            android:layout_marginBottom="@dimen/_2sdp"
             android:background="@drawable/match_detail_curveshape"
-            android:elevation="3dp"
-            android:layout_marginRight="@dimen/_7sdp"
-            android:layout_marginLeft="@dimen/_3sdp"
-            android:layout_marginBottom="@dimen/_2sdp">
+            android:elevation="3dp">
+
             <com.bharatarmy.RoundishImageView
                 android:id="@+id/travel_ticket_hospitality_banner_img"
                 android:layout_width="match_parent"
@@ -85,18 +87,20 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/topView"
                 android:orientation="vertical">
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_8sdp"
                     android:orientation="horizontal">
+
                     <TextView
                         style="@style/title_text_font"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="right"
                         android:layout_marginRight="@dimen/_11sdp"
                         android:gravity="right|center_vertical"
-                        android:layout_gravity="right"
                         android:text="per pax"
                         android:textAllCaps="true"
                         android:textColor="@color/orange"
@@ -129,26 +133,28 @@
                     android:text="@string/lorem_txt"
                     android:textColor="@color/normal_font_color"
                     android:textSize="@dimen/_8sdp" />
+
                 <LinearLayout
                     android:id="@+id/offers_linear"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                   android:paddingLeft="@dimen/_5sdp"
+                    android:paddingLeft="@dimen/_5sdp"
                     android:paddingTop="@dimen/_5sdp">
 
-                <ImageView
-                    android:layout_width="@dimen/_13sdp"
-                    android:layout_height="@dimen/_13sdp"
-                    android:layout_gravity="center_vertical"
-                    android:src="@drawable/ic_tag_black_shape"
-                    android:tint="@color/green"/>
+                    <ImageView
+                        android:layout_width="@dimen/_13sdp"
+                        android:layout_height="@dimen/_13sdp"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/ic_tag_black_shape"
+                        android:tint="@color/green" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:layout_marginLeft="@dimen/_5sdp">
+                        android:layout_marginLeft="@dimen/_5sdp"
+                        android:orientation="vertical">
+
                         <TextView
                             android:id="@+id/offers_txt"
                             style="@style/title_text_font"
@@ -173,159 +179,196 @@
                     </LinearLayout>
 
                 </LinearLayout>
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_1sdp"
-                    android:background="@drawable/line_shape"
-                    android:layout_marginTop="@dimen/_5sdp"/>
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:background="@drawable/line_shape" />
 
                 <TextView
                     style="@style/title_text_font"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/_5sdp"
                     android:paddingTop="@dimen/_5sdp"
                     android:paddingRight="@dimen/_7sdp"
                     android:paddingBottom="@dimen/_5sdp"
-                    android:paddingLeft="@dimen/_5sdp"
                     android:text="Your Experience Includes"
                     android:textColor="@color/unselected_view"
                     android:textSize="@dimen/_7sdp"
-                    android:visibility="visible" />
+                    android:visibility="gone" />
 
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:weightSum="1">
 
-                    <HorizontalScrollView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/_5sdp"
-                        android:layout_marginBottom="@dimen/_5sdp"
-                        android:layout_weight="1"
-                        android:fillViewport="true"
-                        android:measureAllChildren="false"
-                        android:scrollbars="none">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:weightSum="3">
-
-
-                            <LinearLayout
-                                android:layout_width="@dimen/_22sdp"
-                                android:layout_height="wrap_content"
-                                android:orientation="vertical">
-
-                                <LinearLayout
-                                    android:id="@+id/hotel_linear"
-                                    android:layout_width="@dimen/_19sdp"
-                                    android:layout_height="@dimen/_19sdp"
-                                    android:layout_gravity="center_horizontal"
-                                    android:background="@drawable/circle_graidant"
-                                    android:orientation="vertical">
-
-                                    <ImageView
-                                        android:layout_width="@dimen/_11sdp"
-                                        android:layout_height="@dimen/_10sdp"
-                                        android:layout_margin="@dimen/_4sdp"
-                                        android:src="@drawable/travel_hotel"
-                                        android:tint="@color/heading_bg" />
-                                </LinearLayout>
-
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="@dimen/_22sdp"
-                                android:layout_height="wrap_content"
-                                android:orientation="vertical">
-
-                                <LinearLayout
-                                    android:id="@+id/sightseen_linear"
-                                    android:layout_width="@dimen/_19sdp"
-                                    android:layout_height="@dimen/_19sdp"
-                                    android:layout_gravity="center_horizontal"
-                                    android:background="@drawable/circle_graidant"
-                                    android:orientation="vertical">
-
-                                    <ImageView
-                                        android:layout_width="@dimen/_11sdp"
-                                        android:layout_height="@dimen/_10sdp"
-                                        android:layout_margin="@dimen/_4sdp"
-                                        android:src="@drawable/lunch"
-                                        android:tint="@color/heading_bg" />
-
-                                </LinearLayout>
-
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="@dimen/_22sdp"
-                                android:layout_height="wrap_content"
-                                android:orientation="vertical"
-                                android:visibility="visible">
-
-                                <LinearLayout
-                                    android:id="@+id/restaurant_linear"
-                                    android:layout_width="@dimen/_19sdp"
-                                    android:layout_height="@dimen/_19sdp"
-                                    android:layout_gravity="center_horizontal"
-                                    android:background="@drawable/circle_graidant"
-                                    android:orientation="vertical">
-
-                                    <ImageView
-                                        android:layout_width="@dimen/_11sdp"
-                                        android:layout_height="@dimen/_10sdp"
-                                        android:layout_margin="@dimen/_4sdp"
-                                        android:src="@drawable/dinner"
-                                        android:tint="@color/heading_bg" />
-                                </LinearLayout>
-
-                            </LinearLayout>
-
-                        </LinearLayout>
-
-
-                    </HorizontalScrollView>
-
                     <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.3"
-                        android:visibility="gone">
+                        android:id="@+id/addtoticketscart1Linear"
+                        android:layout_width="@dimen/_30sdp"
+                        android:layout_height="@dimen/_26sdp"
+                        android:layout_alignParentRight="true"
+                        android:background="@drawable/match_cartshape"
+                        android:visibility="visible">
 
-                        <LinearLayout
-                            android:id="@+id/book_linear"
+                        <ImageView
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentRight="true"
-
-                            android:layout_marginRight="@dimen/_10sdp"
-                            android:layout_marginBottom="@dimen/_10sdp"
-                            android:background="@drawable/book_btn"
-                            android:orientation="horizontal"
-                            android:visibility="visible">
-
-                            <TextView
-                                android:id="@+id/book_txt"
-                                style="@style/text_font"
-                                android:layout_width="match_parent"
-                                android:layout_height="@dimen/_25sdp"
-                                android:layout_gravity="center_horizontal|center_vertical"
-                                android:layout_marginRight="@dimen/_2sdp"
-                                android:gravity="center_horizontal|center_vertical"
-                                android:text="Book Now"
-                                android:textColor="@color/splash_bg_color"
-                                android:textSize="@dimen/_12sdp"
-                                android:textStyle="normal" />
-
-                        </LinearLayout>
+                            android:layout_height="@dimen/_15sdp"
+                            android:layout_gravity="center_vertical|center_horizontal"
+                            android:src="@drawable/ic_cart"
+                            android:tint="@color/splash_bg_color" />
                     </LinearLayout>
-                </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/match_ticket_buy_tag_txt"
+                        style="@style/title_text_font"
+                        android:layout_width="@dimen/_65sdp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:background="@drawable/travel_buy_ticket_shape"
+                        android:gravity="center_vertical|center_horizontal"
+                        android:paddingLeft="@dimen/_5sdp"
+                        android:paddingTop="@dimen/_7sdp"
+                        android:paddingRight="@dimen/_5sdp"
+                        android:paddingBottom="@dimen/_7sdp"
+                        android:text="Add To Cart"
+                        android:textAllCaps="true"
+                        android:textColor="@color/splash_bg_color"
+                        android:textSize="@dimen/_8sdp"
+                        android:textStyle="bold"
+                        android:visibility="gone" />
+
+                    <!--                    <HorizontalScrollView-->
+                    <!--                        android:layout_width="0dp"-->
+                    <!--                        android:layout_height="wrap_content"-->
+                    <!--                        android:layout_marginLeft="@dimen/_5sdp"-->
+                    <!--                        android:layout_marginBottom="@dimen/_5sdp"-->
+                    <!--                        android:layout_weight="1"-->
+                    <!--                        android:fillViewport="true"-->
+                    <!--                        android:measureAllChildren="false"-->
+                    <!--                        android:scrollbars="none"-->
+                    <!--                        android:visibility="gone">-->
+
+                    <!--                        <LinearLayout-->
+                    <!--                            android:layout_width="match_parent"-->
+                    <!--                            android:layout_height="wrap_content"-->
+                    <!--                            android:orientation="horizontal"-->
+                    <!--                            android:weightSum="3">-->
+
+
+                    <!--                            <LinearLayout-->
+                    <!--                                android:layout_width="@dimen/_22sdp"-->
+                    <!--                                android:layout_height="wrap_content"-->
+                    <!--                                android:orientation="vertical">-->
+
+                    <!--                                <LinearLayout-->
+                    <!--                                    android:id="@+id/hotel_linear"-->
+                    <!--                                    android:layout_width="@dimen/_19sdp"-->
+                    <!--                                    android:layout_height="@dimen/_19sdp"-->
+                    <!--                                    android:layout_gravity="center_horizontal"-->
+                    <!--                                    android:background="@drawable/circle_graidant"-->
+                    <!--                                    android:orientation="vertical">-->
+
+                    <!--                                    <ImageView-->
+                    <!--                                        android:layout_width="@dimen/_11sdp"-->
+                    <!--                                        android:layout_height="@dimen/_10sdp"-->
+                    <!--                                        android:layout_margin="@dimen/_4sdp"-->
+                    <!--                                        android:src="@drawable/travel_hotel"-->
+                    <!--                                        android:tint="@color/heading_bg" />-->
+                    <!--                                </LinearLayout>-->
+
+                    <!--                            </LinearLayout>-->
+
+                    <!--                            <LinearLayout-->
+                    <!--                                android:layout_width="@dimen/_22sdp"-->
+                    <!--                                android:layout_height="wrap_content"-->
+                    <!--                                android:orientation="vertical">-->
+
+                    <!--                                <LinearLayout-->
+                    <!--                                    android:id="@+id/sightseen_linear"-->
+                    <!--                                    android:layout_width="@dimen/_19sdp"-->
+                    <!--                                    android:layout_height="@dimen/_19sdp"-->
+                    <!--                                    android:layout_gravity="center_horizontal"-->
+                    <!--                                    android:background="@drawable/circle_graidant"-->
+                    <!--                                    android:orientation="vertical">-->
+
+                    <!--                                    <ImageView-->
+                    <!--                                        android:layout_width="@dimen/_11sdp"-->
+                    <!--                                        android:layout_height="@dimen/_10sdp"-->
+                    <!--                                        android:layout_margin="@dimen/_4sdp"-->
+                    <!--                                        android:src="@drawable/lunch"-->
+                    <!--                                        android:tint="@color/heading_bg" />-->
+
+                    <!--                                </LinearLayout>-->
+
+                    <!--                            </LinearLayout>-->
+
+                    <!--                            <LinearLayout-->
+                    <!--                                android:layout_width="@dimen/_22sdp"-->
+                    <!--                                android:layout_height="wrap_content"-->
+                    <!--                                android:orientation="vertical"-->
+                    <!--                                android:visibility="visible">-->
+
+                    <!--                                <LinearLayout-->
+                    <!--                                    android:id="@+id/restaurant_linear"-->
+                    <!--                                    android:layout_width="@dimen/_19sdp"-->
+                    <!--                                    android:layout_height="@dimen/_19sdp"-->
+                    <!--                                    android:layout_gravity="center_horizontal"-->
+                    <!--                                    android:background="@drawable/circle_graidant"-->
+                    <!--                                    android:orientation="vertical">-->
+
+                    <!--                                    <ImageView-->
+                    <!--                                        android:layout_width="@dimen/_11sdp"-->
+                    <!--                                        android:layout_height="@dimen/_10sdp"-->
+                    <!--                                        android:layout_margin="@dimen/_4sdp"-->
+                    <!--                                        android:src="@drawable/dinner"-->
+                    <!--                                        android:tint="@color/heading_bg" />-->
+                    <!--                                </LinearLayout>-->
+
+                    <!--                            </LinearLayout>-->
+
+                    <!--                        </LinearLayout>-->
+
+
+                    <!--                    </HorizontalScrollView>-->
+
+                    <!--                    <LinearLayout-->
+                    <!--                        android:layout_width="0dp"-->
+                    <!--                        android:layout_height="wrap_content"-->
+                    <!--                        android:layout_weight="0.3"-->
+                    <!--                        android:visibility="gone">-->
+
+                    <!--                        <LinearLayout-->
+                    <!--                            android:id="@+id/book_linear"-->
+                    <!--                            android:layout_width="match_parent"-->
+                    <!--                            android:layout_height="wrap_content"-->
+                    <!--                            android:layout_alignParentRight="true"-->
+
+                    <!--                            android:layout_marginRight="@dimen/_10sdp"-->
+                    <!--                            android:layout_marginBottom="@dimen/_10sdp"-->
+                    <!--                            android:background="@drawable/book_btn"-->
+                    <!--                            android:orientation="horizontal"-->
+                    <!--                            android:visibility="visible">-->
+
+                    <!--                            <TextView-->
+                    <!--                                android:id="@+id/book_txt"-->
+                    <!--                                style="@style/text_font"-->
+                    <!--                                android:layout_width="match_parent"-->
+                    <!--                                android:layout_height="@dimen/_25sdp"-->
+                    <!--                                android:layout_gravity="center_horizontal|center_vertical"-->
+                    <!--                                android:layout_marginRight="@dimen/_2sdp"-->
+                    <!--                                android:gravity="center_horizontal|center_vertical"-->
+                    <!--                                android:text="Book Now"-->
+                    <!--                                android:textColor="@color/splash_bg_color"-->
+                    <!--                                android:textSize="@dimen/_12sdp"-->
+                    <!--                                android:textStyle="normal" />-->
+
+                    <!--                        </LinearLayout>-->
+                    <!--                    </LinearLayout>-->
+                </RelativeLayout>
 
 
             </LinearLayout>
@@ -339,10 +382,10 @@
                 android:background="@drawable/pacakageprice_curve_shape"
                 android:orientation="horizontal"
                 android:visibility="visible">
-<!--                android:paddingLeft="@dimen/_3sdp"-->
-<!--                android:paddingTop="@dimen/_3sdp"-->
-<!--                android:paddingRight="@dimen/_3sdp"-->
-<!--                android:paddingBottom="@dimen/_2sdp"-->
+                <!--                android:paddingLeft="@dimen/_3sdp"-->
+                <!--                android:paddingTop="@dimen/_3sdp"-->
+                <!--                android:paddingRight="@dimen/_3sdp"-->
+                <!--                android:paddingBottom="@dimen/_2sdp"-->
                 <TextView
                     android:id="@+id/tickethospitalityprice_txt"
                     style="@style/title_text_font"
@@ -369,9 +412,9 @@
                     android:id="@+id/ticket_hospitalitys_cart_addimage"
                     android:layout_width="@dimen/_14sdp"
                     android:layout_height="@dimen/_14sdp"
-                    android:src="@drawable/ic_blank_check"
                     android:layout_marginTop="@dimen/_9sdp"
-                    android:layout_marginRight="@dimen/_10sdp"/>
+                    android:layout_marginRight="@dimen/_10sdp"
+                    android:src="@drawable/ic_blank_check" />
 
             </LinearLayout>
 

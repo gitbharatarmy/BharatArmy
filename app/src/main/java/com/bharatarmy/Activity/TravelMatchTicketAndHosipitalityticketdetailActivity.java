@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -18,6 +19,7 @@ import com.bharatarmy.Adapter.OtherMatchShowAdapter;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.ActivityTravelMatchTicketAndHosipitalityticketdetailBinding;
+import com.squareup.picasso.Picasso;
 
 
 import java.util.ArrayList;
@@ -56,14 +58,17 @@ public class TravelMatchTicketAndHosipitalityticketdetailActivity extends AppCom
     }
 
     public void setDataValue() {
+                Picasso.with(mContext)
+                .load("http://devenv.bharatarmy.com/docs/stadium_map.jpg")
+                .placeholder(R.drawable.loader_new)
+                .resize(Resources.getSystem().getDisplayMetrics().widthPixels,activityTravelMatchTicketAndHosipitalityticketdetailBinding.webView.getHeight())
+       .into(activityTravelMatchTicketAndHosipitalityticketdetailBinding.webView);
         activityTravelMatchTicketAndHosipitalityticketdetailBinding.shimmerViewContainer.setVisibility(View.GONE);
         othermatchshowList = new ArrayList<>();
         othermatchshowList.add("1");
         othermatchshowList.add("2");
         othermatchshowList.add("3");
-        othermatchshowList.add("1");
-        othermatchshowList.add("2");
-        othermatchshowList.add("3");
+
         otherMatchShowAdapter = new OtherMatchShowAdapter(mContext, othermatchshowList);
         linearLayoutManager = new LinearLayoutManager(mContext, RecyclerView.VERTICAL, false);
         activityTravelMatchTicketAndHosipitalityticketdetailBinding.otherMatchRcv.setLayoutManager(linearLayoutManager);

@@ -103,8 +103,15 @@ public class UploadService extends IntentService implements ProgressRequestBody.
 //            String thumbnailpath = Utils.saveToInternalStorage(Utils.createThumbnailAtTime(objfile.getImageUri())).toString();
 
 //            Log.d("videothumbnailpath", thumbnailpath);
+//            Utils.videoFile.add(objfile.getImageUri());
+//            Utils.videoFile.add(objfile.getThumbnail());
+
+            //            create thumbnail and store in folder
+            String thumbnailpath = Utils.saveToInternalStorage(Utils.createThumbnailAtTime(objfile.getImageUri())).toString();
+
+            Log.d("videothumbnailpath", thumbnailpath);
             Utils.videoFile.add(objfile.getImageUri());
-            Utils.videoFile.add(objfile.getThumbnail());
+            Utils.videoFile.add(thumbnailpath);
 
             MediaType mediaType = MediaType.parse("");//Based on the Postman logs,it's not specifying Content-Type, this is why I've made this empty content/mediaType
             MultipartBody.Part[] fileParts = new MultipartBody.Part[Utils.videoFile.size()];
@@ -121,8 +128,12 @@ public class UploadService extends IntentService implements ProgressRequestBody.
 //            String thumbnailpath = Utils.saveToInternalStorage(Utils.createImageThumbNail(Utils.getBitmap(objfile.getImageUri()))).toString();
 //            Log.d("Imagethumbnailpath", thumbnailpath);
 
+            //            create thumbnail and store in folder
+            String thumbnailpath = Utils.saveToInternalStorage(Utils.createImageThumbNail(Utils.getBitmap(objfile.getImageUri()))).toString();
+            Log.d("Imagethumbnailpath", thumbnailpath);
+
             Utils.videoFile.add(objfile.getImageUri());
-            Utils.videoFile.add(objfile.getThumbnail());
+            Utils.videoFile.add(thumbnailpath);
 
 
             MediaType mediaType = MediaType.parse("");//Based on the Postman logs,it's not specifying Content-Type, this is why I've made this empty content/mediaType

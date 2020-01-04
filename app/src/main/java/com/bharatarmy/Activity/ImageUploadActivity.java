@@ -577,8 +577,7 @@ public class ImageUploadActivity extends AppCompatActivity implements View.OnCli
                                     galleryImageList.get(i).getUploadcompelet(), galleryImageList.get(i).getVideolength(),
                                     galleryImageList.get(i).getFileType(), galleryImageList.get(i).getVideoTitle(),
                                     galleryImageList.get(i).getVideoDesc(), galleryImageList.get(i).getVideoHeight(),
-                                    galleryImageList.get(i).getVideoWidth(),galleryImageList.get(i).getPrivacySetting(),
-                                    galleryImageList.get(i).getThumbnail(),mContext);
+                                    galleryImageList.get(i).getVideoWidth(),galleryImageList.get(i).getPrivacySetting(),mContext);
                         }
 
                         Utils.showThanyouDialog(ImageUploadActivity.this, "imageUpload");
@@ -677,8 +676,9 @@ public class ImageUploadActivity extends AppCompatActivity implements View.OnCli
         for (int i = 0; i < filePaths.size(); i++) {
             File f = new File(filePaths.get(i));
             long findsize = f.length() / 1024;
-            thumbnailpath = Utils.saveToInternalStorage(Utils.createImageThumbNail(Utils.getBitmap(filePaths.get(i)))).toString();
-            galleryImageList.add(0,new GalleryImageModel(filePaths.get(i), size((int) findsize), "0", "0", "1", "", "", "", "",privacysettingstr,thumbnailpath));
+//            thumbnailpath = Utils.saveToInternalStorage(Utils.createImageThumbNail(Utils.getBitmap(filePaths.get(i)))).toString();
+            galleryImageList.add(0,new GalleryImageModel(filePaths.get(i), size((int) findsize), "0", "0", "1", "",
+                    "", "", "",privacysettingstr));//,thumbnailpath
         }
         loadProfile();
     }
@@ -783,7 +783,7 @@ public class ImageUploadActivity extends AppCompatActivity implements View.OnCli
         long findsize = Camerafile.length() / 1024;
         Log.d("findfilesize", "" + Camerafile.length() / 1024 + "kb" + " " + Camerafile.length() / (1024 * 1024));
         thumbnailpath = Utils.saveToInternalStorage(Utils.createImageThumbNail(Utils.getBitmap(imageUrl))).toString();
-        galleryImageList.add(0,new GalleryImageModel(imageUrl, size((int) findsize), "0", "0", "1", "", "", "", "",privacysettingstr,thumbnailpath));
+        galleryImageList.add(0,new GalleryImageModel(imageUrl, size((int) findsize), "0", "0", "1", "", "", "", "",privacysettingstr/*,thumbnailpath*/));
 
         loadProfile();
 

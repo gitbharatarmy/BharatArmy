@@ -444,10 +444,13 @@ public class StoryDetailActivity extends AppCompatActivity implements View.OnCli
                 activityStoryDetailBinding.uprStoryTotalLikeTxt.setText(String.valueOf(likeunlikecount - 1));
             }
         } else {
+            Log.d("likestatus :",""+likestatus);
             if (likestatus == 1) {
                 activityStoryDetailBinding.uprStoryLikeBtn.setLiked(false);
+                activityStoryDetailBinding.bottomStoryLikeBtn.setLiked(false);
             } else {
                 activityStoryDetailBinding.uprStoryLikeBtn.setLiked(true);
+                activityStoryDetailBinding.bottomStoryLikeBtn.setLiked(true);
             }
         }
     }

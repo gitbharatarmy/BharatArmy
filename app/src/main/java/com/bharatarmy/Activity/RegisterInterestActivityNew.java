@@ -45,6 +45,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
@@ -324,6 +325,7 @@ public class RegisterInterestActivityNew extends AppCompatActivity implements Vi
                         activityRegisterInterestBinding.registerinterestRcv.setVisibility(View.VISIBLE);
                         activityRegisterInterestBinding.fabLinear.setVisibility(View.VISIBLE);
                         activityRegisterInterestBinding.submitLinear.setVisibility(View.VISIBLE);
+                        activityRegisterInterestBinding.noRecordrel.setVisibility(View.GONE);
 //                        activityRegisterInterestBinding.matchTypeLinear.setVisibility(View.VISIBLE);
 
 
@@ -463,6 +465,7 @@ public class RegisterInterestActivityNew extends AppCompatActivity implements Vi
 //                for (int k = 0; k < tournamentfilterDetailModel.size(); k++) {
 //                    tournamentfilterDetailModel.get(k).setCheck("0");
 //                }
+                activityRegisterInterestBinding.noRecordrel.setVisibility(View.GONE);
                 activityRegisterInterestBinding.registerinterestRcv.setVisibility(View.VISIBLE);
                 activityRegisterInterestBinding.shimmerViewContainer.setVisibility(View.GONE);
                 registerInterestFilterAdapter = new RegisterInterestFilterAdapter(mContext, tournamentfilterDetailModel, registerIntrestFilterDataModel,
@@ -477,13 +480,6 @@ public class RegisterInterestActivityNew extends AppCompatActivity implements Vi
                                 selectedmatchId.remove(String.valueOf(tournamentDetailModel.get(i).getTournamentMatchId()));
                             }
                         }
-//                        if (selectedmatchId.size() > 0) {
-//                            activityRegisterInterestBinding.submitLinear.setVisibility(View.VISIBLE);
-//                            activityRegisterInterestBinding.registerinterestRcv.setPadding(0,0,0,180);
-//                        } else {
-//                            activityRegisterInterestBinding.submitLinear.setVisibility(View.GONE);
-//                            activityRegisterInterestBinding.registerinterestRcv.setPadding(0,0,0,0);
-//                        }
                     }
                 });
                 RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(mContext, RecyclerView.VERTICAL, false);
@@ -495,48 +491,50 @@ public class RegisterInterestActivityNew extends AppCompatActivity implements Vi
         }
         Log.d("filterteamData :", "" + tournamentfilterDetailModel.size());
         Log.d("filterteamvenueData:", "" + tournamentfiltervenuewithteamDetailModel.size());
-
-        if (tournamentfiltervenuewithteamDetailModel.size() != 0) {
-//            for (int k = 0; k < tournamentfiltervenuewithteamDetailModel.size(); k++) {
-//                tournamentfiltervenuewithteamDetailModel.get(k).setCheck("0");
-//            }
-            activityRegisterInterestBinding.registerinterestRcv.setVisibility(View.VISIBLE);
-            activityRegisterInterestBinding.shimmerViewContainer.setVisibility(View.GONE);
-            registerInterestFilterAdapter = new RegisterInterestFilterAdapter(mContext, tournamentfiltervenuewithteamDetailModel, registerIntrestFilterDataModel,
-                    titleNameStr, nooft20Str, noofodiStr, nooftestStr, new MorestoryClick() {
-                @Override
-                public void getmorestoryClick() {
-                    selectedmatchId = new ArrayList<>();
-                    for (int i = 0; i < tournamentDetailModel.size(); i++) {
-                        if (tournamentDetailModel.get(i).getCheck().equalsIgnoreCase("1")) {
-                            selectedmatchId.add(String.valueOf(tournamentDetailModel.get(i).getTournamentMatchId()));
-                        } else {
-                            selectedmatchId.remove(String.valueOf(tournamentDetailModel.get(i).getTournamentMatchId()));
+        if (selectedtournamentVenuename.size() != 0) {
+            if (tournamentfiltervenuewithteamDetailModel.size() != 0) {
+                activityRegisterInterestBinding.noRecordrel.setVisibility(View.GONE);
+                activityRegisterInterestBinding.registerinterestRcv.setVisibility(View.VISIBLE);
+                activityRegisterInterestBinding.shimmerViewContainer.setVisibility(View.GONE);
+                registerInterestFilterAdapter = new RegisterInterestFilterAdapter(mContext, tournamentfiltervenuewithteamDetailModel, registerIntrestFilterDataModel,
+                        titleNameStr, nooft20Str, noofodiStr, nooftestStr, new MorestoryClick() {
+                    @Override
+                    public void getmorestoryClick() {
+                        selectedmatchId = new ArrayList<>();
+                        for (int i = 0; i < tournamentDetailModel.size(); i++) {
+                            if (tournamentDetailModel.get(i).getCheck().equalsIgnoreCase("1")) {
+                                selectedmatchId.add(String.valueOf(tournamentDetailModel.get(i).getTournamentMatchId()));
+                            } else {
+                                selectedmatchId.remove(String.valueOf(tournamentDetailModel.get(i).getTournamentMatchId()));
+                            }
                         }
                     }
-//                    if (selectedmatchId.size() > 0) {
-//                        activityRegisterInterestBinding.submitLinear.setVisibility(View.VISIBLE);
-//                        activityRegisterInterestBinding.registerinterestRcv.setPadding(0,0,0,180);
-//                    } else {
-//                        activityRegisterInterestBinding.submitLinear.setVisibility(View.GONE);
-//                        activityRegisterInterestBinding.registerinterestRcv.setPadding(0,0,0,0);
-//                    }
-                }
-            });
-            RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(mContext, RecyclerView.VERTICAL, false);
-            activityRegisterInterestBinding.registerinterestRcv.setLayoutManager(mLayoutManager);
-            activityRegisterInterestBinding.registerinterestRcv.setItemAnimator(new DefaultItemAnimator());
-            activityRegisterInterestBinding.registerinterestRcv.setAdapter(registerInterestFilterAdapter);
-            registerInterestFilterAdapter.notifyDataSetChanged();
+                });
+                RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(mContext, RecyclerView.VERTICAL, false);
+                activityRegisterInterestBinding.registerinterestRcv.setLayoutManager(mLayoutManager);
+                activityRegisterInterestBinding.registerinterestRcv.setItemAnimator(new DefaultItemAnimator());
+                activityRegisterInterestBinding.registerinterestRcv.setAdapter(registerInterestFilterAdapter);
+                registerInterestFilterAdapter.notifyDataSetChanged();
 
+            }else {
+                activityRegisterInterestBinding.noRecordrel.setVisibility(View.VISIBLE);
+                activityRegisterInterestBinding.shimmerViewContainer.setVisibility(View.GONE);
+                activityRegisterInterestBinding.registerinterestRcv.setVisibility(View.GONE);
+            }
         }
 
         if (tournamentfilterDetailModel.size() == 0 && tournamentfiltervenuewithteamDetailModel.size() == 0) {
-            activityRegisterInterestBinding.shimmerViewContainer.setVisibility(View.GONE);
-            activityRegisterInterestBinding.registerinterestRcv.setVisibility(View.VISIBLE);
-            settournamentscheduleListValue("not");
+            if (selectedtournamentteamId.size() == 0 && selectedtournamentVenuename.size() == 0) {
+                activityRegisterInterestBinding.shimmerViewContainer.setVisibility(View.GONE);
+                activityRegisterInterestBinding.registerinterestRcv.setVisibility(View.VISIBLE);
+                activityRegisterInterestBinding.noRecordrel.setVisibility(View.GONE);
+                settournamentscheduleListValue("not");
+            } else {
+                activityRegisterInterestBinding.noRecordrel.setVisibility(View.VISIBLE);
+                activityRegisterInterestBinding.shimmerViewContainer.setVisibility(View.GONE);
+                activityRegisterInterestBinding.registerinterestRcv.setVisibility(View.GONE);
+            }
         }
-
     }
 
     // Api calling SaveInterestDetailData
@@ -617,9 +615,9 @@ public class RegisterInterestActivityNew extends AppCompatActivity implements Vi
 //            hotel_gallery_image = (ImageView) view.findViewById(R.id.hotel_gallery_image);
 
             RegisterInterestPagerItemBinding registerInterestPagerItemBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
-                    R.layout.register_interest_pager_item,parent,false);
+                    R.layout.register_interest_pager_item, parent, false);
 
-            Utils.setImageInImageView(registerInterestGalleryList.get(position).getCityHotelAmenitiesImage(),registerInterestPagerItemBinding.registerInterestGalleryImage, mContext);
+            Utils.setImageInImageView(registerInterestGalleryList.get(position).getCityHotelAmenitiesImage(), registerInterestPagerItemBinding.registerInterestGalleryImage, mContext);
 
             Log.d("HotelGalleeryAdapter : ", registerInterestGalleryList.get(position).getCityHotelAmenitiesImage());
             parent.addView(registerInterestPagerItemBinding.getRoot());

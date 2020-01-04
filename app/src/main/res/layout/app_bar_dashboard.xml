@@ -22,18 +22,25 @@
                 android:minHeight="@dimen/_60sdp"
                 app:popupTheme="@style/AppTheme.PopupOverlay">
 
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_60sdp">
+
                     <ImageView
                         android:layout_width="@dimen/_160sdp"
                         android:layout_height="@dimen/_60sdp"
-                        android:layout_centerHorizontal="true"
-                        android:layout_gravity="center_horizontal"
+                       android:layout_centerHorizontal="true"
                         android:src="@drawable/header_logo_new" />
 
+                </RelativeLayout>
+
+
             </androidx.appcompat.widget.Toolbar>
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_3sdp"
-                android:background="@drawable/bg_gradiant_line"/>
+                android:background="@drawable/bg_gradiant_line" />
 
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -65,21 +72,20 @@
             android:id="@+id/speedDial"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_marginBottom="@dimen/_60sdp"
             android:visibility="gone"
-            app:sdExpansionMode="top"
-            app:sdMainFabOpenedBackgroundColor="@color/heading_bg"
-            app:sdMainFabClosedBackgroundColor="@color/heading_bg"
-            app:sdMainFabAnimationRotateAngle="90"
-            app:sdMainFabClosedSrc="@drawable/ic_add_white_24dp"
-            app:sdMainFabOpenedSrc="@drawable/ic_error"
-            app:sdOverlayLayout="@id/overlay"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            android:layout_gravity="bottom|end"
-            android:layout_marginBottom="@dimen/_60sdp" />
-
+            app:sdExpansionMode="top"
+            app:sdMainFabAnimationRotateAngle="90"
+            app:sdMainFabClosedBackgroundColor="@color/heading_bg"
+            app:sdMainFabClosedSrc="@drawable/ic_add_white_24dp"
+            app:sdMainFabOpenedBackgroundColor="@color/heading_bg"
+            app:sdMainFabOpenedSrc="@drawable/ic_error"
+            app:sdOverlayLayout="@id/overlay" />
 
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

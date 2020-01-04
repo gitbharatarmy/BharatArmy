@@ -203,7 +203,8 @@ public class TravelMatchScheduleActivity extends AppCompatActivity implements Vi
                 //Check if the view is collapsed
                 if (scrollRange + verticalOffset == 0) {
                     activityTravelMatchScheduleBinding.toolbar.setBackgroundColor(ContextCompat.getColor(mContext, R.color.heading_bg));
-                    activityTravelMatchScheduleBinding.toolbarTitleTxt.setText("FIFA WORLD CAMPION");
+                    activityTravelMatchScheduleBinding.toolbarTitleTxt.setText("ICC T20 World Cup Australia 2020");
+                    activityTravelMatchScheduleBinding.toolbarSubtitleTxt.setVisibility(View.VISIBLE);
                     activityTravelMatchScheduleBinding.collapsingToolbar.setTitle("");
                     Typeface typeface = ResourcesCompat.getFont(mContext, R.font.helveticaneueltstdbdcn);
                     activityTravelMatchScheduleBinding.collapsingToolbar.setCollapsedTitleTypeface(typeface);
@@ -215,6 +216,7 @@ public class TravelMatchScheduleActivity extends AppCompatActivity implements Vi
                     isShow = true;
                 } else if (isShow) {
                     activityTravelMatchScheduleBinding.toolbar.setBackgroundColor(ContextCompat.getColor(mContext, R.color.transparent));
+                    activityTravelMatchScheduleBinding.toolbarSubtitleTxt.setVisibility(View.GONE);
                     activityTravelMatchScheduleBinding.toolbarTitleTxt.setText("");
                     activityTravelMatchScheduleBinding.collapsingToolbar.setTitle("");
                     activityTravelMatchScheduleBinding.alertRel.setVisibility(View.VISIBLE);
@@ -273,7 +275,8 @@ public class TravelMatchScheduleActivity extends AppCompatActivity implements Vi
             @Override
             public void run() {
                 if (teamNameFlagScheduleAdapter != null && travelMatchScheduleAdapter != null) {
-                    activityTravelMatchScheduleBinding.alertLinear.performClick();
+//                    activityTravelMatchScheduleBinding.alertLinear.performClick();
+                    setTooltip();
                 }
             }
         }, 400);
@@ -449,37 +452,6 @@ public class TravelMatchScheduleActivity extends AppCompatActivity implements Vi
                 activityTravelMatchScheduleBinding.travelMatchScheduleRcv.setItemAnimator(new DefaultItemAnimator());
                 activityTravelMatchScheduleBinding.travelMatchScheduleRcv.setAdapter(travelMatchScheduleAdapter);
             }
-            /*else{
-                for (int i = 0; i < teamnameflagList.size(); i++) {
-                    if (teamnameflagList.get(i).getTeamSelected() != null) {
-                        if (teamnameflagList.get(i).getTeamSelected().equalsIgnoreCase("1")) {
-                            teamnameflagList.get(i).setTeamSelected("1");
-                        } else {
-                            teamnameflagList.get(i).setTeamSelected("0");
-                        }
-                    } else {
-                        teamnameflagList.get(i).setTeamSelected("0");
-                    }
-
-                }
-
-                teamNameFlagScheduleAdapter = new TravelMatchTeamNameFlagScheduleAdapter(mContext, selectedposition, teamnameflagList, new MorestoryClick() {
-                    @Override
-                    public void getmorestoryClick() {
-                        checkornotStr = teamNameFlagScheduleAdapter.checkornot();
-
-                        activityTravelMatchScheduleBinding.travelMatchScheduleRcv.setVisibility(View.GONE);
-                        activityTravelMatchScheduleBinding.shimmerViewContainer.setVisibility(View.VISIBLE);
-                        activityTravelMatchScheduleBinding.shimmerViewContainer.startShimmerAnimation();
-
-                        setDataFilter();
-                    }
-                });
-                RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
-                activityTravelMatchScheduleBinding.teamnameTeamflagRcv.setLayoutManager(mLayoutManager);
-                activityTravelMatchScheduleBinding.teamnameTeamflagRcv.setItemAnimator(new DefaultItemAnimator());
-                activityTravelMatchScheduleBinding.teamnameTeamflagRcv.setAdapter(teamNameFlagScheduleAdapter);
-            }*/
         }
         Log.d("filterteamData :", "" + tournamentadvancefilterteamDetailModel.size());
         Log.d("filterteamvenueData:", "" + tournamentfiltervenuewithteamDetailModel.size());
@@ -524,6 +496,82 @@ public class TravelMatchScheduleActivity extends AppCompatActivity implements Vi
         }
     }
 
+    public void setTooltip(){
+        final ArrayList<ShowCaseObject> showCaseList = new ArrayList<>();
+
+        int completelyVisiblePosition = teamflagmLayoutManager.findFirstCompletelyVisibleItemPosition();
+        View itemView = teamflagmLayoutManager.findViewByPosition(completelyVisiblePosition);
+
+        if (itemView != null) {
+            // use background white
+            showCaseList.add(new ShowCaseObject(
+                    itemView,
+                    "Normal Filter",
+                    "Filter schedule according team",
+                    ShowCaseContentPosition.UNDEFINED,
+                    Color.WHITE));
+        }
+
+
+        int completelyVisiblePosition1 = schedulemLayoutManager.findFirstCompletelyVisibleItemPosition();
+        View itemView1 = schedulemLayoutManager.findViewByPosition(completelyVisiblePosition1);
+
+        if (itemView1 != null) {
+            // use background white
+            showCaseList.add(new ShowCaseObject(
+                    itemView1,
+                    "Match Detail",
+                    "When you show match detail then click on item.",
+                    ShowCaseContentPosition.UNDEFINED,
+                    Color.WHITE));
+
+//                    showCaseList.add(new ShowCaseObject(
+//                            itemView1.findViewById(R.id.match_image),
+//                            null,
+//                            "Match Image"));
+//
+//                    showCaseList.add(new ShowCaseObject(
+//                            itemView1.findViewById(R.id.match_date_time_txt),
+//                            "null",
+//                            "Match Date and Time",
+//                            ShowCaseContentPosition.UNDEFINED,
+//                            Color.WHITE));
+
+        }
+
+        int[] location = new int[2];
+        activityTravelMatchScheduleBinding.fabLinear.getLocationInWindow(location);
+
+        int xStart = location[0];
+        int yStart = location[1] - ViewHelper.getStatusBarHeight(this);
+        int xEnd = location[0] + activityTravelMatchScheduleBinding.fabLinear.getWidth();
+        int yEnd = location[1] + activityTravelMatchScheduleBinding.fabLinear.getHeight() - ViewHelper.getStatusBarHeight(this);
+        int xCenter = (xStart + xEnd) / 2;
+        int yCenter = (yStart + yEnd) / 2;
+        int radius = activityTravelMatchScheduleBinding.fabLinear.getWidth() * 2 / 3;
+
+        showCaseList.add(
+                new ShowCaseObject(
+                        findViewById(android.R.id.content),
+                        "This is advance filter",
+                        "You can filter schedule according team and stadium.",
+                        ShowCaseContentPosition.UNDEFINED,
+                        Color.WHITE)
+                        .withCustomTarget(new int[]{xCenter, yCenter}
+                                , radius));
+
+//        showCaseList.add(
+//                new ShowCaseObject(
+//                        findViewById(android.R.id.content),
+//                        "Show case using rectangle custom target",
+//                        "This is highlighted using custom target",
+//                        ShowCaseContentPosition.UNDEFINED,
+//                        Color.WHITE)
+//                        .withCustomTarget(new int[]{ xStart - 20, yStart - 20, xEnd + 20, yEnd + 20}) );
+
+        // make the dialog show
+        showCaseDialog.show(TravelMatchScheduleActivity.this, SHOWCASE_TAG, showCaseList);
+    }
     public void setappguide() {
         showCaseDialog = new ShowCaseBuilder()
                 .setPackageName(getPackageName())
@@ -570,80 +618,7 @@ public class TravelMatchScheduleActivity extends AppCompatActivity implements Vi
                 break;
 
             case R.id.alert_linear:
-                final ArrayList<ShowCaseObject> showCaseList = new ArrayList<>();
 
-                int completelyVisiblePosition = teamflagmLayoutManager.findFirstCompletelyVisibleItemPosition();
-                View itemView = teamflagmLayoutManager.findViewByPosition(completelyVisiblePosition);
-
-                if (itemView != null) {
-                    // use background white
-                    showCaseList.add(new ShowCaseObject(
-                            itemView,
-                            "Normal Filter",
-                            "Filter schedule according team",
-                            ShowCaseContentPosition.UNDEFINED,
-                            Color.WHITE));
-                }
-
-
-                int completelyVisiblePosition1 = schedulemLayoutManager.findFirstCompletelyVisibleItemPosition();
-                View itemView1 = schedulemLayoutManager.findViewByPosition(completelyVisiblePosition1);
-
-                if (itemView1 != null) {
-                    // use background white
-                    showCaseList.add(new ShowCaseObject(
-                            itemView1,
-                            "Match Detail",
-                            "When you show match detail then click on item.",
-                            ShowCaseContentPosition.UNDEFINED,
-                            Color.WHITE));
-
-//                    showCaseList.add(new ShowCaseObject(
-//                            itemView1.findViewById(R.id.match_image),
-//                            null,
-//                            "Match Image"));
-//
-//                    showCaseList.add(new ShowCaseObject(
-//                            itemView1.findViewById(R.id.match_date_time_txt),
-//                            "null",
-//                            "Match Date and Time",
-//                            ShowCaseContentPosition.UNDEFINED,
-//                            Color.WHITE));
-
-                }
-
-                int[] location = new int[2];
-                activityTravelMatchScheduleBinding.fabLinear.getLocationInWindow(location);
-
-                int xStart = location[0];
-                int yStart = location[1] - ViewHelper.getStatusBarHeight(this);
-                int xEnd = location[0] + activityTravelMatchScheduleBinding.fabLinear.getWidth();
-                int yEnd = location[1] + activityTravelMatchScheduleBinding.fabLinear.getHeight() - ViewHelper.getStatusBarHeight(this);
-                int xCenter = (xStart + xEnd) / 2;
-                int yCenter = (yStart + yEnd) / 2;
-                int radius = activityTravelMatchScheduleBinding.fabLinear.getWidth() * 2 / 3;
-
-                showCaseList.add(
-                        new ShowCaseObject(
-                                findViewById(android.R.id.content),
-                                "This is advance filter",
-                                "You can filter schedule according team and stadium.",
-                                ShowCaseContentPosition.UNDEFINED,
-                                Color.WHITE)
-                                .withCustomTarget(new int[]{xCenter, yCenter}
-                                        , radius));
-
-//        showCaseList.add(
-//                new ShowCaseObject(
-//                        findViewById(android.R.id.content),
-//                        "Show case using rectangle custom target",
-//                        "This is highlighted using custom target",
-//                        ShowCaseContentPosition.UNDEFINED,
-//                        Color.WHITE)
-//                        .withCustomTarget(new int[]{ xStart - 20, yStart - 20, xEnd + 20, yEnd + 20}) );
-
-                // make the dialog show
-                showCaseDialog.show(TravelMatchScheduleActivity.this, SHOWCASE_TAG, showCaseList);
                 break;
         }
     }
