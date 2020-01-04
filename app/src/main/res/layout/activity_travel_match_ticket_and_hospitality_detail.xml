@@ -338,7 +338,7 @@
     </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/fixture_linear"
+            android:id="@+id/related_hospitality_linear"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -371,7 +371,7 @@
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
                         android:maxLines="2"
-                        android:text="ICC World T20 Australia 2020 Fitures"
+                        android:text="Related Hospitality"
                         android:textAllCaps="true"
                         android:textColor="@color/heading_bg"
                         android:textSize="@dimen/_16sdp" />
@@ -389,7 +389,7 @@
             </LinearLayout>
 
          <androidx.recyclerview.widget.RecyclerView
-             android:id="@+id/fixture_rcv"
+             android:id="@+id/related_hospitality_rcv"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
              android:layout_marginTop="@dimen/_25sdp"/>
@@ -464,6 +464,64 @@
     the big cheese.Jarlsberg lancashire edam. Dolcelatte hard cheese brie st."
                 android:textColor="@color/normal_font_color"
                 android:textSize="@dimen/_12sdp" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/fixture_linear"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginLeft="@dimen/_12sdp"
+            android:layout_marginRight="@dimen/_12sdp"
+            android:layout_marginTop="@dimen/_30sdp"
+            android:visibility="visible">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginLeft="@dimen/_3sdp"
+                android:layout_marginRight="@dimen/_3sdp"
+                android:visibility="visible">
+
+                <LinearLayout
+                    android:layout_width="@dimen/_3sdp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/vertical_line"
+                    android:orientation="vertical"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_7sdp"
+                    android:orientation="vertical">
+                    <TextView
+                        style="@style/title_text_font"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:maxLines="2"
+                        android:text="ICC World T20 Australia 2020 Fitures"
+                        android:textAllCaps="true"
+                        android:textColor="@color/heading_bg"
+                        android:textSize="@dimen/_16sdp" />
+                    <TextView
+                        style="@style/title_text_font"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:gravity="center_vertical|left"
+                        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+                        android:textColor="@color/gray"
+                        android:textSize="@dimen/_11sdp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/fixture_rcv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/_25sdp"/>
 
         </LinearLayout>
     <LinearLayout

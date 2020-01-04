@@ -105,7 +105,7 @@
 
                     <include layout="@layout/travel_match_schedule_dataholder" />
                 </com.facebook.shimmer.ShimmerFrameLayout>
-                
+                ko
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/travel_match_stadium_rcv"
                     android:layout_width="match_parent"

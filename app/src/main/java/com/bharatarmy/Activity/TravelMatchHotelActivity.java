@@ -11,17 +11,12 @@ import android.util.Log;
 import android.view.View;
 
 import com.bharatarmy.Adapter.TravelMatchHotelAdapter;
-import com.bharatarmy.Adapter.TravelMatchTicketMAinAdapter;
 import com.bharatarmy.Fragment.MatchHotelFilterFragment;
-import com.bharatarmy.Fragment.MatchTicketFilterFragment;
 import com.bharatarmy.Interfaces.MorestoryClick;
-import com.bharatarmy.Models.HomeTemplateDetailModel;
-import com.bharatarmy.Models.HomeTemplateModel;
 import com.bharatarmy.Models.MyScreenChnagesModel;
 import com.bharatarmy.Models.RegisterIntrestFilterDataModel;
 import com.bharatarmy.Models.TravelModel;
 import com.bharatarmy.R;
-import com.bharatarmy.Utility.ApiHandler;
 import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.ActivityTravelMatchHotelBinding;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -30,18 +25,12 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-
-import retrofit.RetrofitError;
-import retrofit.client.Response;
 
 public class TravelMatchHotelActivity extends AppCompatActivity implements View.OnClickListener {
     ActivityTravelMatchHotelBinding activityTravelMatchHotelBinding;
     Context mContext;
 
     /*Hotel List*/
-//    ArrayList<HomeTemplateDetailModel> tournamnethotellist;
     RegisterIntrestFilterDataModel tournamentotherDataModel;
     ArrayList<TravelModel> tournamnethotellist;
     ArrayList<TravelModel> tournamnetcitylist;
@@ -54,15 +43,6 @@ public class TravelMatchHotelActivity extends AppCompatActivity implements View.
 
     /*Advance Filter   rating, by team, city*/
     BottomSheetDialogFragment bottomSheetDialogFragment;
-//    ArrayList<TravelModel> tournamentfilterRatingModelList;
-//    ArrayList<TravelModel> tournamentfilterTeamModelList;
-//    ArrayList<TravelModel> tournamentfilterCityModelList;
-//    ArrayList<TravelModel> finalFilterModelList;
-
-
-//    ArrayList<TravelModel> tournamentadvancefilterteamDetailModel;
-//    ArrayList<TravelModel> tournamentfiltercitywithteamDetailModel;
-//    ArrayList<TravelModel> tournamentfiltercitywithteamratingDetailModel;
 
     ArrayList<TravelModel> tournamentfilterRatingModelList;
     ArrayList<TravelModel> tournamentfilterRatingwithTeamModelList;
@@ -186,6 +166,7 @@ public class TravelMatchHotelActivity extends AppCompatActivity implements View.
                 Log.d("selectedRatingName :", selectedtournamentRatingname.toString());
             }
         }
+
 //       fill the selectedteamNameList
         ArrayList<String> selectedtournamentTeamname = new ArrayList<>();
         for (int i = 0; i < tournamnetbyteamlist.size(); i++) {
@@ -194,6 +175,7 @@ public class TravelMatchHotelActivity extends AppCompatActivity implements View.
                 Log.d("selectedteamname :", selectedtournamentTeamname.toString());
             }
         }
+
 //       fill the selectedcityNameList
         ArrayList<String> selectedtournamentCityname = new ArrayList<>();
         for (int i = 0; i < tournamnetcitylist.size(); i++) {
@@ -397,7 +379,6 @@ public class TravelMatchHotelActivity extends AppCompatActivity implements View.
             }
         }
 
-
         if (tournamentfilterRatingModelList.size() == 0 && tournamentfilterRatingwithTeamModelList.size() == 0 && tournamentfilterRatingwithCityModelList.size() == 0) {
             if (selectedtournamentRatingname.size() == 0 && selectedtournamentTeamname.size() == 0 && selectedtournamentCityname.size() == 0) {
                 activityTravelMatchHotelBinding.shimmerViewContainerHotel.setVisibility(View.GONE);
@@ -414,163 +395,6 @@ public class TravelMatchHotelActivity extends AppCompatActivity implements View.
                 activityTravelMatchHotelBinding.travelMatchHotelRcv.setVisibility(View.GONE);
             }
         }
-//       fill the tournamentTeamFilter
-//        tournamentadvancefilterteamDetailModel = new ArrayList<>();
-//        tournamentfiltercitywithteamDetailModel = new ArrayList<>();
-//        tournamentfiltercitywithteamratingDetailModel = new ArrayList<>();
-//
-//        if (selectedtournamentRatingname.size() != 0) {
-//            if (tournamentfiltercitywithteamDetailModel.size() != 0) {
-//                for (int k = 0; k < selectedtournamentRatingname.size(); k++) {
-//                    if (tournamentfiltercitywithteamDetailModel.size() != 0) {
-//                        for (int i = 0; i < tournamentfiltercitywithteamDetailModel.size(); i++) {
-//                            if (selectedtournamentRatingname.get(k).trim().equalsIgnoreCase(String.valueOf(tournamentfiltercitywithteamDetailModel.get(i).getCityHotelRatingStr()).trim())) {
-//                                tournamentfiltercitywithteamratingDetailModel.add(tournamentfiltercitywithteamDetailModel.get(i));
-//                            }
-//                        }
-//                    }
-//                }
-//            } else if (tournamentadvancefilterteamDetailModel.size() != 0) {
-//                for (int k = 0; k < selectedtournamentRatingname.size(); k++) {
-//                    for (int i = 0; i < tournamentadvancefilterteamDetailModel.size(); i++) {
-//                        if (selectedtournamentRatingname.get(k).trim().equalsIgnoreCase(String.valueOf(tournamentadvancefilterteamDetailModel.get(i).getCityHotelRatingStr()).trim())) {
-//                            tournamentfiltercitywithteamratingDetailModel.add(tournamentadvancefilterteamDetailModel.get(i));
-//                        }
-//                    }
-//                }
-//
-//            } else {
-//                for (int k = 0; k < selectedtournamentRatingname.size(); k++) {
-//                    for (int i = 0; i < tournamnethotellist.size(); i++) {
-//                        if (selectedtournamentRatingname.get(k).trim().equalsIgnoreCase(String.valueOf(tournamnethotellist.get(i).getCityHotelRatingStr()).trim())) {
-//                            tournamentfiltercitywithteamratingDetailModel.add(tournamnethotellist.get(i));
-//                        }
-//                    }
-//                }
-//
-//            }
-//        } else {
-//            if (tournamentfiltercitywithteamDetailModel.size() != 0) {
-//                activityTravelMatchHotelBinding.noRecordrel.setVisibility(View.GONE);
-//                activityTravelMatchHotelBinding.travelMatchHotelRcv.setVisibility(View.VISIBLE);
-//                activityTravelMatchHotelBinding.shimmerViewContainerHotel.setVisibility(View.GONE);
-//                travelMatchHotelAdapter = new TravelMatchHotelAdapter(mContext, tournamentfiltercitywithteamDetailModel);
-//                hotelmLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
-//                activityTravelMatchHotelBinding.travelMatchHotelRcv.setLayoutManager(hotelmLayoutManager);
-//                activityTravelMatchHotelBinding.travelMatchHotelRcv.setItemAnimator(new DefaultItemAnimator());
-//                activityTravelMatchHotelBinding.travelMatchHotelRcv.setAdapter(travelMatchHotelAdapter);
-//            } else if (tournamentadvancefilterteamDetailModel.size() != 0) {
-//                activityTravelMatchHotelBinding.noRecordrel.setVisibility(View.GONE);
-//                activityTravelMatchHotelBinding.travelMatchHotelRcv.setVisibility(View.VISIBLE);
-//                activityTravelMatchHotelBinding.shimmerViewContainerHotel.setVisibility(View.GONE);
-//                travelMatchHotelAdapter = new TravelMatchHotelAdapter(mContext, tournamentadvancefilterteamDetailModel);
-//                hotelmLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
-//                activityTravelMatchHotelBinding.travelMatchHotelRcv.setLayoutManager(hotelmLayoutManager);
-//                activityTravelMatchHotelBinding.travelMatchHotelRcv.setItemAnimator(new DefaultItemAnimator());
-//                activityTravelMatchHotelBinding.travelMatchHotelRcv.setAdapter(travelMatchHotelAdapter);
-//            } else {
-//                activityTravelMatchHotelBinding.noRecordrel.setVisibility(View.VISIBLE);
-//                activityTravelMatchHotelBinding.shimmerViewContainerHotel.setVisibility(View.GONE);
-//                activityTravelMatchHotelBinding.travelMatchHotelRcv.setVisibility(View.GONE);
-//            }
-//
-//        if (selectedtournamentTeamname.size() != 0) {
-//            if (tournamentfiltercitywithteamratingDetailModel.size() != 0) {
-//                for (int k = 0; k < selectedtournamentTeamname.size(); k++) {
-//                    for (int j = 0; j < tournamentfiltercitywithteamratingDetailModel.size(); j++) {
-//                        if (selectedtournamentTeamname.get(k).trim().equalsIgnoreCase(String.valueOf(tournamentfiltercitywithteamratingDetailModel.get(j).getCityHotelTeamStr()).trim())) {
-//                            tournamentadvancefilterteamDetailModel.add(tournamentfiltercitywithteamratingDetailModel.get(j));
-//                        }
-//                    }
-//                }
-//            } else {
-//                for (int k = 0; k < selectedtournamentTeamname.size(); k++) {
-//                    for (int j = 0; j < tournamnethotellist.size(); j++) {
-//                        if (selectedtournamentTeamname.get(k).trim().equalsIgnoreCase(String.valueOf(tournamnethotellist.get(j).getCityHotelTeamStr()).trim())) {
-//                            tournamentadvancefilterteamDetailModel.add(tournamnethotellist.get(j));
-//                        }
-//                    }
-//                }
-//            }
-//
-//        }
-//
-//
-//        if (selectedtournamentCityname.size() != 0) {
-//            for (int k = 0; k < selectedtournamentCityname.size(); k++) {
-//                if (tournamentadvancefilterteamDetailModel.size() != 0) {
-//                    for (int i = 0; i < tournamentadvancefilterteamDetailModel.size(); i++) {
-//                        if (selectedtournamentCityname.get(k).trim().equalsIgnoreCase(tournamentadvancefilterteamDetailModel.get(i).getCityHotelCityStr().trim())) {
-//                            tournamentfiltercitywithteamDetailModel.add(tournamentadvancefilterteamDetailModel.get(i));
-//                        }
-//                    }
-//                } else {
-//                    for (int i = 0; i < tournamnethotellist.size(); i++) {
-//                        if (selectedtournamentCityname.get(k).trim().equalsIgnoreCase(tournamnethotellist.get(i).getCityHotelCityStr().trim())) {
-//                            tournamentfiltercitywithteamDetailModel.add(tournamnethotellist.get(i));
-//                        }
-//                    }
-//                }
-//            }
-//        } else {
-//            if (tournamentadvancefilterteamDetailModel.size() != 0) {
-//                activityTravelMatchHotelBinding.noRecordrel.setVisibility(View.GONE);
-//                activityTravelMatchHotelBinding.travelMatchHotelRcv.setVisibility(View.VISIBLE);
-//                activityTravelMatchHotelBinding.shimmerViewContainerHotel.setVisibility(View.GONE);
-//                travelMatchHotelAdapter = new TravelMatchHotelAdapter(mContext, tournamentadvancefilterteamDetailModel);
-//                hotelmLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
-//                activityTravelMatchHotelBinding.travelMatchHotelRcv.setLayoutManager(hotelmLayoutManager);
-//                activityTravelMatchHotelBinding.travelMatchHotelRcv.setItemAnimator(new DefaultItemAnimator());
-//                activityTravelMatchHotelBinding.travelMatchHotelRcv.setAdapter(travelMatchHotelAdapter);
-//            }
-//        }
-//
-//        tournamentfiltercitywithteamratingDetailModel = new ArrayList<>();
-//
-//            /*else if (tournamentadvancefilterteamDetailModel.size() != 0) {
-//                activityTravelMatchHotelBinding.noRecordrel.setVisibility(View.GONE);
-//                activityTravelMatchHotelBinding.travelMatchHotelRcv.setVisibility(View.VISIBLE);
-//                activityTravelMatchHotelBinding.shimmerViewContainerHotel.setVisibility(View.GONE);
-//                travelMatchHotelAdapter = new TravelMatchHotelAdapter(mContext, tournamentadvancefilterteamDetailModel);
-//                hotelmLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
-//                activityTravelMatchHotelBinding.travelMatchHotelRcv.setLayoutManager(hotelmLayoutManager);
-//                activityTravelMatchHotelBinding.travelMatchHotelRcv.setItemAnimator(new DefaultItemAnimator());
-//                activityTravelMatchHotelBinding.travelMatchHotelRcv.setAdapter(travelMatchHotelAdapter);
-//            }*/
-//        }
-//
-//        if (tournamentfiltercitywithteamratingDetailModel.size() != 0) {
-//            activityTravelMatchHotelBinding.shimmerViewContainerHotel.setVisibility(View.GONE);
-//            activityTravelMatchHotelBinding.travelMatchHotelRcv.setVisibility(View.VISIBLE);
-//            activityTravelMatchHotelBinding.noRecordrel.setVisibility(View.GONE);
-//            travelMatchHotelAdapter = new TravelMatchHotelAdapter(mContext, tournamentfiltercitywithteamratingDetailModel);
-//            hotelmLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
-//            activityTravelMatchHotelBinding.travelMatchHotelRcv.setLayoutManager(hotelmLayoutManager);
-//            activityTravelMatchHotelBinding.travelMatchHotelRcv.setItemAnimator(new DefaultItemAnimator());
-//            activityTravelMatchHotelBinding.travelMatchHotelRcv.setAdapter(travelMatchHotelAdapter);
-//        }
-//        Log.d("filterteamData :", "" + tournamentadvancefilterteamDetailModel.size());
-//        Log.d("filterteamcityData:", "" + tournamentfiltercitywithteamDetailModel.size());
-//        Log.d("filterteamcityratingData:", "" + tournamentfiltercitywithteamratingDetailModel.size());
-//
-//
-//        if (tournamentadvancefilterteamDetailModel.size() == 0 && tournamentfiltercitywithteamDetailModel.size() == 0 && tournamentfiltercitywithteamratingDetailModel.size() == 0) {
-//            if (selectedtournamentTeamname.size() == 0 && selectedtournamentCityname.size() == 0 && selectedtournamentRatingname.size() == 0) {
-//                activityTravelMatchHotelBinding.shimmerViewContainerHotel.setVisibility(View.GONE);
-//                activityTravelMatchHotelBinding.travelMatchHotelRcv.setVisibility(View.VISIBLE);
-//                activityTravelMatchHotelBinding.noRecordrel.setVisibility(View.GONE);
-//                travelMatchHotelAdapter = new TravelMatchHotelAdapter(mContext, tournamnethotellist);
-//                hotelmLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
-//                activityTravelMatchHotelBinding.travelMatchHotelRcv.setLayoutManager(hotelmLayoutManager);
-//                activityTravelMatchHotelBinding.travelMatchHotelRcv.setItemAnimator(new DefaultItemAnimator());
-//                activityTravelMatchHotelBinding.travelMatchHotelRcv.setAdapter(travelMatchHotelAdapter);
-//            } else {
-//                activityTravelMatchHotelBinding.noRecordrel.setVisibility(View.VISIBLE);
-//                activityTravelMatchHotelBinding.shimmerViewContainerHotel.setVisibility(View.GONE);
-//                activityTravelMatchHotelBinding.travelMatchHotelRcv.setVisibility(View.GONE);
-//            }
-//        }
-
 
     }
 

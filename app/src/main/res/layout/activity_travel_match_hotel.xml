@@ -116,6 +116,8 @@
                     android:layout_marginTop="@dimen/_1sdp"
                     android:layout_marginLeft="@dimen/_8sdp"
                     android:layout_marginRight="@dimen/_8sdp"
+                    android:paddingBottom="@dimen/_15sdp"
+                    android:clipToPadding="false"
                     android:visibility="gone" />
 
                 <RelativeLayout
