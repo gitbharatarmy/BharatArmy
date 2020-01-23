@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/question3_option1_btn"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_100sdp"
+        android:layout_margin="@dimen/_5sdp"
+        android:background="@drawable/feedback_corner_shape"
+        android:elevation="2dp"
+        android:orientation="vertical"
+        app:cardCornerRadius="@dimen/_5sdp">
+
+
+        <RelativeLayout
+            android:id="@+id/header_banner_rcv"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@drawable/feedback_corner_shape"
+            android:layout_margin="0.5dp">
+
+            <com.bharatarmy.RoundishImageView
+                android:id="@+id/feedback_image"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_50sdp"
+                android:layout_centerInParent="true"
+                android:adjustViewBounds="true"
+                android:src="@drawable/australia_tour"
+                app:cornerRadius="@dimen/_5sdp"
+                app:roundedCorners="topRight|bottomLeft" />
+
+            <LinearLayout
+                android:id="@+id/header_linear"
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="@dimen/_4sdp"
+                android:layout_marginRight="@dimen/_3sdp"
+                android:orientation="horizontal"
+                android:visibility="visible">
+
+                <CheckBox
+                    android:id="@+id/question3_option1_chk"
+                    android:layout_width="@dimen/_18sdp"
+                    android:layout_height="@dimen/_18sdp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:baselineAligned="false"
+                    android:button="@drawable/round_checkbox_indicator" />
+
+            </LinearLayout>
+        </RelativeLayout>
+    </LinearLayout>
+</layout>

@@ -216,7 +216,13 @@ FragmentActivity activity;
         return dataCheck;
     }
 
+    // Clean all elements of the recycler
+    public void clear() {
+        mItemList.clear();
+        notifyDataSetChanged();
+    }
 
+    // Add a list of items -- change to type used
     public void addMoreDataToList(List<ImageDetailModel> result) {
         mItemList.addAll(result);
         notifyDataSetChanged();

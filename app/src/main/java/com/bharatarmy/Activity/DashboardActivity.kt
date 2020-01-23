@@ -1,27 +1,28 @@
 package com.bharatarmy.Activity
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
+import android.graphics.Point
 import android.os.Bundle
 import android.os.Handler
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
+import android.util.DisplayMetrics
+import android.util.Log
+import android.view.*
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import androidx.core.view.GravityCompat
-import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import com.bharatarmy.Fragment.*
 import com.bharatarmy.Models.MyScreenChnagesModel
 import com.bharatarmy.R
 import com.bharatarmy.Utility.AppConfiguration
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation
-import com.google.android.material.navigation.NavigationView
 import com.leinardi.android.speeddial.SpeedDialOverlayLayout
 import com.leinardi.android.speeddial.SpeedDialView
 import kotlinx.android.synthetic.main.app_bar_dashboard.*
@@ -31,24 +32,16 @@ import org.greenrobot.eventbus.Subscribe
 
 // remove code 29/07/2019
 // remove extra code 03/09/2019 with noon backup
+// remove extra and commented code 16/01/2020 with backup of 16/01/2020
 class DashboardActivity : AppCompatActivity(), View.OnClickListener, StoryFragment.OnItemClick, StoryCategoryFragment.OnItemClick, HomeFragment.OnItemClick {
 
 
     internal lateinit var mContext: Context
     private var fragment: Fragment? = null
-    internal lateinit var drawer: DrawerLayout
-
     var viewmoreStr: String? = ""
-    internal lateinit var user_profile_img: ImageView
-    internal lateinit var proflie_linear: LinearLayout
-    internal lateinit var user_name_txt: TextView
-    internal lateinit var navigationView: NavigationView
     internal lateinit var toolbar: Toolbar
-    private var navHeader: View? = null
-
     internal lateinit var speedDial: SpeedDialView
     internal lateinit var overlay: SpeedDialOverlayLayout
-
 
     //  flag to load home fragment when user presses back key
     private val shouldLoadHomeFragOnBackPress = true
@@ -85,9 +78,6 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, StoryFragme
         init()
         bottomNavigationView()
 
-        // load nav menu header data
-        loadNavHeader()
-
         // initializing navigation menu
 //        setUpNavigationView()
 
@@ -99,13 +89,6 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, StoryFragme
     }
 
     fun init() {
-        drawer = findViewById<View>(R.id.drawer_layout) as DrawerLayout
-        navigationView = findViewById<View>(R.id.nav_view) as NavigationView
-        navHeader = navigationView.getHeaderView(0)
-        user_profile_img = navHeader!!.findViewById<View>(R.id.profile_image) as ImageView
-        proflie_linear = navHeader!!.findViewById<View>(R.id.proflie_linear) as LinearLayout
-        user_name_txt = navHeader!!.findViewById<View>(R.id.textView) as TextView
-
         AppConfiguration.firstDashStr = "true"
 
 
@@ -118,69 +101,72 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, StoryFragme
     }
 
 
-
-
     fun bottomNavigationView() {
+
         bottomNavigation.add(MeowBottomNavigation.Model(1, R.drawable.ic_fans_new))
-        bottomNavigation.add(MeowBottomNavigation.Model(2, R.drawable.ic_travel_new)) //ic_travel_new  ic_study
+        bottomNavigation.add(MeowBottomNavigation.Model(2, R.drawable.ic_feedback)) //ic_travel_new
         bottomNavigation.add(MeowBottomNavigation.Model(3, R.drawable.ic_home_new))
 //        bottomNavigation.add(MeowBottomNavigation.Model(4, R.drawable.ic_ftp_new))
         bottomNavigation.add(MeowBottomNavigation.Model(4, R.drawable.ic_study))
         bottomNavigation.add(MeowBottomNavigation.Model(5, R.drawable.ic_more))
+
         bottomNavigation.setOnClickMenuListener {
+            AppConfiguration.lastpositionofnavigation = it.id.toString()
+            Log.d("selectedId :", "" + AppConfiguration.lastpositionofnavigation)
             when (it.id) {
                 1 -> {
-                    navItemIndex = 1
-                    fragment = FansFragment()
-                    loadFragment(fragment as FansFragment)
+                    if (navItemIndex.equals(2)) {
+                        loadPageToFeedback()
+                    } else {
+                        navItemIndex = 1
+                        fragment = FansFragment()
+                        loadFragment(fragment as FansFragment)
+                    }
                 }
                 2 -> {
 
                     navItemIndex = 2
-                    fragment = NewTravelFragment()
-                    loadFragment(fragment as NewTravelFragment)
-//                    fragment = TravelFragment()
-//                    loadFragment(fragment as TravelFragment)
+                    fragment = FeedbackFragment()
+                    loadFragment(fragment as FeedbackFragment)
+
+                    /*  fragment = NewTravelFragment()
+                      loadFragment(fragment as NewTravelFragment)*/
+
                 }
                 3 -> {
-                    navItemIndex = 0
-                    fragment = HomeFragment()
-                    loadFragment(fragment as HomeFragment)
-//                    loadHomeFragment()
+                    if (navItemIndex.equals(2)) {
+                        loadPageToFeedback()
+                    } else {
+                        navItemIndex = 0
+                        fragment = HomeFragment()
+                        loadFragment(fragment as HomeFragment)
+                    }
                 }
                 4 -> {
-                    navItemIndex = 4
-                    fragment = StoryFragment()
-                    loadFragment(fragment as StoryFragment)
-//                    navItemIndex = 6
-//                    fragment = ProfileFragment()
-//                    loadFragment(fragment as ProfileFragment)
+                    if (navItemIndex.equals(2)) {
+                        loadPageToFeedback()
+                    } else {
+                        navItemIndex = 4
+                        fragment = StoryFragment()
+                        loadFragment(fragment as StoryFragment)
+                    }
                 }
                 5 -> {
-                    navItemIndex = 5
-                    fragment = MoreFragment()
-                    loadFragment(fragment as MoreFragment)
-
+                    if (navItemIndex.equals(2)) {
+                        loadPageToFeedback()
+                    } else {
+                        navItemIndex = 5
+                        fragment = MoreFragment()
+                        loadFragment(fragment as MoreFragment)
+                    }
                 }
 
             }
         }
+
+
     }
 
-    private fun loadNavHeader() {
-        // name, website
-//        user_name_txt.text = Utils.retriveLoginData(mContext).name
-
-
-        // Loading profile image
-//        Glide.with(this)
-//                .load(Utils.getPref(mContext, "LoginProfilePic"))
-//                .thumbnail(0.5f)
-//                .into(user_profile_img)
-
-        user_profile_img.setOnClickListener(this)
-        proflie_linear.setOnClickListener(this)
-    }
 
     /***
      * Returns respected fragment that user
@@ -201,23 +187,20 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, StoryFragme
                     navItemIndex = 1
                     fragment = FansFragment()
                     loadFragment(fragment as FansFragment)
-                } /*else if (page.equals("4", ignoreCase = true)) {
-                    bottomNavigation.show(4, true)
-                    intent.putExtra("whichPageRun", "")
-                    navItemIndex = 7
-                    fragment = ProfileFragment()
-                    loadFragment(fragment as ProfileFragment)
-                }*/ else if (page.equals("4", ignoreCase = true)) {
+                } else if (page.equals("4", ignoreCase = true)) {
                     bottomNavigation.show(4, true)
                     intent.putExtra("whichPageRun", "")
                     fragment = StoryFragment()
                     loadFragment(fragment as StoryFragment)
+                } else if (page.equals("5", ignoreCase = true)) {
+                    bottomNavigation.show(5, true)
+                    intent.putExtra("whichPageRun", "")
+                    fragment = MoreFragment()
+                    loadFragment(fragment as MoreFragment)
                 } else if (page.equals("2", ignoreCase = true)) {
                     navItemIndex = 2
                     bottomNavigation.show(2, true)
                     intent.putExtra("whichPageRun", "")
-//                    fragment = TravelFragment()
-//                    loadFragment(fragment as TravelFragment)
                     fragment = NewTravelFragment()
                     loadFragment(fragment as NewTravelFragment)
                 } else {
@@ -242,61 +225,63 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, StoryFragme
         // if user select the current navigation menu again, don't do anything
         // just close the navigation drawer
         if (supportFragmentManager.findFragmentByTag(CURRENT_TAG) != null) {
-            drawer.closeDrawers()
+//            drawer.closeDrawers()
 
             return
         }
 
-        // Sometimes, when fragment has huge data, screen seems hanging
-        // when switching between navigation menus
-        // So using runnable, the fragment is loaded with cross fade effect
-        // This effect can be seen in GMail app
-//        Handler().postDelayed({
-//            //        Utils.showDialog(mContext)
-//            val mPendingRunnable = Runnable {
-//                // update the main content by replacing fragments
-//                val fragment = homeFragment
-//                val fragmentTransaction = supportFragmentManager.beginTransaction()
-//                fragmentTransaction.setCustomAnimations(android.R.anim.fade_in,
-//                        android.R.anim.fade_out)
-//                fragmentTransaction.replace(R.id.frame_container, fragment, CURRENT_TAG)
-//                fragmentTransaction.commitAllowingStateLoss()
-//
-//            }
-//            // If mPendingRunnable is not null, then add to the message queue
-//            if (mPendingRunnable != null) {
-//                mHandler!!.post(mPendingRunnable)
-//            }
-//        }, 50)
-
-
-//        Utils.dismissDialog()
-
-
-        //Closing drawer on item click
-        drawer.closeDrawers()
 
         // refresh toolbar menu
         invalidateOptionsMenu()
     }
 
-    /***
-     * Returns respected fragment that user
-     * selected from navigation menu
-     */
-    private fun selectNavMenu() {
-        navigationView.menu.getItem(navItemIndex).isChecked = true
-    }
+    public fun loadPageToFeedback() {
+        val alertDialog2 = AlertDialog.Builder(mContext)
+        alertDialog2.setTitle("Feedback Confirm")
+        alertDialog2.setMessage("Are you sure you want go other page")
+        alertDialog2.setIcon(R.drawable.app_logo_new)
+        alertDialog2.setCancelable(false)
+        alertDialog2.setPositiveButton("YES"
+        ) { dialog, which ->
+            dialog.cancel()
+            if (AppConfiguration.lastpositionofnavigation.equals("1", ignoreCase = true)) {
+                navItemIndex = 1
+                fragment = FansFragment()
+                loadFragment(fragment as FansFragment)
+            } else if (AppConfiguration.lastpositionofnavigation.equals("3", ignoreCase = true)) {
+                navItemIndex = 0
+                fragment = HomeFragment()
+                loadFragment(fragment as HomeFragment)
+            } else if (AppConfiguration.lastpositionofnavigation.equals("4", ignoreCase = true)) {
+                navItemIndex = 4
+                fragment = StoryFragment()
+                loadFragment(fragment as StoryFragment)
+            } else if (AppConfiguration.lastpositionofnavigation.equals("5", ignoreCase = true)) {
+                navItemIndex = 5
+                fragment = MoreFragment()
+                loadFragment(fragment as MoreFragment)
+            }
+
+        }
+        alertDialog2.setNegativeButton("NO"
+        ) { dialog, which ->
+            // Write your code here to execute after dialog
+            dialog.cancel()
+            bottomNavigation.show(2, true)
+        }
+
+            alertDialog2.show();
+}
 
     private fun setToolbarTitle() {
         //        getSupportActionBar().setTitle(activityTitles[navItemIndex]);
     }
 
     override fun onBackPressed() {
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawers()
-            return
-        }
+//        if (drawer.isDrawerOpen(GravityCompat.START)) {
+//            drawer.closeDrawers()
+//            return
+//        }
         if (speedDial.isOpen) {
             speedDial.close(true);
         } else {
@@ -309,16 +294,26 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, StoryFragme
                 overlay.visibility = View.GONE
                 speedDial.visibility = View.GONE
 
-
-                if (navItemIndex != 0) {
-                    if (navItemIndex != 1) {
-                        if (!viewmoreStr.equals("", ignoreCase = true)) {
-                            bottomNavigation.show(2, true)
-                            intent.putExtra("whichPageRun", "")
-                            navItemIndex = 1
-                            fragment = NewTravelFragment()
-                            loadFragment(fragment as NewTravelFragment)
-                            return
+                /*if (navItemIndex == 2) {
+                    AppConfiguration.lastpositionofnavigation="3";
+                    loadPageToFeedback()
+                } else {*/
+                    if (navItemIndex != 0) {
+                        if (navItemIndex != 1) {
+                            if (!viewmoreStr.equals("", ignoreCase = true)) {
+                                bottomNavigation.show(2, true)
+                                intent.putExtra("whichPageRun", "")
+                                navItemIndex = 1
+                                fragment = NewTravelFragment()
+                                loadFragment(fragment as NewTravelFragment)
+                                return
+                            } else {
+                                viewmoreStr = ""
+                                navItemIndex = 0
+                                CURRENT_TAG = TAG_HOME
+                                loadHomeFragment()
+                                return
+                            }
                         } else {
                             viewmoreStr = ""
                             navItemIndex = 0
@@ -326,17 +321,7 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, StoryFragme
                             loadHomeFragment()
                             return
                         }
-                    } else {
-                        viewmoreStr = ""
-                        navItemIndex = 0
-                        CURRENT_TAG = TAG_HOME
-                        loadHomeFragment()
-                        return
-                    }
-
                 }
-
-
             }
             try {
                 super.onBackPressed()
@@ -383,14 +368,14 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, StoryFragme
                 val profileView = Intent(mContext, MyProfileActivity::class.java)
                 profileView.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 mContext.startActivity(profileView)
-                drawer.closeDrawers()
+//                drawer.closeDrawers()
             }
             R.id.proflie_linear -> {
                 navItemIndex = 2
                 val profileView = Intent(mContext, MyProfileActivity::class.java)
                 profileView.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 mContext.startActivity(profileView)
-                drawer.closeDrawers()
+//                drawer.closeDrawers()
             }
         }
     }

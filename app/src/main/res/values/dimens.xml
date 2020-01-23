@@ -15,9 +15,10 @@
     <dimen name="margin_right">@dimen/_15sdp</dimen>
     <dimen name="margin_top">@dimen/_10sdp</dimen>
     <dimen name="margin_bottom">@dimen/_10sdp</dimen>
-
+    <dimen name="text_view_width">@dimen/_110sdp</dimen>
     <dimen name="item_width">300dp</dimen>
     <dimen name="padding_item_width">300dp</dimen>
+    <dimen name="viewpager_dots_size">@dimen/_8sdp</dimen>
 
     <dimen name="activityPadding">16dp</dimen>
     <dimen name="placeholderImage">60dp</dimen>
@@ -105,6 +106,7 @@
     <dimen name="round_corner_radius">20dp</dimen>
     <integer name="add_remove_duration">450</integer>
     <dimen name="round_image">@dimen/_5sdp</dimen>
+    <dimen name="packge_hospitality">10dp</dimen>
 
 
     <!--showcase view-->
@@ -117,4 +119,17 @@
     <dimen name="circle_margin">2dp</dimen>
     <dimen name="buttom_width_small">85dp</dimen>
 
+
+    <!--    travel facility toolbar font size-->
+    <dimen name="main_title_size">@dimen/_14sdp</dimen>
+    <dimen name="title_date_time_size">@dimen/_9sdp</dimen>
+    <dimen name="title_date_time_icon_size">@dimen/_12sdp</dimen>
+    <dimen name="title_subtext_size">@dimen/_7sdp</dimen>
+    <dimen name="title_watch_size">@dimen/_8sdp</dimen>
+    <dimen name="top_margin">@dimen/_20sdp</dimen>
+
+<!--    feedback screen font-->
+    <dimen name="allquestion_font_size">@dimen/_17sdp</dimen>
+    <dimen name="allans_font_size">@dimen/_14sdp</dimen>
+    <dimen name="category_font_size">@dimen/_9sdp</dimen>
 </resources>

@@ -126,7 +126,7 @@
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
                         android:maxLines="2"
-                        android:text="Marine drive Mumbai"
+                        android:text="Pinnacle Tour"
                         android:textColor="@color/heading_bg"
                         android:textSize="@dimen/_22sdp" />
                     <TextView
@@ -135,7 +135,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
-                        android:text="Mumbai"
+                        android:text="Perth, Australia"
                         android:textColor="@color/normal_font_color"
                         android:textSize="@dimen/_12sdp" />
 

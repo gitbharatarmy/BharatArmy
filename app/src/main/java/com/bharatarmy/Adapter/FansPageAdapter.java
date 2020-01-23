@@ -13,7 +13,7 @@ import com.bharatarmy.Fragment.ImageFragment;
 import com.bharatarmy.Fragment.VideoFragment;
 
 
-public class FansPageAdapter extends FragmentStatePagerAdapter {
+public class FansPageAdapter extends FragmentStatePagerAdapter { //FragmentStatePagerAdapter
     //integer to count number of tabs
     int tabCount;
 

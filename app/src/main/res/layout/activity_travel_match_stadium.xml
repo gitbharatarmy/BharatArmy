@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
+
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
@@ -18,7 +19,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/_15sdp"
+                android:layout_marginLeft="@dimen/_14sdp"
                 android:layout_marginRight="@dimen/_15sdp"
                 android:orientation="horizontal">
 
@@ -47,15 +48,42 @@
                         android:id="@+id/toolbar_title_txt"
                         style="@style/title_text_font"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/_27sdp"
+                        android:layout_height="wrap_content"
                         android:ellipsize="end"
-                        android:gravity="center_vertical"
+                        android:layout_marginTop="@dimen/_2sdp"
                         android:maxLines="1"
                         android:paddingLeft="@dimen/_5sdp"
                         android:text="Stadium"
                         android:textAllCaps="true"
                         android:textColor="@color/splash_bg_color"
-                        android:textSize="@dimen/_14sdp" />
+                        android:textSize="@dimen/main_title_size" />
+                    <LinearLayout
+                        android:id="@+id/toolbar_timedate_linear"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <ImageView
+                            android:layout_width="@dimen/title_date_time_icon_size"
+                            android:layout_height="@dimen/title_date_time_icon_size"
+                            android:paddingLeft="@dimen/_5sdp"
+                            android:src="@drawable/calendar"
+                            android:tint="@color/splash_bg_color" />
+                        <TextView
+                            android:id="@+id/toolbar_timedate_txt"
+                            style="@style/title_text_font"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:gravity="center_vertical"
+                            android:maxLines="1"
+                            android:paddingTop="@dimen/_1sdp"
+                            android:paddingLeft="@dimen/_4sdp"
+                            android:text="Jan 2020 - July 2020"
+                            android:textAllCaps="true"
+                            android:textColor="@color/splash_bg_color"
+                            android:textSize="@dimen/title_date_time_size"
+                            />
+                    </LinearLayout>
                     <TextView
                         android:id="@+id/toolbar_subtitle_txt"
                         style="@style/title_text_font"
@@ -64,11 +92,12 @@
                         android:ellipsize="end"
                         android:gravity="center_vertical"
                         android:maxLines="1"
+                        android:layout_marginTop="@dimen/_1sdp"
                         android:paddingLeft="@dimen/_5sdp"
                         android:text="Stadium"
                         android:textAllCaps="true"
                         android:textColor="@color/splash_bg_color"
-                        android:textSize="@dimen/_8sdp" />
+                        android:textSize="@dimen/title_subtext_size" />
                 </LinearLayout>
             </RelativeLayout>
         </androidx.appcompat.widget.Toolbar>
@@ -98,19 +127,17 @@
                     android:id="@+id/shimmer_view_container_stadium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/_5sdp"
-                    android:layout_marginTop="@dimen/_30sdp"
-                    android:layout_marginRight="@dimen/_5sdp"
+                    android:layout_margin="@dimen/_15sdp"
                     android:orientation="vertical">
 
                     <include layout="@layout/travel_match_schedule_dataholder" />
                 </com.facebook.shimmer.ShimmerFrameLayout>
-                ko
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/travel_match_stadium_rcv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_8sdp"
+                    android:layout_marginTop="@dimen/_6sdp"
                     android:visibility="gone" />
 
                 <RelativeLayout

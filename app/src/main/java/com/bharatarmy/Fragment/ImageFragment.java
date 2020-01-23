@@ -27,6 +27,7 @@ import com.bharatarmy.Activity.ImageUploadActivity;
 import com.bharatarmy.Activity.VideoTrimActivity;
 import com.bharatarmy.Adapter.ImageListAdapter;
 import com.bharatarmy.Interfaces.image_click;
+import com.bharatarmy.Models.GalleryImageModel;
 import com.bharatarmy.Models.ImageDetailModel;
 import com.bharatarmy.Models.ImageMainModel;
 import com.bharatarmy.Models.MyScreenChnagesModel;
@@ -48,17 +49,20 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 import static android.app.Activity.RESULT_OK;
 
-// remove comment code 05-06-2019
+// remove comment code 05-06-2019   & 23-01-2020 evening
 public class ImageFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -74,24 +78,28 @@ public class ImageFragment extends Fragment {
     private Context mContext;
     ImageListAdapter imageListAdapter;
     List<ImageDetailModel> imageDetailModelsList;
+    List<ImageDetailModel> imageDetailModelList1 = new ArrayList<>();
+
     ArrayList<String> galleryImageUrl = new ArrayList<>();
     ArrayList<String> galleryImageUrlName = new ArrayList<>();
-    ArrayList<String> galleryImageDuration=new ArrayList<>();
-    ArrayList<String> galleryImageLike=new ArrayList<>();
-    ArrayList<String> galleryImageId=new ArrayList<>();
-    boolean isMoreDataAvailable = true;
+    ArrayList<String> galleryImageDuration = new ArrayList<>();
+    ArrayList<String> galleryImageLike = new ArrayList<>();
+    ArrayList<String> galleryImageId = new ArrayList<>();
+
+
     String imageClickData;
     int pageIndex = 0;
-    boolean isLoading = false;
+    boolean isImageLoading = true;
     GridLayoutManager gridLayoutManager;
-    boolean ispull;
+
 
     String imageorvideoStr;
     SpeedDialOverlayLayout overlayLayout;
     SpeedDialView speedDialView;
 
-  Uri selectedUri;
+    Uri selectedUri;
     private static final int REQUEST_VIDEO_TRIMMER = 0x01;
+
     public ImageFragment() {
         // Required empty public constructor
     }
@@ -127,7 +135,6 @@ public class ImageFragment extends Fragment {
         EventBus.getDefault().register(this);
 
 
-
         setUserVisibleHint(true);
         return rootView;
     }
@@ -156,30 +163,30 @@ public class ImageFragment extends Fragment {
         overlayLayout = (SpeedDialOverlayLayout) getActivity().findViewById(R.id.overlay);
         speedDialView.setVisibility(View.VISIBLE);
 //        if (addActionItems) {
-            Drawable drawable = AppCompatResources.getDrawable(mContext, R.drawable.video_image_d);
-            FabWithLabelView fabWithvideoView = speedDialView.addActionItem(new SpeedDialActionItem.Builder(R.id
-                    .fab_no_label, drawable)
-                    .setLabel("Video Upload")
-                    .setLabelBackgroundColor(getResources().getColor(R.color.splash_bg_color))
-                    .setFabImageTintColor(getResources().getColor(R.color.splash_bg_color))
+        Drawable drawable = AppCompatResources.getDrawable(mContext, R.drawable.video_image_d);
+        FabWithLabelView fabWithvideoView = speedDialView.addActionItem(new SpeedDialActionItem.Builder(R.id
+                .fab_no_label, drawable)
+                .setLabel("Video Upload")
+                .setLabelBackgroundColor(getResources().getColor(R.color.splash_bg_color))
+                .setFabImageTintColor(getResources().getColor(R.color.splash_bg_color))
+                .create());
+        if (fabWithvideoView != null) {
+            fabWithvideoView.setSpeedDialActionItem(fabWithvideoView.getSpeedDialActionItemBuilder()
+                    .setFabBackgroundColor(getResources().getColor(R.color.heading_bg))
                     .create());
-            if (fabWithvideoView != null) {
-                fabWithvideoView.setSpeedDialActionItem(fabWithvideoView.getSpeedDialActionItemBuilder()
-                        .setFabBackgroundColor(getResources().getColor(R.color.heading_bg))
-                        .create());
-            }
-            Drawable drawableimage = AppCompatResources.getDrawable(mContext, R.drawable.image_d);
-            FabWithLabelView fabWithLabelView = speedDialView.addActionItem(new SpeedDialActionItem.Builder(R.id
-                    .fab_custom_color, drawableimage)
-                    .setLabel("Image Upload")
-                    .setLabelBackgroundColor(getResources().getColor(R.color.splash_bg_color))
-                    .setFabImageTintColor(getResources().getColor(R.color.splash_bg_color))
+        }
+        Drawable drawableimage = AppCompatResources.getDrawable(mContext, R.drawable.image_d);
+        FabWithLabelView fabWithLabelView = speedDialView.addActionItem(new SpeedDialActionItem.Builder(R.id
+                .fab_custom_color, drawableimage)
+                .setLabel("Image Upload")
+                .setLabelBackgroundColor(getResources().getColor(R.color.splash_bg_color))
+                .setFabImageTintColor(getResources().getColor(R.color.splash_bg_color))
+                .create());
+        if (fabWithLabelView != null) {
+            fabWithLabelView.setSpeedDialActionItem(fabWithLabelView.getSpeedDialActionItemBuilder()
+                    .setFabBackgroundColor(getResources().getColor(R.color.heading_bg))
                     .create());
-            if (fabWithLabelView != null) {
-                fabWithLabelView.setSpeedDialActionItem(fabWithLabelView.getSpeedDialActionItemBuilder()
-                        .setFabBackgroundColor(getResources().getColor(R.color.heading_bg))
-                        .create());
-            }
+        }
 //        }
 
         //Set main action clicklistener.
@@ -202,7 +209,7 @@ public class ImageFragment extends Fragment {
             public boolean onActionSelected(SpeedDialActionItem actionItem) {
                 switch (actionItem.getId()) {
                     case R.id.fab_no_label:
-                        if (Utils.isMember(mContext,"ImageUpload")) {
+                        if (Utils.isMember(mContext, "ImageUpload")) {
                             Dexter.withActivity(getActivity())
                                     .withPermissions(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE,
                                             Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -210,8 +217,8 @@ public class ImageFragment extends Fragment {
                                         @Override
                                         public void onPermissionsChecked(MultiplePermissionsReport report) {
                                             if (report.areAllPermissionsGranted()) {
-                                                    imageorvideoStr = "video";
-                                                    pickVideoFromGallery();
+                                                imageorvideoStr = "video";
+                                                pickVideoFromGallery();
                                             }
 
                                             if (report.isAnyPermissionPermanentlyDenied()) {
@@ -225,12 +232,12 @@ public class ImageFragment extends Fragment {
                                         }
                                     }).check();
                         }
-                            speedDialView.open(); // To close the Speed Dial with animation
+                        speedDialView.open(); // To close the Speed Dial with animation
 
                         return false; // false will close it without animation
 
                     case R.id.fab_custom_color:
-                        if (Utils.isMember(mContext,"ImageUpload")) {
+                        if (Utils.isMember(mContext, "ImageUpload")) {
                             Dexter.withActivity(getActivity())
                                     .withPermissions(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE,
                                             Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -276,8 +283,9 @@ public class ImageFragment extends Fragment {
         fragmentImageBinding.refreshView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                pageIndex=0;
-         callImageGalleryPullData();
+//                pageIndex = 0;
+                callImageGalleryPullData();
+
 
             }
         });
@@ -292,15 +300,16 @@ public class ImageFragment extends Fragment {
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
 
-
-                if (!isLoading) {
-                    if (gridLayoutManager != null && gridLayoutManager.findLastCompletelyVisibleItemPosition() == imageDetailModelsList.size() - 1) {
+                Log.d("lastposition", "" + gridLayoutManager.findLastCompletelyVisibleItemPosition());
+                Log.d("listsize :", String.valueOf(imageDetailModelList1.size() - 1));
+                if (isImageLoading == true) {
+                    if (gridLayoutManager != null && gridLayoutManager.findLastCompletelyVisibleItemPosition() == imageDetailModelList1.size() - 1) {
                         //bottom of list!
-                        isLoading = false;
-                        pageIndex = pageIndex + 1;
+                        isImageLoading = true;
+                        pageIndex++;
                         fragmentImageBinding.bottomProgressbarLayout.setVisibility(View.VISIBLE);
-
                         loadMore();
+
                     }
                 }
             }
@@ -339,15 +348,25 @@ public class ImageFragment extends Fragment {
                         fragmentImageBinding.shimmerViewContainer.stopShimmerAnimation();
                         fragmentImageBinding.shimmerViewContainer.setVisibility(View.GONE);
                         fragmentImageBinding.bottomProgressbarLayout.setVisibility(View.GONE);
+
+                        if (imageMainModel.getData().size() != 0) {
+                            if (imageDetailModelList1.size() == 0) {
+                                imageDetailModelList1.addAll(0, imageMainModel.getData());
+                            } else {
+                                imageDetailModelList1.addAll(imageDetailModelList1.size(), imageMainModel.getData());
+                            }
+                        }
+
                         imageDetailModelsList = imageMainModel.getData();
-Log.d("list : ",""+imageDetailModelsList.size());
-                        addOldNewValue(imageDetailModelsList);
+
+                        Log.d("list : ", "" + imageDetailModelsList.size() + "BAList :" + imageDetailModelList1.size());
+                        addOldNewValue(imageDetailModelList1);
                         if (imageListAdapter != null && imageDetailModelsList.size() > 0) {
-                            imageListAdapter.addMoreDataToList(imageDetailModelsList);
                             // just append more data to current list
+                            imageListAdapter.addMoreDataToList(imageDetailModelsList);
                         } else if (imageListAdapter != null && imageDetailModelsList.size() == 0) {
-                            isLoading = true;
-                            addOldNewValue(imageMainModel.getData());
+                            isImageLoading = false;
+//                            addOldNewValue(imageDetailModelList1);
                         } else {
                             fillImageGallery();
                         }
@@ -373,12 +392,12 @@ Log.d("list : ",""+imageDetailModelsList.size());
         Map<String, String> map = new HashMap<>();
         map.put("PageIndex", String.valueOf(pageIndex));
         map.put("PageSize", "15");
-        map.put("MemberId",String.valueOf(Utils.getAppUserId(mContext)));
+        map.put("MemberId", String.valueOf(Utils.getAppUserId(mContext)));
         return map;
     }
 
     public void fillImageGallery() {
-        imageListAdapter = new ImageListAdapter(mContext, imageDetailModelsList,getActivity(), new image_click() {
+        imageListAdapter = new ImageListAdapter(mContext, imageDetailModelsList, getActivity(), new image_click() {
             @Override
             public void image_more_click() {
                 imageClickData = "";
@@ -388,10 +407,10 @@ Log.d("list : ",""+imageDetailModelsList.size());
                 Intent gallerydetailIntent = new Intent(mContext, GalleryImageDetailActivity.class);
                 gallerydetailIntent.putExtra("positon", imageClickData);
                 gallerydetailIntent.putStringArrayListExtra("data", galleryImageUrl);
-                gallerydetailIntent.putStringArrayListExtra("dataName",galleryImageUrlName);
-                gallerydetailIntent.putStringArrayListExtra("dataDuration",galleryImageDuration);
-                gallerydetailIntent.putStringArrayListExtra("dataId",galleryImageId);
-                gallerydetailIntent.putStringArrayListExtra("dataLike",galleryImageLike);
+                gallerydetailIntent.putStringArrayListExtra("dataName", galleryImageUrlName);
+                gallerydetailIntent.putStringArrayListExtra("dataDuration", galleryImageDuration);
+                gallerydetailIntent.putStringArrayListExtra("dataId", galleryImageId);
+                gallerydetailIntent.putStringArrayListExtra("dataLike", galleryImageLike);
                 gallerydetailIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(gallerydetailIntent);
             }
@@ -401,7 +420,6 @@ Log.d("list : ",""+imageDetailModelsList.size());
     }
 
     private void loadMore() {
-
         callImageGalleryData();
 
 
@@ -410,10 +428,9 @@ Log.d("list : ",""+imageDetailModelsList.size());
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if (imageDetailModelsList!=null){
-        imageDetailModelsList.clear();
+        if (imageDetailModelsList != null) {
+            imageDetailModelsList.clear();
         }
-//        imageDetailModelsList.clear();
     }
 
     public void addOldNewValue(List<ImageDetailModel> result) {
@@ -424,7 +441,7 @@ Log.d("list : ",""+imageDetailModelsList.size());
             galleryImageId.addAll(Collections.singleton(String.valueOf(result.get(i).getBAGalleryId())));
             galleryImageLike.addAll(Collections.singleton(String.valueOf(result.get(i).getIsLike())));
         }
-        Log.d("galleryImageUrl", "" + galleryImageUrl.size() +"galleryImageId :"+galleryImageId.size());
+        Log.d("galleryImageUrl", "" + galleryImageUrl.size() + "galleryImageId :" + galleryImageId.size());
 
     }
 
@@ -434,8 +451,6 @@ Log.d("list : ",""+imageDetailModelsList.size());
             Utils.showCustomDialog(getResources().getString(R.string.internet_error), getResources().getString(R.string.internet_connection_error), getActivity());
             return;
         }
-
-//        Utils.showDialog(mContext);
 
         ApiHandler.getApiService().getBAGallery(getImageGalleryPullData(), new retrofit.Callback<ImageMainModel>() {
             @Override
@@ -457,17 +472,28 @@ Log.d("list : ",""+imageDetailModelsList.size());
 
                     if (imageMainModel.getData() != null) {
 
-                      galleryImageUrl.clear();
-                      galleryImageUrlName.clear();
+                        galleryImageUrl.clear();
+                        galleryImageUrlName.clear();
                         galleryImageDuration.clear();
                         galleryImageId.clear();
                         galleryImageLike.clear();
-                        imageDetailModelsList = imageMainModel.getData();
-Log.d("pullDataList : ",""+imageDetailModelsList.size());
-                        addOldNewValue(imageDetailModelsList);
+                        if (imageMainModel.getData() != null) {
 
-                      fillImageGallery();
-                        fragmentImageBinding.refreshView.setRefreshing(false);
+                            imageDetailModelList1.addAll(0, imageMainModel.getData());
+                            Set<ImageDetailModel> unique = new LinkedHashSet<ImageDetailModel>(imageDetailModelList1);
+                            imageDetailModelList1 = new ArrayList<ImageDetailModel>(unique);
+                            imageListAdapter.clear();
+                            imageListAdapter.addMoreDataToList(imageDetailModelList1);
+
+                            Log.d("pullDataList : ", "" + imageDetailModelList1.size());
+                            addOldNewValue(imageDetailModelList1);
+
+                            fragmentImageBinding.refreshView.setRefreshing(false);
+                            isImageLoading = true;
+
+                        }
+
+
                     }
 
                 }
@@ -487,9 +513,9 @@ Log.d("pullDataList : ",""+imageDetailModelsList.size());
 
     private Map<String, String> getImageGalleryPullData() {
         Map<String, String> map = new HashMap<>();
-        map.put("PageIndex", String.valueOf(pageIndex));
+        map.put("PageIndex", "0");
         map.put("PageSize", "15");
-        map.put("MemberId",String.valueOf(Utils.getAppUserId(mContext)));
+        map.put("MemberId", String.valueOf(Utils.getAppUserId(mContext)));
         return map;
     }
 
@@ -547,10 +573,10 @@ Log.d("pullDataList : ",""+imageDetailModelsList.size());
         if (resultCode == RESULT_OK) {
             if (requestCode == REQUEST_VIDEO_TRIMMER) {
                 selectedUri = data.getData();
-                Log.d("selectedVideoUri :",""+selectedUri);
+                Log.d("selectedVideoUri :", "" + selectedUri);
 
-                Intent videoTrimIntent=new Intent(mContext,VideoTrimActivity.class);
-                videoTrimIntent.putExtra("videoPath",selectedUri.toString());
+                Intent videoTrimIntent = new Intent(mContext, VideoTrimActivity.class);
+                videoTrimIntent.putExtra("videoPath", selectedUri.toString());
                 getActivity().startActivity(videoTrimIntent);
 
             }
@@ -562,11 +588,11 @@ Log.d("pullDataList : ",""+imageDetailModelsList.size());
 //        Log.d("imageId :", event.getMessage());
 //        Log.d("mainmodelValue :", imageDetailModelsList.toString());
         if (!event.getMessage().equalsIgnoreCase("")) {
-           for (int i=0;i<galleryImageLike.size();i++){
-               if (i == Integer.parseInt(event.getMessage())) {
-                  galleryImageLike.add(i, String.valueOf(Utils.LikeStatus));
-               }
-           }
+            for (int i = 0; i < galleryImageLike.size(); i++) {
+                if (i == Integer.parseInt(event.getMessage())) {
+                    galleryImageLike.add(i, String.valueOf(Utils.LikeStatus));
+                }
+            }
         }
 
     }

@@ -1,6 +1,7 @@
 package com.bharatarmy.Adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -102,9 +103,16 @@ public class ImageListAdapter extends RecyclerView.Adapter<ImageListAdapter.Item
         return dataCheck;
     }
 
+    // Clean all elements of the recycler
+    public void clear() {
+        mItemList.clear();
+        notifyDataSetChanged();
+    }
 
+    // Add a list of items -- change to type used
     public void addMoreDataToList(List<ImageDetailModel> result) {
         mItemList.addAll(result);
+        Log.d("Adapterax : ", "" + mItemList.size());
         notifyDataSetChanged();
     }
 }

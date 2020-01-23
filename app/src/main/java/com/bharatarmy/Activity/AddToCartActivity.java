@@ -33,7 +33,7 @@ public class AddToCartActivity extends AppCompatActivity implements View.OnClick
             activityAddToCartBinding.userNameEdt.setText(Utils.retriveLoginData(mContext).getName());
             activityAddToCartBinding.userEmailEdt.setText(Utils.retriveLoginData(mContext).getEmail());
             activityAddToCartBinding.phoneNoEdt.setText("+ "+Utils.retriveLoginData(mContext).getCountryPhoneNo()+" "+Utils.retriveLoginData(mContext).getPhoneNo());
-            Log.d("code :",Utils.retriveLoginData(mContext).getCountryPhoneNo());
+//            Log.d("code :",Utils.retriveLoginData(mContext).getCountryPhoneNo());
         }
     }
 

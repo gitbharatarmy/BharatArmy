@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -13,48 +13,87 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_50sdp"
-        android:background="@color/heading_bg"
-        app:titleTextAppearance="@style/ToolbarTitle"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+        android:background="@color/heading_bg">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginLeft="@dimen/_5sdp"
-            android:layout_marginRight="@dimen/_5sdp"
-            android:weightSum="3">
+            android:layout_marginLeft="@dimen/_15sdp"
+            android:layout_marginRight="@dimen/_15sdp"
+            android:orientation="horizontal">
 
             <LinearLayout
                 android:id="@+id/back_img"
                 android:layout_width="@dimen/_40sdp"
                 android:layout_height="@dimen/_40sdp"
-                android:orientation="horizontal"
-                android:layout_marginLeft="@dimen/_4sdp">
+                android:layout_alignParentLeft="true"
+                android:orientation="horizontal">
+
                 <ImageView
                     android:layout_width="@dimen/_20sdp"
                     android:layout_height="@dimen/_15sdp"
-                    android:src="@drawable/ic_left_arrow2"
                     android:layout_gravity="left|center_vertical"
-                    android:tint="@color/splash_bg_color"/>
+                    android:src="@drawable/ic_left_arrow2"
+                    android:tint="@color/splash_bg_color" />
             </LinearLayout>
-            <TextView
-                android:id="@+id/toolbar_title_txt"
-                style="@style/title_text_font"
-                android:layout_width="0dp"
-                android:layout_weight="2.6"
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="@dimen/_40sdp"
-                android:ellipsize="end"
-                android:gravity="center_vertical"
-                android:maxLines="1"
-                android:paddingLeft="@dimen/_5sdp"
-                android:text="@string/heading"
-                android:textColor="@color/splash_bg_color"
-                android:textSize="@dimen/_14sdp" />
-        </LinearLayout>
+                android:layout_toRightOf="@+id/back_img"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/toolbar_title_txt"
+                    style="@style/title_text_font"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_2sdp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:paddingLeft="@dimen/_5sdp"
+                    android:text="PAN PACIFIC PERTH"
+                    android:textAllCaps="true"
+                    android:textColor="@color/splash_bg_color"
+                    android:textSize="@dimen/main_title_size" />
+
+                <LinearLayout
+                    android:id="@+id/toolbar_rating_linear"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingLeft="@dimen/_5sdp">
+
+                    <com.whinc.widget.ratingbar.RatingBar
+                        android:id="@+id/ratingBar"
+                        android:layout_width="@dimen/_50sdp"
+                        android:layout_height="@dimen/_13sdp"
+                        app:rb_click_rating="false"
+                        app:rb_count="3"
+                        app:rb_fill="@drawable/fill"
+                        app:rb_max_count="5"
+                        app:rb_space="0dp"
+                        app:rb_touch_rating="false" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/toolbar_subtitle_txt"
+                    style="@style/title_text_font"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:gravity="center_vertical"
+                    android:maxLines="1"
+                    android:layout_marginTop="@dimen/_1sdp"
+                    android:paddingLeft="@dimen/_5sdp"
+                    android:text="Select your room"
+                    android:textAllCaps="true"
+                    android:textColor="@color/splash_bg_color"
+                    android:textSize="@dimen/title_subtext_size" />
+            </LinearLayout>
+        </RelativeLayout>
     </androidx.appcompat.widget.Toolbar>
+
     <View
         android:id="@+id/top_gradiant_view"
         android:layout_width="match_parent"
@@ -81,8 +120,136 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/room_typeRcv"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_below="@id/top_gradiant_view"
         android:layout_margin="@dimen/_5sdp"/>
-</LinearLayout>
+
+    <View
+        android:id="@+id/bottom_gradiant_view"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_3sdp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/_50sdp"
+        android:background="@drawable/bg_gradiant_line" />
+
+    <LinearLayout
+        android:id="@+id/bottom_linear"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_50sdp"
+      android:layout_alignParentBottom="true"
+        android:background="@color/heading_bg"
+        android:orientation="horizontal"
+        android:visibility="visible"
+        android:weightSum="1">
+
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.4"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/oldprice_txt"
+                style="@style/title_text_font"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:paddingLeft="@dimen/_2sdp"
+                android:text="₹ 15000"
+                android:textColor="@color/skip_color"
+                android:textSize="@dimen/_11sdp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/title_text_font"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/_2sdp"
+                    android:text="₹ 10000"
+                    android:textColor="@color/splash_bg_color"
+                    android:textSize="@dimen/_15sdp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    style="@style/text_font"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/_2sdp"
+                    android:text="Per night"
+                    android:textColor="@color/colorGrey300"
+                    android:textSize="@dimen/_10sdp" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.6"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/add_room_linear"
+                android:layout_width="@dimen/_67sdp"
+                android:layout_height="@dimen/_20sdp"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/temp_shape"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/title_text_font"
+                    android:layout_width="@dimen/_55sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:paddingLeft="@dimen/_2sdp"
+                    android:text="Add Room"
+                    android:textColor="@color/splash_bg_color"
+                    android:textSize="@dimen/_10sdp"
+                    android:visibility="visible" />
+
+                <ImageView
+                    android:layout_width="@dimen/_7sdp"
+                    android:layout_height="@dimen/_7sdp"
+                    android:layout_marginTop="@dimen/_7sdp"
+                    android:src="@drawable/offerarrow"
+                    android:tint="@color/splash_bg_color" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="@dimen/_1sdp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:background="@color/gray"
+                android:orientation="vertical">
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/book_txt"
+                style="@style/text_font"
+                android:layout_width="@dimen/_80sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:background="@drawable/bookbtn_shape"
+                android:gravity="center_horizontal|center_vertical"
+                android:text="Book Now"
+                android:textAllCaps="true"
+                android:textColor="@color/splash_bg_color"
+                android:textSize="@dimen/_12sdp"
+                android:textStyle="normal" />
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>
 
 </layout>

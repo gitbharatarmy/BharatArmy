@@ -56,7 +56,6 @@ public class TravelMatchHospitalityAdapter extends RecyclerView.Adapter<TravelMa
     public void onBindViewHolder(TravelMatchHospitalityAdapter.MyViewHolder holder, int position) {
         TravelModel detail = tournamenthospitalitylist.get(position);
 
-
         holder.travelMatchHospitalityItemBinding.tickethospitalitypriceTxt.setText(detail.getTicket_hospitality_price());
         Utils.setImageInImageView(detail.getTicket_hospitality_bannerImage(), holder.travelMatchHospitalityItemBinding.travelHospitalityBannerImg, mContext);
         holder.travelMatchHospitalityItemBinding.categoryNameTxt.setText(detail.getTicket_hospitality_namecategory());
@@ -94,7 +93,7 @@ public class TravelMatchHospitalityAdapter extends RecyclerView.Adapter<TravelMa
         }
 
         if (selectedposition == position){
-            holder.travelMatchHospitalityItemBinding.hospitalitysCartAddimage.setImageResource(R.drawable.fill_selected_checkbox);
+            holder.travelMatchHospitalityItemBinding.hospitalitysCartAddimage.setImageResource(R.drawable.fill_checkbox_schedule);
             holder.travelMatchHospitalityItemBinding.hospitalityLayout.setBackground(mContext.getResources().getDrawable(R.drawable.travel_match_selectedchild_curveshape));
         }else{
             holder.travelMatchHospitalityItemBinding.hospitalitysCartAddimage.setImageResource(R.drawable.ic_blank_check);
@@ -108,7 +107,7 @@ public class TravelMatchHospitalityAdapter extends RecyclerView.Adapter<TravelMa
                 notifyDataSetChanged();
                     Intent hospitalityCategoryIntent=new Intent(mContext, TravelMatchTicketAndHospitalityDetailActivity.class);
                     hospitalityCategoryIntent.putExtra("categoryName",detail.getTicket_hospitality_namecategory());
-                    hospitalityCategoryIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    hospitalityCategoryIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |  Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     mContext.startActivity(hospitalityCategoryIntent);
 
             }

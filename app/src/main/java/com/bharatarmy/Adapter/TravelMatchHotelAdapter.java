@@ -14,6 +14,8 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bharatarmy.Activity.AddToCartActivity;
+import com.bharatarmy.Activity.TravelCityHotelDetailsActivity;
 import com.bharatarmy.Activity.TravelMatchHotelRoomTypeActivity;
 import com.bharatarmy.Interfaces.MorestoryClick;
 import com.bharatarmy.Models.TravelModel;
@@ -32,8 +34,7 @@ public class TravelMatchHotelAdapter extends RecyclerView.Adapter<TravelMatchHot
     private ArrayList<String> dataCheck = new ArrayList<String>();
     ArrayList<TravelModel> matchHotelAmenitiesList;
     MatchHotelAmenitiesAdapter matchHotelAmenitiesAdapter;
-
-
+    String audltcountstr,childcountstr;
     public TravelMatchHotelAdapter(Context mContext, ArrayList<TravelModel> hotelList) {
         this.mContext = mContext;
         this.hotelList = hotelList;
@@ -86,15 +87,37 @@ public class TravelMatchHotelAdapter extends RecyclerView.Adapter<TravelMatchHot
         holder.travelMatchHotelListItemBinding.amenities.setItemAnimator(new DefaultItemAnimator());
         holder.travelMatchHotelListItemBinding.amenities.setAdapter(matchHotelAmenitiesAdapter);
 
+        audltcountstr = holder.travelMatchHotelListItemBinding.countOfAudltTxt.getText().toString();
+        childcountstr=holder.travelMatchHotelListItemBinding.countOfChildTxt.getText().toString();
+
         holder.travelMatchHotelListItemBinding.selectRoomLinear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent roomIntent = new Intent(mContext, TravelMatchHotelRoomTypeActivity.class);
                 roomIntent.putExtra("clickposition",String.valueOf(position));
                 roomIntent.putExtra("roomName",holder.travelMatchHotelListItemBinding.roomNametxt.getText().toString());
-
+                roomIntent.putExtra("adult",audltcountstr);
+                roomIntent.putExtra("child",childcountstr);
                 roomIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 mContext.startActivity(roomIntent);
+            }
+        });
+
+        holder.travelMatchHotelListItemBinding.cartView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent cartIntent=new Intent(mContext, AddToCartActivity.class);
+                cartIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                mContext.startActivity(cartIntent);
+            }
+        });
+
+        holder.travelMatchHotelListItemBinding.hotelLinear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent cityHotelDetail=new Intent(mContext, TravelCityHotelDetailsActivity.class);
+                cityHotelDetail.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                mContext.startActivity(cityHotelDetail);
             }
         });
     }

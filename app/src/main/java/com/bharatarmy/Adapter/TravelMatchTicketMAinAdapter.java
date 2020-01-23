@@ -57,30 +57,30 @@ public class TravelMatchTicketMAinAdapter extends RecyclerView.Adapter<TravelMat
         final HomeTemplateDetailModel ticketdetail = matchticketList.get(position);
 
         if (ticketdetail.getDbFromCountryName().equalsIgnoreCase("")) {
-            holder.travelMatchTicketItemListBinding.firstCountryNameTxt.setText(
+            holder.travelMatchTicketItemListBinding.layout1.firstCountryNameTxt.setText(
                     ticketdetail.getObjFromCountry().getCountryName());
         } else {
-            holder.travelMatchTicketItemListBinding.firstCountryNameTxt.setText(
+            holder.travelMatchTicketItemListBinding.layout1.firstCountryNameTxt.setText(
                     ticketdetail.getDbFromCountryName());
         }
         if (ticketdetail.getDbToCountryName().equalsIgnoreCase("")) {
-            holder.travelMatchTicketItemListBinding.secondCountryNameTxt.setText(
+            holder.travelMatchTicketItemListBinding.layout1.secondCountryNameTxt.setText(
                     ticketdetail.getObjToCountry().getCountryName());
         } else {
-            holder.travelMatchTicketItemListBinding.secondCountryNameTxt.setText(
+            holder.travelMatchTicketItemListBinding.layout1.secondCountryNameTxt.setText(
                     ticketdetail.getDbToCountryName());
         }
 
-        Utils.setImageInImageView(ticketdetail.getObjFromCountry().getCountryFlagUrl(), holder.travelMatchTicketItemListBinding.firstCountryflagImage, mContext);
-        Utils.setImageInImageView(ticketdetail.getObjToCountry().getCountryFlagUrl(), holder.travelMatchTicketItemListBinding.secondCountryflagImage, mContext);
+        Utils.setImageInImageView(ticketdetail.getObjFromCountry().getCountryFlagUrl(), holder.travelMatchTicketItemListBinding.layout1.firstCountryflagImage, mContext);
+        Utils.setImageInImageView(ticketdetail.getObjToCountry().getCountryFlagUrl(), holder.travelMatchTicketItemListBinding.layout1.secondCountryflagImage, mContext);
 
-        holder.travelMatchTicketItemListBinding.matchTypeTagTxt.setText(ticketdetail.getStrMatchType());
-        holder.travelMatchTicketItemListBinding.matchDateTimeTxt.setText(ticketdetail.getStrMatchDateTime());
+        holder.travelMatchTicketItemListBinding.layout1.matchTypeTagTxt.setText(ticketdetail.getStrMatchType());
+        holder.travelMatchTicketItemListBinding.layout1.matchDateTimeTxt.setText(ticketdetail.getStrMatchDateTime());
 
-        holder.travelMatchTicketItemListBinding.matchGroundLocationTxt.setText(ticketdetail.getStadiumName());
+        holder.travelMatchTicketItemListBinding.layout1.matchGroundLocationTxt.setText(ticketdetail.getStadiumName());
 
 
-        holder.travelMatchTicketItemListBinding.matchTicketBuyTagTxt.setOnClickListener(new View.OnClickListener() {
+        holder.travelMatchTicketItemListBinding.layout1.matchTicketBuyTagTxt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent ticketandhospitalityIntent = new Intent(mContext, TravelMatchTicketAndHospitalityActivity.class);
@@ -88,6 +88,25 @@ public class TravelMatchTicketMAinAdapter extends RecyclerView.Adapter<TravelMat
                 mContext.startActivity(ticketandhospitalityIntent);
             }
         });
+
+        holder.travelMatchTicketItemListBinding.layout1.matchImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent ticketandhospitalityIntent = new Intent(mContext, TravelMatchTicketAndHospitalityActivity.class);
+                ticketandhospitalityIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                mContext.startActivity(ticketandhospitalityIntent);
+            }
+        });
+
+        holder.travelMatchTicketItemListBinding.layout1.ticketDetailLinear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent ticketandhospitalityIntent = new Intent(mContext, TravelMatchTicketAndHospitalityActivity.class);
+                ticketandhospitalityIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                mContext.startActivity(ticketandhospitalityIntent);
+            }
+        });
+
     }
 
     @Override

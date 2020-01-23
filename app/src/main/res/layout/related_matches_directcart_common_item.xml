@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/tickethospitality_card"
+        android:layout_width="@dimen/_150sdp"
+        android:layout_height="@dimen/_227sdp"
+        android:layout_margin="@dimen/_2sdp"
+        android:orientation="vertical"
+        >
+
+        <RelativeLayout
+            android:id="@+id/ticket_relatedmatches_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/_2sdp"
+            android:layout_marginTop="@dimen/_2sdp"
+            android:layout_marginRight="@dimen/_2sdp"
+            android:layout_marginBottom="@dimen/_2sdp"
+            android:background="@drawable/ticket_hospitality_all_corner_shape"
+            android:elevation="@dimen/_2sdp">
+
+            <com.bharatarmy.RoundishImageView
+                android:id="@+id/travel_ticket_hospitality_banner_img"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_100sdp"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/australia_tour"
+                app:cornerRadius="@dimen/packge_hospitality"
+                app:roundedCorners="topRight|topLeft" />
+
+            <LinearLayout
+                android:id="@+id/shadow_linear"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_100sdp"
+                android:orientation="vertical"
+                android:background="@drawable/dropshadow" />
+
+            <View
+                android:id="@+id/topView"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_3sdp"
+                android:layout_below="@id/travel_ticket_hospitality_banner_img"
+                android:background="@drawable/bg_gradiant_line"
+                android:visibility="visible" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/topView"
+                android:orientation="vertical">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/_85sdp"
+    android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/title_text_font"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:layout_marginRight="@dimen/_11sdp"
+                        android:gravity="right|center_vertical"
+                        android:text="per pax"
+                        android:textAllCaps="true"
+                        android:textColor="@color/orange"
+                        android:textSize="@dimen/_5sdp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_13sdp"
+                    android:layout_marginLeft="@dimen/_5sdp"
+                    android:layout_marginRight="@dimen/_4sdp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/match_type_tag_txt"
+                        style="@style/title_text_font"
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/square_tag_shape"
+                        android:gravity="center_vertical|center_horizontal"
+                        android:text="T20"
+                        android:textColor="@color/splash_bg_color"
+                        android:textSize="@dimen/_7sdp"
+                        android:textStyle="bold"
+                        android:visibility="visible" />
+
+                    <TextView
+                        android:id="@+id/match_date_time_txt"
+                        style="@style/title_text_font"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="@dimen/_3sdp"
+                        android:gravity="center_vertical"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:text="Sat 03 Aug,10:30 AM(Local)"
+                        android:textColor="@color/unselected_view"
+                        android:textSize="@dimen/_9sdp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_7sdp"
+                    android:orientation="horizontal">
+
+
+                    <TextView
+                        android:id="@+id/first_country_Name_txt"
+                        style="@style/title_text_font"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginLeft="@dimen/_5sdp"
+                        android:ellipsize="end"
+                        android:gravity="top|left"
+                        android:maxLines="2"
+                        android:paddingRight="@dimen/_5sdp"
+                        android:text="India"
+                        android:textColor="@color/heading_bg"
+                        android:textSize="@dimen/_9sdp" />
+
+                    <RelativeLayout
+                        android:id="@+id/flag_boder_linear"
+                        android:layout_width="@dimen/_26sdp"
+                        android:layout_height="@dimen/_17sdp"
+                        android:background="@drawable/curve_flag_boader_shape">
+
+                        <com.bharatarmy.RoundishImageView
+                            android:id="@+id/first_countryflag_image"
+                            android:layout_width="@dimen/_25sdp"
+                            android:layout_height="@dimen/_16sdp"
+                            android:layout_centerInParent="true"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/flag_india"
+                            app:cornerRadius="3dp"
+                            app:roundedCorners="topLeft|topRight|bottomLeft|bottomRight" />
+
+                    </RelativeLayout>
+
+                    <TextView
+                        style="@style/title_text_font"
+                        android:layout_width="@dimen/_15sdp"
+                        android:layout_height="match_parent"
+                        android:gravity="center_horizontal|center_vertical"
+                        android:text="v"
+                        android:textColor="@color/heading_bg"
+                        android:textSize="@dimen/_9sdp" />
+
+                    <RelativeLayout
+                        android:layout_width="@dimen/_26sdp"
+                        android:layout_height="@dimen/_17sdp"
+                        android:background="@drawable/curve_flag_boader_shape">
+
+                        <com.bharatarmy.RoundishImageView
+                            android:id="@+id/second_countryflag_image"
+                            android:layout_width="@dimen/_25sdp"
+                            android:layout_height="@dimen/_16sdp"
+                            android:layout_centerInParent="true"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/south_flag"
+                            app:cornerRadius="3dp"
+                            app:roundedCorners="topLeft|topRight|bottomLeft|bottomRight" />
+                    </RelativeLayout>
+
+                    <TextView
+                        android:id="@+id/second_country_Name_txt"
+                        style="@style/title_text_font"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="@dimen/_5sdp"
+                        android:ellipsize="end"
+                        android:gravity="top"
+                        android:maxLines="2"
+                        android:paddingLeft="@dimen/_5sdp"
+                        android:text="South Africa"
+                        android:textColor="@color/heading_bg"
+                        android:textSize="@dimen/_9sdp" />
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_5sdp"
+                    android:layout_marginRight="@dimen/_4sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginBottom="@dimen/_5sdp"
+                    android:orientation="horizontal"
+                    android:visibility="visible">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent">
+
+                        <ImageView
+                            android:layout_width="@dimen/_8sdp"
+                            android:layout_height="@dimen/_7sdp"
+                            android:layout_marginTop="@dimen/_2sdp"
+                            android:src="@drawable/ic_location"
+                            android:tint="@color/unselected_view"
+                            android:visibility="visible" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/unselected_view">
+
+                        <TextView
+                            android:id="@+id/match_ground_location_txt"
+                            style="@style/title_desc_font"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:gravity="center_vertical"
+                            android:maxLines="3"
+                            android:paddingLeft="@dimen/_2sdp"
+                            android:text="Sydney Cricket Ground, Sydney, Australia"
+                            android:textColor="@color/unselected_view"
+                            android:textSize="@dimen/_9sdp" />
+                    </LinearLayout>
+                </LinearLayout>
+</LinearLayout>
+                <RelativeLayout
+                    android:id="@+id/cart_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_30sdp"
+                    android:orientation="horizontal"
+                    android:background="@drawable/add_to_cart_ticket_hospitality_shape"
+                    android:weightSum="1">
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:layout_centerInParent="true">
+                        <ImageView
+                            android:layout_width="@dimen/_13sdp"
+                            android:layout_height="@dimen/_13sdp"
+                            android:src="@drawable/ic_cart"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginRight="@dimen/_5sdp"
+                            android:tint="@color/splash_bg_color"
+                            android:visibility="visible"/>
+                        <TextView
+                            android:id="@+id/cart_txt"
+                            style="@style/title_text_font"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:gravity="center_vertical"
+                            android:text="Add To Cart"
+                            android:textColor="@color/splash_bg_color"
+                            android:textSize="@dimen/_10sdp" />
+                    </LinearLayout>
+                </RelativeLayout>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="@dimen/_89sdp"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:background="@drawable/pacakageprice_curve_shape"
+                android:orientation="horizontal"
+                android:visibility="visible">
+
+                <TextView
+                    android:id="@+id/tickethospitalityprice_txt"
+                    style="@style/title_text_font"
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:layout_gravity="center_horizontal|center_vertical"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:text="₹ 10000"
+                    android:textColor="@color/splash_bg_color"
+                    android:textSize="@dimen/_9sdp"
+                    android:textStyle="bold"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:orientation="horizontal"
+                android:visibility="visible">
+
+                <ImageView
+                    android:id="@+id/ticket_hospitalitys_cart_addimage"
+                    android:layout_width="@dimen/_14sdp"
+                    android:layout_height="@dimen/_14sdp"
+                    android:layout_marginTop="@dimen/_9sdp"
+                    android:layout_marginRight="@dimen/_10sdp"
+                    android:src="@drawable/ic_blank_check" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+</layout>

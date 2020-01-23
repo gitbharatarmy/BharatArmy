@@ -59,6 +59,7 @@ import retrofit.client.Response;
 import static android.app.Activity.RESULT_OK;
 
 // changes code 21/06/2019
+// changes code 23/01/2020
 public class VideoFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -74,24 +75,22 @@ public class VideoFragment extends Fragment {
     private Context mContext;
     VideoListAdapter videoListAdapter;
     List<ImageDetailModel> videoDetailModelsList;
+    List<ImageDetailModel> videoDetailModelsList1=new ArrayList<>();
+
+
     ArrayList<String> videoUrl = new ArrayList<>();
-    boolean isLoading = false;
-    boolean ispull;
-    String imageClickData;
-    FloatingActionButton fab;
-    int[] lastPositions;
-    int lastVisibleItem;
     StaggeredGridLayoutManager staggeredGridLayoutManager;
     int pageIndex = 0;
     SpeedDialOverlayLayout overlayLayout;
     SpeedDialView speedDialView;
-    String imageorvideoStr, videoClickData,videoDataStr,videoNameStr,videoUserNameStr,videoLikeStr,WhereToVideoComeStr,videoIdStr,videoThumbStr;
+    String imageorvideoStr;
 
     Uri selectedUri;
     private static final int REQUEST_VIDEO_TRIMMER = 0x01;
 
 
-    private boolean loading = true;
+    private boolean isVideoLoading = true;
+
     private int pastVisibleItems, visibleItemCount, totalItemCount;
     public VideoFragment() {
         // Required empty public constructor
@@ -284,7 +283,7 @@ public class VideoFragment extends Fragment {
         fragmentVideoBinding.refreshView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                pageIndex = 0;
+
                 callVideoGalleryPullData();
 
             }
@@ -299,20 +298,6 @@ public class VideoFragment extends Fragment {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-//                lastPositions = new int[staggeredGridLayoutManager.getSpanCount()];
-//                lastPositions = staggeredGridLayoutManager.findLastCompletelyVisibleItemPositions(lastPositions);
-//                lastVisibleItem = Math.max(lastPositions[0], lastPositions[1]);//findMax(lastPositions);
-//
-//                if (!isLoading) {                                            /*==*/
-//                    if (staggeredGridLayoutManager != null && lastVisibleItem == videoDetailModelsList.size()-1){//- 1 {
-//                        //bottom of list!
-//                        ispull = false;
-//                        pageIndex = pageIndex + 1;
-//                        fragmentVideoBinding.bottomProgressbarLayout.setVisibility(View.VISIBLE);
-//                        loadMore();
-//
-//                    }
-//                }
 
                 visibleItemCount = staggeredGridLayoutManager.getChildCount();
                 totalItemCount = staggeredGridLayoutManager.getItemCount();
@@ -322,11 +307,11 @@ public class VideoFragment extends Fragment {
                     pastVisibleItems = firstVisibleItems[0];
                 }
 
-                if (loading) {
+                if (isVideoLoading == true) {
                     if ((visibleItemCount + pastVisibleItems) >= totalItemCount) {
-                        loading = false;
+                        isVideoLoading = true;
                         Log.d("tag", "LOAD NEXT ITEM");
-                        pageIndex = pageIndex + 1;
+                        pageIndex ++;
                         fragmentVideoBinding.bottomProgressbarLayout.setVisibility(View.VISIBLE);
                         loadMore();
                     }
@@ -346,36 +331,47 @@ public class VideoFragment extends Fragment {
 
         ApiHandler.getApiService().getBAVideoGallery(getVideoGalleryData(), new retrofit.Callback<ImageMainModel>() {
             @Override
-            public void success(ImageMainModel imageMainModel, Response response) {
+            public void success(ImageMainModel videoMainModel, Response response) {
                 Utils.dismissDialog();
-                if (imageMainModel == null) {
-                    Utils.ping(mContext, getString(R.string.something_wrong));
+                if (videoMainModel == null) {
+//                    Utils.ping(mContext, getString(R.string.something_wrong));
                     return;
                 }
-                if (imageMainModel.getIsValid() == null) {
-                    Utils.ping(mContext, getString(R.string.something_wrong));
+                if (videoMainModel.getIsValid() == null) {
+//                    Utils.ping(mContext, getString(R.string.something_wrong));
                     return;
                 }
-                if (imageMainModel.getIsValid() == 0) {
-                    Utils.ping(mContext, getString(R.string.false_msg));
+                if (videoMainModel.getIsValid() == 0) {
+//                    Utils.ping(mContext, getString(R.string.false_msg));
                     return;
                 }
-                if (imageMainModel.getIsValid() == 1) {
+                if (videoMainModel.getIsValid() == 1) {
 
-                    if (imageMainModel.getData() != null) {
+                    if (videoMainModel.getData() != null) {
                         fragmentVideoBinding.shimmerViewContainer.stopShimmerAnimation();
                         fragmentVideoBinding.videoRcvList.setVisibility(View.VISIBLE);
                         fragmentVideoBinding.shimmerViewContainer.setVisibility(View.GONE);
                         fragmentVideoBinding.bottomProgressbarLayout.setVisibility(View.GONE);
-                        videoDetailModelsList = imageMainModel.getData();
+
+                        if (videoMainModel.getData().size() != 0) {
+                            if (videoDetailModelsList1.size() == 0) {
+                                videoDetailModelsList1.addAll(0, videoMainModel.getData());
+                            } else {
+                                videoDetailModelsList1.addAll(videoDetailModelsList1.size(), videoMainModel.getData());
+                            }
+                        }
+
+
+                        videoDetailModelsList = videoMainModel.getData();
 
                         addOldNewValue(videoDetailModelsList);
                         if (videoListAdapter != null && videoDetailModelsList.size() > 0) {
-                            videoListAdapter.addMoreDataToList(videoDetailModelsList);
                             // just append more data to current list
+                            videoListAdapter.addMoreDataToList(videoDetailModelsList);
+
                         } else if (videoListAdapter != null && videoDetailModelsList.size() == 0) {
-                            isLoading = true;
-                            addOldNewValue(imageMainModel.getData());
+                            isVideoLoading = false;
+
                         } else {
                             fillVideoGallery();
                         }
@@ -464,7 +460,7 @@ public class VideoFragment extends Fragment {
                         videoUrl.clear();
                         videoDetailModelsList = videoMainModel.getData();
 
-                        isLoading = false;
+
                         staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, 1);
                         fragmentVideoBinding.videoRcvList.setLayoutManager(staggeredGridLayoutManager);
                         videoListAdapter = new VideoListAdapter(mContext, getActivity(), videoDetailModelsList, new image_click() {
@@ -475,7 +471,7 @@ public class VideoFragment extends Fragment {
                         });
                         fragmentVideoBinding.videoRcvList.setAdapter(videoListAdapter);
                         fragmentVideoBinding.refreshView.setRefreshing(false);
-
+                        isVideoLoading = true;
 
                     }
 
@@ -496,7 +492,7 @@ public class VideoFragment extends Fragment {
 
     private Map<String, String> getVideoGalleryPullData() {
         Map<String, String> map = new HashMap<>();
-        map.put("PageIndex", String.valueOf(pageIndex));
+        map.put("PageIndex", "0");
         map.put("PageSize", "20");
         map.put("MemberId", String.valueOf(Utils.getAppUserId(mContext)));
         return map;
@@ -539,12 +535,6 @@ public class VideoFragment extends Fragment {
 
     //    pick the video in gallery
     private void pickVideoFromGallery() {
-//        Intent intent = new Intent();
-//        intent.setTypeAndNormalize("video/*");
-//        intent.setAction(Intent.ACTION_GET_CONTENT);
-//        intent.addCategory(Intent.CATEGORY_OPENABLE);
-//        startActivityForResult(Intent.createChooser(intent, getString(R.string.label_select_video)), REQUEST_VIDEO_TRIMMER);
-
         Intent galleryIntent = new Intent(Intent.ACTION_PICK,
                 android.provider.MediaStore.Video.Media.EXTERNAL_CONTENT_URI);
         galleryIntent.setType("video/*");
@@ -562,75 +552,6 @@ public class VideoFragment extends Fragment {
                 videoTrimIntent.putExtra("videoPath", selectedUri.toString());
                 getActivity().startActivity(videoTrimIntent);
             }
-        }
-    }
-
-
-//    @Subscribe
-//    public void customEventReceived(MyScreenChnagesModel event) {
-//        Log.d("VideoResponse :", String.valueOf(event.getImageLikeposition()));
-//        for (int i = 0; i < videoDetailModelsList.size(); i++) {
-//            if (videoDetailModelsList.get(i).getBAVideoGalleryId().equals(event.getImageLikeposition())) {
-////              videoLikeStr=Utils.LikeStatus;
-////              videoDetailModelsList.get(i).setIsLike(Integer.valueOf(Utils.LikeStatus));
-//
-//            }
-//        }
-//    }
-
-    public void videoDataDirection(){
-        int width, height;
-        videoClickData = "";
-        videoClickData = String.valueOf(videoListAdapter.getData());
-        videoClickData = videoClickData.substring(1, videoClickData.length() - 1);
-        Log.d("imageClickData", "" + videoClickData);
-        String[] splitValue = videoClickData.split("\\|");
-        videoDataStr=splitValue[5];
-        videoNameStr=splitValue[4];
-        videoUserNameStr=splitValue[3];
-        videoLikeStr=splitValue[2];
-        WhereToVideoComeStr="VideoFragment";
-        videoIdStr=splitValue[0];
-        videoThumbStr=splitValue[1];
-        width = Integer.parseInt(splitValue[6]);
-        height = Integer.parseInt(splitValue[7]);
-        Log.d("videoId",videoIdStr +"Video Like"+ videoLikeStr);
-        if (width > height) {
-            AppConfiguration.videoType = "horizontal";
-            Intent videogalleryhorizontaldetailIntent = new Intent(mContext, VideoDetailHorizontalActivity.class);
-            videogalleryhorizontaldetailIntent.putExtra("videoData", videoDataStr);
-            videogalleryhorizontaldetailIntent.putExtra("videoName", videoNameStr);
-            videogalleryhorizontaldetailIntent.putExtra("videoUserName", videoUserNameStr);
-            videogalleryhorizontaldetailIntent.putExtra("videoLike", videoLikeStr);
-            videogalleryhorizontaldetailIntent.putExtra("WhereToVideoCome", WhereToVideoComeStr);
-            videogalleryhorizontaldetailIntent.putExtra("videoId", videoIdStr);
-            videogalleryhorizontaldetailIntent.putExtra("videoThumb", videoThumbStr);
-            videogalleryhorizontaldetailIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            mContext.startActivity(videogalleryhorizontaldetailIntent);
-        } else if (width < height) {
-            AppConfiguration.videoType = "vertical";
-            Intent videogalleryverticaldetailIntent = new Intent(mContext, VideoDetailVerticalActivity.class);
-            videogalleryverticaldetailIntent.putExtra("videoData", videoDataStr);
-            videogalleryverticaldetailIntent.putExtra("videoName", videoNameStr);
-            videogalleryverticaldetailIntent.putExtra("videoUserName", videoUserNameStr);
-            videogalleryverticaldetailIntent.putExtra("videoLike", videoLikeStr);
-            videogalleryverticaldetailIntent.putExtra("WhereToVideoCome", WhereToVideoComeStr);
-            videogalleryverticaldetailIntent.putExtra("videoId", videoIdStr);
-            videogalleryverticaldetailIntent.putExtra("videoThumb", videoThumbStr);
-            videogalleryverticaldetailIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            mContext.startActivity(videogalleryverticaldetailIntent);
-        } else if (width == height) {
-            AppConfiguration.videoType = "horizontal";
-            Intent videogalleryhorizontaldetailIntent = new Intent(mContext, VideoDetailHorizontalActivity.class);
-            videogalleryhorizontaldetailIntent.putExtra("videoData", videoDataStr);
-            videogalleryhorizontaldetailIntent.putExtra("videoName", videoNameStr);
-            videogalleryhorizontaldetailIntent.putExtra("videoUserName", videoUserNameStr);
-            videogalleryhorizontaldetailIntent.putExtra("videoLike", videoLikeStr);
-            videogalleryhorizontaldetailIntent.putExtra("WhereToVideoCome", WhereToVideoComeStr);
-            videogalleryhorizontaldetailIntent.putExtra("videoId", videoIdStr);
-            videogalleryhorizontaldetailIntent.putExtra("videoThumb", videoThumbStr);
-            videogalleryhorizontaldetailIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            mContext.startActivity(videogalleryhorizontaldetailIntent);
         }
     }
 }

@@ -70,16 +70,16 @@ public class UltraPagerAdapter extends PagerAdapter {
 
 //        EventBus.getDefault().post(new MyScreenChnagesModel(tournameStr,"1"));
 
-        card_click.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(mContext, TravelMatchDetailActivity.class);
-                intent.putExtra("bgImage", traveldetail.getPopularcity_image());
-                intent.putExtra("tourName",tournameStr);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                mContext.startActivity(intent);
-            }
-        });
+//        card_click.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(mContext, TravelMatchDetailActivity.class);
+//                intent.putExtra("bgImage", traveldetail.getPopularcity_image());
+//                intent.putExtra("tourName",tournameStr);
+//                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                mContext.startActivity(intent);
+//            }
+//        });
 
         container.addView(view);
 

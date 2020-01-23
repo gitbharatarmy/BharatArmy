@@ -27,7 +27,9 @@ import android.view.ViewGroup;
 import com.bharatarmy.Activity.DashboardActivity;
 import com.bharatarmy.Activity.TravelMatchHospitalityActivity;
 import com.bharatarmy.Activity.TravelMatchHotelActivity;
+import com.bharatarmy.Activity.TravelMatchPackageActivity;
 import com.bharatarmy.Activity.TravelMatchScheduleActivity;
+import com.bharatarmy.Activity.TravelMatchSightseeingActivity;
 import com.bharatarmy.Activity.TravelMatchStadiumActivity;
 import com.bharatarmy.Activity.TravelMatchTicketActivity;
 import com.bharatarmy.Adapter.PartnersAdapter;
@@ -147,13 +149,15 @@ public class NewTravelFragment extends Fragment implements View.OnClickListener 
     }
 
     public void init() {
-        //        scrollview
+//        //        scrollview
         travelnewbinding.scrolltravel.post(new Runnable() {
             @Override
             public void run() {
                 travelnewbinding.scrolltravel.fullScroll(View.FOCUS_UP);
             }
         });
+
+//        travelnewbinding.scrolltravel.scrollTo(0,0);
 
         /*Travel match schedule*/
         traveltourList = new ArrayList<TravelModel>();
@@ -221,11 +225,12 @@ public class NewTravelFragment extends Fragment implements View.OnClickListener 
         travelfacilityList.add(new TravelModel(R.drawable.ic_travel_page_transport,
                 "Transport", ""));
 
-        travelfacilityList.add(new TravelModel(R.drawable.ic_travel_page_flight,
-                "Flight", "offer"));
-
         travelfacilityList.add(new TravelModel(R.drawable.ic_travel_page_stadium,
                 "Stadium", ""));
+
+        travelfacilityList.add(new TravelModel(R.drawable.ic_travel_page_flight,
+                "Flight", ""));
+
 
         //News and updates List
         travelnewsupdatesList = new ArrayList<TravelModel>();
@@ -329,8 +334,8 @@ public class NewTravelFragment extends Fragment implements View.OnClickListener 
         //construct built-in indicator, and add it to  UltraViewPager
         travelnewbinding.ultraViewpager.getIndicator().build();
 
-                tournameStr = traveltourList.get(1).getPopularcity_name();
-                Log.d("tournameStr :", tournameStr);
+        tournameStr = traveltourList.get(1).getPopularcity_name();
+        Log.d("tournameStr :", tournameStr);
 
         travelnewbinding.ultraViewpager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -339,16 +344,16 @@ public class NewTravelFragment extends Fragment implements View.OnClickListener 
 
             @Override
             public void onPageSelected(int position) {
-                Log.d("pageselected",""+position);
+                Log.d("pageselected", "" + position);
 
-                for (int i=0;i<traveltourList.size();i++){
-                    if (position == i){
+                for (int i = 0; i < traveltourList.size(); i++) {
+                    if (position == i) {
                         tournameStr = traveltourList.get(i).getPopularcity_name();
                         Log.d("tournameStr :", tournameStr);
 
                     }
                 }
-                if (!tournameStr.equalsIgnoreCase("")){
+                if (!tournameStr.equalsIgnoreCase("")) {
 
                 }
 
@@ -370,42 +375,53 @@ public class NewTravelFragment extends Fragment implements View.OnClickListener 
                 String activityNameStr = travelFacilityAdapter.activityName().toString();
                 if (activityNameStr.equalsIgnoreCase("Schedule")) {
                     Intent travelmatchscheduleIntent = new Intent(mContext, TravelMatchScheduleActivity.class);
-                    travelmatchscheduleIntent.putExtra("tourtitle",tournameStr);
+                    travelmatchscheduleIntent.putExtra("tourtitle", tournameStr);
                     travelmatchscheduleIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     mContext.startActivity(travelmatchscheduleIntent);
                 } else if (activityNameStr.equalsIgnoreCase("Ticket")) {
                     Intent travelmatchticketIntent = new Intent(mContext, TravelMatchTicketActivity.class);
-                    travelmatchticketIntent.putExtra("tourtitle",tournameStr);
+                    travelmatchticketIntent.putExtra("tourtitle", tournameStr);
                     travelmatchticketIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     mContext.startActivity(travelmatchticketIntent);
-                } else if(activityNameStr.equalsIgnoreCase("Stadium")){
+                } else if (activityNameStr.equalsIgnoreCase("Stadium")) {
                     Intent travelmatchstadiumIntent = new Intent(mContext, TravelMatchStadiumActivity.class);
-                    travelmatchstadiumIntent.putExtra("tourtitle",tournameStr);
+                    travelmatchstadiumIntent.putExtra("tourtitle", tournameStr);
                     travelmatchstadiumIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     mContext.startActivity(travelmatchstadiumIntent);
-                }else if(activityNameStr.equalsIgnoreCase("Hospitality")){
+                } else if (activityNameStr.equalsIgnoreCase("Hospitality")) {
                     Intent travelmatchhospitalityIntent = new Intent(mContext, TravelMatchHospitalityActivity.class);
-                    travelmatchhospitalityIntent.putExtra("tourtitle",tournameStr);
+                    travelmatchhospitalityIntent.putExtra("tourtitle", tournameStr);
                     travelmatchhospitalityIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     mContext.startActivity(travelmatchhospitalityIntent);
-                }else if(activityNameStr.equalsIgnoreCase("Hotel")){
+                } else if (activityNameStr.equalsIgnoreCase("Hotel")) {
                     Intent travelmatchhotelIntent = new Intent(mContext, TravelMatchHotelActivity.class);
-                    travelmatchhotelIntent.putExtra("tourtitle",tournameStr);
+                    travelmatchhotelIntent.putExtra("tourtitle", tournameStr);
                     travelmatchhotelIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     mContext.startActivity(travelmatchhotelIntent);
+                } else if (activityNameStr.equalsIgnoreCase("Sightseeing")) {
+                    Intent travelmatchsightseenIntent = new Intent(mContext, TravelMatchSightseeingActivity.class);
+                    travelmatchsightseenIntent.putExtra("tourtitle", tournameStr);
+                    travelmatchsightseenIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    mContext.startActivity(travelmatchsightseenIntent);
+                } else if (activityNameStr.equalsIgnoreCase("Package")) {
+                    Intent travelmatchpackageIntent = new Intent(mContext, TravelMatchPackageActivity.class);
+                    travelmatchpackageIntent.putExtra("tourtitle", tournameStr);
+                    travelmatchpackageIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    mContext.startActivity(travelmatchpackageIntent);
                 }
             }
         });
         gridLayoutManager = new GridLayoutManager(mContext, 3, GridLayoutManager.VERTICAL, false);
         travelnewbinding.travelFacilityRcv.setLayoutManager(gridLayoutManager);
         travelnewbinding.travelFacilityRcv.setItemAnimator(new DefaultItemAnimator());
-        DividerItemDecoration Hdivider = new DividerItemDecoration(travelnewbinding.travelFacilityRcv.getContext(), DividerItemDecoration.HORIZONTAL);
-        DividerItemDecoration Vdivider = new DividerItemDecoration(travelnewbinding.travelFacilityRcv.getContext(), DividerItemDecoration.VERTICAL);
-        Hdivider.setDrawable(ContextCompat.getDrawable(mContext, R.drawable.divider));
-        Vdivider.setDrawable(ContextCompat.getDrawable(mContext, R.drawable.divider));
-        travelnewbinding.travelFacilityRcv.addItemDecoration(Hdivider);
-        travelnewbinding.travelFacilityRcv.addItemDecoration(Vdivider);
+//        DividerItemDecoration Hdivider = new DividerItemDecoration(travelnewbinding.travelFacilityRcv.getContext(), DividerItemDecoration.HORIZONTAL);
+//        DividerItemDecoration Vdivider = new DividerItemDecoration(travelnewbinding.travelFacilityRcv.getContext(), DividerItemDecoration.VERTICAL);
+//        Hdivider.setDrawable(ContextCompat.getDrawable(mContext, R.drawable.divider));
+//        Vdivider.setDrawable(ContextCompat.getDrawable(mContext, R.drawable.divider));
+//        travelnewbinding.travelFacilityRcv.addItemDecoration(Hdivider);
+//        travelnewbinding.travelFacilityRcv.addItemDecoration(Vdivider);
         travelnewbinding.travelFacilityRcv.setAdapter(travelFacilityAdapter);
+
 
         /*fill travel partners list*/
         travelPartnersAdapter = new TravelPartnersAdapter(mContext, travelpartnerList);
@@ -462,7 +478,7 @@ public class NewTravelFragment extends Fragment implements View.OnClickListener 
                 bottomSheetDialogFragment.show(getChildFragmentManager(), bottomSheetDialogFragment.getTag());
                 break;
             case R.id.save_btn:
-                EventBus.getDefault().post(new MyScreenChnagesModel("viewmore","4"));
+                EventBus.getDefault().post(new MyScreenChnagesModel("viewmore", "4"));
                 break;
             case R.id.travel_facility_heading_txt:
          /*       final ArrayList<ShowCaseObject> showCaseList = new ArrayList<>();
@@ -495,7 +511,6 @@ public class NewTravelFragment extends Fragment implements View.OnClickListener 
                 break;
         }
     }
-
 
 
 }

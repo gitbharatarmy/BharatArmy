@@ -1,423 +1,493 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginLeft="@dimen/_7sdp"
-    android:layout_marginTop="@dimen/_14sdp"
-    android:layout_marginRight="@dimen/_7sdp"
-android:layout_marginBottom="@dimen/_1sdp"
-    android:elevation="3dp"
-    android:background="@drawable/match_hotelgroupdetail_curveshape">
 
-    <LinearLayout
-        android:id="@+id/hotel_linear"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/_7sdp"
+        android:layout_marginTop="@dimen/_14sdp"
+        android:layout_marginRight="@dimen/_7sdp"
+        android:layout_marginBottom="@dimen/_1sdp"
+        android:background="@drawable/match_hotelgroupdetail_curveshape"
+        android:elevation="3dp"
         android:orientation="vertical">
 
-        <RelativeLayout
-            android:id="@+id/hotel_layout"
+        <LinearLayout
+            android:id="@+id/hotel_linear"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <com.bharatarmy.RoundishImageView
-                android:id="@+id/hotel_img"
+            <RelativeLayout
+                android:id="@+id/hotel_layout"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_130sdp"
-                android:adjustViewBounds="true"
-                android:scaleType="centerCrop"
-                android:src="@drawable/ajif"
-                app:cornerRadius="@dimen/round_corner_radius"
-                app:roundedCorners="topRight" />
-            <View
-                android:id="@+id/topView"
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:layout_below="@id/hotel_img"
-                android:background="@drawable/bg_gradiant_line"
-                android:visibility="visible" />
+                android:layout_height="match_parent">
 
+                <com.bharatarmy.RoundishImageView
+                    android:id="@+id/hotel_img"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_130sdp"
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ajif"
+                    app:cornerRadius="@dimen/round_corner_radius"
+                    app:roundedCorners="topRight" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/topView"
-                android:background="@drawable/match_groupdetail_sub_curveshape"
-                android:orientation="vertical">
+                <View
+                    android:id="@+id/topView"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_below="@id/hotel_img"
+                    android:background="@drawable/bg_gradiant_line"
+                    android:visibility="visible" />
+
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_marginLeft="@dimen/_6sdp"
-                    android:layout_marginRight="@dimen/_5sdp"
-                    android:layout_marginBottom="@dimen/_7sdp">
+                    android:layout_below="@id/topView"
+                    android:background="@drawable/match_groupdetail_sub_curveshape"
+                    android:orientation="vertical">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginTop="@dimen/_9sdp"
-                        android:layout_weight="1">
+                        android:layout_marginLeft="@dimen/_6sdp"
+                        android:layout_marginRight="@dimen/_5sdp"
+                        android:layout_marginBottom="@dimen/_7sdp"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_9sdp"
+                            android:layout_weight="1"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/hotelname_txt"
+                                style="@style/title_text_font"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.8"
+                                android:ellipsize="end"
+                                android:maxLines="2"
+                                android:text="PAN PACIFIC PERTH"
+                                android:textColor="@color/heading_bg"
+                                android:textSize="@dimen/_16sdp" />
+
+                            <TextView
+                                style="@style/title_text_font"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="right"
+                                android:layout_marginRight="@dimen/_5sdp"
+                                android:layout_weight="0.2"
+                                android:gravity="right|center_vertical"
+                                android:text="per night"
+                                android:textAllCaps="true"
+                                android:textColor="@color/orange"
+                                android:textSize="@dimen/_6sdp" />
+
+                        </LinearLayout>
 
                         <TextView
-                            android:id="@+id/hotelname_txt"
+                            android:id="@+id/hotel_location_txt"
                             style="@style/title_text_font"
-                            android:layout_width="0dp"
-                            android:layout_weight="0.8"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:text="@string/bharat_army_story"
+                            android:textColor="@color/heading_bg"
+                            android:textSize="@dimen/_9sdp"
+                            android:visibility="gone" />
+
+                        <com.whinc.widget.ratingbar.RatingBar
+                            android:id="@+id/ratingBar"
+                            android:layout_width="@dimen/_50sdp"
+                            android:layout_height="@dimen/_16sdp"
+                            app:rb_click_rating="false"
+                            app:rb_count="3"
+                            app:rb_empty="@drawable/empty"
+                            app:rb_fill="@drawable/fill"
+                            app:rb_max_count="5"
+                            app:rb_space="0dp"
+                            app:rb_touch_rating="false" />
+
+                        <TextView
+                            android:id="@+id/hoteldesc_txt"
+                            style="@style/text_font"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
                             android:ellipsize="end"
                             android:maxLines="2"
-                            android:text="PAN PACIFIC PERTH"
-                            android:textColor="@color/heading_bg"
-                            android:textSize="@dimen/_16sdp" />
-                        <TextView
-                            style="@style/title_text_font"
-                            android:layout_width="0dp"
-                            android:layout_weight="0.2"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="right"
-                            android:gravity="right|center_vertical"
-                            android:text="per night"
-                            android:textAllCaps="true"
-                            android:textColor="@color/orange"
-                            android:layout_marginRight="@dimen/_5sdp"
-                            android:textSize="@dimen/_6sdp" />
-
-                    </LinearLayout>
-                    <TextView
-                        android:id="@+id/hotel_location_txt"
-                        style="@style/title_text_font"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:text="@string/bharat_army_story"
-                        android:textColor="@color/heading_bg"
-                        android:textSize="@dimen/_9sdp"
-                        android:visibility="gone" />
-
-                    <com.whinc.widget.ratingbar.RatingBar
-                        android:id="@+id/ratingBar"
-                        android:layout_width="@dimen/_50sdp"
-                        android:layout_height="@dimen/_16sdp"
-                        app:rb_click_rating="false"
-                        app:rb_count="3"
-                        app:rb_empty="@drawable/empty"
-                        app:rb_fill="@drawable/fill"
-                        app:rb_max_count="5"
-                        app:rb_space="0dp"
-                        app:rb_touch_rating="false" />
-
-                    <TextView
-                        android:id="@+id/hoteldesc_txt"
-                        style="@style/text_font"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:ellipsize="end"
-                        android:maxLines="2"
-                        android:paddingBottom="@dimen/_3sdp"
-                        android:text="Bharat Army Experience Package with Accommodation Stay."
-                        android:textColor="@color/normal_font_color"
-                        android:textSize="@dimen/_10sdp" />
+                            android:paddingBottom="@dimen/_3sdp"
+                            android:text="Bharat Army Experience Package with Accommodation Stay."
+                            android:textColor="@color/normal_font_color"
+                            android:textSize="@dimen/_10sdp" />
 
 
-                    <LinearLayout
-                        android:id="@+id/select_room_linear"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginTop="@dimen/_3sdp"
-                        android:layout_marginBottom="@dimen/_10sdp"
-                        android:weightSum="1">
-
-                        <com.bharatarmy.RoundishImageView
-                            android:id="@+id/room_img"
-                            android:layout_width="@dimen/_45sdp"
-                            android:layout_height="@dimen/_45sdp"
-                            android:adjustViewBounds="true"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/ajif"
-                            app:cornerRadius="@dimen/round_image"
-                            app:roundedCorners="all" />
                         <LinearLayout
+                            android:id="@+id/select_room_linear"
                             android:layout_width="match_parent"
-                            android:layout_height="@dimen/_44sdp"
-                            android:orientation="vertical"
-                            android:layout_marginLeft="@dimen/_7sdp">
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_3sdp"
+                            android:layout_marginBottom="@dimen/_10sdp"
+                            android:orientation="horizontal"
+                            android:weightSum="1">
+
+                            <com.bharatarmy.RoundishImageView
+                                android:id="@+id/room_img"
+                                android:layout_width="@dimen/_45sdp"
+                                android:layout_height="@dimen/_45sdp"
+                                android:adjustViewBounds="true"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/ajif"
+                                app:cornerRadius="@dimen/round_image"
+                                app:roundedCorners="all" />
+
                             <LinearLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal">
-                                <ImageView
-                                    android:layout_width="@dimen/_8sdp"
-                                    android:layout_height="@dimen/_8sdp"
-                                    android:src="@drawable/hotel"
-                                    android:layout_gravity="center_vertical"
-                                    android:tint="@color/unselected_view"/>
+                                android:layout_height="@dimen/_44sdp"
+                                android:layout_marginLeft="@dimen/_7sdp"
+                                android:orientation="vertical">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                    <ImageView
+                                        android:layout_width="@dimen/_8sdp"
+                                        android:layout_height="@dimen/_8sdp"
+                                        android:layout_gravity="center_vertical"
+                                        android:src="@drawable/hotel"
+                                        android:tint="@color/unselected_view" />
+
+                                    <TextView
+                                        style="@style/title_text_font"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginLeft="@dimen/_2sdp"
+                                        android:gravity="center_vertical"
+                                        android:paddingTop="@dimen/_3sdp"
+                                        android:text="@string/hotel_room"
+                                        android:textAllCaps="true"
+                                        android:textColor="@color/unselected_view"
+                                        android:textSize="@dimen/_9sdp"
+                                        android:visibility="visible" />
+                                </LinearLayout>
+
+                                <TextView
+                                    android:id="@+id/room_nametxt"
+                                    style="@style/title_text_font"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="@dimen/_19sdp"
+                                    android:layout_marginTop="-2dp"
+                                    android:ellipsize="end"
+                                    android:gravity="center_vertical"
+                                    android:maxLines="1"
+                                    android:text="@string/hotel_room_type"
+                                    android:textAllCaps="true"
+                                    android:textColor="@color/heading_bg"
+                                    android:textSize="@dimen/_16sdp" />
+
                                 <TextView
                                     style="@style/title_text_font"
                                     android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:layout_gravity="left"
+                                    android:layout_marginRight="@dimen/_7sdp"
                                     android:gravity="center_vertical"
-                                    android:text="@string/hotel_room"
-                                    android:layout_marginLeft="@dimen/_2sdp"
-                                    android:textColor="@color/unselected_view"
-                                    android:paddingTop="@dimen/_3sdp"
-                                    android:textSize="@dimen/_9sdp"
-                                    android:visibility="visible"
-                                    android:textAllCaps="true"/>
+                                    android:text="@string/hotel_change"
+                                    android:textAllCaps="true"
+                                    android:textColor="@color/skip_color"
+                                    android:textSize="@dimen/_7sdp"
+                                    android:visibility="visible" />
                             </LinearLayout>
+                        </LinearLayout>
 
-                            <TextView
-                                android:id="@+id/room_nametxt"
-                                style="@style/title_text_font"
-                                android:layout_width="match_parent"
-                                android:layout_height="@dimen/_19sdp"
-                                android:maxLines="1"
-                                android:ellipsize="end"
-                                android:gravity="center_vertical"
-                                android:text="@string/hotel_room_type"
-                                android:textColor="@color/heading_bg"
-                                android:textSize="@dimen/_16sdp"
-                                android:layout_marginTop="-2dp"
-                                android:textAllCaps="true"/>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:visibility="gone">
 
                             <TextView
                                 style="@style/title_text_font"
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
-                                android:gravity="center_vertical"
-                                android:layout_gravity="left"
-                                android:text="@string/hotel_change"
-                                android:layout_marginRight="@dimen/_7sdp"
-                                android:textColor="@color/skip_color"
-                                android:textSize="@dimen/_7sdp"
-                                android:visibility="visible"
-                                android:textAllCaps="true"/>
+                                android:layout_gravity="center_horizontal"
+                                android:text="+"
+                                android:textAllCaps="true"
+                                android:textColor="@color/heading_bg"
+                                android:textSize="@dimen/_25sdp"
+                                android:textStyle="bold" />
+
                         </LinearLayout>
-                    </LinearLayout>
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:visibility="gone">
-
-                        <TextView
-                            style="@style/title_text_font"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_gravity="center_horizontal"
-                            android:text="+"
-                            android:textStyle="bold"
-                            android:textColor="@color/heading_bg"
-                            android:textSize="@dimen/_25sdp"
-                            android:textAllCaps="true"/>
-
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginTop="@dimen/_7sdp"
-                        android:layout_marginBottom="@dimen/_7sdp"
-                        android:weightSum="1"
-                        android:visibility="gone">
-
-                        <com.bharatarmy.RoundishImageView
-                            android:id="@+id/ticket_img"
-                            android:layout_width="@dimen/_45sdp"
-                            android:layout_height="@dimen/_45sdp"
-                            android:adjustViewBounds="true"
-                            android:scaleType="centerCrop"
-                            android:src="@drawable/ajif"
-                            app:cornerRadius="@dimen/round_image"
-                            app:roundedCorners="all" />
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:layout_marginLeft="@dimen/_7sdp">
+                            android:layout_marginTop="@dimen/_7sdp"
+                            android:layout_marginBottom="@dimen/_7sdp"
+                            android:orientation="horizontal"
+                            android:visibility="gone"
+                            android:weightSum="1">
+
+                            <com.bharatarmy.RoundishImageView
+                                android:id="@+id/ticket_img"
+                                android:layout_width="@dimen/_45sdp"
+                                android:layout_height="@dimen/_45sdp"
+                                android:adjustViewBounds="true"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/ajif"
+                                app:cornerRadius="@dimen/round_image"
+                                app:roundedCorners="all" />
+
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:orientation="horizontal">
-                                <ImageView
-                                    android:layout_width="@dimen/_12sdp"
-                                    android:layout_height="@dimen/_12sdp"
-                                    android:src="@drawable/silver_tickets"
-                                    android:tint="@color/unselected_view"/>
+                                android:layout_marginLeft="@dimen/_7sdp"
+                                android:orientation="vertical">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal">
+
+                                    <ImageView
+                                        android:layout_width="@dimen/_12sdp"
+                                        android:layout_height="@dimen/_12sdp"
+                                        android:src="@drawable/silver_tickets"
+                                        android:tint="@color/unselected_view" />
+
+                                    <TextView
+                                        style="@style/title_text_font"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginLeft="@dimen/_2sdp"
+                                        android:gravity="center_vertical"
+                                        android:paddingTop="@dimen/_3sdp"
+                                        android:text="@string/ticket_header"
+                                        android:textAllCaps="true"
+                                        android:textColor="@color/unselected_view"
+                                        android:textSize="@dimen/_9sdp"
+                                        android:visibility="visible" />
+
+                                    <TextView
+                                        style="@style/title_text_font"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginLeft="@dimen/_5sdp"
+                                        android:gravity="center_vertical"
+                                        android:paddingTop="@dimen/_3sdp"
+                                        android:text="OR"
+                                        android:textAllCaps="true"
+                                        android:textColor="@color/unselected_view"
+                                        android:textSize="@dimen/_9sdp"
+                                        android:visibility="visible" />
+
+                                    <ImageView
+                                        android:layout_width="@dimen/_12sdp"
+                                        android:layout_height="@dimen/_12sdp"
+                                        android:layout_marginLeft="@dimen/_5sdp"
+                                        android:src="@drawable/hotel"
+                                        android:tint="@color/unselected_view" />
+
+                                    <TextView
+                                        style="@style/title_text_font"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginLeft="@dimen/_2sdp"
+                                        android:gravity="center_vertical"
+                                        android:paddingTop="@dimen/_3sdp"
+                                        android:text="@string/hospitality_header"
+                                        android:textAllCaps="true"
+                                        android:textColor="@color/unselected_view"
+                                        android:textSize="@dimen/_9sdp"
+                                        android:visibility="visible" />
+                                </LinearLayout>
+
+
+                                <TextView
+                                    style="@style/title_text_font"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginTop="-2dp"
+                                    android:gravity="center_vertical"
+                                    android:text="@string/hotel_hospitality"
+                                    android:textAllCaps="true"
+                                    android:textColor="@color/heading_bg"
+                                    android:textSize="@dimen/_16sdp" />
+
                                 <TextView
                                     style="@style/title_text_font"
                                     android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:layout_gravity="left"
+                                    android:layout_marginRight="@dimen/_7sdp"
                                     android:gravity="center_vertical"
-                                    android:text="@string/ticket_header"
+                                    android:text="@string/hotel_remove"
+                                    android:textAllCaps="true"
                                     android:textColor="@color/unselected_view"
-                                    android:layout_marginLeft="@dimen/_2sdp"
-                                    android:paddingTop="@dimen/_3sdp"
-                                    android:textSize="@dimen/_9sdp"
-                                    android:visibility="visible"
-                                    android:textAllCaps="true"/>
+                                    android:textSize="@dimen/_7sdp"
+                                    android:visibility="visible" />
+                            </LinearLayout>
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_1sdp"
+                            android:layout_marginTop="@dimen/_1sdp"
+                            android:background="@drawable/line_shape" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:weightSum="1">
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="0.6"
+                                android:orientation="vertical">
 
                                 <TextView
                                     style="@style/title_text_font"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:gravity="center_vertical"
-                                    android:text="OR"
+                                    android:paddingTop="@dimen/_5sdp"
+                                    android:paddingRight="@dimen/_7sdp"
+                                    android:paddingBottom="@dimen/_5sdp"
+                                    android:text="Amenities"
                                     android:textColor="@color/unselected_view"
-                                    android:layout_marginLeft="@dimen/_5sdp"
-                                    android:paddingTop="@dimen/_3sdp"
-                                    android:textSize="@dimen/_9sdp"
+                                    android:textSize="@dimen/_7sdp"
+                                    android:visibility="visible" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="@dimen/_27sdp"
+                                    android:orientation="horizontal"
                                     android:visibility="visible"
-                                    android:textAllCaps="true"/>
-                                <ImageView
-                                    android:layout_width="@dimen/_12sdp"
-                                    android:layout_height="@dimen/_12sdp"
-                                    android:layout_marginLeft="@dimen/_5sdp"
-                                    android:src="@drawable/hotel"
-                                    android:tint="@color/unselected_view"/>
-                                <TextView
-                                    style="@style/title_text_font"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="center_vertical"
-                                    android:text="@string/hospitality_header"
-                                    android:textColor="@color/unselected_view"
-                                    android:paddingTop="@dimen/_3sdp"
-                                    android:layout_marginLeft="@dimen/_2sdp"
-                                    android:textSize="@dimen/_9sdp"
-                                    android:visibility="visible"
-                                    android:textAllCaps="true"/>
+                                    android:weightSum="1">
+
+                                    <androidx.recyclerview.widget.RecyclerView
+                                        android:id="@+id/amenities"
+                                        android:layout_width="0dp"
+                                        android:layout_height="match_parent"
+                                        android:layout_weight="1" />
+
+                                </LinearLayout>
                             </LinearLayout>
 
-
-                            <TextView
-                                style="@style/title_text_font"
-                                android:layout_width="match_parent"
+                            <RelativeLayout
+                                android:layout_width="0dp"
                                 android:layout_height="match_parent"
-                                android:gravity="center_vertical"
-                                android:text="@string/hotel_hospitality"
-                                android:textColor="@color/heading_bg"
-                                android:textSize="@dimen/_16sdp"
-                                android:layout_marginTop="-2dp"
-                                android:textAllCaps="true"/>
+                                android:layout_weight="0.4"
+                                android:orientation="vertical">
 
-                            <TextView
-                                style="@style/title_text_font"
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:gravity="center_vertical"
-                                android:layout_gravity="left"
-                                android:text="@string/hotel_remove"
-                                android:layout_marginRight="@dimen/_7sdp"
-                                android:textColor="@color/unselected_view"
-                                android:textSize="@dimen/_7sdp"
-                                android:visibility="visible"
-                                android:textAllCaps="true"/>
+                                <LinearLayout
+                                    android:id="@+id/bottom_cart_view"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="@dimen/_27sdp"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_marginTop="@dimen/_14sdp"
+                                    android:layout_marginRight="@dimen/_5sdp"
+                                    android:background="@drawable/book_btn"
+                                    android:orientation="horizontal"
+                                    android:visibility="visible">
+
+                                    <ImageView
+                                        android:layout_width="@dimen/_15sdp"
+                                        android:layout_height="@dimen/_15sdp"
+                                        android:layout_gravity="center_vertical"
+                                        android:layout_marginLeft="@dimen/_6sdp"
+                                        android:src="@drawable/ic_cart"
+                                        android:tint="@color/splash_bg_color" />
+
+                                    <TextView
+                                        style="@style/title_text_font"
+                                        android:layout_width="@dimen/_65sdp"
+                                        android:layout_height="match_parent"
+                                        android:gravity="center_vertical|center_horizontal"
+                                        android:paddingRight="@dimen/_1sdp"
+                                        android:text="Add to Cart"
+                                        android:textColor="@color/splash_bg_color"
+                                        android:textSize="@dimen/_11sdp" />
+                                </LinearLayout>
+                            </RelativeLayout>
                         </LinearLayout>
-                    </LinearLayout>
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/_1sdp"
-                        android:layout_marginTop="@dimen/_1sdp"
-                        android:background="@drawable/line_shape" />
-
-                    <TextView
-                        style="@style/title_text_font"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:gravity="center_vertical"
-                        android:paddingTop="@dimen/_5sdp"
-                        android:paddingRight="@dimen/_7sdp"
-                        android:paddingBottom="@dimen/_5sdp"
-                        android:text="Amenities"
-                        android:textColor="@color/unselected_view"
-                        android:textSize="@dimen/_7sdp"
-                        android:visibility="visible" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/_27sdp"
-                        android:orientation="horizontal"
-                        android:weightSum="1"
-                        android:visibility="visible">
-
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/amenities"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="1" />
 
                     </LinearLayout>
                 </LinearLayout>
-            </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_marginTop="@dimen/_110sdp"
-                android:layout_marginRight="@dimen/_10sdp"
-                android:background="@drawable/pacakageprice_curve_shape"
-                android:orientation="vertical"
-                android:visibility="visible">
-                <TextView
-                    style="@style/title_text_font"
-                    android:layout_width="match_parent"
+                <LinearLayout
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:gravity="left|center_vertical"
-                    android:paddingTop="@dimen/_4sdp"
-                    android:paddingLeft="@dimen/_7sdp"
-                    android:text="Starting From"
-                    android:textAllCaps="true"
-                    android:textColor="@color/splash_bg_color"
-                    android:textSize="@dimen/_4sdp" />
-                <TextView
-                    android:id="@+id/hotelprice_txt"
-                    style="@style/title_text_font"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginRight="@dimen/_2sdp"
-                    android:gravity="center_horizontal"
-                    android:paddingLeft="@dimen/_7sdp"
-                    android:paddingRight="@dimen/_5sdp"
-                    android:paddingBottom="@dimen/_2sdp"
-                    android:text="₹ 10000"
-                    android:textColor="@color/splash_bg_color"
-                    android:textSize="@dimen/_15sdp"
-                    android:textStyle="bold" />
+                    android:layout_marginTop="@dimen/_110sdp"
+                    android:layout_marginRight="@dimen/_10sdp"
+                    android:background="@drawable/pacakageprice_curve_shape"
+                    android:orientation="vertical"
+                    android:visibility="visible">
 
-            </LinearLayout>
+                    <TextView
+                        style="@style/title_text_font"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:gravity="left|center_vertical"
+                        android:paddingLeft="@dimen/_7sdp"
+                        android:paddingTop="@dimen/_4sdp"
+                        android:text="Starting From"
+                        android:textAllCaps="true"
+                        android:textColor="@color/splash_bg_color"
+                        android:textSize="@dimen/_4sdp" />
 
-            <ImageView
-                android:id="@+id/recommended_image"
-                android:layout_width="@dimen/_35sdp"
-                android:layout_height="@dimen/_50sdp"
-                android:layout_alignParentRight="true"
-                android:layout_marginTop="@dimen/_55sdp"
-                android:layout_marginRight="@dimen/_7sdp"
-                android:scaleType="centerInside"
-                android:src="@drawable/bal"
-                android:visibility="gone" />
+                    <TextView
+                        android:id="@+id/hotelprice_txt"
+                        style="@style/title_text_font"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginRight="@dimen/_2sdp"
+                        android:gravity="center_horizontal"
+                        android:paddingLeft="@dimen/_7sdp"
+                        android:paddingRight="@dimen/_5sdp"
+                        android:paddingBottom="@dimen/_2sdp"
+                        android:text="₹ 10000"
+                        android:textColor="@color/splash_bg_color"
+                        android:textSize="@dimen/_15sdp"
+                        android:textStyle="bold" />
 
-        </RelativeLayout>
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/recommended_image"
+                    android:layout_width="@dimen/_35sdp"
+                    android:layout_height="@dimen/_50sdp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="@dimen/_55sdp"
+                    android:layout_marginRight="@dimen/_7sdp"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/bal"
+                    android:visibility="gone" />
+
+            </RelativeLayout>
 
 
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_3sdp"
+            android:layout_marginLeft="@dimen/_15sdp"
+            android:background="@drawable/gradiant_line"
+            android:visibility="visible" />
     </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/_3sdp"
-     android:layout_marginLeft="@dimen/_15sdp"
-        android:background="@drawable/gradiant_line"
-        android:visibility="visible" />
-</LinearLayout>
 </layout>

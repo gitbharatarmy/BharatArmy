@@ -93,8 +93,8 @@ public class WalkThrough extends AppCompatActivity {
             colorsInactive.add(String.valueOf(R.drawable.ball_scroll));
         }
 
-        int width = 30;
-        int height = 30;
+        int width = getResources().getDimensionPixelSize(R.dimen.viewpager_dots_size);
+        int height = getResources().getDimensionPixelSize(R.dimen.viewpager_dots_size);
 
         walkthroughBinding.layoutDots.removeAllViews();
         for (int i = 0; i < dots.length; i++) {

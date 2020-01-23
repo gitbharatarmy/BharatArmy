@@ -268,6 +268,7 @@
     bergkase cream cheese fromage frais cheesy feet port-salut airedale. St. agur blue cheese rubber
     cheese caerphilly cheddar cheesecake cream cheese manchego lancashire. Roquefort squirty cheese
     the big cheese.</string>
+    <string name="ticket_desc" translatable="false">Jarlsberg lancashire edam. Dolcelatte hard cheese brie st. agur blue cheese caerphilly bavarian bergkase cheese and biscuits mascarpone. Cheeseburger swiss bavaria bergkase cream cheese fromage frais cheesy feet port-salut airedale. St. agur blue cheese rubber cheese caerphilly cheddar cheesecake cream cheese manchego lancashire. Roquefort squirty cheese the big cheese.Jarlsberg lancashire edam. Dolcelatte hard cheese brie st.</string>
     <string name="dialog_done_text" translatable="false">DONE</string>
     <string name="dialog_cancel_text" translatable="false">CANCEL</string>
     <string name="list_empty" translatable="false">No items to display</string>
@@ -296,7 +297,7 @@ Voted “Best Regional Hotel Chain” by readers in Asia in 2017, Pan Pacific Ho
 
 Sincerity is the hallmark of Pan Pacific Hotels Group. The Group is known to its guests, partners, associates and owners for its sincerity in people and the sense of confidence which alleviates the stresses of today’s complex world.</string>
 
-    <string name="sightseen_detail" translatable="false"> Marine Drive is a 3.6-kilometre-long Boulevard in South Mumbai in the city of Mumbai, India. The road was constructed by late philanthropist Bhagojisheth Keer and Pallonji Mistry. It is a C-shaped six-lane concrete road along the coast, which is a natural bay. The road links Nariman Point to Babulnath and Malabar Hill.Marine Drive is one of the most beautifully laid boulevards in southern part of Mumbai. Scroll further and figure out more information about this natural bay.Marine Drive is the most easily identifiable landmark associated with Mumbai and is indicative of the glamor and glitter of the city. It is essentially 3.6 km long.Marine Drive Promenade Mumbai. This C-shaped promenade and adjacent road curves around the Arabian Sea from Nariman Point past Chowpatty Beach.Marine Drive is a stretch of 3 km in South Mumbai, from Nariman Point to the end of the Malabar Hill.Still, Marine Drive is where Mumbaikars come for a few moments of freedom from the ... most luxurious area” how JaddanBai used to discuss each and every detail of the ... Like many a development in Bombay/Mumbai.</string>
+    <string name="sightseen_detail" translatable="false"> Discover the beauty of Western Australia with ADAMS Pinnacle Tours. We have over 35 years of experience in the industry. Take advantage of our local knowledge and travel in comfort and style. Experience ancient landscapes, unique wildlife, picture perfect coastlines and towns steeped in history. We look forward to showing you the ‘must see’ highlights and revealing little known gems that make this state such a popular destination. ADAMS Pinnacle Tours is part of the ADAMS Group and together with ADAMS, provides Australia’s most advanced operational support and Australia’s most technologically advanced control centre.</string>
 
     <string name="place_detail" translatable="false">We love zoos! When we travel, they are always in our ‘places to visit’ list, as we know we don’t want to miss an opportunity to learn more about animals. As you may know, we are proud to be Zoos Victoria Members for 4 years in a row and today I am going to show you one of the benefits of having such a membership.Adelaide Zoo is home to over 1,800 animals and almost 300 species of exotic and native mammals, birds, reptiles, amphibians, invertebrates and fish.  The zoo’s animals are exhibited in 8 hectares of picturesque botanic surroundings, maintained by the zoo’s dedicated horticulture department.  They not only look after the grounds and gardens, but also create and maintain the naturalistic exhibits in all of the zoo’s enclosures.  At Adelaide Zoo you’ll see crowd favourites such as the hippos, giraffes, lions and tigers, the orangutans and meerkats to name just a few.Zookeepers provide daily animal feeds and keeper talks at the Zoo, so it’s a good idea to plan your day around these times. You’ll receive a pamphlet when you enter the zoo with all the details.</string>
 
@@ -387,5 +388,28 @@ Sincerity is the hallmark of Pan Pacific Hotels Group. The Group is known to its
     <string name="previous" translatable="false">Previous</string>
     <string name="finish" translatable="false">OK</string>
 
+    <!--Feedback Screen-->
+    <string name="question3" translatable="false">Do you like the design of our app?</string>
+    <string name="question3_ans1" translatable="false">Yes</string>
+    <string name="question3_ans2" translatable="false">No</string>
 
+    <string name="question4" translatable="false">Is our app helping you achieve your goals?</string>
+    <string name="question4_ans1" translatable="false">Yes</string>
+    <string name="question4_ans2" translatable="false">No</string>
+
+    <string name="question_category" translatable="false">Hi there, a quick question for you:</string>
+    <string name="question1" translatable="false">Are there any functions you would like us to add?</string>
+    <string name="question1_ans1" translatable="false">User show gallery with privacy</string>
+    <string name="question1_ans2" translatable="false">Support chat</string>
+    <string name="question1_ans3" translatable="false">Favourites tab</string>
+    <string name="question1_ans4" translatable="false">Loation</string>
+    <string name="question1_ans5" translatable="false">Face augmented reality</string>
+    <string name="question1_ans6" translatable="false">Share Gallery Social Media</string>
+    <string name="question1_ans7" translatable="false">Remove Gallery</string>
+    <string name="question1_ans8" translatable="false">Travel Package</string>
+
+    <string name="question2" translatable="false">What goals are we helping you achieve?</string>
+
+
+    <string name="submit_feedback" translatable="false">Submit</string>
 </resources>

@@ -26,6 +26,25 @@
         android:roundIcon="@drawable/app_logo_new"
         android:supportsRtl="true"
         android:usesCleartextTraffic="true">
+        <activity android:name=".Activity.TravelMatchStadiumViewActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".Activity.TravelMatchPackageActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".Activity.TravelMatchSightseeingActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".Activity.RelatedTicketCategoryMatchesActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".Activity.TravelMatchStadiumActivity"
             android:launchMode="singleTop"
@@ -113,12 +132,10 @@
             android:theme="@style/AppTheme" />
         <activity
             android:name=".Activity.TravelMatchTicketAndHospitalityDetailActivity"
-            android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".Activity.TravelMatchTicketAndHosipitalityticketdetailActivity"
-            android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
@@ -384,7 +401,6 @@
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
@@ -430,7 +446,10 @@
             android:name="com.google.firebase.messaging.default_notification_channel_id"
             android:value="@string/default_notification_channel_id" />
 
-        <service android:name=".UploadService" /> <!-- Facebook integration -->
+        <service android:name=".UploadService" />
+
+
+        <!-- Facebook integration -->
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />

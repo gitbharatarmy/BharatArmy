@@ -158,6 +158,13 @@ public class FacebookLoginWithNoEmailActivity extends AppCompatActivity implemen
     }
 
     @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        showProgressDialog();
+        facebooklogout();
+    }
+
+    @Override
     protected void onStop() {
         super.onStop();
         if ((mProgressDialog != null) && mProgressDialog.isShowing()) {

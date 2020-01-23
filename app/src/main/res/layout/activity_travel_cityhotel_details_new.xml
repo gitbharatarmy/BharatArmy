@@ -20,7 +20,7 @@
             <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:id="@+id/htab_collapse_toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_433sdp"
+                android:layout_height="@dimen/_365sdp"
                 android:background="@color/splash_bg_color"
                 android:fitsSystemWindows="true"
                 app:collapsedTitleGravity="left"
@@ -90,12 +90,11 @@
                 <LinearLayout
                     android:id="@+id/title_linear"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_100sdp"
+                    android:layout_height="@dimen/_50sdp"
                     android:layout_gravity="bottom"
                     android:layout_marginLeft="@dimen/_15sdp"
-                    android:layout_marginTop="@dimen/_10sdp"
                     android:layout_marginRight="@dimen/_15sdp"
-                    android:layout_marginBottom="@dimen/_50sdp"
+                    android:layout_marginBottom="@dimen/_45sdp"
                     android:orientation="vertical">
 
                     <LinearLayout
@@ -106,7 +105,7 @@
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="0.7"
+                            android:layout_weight="1"
                             android:orientation="horizontal">
 
                             <LinearLayout
@@ -119,8 +118,10 @@
                                     style="@style/title_text_font"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:maxLines="4"
-                                    android:text="Taj Mahal Hotel"
+                                    android:ellipsize="end"
+                                    android:maxLines="1"
+                                    android:text="PAN PACIFIC PERTH"
+                                    android:textAllCaps="true"
                                     android:textColor="@color/heading_bg"
                                     android:textSize="@dimen/_22sdp" />
 
@@ -131,7 +132,7 @@
                                     android:layout_height="wrap_content"
                                     android:maxLines="4"
                                     android:paddingLeft="@dimen/_2sdp"
-                                    android:text="Colaba, Mumbai"
+                                    android:text="Perth, Australia"
                                     android:textColor="@color/normal_font_color"
                                     android:textSize="@dimen/_12sdp" />
                             </LinearLayout>
@@ -167,7 +168,7 @@
                         android:layout_marginTop="@dimen/_10sdp"
                         android:layout_weight="3"
                         android:orientation="horizontal"
-                        android:visibility="visible">
+                        android:visibility="gone">
 
                         <LinearLayout
                             android:layout_width="0dp"

@@ -1,5 +1,9 @@
 package com.bharatarmy.Models;
 
+import androidx.annotation.Nullable;
+
+import java.util.Objects;
+
 public class TravelModel {
     String match_image;
     String match_title;
@@ -876,4 +880,23 @@ public class TravelModel {
     public void setMatchtype(String matchtype) {
         this.matchtype = matchtype;
     }
+
+
+//    @Override
+//    public boolean equals(Object o) {
+//        if (this == o) return true;
+//        if (!(o instanceof TravelModel)) return false;
+//        TravelModel that = (TravelModel) o;
+//        return matchroom_name.equals(that.matchroom_name) &&
+//                Objects.equals(people_count1, that.people_count1) &&
+//                Objects.equals(people_count2, that.people_count2) &&
+//                Objects.equals(room_price, that.room_price) &&
+//                Objects.equals(room_image, that.room_image) &&
+//                Objects.equals(offers, that.offers);
+//    }
+//
+//    @Override
+//    public int hashCode() {
+//        return Objects.hash(matchroom_name, people_count1, people_count2, room_price, room_image, offers);
+//    }
 }

@@ -29,9 +29,12 @@ import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.FragmentStoryBinding;
 import com.leinardi.android.speeddial.SpeedDialView;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -55,13 +58,15 @@ public class StoryFragment extends Fragment {
     List<ImageDetailModel> storyDetailModelList;
     StoryCategoryAdapter storyCategoryAdapter;
 
+    List<ImageDetailModel> storyDetailModelList1 = new ArrayList<>();
+
     int pageIndex = 0;
 
 
     SpeedDialView speedDial;
-    boolean isLoading = false;
+    boolean isStoryLoading = true;
     GridLayoutManager gridLayoutManager;
-    boolean ispull;
+
 
     String categoryIdStr, categoryNameStr, wheretocome;
     public static OnItemClick mListener;
@@ -118,7 +123,7 @@ public class StoryFragment extends Fragment {
         fragmentStoryBinding.refreshView.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                pageIndex = 0;
+
                 callStoryPullData();
 
             }
@@ -136,11 +141,11 @@ public class StoryFragment extends Fragment {
                 super.onScrolled(recyclerView, dx, dy);
 
 
-                if (!isLoading) {
-                    if (gridLayoutManager != null && gridLayoutManager.findLastCompletelyVisibleItemPosition() == storyDetailModelList.size() - 1) {
+                if (isStoryLoading == true) {
+                    if (gridLayoutManager != null && gridLayoutManager.findLastCompletelyVisibleItemPosition() == storyDetailModelList1.size() - 1) {
                         //bottom of list!
-                        ispull = false;
-                        pageIndex = pageIndex + 1;
+                        isStoryLoading = true;
+                        pageIndex++;
                         fragmentStoryBinding.bottomProgressbarLayout.setVisibility(View.VISIBLE);
                         loadMore();
 
@@ -163,36 +168,45 @@ public class StoryFragment extends Fragment {
 
         ApiHandler.getApiService().getBAStories(getStoryData(), new retrofit.Callback<ImageMainModel>() {
             @Override
-            public void success(ImageMainModel imageMainModel, Response response) {
+            public void success(ImageMainModel storyMainModel, Response response) {
                 Utils.dismissDialog();
-                if (imageMainModel == null) {
+                if (storyMainModel == null) {
                     Utils.ping(mContext, getString(R.string.something_wrong));
                     return;
                 }
-                if (imageMainModel.getIsValid() == null) {
+                if (storyMainModel.getIsValid() == null) {
                     Utils.ping(mContext, getString(R.string.something_wrong));
                     return;
                 }
-                if (imageMainModel.getIsValid() == 0) {
+                if (storyMainModel.getIsValid() == 0) {
                     Utils.ping(mContext, getString(R.string.false_msg));
                     return;
                 }
-                if (imageMainModel.getIsValid() == 1) {
+                if (storyMainModel.getIsValid() == 1) {
 
-                    if (imageMainModel.getData() != null) {
-
-                        storyDetailModelList = imageMainModel.getData();
+                    if (storyMainModel.getData() != null) {
+                        if (storyMainModel.getData().size() != 0) {
+                            if (storyDetailModelList1.size() == 0) {
+                                storyDetailModelList1.addAll(0, storyMainModel.getData());
+                            } else {
+                                storyDetailModelList1.addAll(storyDetailModelList1.size(), storyMainModel.getData());
+                            }
+                        }
+                        storyDetailModelList = storyMainModel.getData();
                         fragmentStoryBinding.shimmerViewContainer.stopShimmerAnimation();
                         fragmentStoryBinding.shimmerViewContainer.setVisibility(View.GONE);
                         fragmentStoryBinding.bottomProgressbarLayout.setVisibility(View.GONE);
+
+//                        addOldNewValue(storyDetailModelList1);
+
                         if (storyLsitAdapter != null && storyDetailModelList.size() > 0) {
                             storyLsitAdapter.addMoreDataToList(storyDetailModelList);
                             // just append more data to current list
                         } else if (storyLsitAdapter != null && storyDetailModelList.size() == 0) {
 //                            Utils.ping(mContext,"No more data available");
                             Log.d("pageIndex", "" + pageIndex);
-                            isLoading = true;
-                            addOldNewValue(imageMainModel.getData());
+                            isStoryLoading = false;
+
                         } else {
                             fillStoryGallery();
                         }
@@ -258,9 +272,9 @@ public class StoryFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-//        if (storyDetailModelList.size()!=0){
-//            storyDetailModelList.clear();
-//        }
+        if (storyDetailModelList.size() != 0) {
+            storyDetailModelList.clear();
+        }
 
     }
 
@@ -276,26 +290,36 @@ public class StoryFragment extends Fragment {
 
         ApiHandler.getApiService().getBAStories(getStoryPullData(), new retrofit.Callback<ImageMainModel>() {
             @Override
-            public void success(ImageMainModel imageMainModel, Response response) {
+            public void success(ImageMainModel storyMainModel, Response response) {
                 Utils.dismissDialog();
-                if (imageMainModel == null) {
+                if (storyMainModel == null) {
                     Utils.ping(mContext, getString(R.string.something_wrong));
                     return;
                 }
-                if (imageMainModel.getIsValid() == null) {
+                if (storyMainModel.getIsValid() == null) {
                     Utils.ping(mContext, getString(R.string.something_wrong));
                     return;
                 }
-                if (imageMainModel.getIsValid() == 0) {
+                if (storyMainModel.getIsValid() == 0) {
                     Utils.ping(mContext, getString(R.string.false_msg));
                     return;
                 }
-                if (imageMainModel.getIsValid() == 1) {
+                if (storyMainModel.getIsValid() == 1) {
 
-                    if (imageMainModel.getData() != null) {
-                        storyDetailModelList = imageMainModel.getData();
-                        fillStoryGallery();
+                    if (storyMainModel.getData() != null) {
+
+
+                        storyDetailModelList1.addAll(0, storyMainModel.getData());
+                        Set<ImageDetailModel> unique = new LinkedHashSet<ImageDetailModel>(storyDetailModelList1);
+                        storyDetailModelList1 = new ArrayList<ImageDetailModel>(unique);
+                        storyLsitAdapter.clear();
+                        storyLsitAdapter.addMoreDataToList(storyDetailModelList1);
+
+                        Log.d("pullDataList : ", "" + storyDetailModelList1.size());
+//                       
                         fragmentStoryBinding.refreshView.setRefreshing(false);
+                        isStoryLoading = true;
+
                     }
 
                 }
@@ -315,17 +339,17 @@ public class StoryFragment extends Fragment {
 
     private Map<String, String> getStoryPullData() {
         Map<String, String> map = new HashMap<>();
-        map.put("PageIndex", String.valueOf(pageIndex));
+        map.put("PageIndex", "0");
         map.put("PageSize", "14");
         map.put("MemberId", String.valueOf(Utils.getAppUserId(mContext)));
         return map;
     }
 
-    public void addOldNewValue(List<ImageDetailModel> result) {
-
-        storyDetailModelList = result;
-        storyLsitAdapter.notifyDataSetChanged();
-    }
+//    public void addOldNewValue(List<ImageDetailModel> result) {
+//
+//        storyDetailModelList = result;
+//        storyLsitAdapter.notifyDataSetChanged();
+//    }
 
     public void onAttach(Context context) {
         super.onAttach(context);

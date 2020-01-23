@@ -22,6 +22,7 @@ import java.util.List;
 public class TravelMatchStadiumAdapter extends RecyclerView.Adapter<TravelMatchStadiumAdapter.MyViewHolder> {
     Context mcontext;
     List<TravelModel> tournamnetStadiumlist;
+    int  last;
 
     public TravelMatchStadiumAdapter(Context mContext, List<TravelModel> tournamnetStadiumlist) {
         this.mcontext = mContext;
@@ -51,7 +52,11 @@ public class TravelMatchStadiumAdapter extends RecyclerView.Adapter<TravelMatchS
     @Override
     public void onBindViewHolder(TravelMatchStadiumAdapter.MyViewHolder holder, int position) {
         TravelModel stadiumdetail = tournamnetStadiumlist.get(position);
+        last = tournamnetStadiumlist.size()-1;
 
+        if (last == position){
+            holder.travelMatchStadiumItemBinding.dividerView.setVisibility(View.GONE);
+        }
         Utils.setImageInImageView(stadiumdetail.getBg_iamge(),holder.travelMatchStadiumItemBinding.travelStadiumImg,mcontext);
         holder.travelMatchStadiumItemBinding.travelStadiumTitleTxt.setText(stadiumdetail.getMain_titleName());
         holder.travelMatchStadiumItemBinding.travelStadiumDescriptionTxt.setText(stadiumdetail.getMain_desc());

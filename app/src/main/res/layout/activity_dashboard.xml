@@ -10,46 +10,46 @@
         layout="@layout/app_bar_dashboard"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-    <androidx.drawerlayout.widget.DrawerLayout
-        android:id="@+id/drawer_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fitsSystemWindows="true"
-        android:layout_gravity="center_vertical"
-        tools:openDrawer="start"
-        android:visibility="gone">
+<!--    <androidx.drawerlayout.widget.DrawerLayout-->
+<!--        android:id="@+id/drawer_layout"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:fitsSystemWindows="true"-->
+<!--        android:layout_gravity="center_vertical"-->
+<!--        tools:openDrawer="start"-->
+<!--        android:visibility="gone">-->
 
 
-        <com.google.android.material.navigation.NavigationView
-            android:id="@+id/nav_view"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="start"
-            android:fitsSystemWindows="true"
-            app:itemTextAppearance="@style/text_font"
-            app:headerLayout="@layout/nav_header_dashboard"
-            app:menu="@menu/activity_dashboard_drawer"
-            app:itemIconTint="@color/drawer_item"
-            app:itemTextColor="@color/drawer_item">
+<!--        <com.google.android.material.navigation.NavigationView-->
+<!--            android:id="@+id/nav_view"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:layout_gravity="start"-->
+<!--            android:fitsSystemWindows="true"-->
+<!--            app:itemTextAppearance="@style/text_font"-->
+<!--            app:headerLayout="@layout/nav_header_dashboard"-->
+<!--            app:menu="@menu/activity_dashboard_drawer"-->
+<!--            app:itemIconTint="@color/drawer_item"-->
+<!--            app:itemTextColor="@color/drawer_item">-->
 
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_above="@+id/choose_linear"
-                android:layout_below="@+id/toolbar"
-                android:layout_marginBottom="-90dp">
+<!--            <RelativeLayout-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_above="@+id/choose_linear"-->
+<!--                android:layout_below="@+id/toolbar"-->
+<!--                android:layout_marginBottom="-90dp">-->
 
-            <ImageView
-                android:layout_width="@dimen/_230sdp"
-                android:layout_height="@dimen/_230sdp"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentBottom="true"
-                android:layout_marginLeft="-100dp"
-                android:alpha=".7"
-                android:src="@drawable/chakr_image" />
-            </RelativeLayout>
-        </com.google.android.material.navigation.NavigationView>
+<!--            <ImageView-->
+<!--                android:layout_width="@dimen/_230sdp"-->
+<!--                android:layout_height="@dimen/_230sdp"-->
+<!--                android:layout_alignParentLeft="true"-->
+<!--                android:layout_alignParentBottom="true"-->
+<!--                android:layout_marginLeft="-100dp"-->
+<!--                android:alpha=".7"-->
+<!--                android:src="@drawable/chakr_image" />-->
+<!--            </RelativeLayout>-->
+<!--        </com.google.android.material.navigation.NavigationView>-->
 
 
-    </androidx.drawerlayout.widget.DrawerLayout>
+<!--    </androidx.drawerlayout.widget.DrawerLayout>-->
 </LinearLayout>

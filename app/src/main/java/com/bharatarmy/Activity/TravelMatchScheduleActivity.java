@@ -63,6 +63,7 @@ import retrofit.client.Response;
 public class TravelMatchScheduleActivity extends AppCompatActivity implements View.OnClickListener {
     ActivityTravelMatchScheduleBinding activityTravelMatchScheduleBinding;
     Context mContext;
+    String toolbarTitleStr;
 
     /*Flag and Name List*/
     List<InquiryStatusModel> teamnameflagList;
@@ -118,7 +119,9 @@ public class TravelMatchScheduleActivity extends AppCompatActivity implements Vi
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setDisplayShowHomeEnabled(false);
 
-
+        if (getIntent().getStringExtra("tourtitle") != null) {
+            toolbarTitleStr = getIntent().getStringExtra("tourtitle");
+        }
         activityTravelMatchScheduleBinding.shimmerViewContainerTeamflagInfo.startShimmerAnimation();
         activityTravelMatchScheduleBinding.shimmerViewContainer.startShimmerAnimation();
 
@@ -203,8 +206,9 @@ public class TravelMatchScheduleActivity extends AppCompatActivity implements Vi
                 //Check if the view is collapsed
                 if (scrollRange + verticalOffset == 0) {
                     activityTravelMatchScheduleBinding.toolbar.setBackgroundColor(ContextCompat.getColor(mContext, R.color.heading_bg));
-                    activityTravelMatchScheduleBinding.toolbarTitleTxt.setText("ICC T20 World Cup Australia 2020");
+                    activityTravelMatchScheduleBinding.toolbarTitleTxt.setText(toolbarTitleStr);
                     activityTravelMatchScheduleBinding.toolbarSubtitleTxt.setVisibility(View.VISIBLE);
+                    activityTravelMatchScheduleBinding.toolbarTimedateLinear.setVisibility(View.VISIBLE);
                     activityTravelMatchScheduleBinding.collapsingToolbar.setTitle("");
                     Typeface typeface = ResourcesCompat.getFont(mContext, R.font.helveticaneueltstdbdcn);
                     activityTravelMatchScheduleBinding.collapsingToolbar.setCollapsedTitleTypeface(typeface);
@@ -217,6 +221,7 @@ public class TravelMatchScheduleActivity extends AppCompatActivity implements Vi
                 } else if (isShow) {
                     activityTravelMatchScheduleBinding.toolbar.setBackgroundColor(ContextCompat.getColor(mContext, R.color.transparent));
                     activityTravelMatchScheduleBinding.toolbarSubtitleTxt.setVisibility(View.GONE);
+                    activityTravelMatchScheduleBinding.toolbarTimedateLinear.setVisibility(View.GONE);
                     activityTravelMatchScheduleBinding.toolbarTitleTxt.setText("");
                     activityTravelMatchScheduleBinding.collapsingToolbar.setTitle("");
                     activityTravelMatchScheduleBinding.alertRel.setVisibility(View.VISIBLE);
@@ -496,7 +501,7 @@ public class TravelMatchScheduleActivity extends AppCompatActivity implements Vi
         }
     }
 
-    public void setTooltip(){
+    public void setTooltip() {
         final ArrayList<ShowCaseObject> showCaseList = new ArrayList<>();
 
         int completelyVisiblePosition = teamflagmLayoutManager.findFirstCompletelyVisibleItemPosition();
@@ -572,6 +577,7 @@ public class TravelMatchScheduleActivity extends AppCompatActivity implements Vi
         // make the dialog show
         showCaseDialog.show(TravelMatchScheduleActivity.this, SHOWCASE_TAG, showCaseList);
     }
+
     public void setappguide() {
         showCaseDialog = new ShowCaseBuilder()
                 .setPackageName(getPackageName())

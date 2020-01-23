@@ -24,15 +24,14 @@ public class TravelMatchHotelRoomTypeAdapter extends RecyclerView.Adapter<Travel
     Context mContext;
     ArrayList<TravelModel> roomList;
     MorestoryClick morestoryClick;
-    int selectedposition,mainposition;
     private ArrayList<String> dataCheck = new ArrayList<String>();
+    int last;
 
-    public TravelMatchHotelRoomTypeAdapter(Context mContext, ArrayList<TravelModel> roomList, int selectedposition, int mainposition, MorestoryClick morestoryClick) {
+    public TravelMatchHotelRoomTypeAdapter(Context mContext, ArrayList<TravelModel> roomList, MorestoryClick morestoryClick) {
         this.mContext = mContext;
         this.roomList = roomList;
-        this.selectedposition = selectedposition;
         this.morestoryClick = morestoryClick;
-        this.mainposition=mainposition;
+
     }
 
 
@@ -62,32 +61,48 @@ public class TravelMatchHotelRoomTypeAdapter extends RecyclerView.Adapter<Travel
     @Override
 
     public void onBindViewHolder(TravelMatchHotelRoomTypeAdapter.MyViewHolder holder, int position) {
-        Utils.setImageInImageView(roomList.get(position).getRoom_image(), holder.travelMatchHotelRoomTypeListItemBinding.selectedRoomimg, mContext);
+
+        last = roomList.size();
+
+        if (last  == position) {
+            holder.travelMatchHotelRoomTypeListItemBinding.divider.setVisibility(View.GONE);
+        }
+
+        Utils.setImageInImageView(roomList.get(position).getRoom_image(), holder.travelMatchHotelRoomTypeListItemBinding.roomImg, mContext);
         holder.travelMatchHotelRoomTypeListItemBinding.roomTitleTxt.setText(roomList.get(position).getMatchroom_name());
 
         holder.travelMatchHotelRoomTypeListItemBinding.roomPriceTxt.setText(roomList.get(position).getRoom_price());
 
-
-        if (selectedposition == position) {
-            holder.travelMatchHotelRoomTypeListItemBinding.roomscartAddimage.setImageResource(R.drawable.fill_selected_checkbox);
-            holder.travelMatchHotelRoomTypeListItemBinding.roomLinear.setBackground(mContext.getResources().getDrawable(R.drawable.travel_match_selectedchild_curveshape));
-        }else{
-            holder.travelMatchHotelRoomTypeListItemBinding.roomscartAddimage.setImageResource(R.drawable.ic_blank_check);
-            holder.travelMatchHotelRoomTypeListItemBinding.roomLinear.setBackground(mContext.getResources().getDrawable(R.drawable.travel_match_child_curveshape));
-        }
-
-        holder.travelMatchHotelRoomTypeListItemBinding.roomscartAddimage.setOnClickListener(new View.OnClickListener() {
+        holder.travelMatchHotelRoomTypeListItemBinding.roomLinear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 roomList.get(position).setOffers("1");
-                selectedposition = position;
                 notifyDataSetChanged();
-
-                dataCheck = new ArrayList<>();
-                dataCheck.add(roomList.get(position).getRoom_image() + "|" + roomList.get(position).getMatchroom_name());
                 morestoryClick.getmorestoryClick();
             }
         });
+
+
+//        if (selectedposition == position) {
+//            holder.travelMatchHotelRoomTypeListItemBinding.roomscartAddimage.setImageResource(R.drawable.fill_selected_checkbox);
+//            holder.travelMatchHotelRoomTypeListItemBinding.roomLinear.setBackground(mContext.getResources().getDrawable(R.drawable.travel_match_selectedchild_curveshape));
+//        }else{
+//            holder.travelMatchHotelRoomTypeListItemBinding.roomscartAddimage.setImageResource(R.drawable.ic_blank_check);
+//            holder.travelMatchHotelRoomTypeListItemBinding.roomLinear.setBackground(mContext.getResources().getDrawable(R.drawable.travel_match_child_curveshape));
+//        }
+
+//        holder.travelMatchHotelRoomTypeListItemBinding.roomscartAddimage.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                roomList.get(position).setOffers("1");
+//                selectedposition = position;
+//                notifyDataSetChanged();
+//
+//                dataCheck = new ArrayList<>();
+//                dataCheck.add(roomList.get(position).getRoom_image() + "|" + roomList.get(position).getMatchroom_name());
+//                morestoryClick.getmorestoryClick();
+//            }
+//        });
 
 //        holder.travelMatchHotelRoomTypeListItemBinding.roomTitleTxt.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -117,19 +132,7 @@ public class TravelMatchHotelRoomTypeAdapter extends RecyclerView.Adapter<Travel
 //            }
 //        });
 
-        holder.travelMatchHotelRoomTypeListItemBinding.viewMoreLinear.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent roomDetailIntent =new Intent(mContext, TravelMatchRoomDetailActivity.class);
-                roomDetailIntent.putExtra("roomName", roomList.get(position).getMatchroom_name());
-                roomDetailIntent.putExtra("rooImage",roomList.get(position).getRoom_image());
-                roomDetailIntent.putExtra("roomPrice",roomList.get(position).getRoom_price());
-                roomDetailIntent.putExtra("clickposition",String.valueOf(mainposition));
-                roomDetailIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                mContext.startActivity(roomDetailIntent);
-                ((Activity)mContext).finish();
-            }
-        });
+
     }
 
     @Override

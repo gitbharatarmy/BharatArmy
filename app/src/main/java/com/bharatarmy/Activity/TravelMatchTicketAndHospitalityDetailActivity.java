@@ -49,55 +49,72 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 public class TravelMatchTicketAndHospitalityDetailActivity extends AppCompatActivity implements OnMapReadyCallback, View.OnClickListener {
     ActivityTravelMatchTicketAndHospitalityDetailBinding activityTravelMatchTicketAndHospitalityDetailBinding;
     Context mContext;
+    //    hospitality gallery list and adapter
     ArrayList<TravelModel> travelHospitalityGalleryList;
-    ArrayList<TravelModel> travelHospitalityFacilityList;
-    ArrayList<TravelModel> travelHospitalityInclusionList;
-    ArrayList<TravelModel> travelHospitalityFixturesList;
-    ArrayList<TravelModel> travelHospitalityRealtedHospitalityList;
     MyHospitalityGalleryViewPagerAdapter myHospitalityGalleryViewPagerAdapter;
     private TextView[] dots;
+
+    //    hospitality facility list and adapter
+    ArrayList<TravelModel> travelHospitalityFacilityList;
     HospitalityDetailFacilityAdapter hospitalityDetailFacilityAdapter;
+
+    //    hospitality inclusion list and adapter
+    ArrayList<TravelModel> travelHospitalityInclusionList;
+
+    //    hospitality fixtures list and adapter
+    ArrayList<TravelModel> travelHospitalityFixturesList;
     HospitalityDetailFixturesAdapter hospitalityDetailFixturesAdapter;
+
+    //    related hospitality list and adapter
+    ArrayList<TravelModel> travelHospitalityRealtedHospitalityList;
+    ArrayList<TravelModel> travelHospitalityRealtedHospitalityfinalList;
     RelatedHospitalityDetailAdapter relatedHospitalityDetailAdapter;
 
-    StaggeredGridLayoutManager staggeredGridLayoutManager;
-
+    //    showing location in google map
     GoogleMap googleMapj;
     SupportMapFragment mapFragment;
     List<LatLng> list;
     private static final int TAG_CODE_PERMISSION_LOCATION = 134;
     Marker markercity;
 
+    //    use for ticket price
+    int hospitalitycount = 1;
+    double totalamount = 0;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        activityTravelMatchTicketAndHospitalityDetailBinding= DataBindingUtil. setContentView(this,R.layout.activity_travel_match_ticket_and_hospitality_detail);
-    mContext=TravelMatchTicketAndHospitalityDetailActivity.this;
-    
-    init();
-    setListiner();
-    setDataValue();
+        activityTravelMatchTicketAndHospitalityDetailBinding = DataBindingUtil.setContentView(this, R.layout.activity_travel_match_ticket_and_hospitality_detail);
+        mContext = TravelMatchTicketAndHospitalityDetailActivity.this;
+
+        init();
+        setListiner();
+        setDataValue();
     }
 
-    public void init(){
-        if (getIntent().getStringExtra("categoryName")!=null) {
-            activityTravelMatchTicketAndHospitalityDetailBinding.toolbarTitleTxt.setText(getIntent().getStringExtra("categoryName"));
+    public void init() {
+        if (getIntent().getStringExtra("categoryName") != null) {
+            activityTravelMatchTicketAndHospitalityDetailBinding.matchHospitalityTypeTagTxt.setText(getIntent().getStringExtra("categoryName"));
+//            activityTravelMatchTicketAndHospitalityDetailBinding.toolbarTitleTxt.setText(getIntent().getStringExtra("categoryName"));
         }
 
         mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
     }
-    
-    public void setListiner(){
-        activityTravelMatchTicketAndHospitalityDetailBinding.backImg.setOnClickListener(this);
 
+    public void setListiner() {
+        activityTravelMatchTicketAndHospitalityDetailBinding.backImg.setOnClickListener(this);
+        activityTravelMatchTicketAndHospitalityDetailBinding.bottomCartView.setOnClickListener(this);
+        activityTravelMatchTicketAndHospitalityDetailBinding.hospitalityMinusLayout.setOnClickListener(this);
+        activityTravelMatchTicketAndHospitalityDetailBinding.hospitalityPlusLayout.setOnClickListener(this);
 
         activityTravelMatchTicketAndHospitalityDetailBinding.customView.setOnTouchListener(new View.OnTouchListener() {
 
@@ -126,8 +143,8 @@ public class TravelMatchTicketAndHospitalityDetailActivity extends AppCompatActi
             }
         });
     }
-    
-    public void setDataValue(){
+
+    public void setDataValue() {
 //    viewpager fill dataList
         travelHospitalityGalleryList = new ArrayList<TravelModel>();
         travelHospitalityGalleryList.add(new TravelModel("https://3.imimg.com/data3/VE/IW/MY-16198270/hotel-management-service-500x500.jpg", "Hotel1"));
@@ -164,37 +181,39 @@ public class TravelMatchTicketAndHospitalityDetailActivity extends AppCompatActi
         travelHospitalityInclusionList.add(new TravelModel(R.drawable.ic_meal, "Extensive menu with in room live chef sation"));
         travelHospitalityInclusionList.add(new TravelModel(R.drawable.ic_wine, "5 hour premium beverage package"));
         travelHospitalityInclusionList.add(new TravelModel(R.drawable.ic_entertainment, "Premium seating"));
-        travelHospitalityInclusionList.add(new TravelModel(R.drawable.ic_entertainment,"Access to win money can't buy experiences"));
+        travelHospitalityInclusionList.add(new TravelModel(R.drawable.ic_entertainment, "Access to win money can't buy experiences"));
 
 
-        for (int i=0;i<travelHospitalityInclusionList.size();i++){
-            View view =LayoutInflater.from(mContext).inflate(R.layout.hospitality_inclusion_list,null);
+        for (int i = 0; i < travelHospitalityInclusionList.size(); i++) {
+            View view = LayoutInflater.from(mContext).inflate(R.layout.hospitality_inclusion_list, null);
 
-            TextView txt=(TextView)view.findViewById(R.id.inclusion_txt);
+            TextView txt = (TextView) view.findViewById(R.id.inclusion_txt);
 
             txt.setText(travelHospitalityInclusionList.get(i).getMatchteamVenues());
 
             activityTravelMatchTicketAndHospitalityDetailBinding.inclusionLinear.addView(view);
         }
 //    fixtures list
-        travelHospitalityFixturesList=new ArrayList<TravelModel>();
-        travelHospitalityFixturesList.add(new TravelModel("India",R.drawable.flag_india,
-                 "South Africa",R.drawable.south_flag,"Match 2 | Karen Rolton Oval",
-                "T20 | WOMEN'S"));
-        travelHospitalityFixturesList.add(new TravelModel("India",R.drawable.flag_india,
-                "Pakistan",R.drawable.flag_pakistan,"Allan Border Field","T20 | MEN'S"));
-        travelHospitalityFixturesList.add(new TravelModel("South Africa",R.drawable.south_flag,"New Zealand",R.drawable.flag_new_zealand,
-                "Match 3 | Karen Rolton Oval","T20 | MEN'S"));
+        travelHospitalityFixturesList = new ArrayList<TravelModel>();
+        travelHospitalityFixturesList.add(new TravelModel("India", R.drawable.flag_india,
+                "South Africa", R.drawable.south_flag, "Sydney Cricket Ground, Sydney, Australia",
+                "T20"));
+        travelHospitalityFixturesList.add(new TravelModel("India", R.drawable.flag_india,
+                "Pakistan", R.drawable.flag_pakistan, "Sydney Cricket Ground, Sydney, Australia", "T20"));
+        travelHospitalityFixturesList.add(new TravelModel("South Africa", R.drawable.south_flag, "New Zealand", R.drawable.flag_new_zealand,
+                "Perth Stadium, Perth, Australia", "T20"));
 
-        
-        hospitalityDetailFixturesAdapter=new HospitalityDetailFixturesAdapter(mContext,travelHospitalityFixturesList);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
+
+        hospitalityDetailFixturesAdapter = new HospitalityDetailFixturesAdapter(mContext, travelHospitalityFixturesList);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
         activityTravelMatchTicketAndHospitalityDetailBinding.fixtureRcv.setLayoutManager(layoutManager);
         activityTravelMatchTicketAndHospitalityDetailBinding.fixtureRcv.setItemAnimator(new DefaultItemAnimator());
         activityTravelMatchTicketAndHospitalityDetailBinding.fixtureRcv.setAdapter(hospitalityDetailFixturesAdapter);
 
 //        related hospitality list
-        travelHospitalityRealtedHospitalityList =new ArrayList<>();
+        travelHospitalityRealtedHospitalityList = new ArrayList<>();
+        travelHospitalityRealtedHospitalityfinalList = new ArrayList<>();
+
         travelHospitalityRealtedHospitalityList.add(new TravelModel("https://3.imimg.com/data3/VE/IW/MY-16198270/hotel-management-service-500x500.jpg", "Hospitality Category",
                 "The Pavilion", "The Pavilion is the ultimate hospitality experience that will deliver a sophisticated, yet relaxed environment to be shared with family, friends or business associates.",
                 "Extra 10% off* with Hotel.", "₹ 475", "3", "hospitality", "0"));
@@ -212,19 +231,62 @@ public class TravelMatchTicketAndHospitalityDetailActivity extends AppCompatActi
                 "Extra 10% off* with Hotel.", "₹ 750", "2", "hospitality", "0"));
 
 
-        relatedHospitalityDetailAdapter=new RelatedHospitalityDetailAdapter(mContext,travelHospitalityRealtedHospitalityList);
-        RecyclerView.LayoutManager relatedlayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
+        for (int i = 0; i < travelHospitalityRealtedHospitalityList.size(); i++) {
+            if (!travelHospitalityRealtedHospitalityList.get(i).getTicket_hospitality_namecategory().trim().equalsIgnoreCase(activityTravelMatchTicketAndHospitalityDetailBinding.matchHospitalityTypeTagTxt.getText().toString().trim())) {
+                travelHospitalityRealtedHospitalityfinalList.add(travelHospitalityRealtedHospitalityList.get(i));
+            }
+        }
+
+        relatedHospitalityDetailAdapter = new RelatedHospitalityDetailAdapter(mContext, travelHospitalityRealtedHospitalityfinalList);
+        RecyclerView.LayoutManager relatedlayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
         activityTravelMatchTicketAndHospitalityDetailBinding.relatedHospitalityRcv.setLayoutManager(relatedlayoutManager);
         activityTravelMatchTicketAndHospitalityDetailBinding.relatedHospitalityRcv.setItemAnimator(new DefaultItemAnimator());
         activityTravelMatchTicketAndHospitalityDetailBinding.relatedHospitalityRcv.setAdapter(relatedHospitalityDetailAdapter);
     }
-    
-    
+
+
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.back_img:
                 finish();
+                break;
+            case R.id.bottom_cart_view:
+                Utils.handleClickEvent(mContext, activityTravelMatchTicketAndHospitalityDetailBinding.bottomCartView);
+                if (Utils.isMember(mContext, "Ticket Detail")) {
+                    Intent cartIntent = new Intent(mContext, AddToCartActivity.class);
+                    cartIntent.putExtra("bookingItemName", activityTravelMatchTicketAndHospitalityDetailBinding.matchHospitalityTypeTagTxt.getText().toString());
+                    cartIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(cartIntent);
+                }
+                break;
+            case R.id.hospitality_minus_layout:
+                if (hospitalitycount != 1) {
+                    hospitalitycount = hospitalitycount - 1;
+//                    if (ticketcount <= 9) {
+//                        activityTravelMatchTicketAndHospitalityDetailBinding.countOfItem.setText("0" + String.valueOf(ticketcount));
+//
+//                    } else {
+                    activityTravelMatchTicketAndHospitalityDetailBinding.countOfItem.setText(String.valueOf(hospitalitycount));
+//                    }
+
+                    totalamount = 500 * hospitalitycount;
+                    activityTravelMatchTicketAndHospitalityDetailBinding.priceTxt.setText(String.valueOf(roundTwoDecimals(totalamount)));
+                } else {
+                    activityTravelMatchTicketAndHospitalityDetailBinding.hospitalityMinusLayout.setClickable(false);
+                }
+
+                break;
+            case R.id.hospitality_plus_layout:
+                activityTravelMatchTicketAndHospitalityDetailBinding.hospitalityMinusLayout.setClickable(true);
+                hospitalitycount = hospitalitycount + 1;
+//                if (ticketcount <= 9) {
+//                    activityTravelMatchTicketAndHospitalityDetailBinding.countOfItem.setText("0" + String.valueOf(ticketcount));
+//                } else {
+                totalamount = 500 * hospitalitycount;
+                activityTravelMatchTicketAndHospitalityDetailBinding.priceTxt.setText(String.valueOf(roundTwoDecimals(totalamount)));
+                activityTravelMatchTicketAndHospitalityDetailBinding.countOfItem.setText(String.valueOf(hospitalitycount));
+//                }
                 break;
         }
     }
@@ -248,7 +310,7 @@ public class TravelMatchTicketAndHospitalityDetailActivity extends AppCompatActi
 
         }
     };
-    
+
     @SuppressLint("ResourceAsColor")
     private void addBottomDots(int currentPage) {
         dots = new TextView[travelHospitalityGalleryList.size()];
@@ -282,17 +344,17 @@ public class TravelMatchTicketAndHospitalityDetailActivity extends AppCompatActi
             googleMap.getUiSettings().setMyLocationButtonEnabled(true);
             googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
 
-            googleMapj=googleMap;
+            googleMapj = googleMap;
 
             CameraUpdate center =
-                    CameraUpdateFactory.newLatLng(new LatLng( -37.819954, 144.983398));
+                    CameraUpdateFactory.newLatLng(new LatLng(-37.819954, 144.983398));
             CameraUpdate zoom = CameraUpdateFactory.zoomTo(15);
 
             googleMapj.moveCamera(center);
             googleMapj.animateCamera(zoom);
 
             markercity = googleMapj.addMarker(new MarkerOptions()
-                    .position(new LatLng( -37.819954, 144.983398))
+                    .position(new LatLng(-37.819954, 144.983398))
                     .title("Melbourne")
                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
 
@@ -315,8 +377,8 @@ public class TravelMatchTicketAndHospitalityDetailActivity extends AppCompatActi
         @Override
         public Object instantiateItem(ViewGroup parent, int position) {
 
-            HotelGalleryViewpageBinding hotelGalleryViewpageBinding =DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
-                    R.layout.hotel_gallery_viewpage,parent,false);
+            HotelGalleryViewpageBinding hotelGalleryViewpageBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
+                    R.layout.hotel_gallery_viewpage, parent, false);
 
 
             Utils.setImageInImageView(travelHospitalityGalleryList.get(position).getCityHotelAmenitiesImage(), hotelGalleryViewpageBinding.hotelGalleryImage, mContext);
@@ -348,5 +410,11 @@ public class TravelMatchTicketAndHospitalityDetailActivity extends AppCompatActi
         public int getItemPosition(@NonNull Object object) {
             return super.getItemPosition(object);
         }
+    }
+
+    // use for ticket price round figure
+    double roundTwoDecimals(double d) {
+        DecimalFormat twoDForm = new DecimalFormat("#.##");
+        return Double.valueOf(twoDForm.format(d));
     }
 }

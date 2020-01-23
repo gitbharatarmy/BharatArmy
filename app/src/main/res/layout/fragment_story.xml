@@ -35,7 +35,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:clipToPadding="false"
-                android:paddingBottom="@dimen/_30sdp"/>
+                android:paddingBottom="@dimen/_50sdp"/>
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 <!--        <ProgressBar-->
 <!--            android:id="@+id/progressBar"-->

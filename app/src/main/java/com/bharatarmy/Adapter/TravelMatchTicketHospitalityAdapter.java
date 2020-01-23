@@ -6,10 +6,13 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bharatarmy.Activity.AddToCartActivity;
 import com.bharatarmy.Activity.TravelMatchSelectHotelActivity;
 import com.bharatarmy.Activity.TravelMatchTicketAndHosipitalityticketdetailActivity;
 import com.bharatarmy.Activity.TravelMatchTicketAndHospitalityDetailActivity;
@@ -96,11 +99,38 @@ public class TravelMatchTicketHospitalityAdapter extends RecyclerView.Adapter<Tr
 //        }
 
         if (selectedposition == position){
-            holder.travelMatchTicketHospitalityItemListBinding.ticketHospitalitysCartAddimage.setImageResource(R.drawable.fill_selected_checkbox);
-            holder.travelMatchTicketHospitalityItemListBinding.ticketHospitalityLayout.setBackground(mContext.getResources().getDrawable(R.drawable.travel_match_selectedchild_curveshape));
+            holder.travelMatchTicketHospitalityItemListBinding.ticketHospitalitysCartAddimage.setImageResource(R.drawable.fill_checkbox_schedule);
+            holder.travelMatchTicketHospitalityItemListBinding.ticketHospitalityLayout.setBackground(mContext.getResources().getDrawable(R.drawable.ticket_hospitality_select_item_shape));
+            LinearLayout.LayoutParams relativeParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, mContext.getResources().getDimensionPixelSize(R.dimen._30sdp));
+            relativeParams.setMargins(2,
+                    mContext.getResources().getDimensionPixelSize(R.dimen._5sdp), 2,
+                    2);
+            holder.travelMatchTicketHospitalityItemListBinding.cartLayout.setLayoutParams(relativeParams);
+
+            RelativeLayout.LayoutParams imageParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, mContext.getResources().getDimensionPixelSize(R.dimen._100sdp));
+            imageParams.setMargins(2, 2,
+                    2, 0);
+            holder.travelMatchTicketHospitalityItemListBinding.travelTicketHospitalityBannerImg.setLayoutParams(imageParams);
+
+            RelativeLayout.LayoutParams shadowParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, mContext.getResources().getDimensionPixelSize(R.dimen._100sdp));
+            shadowParams.setMargins(0, 2, 0, 0);
+            holder.travelMatchTicketHospitalityItemListBinding.shadowLinear.setLayoutParams(shadowParams);
+
         }else{
             holder.travelMatchTicketHospitalityItemListBinding.ticketHospitalitysCartAddimage.setImageResource(R.drawable.ic_blank_check);
-            holder.travelMatchTicketHospitalityItemListBinding.ticketHospitalityLayout.setBackground(mContext.getResources().getDrawable(R.drawable.match_detail_curveshape));
+            holder.travelMatchTicketHospitalityItemListBinding.ticketHospitalityLayout.setBackground(mContext.getResources().getDrawable(R.drawable.ticket_hospitality_all_corner_shape));
+            LinearLayout.LayoutParams relativeParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, mContext.getResources().getDimensionPixelSize(R.dimen._30sdp));
+            relativeParams.setMargins(0, mContext.getResources().getDimensionPixelSize(R.dimen._5sdp), 0, 0);
+            holder.travelMatchTicketHospitalityItemListBinding.cartLayout.setLayoutParams(relativeParams);
+
+
+            RelativeLayout.LayoutParams imageParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, mContext.getResources().getDimensionPixelSize(R.dimen._100sdp));
+            imageParams.setMargins(0, 0, 0, 0);
+            holder.travelMatchTicketHospitalityItemListBinding.travelTicketHospitalityBannerImg.setLayoutParams(imageParams);
+
+            RelativeLayout.LayoutParams shadowParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, mContext.getResources().getDimensionPixelSize(R.dimen._100sdp));
+            shadowParams.setMargins(0, 0, 0, 0);
+            holder.travelMatchTicketHospitalityItemListBinding.shadowLinear.setLayoutParams(shadowParams);
         }
 
         holder.travelMatchTicketHospitalityItemListBinding.ticketHospitalityLayout.setOnClickListener(new View.OnClickListener() {
@@ -121,6 +151,14 @@ public class TravelMatchTicketHospitalityAdapter extends RecyclerView.Adapter<Tr
                    mContext.startActivity(hospitalityCategoryIntent);
                }
 
+            }
+        });
+        holder.travelMatchTicketHospitalityItemListBinding.cartLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent cartIntent=new Intent(mContext, AddToCartActivity.class);
+                cartIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                mContext.startActivity(cartIntent);
             }
         });
     }

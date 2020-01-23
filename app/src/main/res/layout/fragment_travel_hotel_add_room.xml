@@ -1,0 +1,412 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/bottomSheetLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/splash_bg_color"
+        app:behavior_hideable="false"
+        app:behavior_peekHeight="2000dp"
+        app:layout_behavior="@string/bottom_sheet_behavior">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/summary_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_50sdp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_4sdp"
+                android:layout_marginRight="@dimen/_15sdp"
+                android:orientation="horizontal"
+                android:weightSum="3">
+
+                <LinearLayout
+                    android:id="@+id/back_img"
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_15sdp"
+                        android:layout_gravity="left|center_vertical"
+                        android:src="@drawable/ic_left_arrow2"
+                        android:tint="@color/heading_bg" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_toRightOf="@+id/back_img"
+                    android:layout_toLeftOf="@+id/done_Linear"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/toolbar_title_txt"
+                        style="@style/title_text_font"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:paddingLeft="@dimen/_5sdp"
+                        android:text="PAN PACIFIC PERTH"
+                        android:textAllCaps="true"
+                        android:textColor="@color/heading_bg"
+                        android:textSize="@dimen/main_title_size" />
+
+                    <LinearLayout
+                        android:id="@+id/toolbar_rating_linear"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingLeft="@dimen/_5sdp">
+
+                        <com.whinc.widget.ratingbar.RatingBar
+                            android:id="@+id/ratingBar"
+                            android:layout_width="@dimen/_50sdp"
+                            android:layout_height="@dimen/_13sdp"
+                            app:rb_click_rating="false"
+                            app:rb_count="3"
+                            app:rb_fill="@drawable/fill"
+                            app:rb_max_count="5"
+                            app:rb_space="0dp"
+                            app:rb_touch_rating="false" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/toolbar_subtitle_txt"
+                        style="@style/title_text_font"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:gravity="center_vertical"
+                        android:maxLines="1"
+                        android:layout_marginTop="@dimen/_1sdp"
+                        android:paddingLeft="@dimen/_5sdp"
+                        android:text="Add Room"
+                        android:textAllCaps="true"
+                        android:textColor="@color/heading_bg"
+                        android:textSize="@dimen/title_subtext_size" />
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/done_Linear"
+                    android:layout_width="@dimen/_50sdp"
+                    android:layout_height="@dimen/_25sdp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/book_btn"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/save_btn"
+                        style="@style/title_text_font"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center_horizontal|center_vertical"
+                        android:text="Save"
+                        android:textAllCaps="true"
+                        android:textColor="@color/splash_bg_color"
+                        android:textSize="@dimen/_10sdp" />
+                </LinearLayout>
+            </RelativeLayout>
+        </androidx.appcompat.widget.Toolbar>
+
+
+        <View
+            android:id="@+id/top_gradiant_view"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_2sdp"
+            android:layout_below="@+id/summary_toolbar"
+            android:background="@drawable/bg_gradiant_line" />
+
+        <ScrollView
+            android:id="@+id/summary_scroll"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/top_gradiant_view"
+            android:fillViewport="true"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/summary_scroll"
+                android:layout_marginLeft="@dimen/_14sdp"
+                android:layout_marginTop="@dimen/_14sdp"
+                android:layout_marginRight="@dimen/_14sdp"
+                android:orientation="vertical"
+                android:visibility="visible">
+
+                <LinearLayout
+                    android:id="@+id/selection_person_linear"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/title_text_font"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_20sdp"
+                        android:gravity="center_vertical"
+                        android:text="Add number of travellers"
+                        android:textAllCaps="true"
+                        android:textColor="@color/unselected_view"
+                        android:textSize="@dimen/_10sdp"
+                        android:visibility="visible" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_35sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:orientation="horizontal"
+                        android:weightSum="1">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.6"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    style="@style/title_text_font"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Adult"
+                                    android:textColor="@color/heading_bg"
+                                    android:textSize="@dimen/_15sdp" />
+
+                                <TextView
+                                    style="@style/text_font"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:paddingLeft="@dimen/_2sdp"
+                                    android:text="@string/adult_detail"
+                                    android:textColor="@color/normal_font_color"
+                                    android:textSize="@dimen/_10sdp" />
+                            </LinearLayout>
+
+                            <TextView
+                                style="@style/text_font"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="on the day of travel"
+                                android:textColor="@color/unselected_view"
+                                android:textSize="@dimen/_10sdp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/_35sdp"
+                            android:layout_weight="0.4"
+                            android:background="@drawable/bg"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/adultremove_txt"
+                                style="@style/title_text_font"
+                                android:layout_width="@dimen/_20sdp"
+                                android:layout_height="match_parent"
+                                android:layout_marginLeft="@dimen/_10sdp"
+                                android:gravity="center_vertical|center_horizontal"
+                                android:text="-"
+                                android:textColor="@color/heading_bg"
+                                android:textSize="@dimen/_20sdp"
+                                android:visibility="visible" />
+
+                            <TextView
+                                android:id="@+id/adultcount_txt"
+                                style="@style/title_text_font"
+                                android:layout_width="@dimen/_50sdp"
+                                android:layout_height="match_parent"
+                                android:gravity="center_vertical|center_horizontal"
+                                android:text="01"
+                                android:textColor="@color/heading_bg"
+                                android:textSize="@dimen/_15sdp"
+                                android:visibility="visible" />
+
+                            <TextView
+                                android:id="@+id/adultadd_txt"
+                                style="@style/title_text_font"
+                                android:layout_width="@dimen/_20sdp"
+                                android:layout_height="match_parent"
+                                android:layout_marginRight="@dimen/_10sdp"
+                                android:gravity="center_vertical|center_horizontal"
+                                android:paddingBottom="@dimen/_2sdp"
+                                android:text="+"
+                                android:textColor="@color/heading_bg"
+                                android:textSize="@dimen/_18sdp"
+                                android:visibility="visible" />
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_35sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:orientation="horizontal"
+                        android:weightSum="1">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.6"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    style="@style/title_text_font"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Children"
+                                    android:textColor="@color/heading_bg"
+                                    android:textSize="@dimen/_15sdp" />
+
+                                <TextView
+                                    style="@style/text_font"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:paddingLeft="@dimen/_2sdp"
+                                    android:text="@string/child_detail"
+                                    android:textColor="@color/normal_font_color"
+                                    android:textSize="@dimen/_10sdp" />
+                            </LinearLayout>
+
+                            <TextView
+                                style="@style/text_font"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="on the day of travel"
+                                android:textColor="@color/unselected_view"
+                                android:textSize="@dimen/_10sdp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/_35sdp"
+                            android:layout_weight="0.4"
+                            android:background="@drawable/bg"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/childremove_txt"
+                                style="@style/title_text_font"
+                                android:layout_width="@dimen/_20sdp"
+                                android:layout_height="match_parent"
+                                android:layout_marginLeft="@dimen/_10sdp"
+                                android:gravity="center_vertical|center_horizontal"
+                                android:text="-"
+                                android:textColor="@color/heading_bg"
+                                android:textSize="@dimen/_20sdp"
+                                android:visibility="visible" />
+
+                            <TextView
+                                android:id="@+id/childcount_txt"
+                                style="@style/title_text_font"
+                                android:layout_width="@dimen/_50sdp"
+                                android:layout_height="match_parent"
+                                android:gravity="center_vertical|center_horizontal"
+                                android:text="00"
+                                android:textColor="@color/heading_bg"
+                                android:textSize="@dimen/_15sdp"
+                                android:visibility="visible" />
+
+                            <TextView
+                                android:id="@+id/childadd_txt"
+                                style="@style/title_text_font"
+                                android:layout_width="@dimen/_20sdp"
+                                android:layout_height="match_parent"
+                                android:layout_marginRight="@dimen/_10sdp"
+                                android:gravity="center_vertical|center_horizontal"
+                                android:paddingBottom="@dimen/_2sdp"
+                                android:text="+"
+                                android:textColor="@color/heading_bg"
+                                android:textSize="@dimen/_18sdp"
+                                android:visibility="visible" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/room_selection_linear"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_14sdp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/title_text_font"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_20sdp"
+                        android:gravity="center_vertical"
+                        android:text="Select Your Room"
+                        android:textAllCaps="true"
+                        android:textColor="@color/unselected_view"
+                        android:textSize="@dimen/_10sdp"
+                        android:visibility="visible" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/room_selection_type_rcv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_5sdp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="@dimen/_9sdp">
+                    <TextView
+                        style="@style/title_text_font"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_20sdp"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="@dimen/_2sdp"
+                        android:text="Notes"
+                        android:textAllCaps="true"
+                        android:textColor="@color/unselected_view"
+                        android:textSize="@dimen/_10sdp"
+                        android:visibility="visible" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_80sdp"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:background="@drawable/book_calender_shape"
+                        android:orientation="vertical">
+
+                        <EditText
+                            android:id="@+id/notes_txt"
+                            style="@style/title_text_font"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@null"
+                            android:gravity="top|left"
+                            android:inputType="textMultiLine"
+                            android:maxLines="10"
+                            android:padding="@dimen/_5sdp"
+                            android:textColor="@color/unselected_view"
+                            android:textCursorDrawable="@drawable/color_cursor"
+                            android:textSize="@dimen/_12sdp" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+        </ScrollView>
+    </RelativeLayout>
+</layout>

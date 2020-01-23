@@ -144,16 +144,13 @@ public class TravelMatchRoomDetailActivity extends AppCompatActivity implements 
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.back_img:
-                Intent backIntent=new Intent(mContext,TravelMatchHotelRoomTypeActivity.class);
-                backIntent.putExtra("roomName",activityTravelMatchRoomDetailBinding.hotelRoomTypenameTxt.getText().toString());
-                startActivity(backIntent);
-                finish();
+               finish();
                 break;
             case R.id.room_selection_txt:
-                Log.d("roomdetail position :",getIntent().getStringExtra("clickposition"));
-                EventBus.getDefault().post(new MyScreenChnagesModel(getIntent().getStringExtra("roomName"),
-                        getIntent().getStringExtra("rooImage"),getIntent().getStringExtra("clickposition")));
-                finish();
+//                Log.d("roomdetail position :",getIntent().getStringExtra("clickposition"));
+//                EventBus.getDefault().post(new MyScreenChnagesModel(getIntent().getStringExtra("roomName"),
+//                        getIntent().getStringExtra("rooImage"),getIntent().getStringExtra("clickposition")));
+//                finish();
                 break;
         }
     }

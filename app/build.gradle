@@ -103,7 +103,7 @@ dependencies {
 // flexible layout
     implementation 'com.google.android:flexbox:1.1.0'
 //    bottom navigation view
-    implementation 'com.etebarian:meow-bottom-navigation:1.0.1'
+    implementation 'com.etebarian:meow-bottom-navigation:1.0.1'  //1.0.1  1.2.0
 //    image/view upload select option
     implementation "com.leinardi.android:speed-dial:2.0.1"
 //rating bar
@@ -136,7 +136,8 @@ dependencies {
     implementation 'io.michaelrocks:libphonenumber-android:8.10.16'
 //video trim
     implementation 'com.googlecode.mp4parser:isoparser:1.1.20'
-
+//shadow
+    api 'tk.zielony:carbon:0.16.0.1'
 
 //    unuse gradle
 /* SVG Loader implementation 'com.github.ar-android:AndroidSvgLoader:1.0.0'

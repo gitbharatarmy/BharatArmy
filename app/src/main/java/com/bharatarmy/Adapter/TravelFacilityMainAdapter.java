@@ -29,7 +29,7 @@ public class TravelFacilityMainAdapter extends RecyclerView.Adapter<TravelFacili
     String activityNameStr;
     MorestoryClick morestoryClick;
 
-    public TravelFacilityMainAdapter(Context mContext, List<TravelModel> facilityList, MorestoryClick morestoryClick ) {
+    public TravelFacilityMainAdapter(Context mContext, List<TravelModel> facilityList, MorestoryClick morestoryClick) {
         this.mContext = mContext;
         this.facilityList = facilityList;
         this.morestoryClick = morestoryClick;
@@ -61,14 +61,40 @@ public class TravelFacilityMainAdapter extends RecyclerView.Adapter<TravelFacili
     public void onBindViewHolder(TravelFacilityMainAdapter.MyViewHolder holder, int position) {
         final TravelModel facilitydetail = facilityList.get(position);
 
+
+        if (position == 1 || position == 2 || position == 4 || position == 5  || position == 7) {
+            holder.travelFacilityListItemBinding.leftView.setVisibility(View.GONE);
+        }
+        if (position == 3 || position == 4 || position == 5 || position == 7) {
+            holder.travelFacilityListItemBinding.topView.setVisibility(View.GONE);
+        }
+//        if (position == 2) {
+//            holder.travelFacilityListItemBinding.leftView.setVisibility(View.GONE);
+//        }
+//        if (position == 4) {
+//            holder.travelFacilityListItemBinding.leftView.setVisibility(View.GONE);
+//        }
+//        if (position == 5) {
+//            holder.travelFacilityListItemBinding.leftView.setVisibility(View.GONE);
+//        }
+        if (position == 6 || position == 8) {
+//            holder.travelFacilityListItemBinding.rightView.setVisibility(View.GONE);
+            holder.travelFacilityListItemBinding.leftView.setVisibility(View.GONE);
+            holder.travelFacilityListItemBinding.topView.setVisibility(View.GONE);
+            holder.travelFacilityListItemBinding.bottomView.setVisibility(View.GONE);
+            holder.travelFacilityListItemBinding.facilityTxt.setVisibility(View.GONE);
+            holder.travelFacilityListItemBinding.facilityImg.setVisibility(View.GONE);
+            holder.travelFacilityListItemBinding.offersTxt.setVisibility(View.GONE);
+        }
         holder.travelFacilityListItemBinding.facilityTxt.setText(facilitydetail.getFacilityName());
         holder.travelFacilityListItemBinding.facilityImg.setImageResource(facilitydetail.getFacilityIcon());
-
-        if (!facilitydetail.getFacilityOffer().equalsIgnoreCase("")) {
-            holder.travelFacilityListItemBinding.offersTxt.setVisibility(View.VISIBLE);
-            holder.travelFacilityListItemBinding.offersTxt.setText(facilitydetail.getFacilityOffer());
-        } else {
-            holder.travelFacilityListItemBinding.offersTxt.setVisibility(View.GONE);
+        if (position != 6 || position != 8) {
+            if (!facilitydetail.getFacilityOffer().equalsIgnoreCase("")) {
+                holder.travelFacilityListItemBinding.offersTxt.setVisibility(View.VISIBLE);
+                holder.travelFacilityListItemBinding.offersTxt.setText(facilitydetail.getFacilityOffer());
+            } else {
+                holder.travelFacilityListItemBinding.offersTxt.setVisibility(View.GONE);
+            }
         }
 
         holder.travelFacilityListItemBinding.facilityRel.setOnClickListener(new View.OnClickListener() {
@@ -103,7 +129,7 @@ public class TravelFacilityMainAdapter extends RecyclerView.Adapter<TravelFacili
         return facilityList.size();
     }
 
-    public String activityName(){
+    public String activityName() {
         return activityNameStr;
     }
 

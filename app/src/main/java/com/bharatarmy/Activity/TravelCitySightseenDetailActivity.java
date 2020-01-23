@@ -95,14 +95,14 @@ public class TravelCitySightseenDetailActivity extends AppCompatActivity impleme
     public void setDataList() {
 //        hotel gallery List
         cityRestaurantGalleryList = new ArrayList<TravelModel>();
-        cityRestaurantGalleryList.add(new TravelModel(AppConfiguration.IMAGE_URL + "marine1.jpg", "Hotel1"));
-        cityRestaurantGalleryList.add(new TravelModel(AppConfiguration.IMAGE_URL + "marine2.jpg", "Hotel1"));
-        cityRestaurantGalleryList.add(new TravelModel(AppConfiguration.IMAGE_URL + "marine3.jpg", "Hotel1"));
-        cityRestaurantGalleryList.add(new TravelModel(AppConfiguration.IMAGE_URL + "marine4.jpg", "Hotel1"));
-        cityRestaurantGalleryList.add(new TravelModel(AppConfiguration.IMAGE_URL + "marine5.jpg", "Hotel1"));
-        cityRestaurantGalleryList.add(new TravelModel(AppConfiguration.IMAGE_URL + "marine6.jpg", "Hotel1"));
-        cityRestaurantGalleryList.add(new TravelModel(AppConfiguration.IMAGE_URL + "marine7.jpg", "Hotel1"));
-        cityRestaurantGalleryList.add(new TravelModel(AppConfiguration.IMAGE_URL + "marine8.jpg", "Hotel1"));
+        cityRestaurantGalleryList.add(new TravelModel("https://www.gpsadventuretourswa.com.au/media/1087/wildflowers-1.jpg?width=1000&upscale=false", "Hotel1"));
+        cityRestaurantGalleryList.add(new TravelModel("https://www.gpsadventuretourswa.com.au/media/1089/sun-setting-over-the-pinnacles.jpg?width=1000&upscale=false", "Hotel1"));
+        cityRestaurantGalleryList.add(new TravelModel("https://www.gpsadventuretourswa.com.au/media/1096/star-gazing-at-the-milky-way.jpg?width=1000&upscale=false", "Hotel1"));
+        cityRestaurantGalleryList.add(new TravelModel("https://www.gpsadventuretourswa.com.au/media/1157/may-17-star-gazing-1-of-1.jpg?width=1000&upscale=false", "Hotel1"));
+        cityRestaurantGalleryList.add(new TravelModel("https://www.gpsadventuretourswa.com.au/media/1163/august-11-2018-pinnacles-star-gazing.jpg?width=1000&upscale=false", "Hotel1"));
+        cityRestaurantGalleryList.add(new TravelModel("https://www.gpsadventuretourswa.com.au/media/1155/the-gps-adventure-tours-bus-under-the-milky-way.jpg?width=1000&upscale=false", "Hotel1"));
+        cityRestaurantGalleryList.add(new TravelModel("https://www.gpsadventuretourswa.com.au/media/1153/pinnacles-and-the-stars-1-of-1.jpg?width=1000&upscale=false", "Hotel1"));
+        cityRestaurantGalleryList.add(new TravelModel("https://www.gpsadventuretourswa.com.au/media/1154/jupiter-rising-under-the-milky-way-at-the-pinnacles.jpg?width=1000&upscale=false", "Hotel1"));
         addBottomDots(0);
         mySightSeenGalleryViewPagerAdapter = new MySightSeenGalleryViewPagerAdapter();
         activityTravelCitySightseenDetailBinding.sightseenGalleryViewpager.setAdapter(mySightSeenGalleryViewPagerAdapter);

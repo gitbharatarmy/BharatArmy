@@ -85,4 +85,12 @@
     <!--showcase view-->
     <color name="shadow">#B0000000</color>
     <color name="light_gray">#DDDDDD</color>
+
+    <!--feedback screen-->
+    <color name="all_text_color">@color/unselected_view</color>
+    <color name="feedback_start_color">#9AD574</color>
+    <color name="feedback_end_color">#9CC02E</color>
+    <color name="feedback_selected_txt_color">#1b5732</color>
+    <color name="feedback_txt_color">#B7BABA</color>
+
 </resources>

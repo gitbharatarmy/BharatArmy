@@ -71,8 +71,8 @@ public class AlbumFragment extends Fragment {
     ArrayList<String> AlbumUrl = new ArrayList<>();
 
     int pageIndex = 0;
-    boolean isLoading = false;
-    boolean ispull;
+    boolean isAlbumLoading = false;
+
     StaggeredGridLayoutManager staggeredGridLayoutManager;
     int[] lastPositions;
     int lastVisibleItem;
@@ -167,10 +167,10 @@ public class AlbumFragment extends Fragment {
                 lastVisibleItem = Math.max(lastPositions[0], lastPositions[1]);//findMax(lastPositions);
 
 
-                if (!isLoading) {
+                if (isAlbumLoading == true) {
                     if (staggeredGridLayoutManager != null && lastVisibleItem == albumModelList.size() - 1) {
                         //bottom of list!
-                        ispull = false;
+                        isAlbumLoading = true;
                         pageIndex = pageIndex + 1;
                         fragmentAlbumBinding.bottomProgressbarLayout.setVisibility(View.VISIBLE);
                         loadMore();
@@ -184,7 +184,7 @@ public class AlbumFragment extends Fragment {
             @Override
             public void onRefresh() {
                 fragmentAlbumBinding.bottomProgressbarLayout.setVisibility(View.GONE);
-                pageIndex=0;
+                pageIndex = 0;
                 callAlbumImagePullData();
 
             }
@@ -377,11 +377,10 @@ public class AlbumFragment extends Fragment {
                         Log.d("Albumlist : ", "" + albumModelList.size());
                         addOldNewValue(albumModelList);
                         if (albumListAdapter != null && albumModelList.size() > 0) {
-                            albumListAdapter.addMoreDataToList(albumModelList);
-
                             // just append more data to current list
+                            albumListAdapter.addMoreDataToList(albumModelList);
                         } else if (albumListAdapter != null && albumModelList.size() == 0) {
-                            isLoading = true;
+                            isAlbumLoading = false;
                             addOldNewValue(albumMainModel.getData());
 
                         } else {
@@ -397,7 +396,7 @@ public class AlbumFragment extends Fragment {
                 Utils.dismissDialog();
                 error.printStackTrace();
                 error.getMessage();
-                 Utils.ping(mContext, getString(R.string.something_wrong));
+                Utils.ping(mContext, getString(R.string.something_wrong));
             }
         });
 
@@ -471,7 +470,7 @@ public class AlbumFragment extends Fragment {
                         AlbumUrl.clear();
                         albumModelList = albumMainModel.getData();
 
-                        isLoading=true;
+                        isAlbumLoading = true;
                         staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, 1);
                         fragmentAlbumBinding.rvPosters.setLayoutManager(staggeredGridLayoutManager);
                         albumListAdapter = new AlbumListAdapter(mContext, albumModelList);
@@ -505,12 +504,6 @@ public class AlbumFragment extends Fragment {
 
     //    pick the video in gallery
     private void pickVideoFromGallery() {
-//        Intent intent = new Intent();
-//        intent.setTypeAndNormalize("video/*");
-//        intent.setAction(Intent.ACTION_GET_CONTENT);
-//        intent.addCategory(Intent.CATEGORY_OPENABLE);
-//        startActivityForResult(Intent.createChooser(intent, getString(R.string.label_select_video)), REQUEST_VIDEO_TRIMMER);
-
         Intent galleryIntent = new Intent(Intent.ACTION_PICK,
                 android.provider.MediaStore.Video.Media.EXTERNAL_CONTENT_URI);
         galleryIntent.setType("video/*");

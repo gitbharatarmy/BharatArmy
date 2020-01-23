@@ -308,18 +308,7 @@ public class MoreFragment extends Fragment implements View.OnClickListener, Goog
                         @Override
                         public void onResult(Status status) {
 //                            // Write your code here to execute after dialog
-                            Utils.removeLoginData(mContext);
-                            Utils.setPref(mContext, "IsSkipLogin", "");
-                            Utils.setPref(mContext, "IsLoginUser", "");
-                            Utils.setPref(mContext, "UserName", "");
-                            Utils.setPref(mContext,"entryType","");
-                            Utils.ping(mContext, "You are logout suceessfully");
-                            Intent ilogin = new Intent(mContext, AppLoginActivity.class);  //LoginwithEmailActivity
-                            ilogin.putExtra("whereTocomeLogin", "more");
-                            ilogin.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            startActivity(ilogin);
-                            getActivity().finish();
-                            Utils.hideProgressDialog();
+                            logoutFuncation();
                         }
                     });
 
@@ -341,18 +330,7 @@ public class MoreFragment extends Fragment implements View.OnClickListener, Goog
                 LoginManager.getInstance().logOut();
 
                 // Write your code here to execute after dialog
-                Utils.removeLoginData(mContext);
-                Utils.setPref(mContext, "IsSkipLogin", "");
-                Utils.setPref(mContext, "IsLoginUser", "");
-                Utils.setPref(mContext, "UserName", "");
-                Utils.setPref(mContext,"entryType","");
-                Utils.ping(mContext, "You are logout suceessfully");
-                Intent ilogin = new Intent(mContext, AppLoginActivity.class);  //LoginwithEmailActivity
-                ilogin.putExtra("whereTocomeLogin", "more");
-                ilogin.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(ilogin);
-                getActivity().finish();
-                Utils.hideProgressDialog();
+                logoutFuncation();
 
             }
         }).executeAsync();
@@ -360,11 +338,17 @@ public class MoreFragment extends Fragment implements View.OnClickListener, Goog
 
     public void emailSignOut() {
         // Write your code here to execute after dialog
+     logoutFuncation();
+    }
+
+    public void logoutFuncation(){
+        // Write your code here to execute after dialog
         Utils.removeLoginData(mContext);
         Utils.setPref(mContext, "IsSkipLogin", "");
         Utils.setPref(mContext, "IsLoginUser", "");
         Utils.setPref(mContext, "UserName", "");
         Utils.setPref(mContext,"entryType","");
+        Utils.setPref(mContext,"feedbackgiveflag","");
         Utils.ping(mContext, "You are logout suceessfully");
         Intent ilogin = new Intent(mContext, AppLoginActivity.class);  //LoginwithEmailActivity
         ilogin.putExtra("whereTocomeLogin", "more");
@@ -373,7 +357,6 @@ public class MoreFragment extends Fragment implements View.OnClickListener, Goog
         getActivity().finish();
         Utils.hideProgressDialog();
     }
-
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 

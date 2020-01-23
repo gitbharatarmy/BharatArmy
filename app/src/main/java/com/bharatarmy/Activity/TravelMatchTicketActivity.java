@@ -44,7 +44,7 @@ public class TravelMatchTicketActivity extends AppCompatActivity implements View
     ActivityTravelMatchTicketBinding activityTravelMatchTicketBinding;
     Context mContext;
 
-    /*Schedule List*/
+    /*Ticket List*/
     ArrayList<HomeTemplateDetailModel> tournamentticketModel;
     RegisterIntrestFilterDataModel tournamentotherDataModel;
     ArrayList<TravelModel> cityarraylist;
@@ -176,6 +176,7 @@ public class TravelMatchTicketActivity extends AppCompatActivity implements View
                 finish();
                 break;
             case R.id.fab_linear:
+                Utils.handleClickEvent(mContext,activityTravelMatchTicketBinding.fabLinear);
                 bottomSheetDialogFragment = new MatchTicketFilterFragment(tournamentotherDataModel, new MorestoryClick() {
                     @Override
                     public void getmorestoryClick() {

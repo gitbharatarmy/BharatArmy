@@ -45,7 +45,7 @@ public class TravelMatchTicketAndHospitalityActivity extends AppCompatActivity i
 
     public void init() {
         isUp = false;
-        activityTravelMatchTicketAndHospitalityBinding.toolbarTitleTxt.setText("Tickets and Hospitality");
+//        activityTravelMatchTicketAndHospitalityBinding.toolbarTitleTxt.setText("Tickets and Hospitality");
 
     }
 
@@ -58,11 +58,11 @@ public class TravelMatchTicketAndHospitalityActivity extends AppCompatActivity i
         activityTravelMatchTicketAndHospitalityBinding.shimmerViewContainer.setVisibility(View.GONE);
         tickethospitalityList = new ArrayList<>();
 
-        tickethospitalityList.add(new TravelModel("http://devenv.bharatarmy.com/Docs/Mobile/25cf4087-b.jpg", "Ticket Category",
+        tickethospitalityList.add(new TravelModel("http://devenv.bharatarmy.com/Docs/Mobile/25cf4087-b.jpg", "Ticket",
                 "Category A", "Lorem Ipsum is simply dummy text.", "Extra 10% off* with Hotel.",
                 "₹ 500", "1", "ticket", "0"));
 
-        tickethospitalityList.add(new TravelModel("https://3.imimg.com/data3/VE/IW/MY-16198270/hotel-management-service-500x500.jpg", "Hospitality Category",
+        tickethospitalityList.add(new TravelModel("https://3.imimg.com/data3/VE/IW/MY-16198270/hotel-management-service-500x500.jpg", "Hospitality",
                 "The Pavilion", "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Dolor sed viverra ipsum nunc aliquet bibendum enim.",
                 "", "₹ 475", "3", "hospitality", "0"));
 

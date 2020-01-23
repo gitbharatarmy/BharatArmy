@@ -18,9 +18,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.InsetDrawable;
 import android.media.MediaMetadataRetriever;
 import android.media.MediaScannerConnection;
 import android.media.ThumbnailUtils;
@@ -34,11 +36,15 @@ import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.Patterns;
 import android.util.TypedValue;
+import android.view.Display;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
@@ -46,11 +52,15 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 
 import com.bharatarmy.Activity.AppLoginActivity;
@@ -112,6 +122,7 @@ public class Utils {
     public static ArrayList<String> videoFile;
 
     public static ProgressDialog mProgressDialog;
+
     public static boolean checkNetwork(Context context) {
         boolean wifiAvailable = false;
         boolean mobileAvailable = false;
@@ -502,6 +513,8 @@ public class Utils {
                 }
             });
 
+        } else if (wheretocome.equalsIgnoreCase("Feedback")) {
+            dialog_headertxt.setText("Thank you for register your feedback");
         } else {
             if (Utils.retriveLoginOtherData(activity) != null) {
                 if (wheretocome.equalsIgnoreCase("imageUpload")) {
@@ -576,7 +589,10 @@ public class Utils {
                         dashboardIntent.putExtra("whichPageRun", "1");
                         activity.startActivity(dashboardIntent);
                         activity.finish();
-                    } else if (wheretocome.equalsIgnoreCase("sports")) {
+                    } else if (wheretocome.equalsIgnoreCase("Feedback")) {
+                        Intent dashboardIntent = new Intent(activity, DashboardActivity.class);
+                        activity.startActivity(dashboardIntent);
+                    }else if (wheretocome.equalsIgnoreCase("sports")) {
 
                     }
 
@@ -592,7 +608,6 @@ public class Utils {
         }
 
     }
-
 
 
     public static boolean isMyServiceRunning(Context context) {
@@ -991,6 +1006,7 @@ public class Utils {
 
         return timeToStr;
     }
+
     public static void showProgressDialog(Context context) {
         if (mProgressDialog == null) {
             mProgressDialog = new ProgressDialog(context);
@@ -1014,5 +1030,73 @@ public class Utils {
 
     public static int dpToPx(int dp) {
         return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
+    }
+
+
+    public static Dialog setMargins(Dialog dialog, int marginLeft, int marginTop, int marginRight, int marginBottom) {
+        Window window = dialog.getWindow();
+        if (window == null) {
+            // dialog window is not available, cannot apply margins
+            return dialog;
+        }
+        Context context = dialog.getContext();
+
+
+        // set dialog to fullscreen
+        RelativeLayout root = new RelativeLayout(context);
+        root.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+//        dialog.requestWindowFeature( Window.FEATURE_NO_TITLE );
+        dialog.setContentView(root);
+
+        // apply left and top margin directly
+        window.setGravity(Gravity.LEFT | Gravity.TOP);
+        WindowManager.LayoutParams attributes = window.getAttributes();
+        attributes.x = marginLeft;
+        attributes.y = marginTop;
+        window.setAttributes(attributes);
+
+        // set right and bottom margin implicitly by calculating width and height of dialog
+        Point displaySize = getDisplayDimensions(context);
+        int width = displaySize.x - marginLeft - marginRight;
+        int height = displaySize.y - marginTop - marginBottom;
+        window.setLayout(width, height);
+
+        return dialog;
+    }
+
+
+    @NonNull
+    public static Point getDisplayDimensions(Context context) {
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        Display display = wm.getDefaultDisplay();
+
+        DisplayMetrics metrics = new DisplayMetrics();
+        display.getMetrics(metrics);
+        int screenWidth = metrics.widthPixels;
+        int screenHeight = metrics.heightPixels;
+
+        // find out if status bar has already been subtracted from screenHeight
+        display.getRealMetrics(metrics);
+        int physicalHeight = metrics.heightPixels;
+        int statusBarHeight = getStatusBarHeight(context);
+        int navigationBarHeight = getNavigationBarHeight(context);
+        int heightDelta = physicalHeight - screenHeight;
+        if (heightDelta == 0 || heightDelta == navigationBarHeight) {
+            screenHeight -= statusBarHeight;
+        }
+
+        return new Point(screenWidth, screenHeight);
+    }
+
+    public static int getStatusBarHeight(Context context) {
+        Resources resources = context.getResources();
+        int resourceId = resources.getIdentifier("status_bar_height", "dimen", "android");
+        return (resourceId > 0) ? resources.getDimensionPixelSize(resourceId) : 0;
+    }
+
+    public static int getNavigationBarHeight(Context context) {
+        Resources resources = context.getResources();
+        int resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android");
+        return (resourceId > 0) ? resources.getDimensionPixelSize(resourceId) : 0;
     }
 }

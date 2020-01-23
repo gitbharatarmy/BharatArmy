@@ -4,6 +4,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 public class ImageDetailModel implements Serializable {
     @SerializedName("ThumbImageName")
@@ -1348,4 +1349,17 @@ public class ImageDetailModel implements Serializable {
         this.price = price;
     }
 
+
+//    @Override
+//    public boolean equals(Object o) {
+//        if (this == o) return true;
+//        if (!(o instanceof ImageDetailModel)) return false;
+//        ImageDetailModel that = (ImageDetailModel) o;
+//        return bAGalleryId.equals(that.bAGalleryId);
+//    }
+//
+//    @Override
+//    public int hashCode() {
+//        return Objects.hash(bAGalleryId);
+//    }
 }
