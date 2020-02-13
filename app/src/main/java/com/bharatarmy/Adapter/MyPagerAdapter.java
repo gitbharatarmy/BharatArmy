@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import androidx.databinding.DataBindingUtil;
 import androidx.viewpager.widget.PagerAdapter;
 
+import com.bharatarmy.Activity.MoreInformationActivity;
 import com.bharatarmy.Activity.RegisterInterestActivityNew;
 import com.bharatarmy.Activity.StoryDetailActivity;
 import com.bharatarmy.Activity.TravelBookActivity;
@@ -35,9 +36,10 @@ public class MyPagerAdapter extends PagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup parent, int position) {
-        CardviewpagerItemBinding cardviewpagerItemBinding= DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
-                R.layout.cardviewpager_item,parent,false);
+        CardviewpagerItemBinding cardviewpagerItemBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
+                R.layout.cardviewpager_item, parent, false);
 
+        /*Register interest layout*/
         if (homeTemplateDetailModelList.get(position).getSecondHeaderType().equals(1)) {
             cardviewpagerItemBinding.registerInterestLinear.setVisibility(View.VISIBLE);
             cardviewpagerItemBinding.bookPackageLinear.setVisibility(View.GONE);
@@ -46,6 +48,8 @@ public class MyPagerAdapter extends PagerAdapter {
             cardviewpagerItemBinding.bottomGradiantView.setVisibility(View.GONE);
             cardviewpagerItemBinding.newsBgPageLinear.setVisibility(View.GONE);
             cardviewpagerItemBinding.newsPageLinear.setVisibility(View.GONE);
+            cardviewpagerItemBinding.webviewPageLinear.setVisibility(View.GONE);
+            cardviewpagerItemBinding.webviewBgPageLinear.setVisibility(View.GONE);
             Utils.setImageInImageView(homeTemplateDetailModelList.get(position).getSecondHeaderImageUrl(), cardviewpagerItemBinding.image, mContext);
             cardviewpagerItemBinding.registerInterestLinear.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -56,10 +60,13 @@ public class MyPagerAdapter extends PagerAdapter {
                     mContext.startActivity(registerIntent);
                 }
             });
+            /* Book Package layout*/
         } else if (homeTemplateDetailModelList.get(position).getSecondHeaderType().equals(2)) {
             cardviewpagerItemBinding.registerInterestLinear.setVisibility(View.GONE);
             cardviewpagerItemBinding.newsBgPageLinear.setVisibility(View.GONE);
             cardviewpagerItemBinding.newsPageLinear.setVisibility(View.GONE);
+            cardviewpagerItemBinding.webviewPageLinear.setVisibility(View.GONE);
+            cardviewpagerItemBinding.webviewBgPageLinear.setVisibility(View.GONE);
             cardviewpagerItemBinding.bookPackageLinear.setVisibility(View.VISIBLE);
             cardviewpagerItemBinding.bookBgPageLinear.setVisibility(View.VISIBLE);
             cardviewpagerItemBinding.bookPackagebuttonLinear.setVisibility(View.VISIBLE);
@@ -69,7 +76,7 @@ public class MyPagerAdapter extends PagerAdapter {
             cardviewpagerItemBinding.bookPackageItemHeadingTxt.setText(homeTemplateDetailModelList.get(position).getSecondHeaderText());
             cardviewpagerItemBinding.bookPackageTxt.setText(homeTemplateDetailModelList.get(position).getSecondHeaderButtonText());
             cardviewpagerItemBinding.bookPackageTxt.setTextColor(Color.parseColor(homeTemplateDetailModelList.get(position).getSecondHaderButtonFontColor()));
-            GradientDrawable bgShape = (GradientDrawable)cardviewpagerItemBinding.bookPackagebuttonLinear.getBackground();
+            GradientDrawable bgShape = (GradientDrawable) cardviewpagerItemBinding.bookPackagebuttonLinear.getBackground();
             bgShape.setColor(Color.parseColor(homeTemplateDetailModelList.get(position).getSecondHaderButtonColor()));
             if (homeTemplateDetailModelList.get(position).getSecondHeaderTag().equalsIgnoreCase("")) {
                 cardviewpagerItemBinding.bookPackageTagTxt.setVisibility(View.GONE);
@@ -87,6 +94,7 @@ public class MyPagerAdapter extends PagerAdapter {
                     mContext.startActivity(registerIntent);
                 }
             });
+            /* Story Detail layout*/
         } else if (homeTemplateDetailModelList.get(position).getSecondHeaderType().equals(3)) {
 
             cardviewpagerItemBinding.registerInterestLinear.setVisibility(View.GONE);
@@ -94,12 +102,14 @@ public class MyPagerAdapter extends PagerAdapter {
             cardviewpagerItemBinding.bookPackagebuttonLinear.setVisibility(View.GONE);
             cardviewpagerItemBinding.bookBgPageLinear.setVisibility(View.GONE);
             cardviewpagerItemBinding.bottomGradiantView.setVisibility(View.GONE);
+            cardviewpagerItemBinding.webviewPageLinear.setVisibility(View.GONE);
+            cardviewpagerItemBinding.webviewBgPageLinear.setVisibility(View.GONE);
             cardviewpagerItemBinding.newsBgPageLinear.setVisibility(View.VISIBLE);
             cardviewpagerItemBinding.newsPageLinear.setVisibility(View.VISIBLE);
 
             cardviewpagerItemBinding.newsItemDescTxt.setText(homeTemplateDetailModelList.get(position).getSecondHeaderSubText());
             cardviewpagerItemBinding.newsItemHeadingTxt.setText(homeTemplateDetailModelList.get(position).getSecondHeaderText());
-            cardviewpagerItemBinding.newsViewMoreTxt.setText(Html.fromHtml("<u>"+homeTemplateDetailModelList.get(position).getSecondHeaderButtonText()+"</u>"));
+            cardviewpagerItemBinding.newsViewMoreTxt.setText(Html.fromHtml("<u>" + homeTemplateDetailModelList.get(position).getSecondHeaderButtonText() + "</u>"));
             cardviewpagerItemBinding.newsViewMoreTxt.setTextColor(Color.parseColor(homeTemplateDetailModelList.get(position).getSecondHaderButtonFontColor()));
 
             cardviewpagerItemBinding.newsViewMoreLinear.setOnClickListener(new View.OnClickListener() {
@@ -107,12 +117,44 @@ public class MyPagerAdapter extends PagerAdapter {
                 public void onClick(View v) {
                     Intent webviewIntent = new Intent(mContext, StoryDetailActivity.class);
                     webviewIntent.putExtra("Story Heading", homeTemplateDetailModelList.get(position).getStoryDetails().getStoryTitle());
-                    webviewIntent.putExtra("StroyUrl",  homeTemplateDetailModelList.get(position).getStoryDetails().getStoryWebURL());
-                    webviewIntent.putExtra("StoryCategorytype",  homeTemplateDetailModelList.get(position).getStoryDetails().getBASubCategoryName());
-                    webviewIntent.putExtra("StoryAuthor",  homeTemplateDetailModelList.get(position).getStoryDetails().getAuthorImageURL());
-                    webviewIntent.putExtra("StoryHeaderImg",  homeTemplateDetailModelList.get(position).getStoryDetails().getStrThumbImageName());
-                    webviewIntent.putExtra("StoryId",  homeTemplateDetailModelList.get(position).getStoryDetails().getBAStoryId());
-                    webviewIntent.putExtra("StoryauthorId",  homeTemplateDetailModelList.get(position).getStoryDetails().getAuthorId());
+                    webviewIntent.putExtra("StroyUrl", homeTemplateDetailModelList.get(position).getStoryDetails().getStoryWebURL());
+                    webviewIntent.putExtra("StoryCategorytype", homeTemplateDetailModelList.get(position).getStoryDetails().getBASubCategoryName());
+                    webviewIntent.putExtra("StoryAuthor", homeTemplateDetailModelList.get(position).getStoryDetails().getAuthorImageURL());
+                    webviewIntent.putExtra("StoryHeaderImg", homeTemplateDetailModelList.get(position).getStoryDetails().getStrThumbImageName());
+                    webviewIntent.putExtra("StoryId", homeTemplateDetailModelList.get(position).getStoryDetails().getBAStoryId());
+                    webviewIntent.putExtra("StoryauthorId", homeTemplateDetailModelList.get(position).getStoryDetails().getAuthorId());
+                    webviewIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    mContext.startActivity(webviewIntent);
+                }
+            });
+        }
+        /* webview Detail layout*/
+        else if (homeTemplateDetailModelList.get(position).getSecondHeaderType().equals(5)) {
+
+            cardviewpagerItemBinding.registerInterestLinear.setVisibility(View.GONE);
+            cardviewpagerItemBinding.bookPackageLinear.setVisibility(View.GONE);
+            cardviewpagerItemBinding.bookPackagebuttonLinear.setVisibility(View.GONE);
+            cardviewpagerItemBinding.bookBgPageLinear.setVisibility(View.GONE);
+            cardviewpagerItemBinding.bottomGradiantView.setVisibility(View.GONE);
+            cardviewpagerItemBinding.newsBgPageLinear.setVisibility(View.GONE);
+            cardviewpagerItemBinding.newsPageLinear.setVisibility(View.GONE);
+            cardviewpagerItemBinding.webviewPageLinear.setVisibility(View.VISIBLE);
+            cardviewpagerItemBinding.webviewBgPageLinear.setVisibility(View.VISIBLE);
+
+
+            cardviewpagerItemBinding.webviewItemDescTxt.setText(homeTemplateDetailModelList.get(position).getSecondHeaderSubText());
+            cardviewpagerItemBinding.webviewItemHeadingTxt.setText(homeTemplateDetailModelList.get(position).getSecondHeaderText());
+            cardviewpagerItemBinding.webviewViewMoreTxt.setText(Html.fromHtml("<u>" + homeTemplateDetailModelList.get(position).getSecondHeaderButtonText() + "</u>"));
+            cardviewpagerItemBinding.webviewViewMoreTxt.setTextColor(Color.parseColor(homeTemplateDetailModelList.get(position).getSecondHaderButtonFontColor()));
+
+            cardviewpagerItemBinding.webviewViewMoreLinear.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent webviewIntent = new Intent(mContext, MoreInformationActivity.class);
+                    webviewIntent.putExtra("Story Heading", homeTemplateDetailModelList.get(position).getSecondHeaderText());
+                    webviewIntent.putExtra("StroyUrl", homeTemplateDetailModelList.get(position).getRedirectUrl().toString());
+                    webviewIntent.putExtra("whereTocome", "home");
+
                     webviewIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     mContext.startActivity(webviewIntent);
                 }

@@ -484,7 +484,7 @@ public class ImageUploadActivity extends AppCompatActivity implements View.OnCli
     private ArrayList<String> photoPaths = new ArrayList<>();
     public String  photoprivacyStr,fileName; //fileName;
      int imageid=0;
-     String privacysettingstr="";
+     String privacysettingstr="0";
 
     // Database
     DbHandler dbHandler;
@@ -503,7 +503,7 @@ public class ImageUploadActivity extends AppCompatActivity implements View.OnCli
     public void init() {
         dbHandler = new DbHandler(mContext);
         galleryImageList = new ArrayList<>();
-       privacysettingstr = activityImageUploadBinding.privacyTxt.getText().toString();
+
 
     }
 
@@ -515,11 +515,11 @@ public class ImageUploadActivity extends AppCompatActivity implements View.OnCli
                 if (event.getPrivacyname().equalsIgnoreCase("Public")) {
                     activityImageUploadBinding.privacyTxt.setText(event.getPrivacyname());
                     activityImageUploadBinding.privacyImage.setImageDrawable(getDrawable(R.drawable.ic_aboutus));
-                    privacysettingstr = activityImageUploadBinding.privacyTxt.getText().toString();
+                    privacysettingstr = "0";
                 } else if (event.getPrivacyname().equalsIgnoreCase("Private")) {
                     activityImageUploadBinding.privacyImage.setImageDrawable(getDrawable(R.drawable.ic_private_user));
                     activityImageUploadBinding.privacyTxt.setText(event.getPrivacyname());
-                    privacysettingstr = activityImageUploadBinding.privacyTxt.getText().toString();
+                    privacysettingstr = "1";
                 }
             }
 
@@ -573,6 +573,11 @@ public class ImageUploadActivity extends AppCompatActivity implements View.OnCli
                     if (galleryImageList != null && galleryImageList.size() > 0) {
                         Log.d("galleryList :", "" + galleryImageList.size());
                         for (int i = 0; i < galleryImageList.size(); i++) {
+                            galleryImageList.get(i).setPrivacySetting(privacysettingstr);
+                        }
+
+
+                        for (int i = 0; i < galleryImageList.size(); i++) {
                             dbHandler.insertImageDetails(galleryImageList.get(i).getImageUri(), galleryImageList.get(i).getImageSize(),
                                     galleryImageList.get(i).getUploadcompelet(), galleryImageList.get(i).getVideolength(),
                                     galleryImageList.get(i).getFileType(), galleryImageList.get(i).getVideoTitle(),
@@ -594,6 +599,7 @@ public class ImageUploadActivity extends AppCompatActivity implements View.OnCli
                 photoprivacyStr = activityImageUploadBinding.privacyTxt.getText().toString();
                 Intent privacyIntent = new Intent(mContext, ImageVideoPrivacyActivity.class);
                 privacyIntent.putExtra("privacytxt", photoprivacyStr);
+                privacyIntent.putExtra("privacytype","Image");
                 startActivity(privacyIntent);
                 break;
         }
@@ -696,7 +702,7 @@ public class ImageUploadActivity extends AppCompatActivity implements View.OnCli
 
         Log.d("galleryList :", "" + galleryImageList.size());
 
-        selectedImageVideoViewAdapter = new SelectedImageVideoViewAdapter(mContext, galleryImageList, new image_click() {
+        selectedImageVideoViewAdapter = new SelectedImageVideoViewAdapter(mContext, galleryImageList,ImageUploadActivity.this, new image_click() {
             @Override
             public void image_more_click() {
                 String getSelectedImageremove = String.valueOf(selectedImageVideoViewAdapter.selectedpositionRemove());

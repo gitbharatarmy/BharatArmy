@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.View;
 
@@ -29,7 +30,7 @@ public class ImageVideoPrivacyActivity extends AppCompatActivity implements View
     ImageVideoPrivacyAdapter imageVideoPrivacyAdapter;
     List<GalleryImageModel> privacyoptionList;
     int selectedposition = -1;
-    String privacyStr,headertxt,subtxt;
+    String privacyStr,headertxt,subtxt,privacytagStr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,12 +44,31 @@ public class ImageVideoPrivacyActivity extends AppCompatActivity implements View
 
     public void init() {
         privacyStr=getIntent().getStringExtra("privacytxt");
+        privacytagStr =getIntent().getStringExtra("privacytype");
 
-        privacyoptionList = new ArrayList<GalleryImageModel>();
-        privacyoptionList.add(new GalleryImageModel(getResources().getString(R.string.photo_public_option_header_txt), getResources().getString(R.string.photo_public_option_sub_txt),
-                R.drawable.ic_aboutus, "1"));
-        privacyoptionList.add(new GalleryImageModel(getResources().getString(R.string.photo_private_option_header_txt), getResources().getString(R.string.photo_private_option_sub_txt),
-                R.drawable.ic_private_user, "0"));
+        if (privacytagStr.equalsIgnoreCase("Image")){
+            privacyoptionList = new ArrayList<GalleryImageModel>();
+            privacyoptionList.add(new GalleryImageModel(getResources().getString(R.string.photo_public_option_Imageheader_txt), getResources().getString(R.string.photo_public_option_Imagesub_txt),
+                    R.drawable.ic_aboutus, "1"));
+            privacyoptionList.add(new GalleryImageModel(getResources().getString(R.string.photo_private_option_Imageheader_txt), getResources().getString(R.string.photo_private_option_Imagesub_txt),
+                    R.drawable.ic_private_user, "0"));
+
+            activityImageVideoPrivacyBinding.privacyHeaderTxt.setText(getResources().getString(R.string.photo_privacy_Imageheader_txt));
+            activityImageVideoPrivacyBinding.privacySubTxt.setText(getResources().getString(R.string.photo_privacy_Imagesub_txt));
+            activityImageVideoPrivacyBinding.privacyLinkTxt.setText(Html.fromHtml("<u>"+getResources().getString(R.string.photo_privacy_Imagetxt)+"<u>"));
+        }else{
+            privacyoptionList = new ArrayList<GalleryImageModel>();
+            privacyoptionList.add(new GalleryImageModel(getResources().getString(R.string.photo_public_option_videoheader_txt), getResources().getString(R.string.photo_public_option_videosub_txt),
+                    R.drawable.ic_aboutus, "1"));
+            privacyoptionList.add(new GalleryImageModel(getResources().getString(R.string.photo_private_option_videoheader_txt), getResources().getString(R.string.photo_private_option_videosub_txt),
+                    R.drawable.ic_private_user, "0"));
+
+            activityImageVideoPrivacyBinding.privacyHeaderTxt.setText(getResources().getString(R.string.photo_privacy_videoheader_txt));
+            activityImageVideoPrivacyBinding.privacySubTxt.setText(getResources().getString(R.string.photo_privacy_videosub_txt));
+            activityImageVideoPrivacyBinding.privacyLinkTxt.setText(Html.fromHtml("<u>"+getResources().getString(R.string.photo_privacy_videotxt)+"<u>"));
+        }
+
+
 
 
         for (int i = 0; i < privacyoptionList.size(); i++) {

@@ -15,9 +15,11 @@
         android:orientation="vertical">
 
         <RelativeLayout
+            android:id="@+id/withoutstar_linear"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="@dimen/_5sdp">
+            android:layout_margin="@dimen/_5sdp"
+            android:visibility="visible">
 
             <CheckBox
                 android:id="@+id/question3_option1_chk"
@@ -42,5 +44,7 @@
                 android:textColor="@color/all_text_color"
                 android:textSize="@dimen/allans_font_size" />
         </RelativeLayout>
+
+
     </LinearLayout>
 </layout>

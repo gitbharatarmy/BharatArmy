@@ -92,5 +92,6 @@
     <color name="feedback_end_color">#9CC02E</color>
     <color name="feedback_selected_txt_color">#1b5732</color>
     <color name="feedback_txt_color">#B7BABA</color>
+    <color name="feedback_write_txt_color">@color/heading_bg</color>
 
 </resources>

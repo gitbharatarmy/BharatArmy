@@ -10,7 +10,6 @@ import android.view.View;
 
 import com.bharatarmy.R;
 import com.bharatarmy.databinding.ActivityProfileSettingBinding;
-import com.google.android.gms.common.data.DataBufferIterator;
 
 public class ProfileSettingActivity extends AppCompatActivity implements View.OnClickListener {
     ActivityProfileSettingBinding activityProfileSettingBinding;
@@ -43,12 +42,12 @@ public class ProfileSettingActivity extends AppCompatActivity implements View.On
             case R.id.change_password_rel:
                 Intent alertIntent =new Intent(mContext,ProfileChangePasswordAlertActivity.class);
                 startActivity(alertIntent);
-                finish();
+//                finish();
                 break;
             case R.id.notification_rel:
-                Intent notificationalertIntent =new Intent(mContext,AllNotificationActivity.class);
+                Intent notificationalertIntent =new Intent(mContext, AllNotificationSettingActivity.class);
                 startActivity(notificationalertIntent);
-                finish();
+//                finish();
                 break;
             case R.id.back_img:
                 finish();

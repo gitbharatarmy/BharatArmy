@@ -53,11 +53,19 @@ public class FeedbackViewAdapter extends RecyclerView.Adapter<FeedbackViewAdapte
 
 
         holder.feedbackViewListItemBinding.questionTxt.setText(ansviewdetail.getPopularcity_image());
-
-        if (!ansviewdetail.getPopularcity_image_count().equalsIgnoreCase("")) {
-            holder.feedbackViewListItemBinding.ansTxt.setText(ansviewdetail.getPopularcity_name() + ", " + ansviewdetail.getPopularcity_image_count());
-        } else {
+        if (!ansviewdetail.getPopularcity_name().equalsIgnoreCase("")) {
+            holder.feedbackViewListItemBinding.ansTxt.setVisibility(View.VISIBLE);
             holder.feedbackViewListItemBinding.ansTxt.setText(ansviewdetail.getPopularcity_name());
+        } else {
+            holder.feedbackViewListItemBinding.ansTxt.setVisibility(View.GONE);
+        }
+
+
+        if (ansviewdetail.getPopularcity_image_count().equalsIgnoreCase("1")) {
+            holder.feedbackViewListItemBinding.ansTxt.setVisibility(View.GONE);
+            holder.feedbackViewListItemBinding.ansImage.setVisibility(View.VISIBLE);
+        } else {
+            holder.feedbackViewListItemBinding.ansImage.setVisibility(View.GONE);
         }
     }
 

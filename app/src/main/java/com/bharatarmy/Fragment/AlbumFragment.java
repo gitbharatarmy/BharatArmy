@@ -45,15 +45,17 @@ import com.leinardi.android.speeddial.SpeedDialView;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 import static android.app.Activity.RESULT_OK;
 
-
+// remove & change code 24-01-2020
 public class AlbumFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -68,20 +70,24 @@ public class AlbumFragment extends Fragment {
     private Context mContext;
     AlbumListAdapter albumListAdapter;
     List<ImageDetailModel> albumModelList;
+    List<ImageDetailModel> albumModelList1 = new ArrayList<>();
     ArrayList<String> AlbumUrl = new ArrayList<>();
 
-    int pageIndex = 0;
-    boolean isAlbumLoading = false;
 
-    StaggeredGridLayoutManager staggeredGridLayoutManager;
-    int[] lastPositions;
-    int lastVisibleItem;
+    StaggeredGridLayoutManager staggeredGridLayoutManagerAlbum;
+
     String imageorvideoStr;
     SpeedDialOverlayLayout overlayLayout;
     SpeedDialView speedDialView;
 
     Uri selectedUri;
     private static final int REQUEST_VIDEO_TRIMMER = 0x01;
+
+    //    lazy loading variable
+    int albumpageIndex = 0;
+    boolean isAlbumLoading = true;
+    int albumpageSize = 15;
+
 
     public AlbumFragment() {
         // Required empty public constructor
@@ -137,7 +143,7 @@ public class AlbumFragment extends Fragment {
 
             if (albumListAdapter == null) {
                 fragmentAlbumBinding.shimmerViewContainer.startShimmerAnimation();
-                callAlbumImageData();
+                callAlbumImageData("Starting");
             }
             setListiner();
             speedDialView = (SpeedDialView) getActivity().findViewById(R.id.speedDial);
@@ -149,8 +155,8 @@ public class AlbumFragment extends Fragment {
 
 
     public void setListiner() {
-        staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, 1);
-        fragmentAlbumBinding.rvPosters.setLayoutManager(staggeredGridLayoutManager);
+        staggeredGridLayoutManagerAlbum = new StaggeredGridLayoutManager(2, 1);
+        fragmentAlbumBinding.rvPosters.setLayoutManager(staggeredGridLayoutManagerAlbum);
 
         fragmentAlbumBinding.rvPosters.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -162,16 +168,16 @@ public class AlbumFragment extends Fragment {
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
 
-                lastPositions = new int[staggeredGridLayoutManager.getSpanCount()];
-                lastPositions = staggeredGridLayoutManager.findLastCompletelyVisibleItemPositions(lastPositions);
-                lastVisibleItem = Math.max(lastPositions[0], lastPositions[1]);//findMax(lastPositions);
-
+                int[] lastVisibleItemPositions = staggeredGridLayoutManagerAlbum.findLastCompletelyVisibleItemPositions(null);
+                int lastVisibleItem = getLastVisibleItemAlbum(lastVisibleItemPositions);
+                int totalItemCount = staggeredGridLayoutManagerAlbum.getItemCount();
+                Log.d("lastVisibleItem :", "" + lastVisibleItem + " totalItemCount :" + albumModelList1.size());
 
                 if (isAlbumLoading == true) {
-                    if (staggeredGridLayoutManager != null && lastVisibleItem == albumModelList.size() - 1) {
+                    if (staggeredGridLayoutManagerAlbum != null && (lastVisibleItem + 1) == albumModelList1.size()) {
                         //bottom of list!
                         isAlbumLoading = true;
-                        pageIndex = pageIndex + 1;
+                        albumpageIndex++;
                         fragmentAlbumBinding.bottomProgressbarLayout.setVisibility(View.VISIBLE);
                         loadMore();
 
@@ -184,12 +190,24 @@ public class AlbumFragment extends Fragment {
             @Override
             public void onRefresh() {
                 fragmentAlbumBinding.bottomProgressbarLayout.setVisibility(View.GONE);
-                pageIndex = 0;
+
                 callAlbumImagePullData();
 
             }
         });
 
+    }
+
+    public int getLastVisibleItemAlbum(int[] lastVisibleItemPositions) {
+        int maxSize = 0;
+        for (int i = 0; i < lastVisibleItemPositions.length; i++) {
+            if (i == 0) {
+                maxSize = lastVisibleItemPositions[i];
+            } else if (lastVisibleItemPositions[i] > maxSize) {
+                maxSize = lastVisibleItemPositions[i];
+            }
+        }
+        return maxSize;
     }
 
     public void initSpeedDial() { //boolean addActionItems
@@ -343,7 +361,7 @@ public class AlbumFragment extends Fragment {
     }
 
     // Api calling GetAlbumImageData
-    public void callAlbumImageData() {
+    public void callAlbumImageData(String whereTocall) {
         if (!Utils.checkNetwork(mContext)) {
             Utils.showCustomDialog(getResources().getString(R.string.internet_error), getResources().getString(R.string.internet_connection_error), getActivity());
             return;
@@ -370,19 +388,35 @@ public class AlbumFragment extends Fragment {
                 if (albumMainModel.getIsValid() == 1) {
 
                     if (albumMainModel.getData() != null) {
+
+                        if (whereTocall.equalsIgnoreCase("Starting")) {
+                            if (albumListAdapter!=null){
+                                albumListAdapter.clear();
+                            }
+                        }
+
                         fragmentAlbumBinding.shimmerViewContainer.stopShimmerAnimation();
                         fragmentAlbumBinding.shimmerViewContainer.setVisibility(View.GONE);
                         fragmentAlbumBinding.bottomProgressbarLayout.setVisibility(View.GONE);
+
+                        if (albumMainModel.getData().size() != 0) {
+                            if (albumModelList1.size() == 0) {
+                                albumModelList1.addAll(0, albumMainModel.getData());
+                            } else {
+                                albumModelList1.addAll(albumModelList1.size(), albumMainModel.getData());
+                            }
+                        }
+                        if (albumModelList1.size() < albumpageSize) {
+                            isAlbumLoading = false;
+                        }
                         albumModelList = albumMainModel.getData();
-                        Log.d("Albumlist : ", "" + albumModelList.size());
+
                         addOldNewValue(albumModelList);
                         if (albumListAdapter != null && albumModelList.size() > 0) {
                             // just append more data to current list
                             albumListAdapter.addMoreDataToList(albumModelList);
                         } else if (albumListAdapter != null && albumModelList.size() == 0) {
                             isAlbumLoading = false;
-                            addOldNewValue(albumMainModel.getData());
-
                         } else {
                             fillAlbumImage();
                         }
@@ -405,8 +439,8 @@ public class AlbumFragment extends Fragment {
 
     private Map<String, String> getAlbumImageData() {
         Map<String, String> map = new HashMap<>();
-        map.put("PageIndex", String.valueOf(pageIndex));
-        map.put("PageSize", "20");
+        map.put("PageIndex", String.valueOf(albumpageIndex));
+        map.put("PageSize", String.valueOf(albumpageSize));
         map.put("MemberId", String.valueOf(Utils.getAppUserId(mContext)));
 
         return map;
@@ -420,7 +454,7 @@ public class AlbumFragment extends Fragment {
     }
 
     private void loadMore() {
-        callAlbumImageData();
+        callAlbumImageData("load");
     }
 
     @Override
@@ -467,14 +501,17 @@ public class AlbumFragment extends Fragment {
                 if (albumMainModel.getIsValid() == 1) {
 
                     if (albumMainModel.getData() != null) {
-                        AlbumUrl.clear();
-                        albumModelList = albumMainModel.getData();
 
-                        isAlbumLoading = true;
-                        staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, 1);
-                        fragmentAlbumBinding.rvPosters.setLayoutManager(staggeredGridLayoutManager);
-                        albumListAdapter = new AlbumListAdapter(mContext, albumModelList);
-                        fragmentAlbumBinding.rvPosters.setAdapter(albumListAdapter);
+
+                        AlbumUrl.clear();
+                        albumModelList1.addAll(0, albumMainModel.getData());
+                        Set<ImageDetailModel> unique = new LinkedHashSet<ImageDetailModel>(albumModelList1);
+                        albumModelList1 = new ArrayList<ImageDetailModel>(unique);
+                        albumListAdapter.clear();
+                        albumListAdapter.addMoreDataToList(albumModelList1);
+
+                        addOldNewValue(albumModelList1);
+
                         fragmentAlbumBinding.refreshView.setRefreshing(false);
                     }
 
@@ -495,8 +532,8 @@ public class AlbumFragment extends Fragment {
 
     private Map<String, String> getAlbumImagePullData() {
         Map<String, String> map = new HashMap<>();
-        map.put("PageIndex", String.valueOf(pageIndex));
-        map.put("PageSize", "20");
+        map.put("PageIndex", "0");
+        map.put("PageSize", String.valueOf(albumpageSize));
         map.put("MemberId", String.valueOf(Utils.getAppUserId(mContext)));
 
         return map;

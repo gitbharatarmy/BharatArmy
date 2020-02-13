@@ -1,20 +1,19 @@
 package com.bharatarmy.Activity
 
 import android.annotation.SuppressLint
-import android.app.AlertDialog
-import android.app.Dialog
 import android.content.Context
 import android.content.Intent
-import android.graphics.Point
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.os.Handler
-import android.util.DisplayMetrics
 import android.util.Log
-import android.view.*
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.RelativeLayout
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
@@ -22,6 +21,7 @@ import com.bharatarmy.Fragment.*
 import com.bharatarmy.Models.MyScreenChnagesModel
 import com.bharatarmy.R
 import com.bharatarmy.Utility.AppConfiguration
+import com.bharatarmy.Utility.Utils
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation
 import com.leinardi.android.speeddial.SpeedDialOverlayLayout
 import com.leinardi.android.speeddial.SpeedDialView
@@ -111,12 +111,51 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, StoryFragme
         bottomNavigation.add(MeowBottomNavigation.Model(5, R.drawable.ic_more))
 
         bottomNavigation.setOnClickMenuListener {
+            if (AppConfiguration.question2.equals("", ignoreCase = true) && AppConfiguration.question10.equals("", ignoreCase = true)
+                    && AppConfiguration.question11.equals("", ignoreCase = true) && AppConfiguration.question12.equals("", ignoreCase = true)
+                    && AppConfiguration.question13.equals("", ignoreCase = true) && AppConfiguration.question14.equals("", ignoreCase = true)
+                    && AppConfiguration.question15.equals("", ignoreCase = true)) {
+                AppConfiguration.addtextchoice = "not fill"
+            } else {
+                AppConfiguration.addtextchoice = "fill"
+            }
+
+            Utils.hideKeyboard(this@DashboardActivity)
+            //            /*Feedback survey quite variable*/
+            if (AppConfiguration.multichoice.equals("fill", ignoreCase = true)
+                    || AppConfiguration.singlechoice.equals("fill", ignoreCase = true)
+                    || AppConfiguration.imagechoice.equals("fill", ignoreCase = true)
+                    || AppConfiguration.addtextchoice.equals("fill", ignoreCase = true)) {
+                Utils.setPref(mContext, "fill", "1");
+            }
+            if (AppConfiguration.multichoice.equals("not fill", ignoreCase = true)
+                    && AppConfiguration.singlechoice.equals("not fill", ignoreCase = true)
+                    && AppConfiguration.imagechoice.equals("not fill", ignoreCase = true)
+                    && AppConfiguration.addtextchoice.equals("not fill", ignoreCase = true)) {
+                Utils.setPref(mContext, "fill", "0");
+            }
+
             AppConfiguration.lastpositionofnavigation = it.id.toString()
             Log.d("selectedId :", "" + AppConfiguration.lastpositionofnavigation)
+
+
             when (it.id) {
                 1 -> {
                     if (navItemIndex.equals(2)) {
-                        loadPageToFeedback()
+                        if (Utils.getPref(mContext, "fill") != null) {
+                            if (Utils.getPref(mContext, "fill").equals("1", ignoreCase = true)) {
+                                loadPageToFeedback("click")
+                            } else {
+                                navItemIndex = 1
+                                fragment = FansFragment()
+                                loadFragment(fragment as FansFragment)
+                            }
+                        } else {
+                            navItemIndex = 1
+                            fragment = FansFragment()
+                            loadFragment(fragment as FansFragment)
+                        }
+
                     } else {
                         navItemIndex = 1
                         fragment = FansFragment()
@@ -135,7 +174,20 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, StoryFragme
                 }
                 3 -> {
                     if (navItemIndex.equals(2)) {
-                        loadPageToFeedback()
+                        if (Utils.getPref(mContext, "fill") != null) {
+                            if (Utils.getPref(mContext, "fill").equals("1", ignoreCase = true)) {
+                                loadPageToFeedback("click")
+                            } else {
+                                navItemIndex = 0
+                                fragment = HomeFragment()
+                                loadFragment(fragment as HomeFragment)
+                            }
+                        } else {
+                            navItemIndex = 0
+                            fragment = HomeFragment()
+                            loadFragment(fragment as HomeFragment)
+                        }
+
                     } else {
                         navItemIndex = 0
                         fragment = HomeFragment()
@@ -144,7 +196,19 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, StoryFragme
                 }
                 4 -> {
                     if (navItemIndex.equals(2)) {
-                        loadPageToFeedback()
+                        if (Utils.getPref(mContext, "fill") != null) {
+                            if (Utils.getPref(mContext, "fill").equals("1", ignoreCase = true)) {
+                                loadPageToFeedback("click")
+                            } else {
+                                navItemIndex = 4
+                                fragment = StoryFragment()
+                                loadFragment(fragment as StoryFragment)
+                            }
+                        } else {
+                            navItemIndex = 4
+                            fragment = StoryFragment()
+                            loadFragment(fragment as StoryFragment)
+                        }
                     } else {
                         navItemIndex = 4
                         fragment = StoryFragment()
@@ -153,7 +217,19 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, StoryFragme
                 }
                 5 -> {
                     if (navItemIndex.equals(2)) {
-                        loadPageToFeedback()
+                        if (Utils.getPref(mContext, "fill") != null) {
+                            if (Utils.getPref(mContext, "fill").equals("1", ignoreCase = true)) {
+                                loadPageToFeedback("click")
+                            } else {
+                                navItemIndex = 5
+                                fragment = MoreFragment()
+                                loadFragment(fragment as MoreFragment)
+                            }
+                        } else {
+                            navItemIndex = 5
+                            fragment = MoreFragment()
+                            loadFragment(fragment as MoreFragment)
+                        }
                     } else {
                         navItemIndex = 5
                         fragment = MoreFragment()
@@ -201,8 +277,10 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, StoryFragme
                     navItemIndex = 2
                     bottomNavigation.show(2, true)
                     intent.putExtra("whichPageRun", "")
-                    fragment = NewTravelFragment()
-                    loadFragment(fragment as NewTravelFragment)
+                    fragment = FeedbackFragment()
+                    loadFragment(fragment as FeedbackFragment)
+//                    fragment = NewTravelFragment()
+//                    loadFragment(fragment as NewTravelFragment)
                 } else {
                     bottomNavigation.show(3, true)
                     fragment = HomeFragment()
@@ -235,53 +313,85 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, StoryFragme
         invalidateOptionsMenu()
     }
 
-    public fun loadPageToFeedback() {
-        val alertDialog2 = AlertDialog.Builder(mContext)
-        alertDialog2.setTitle("Feedback Confirm")
-        alertDialog2.setMessage("Are you sure you want go other page")
-        alertDialog2.setIcon(R.drawable.app_logo_new)
-        alertDialog2.setCancelable(false)
-        alertDialog2.setPositiveButton("YES"
-        ) { dialog, which ->
-            dialog.cancel()
-            if (AppConfiguration.lastpositionofnavigation.equals("1", ignoreCase = true)) {
-                navItemIndex = 1
-                fragment = FansFragment()
-                loadFragment(fragment as FansFragment)
-            } else if (AppConfiguration.lastpositionofnavigation.equals("3", ignoreCase = true)) {
-                navItemIndex = 0
-                fragment = HomeFragment()
-                loadFragment(fragment as HomeFragment)
-            } else if (AppConfiguration.lastpositionofnavigation.equals("4", ignoreCase = true)) {
-                navItemIndex = 4
-                fragment = StoryFragment()
-                loadFragment(fragment as StoryFragment)
-            } else if (AppConfiguration.lastpositionofnavigation.equals("5", ignoreCase = true)) {
-                navItemIndex = 5
-                fragment = MoreFragment()
-                loadFragment(fragment as MoreFragment)
+    /*Feedback survey quite dialog*/
+    public fun loadPageToFeedback(whichload: String) {
+        val dialogBuilder = AlertDialog.Builder(mContext)
+        val inflater: LayoutInflater = getLayoutInflater()
+        val dialogView = inflater.inflate(R.layout.feedback_back_dialog, null)
+        dialogBuilder.setView(dialogView)
+        val alertDialog = dialogBuilder.create()
+        alertDialog.setCanceledOnTouchOutside(false)
+        alertDialog.window.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        val yestxt = dialogView.findViewById<View>(R.id.yes_txt) as TextView
+        val notxt = dialogView.findViewById<View>(R.id.no_txt) as TextView
+
+
+        yestxt.setOnClickListener {
+            try {
+                alertDialog.dismiss()
+                AppConfiguration.multichoice = "not fill";
+                AppConfiguration.singlechoice = "not fill";
+                AppConfiguration.imagechoice = "not fill";
+                AppConfiguration.addtextchoice = "not fill";
+                AppConfiguration.question2 = "";
+                AppConfiguration.question10 = "";
+                AppConfiguration.question11 = "";
+                AppConfiguration.question12 = "";
+                AppConfiguration.question13 = "";
+                AppConfiguration.question14 = "";
+                AppConfiguration.question15 = "";
+
+                Utils.setPref(mContext, "fill", "0");
+                if (whichload.equals("click", ignoreCase = true)) {
+                    if (AppConfiguration.lastpositionofnavigation.equals("1", ignoreCase = true)) {
+                        navItemIndex = 1
+                        fragment = FansFragment()
+                        loadFragment(fragment as FansFragment)
+                    } else if (AppConfiguration.lastpositionofnavigation.equals("3", ignoreCase = true)) {
+                        navItemIndex = 0
+                        fragment = HomeFragment()
+                        loadFragment(fragment as HomeFragment)
+                    } else if (AppConfiguration.lastpositionofnavigation.equals("4", ignoreCase = true)) {
+                        navItemIndex = 4
+                        fragment = StoryFragment()
+                        loadFragment(fragment as StoryFragment)
+                    } else if (AppConfiguration.lastpositionofnavigation.equals("5", ignoreCase = true)) {
+                        navItemIndex = 5
+                        fragment = MoreFragment()
+                        loadFragment(fragment as MoreFragment)
+                    }
+                } else {
+                    navItemIndex = 0
+                    CURRENT_TAG = TAG_HOME
+                    loadHomeFragment()
+                }
+
+            } catch (e: Exception) {
             }
-
-        }
-        alertDialog2.setNegativeButton("NO"
-        ) { dialog, which ->
-            // Write your code here to execute after dialog
-            dialog.cancel()
-            bottomNavigation.show(2, true)
         }
 
-            alertDialog2.show();
-}
+        notxt.setOnClickListener {
+            try {
+                alertDialog.dismiss()
+                bottomNavigation.show(2, true)
+            } catch (e: java.lang.Exception) {
+            }
+        }
+
+        try {
+            alertDialog.show()
+        } catch (e: Exception) {
+        }
+    }
+
 
     private fun setToolbarTitle() {
         //        getSupportActionBar().setTitle(activityTitles[navItemIndex]);
     }
 
     override fun onBackPressed() {
-//        if (drawer.isDrawerOpen(GravityCompat.START)) {
-//            drawer.closeDrawers()
-//            return
-//        }
+
         if (speedDial.isOpen) {
             speedDial.close(true);
         } else {
@@ -294,40 +404,89 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, StoryFragme
                 overlay.visibility = View.GONE
                 speedDial.visibility = View.GONE
 
-                /*if (navItemIndex == 2) {
-                    AppConfiguration.lastpositionofnavigation="3";
-                    loadPageToFeedback()
-                } else {*/
-                    if (navItemIndex != 0) {
-                        if (navItemIndex != 1) {
-                            if (!viewmoreStr.equals("", ignoreCase = true)) {
-                                bottomNavigation.show(2, true)
-                                intent.putExtra("whichPageRun", "")
-                                navItemIndex = 1
-                                fragment = NewTravelFragment()
-                                loadFragment(fragment as NewTravelFragment)
-                                return
+                /*fill the edittext variable*/
+                if (AppConfiguration.question2.equals("", ignoreCase = true) && AppConfiguration.question10.equals("", ignoreCase = true)
+                        && AppConfiguration.question11.equals("", ignoreCase = true) && AppConfiguration.question12.equals("", ignoreCase = true)
+                        && AppConfiguration.question13.equals("", ignoreCase = true) && AppConfiguration.question14.equals("", ignoreCase = true)
+                        && AppConfiguration.question15.equals("", ignoreCase = true)) {
+                    AppConfiguration.addtextchoice = "not fill"
+                } else {
+                    AppConfiguration.addtextchoice = "fill"
+                }
+                //            /*Feedback survey quite variable*/
+                if (AppConfiguration.multichoice.equals("fill", ignoreCase = true)
+                        || AppConfiguration.singlechoice.equals("fill", ignoreCase = true)
+                        || AppConfiguration.imagechoice.equals("fill", ignoreCase = true)
+                        || AppConfiguration.addtextchoice.equals("fill", ignoreCase = true)) {
+                    Utils.setPref(mContext, "fill", "1");
+                }
+                if (AppConfiguration.multichoice.equals("not fill", ignoreCase = true)
+                        && AppConfiguration.singlechoice.equals("not fill", ignoreCase = true)
+                        && AppConfiguration.imagechoice.equals("not fill", ignoreCase = true)
+                        && AppConfiguration.addtextchoice.equals("not fill", ignoreCase = true)) {
+                    Utils.setPref(mContext, "fill", "0");
+                }
+
+                AppConfiguration.lastpositionofnavigation = navItemIndex.toString()
+                Log.d("selectedId :", "" + AppConfiguration.lastpositionofnavigation)
+
+                if (navItemIndex != 0) {
+                    if (AppConfiguration.lastpositionofnavigation.equals("2", ignoreCase = true)) {
+                        if (Utils.getPref(mContext, "fill") != null) {
+                            if (Utils.getPref(mContext, "fill").equals("1", ignoreCase = true)) {
+                                loadPageToFeedback("back")
                             } else {
-                                viewmoreStr = ""
                                 navItemIndex = 0
                                 CURRENT_TAG = TAG_HOME
                                 loadHomeFragment()
-                                return
                             }
                         } else {
-                            viewmoreStr = ""
                             navItemIndex = 0
                             CURRENT_TAG = TAG_HOME
                             loadHomeFragment()
-                            return
                         }
+                    } else {
+                        navItemIndex = 0
+                        CURRENT_TAG = TAG_HOME
+                        loadHomeFragment()
+
+                    }
+
+                } else {
+                    try {
+                        super.onBackPressed()
+                    } catch (exp: IllegalStateException) { // can output some information here
+                        finish()
+                    }
                 }
+
+                /*for travel page working then use this code
+                   if (navItemIndex != 0) {
+                       if (navItemIndex != 1) {
+                           if (!viewmoreStr.equals("", ignoreCase = true)) {
+                               bottomNavigation.show(2, true)
+                               intent.putExtra("whichPageRun", "")
+                               navItemIndex = 1
+                               fragment = NewTravelFragment()
+                               loadFragment(fragment as NewTravelFragment)
+                               return
+                           } else {
+                               viewmoreStr = ""
+                               navItemIndex = 0
+                               CURRENT_TAG = TAG_HOME
+                               loadHomeFragment()
+                               return
+                           }
+                       } else {
+                           viewmoreStr = ""
+                           navItemIndex = 0
+                           CURRENT_TAG = TAG_HOME
+                           loadHomeFragment()
+                           return
+                       }
+                   }*/
             }
-            try {
-                super.onBackPressed()
-            } catch (exp: IllegalStateException) { // can output some information here
-                finish()
-            }
+
 //            super.onBackPressed()
         }
 

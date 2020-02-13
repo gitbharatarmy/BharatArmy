@@ -26,6 +26,7 @@ import com.bharatarmy.Activity.GalleryImageDetailActivity;
 import com.bharatarmy.Activity.ImageUploadActivity;
 import com.bharatarmy.Activity.VideoTrimActivity;
 import com.bharatarmy.Adapter.ImageListAdapter;
+import com.bharatarmy.Interfaces.YourFragmentInterface;
 import com.bharatarmy.Interfaces.image_click;
 import com.bharatarmy.Models.GalleryImageModel;
 import com.bharatarmy.Models.ImageDetailModel;
@@ -33,6 +34,7 @@ import com.bharatarmy.Models.ImageMainModel;
 import com.bharatarmy.Models.MyScreenChnagesModel;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.ApiHandler;
+import com.bharatarmy.Utility.AppConfiguration;
 import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.FragmentImageBinding;
 import com.karumi.dexter.Dexter;
@@ -63,7 +65,7 @@ import retrofit.client.Response;
 import static android.app.Activity.RESULT_OK;
 
 // remove comment code 05-06-2019   & 23-01-2020 evening
-public class ImageFragment extends Fragment {
+public class ImageFragment extends Fragment  {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -85,11 +87,13 @@ public class ImageFragment extends Fragment {
     ArrayList<String> galleryImageDuration = new ArrayList<>();
     ArrayList<String> galleryImageLike = new ArrayList<>();
     ArrayList<String> galleryImageId = new ArrayList<>();
+    ArrayList<String> galleryImageWatchList = new ArrayList<>();
 
 
     String imageClickData;
-    int pageIndex = 0;
+    int imagepageIndex = 0;
     boolean isImageLoading = true;
+    int imagepagesize = 15;
     GridLayoutManager gridLayoutManager;
 
 
@@ -300,13 +304,14 @@ public class ImageFragment extends Fragment {
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
 
-                Log.d("lastposition", "" + gridLayoutManager.findLastCompletelyVisibleItemPosition());
-                Log.d("listsize :", String.valueOf(imageDetailModelList1.size() - 1));
+//                Log.d("lastposition", "" + gridLayoutManager.findLastCompletelyVisibleItemPosition());
+//                Log.d("listsize :", String.valueOf(imageDetailModelList1.size() - 1));
+
                 if (isImageLoading == true) {
                     if (gridLayoutManager != null && gridLayoutManager.findLastCompletelyVisibleItemPosition() == imageDetailModelList1.size() - 1) {
                         //bottom of list!
                         isImageLoading = true;
-                        pageIndex++;
+                        imagepageIndex++;
                         fragmentImageBinding.bottomProgressbarLayout.setVisibility(View.VISIBLE);
                         loadMore();
 
@@ -356,6 +361,10 @@ public class ImageFragment extends Fragment {
                                 imageDetailModelList1.addAll(imageDetailModelList1.size(), imageMainModel.getData());
                             }
                         }
+                        if (imageDetailModelList1.size() < imagepagesize) {
+                            isImageLoading = false;
+                        }
+
 
                         imageDetailModelsList = imageMainModel.getData();
 
@@ -390,8 +399,8 @@ public class ImageFragment extends Fragment {
 
     private Map<String, String> getImageGalleryData() {
         Map<String, String> map = new HashMap<>();
-        map.put("PageIndex", String.valueOf(pageIndex));
-        map.put("PageSize", "15");
+        map.put("PageIndex", String.valueOf(imagepageIndex));
+        map.put("PageSize", String.valueOf(imagepagesize));
         map.put("MemberId", String.valueOf(Utils.getAppUserId(mContext)));
         return map;
     }
@@ -411,6 +420,7 @@ public class ImageFragment extends Fragment {
                 gallerydetailIntent.putStringArrayListExtra("dataDuration", galleryImageDuration);
                 gallerydetailIntent.putStringArrayListExtra("dataId", galleryImageId);
                 gallerydetailIntent.putStringArrayListExtra("dataLike", galleryImageLike);
+                gallerydetailIntent.putStringArrayListExtra("dataWatchList", galleryImageWatchList);
                 gallerydetailIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(gallerydetailIntent);
             }
@@ -421,8 +431,6 @@ public class ImageFragment extends Fragment {
 
     private void loadMore() {
         callImageGalleryData();
-
-
     }
 
     @Override
@@ -434,12 +442,21 @@ public class ImageFragment extends Fragment {
     }
 
     public void addOldNewValue(List<ImageDetailModel> result) {
+        galleryImageUrl.clear();
+        galleryImageUrlName.clear();
+        galleryImageDuration.clear();
+        galleryImageId.clear();
+        galleryImageLike.clear();
+        galleryImageWatchList.clear();
+
+
         for (int i = 0; i < result.size(); i++) {
             galleryImageUrl.addAll(Collections.singleton(result.get(i).getGalleryURL()));
             galleryImageUrlName.addAll(Collections.singleton(result.get(i).getAddedUserName()));
             galleryImageDuration.addAll(Collections.singleton(result.get(i).getStrAddedDuration()));
             galleryImageId.addAll(Collections.singleton(String.valueOf(result.get(i).getBAGalleryId())));
             galleryImageLike.addAll(Collections.singleton(String.valueOf(result.get(i).getIsLike())));
+            galleryImageWatchList.addAll(Collections.singleton(String.valueOf(result.get(i).getIsInWatchlist())));
         }
         Log.d("galleryImageUrl", "" + galleryImageUrl.size() + "galleryImageId :" + galleryImageId.size());
 
@@ -472,26 +489,37 @@ public class ImageFragment extends Fragment {
 
                     if (imageMainModel.getData() != null) {
 
-                        galleryImageUrl.clear();
-                        galleryImageUrlName.clear();
-                        galleryImageDuration.clear();
-                        galleryImageId.clear();
-                        galleryImageLike.clear();
-                        if (imageMainModel.getData() != null) {
+                        imageDetailModelList1.addAll(0, imageMainModel.getData());
+                        Set<ImageDetailModel> unique = new LinkedHashSet<ImageDetailModel>(imageDetailModelList1);
+                        imageDetailModelList1 = new ArrayList<ImageDetailModel>(unique);
 
-                            imageDetailModelList1.addAll(0, imageMainModel.getData());
-                            Set<ImageDetailModel> unique = new LinkedHashSet<ImageDetailModel>(imageDetailModelList1);
-                            imageDetailModelList1 = new ArrayList<ImageDetailModel>(unique);
-                            imageListAdapter.clear();
-                            imageListAdapter.addMoreDataToList(imageDetailModelList1);
-
-                            Log.d("pullDataList : ", "" + imageDetailModelList1.size());
-                            addOldNewValue(imageDetailModelList1);
-
-                            fragmentImageBinding.refreshView.setRefreshing(false);
-                            isImageLoading = true;
-
+                        if (AppConfiguration.watchlistId != null && AppConfiguration.watchlistId.size() != 0) {
+                            for (int i = 0; i < imageDetailModelList1.size(); i++) {
+                                for (int j = 0; j < AppConfiguration.watchlistId.size(); j++) {
+                                    if (imageDetailModelList1.get(i).getBAGalleryId().toString().equalsIgnoreCase(AppConfiguration.watchlistId.get(j))) {
+                                     imageDetailModelList1.get(i).setIsInWatchlist(Integer.valueOf(Utils.WatchListStatus));
+                                    }
+                                }
+                            }
                         }
+
+                        if (AppConfiguration.imageLikeId != null && AppConfiguration.imageLikeId.size() != 0) {
+                            for (int i = 0; i < imageDetailModelList1.size(); i++) {
+                                for (int j = 0; j < AppConfiguration.imageLikeId.size(); j++) {
+                                    if (imageDetailModelList1.get(i).getBAGalleryId().toString().equalsIgnoreCase(AppConfiguration.imageLikeId.get(j))) {
+                                        imageDetailModelList1.get(i).setIsLike(Integer.valueOf(Utils.ImageLikeStatus));
+                                    }
+                                }
+                            }
+                        }
+
+                        imageListAdapter.clear();
+                        imageListAdapter.addMoreDataToList(imageDetailModelList1);
+
+                        addOldNewValue(imageDetailModelList1);
+
+                        fragmentImageBinding.refreshView.setRefreshing(false);
+//                            isImageLoading = true;
 
 
                     }
@@ -514,7 +542,7 @@ public class ImageFragment extends Fragment {
     private Map<String, String> getImageGalleryPullData() {
         Map<String, String> map = new HashMap<>();
         map.put("PageIndex", "0");
-        map.put("PageSize", "15");
+        map.put("PageSize", String.valueOf(imagepagesize));
         map.put("MemberId", String.valueOf(Utils.getAppUserId(mContext)));
         return map;
     }
@@ -561,11 +589,6 @@ public class ImageFragment extends Fragment {
         galleryIntent.setType("video/*");
         startActivityForResult(Intent.createChooser(galleryIntent, getString(R.string.label_select_video)), REQUEST_VIDEO_TRIMMER);
 
-        //        Intent intent = new Intent();
-//        intent.setTypeAndNormalize("video/*");
-//        intent.setAction(Intent.ACTION_GET_CONTENT);
-//        intent.addCategory(Intent.CATEGORY_OPENABLE);
-//        startActivityForResult(Intent.createChooser(intent, getString(R.string.label_select_video)), REQUEST_VIDEO_TRIMMER);
     }
 
     @Override
@@ -585,17 +608,28 @@ public class ImageFragment extends Fragment {
 
     @Subscribe
     public void customEventReceived(MyScreenChnagesModel event) {
-//        Log.d("imageId :", event.getMessage());
+//        Log.d("imageId :", event.getPrivacyname());
 //        Log.d("mainmodelValue :", imageDetailModelsList.toString());
-        if (!event.getMessage().equalsIgnoreCase("")) {
+        if (event.getPrivacyimage().equalsIgnoreCase("like")) {
             for (int i = 0; i < galleryImageLike.size(); i++) {
-                if (i == Integer.parseInt(event.getMessage())) {
-                    galleryImageLike.add(i, String.valueOf(Utils.LikeStatus));
+                if (i == Integer.parseInt(event.getPrivacyname())) {
+                    galleryImageLike.set(i, String.valueOf(Utils.LikeStatus));
+                }
+            }
+        } else if (event.getPrivacyimage().equalsIgnoreCase("watch")) {
+            for (int i = 0; i < galleryImageId.size(); i++) {
+                for (int j = 0; j < AppConfiguration.watchlistId.size(); j++) {
+                    if (galleryImageId.get(i).equalsIgnoreCase(AppConfiguration.watchlistId.get(j))) {
+                        galleryImageWatchList.set(i, String.valueOf(Utils.WatchListStatus));
+                        imageListAdapter.notifyItemChanged(i, String.valueOf(Utils.WatchListStatus));
+                    }
+
                 }
             }
         }
 
     }
+
 
 }
 

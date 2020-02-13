@@ -9,18 +9,18 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.CompoundButton;
 import com.bharatarmy.R;
-import com.bharatarmy.databinding.ActivityAllNotificationBinding;
+import com.bharatarmy.databinding.ActivityAllNotificationSettingBinding;
 
-public class AllNotificationActivity extends AppCompatActivity implements View.OnClickListener {
-    ActivityAllNotificationBinding activityAllNotificationBinding;
+public class AllNotificationSettingActivity extends AppCompatActivity implements View.OnClickListener {
+    ActivityAllNotificationSettingBinding activityAllNotificationSettingBinding;
     Context mContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        activityAllNotificationBinding = DataBindingUtil.setContentView(this, R.layout.activity_all_notification);
+        activityAllNotificationSettingBinding = DataBindingUtil.setContentView(this, R.layout.activity_all_notification_setting);
 
-        mContext = AllNotificationActivity.this;
+        mContext = AllNotificationSettingActivity.this;
 
         init();
         setListiner();
@@ -29,23 +29,23 @@ public class AllNotificationActivity extends AppCompatActivity implements View.O
     public void init(){}
 
     public void setListiner(){
-        activityAllNotificationBinding.backImg.setOnClickListener(this);
+        activityAllNotificationSettingBinding.backImg.setOnClickListener(this);
 
-     activityAllNotificationBinding.mobileNotificationSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+     activityAllNotificationSettingBinding.mobileNotificationSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
          @Override
          public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
          }
      });
 
-        activityAllNotificationBinding.smsNotificationSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        activityAllNotificationSettingBinding.smsNotificationSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
             }
         });
 
-        activityAllNotificationBinding.emailNotificationSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        activityAllNotificationSettingBinding.emailNotificationSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
@@ -64,8 +64,8 @@ public class AllNotificationActivity extends AppCompatActivity implements View.O
     }
 
     public void whereToBack() {
-        Intent alertIntent = new Intent(mContext, ProfileSettingActivity.class);
-        startActivity(alertIntent);
+//        Intent alertIntent = new Intent(mContext, ProfileSettingActivity.class);
+//        startActivity(alertIntent);
         finish();
     }
 

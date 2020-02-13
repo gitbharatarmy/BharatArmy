@@ -42,8 +42,10 @@ import org.greenrobot.eventbus.Subscribe;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -52,11 +54,11 @@ public class AlbumDetailActivity extends AppCompatActivity implements View.OnCli
     ActivityAlbumDetailBinding activityAlbumDetailBinding;
     Context mContext;
     List<ImageDetailModel> albumdetailDataList;
+    List<ImageDetailModel> albumdetailDataList1 = new ArrayList<>();
     AlbumDetailListAdapter albumDetailListAdapter;
     String albumHeadingStr, albumIdStr, albumThumbStr;
-    int pageIndex = 0;
-    boolean isLoading = true;
-    GridLayoutManager gridLayoutManager;
+
+
     ArrayList<String> galleryImageUrl = new ArrayList<>();
     ArrayList<String> galleryImageThumbUrl = new ArrayList<>();
     ArrayList<String> galleryMediaType = new ArrayList<>();
@@ -66,8 +68,13 @@ public class AlbumDetailActivity extends AppCompatActivity implements View.OnCli
     ArrayList<String> galleryImageId = new ArrayList<>();
     String albumClickData;
 
-    @Override
+    //    lazy loading variable
+    int ialbummagepageIndex = 0;
+    boolean isalbumImageLoading = true;
+    GridLayoutManager gridLayoutManageralbumdetail;
+    int albumpagesize = 15;
 
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activityAlbumDetailBinding = DataBindingUtil.setContentView(this, R.layout.activity_album_detail);
@@ -95,9 +102,9 @@ public class AlbumDetailActivity extends AppCompatActivity implements View.OnCli
         activityAlbumDetailBinding.shimmerViewContainer.setVisibility(View.VISIBLE);
         activityAlbumDetailBinding.shimmerViewContainer.startShimmerAnimation();
 
-        gridLayoutManager = new GridLayoutManager(mContext, 3);
-        gridLayoutManager.setOrientation(RecyclerView.VERTICAL); // set Horizontal Orientation
-        activityAlbumDetailBinding.albumDetailRcvList.setLayoutManager(gridLayoutManager); // set LayoutManager to RecyclerView
+        gridLayoutManageralbumdetail = new GridLayoutManager(mContext, 3);
+        gridLayoutManageralbumdetail.setOrientation(RecyclerView.VERTICAL); // set Horizontal Orientation
+        activityAlbumDetailBinding.albumDetailRcvList.setLayoutManager(gridLayoutManageralbumdetail); // set LayoutManager to RecyclerView
 
         callAlbumDetailData();
     }
@@ -118,7 +125,7 @@ public class AlbumDetailActivity extends AppCompatActivity implements View.OnCli
         activityAlbumDetailBinding.albumRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                pageIndex = 0;
+
                 callAlbumPullDetailData();
 
             }
@@ -133,11 +140,11 @@ public class AlbumDetailActivity extends AppCompatActivity implements View.OnCli
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                if (!isLoading) {
-                    if (gridLayoutManager != null && gridLayoutManager.findLastCompletelyVisibleItemPosition() == albumdetailDataList.size() - 1) {
+                if (isalbumImageLoading) {
+                    if (gridLayoutManageralbumdetail != null && gridLayoutManageralbumdetail.findLastCompletelyVisibleItemPosition() == albumdetailDataList1.size() - 1) {
                         //bottom of list!
-                        isLoading = false;
-                        pageIndex = pageIndex + 1;
+                        isalbumImageLoading = false;
+                        ialbummagepageIndex ++;
                         activityAlbumDetailBinding.bottomProgressbarLayout.setVisibility(View.VISIBLE);
 
                         loadMore();
@@ -230,22 +237,28 @@ public class AlbumDetailActivity extends AppCompatActivity implements View.OnCli
                         activityAlbumDetailBinding.shimmerViewContainer.stopShimmerAnimation();
                         activityAlbumDetailBinding.shimmerViewContainer.setVisibility(View.GONE);
                         activityAlbumDetailBinding.bottomProgressbarLayout.setVisibility(View.GONE);
+
+                        if (albumDeatilMainModel.getData().size() != 0) {
+                            if (albumdetailDataList1.size() == 0) {
+                                albumdetailDataList1.addAll(0, albumDeatilMainModel.getData());
+                            } else {
+                                albumdetailDataList1.addAll(albumdetailDataList1.size(), albumDeatilMainModel.getData());
+                            }
+                        }
+
                         albumdetailDataList = albumDeatilMainModel.getData();
-                        Log.d("list : ", "" + albumdetailDataList.size());
-                        addOldNewValue(albumdetailDataList);
+
+                        Log.d("list : ", "" + albumdetailDataList.size() + "BAList :" + albumdetailDataList1.size());
+                        addOldNewValue(albumdetailDataList1);
                         if (albumDetailListAdapter != null && albumdetailDataList.size() > 0) {
-                            albumDetailListAdapter.addMoreDataToList(albumdetailDataList);
-                            isLoading = false;
                             // just append more data to current list
+                            albumDetailListAdapter.addMoreDataToList(albumdetailDataList);
                         } else if (albumDetailListAdapter != null && albumdetailDataList.size() == 0) {
-                            isLoading = true;
-                            addOldNewValue(albumdetailDataList);
+                            isalbumImageLoading = false;
 
                         } else {
                             fillAlbumDetailImageList();
                         }
-
-
                     }
 
                 }
@@ -266,8 +279,8 @@ public class AlbumDetailActivity extends AppCompatActivity implements View.OnCli
     private Map<String, String> getAlbumDetailData() {
         Map<String, String> map = new HashMap<>();
         map.put("AlbumId", albumIdStr);
-        map.put("PageIndex", String.valueOf(pageIndex));
-        map.put("PageSize", "15");
+        map.put("PageIndex", String.valueOf(ialbummagepageIndex));
+        map.put("PageSize", String.valueOf(albumpagesize));
         map.put("MemberId", String.valueOf(Utils.getAppUserId(mContext)));
 
         return map;
@@ -289,7 +302,7 @@ public class AlbumDetailActivity extends AppCompatActivity implements View.OnCli
                 albumdetailIntent.putStringArrayListExtra("AlbumThumbUrldata", galleryImageThumbUrl);
                 albumdetailIntent.putStringArrayListExtra("AlbumMediaType", galleryMediaType);
                 albumdetailIntent.putStringArrayListExtra("AlbumLike", galleryImageLike);
-                albumdetailIntent.putStringArrayListExtra("AlbumDuration",galleryImageDuration);
+                albumdetailIntent.putStringArrayListExtra("AlbumDuration", galleryImageDuration);
                 albumdetailIntent.putStringArrayListExtra("AlbumAddUser", galleryUserName);
                 albumdetailIntent.putStringArrayListExtra("AlbumId", galleryImageId);
                 albumdetailIntent.putExtra("MediaType", "Album");
@@ -358,10 +371,19 @@ public class AlbumDetailActivity extends AppCompatActivity implements View.OnCli
                         galleryUserName.clear();
                         galleryImageId.clear();
 
-                        albumdetailDataList = albumdetailMainModel.getData();
-                        addOldNewValue(albumdetailDataList);
-                        fillAlbumDetailImageList();
+
+                        albumdetailDataList1.addAll(0, albumdetailMainModel.getData());
+                        Set<ImageDetailModel> unique = new LinkedHashSet<ImageDetailModel>(albumdetailDataList1);
+                        albumdetailDataList1 = new ArrayList<ImageDetailModel>(unique);
+                        albumDetailListAdapter.clear();
+                        albumDetailListAdapter.addMoreDataToList(albumdetailDataList1);
+
+                        Log.d("pullDataList : ", "" + albumdetailDataList1.size());
+                        addOldNewValue(albumdetailDataList1);
+
                         activityAlbumDetailBinding.albumRefreshLayout.setRefreshing(false);
+
+
                     }
 
                 }
@@ -382,8 +404,8 @@ public class AlbumDetailActivity extends AppCompatActivity implements View.OnCli
     private Map<String, String> getAlbumPullDetailData() {
         Map<String, String> map = new HashMap<>();
         map.put("AlbumId", albumIdStr);
-        map.put("PageIndex", String.valueOf(pageIndex));
-        map.put("PageSize", "15");
+        map.put("PageIndex", "0");
+        map.put("PageSize", String.valueOf(albumpagesize));
         map.put("MemberId", String.valueOf(Utils.getAppUserId(mContext)));
 
         return map;

@@ -16,14 +16,17 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.bharatarmy.Activity.AppLoginActivity;
+import com.bharatarmy.Activity.DashboardActivity;
 import com.bharatarmy.Activity.DisplayAddedUserActivity;
 import com.bharatarmy.Activity.DisplaySFAUserActivity;
 import com.bharatarmy.Activity.InquriyActivity;
 import com.bharatarmy.Activity.MoreInformationActivity;
 import com.bharatarmy.Activity.MyMediaActivity;
 import com.bharatarmy.Activity.MyProfileActivity;
+import com.bharatarmy.Activity.NotificationDetailActivity;
 import com.bharatarmy.Activity.ProfileSettingActivity;
 import com.bharatarmy.Activity.RemoveAccountActivity;
+import com.bharatarmy.Activity.WishListShowActivity;
 import com.bharatarmy.Models.MyScreenChnagesModel;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.Utils;
@@ -44,7 +47,6 @@ import com.leinardi.android.speeddial.SpeedDialView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-
 
 
 public class MoreFragment extends Fragment implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
@@ -119,28 +121,29 @@ public class MoreFragment extends Fragment implements View.OnClickListener, Goog
             fragmentMoreBinding.withloginLinear.setVisibility(View.VISIBLE);
             fragmentMoreBinding.withoutloginLinear.setVisibility(View.GONE);
             fragmentMoreBinding.header4Linear.setVisibility(View.VISIBLE);
-            if (Utils.retriveLoginData(mContext).getFirstName()!=null && Utils.retriveLoginData(mContext).getLastName()!=null){
-                fragmentMoreBinding.userNametxt.setText(Utils.retriveLoginData(mContext).getFirstName()+
-                                                        " " +Utils.retriveLoginData(mContext).getLastName());
+            if (Utils.retriveLoginData(mContext).getFirstName() != null && Utils.retriveLoginData(mContext).getLastName() != null) {
+                fragmentMoreBinding.userNametxt.setText(Utils.retriveLoginData(mContext).getFirstName() +
+                        " " + Utils.retriveLoginData(mContext).getLastName());
             }
-            if (Utils.retriveLoginData(mContext).getProfilePicUrl()!=null){
+            if (Utils.retriveLoginData(mContext).getProfilePicUrl() != null) {
                 Utils.setImageInImageView(Utils.retriveLoginData(mContext).getProfilePicUrl(), fragmentMoreBinding.profileImage, mContext);
             }
             if (Utils.retriveLoginData(mContext).getIsBAAdmin().equals("1")) {
-                fragmentMoreBinding.inquiryLinear.setVisibility(View.VISIBLE);
-                fragmentMoreBinding.userLinear.setVisibility(View.VISIBLE);
-
+//                fragmentMoreBinding.inquiryLinear.setVisibility(View.VISIBLE);
+//                fragmentMoreBinding.userLinear.setVisibility(View.VISIBLE);
+                fragmentMoreBinding.header3Linear.setVisibility(View.VISIBLE);
             } else {
-                fragmentMoreBinding.inquiryLinear.setVisibility(View.GONE);
-                fragmentMoreBinding.userLinear.setVisibility(View.GONE);
-                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                        LinearLayout.LayoutParams.MATCH_PARENT,
-                        LinearLayout.LayoutParams.WRAP_CONTENT
-                );
-                params.setMargins(0, 0, 0, 0);
-                fragmentMoreBinding.sportsInterestLinear.setLayoutParams(params);
+                fragmentMoreBinding.header3Linear.setVisibility(View.GONE);
+//                fragmentMoreBinding.inquiryLinear.setVisibility(View.GONE);
+//                fragmentMoreBinding.userLinear.setVisibility(View.GONE);
+//                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+//                        LinearLayout.LayoutParams.MATCH_PARENT,
+//                        LinearLayout.LayoutParams.WRAP_CONTENT
+//                );
+//                params.setMargins(0, 0, 0, 0);
+//                fragmentMoreBinding.sportsInterestLinear.setLayoutParams(params);
             }
-        }  else {
+        } else {
             fragmentMoreBinding.header3Linear.setVisibility(View.GONE);
             fragmentMoreBinding.header4Linear.setVisibility(View.GONE);
             fragmentMoreBinding.withloginLinear.setVisibility(View.GONE);
@@ -168,6 +171,9 @@ public class MoreFragment extends Fragment implements View.OnClickListener, Goog
         fragmentMoreBinding.settingLinear.setOnClickListener(this);
         fragmentMoreBinding.certificateLinear.setOnClickListener(this);
         fragmentMoreBinding.removeAccountLinear.setOnClickListener(this);
+        fragmentMoreBinding.notificationLinear.setOnClickListener(this);
+        fragmentMoreBinding.wishlistLinear.setOnClickListener(this);
+        fragmentMoreBinding.feedbackLinear.setOnClickListener(this);
     }
 
     @Override
@@ -256,7 +262,7 @@ public class MoreFragment extends Fragment implements View.OnClickListener, Goog
                 startActivity(intent);
                 break;
             case R.id.sports_interest_linear:
-                Utils.setPref(mContext,"entryType","1");
+                Utils.setPref(mContext, "entryType", "1");
                 Utils.handleClickEvent(mContext, fragmentMoreBinding.sportsInterestLinear);
                 Intent sportsintent = new Intent(mContext, DisplaySFAUserActivity.class);
 //                sportsintent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -269,13 +275,13 @@ public class MoreFragment extends Fragment implements View.OnClickListener, Goog
                 startActivity(displayuserentry);
                 break;
             case R.id.setting_linear:
-                Utils.handleClickEvent(mContext,fragmentMoreBinding.settingLinear);
+                Utils.handleClickEvent(mContext, fragmentMoreBinding.settingLinear);
                 Intent settingeIntent = new Intent(mContext, ProfileSettingActivity.class);
 //                settingeIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(settingeIntent);
                 break;
             case R.id.certificate_linear:
-                Utils.setPref(mContext,"entryType","2");
+                Utils.setPref(mContext, "entryType", "2");
                 Utils.handleClickEvent(mContext, fragmentMoreBinding.sportsInterestLinear);
                 Intent certificateintent = new Intent(mContext, DisplaySFAUserActivity.class);
 //                certificateintent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -286,6 +292,24 @@ public class MoreFragment extends Fragment implements View.OnClickListener, Goog
                 Intent removeintent = new Intent(mContext, RemoveAccountActivity.class);
                 startActivity(removeintent);
                 break;
+            case R.id.notification_linear:
+                Utils.handleClickEvent(mContext, fragmentMoreBinding.notificationLinear);
+                Intent notification = new Intent(mContext, NotificationDetailActivity.class);
+//                notification.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(notification);
+                break;
+            case R.id.wishlist_linear:
+                Utils.handleClickEvent(mContext, fragmentMoreBinding.wishlistLinear);
+                Intent wishlist = new Intent(mContext, WishListShowActivity.class);
+//                wishlist.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(wishlist);
+                break;
+            case R.id.feedback_linear:
+                Utils.handleClickEvent(mContext, fragmentMoreBinding.feedbackLinear);
+                Intent DashboardIntent = new Intent(mContext, DashboardActivity.class);
+                DashboardIntent.putExtra("whichPageRun", "2");
+                startActivity(DashboardIntent);
+                break;
         }
     }
 
@@ -293,8 +317,8 @@ public class MoreFragment extends Fragment implements View.OnClickListener, Goog
     @Subscribe
     public void customEventReceived(MyScreenChnagesModel event) {
 //        Log.d("event :", event.getMessage());
-                                                                                                                                                                                                                          if (event.getMessage().equalsIgnoreCase("change")) {
-            fragmentMoreBinding.userNametxt.setText(Utils.retriveLoginData(mContext).getFirstName()+" "+
+        if (event.getMessage().equalsIgnoreCase("change")) {
+            fragmentMoreBinding.userNametxt.setText(Utils.retriveLoginData(mContext).getFirstName() + " " +
                     Utils.retriveLoginData(mContext).getLastName());
             Utils.setImageInImageView(Utils.retriveLoginData(mContext).getProfilePicUrl(), fragmentMoreBinding.profileImage, mContext);
         }
@@ -302,7 +326,7 @@ public class MoreFragment extends Fragment implements View.OnClickListener, Goog
     }
 
     public void googleSignOut() {
-        if(mGoogleApiClient.isConnected()) {
+        if (mGoogleApiClient.isConnected()) {
             Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
                     new ResultCallback<Status>() {
                         @Override
@@ -313,9 +337,8 @@ public class MoreFragment extends Fragment implements View.OnClickListener, Goog
                     });
 
 
-
-        }else{
-            Utils.ping(mContext,"error occured");
+        } else {
+            Utils.ping(mContext, "error occured");
         }
     }
 
@@ -338,17 +361,17 @@ public class MoreFragment extends Fragment implements View.OnClickListener, Goog
 
     public void emailSignOut() {
         // Write your code here to execute after dialog
-     logoutFuncation();
+        logoutFuncation();
     }
 
-    public void logoutFuncation(){
+    public void logoutFuncation() {
         // Write your code here to execute after dialog
         Utils.removeLoginData(mContext);
         Utils.setPref(mContext, "IsSkipLogin", "");
         Utils.setPref(mContext, "IsLoginUser", "");
         Utils.setPref(mContext, "UserName", "");
-        Utils.setPref(mContext,"entryType","");
-        Utils.setPref(mContext,"feedbackgiveflag","");
+        Utils.setPref(mContext, "entryType", "");
+        Utils.setPref(mContext, "feedbackgiveflag", "");
         Utils.ping(mContext, "You are logout suceessfully");
         Intent ilogin = new Intent(mContext, AppLoginActivity.class);  //LoginwithEmailActivity
         ilogin.putExtra("whereTocomeLogin", "more");
@@ -357,6 +380,7 @@ public class MoreFragment extends Fragment implements View.OnClickListener, Goog
         getActivity().finish();
         Utils.hideProgressDialog();
     }
+
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 

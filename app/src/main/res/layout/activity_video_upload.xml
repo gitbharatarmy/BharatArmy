@@ -274,7 +274,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_marginTop="@dimen/_3sdp"
-                                        android:text="@string/photo_public_option_header_txt"
+                                        android:text="@string/photo_public_option_videoheader_txt"
                                         android:textColor="@color/heading_bg"
                                         android:textSize="@dimen/_11sdp" />
 
@@ -283,7 +283,7 @@
                                         style="@style/text_font"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="@string/photo_public_option_sub_txt"
+                                        android:text="@string/photo_public_option_videosub_txt"
                                         android:textColor="@color/normal_font_color"
                                         android:textSize="@dimen/_8sdp" />
                                 </LinearLayout>

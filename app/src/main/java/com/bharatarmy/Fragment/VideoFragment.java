@@ -27,6 +27,7 @@ import com.bharatarmy.Activity.VideoDetailHorizontalActivity;
 import com.bharatarmy.Activity.VideoDetailVerticalActivity;
 import com.bharatarmy.Activity.VideoTrimActivity;
 import com.bharatarmy.Adapter.VideoListAdapter;
+import com.bharatarmy.Interfaces.YourFragmentInterface;
 import com.bharatarmy.Interfaces.image_click;
 import com.bharatarmy.Models.ImageDetailModel;
 import com.bharatarmy.Models.ImageMainModel;
@@ -50,8 +51,10 @@ import com.leinardi.android.speeddial.SpeedDialView;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -74,13 +77,13 @@ public class VideoFragment extends Fragment {
     private View rootView;
     private Context mContext;
     VideoListAdapter videoListAdapter;
-    List<ImageDetailModel> videoDetailModelsList;
-    List<ImageDetailModel> videoDetailModelsList1=new ArrayList<>();
+    List<ImageDetailModel> videoDetailModelsList = new ArrayList<>();
+    List<ImageDetailModel> videoDetailModelsList1 = new ArrayList<>();
 
 
     ArrayList<String> videoUrl = new ArrayList<>();
     StaggeredGridLayoutManager staggeredGridLayoutManager;
-    int pageIndex = 0;
+
     SpeedDialOverlayLayout overlayLayout;
     SpeedDialView speedDialView;
     String imageorvideoStr;
@@ -89,9 +92,12 @@ public class VideoFragment extends Fragment {
     private static final int REQUEST_VIDEO_TRIMMER = 0x01;
 
 
+    //    lazy loading variable
+    int videopageIndex = 0;
     private boolean isVideoLoading = true;
+    int videopageSize = 15;
 
-    private int pastVisibleItems, visibleItemCount, totalItemCount;
+
     public VideoFragment() {
         // Required empty public constructor
     }
@@ -144,9 +150,10 @@ public class VideoFragment extends Fragment {
         if (isVisibleToUser && rootView != null) {
             // Refresh your fragment here
             if (videoListAdapter == null) {
+
                 fragmentVideoBinding.shimmerViewContainer.startShimmerAnimation();
 
-                callVideoGalleryData();
+                callVideoGalleryData("first");
             }
             setListiner();
             speedDialView = (SpeedDialView) getActivity().findViewById(R.id.speedDial);
@@ -154,8 +161,8 @@ public class VideoFragment extends Fragment {
             speedDialView.setVisibility(View.VISIBLE);
 
             initSpeedDial();
-        }else{
-//            fragmentVideoBinding.videoRcvList.setVisibility(View.GONE);
+        } else {
+
         }
     }
 
@@ -299,29 +306,63 @@ public class VideoFragment extends Fragment {
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
 
-                visibleItemCount = staggeredGridLayoutManager.getChildCount();
+                /*visibleItemCount = staggeredGridLayoutManager.getChildCount();
                 totalItemCount = staggeredGridLayoutManager.getItemCount();
+                totalItemCount = videoDetailModelsList1.size() ;
                 int[] firstVisibleItems = null;
                 firstVisibleItems = staggeredGridLayoutManager.findFirstVisibleItemPositions(firstVisibleItems);
-                if(firstVisibleItems != null && firstVisibleItems.length > 0) {
+                if (firstVisibleItems != null && firstVisibleItems.length > 0) {
                     pastVisibleItems = firstVisibleItems[0];
                 }
-
+                Log.d("totalItemCount :", "" + totalItemCount + " visibleItemCount :" + visibleItemCount + "pastvisibleItem :" + pastVisibleItems);
                 if (isVideoLoading == true) {
-                    if ((visibleItemCount + pastVisibleItems) >= totalItemCount) {
+//                    if ((visibleItemCount + pastVisibleItems) >= totalItemCount) {
+                    if (staggeredGridLayoutManager != null && (visibleItemCount -1) == totalItemCount) {
                         isVideoLoading = true;
                         Log.d("tag", "LOAD NEXT ITEM");
-                        pageIndex ++;
+                        pageIndex++;
                         fragmentVideoBinding.bottomProgressbarLayout.setVisibility(View.VISIBLE);
                         loadMore();
+                    }
+                }*/
+                int[] lastVisibleItemPositions = staggeredGridLayoutManager.findLastCompletelyVisibleItemPositions(null);
+                int lastVisibleItem = getLastVisibleItemofVideo(lastVisibleItemPositions);
+                int totalItemCount = staggeredGridLayoutManager.getItemCount();
+                Log.d("lastVisibleItem :", "" + lastVisibleItem + " totalItemCount :" + videoDetailModelsList1.size());
+
+//                lastPositions = new int[staggeredGridLayoutManager.getSpanCount()];
+//                lastPositions = staggeredGridLayoutManager.findLastCompletelyVisibleItemPositions(lastPositions);
+//                lastVisibleItem = Math.max(lastPositions[0], lastPositions[1]);//findMax(lastPositions);
+//
+//                Log.d("lastVisibleItem :", "" + lastVisibleItem + " videoDetailModelsList1 :" + videoDetailModelsList1.size());
+                if (isVideoLoading == true) {
+                    if (staggeredGridLayoutManager != null && (lastVisibleItem + 1) == videoDetailModelsList1.size()) {
+                        //bottom of list!
+                        isVideoLoading = true;
+                        videopageIndex++;
+                        fragmentVideoBinding.bottomProgressbarLayout.setVisibility(View.VISIBLE);
+                        loadMore();
+
                     }
                 }
             }
         });
     }
 
+    public int getLastVisibleItemofVideo(int[] lastVisibleItemPositions) {
+        int maxSize = 0;
+        for (int i = 0; i < lastVisibleItemPositions.length; i++) {
+            if (i == 0) {
+                maxSize = lastVisibleItemPositions[i];
+            } else if (lastVisibleItemPositions[i] > maxSize) {
+                maxSize = lastVisibleItemPositions[i];
+            }
+        }
+        return maxSize;
+    }
+
     // Api calling GetVideoGalleryData
-    public void callVideoGalleryData() {
+    public void callVideoGalleryData(String wherecall) {
         if (!Utils.checkNetwork(mContext)) {
             Utils.showCustomDialog(getResources().getString(R.string.internet_error), getResources().getString(R.string.internet_connection_error), getActivity());
             return;
@@ -348,6 +389,12 @@ public class VideoFragment extends Fragment {
                 if (videoMainModel.getIsValid() == 1) {
 
                     if (videoMainModel.getData() != null) {
+                        if (wherecall.equalsIgnoreCase("first")) {
+                         if (videoListAdapter!=null){
+                             videoListAdapter.clear();
+                         }
+                        }
+
                         fragmentVideoBinding.shimmerViewContainer.stopShimmerAnimation();
                         fragmentVideoBinding.videoRcvList.setVisibility(View.VISIBLE);
                         fragmentVideoBinding.shimmerViewContainer.setVisibility(View.GONE);
@@ -360,7 +407,9 @@ public class VideoFragment extends Fragment {
                                 videoDetailModelsList1.addAll(videoDetailModelsList1.size(), videoMainModel.getData());
                             }
                         }
-
+                        if (videoDetailModelsList1.size() < videopageSize) {
+                            isVideoLoading = false;
+                        }
 
                         videoDetailModelsList = videoMainModel.getData();
 
@@ -395,8 +444,8 @@ public class VideoFragment extends Fragment {
 
     private Map<String, String> getVideoGalleryData() {
         Map<String, String> map = new HashMap<>();
-        map.put("PageIndex", String.valueOf(pageIndex));
-        map.put("PageSize", "20");
+        map.put("PageIndex", String.valueOf(videopageIndex));
+        map.put("PageSize", String.valueOf(videopageSize));
         map.put("MemberId", String.valueOf(Utils.getAppUserId(mContext)));
         return map;
     }
@@ -423,7 +472,7 @@ public class VideoFragment extends Fragment {
 
     private void loadMore() {
 
-        callVideoGalleryData();
+        callVideoGalleryData("second");
 
 
     }
@@ -457,21 +506,19 @@ public class VideoFragment extends Fragment {
 
                     if (videoMainModel.getData() != null) {
 
+
                         videoUrl.clear();
-                        videoDetailModelsList = videoMainModel.getData();
+                        videoDetailModelsList1.addAll(0, videoMainModel.getData());
+                        Set<ImageDetailModel> unique = new LinkedHashSet<ImageDetailModel>(videoDetailModelsList1);
+                        videoDetailModelsList1 = new ArrayList<ImageDetailModel>(unique);
+                        videoListAdapter.clear();
+                        videoListAdapter.addMoreDataToList(videoDetailModelsList1);
 
 
-                        staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, 1);
-                        fragmentVideoBinding.videoRcvList.setLayoutManager(staggeredGridLayoutManager);
-                        videoListAdapter = new VideoListAdapter(mContext, getActivity(), videoDetailModelsList, new image_click() {
-                            @Override
-                            public void image_more_click() {
-//                                videoDataDirection();
-                            }
-                        });
-                        fragmentVideoBinding.videoRcvList.setAdapter(videoListAdapter);
+                        addOldNewValue(videoDetailModelsList1);
+
                         fragmentVideoBinding.refreshView.setRefreshing(false);
-                        isVideoLoading = true;
+
 
                     }
 
@@ -493,7 +540,7 @@ public class VideoFragment extends Fragment {
     private Map<String, String> getVideoGalleryPullData() {
         Map<String, String> map = new HashMap<>();
         map.put("PageIndex", "0");
-        map.put("PageSize", "20");
+        map.put("PageSize", String.valueOf(videopageSize));
         map.put("MemberId", String.valueOf(Utils.getAppUserId(mContext)));
         return map;
     }
@@ -501,7 +548,13 @@ public class VideoFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-//        videoDetailModelsList.clear();
+        if (videoDetailModelsList != null) {
+            videoDetailModelsList.clear();
+        }
+        if (videoDetailModelsList1 != null) {
+            videoDetailModelsList1.clear();
+        }
+
     }
 
     private void showSettingsDialog() {
@@ -554,4 +607,6 @@ public class VideoFragment extends Fragment {
             }
         }
     }
+
+
 }

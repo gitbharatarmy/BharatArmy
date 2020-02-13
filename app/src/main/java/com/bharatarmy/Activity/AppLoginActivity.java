@@ -13,6 +13,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
+
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -26,6 +27,7 @@ import com.bharatarmy.Utility.ApiHandler;
 import com.bharatarmy.Utility.AppConfiguration;
 import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.ActivityAppLoginBinding;
+
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
@@ -109,9 +111,11 @@ public class AppLoginActivity extends AppCompatActivity implements View.OnClickL
 
     /* facebook sign in*/
     CallbackManager callbackManager;
-
     private AccessTokenTracker accessTokenTracker;
     private ProfileTracker profileTracker;
+    LoginManager loginManager;
+
+    boolean isLoggedIn;
     String email;
     /* ImageSlider*/
     LinearLayoutManager layoutManager;
@@ -128,15 +132,12 @@ public class AppLoginActivity extends AppCompatActivity implements View.OnClickL
                     new GraphRequest.GraphJSONObjectCallback() {
                         @Override
                         public void onCompleted(JSONObject object, GraphResponse response) {
-                            Log.v("LoginActivity", response.toString());
+                            Log.d("LoginActivity", response.toString());
 
-                            // Application code
+                            // Application codeGraphResponse
                             try {
                                 Log.d("tttttt", object.getString("id"));
-                                String birthday = "";
-//                                if(object.has("birthday")){
-//                                    birthday = object.getString("birthday"); // 01/31/1980 format
-//                                }
+
                                 facebookNameStr = object.getString("first_name");
                                 personNameStr = object.getString("first_name") + " " + object.getString("last_name");
                                 facebookpersonIdStr = object.getString("id");
@@ -155,17 +156,16 @@ public class AppLoginActivity extends AppCompatActivity implements View.OnClickL
 
                                 }
 
-                                Log.d("Profile", "personName:" + personNameStr + " \n" + "Email: " + personEmailStr + " \n" + "HomeTempleteIDModel: " + facebookpersonIdStr + " \n" + "Birth Date: " + birthday);
+                                Log.d("Profile", "personName:" + personNameStr + " \n" + "Email: " + personEmailStr + " \n" + "HomeTempleteIDModel: " + facebookpersonIdStr);
                                 Log.d("aswwww", personImageStr);
 
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
-
                         }
                     });
             Bundle parameters = new Bundle();
-            parameters.putString("fields", "id, first_name, last_name, email, location"); // gender, birthday,
+            parameters.putString("fields", "id, first_name, last_name"); // gender, birthday,email,
             request.setParameters(parameters);
             request.executeAsync();
 
@@ -178,7 +178,7 @@ public class AppLoginActivity extends AppCompatActivity implements View.OnClickL
 
         @Override
         public void onError(FacebookException error) {
-
+            Utils.ping(mContext, "error");
         }
     };
 
@@ -191,6 +191,9 @@ public class AppLoginActivity extends AppCompatActivity implements View.OnClickL
         activityAppLoginBinding = DataBindingUtil.setContentView(this, R.layout.activity_app_login);
         mContext = AppLoginActivity.this;
 
+        AccessToken accessToken = AccessToken.getCurrentAccessToken();
+        isLoggedIn = accessToken != null && !accessToken.isExpired();
+
         init();
         setListiner();
         getFCMTOken();
@@ -199,6 +202,7 @@ public class AppLoginActivity extends AppCompatActivity implements View.OnClickL
     public void init() {
         googleLogin();
         cycleRecyclerview();
+        facebooklogout();
     }
 
     public void setListiner() {
@@ -319,7 +323,13 @@ public class AppLoginActivity extends AppCompatActivity implements View.OnClickL
                 break;
 
             case R.id.login_button:
-                facebookLogin();
+                Log.d("isLogged :", "" + isLoggedIn);
+//                if (isLoggedIn == true) {
+//                    facebooklogout();
+//                } else {
+                    facebookLogin();
+//                }
+
                 break;
 
             case R.id.terms_of_service_linear:
@@ -381,7 +391,8 @@ public class AppLoginActivity extends AppCompatActivity implements View.OnClickL
 
     //    User Login with facebook
     public void facebookLogin() {
-//        AppEventsLogger.activateApp(this);
+
+        //        AppEventsLogger.activateApp(this);
         setAutoLogAppEventsEnabled(false);
         callbackManager = CallbackManager.Factory.create();
 
@@ -405,9 +416,12 @@ public class AppLoginActivity extends AppCompatActivity implements View.OnClickL
         accessTokenTracker.startTracking();
         profileTracker.startTracking();
 
-        activityAppLoginBinding.loginButton.setReadPermissions(Arrays.asList("public_profile", "email"));  //"user_birthday", "user_friends"
+        activityAppLoginBinding.loginButton.setReadPermissions(Arrays.asList("public_profile", "email"));  //"user_birthday", "user_friends"  , "email"
         activityAppLoginBinding.loginButton.registerCallback(callbackManager, callback);
 
+//        LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile", "email"));
+//
+//        LoginManager.getInstance().registerCallback(callbackManager, callback);
     }
 
     public void facebooklogout() {
@@ -419,8 +433,9 @@ public class AppLoginActivity extends AppCompatActivity implements View.OnClickL
 
                 LoginManager.getInstance().logOut();
 
-                personEmailStr="";
+                personEmailStr = null;
             }
+
         }).executeAsync();
     }
 
@@ -699,10 +714,10 @@ public class AppLoginActivity extends AppCompatActivity implements View.OnClickL
 //                                DashboardIntent.putExtra("whichPageRun", "4");
                 startActivity(DashboardIntent);
                 finish();
-            }else{
+            } else {
                 finish();
             }
-        }else{
+        } else {
             finish();
         }
         super.onBackPressed();

@@ -1,7 +1,6 @@
 package com.bharatarmy.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,7 +16,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.bharatarmy.Adapter.VideoDetailHorizontalVideoAdapter;
-import com.bharatarmy.Interfaces.image_click;
 import com.bharatarmy.Models.ImageDetailModel;
 import com.bharatarmy.Models.ImageMainModel;
 import com.bharatarmy.Models.LogginModel;
@@ -33,7 +31,6 @@ import com.facebook.shimmer.ShimmerFrameLayout;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

@@ -43,7 +43,9 @@ public class HomeTemplateDetailModel {
     @SerializedName("ReferenceId")
     @Expose
     private String referenceId;
-
+    @SerializedName("RedirectUrl")
+    @Expose
+    private Object redirectUrl;
 
     public String getMainHeaderText() {
         return mainHeaderText;
@@ -149,6 +151,13 @@ public class HomeTemplateDetailModel {
         this.referenceId = referenceId;
     }
 
+    public Object getRedirectUrl() {
+        return redirectUrl;
+    }
+
+    public void setRedirectUrl(Object redirectUrl) {
+        this.redirectUrl = redirectUrl;
+    }
 
     @SerializedName("SiteURL")
     @Expose

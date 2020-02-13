@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -49,6 +50,10 @@ public class MoreInformationActivity extends AppCompatActivity implements View.O
         strWheretocome = getIntent().getStringExtra("whereTocome");
 
 
+        if (strWheretocome.equalsIgnoreCase("home")) {
+            storyUrlStr = storyUrlStr + "&isapp=1";
+        }
+        Log.d("Url :", storyUrlStr);
         moreStoryBinding.toolbarTitleTxt.setText(storyHeadingStr);
 
 //        if (strWheretocome.equalsIgnoreCase("storylistadp")) {
@@ -71,13 +76,13 @@ public class MoreInformationActivity extends AppCompatActivity implements View.O
                 MoreInformationActivity.this.finish();
                 break;
             case R.id.share_img:
-                Utils.handleClickEvent(mContext,moreStoryBinding.shareImg);
-                Uri uri= Uri.parse(storyUrlStr);
+                Utils.handleClickEvent(mContext, moreStoryBinding.shareImg);
+                Uri uri = Uri.parse(storyUrlStr);
                 //share image from other application
                 Intent shareIntent = new Intent();
                 shareIntent.setAction(Intent.ACTION_SEND);
                 shareIntent.putExtra(Intent.EXTRA_SUBJECT, AppConfiguration.SHARETEXT);
-                shareIntent.putExtra(Intent.EXTRA_TEXT,storyUrlStr+"\n\n"+AppConfiguration.SHARETEXT);
+                shareIntent.putExtra(Intent.EXTRA_TEXT, storyUrlStr + "\n\n" + AppConfiguration.SHARETEXT);
                 shareIntent.setType("text/plain");
                 shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 startActivity(Intent.createChooser(shareIntent, "Share It"));

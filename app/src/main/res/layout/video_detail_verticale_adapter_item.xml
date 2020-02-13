@@ -34,9 +34,44 @@
                     android:scaleType="centerCrop"
                     android:src="@drawable/ajif"
                     app:cornerRadius="@dimen/_7sdp"
-                    app:roundedCorners="topLeft|topRight|bottomLeft|bottomRight"
-                    />
+                    app:roundedCorners="topLeft|topRight|bottomLeft|bottomRight"/>
+                <LinearLayout
+                    android:id="@+id/video_privacy_linear"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentBottom="true"
+                    android:layout_margin="@dimen/_7sdp"
+                    android:background="@drawable/video_detail_overlay"
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent">
+
+                        <LinearLayout
+                            android:id="@+id/private_img_linear"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_alignParentBottom="true"
+                            android:layout_marginRight="@dimen/_3sdp"
+                            android:layout_marginBottom="@dimen/_4sdp"
+                            android:elevation="10dp"
+                            android:visibility="gone">
+
+                            <ImageView
+                                android:id="@+id/private_img"
+                                android:layout_width="@dimen/_13sdp"
+                                android:layout_height="@dimen/_13sdp"
+                                android:layout_gravity="center"
+                                android:src="@drawable/ic_private_image"
+                                android:tint="@color/splash_bg_color" />
+
+                        </LinearLayout>
+                    </RelativeLayout>
+
+                </LinearLayout>
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

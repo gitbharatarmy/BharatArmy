@@ -572,13 +572,14 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 }
                 if (homeTemplateModel.getIsValid() == 1) {
                     if (homeTemplateModel.getData() != null) {
-                        homeTemplateDetailModelList = homeTemplateModel.getData();
-                        fragmentHomeBinding.shimmerViewContainerhome.stopShimmerAnimation();
-                        fragmentHomeBinding.shimmerViewContainerhome.setVisibility(View.GONE);
+                        if (homeTemplateModel.getData().size()!=0){
+                            homeTemplateDetailModelList = homeTemplateModel.getData();
+                            fragmentHomeBinding.shimmerViewContainerhome.stopShimmerAnimation();
+                            fragmentHomeBinding.shimmerViewContainerhome.setVisibility(View.GONE);
 
-                        fragmentHomeBinding.homebannerLayout.setVisibility(View.VISIBLE);
-                        fillHomeBanner();
-
+                            fragmentHomeBinding.homebannerLayout.setVisibility(View.VISIBLE);
+                            fillHomeBanner();
+                        }
                     }
 
                 }
@@ -606,7 +607,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.know_more:
-//                DisplayAboutUs();
                 Intent webviewIntent = new Intent(mContext, MoreInformationActivity.class);
                 webviewIntent.putExtra("Story Heading", "Ab Jeetega India");
                 webviewIntent.putExtra("StroyUrl", "http://ajif.in/");
@@ -615,12 +615,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 mContext.startActivity(webviewIntent);
                 break;
             case R.id.adv_img:
-                Intent videoIntent = new Intent(mContext, VideoDetailActivity.class);
-                videoIntent.putExtra("videoData", "https://s3.ap-south-1.amazonaws.com/balatestvideos/TestVideo1.mp4");
-                videoIntent.putExtra("videoName", "TestVideo1.mp4");
-                videoIntent.putExtra("WhereToVideoCome", "Home");
-                videoIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                mContext.startActivity(videoIntent);
+
                 break;
             case R.id.userprofile_viewtxt:
                 Intent profileintent = new Intent(mContext, MyProfileActivity.class);

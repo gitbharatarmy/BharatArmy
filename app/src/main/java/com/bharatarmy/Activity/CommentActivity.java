@@ -67,7 +67,7 @@ public class CommentActivity extends AppCompatActivity implements View.OnClickLi
 
         Log.d("referenceIdStr :",referenceIdStr);
         activityCommentBinding.shimmerViewContainer.startShimmerAnimation();
-        activityCommentBinding.toolbarTitleTxt.setText(titleStr);
+        activityCommentBinding.toolbarTitleTxt.setText("Comments");  //titleStr
         callGetAddCommentData();
 
         // Spinner Drop down elements
@@ -148,10 +148,12 @@ public class CommentActivity extends AppCompatActivity implements View.OnClickLi
                 break;
         }
     }
+
     private void loadMore() {
 
 
     }
+
     public void InsertComment() {
         if (!Utils.checkNetwork(mContext)) {
             Utils.showCustomDialog(mContext.getResources().getString(R.string.internet_error), mContext.getResources().getString(R.string.internet_connection_error), CommentActivity.this);

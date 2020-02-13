@@ -1,5 +1,7 @@
 package com.bharatarmy.Models;
 
+import java.util.ArrayList;
+
 public class MyScreenChnagesModel {
     String message;
 
@@ -14,6 +16,7 @@ public class MyScreenChnagesModel {
 
     String updateprofile;
     String screen;
+
 
 
 

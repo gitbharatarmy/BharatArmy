@@ -10,9 +10,12 @@ import android.widget.CompoundButton;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bharatarmy.Interfaces.MorestoryClick;
 import com.bharatarmy.Models.ImageDetailModel;
 import com.bharatarmy.Models.TravelModel;
 import com.bharatarmy.R;
+import com.bharatarmy.Utility.AppConfiguration;
+import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.FeedbackAnsListItemBinding;
 
 import java.util.ArrayList;
@@ -21,10 +24,12 @@ import java.util.List;
 public class FeedbackAnsAdapter extends RecyclerView.Adapter<FeedbackAnsAdapter.MyViewHolder> {
     Context mcontext;
     ArrayList<TravelModel> feedbackanslist;
+    MorestoryClick morestoryClick;
 
-    public FeedbackAnsAdapter(Context mContext, ArrayList<TravelModel> feedbackanslist) {
+    public FeedbackAnsAdapter(Context mContext, ArrayList<TravelModel> feedbackanslist, MorestoryClick morestoryClick) {
         this.mcontext = mContext;
         this.feedbackanslist = feedbackanslist;
+        this.morestoryClick=morestoryClick;
     }
 
 
@@ -62,13 +67,12 @@ public class FeedbackAnsAdapter extends RecyclerView.Adapter<FeedbackAnsAdapter.
                     holder.feedbackAnsListItemBinding.question3Option1Chk.setChecked(false);
                     ansdetail.setCityHotelAmenitiesName("0");
                     holder.feedbackAnsListItemBinding.question3Option1Btn.setBackground(mcontext.getResources().getDrawable(R.drawable.feedback_que_ans_shape));
-
-
+                    morestoryClick.getmorestoryClick();
                 } else {
                     holder.feedbackAnsListItemBinding.question3Option1Chk.setChecked(true);
                     ansdetail.setCityHotelAmenitiesName("1");
                     holder.feedbackAnsListItemBinding.question3Option1Btn.setBackground(mcontext.getResources().getDrawable(R.drawable.feedback_selected_shape));
-
+                    morestoryClick.getmorestoryClick();
                 }
             }
         });
@@ -80,15 +84,19 @@ public class FeedbackAnsAdapter extends RecyclerView.Adapter<FeedbackAnsAdapter.
                     holder.feedbackAnsListItemBinding.question3Option1Chk.setChecked(true);
                     ansdetail.setCityHotelAmenitiesName("1");
                     holder.feedbackAnsListItemBinding.question3Option1Btn.setBackground(mcontext.getResources().getDrawable(R.drawable.feedback_selected_shape));
-
+                    morestoryClick.getmorestoryClick();
                 } else {
                     holder.feedbackAnsListItemBinding.question3Option1Chk.setChecked(false);
                     ansdetail.setCityHotelAmenitiesName("0");
                     holder.feedbackAnsListItemBinding.question3Option1Btn.setBackground(mcontext.getResources().getDrawable(R.drawable.feedback_que_ans_shape));
+                    morestoryClick.getmorestoryClick();
+
                 }
 
             }
         });
+
+
     }
 
     @Override

@@ -2,9 +2,11 @@ package com.bharatarmy.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
@@ -17,12 +19,14 @@ import com.bharatarmy.Interfaces.image_click;
 import com.bharatarmy.Models.ImageDetailModel;
 import com.bharatarmy.Models.LoginDataModel;
 import com.bharatarmy.R;
+import com.bharatarmy.TargetCallback;
 import com.bharatarmy.Utility.AppConfiguration;
 import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.VideoDetailHorizontalAdapterItemBinding;
 import com.bharatarmy.databinding.VideoDetailHorizontalHeaderBinding;
 import com.like.LikeButton;
 import com.like.OnLikeListener;
+import com.squareup.picasso.Picasso;
 
 
 import java.util.ArrayList;
@@ -93,13 +97,40 @@ public class VideoDetailHorizontalVideoAdapter extends RecyclerView.Adapter<Recy
             Utils.LikeMemberId = String.valueOf(Utils.getAppUserId(mContext));
             Utils.LikeReferenceId = videoIdStr;
             Utils.LikeSourceType = "2";
-            Utils.setImageInImageView(relatedHorizontalVideoDetail.getVideoImageURL(),
-                    ((ItemViewHolder) holder).videoDetailHorizontalAdapterItemBinding.horizontalRelatedVideoImg, mContext);
+
+            ((ItemViewHolder) holder).videoDetailHorizontalAdapterItemBinding.videoPrivacyLinear.setVisibility(View.GONE);
+            ((ItemViewHolder) holder).videoDetailHorizontalAdapterItemBinding.privateImgLinear.setVisibility(View.GONE);
+
+//            Utils.setImageInImageView(relatedHorizontalVideoDetail.getVideoImageURL(),
+//                    ((ItemViewHolder) holder).videoDetailHorizontalAdapterItemBinding.horizontalRelatedVideoImg, mContext);
 
             ((ItemViewHolder) holder).videoDetailHorizontalAdapterItemBinding.horizontalVideoSizeTxt.setText(relatedHorizontalVideoDetail.getVideoLength());
             ((ItemViewHolder) holder).videoDetailHorizontalAdapterItemBinding.horizontalShowVideoTitleTxt.setText(relatedHorizontalVideoDetail.getVideoName());
             ((ItemViewHolder) holder).videoDetailHorizontalAdapterItemBinding.horizontalShowVideoDescriptionTxt.setText(relatedHorizontalVideoDetail.getTitleDescription());
 
+            Picasso.with(mContext).load(relatedHorizontalVideoDetail.getVideoImageURL()).placeholder(R.drawable.loader_new)
+                    .into(((ItemViewHolder) holder).videoDetailHorizontalAdapterItemBinding.horizontalRelatedVideoImg,
+                            new TargetCallback(((ItemViewHolder) holder).videoDetailHorizontalAdapterItemBinding.horizontalRelatedVideoImg) {
+                                @Override
+                                public void onSuccess(ImageView target) {
+                                    if (target != null) {
+                                        ((ItemViewHolder) holder).videoDetailHorizontalAdapterItemBinding.videoPrivacyLinear.setVisibility(View.VISIBLE);
+                                        if (relatedHorizontalVideoDetail.getIsPrivate().equals(1)) {
+                                            ((ItemViewHolder) holder).videoDetailHorizontalAdapterItemBinding.privateImgLinear.setVisibility(View.VISIBLE);
+                                        } else {
+                                            ((ItemViewHolder) holder).videoDetailHorizontalAdapterItemBinding.privateImgLinear.setVisibility(View.GONE);
+                                        }
+                                    } else {
+                                        ((ItemViewHolder) holder).videoDetailHorizontalAdapterItemBinding.videoPrivacyLinear.setVisibility(View.GONE);
+                                    }
+
+                                }
+
+                                @Override
+                                public void onError(ImageView target) {
+                                    ((ItemViewHolder) holder).videoDetailHorizontalAdapterItemBinding.videoPrivacyLinear.setVisibility(View.GONE);
+                                }
+                            });
 
             if (relatedHorizontalVideoDetail.getIsBARecommanded().equals(1)) {
                 ((ItemViewHolder) holder).videoDetailHorizontalAdapterItemBinding.horizontalRecommendedImage.setVisibility(View.VISIBLE);

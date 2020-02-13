@@ -57,7 +57,7 @@ public class InquriyActivity extends AppCompatActivity implements View.OnClickLi
     InquiryFilterListAdapter inquiryFilterListAdapter;
     List<MoreDetailDataModel> moreDetailDataModelList;
 
-    boolean isLoading = false;
+
     LinearLayoutManager mLayoutManager;
     BottomSheetDialogFragment bottomSheetDialogFragment, bottomSheet1DialogFragment;
     InquiryAssignAdapter inquiryAssignAdapter;
@@ -69,6 +69,11 @@ public class InquriyActivity extends AppCompatActivity implements View.OnClickLi
     String assignmemberId;
     List<MoreDetailDataModel> allinquiryData = new ArrayList<>();
     List<MoreDetailDataModel> allfilterinquiryData = new ArrayList<>();
+
+    //    lazy loading variable
+    boolean isLoading = false;
+
+
 
     @Override
 
@@ -146,7 +151,7 @@ public class InquriyActivity extends AppCompatActivity implements View.OnClickLi
                 InquriyActivity.this.finish();
                 break;
             case R.id.fab_linear:
-                Utils.handleClickEvent(mContext,activityInquriyBinding.fabLinear);
+                Utils.handleClickEvent(mContext, activityInquriyBinding.fabLinear);
                 bottomSheetDialogFragment = new InquiryFilterFragment(filtertaglist, new image_click() {
                     @Override
                     public void image_more_click() {

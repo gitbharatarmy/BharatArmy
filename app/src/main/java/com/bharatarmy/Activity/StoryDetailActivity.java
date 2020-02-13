@@ -253,9 +253,13 @@ public class StoryDetailActivity extends AppCompatActivity implements View.OnCli
                 if (imageMainModel.getIsValid() == 1) {
 
                     if (imageMainModel.getData() != null) {
-                        storyDetailDataList = imageMainModel;
 
-                        callPostedViewData();
+                        if (imageMainModel.getData().size()!=0){
+                            storyDetailDataList = imageMainModel;
+
+                            callPostedViewData();
+                        }
+
 //                        setAPIValue();
                     }
 

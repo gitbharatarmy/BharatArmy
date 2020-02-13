@@ -11,6 +11,9 @@ public class AppConfiguration {
 
 //    public static final String BASEURL = "http://mob.bharatarmy.com/API/v1/";
 
+    /*Url for static data*/
+    public static final String URL = "http://www.mocky.io/v2/5e43d07331000024413b01eb";
+
     public static final String BASEURL = "http://devenv.bharatarmy.com/API/v1/";
 
     public static final String IMAGE_URL = "https://www.bharatarmy.com/Docs/Mobile/";
@@ -41,5 +44,23 @@ public class AppConfiguration {
     public static String videoPlay = "";
     public static String videoThumbStr;
 
-public static String lastpositionofnavigation="";
+    /*Feedback survey quite variable*/
+    public static String lastpositionofnavigation = "";
+    public static String multichoice = "not fill";
+    public static String singlechoice = "not fill";
+    public static String imagechoice = "not fill";
+    public static String addtextchoice = "not fill";
+
+    public static String question2 = "";
+    public static String question10 = "";
+    public static String question11 = "";
+    public static String question12 = "";
+    public static String question13 = "";
+    public static String question14 = "";
+    public static String question15 = "";
+
+
+    /*Image watchlist list*/
+    public static ArrayList<String> watchlistId = new ArrayList<>();
+    public static ArrayList<String> imageLikeId = new ArrayList<>();
 }

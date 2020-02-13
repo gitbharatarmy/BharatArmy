@@ -1,10 +1,12 @@
 package com.bharatarmy.Adapter;
 
 import android.content.Context;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
@@ -14,8 +16,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bharatarmy.Interfaces.image_click;
 import com.bharatarmy.Models.ImageDetailModel;
 import com.bharatarmy.R;
+import com.bharatarmy.TargetCallback;
 import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.ImageListBinding;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 
 
 import java.util.ArrayList;
@@ -34,7 +39,7 @@ public class ImageListAdapter extends RecyclerView.Adapter<ImageListAdapter.Item
         this.mContext = mContext;
         this.mItemList = itemList;
         this.image_click = image_click;
-        this.activity=activity;
+        this.activity = activity;
     }
 
     @NonNull
@@ -51,22 +56,72 @@ public class ImageListAdapter extends RecyclerView.Adapter<ImageListAdapter.Item
     public void onBindViewHolder(@NonNull ImageListAdapter.ItemViewHolder viewHolder, int position) {
 
         final ImageDetailModel detail = mItemList.get(position);
+        viewHolder.imageListBinding.imageLikePrivacyLinear.setVisibility(View.GONE);
+        viewHolder.imageListBinding.loveImgLinear.setVisibility(View.GONE);
+        viewHolder.imageListBinding.privateImgLinear.setVisibility(View.GONE);
 
-        Utils.setImageInImageView(detail.getGalleryThumbURL(), viewHolder.imageListBinding.fansImage, mContext);
+//        Utils.setImageInImageView(detail.getGalleryThumbURL(), viewHolder.imageListBinding.fansImage, mContext);
+
+        Picasso.with(mContext).load(detail.getGalleryThumbURL()).placeholder(R.drawable.loader_new).into(viewHolder.imageListBinding.fansImage, new TargetCallback(viewHolder.imageListBinding.fansImage) {
+            @Override
+            public void onSuccess(ImageView target) {
+                if (target != null) {
+                    viewHolder.imageListBinding.imageLikePrivacyLinear.setVisibility(View.VISIBLE);
+                    if (detail.getIsInWatchlist().equals(1)) {
+                        viewHolder.imageListBinding.loveImgLinear.setVisibility(View.VISIBLE);
+                    } else {
+                        viewHolder.imageListBinding.loveImgLinear.setVisibility(View.GONE);
+                    }
+
+                    if (detail.getIsPrivate().equals(1)) {
+                        viewHolder.imageListBinding.privateImgLinear.setVisibility(View.VISIBLE);
+                    } else {
+                        viewHolder.imageListBinding.privateImgLinear.setVisibility(View.GONE);
+                    }
+                } else {
+                    viewHolder.imageListBinding.imageLikePrivacyLinear.setVisibility(View.GONE);
+                }
+
+            }
+
+            @Override
+            public void onError(ImageView target) {
+                viewHolder.imageListBinding.imageLikePrivacyLinear.setVisibility(View.GONE);
+            }
+        });
+
 
         viewHolder.imageListBinding.fansImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Utils.viewsMemberId=String.valueOf(Utils.getAppUserId(mContext));
-                Utils.viewsReferenceId=String.valueOf(detail.getBAGalleryId());
-                Utils.viewsSourceType="1";
-                Utils.viewsTokenId= Utils.getPref(mContext, "registration_id");
-                Utils.InsertBAViews(mContext,activity);
+                Utils.viewsMemberId = String.valueOf(Utils.getAppUserId(mContext));
+                Utils.viewsReferenceId = String.valueOf(detail.getBAGalleryId());
+                Utils.viewsSourceType = "1";
+                Utils.viewsTokenId = Utils.getPref(mContext, "registration_id");
+                Utils.InsertBAViews(mContext, activity);
                 dataCheck = new ArrayList<String>();
                 dataCheck.add(String.valueOf(detail.getGalleryURL()));
                 image_click.image_more_click();
             }
         });
+
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull ItemViewHolder holder, int position, @NonNull List<Object> payloads) {
+        if (!payloads.isEmpty()) {
+            for (final Object payload : payloads) {
+                Log.d("payload :", "" + payload);
+                if (payload.toString().equalsIgnoreCase("1")) {
+                    holder.imageListBinding.loveImgLinear.setVisibility(View.VISIBLE);
+                } else {
+                    holder.imageListBinding.loveImgLinear.setVisibility(View.GONE);
+                }
+            }
+        } else {
+            // in this case regular onBindViewHolder will be called
+            super.onBindViewHolder(holder, position, payloads);
+        }
 
     }
 

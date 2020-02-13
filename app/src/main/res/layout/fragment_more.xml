@@ -289,7 +289,48 @@
 
                     </LinearLayout>
 
+                    <LinearLayout
+                        android:id="@+id/feedback_linear"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_33sdp"
+                        android:layout_marginTop="@dimen/more_rowTop"
+                        android:orientation="horizontal">
 
+                        <ImageView
+                            android:layout_width="@dimen/_23sdp"
+                            android:layout_height="@dimen/_23sdp"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:scaleType="centerCrop"
+                            android:tint="@color/green"
+                            android:src="@drawable/ic_feedback_other" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="@dimen/_12sdp"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/feedbacktxt"
+                                style="@style/title_text_font"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/_3sdp"
+                                android:gravity="center_vertical"
+                                android:text="Feedback"
+                                android:textColor="@color/heading_bg"
+                                android:textSize="@dimen/_12sdp" />
+                            <TextView
+                                android:id="@+id/feedbackmsg_txt"
+                                style="@style/title_text_font"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="Submit your feedback"
+                                android:textColor="@color/gray"
+                                android:textSize="@dimen/_10sdp" />
+                        </LinearLayout>
+
+                    </LinearLayout>
                 </LinearLayout>
 
                 <LinearLayout

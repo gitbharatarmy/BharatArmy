@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -26,15 +25,15 @@
 
         <LinearLayout
             android:id="@+id/back_img"
-            android:layout_width="@dimen/_40sdp"
+            android:layout_width="@dimen/_60sdp"
             android:layout_height="@dimen/_40sdp"
-            android:layout_marginLeft="@dimen/_10sdp"
             android:orientation="horizontal"
             android:visibility="visible">
 
             <ImageView
                 android:layout_width="@dimen/_20sdp"
                 android:layout_height="@dimen/_15sdp"
+                android:layout_marginLeft="@dimen/_10sdp"
                 android:layout_gravity="left|center_vertical"
                 android:src="@drawable/ic_left_arrow2"
                 android:tint="@color/black" />

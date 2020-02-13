@@ -111,7 +111,8 @@ public class Utils {
     public static ImageView image;
     public static boolean isValid = false;
 
-    public static String LikeMemberId, LikeReferenceId, LikeStatus, LikeSourceType;
+    public static String WatchListMemberId, WatchListReferenceId, WatchListStatus, WatchListSourceType;
+    public static String LikeMemberId, LikeReferenceId, LikeStatus, LikeSourceType, ImageLikeStatus;
     public static String viewsMemberId, viewsTokenId, viewsReferenceId, viewsSourceType;
     public static Dialog dialog;
 
@@ -947,6 +948,65 @@ public class Utils {
 
     }
 
+    public static void InsertWatchList(Context mContext, Activity activity) {
+
+        if (!Utils.checkNetwork(mContext)) {
+            Utils.showCustomDialog(mContext.getResources().getString(R.string.internet_error), mContext.getResources().getString(R.string.internet_connection_error), activity);
+            return;
+        }
+
+//        Utils.showDialog(mContext);
+
+        ApiHandler.getApiService().getInsertBAWatchlist(Utils.getWatchListData(), new retrofit.Callback<ImageMainModel>() {
+            @Override
+            public void success(ImageMainModel watchlistModel, Response response) {
+                Utils.dismissDialog();
+                if (watchlistModel == null) {
+                    Utils.ping(mContext, mContext.getString(R.string.something_wrong));
+                    return;
+                }
+                if (watchlistModel.getIsValid() == null) {
+                    Utils.ping(mContext, mContext.getString(R.string.something_wrong));
+                    return;
+                }
+                if (watchlistModel.getIsValid() == 0) {
+                    Utils.ping(mContext, mContext.getString(R.string.false_msg));
+                    return;
+                }
+                if (watchlistModel.getIsValid() == 1) {
+
+                    if (watchlistModel.getData() != null) {
+
+                    }
+
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Utils.dismissDialog();
+                error.printStackTrace();
+                error.getMessage();
+                Utils.ping(mContext, mContext.getString(R.string.something_wrong));
+            }
+        });
+
+
+    }
+
+    public static Map<String, String> getWatchListData() {
+        Map<String, String> map = new HashMap<>();
+        map.put("MemberId", WatchListMemberId);
+        map.put("ReferenceId", WatchListReferenceId);
+        map.put("WatchlistStatus", WatchListStatus);
+        map.put("SourceType", WatchListSourceType);
+
+        return map;
+
+    }
+
+
+
     public static void scrollScreen(ScrollView scrollView) {
         scrollView.postDelayed(new Runnable() {
             @Override
@@ -1099,4 +1159,7 @@ public class Utils {
         int resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android");
         return (resourceId > 0) ? resources.getDimensionPixelSize(resourceId) : 0;
     }
+
+
+
 }

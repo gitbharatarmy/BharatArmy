@@ -190,6 +190,7 @@ String userEnterOtpStr,accessOtpStr;
                 changePasswordOtpData();
                 break;
             case R.id.back_img:
+                Utils.handleClickEvent(mContext,activityProfileChangePasswordOtpBinding.backImg);
                 whereToBack();
                 break;
         }
@@ -197,8 +198,10 @@ String userEnterOtpStr,accessOtpStr;
 
 
     public void whereToBack(){
-        Intent iLogin = new Intent(mContext, ProfileChangePasswordAlertActivity.class);
-        startActivity(iLogin);
+//        Intent iLogin = new Intent(mContext, ProfileChangePasswordAlertActivity.class);
+//        overridePendingTransition(android.R.anim.slide_in_left
+//                , android.R.anim.slide_out_right);
+//        startActivity(iLogin);
         finish();
     }
     

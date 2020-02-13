@@ -24,10 +24,12 @@ import com.bharatarmy.Activity.CommentActivity;
 import com.bharatarmy.Interfaces.image_click;
 import com.bharatarmy.Models.MyScreenChnagesModel;
 import com.bharatarmy.R;
+import com.bharatarmy.TargetCallback;
 import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.AlbumImageVideoListItemBinding;
 import com.like.LikeButton;
 import com.like.OnLikeListener;
+import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -44,29 +46,33 @@ public class AlbumImageVideoAdapter extends RecyclerView.Adapter<AlbumImageVideo
     ArrayList<String> albumMediaType;
     MediaController mediaController;
     ArrayList<String> albumLike;
+    ArrayList<String> albumImageViews;
     ArrayList<String> albumDuration;
     ArrayList<String> albumAddUser;
     ArrayList<String> albumId;
     Activity activity;
     image_click imageClick;
+    private Animation fadein, fadeout;
+    String mediaTypeStr, galleryVideoStr;
+
 
     public AlbumImageVideoAdapter(Context mContext, Activity activity, ArrayList<String> albumImageUrl, ArrayList<String> albumImageThumbUrl,
-                                  ArrayList<String> albumMediaType, ArrayList<String> albumLike, ArrayList<String> albumDuration,
-                                  ArrayList<String> albumAddUser, ArrayList<String> albumId, image_click imageClick) {
+                                  ArrayList<String> albumMediaType, ArrayList<String> albumLike, ArrayList<String> albumImageViews,
+                                  ArrayList<String> albumDuration, ArrayList<String> albumAddUser, ArrayList<String> albumId,
+                                  image_click imageClick) {
 
         this.mContext = mContext;
         this.albumImageUrl = albumImageUrl;
         this.albumImageThumbUrl = albumImageThumbUrl;
         this.albumMediaType = albumMediaType;
-        this.albumLike=albumLike;
-        this.albumDuration=albumDuration;
-        this.albumAddUser=albumAddUser;
-        this.albumId=albumId;
-        this.activity=activity;
-        this.imageClick=imageClick;
+        this.albumLike = albumLike;
+        this.albumImageViews = albumImageViews;
+        this.albumDuration = albumDuration;
+        this.albumAddUser = albumAddUser;
+        this.albumId = albumId;
+        this.activity = activity;
+        this.imageClick = imageClick;
     }
-
-    
 
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
@@ -91,20 +97,85 @@ public class AlbumImageVideoAdapter extends RecyclerView.Adapter<AlbumImageVideo
     @Override
     public void onBindViewHolder(AlbumImageVideoAdapter.MyViewHolder holder, int position) {
         setAnimation(holder.itemView, position);
+        fadein = AnimationUtils.loadAnimation(mContext, R.anim.fade_in);
+        fadeout = AnimationUtils.loadAnimation(mContext, R.anim.fade_out);
 
         if (albumMediaType.get(position).equalsIgnoreCase("1")) {
             holder.albumImageVideoListItemBinding.showAlbumImage.setVisibility(View.VISIBLE);
             holder.albumImageVideoListItemBinding.playAlbumvideo.setVisibility(View.GONE);
             holder.albumImageVideoListItemBinding.videoViewThumbnail.setVisibility(View.GONE);
             holder.albumImageVideoListItemBinding.imageProgress.setVisibility(View.GONE);
-            Utils.setImageInImageView(albumImageUrl.get(position), holder.albumImageVideoListItemBinding.showAlbumImage, mContext);
-        }else if (albumMediaType.get(position).equalsIgnoreCase("2")){
+//            Utils.setImageInImageView(albumImageUrl.get(position), holder.albumImageVideoListItemBinding.showAlbumImage, mContext);
+            Picasso.with(mContext).load(albumImageUrl.get(position)).placeholder(R.drawable.loader_new)
+                    .into(holder.albumImageVideoListItemBinding.showAlbumImage,
+                            new TargetCallback(holder.albumImageVideoListItemBinding.showAlbumImage) {
+                                @Override
+                                public void onSuccess(ImageView target) {
+                                    if (target != null) {
+                                        holder.albumImageVideoListItemBinding.imageBottomLinear.setVisibility(View.VISIBLE);
+                                        holder.albumImageVideoListItemBinding.imageBottomLinear.startAnimation(fadein);
+                                        holder.albumImageVideoListItemBinding.showAlbumImage.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                if (holder.albumImageVideoListItemBinding.imageBottomLinear.isShown()) {
+                                                    holder.albumImageVideoListItemBinding.imageBottomLinear.setVisibility(View.GONE);
+                                                    holder.albumImageVideoListItemBinding.imageBottomLinear.startAnimation(fadeout);
+                                                } else {
+                                                    holder.albumImageVideoListItemBinding.imageBottomLinear.setVisibility(View.VISIBLE);
+                                                    holder.albumImageVideoListItemBinding.imageBottomLinear.startAnimation(fadein);
+                                                }
+                                            }
+                                        });
+                                    } else {
+                                        holder.albumImageVideoListItemBinding.imageBottomLinear.setVisibility(View.GONE);
+                                    }
+                                }
+
+                                @Override
+                                public void onError(ImageView target) {
+                                    holder.albumImageVideoListItemBinding.imageBottomLinear.setVisibility(View.GONE);
+                                }
+                            });
+
+
+        } else if (albumMediaType.get(position).equalsIgnoreCase("2")) {
             holder.albumImageVideoListItemBinding.imageProgress.setVisibility(View.VISIBLE);
             holder.albumImageVideoListItemBinding.playAlbumvideo.setVisibility(View.VISIBLE);
             holder.albumImageVideoListItemBinding.showAlbumImage.setVisibility(View.GONE);
             holder.albumImageVideoListItemBinding.videoViewThumbnail.setVisibility(View.VISIBLE);
 
-            Utils.setImageInImageView(albumImageThumbUrl.get(position), holder.albumImageVideoListItemBinding.videoViewThumbnail, mContext);
+//            Utils.setImageInImageView(albumImageThumbUrl.get(position), holder.albumImageVideoListItemBinding.videoViewThumbnail, mContext);
+
+            Picasso.with(mContext).load(albumImageThumbUrl.get(position)).placeholder(R.drawable.loader_new)
+                    .into(holder.albumImageVideoListItemBinding.videoViewThumbnail, new TargetCallback(holder.albumImageVideoListItemBinding.videoViewThumbnail) {
+                        @Override
+                        public void onSuccess(ImageView target) {
+                            if (target != null) {
+                                holder.albumImageVideoListItemBinding.imageBottomLinear.setVisibility(View.VISIBLE);
+                                holder.albumImageVideoListItemBinding.imageBottomLinear.startAnimation(fadein);
+                                holder.albumImageVideoListItemBinding.videoViewThumbnail.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        if (holder.albumImageVideoListItemBinding.imageBottomLinear.isShown()) {
+                                            holder.albumImageVideoListItemBinding.imageBottomLinear.setVisibility(View.GONE);
+                                            holder.albumImageVideoListItemBinding.imageBottomLinear.startAnimation(fadeout);
+                                        } else {
+                                            holder.albumImageVideoListItemBinding.imageBottomLinear.setVisibility(View.VISIBLE);
+                                            holder.albumImageVideoListItemBinding.imageBottomLinear.startAnimation(fadein);
+                                        }
+                                    }
+                                });
+                            } else {
+                                holder.albumImageVideoListItemBinding.imageBottomLinear.setVisibility(View.GONE);
+                            }
+                        }
+
+                        @Override
+                        public void onError(ImageView target) {
+                            holder.albumImageVideoListItemBinding.imageBottomLinear.setVisibility(View.GONE);
+                        }
+                    });
+
 
             mediaController = new MediaController(mContext);
             mediaController.setAnchorView(holder.albumImageVideoListItemBinding.playAlbumvideo);
@@ -120,26 +191,29 @@ public class AlbumImageVideoAdapter extends RecyclerView.Adapter<AlbumImageVideo
                     holder.albumImageVideoListItemBinding.videoViewThumbnail.setVisibility(View.GONE);
                     holder.albumImageVideoListItemBinding.imageProgress.setVisibility(View.GONE);
                     holder.albumImageVideoListItemBinding.playAlbumvideo.start();
-
+                    if (!holder.albumImageVideoListItemBinding.imageBottomLinear.isShown()) {
+                        holder.albumImageVideoListItemBinding.imageBottomLinear.setVisibility(View.VISIBLE);
+                        holder.albumImageVideoListItemBinding.imageBottomLinear.startAnimation(fadein);
+                    }
                 }
             });
         }
 
-
+        holder.albumImageVideoListItemBinding.uploadimageViewstxt.setText(albumImageViews.get(position));
         holder.albumImageVideoListItemBinding.uploadimageUserNametxt.setText(albumAddUser.get(position));
         holder.albumImageVideoListItemBinding.uploadimageDurationtxt.setText(albumDuration.get(position));
         Log.d("userName :", albumAddUser.get(position));
 
 
-        if (albumLike.get(position).equalsIgnoreCase("1")){
+        if (albumLike.get(position).equalsIgnoreCase("1")) {
             holder.albumImageVideoListItemBinding.bottomImageLikeBtn.setLiked(true);
-        }else {
+        } else {
             holder.albumImageVideoListItemBinding.bottomImageLikeBtn.setLiked(false);
         }
         holder.albumImageVideoListItemBinding.bottomImageLikeBtn.setOnLikeListener(new OnLikeListener() {
             @Override
             public void liked(LikeButton likeButton) {
-                if (Utils.isMember(mContext,"ImageUpload")){
+                if (Utils.isMember(mContext, "ImageUpload")) {
                     Utils.LikeMemberId = String.valueOf(Utils.getAppUserId(mContext));
                     Utils.LikeReferenceId = albumId.get(position);
                     Utils.LikeSourceType = albumMediaType.get(position);
@@ -147,7 +221,7 @@ public class AlbumImageVideoAdapter extends RecyclerView.Adapter<AlbumImageVideo
                     Utils.InsertLike(mContext, activity);
 
                     EventBus.getDefault().post(new MyScreenChnagesModel(position));
-                }else{
+                } else {
                     holder.albumImageVideoListItemBinding.bottomImageLikeBtn.setLiked(false);
                 }
 
@@ -155,14 +229,14 @@ public class AlbumImageVideoAdapter extends RecyclerView.Adapter<AlbumImageVideo
 
             @Override
             public void unLiked(LikeButton likeButton) {
-                if (Utils.isMember(mContext,"ImageUpload")){
+                if (Utils.isMember(mContext, "ImageUpload")) {
                     Utils.LikeMemberId = String.valueOf(Utils.getAppUserId(mContext));
                     Utils.LikeReferenceId = albumId.get(position);
                     Utils.LikeSourceType = albumMediaType.get(position);
                     Utils.LikeStatus = "0";
                     Utils.InsertLike(mContext, activity);
                     EventBus.getDefault().post(new MyScreenChnagesModel(position));
-                }else{
+                } else {
                     holder.albumImageVideoListItemBinding.bottomImageLikeBtn.setLiked(true);
                 }
 
@@ -173,11 +247,11 @@ public class AlbumImageVideoAdapter extends RecyclerView.Adapter<AlbumImageVideo
         holder.albumImageVideoListItemBinding.commentLinear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (Utils.isMember(mContext,"ImageUpload")){
+                if (Utils.isMember(mContext, "ImageUpload")) {
                     Intent commentIntent = new Intent(mContext, CommentActivity.class);
-                    commentIntent.putExtra("referenceId",albumId.get(position));
-                    commentIntent.putExtra("sourceType",albumMediaType.get(position));
-                    commentIntent.putExtra("pageTitle","Album Comments");
+                    commentIntent.putExtra("referenceId", albumId.get(position));
+                    commentIntent.putExtra("sourceType", albumMediaType.get(position));
+                    commentIntent.putExtra("pageTitle", "Album Comments");
                     mContext.startActivity(commentIntent);
                 }
             }
@@ -186,8 +260,10 @@ public class AlbumImageVideoAdapter extends RecyclerView.Adapter<AlbumImageVideo
         holder.albumImageVideoListItemBinding.shareArticle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Utils.handleClickEvent(mContext,holder.albumImageVideoListItemBinding.shareArticle);
-                if (Utils.isMember(mContext,"ImageUpload")){
+                Utils.handleClickEvent(mContext, holder.albumImageVideoListItemBinding.shareArticle);
+                if (Utils.isMember(mContext, "ImageUpload")) {
+                    galleryVideoStr = albumImageUrl.get(position);
+                    mediaTypeStr = albumMediaType.get(position);
                     imageClick.image_more_click();
                 }
 
@@ -225,4 +301,13 @@ public class AlbumImageVideoAdapter extends RecyclerView.Adapter<AlbumImageVideo
             lastPosition = position;
         }
     }
+
+    public String MediaTypeId() {
+        return mediaTypeStr;
+    }
+
+    public String VideoUrlStr() {
+        return galleryVideoStr;
+    }
+
 }

@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_35sdp"
+            android:layout_marginRight="@dimen/_15sdp"
+            android:background="@drawable/match_detail_curveshape"
+            android:orientation="vertical"
+            android:weightSum="1">
+            <!--android:layout_weight="0.5"-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_130sdp"
+                android:background="@color/transparent"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <com.bharatarmy.RoundishImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginTop="0dp"
+                        android:adjustViewBounds="true"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/thankyou_bg"
+                        app:cornerRadius="20dp"
+                        app:roundedCorners="topRight" />
+
+                    <TextView
+                        android:id="@+id/dialog_headertxt"
+                        style="@style/title_text_font"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_70sdp"
+                        android:gravity="center_horizontal|center_vertical"
+                        android:text="Feedback Suvery"
+                        android:textAllCaps="true"
+                        android:textColor="@color/splash_bg_color"
+                        android:textSize="@dimen/_18sdp" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_3sdp"
+                android:background="@drawable/bg_gradiant_line" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:id="@+id/dialog_descriptiontxt"
+                    style="@style/text_font"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_15sdp"
+                    android:gravity="center_vertical"
+                    android:text="Are you sure you want quite the survey ?"
+                    android:textAllCaps="false"
+                    android:textColor="@color/normal_font_color"
+                    android:textSize="@dimen/_12sdp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_1sdp"
+                    android:layout_marginLeft="@dimen/_15sdp"
+                    android:layout_marginRight="@dimen/_15sdp"
+                    android:background="@drawable/line_shape" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_40sdp"
+                    android:orientation="horizontal"
+                    android:layout_marginLeft="@dimen/_15sdp"
+                    android:layout_marginRight="@dimen/_15sdp">
+
+                    <TextView
+                        android:id="@+id/no_txt"
+                        style="@style/title_text_font"
+                        android:layout_width="@dimen/_50sdp"
+                        android:layout_height="@dimen/_40sdp"
+                        android:layout_toLeftOf="@+id/yes_txt"
+                        android:layout_marginRight="@dimen/_5sdp"
+                        android:gravity="center_horizontal|center_vertical"
+                        android:text="no"
+                        android:textAllCaps="true"
+                        android:textColor="@color/skip_color"
+                        android:textSize="@dimen/_12sdp" />
+
+                    <TextView
+                        android:id="@+id/yes_txt"
+                        style="@style/title_text_font"
+                        android:layout_width="@dimen/_50sdp"
+                        android:layout_height="@dimen/_40sdp"
+                        android:layout_alignParentRight="true"
+                        android:gravity="center_horizontal|center_vertical"
+                        android:text="yes"
+                        android:textAllCaps="true"
+                        android:textColor="@color/skip_color"
+                        android:textSize="@dimen/_12sdp" />
+                </RelativeLayout>
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="@dimen/_70sdp"
+            android:layout_height="@dimen/_70sdp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:background="@drawable/white_circle">
+
+            <ImageView
+                android:layout_width="@dimen/_25sdp"
+                android:layout_height="@dimen/_25sdp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/_23sdp"
+                android:src="@drawable/ic_check_mark"
+                android:tint="@color/green" />
+        </LinearLayout>
+    </RelativeLayout>
+</RelativeLayout>

@@ -2,7 +2,6 @@ package com.bharatarmy.Activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -10,24 +9,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.PictureInPictureParams;
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.Rational;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.bharatarmy.Adapter.VideoDetailVerticalAdapter;
-import com.bharatarmy.Interfaces.MyLayoutChanges;
-import com.bharatarmy.Interfaces.image_click;
 import com.bharatarmy.Models.ImageDetailModel;
 import com.bharatarmy.Models.ImageMainModel;
 import com.bharatarmy.Models.LogginModel;

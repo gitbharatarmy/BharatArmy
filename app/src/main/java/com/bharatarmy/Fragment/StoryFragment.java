@@ -60,10 +60,12 @@ public class StoryFragment extends Fragment {
 
     List<ImageDetailModel> storyDetailModelList1 = new ArrayList<>();
 
-    int pageIndex = 0;
 
 
     SpeedDialView speedDial;
+
+    int storypagesize=14;
+    int pageIndex = 0;
     boolean isStoryLoading = true;
     GridLayoutManager gridLayoutManager;
 
@@ -185,6 +187,10 @@ public class StoryFragment extends Fragment {
                 if (storyMainModel.getIsValid() == 1) {
 
                     if (storyMainModel.getData() != null) {
+                        fragmentStoryBinding.shimmerViewContainer.stopShimmerAnimation();
+                        fragmentStoryBinding.shimmerViewContainer.setVisibility(View.GONE);
+                        fragmentStoryBinding.bottomProgressbarLayout.setVisibility(View.GONE);
+
                         if (storyMainModel.getData().size() != 0) {
                             if (storyDetailModelList1.size() == 0) {
                                 storyDetailModelList1.addAll(0, storyMainModel.getData());
@@ -193,9 +199,11 @@ public class StoryFragment extends Fragment {
                             }
                         }
                         storyDetailModelList = storyMainModel.getData();
-                        fragmentStoryBinding.shimmerViewContainer.stopShimmerAnimation();
-                        fragmentStoryBinding.shimmerViewContainer.setVisibility(View.GONE);
-                        fragmentStoryBinding.bottomProgressbarLayout.setVisibility(View.GONE);
+
+
+                        if (storyDetailModelList1.size() < storypagesize) {
+                            isStoryLoading = false;
+                        }
 
 //                        addOldNewValue(storyDetailModelList1);
 
@@ -231,7 +239,7 @@ public class StoryFragment extends Fragment {
     private Map<String, String> getStoryData() {
         Map<String, String> map = new HashMap<>();
         map.put("PageIndex", String.valueOf(pageIndex));
-        map.put("PageSize", AppConfiguration.pageSize);
+        map.put("PageSize",String.valueOf(storypagesize) );
         map.put("MemberId", String.valueOf(Utils.getAppUserId(mContext)));
         return map;
     }
@@ -272,9 +280,12 @@ public class StoryFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        if (storyDetailModelList.size() != 0) {
-            storyDetailModelList.clear();
+        if (storyDetailModelList!=null){
+            if (storyDetailModelList.size() != 0) {
+                storyDetailModelList.clear();
+            }
         }
+
 
     }
 
@@ -316,7 +327,7 @@ public class StoryFragment extends Fragment {
                         storyLsitAdapter.addMoreDataToList(storyDetailModelList1);
 
                         Log.d("pullDataList : ", "" + storyDetailModelList1.size());
-//                       
+//
                         fragmentStoryBinding.refreshView.setRefreshing(false);
                         isStoryLoading = true;
 
@@ -340,7 +351,7 @@ public class StoryFragment extends Fragment {
     private Map<String, String> getStoryPullData() {
         Map<String, String> map = new HashMap<>();
         map.put("PageIndex", "0");
-        map.put("PageSize", "14");
+        map.put("PageSize", String.valueOf(storypagesize));
         map.put("MemberId", String.valueOf(Utils.getAppUserId(mContext)));
         return map;
     }

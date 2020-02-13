@@ -130,7 +130,7 @@ public class UploadService extends IntentService implements ProgressRequestBody.
 
             //            create thumbnail and store in folder
             String thumbnailpath = Utils.saveToInternalStorage(Utils.createImageThumbNail(Utils.getBitmap(objfile.getImageUri()))).toString();
-            Log.d("Imagethumbnailpath", thumbnailpath);
+            Log.d("Imagethumbnailpath", thumbnailpath +"Private :"+ objfile.getPrivacySetting());
 
             Utils.videoFile.add(objfile.getImageUri());
             Utils.videoFile.add(thumbnailpath);

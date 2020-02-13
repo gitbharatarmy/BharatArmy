@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/question3_option1_btn"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_46sdp"
+        android:layout_marginLeft="@dimen/_2sdp"
+        android:layout_marginTop="@dimen/_13sdp"
+        android:layout_marginRight="@dimen/_2sdp"
+        android:layout_marginBottom="@dimen/_2sdp"
+        android:background="@drawable/feedback_que_ans_shape"
+        android:elevation="2dp"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/withstar_linear"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/_5sdp"
+            android:visibility="visible">
+
+            <CheckBox
+                android:id="@+id/question3star_option1_chk"
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/_5sdp"
+                android:button="@drawable/round_checkbox_indicator" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_toLeftOf="@+id/question3star_option1_chk"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/question3star_option1_txt"
+                    style="@style/title_text_font"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_4sdp"
+                    android:layout_marginTop="@dimen/_2sdp"
+                    android:gravity="center_vertical"
+                    android:text="@string/question8_ans1"
+                    android:textAllCaps="true"
+                    android:textColor="@color/all_text_color"
+                    android:textSize="@dimen/_13sdp" />
+
+                <LinearLayout
+                    android:id="@+id/rating_linear"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_1sdp"
+                    android:layout_marginTop="@dimen/_3sdp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/start1_img"
+                        android:layout_width="@dimen/_13sdp"
+                        android:layout_height="@dimen/_13sdp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/fill" />
+
+                    <ImageView
+                        android:id="@+id/start2_img"
+                        android:layout_width="@dimen/_13sdp"
+                        android:layout_height="@dimen/_13sdp"
+                        android:layout_marginLeft="-2dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/fill" />
+
+                    <ImageView
+                        android:id="@+id/start3_img"
+                        android:layout_width="@dimen/_13sdp"
+                        android:layout_height="@dimen/_13sdp"
+                        android:layout_marginLeft="-2dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/fill" />
+
+                    <ImageView
+                        android:id="@+id/start4_img"
+                        android:layout_width="@dimen/_13sdp"
+                        android:layout_height="@dimen/_13sdp"
+                        android:layout_marginLeft="-2dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/fill" />
+
+                    <ImageView
+                        android:id="@+id/start5_img"
+                        android:layout_width="@dimen/_13sdp"
+                        android:layout_height="@dimen/_13sdp"
+                        android:layout_marginLeft="-2dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/fill" />
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+
+        </RelativeLayout>
+    </LinearLayout>
+</layout>

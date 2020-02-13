@@ -2,9 +2,11 @@ package com.bharatarmy.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
@@ -18,19 +20,21 @@ import com.bharatarmy.Models.ImageDetailModel;
 import com.bharatarmy.Models.LoginDataModel;
 import com.bharatarmy.Models.MyScreenChnagesModel;
 import com.bharatarmy.R;
+import com.bharatarmy.TargetCallback;
 import com.bharatarmy.Utility.AppConfiguration;
 import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.VideoDetailVerticaleAdapterItemBinding;
 import com.bharatarmy.databinding.VideoDetailVerticaleHeaderBinding;
 import com.like.LikeButton;
 import com.like.OnLikeListener;
+import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class VideoDetailVerticalAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {
+public class VideoDetailVerticalAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private static final int HEADER = 0;
     private static final int ITEM = 1;
@@ -39,10 +43,10 @@ public class VideoDetailVerticalAdapter extends RecyclerView.Adapter<RecyclerVie
     List<ImageDetailModel> relatedVideoList;
     image_click morestoryClick;
     private ArrayList<String> dataCheck;
-    String videoName, videoUserName, videoLike,videoIdStr;
+    String videoName, videoUserName, videoLike, videoIdStr;
     VideoDetailVerticalActivity activity;
     LoginDataModel postedDataModel;
-    int likeunlikecount=0;
+    int likeunlikecount = 0;
 
     public VideoDetailVerticalAdapter(Context mContext, VideoDetailVerticalActivity videoDetailActivity, List<ImageDetailModel> relatedVideoList,
                                       String videoNameStr, String videoUserNameStr, String videoLike,
@@ -54,8 +58,8 @@ public class VideoDetailVerticalAdapter extends RecyclerView.Adapter<RecyclerVie
         this.videoUserName = videoUserNameStr;
         this.activity = videoDetailActivity;
         this.videoLike = videoLike;
-        this.postedDataModel=postedDataModel;
-        this.videoIdStr=videoIdStr;
+        this.postedDataModel = postedDataModel;
+        this.videoIdStr = videoIdStr;
     }
 
 
@@ -74,7 +78,7 @@ public class VideoDetailVerticalAdapter extends RecyclerView.Adapter<RecyclerVie
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         switch (viewType) {
             case HEADER:
-                 VideoDetailVerticaleHeaderBinding videoDetailVerticaleHeaderBinding =
+                VideoDetailVerticaleHeaderBinding videoDetailVerticaleHeaderBinding =
                         DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
                                 R.layout.video_detail_verticale_header, parent, false);
                 return new VideoDetailVerticalAdapter.HeaderViewHolder(videoDetailVerticaleHeaderBinding);
@@ -97,12 +101,37 @@ public class VideoDetailVerticalAdapter extends RecyclerView.Adapter<RecyclerVie
             Utils.LikeReferenceId = videoIdStr;
 
             Utils.LikeSourceType = "2";
-            Utils.setImageInImageView(relatedVerticalVideoDetail.getVideoImageURL(),
-                    ((ItemViewHolder) holder).videoDetailVerticaleAdapterItemBinding.verticaleRelatedVideoImg, mContext);
+//            Utils.setImageInImageView(relatedVerticalVideoDetail.getVideoImageURL(),
+//                    ((ItemViewHolder) holder).videoDetailVerticaleAdapterItemBinding.verticaleRelatedVideoImg, mContext);
+            ((ItemViewHolder) holder).videoDetailVerticaleAdapterItemBinding.videoPrivacyLinear.setVisibility(View.GONE);
+            ((ItemViewHolder) holder).videoDetailVerticaleAdapterItemBinding.privateImgLinear.setVisibility(View.GONE);
 
             ((ItemViewHolder) holder).videoDetailVerticaleAdapterItemBinding.verticaleVideoSizeTxt.setText(relatedVerticalVideoDetail.getVideoLength());
             ((ItemViewHolder) holder).videoDetailVerticaleAdapterItemBinding.verticalShowVideoTitleTxt.setText(relatedVerticalVideoDetail.getVideoName());
-            ((ItemViewHolder)holder).videoDetailVerticaleAdapterItemBinding.verticalShowVideoDescriptionTxt.setText(relatedVerticalVideoDetail.getTitleDescription());
+            ((ItemViewHolder) holder).videoDetailVerticaleAdapterItemBinding.verticalShowVideoDescriptionTxt.setText(relatedVerticalVideoDetail.getTitleDescription());
+
+            Picasso.with(mContext).load(relatedVerticalVideoDetail.getVideoImageURL()).placeholder(R.drawable.loader_new)
+                    .into(((ItemViewHolder) holder).videoDetailVerticaleAdapterItemBinding.verticaleRelatedVideoImg,
+                            new TargetCallback(((ItemViewHolder) holder).videoDetailVerticaleAdapterItemBinding.verticaleRelatedVideoImg) {
+                                @Override
+                                public void onSuccess(ImageView target) {
+                                    if (target != null) {
+                                        ((ItemViewHolder) holder).videoDetailVerticaleAdapterItemBinding.videoPrivacyLinear.setVisibility(View.VISIBLE);
+                                        if (relatedVerticalVideoDetail.getIsPrivate().equals(1)) {
+                                            ((ItemViewHolder) holder).videoDetailVerticaleAdapterItemBinding.privateImgLinear.setVisibility(View.VISIBLE);
+                                        } else {
+                                            ((ItemViewHolder) holder).videoDetailVerticaleAdapterItemBinding.privateImgLinear.setVisibility(View.GONE);
+                                        }
+                                    }else{
+                                        ((ItemViewHolder) holder).videoDetailVerticaleAdapterItemBinding.videoPrivacyLinear.setVisibility(View.GONE);
+                                    }
+                                }
+
+                                @Override
+                                public void onError(ImageView target) {
+                                    ((ItemViewHolder) holder).videoDetailVerticaleAdapterItemBinding.videoPrivacyLinear.setVisibility(View.GONE);
+                                }
+                            });
 
 
             if (relatedVerticalVideoDetail.getIsBARecommanded().equals(1)) {
@@ -117,47 +146,47 @@ public class VideoDetailVerticalAdapter extends RecyclerView.Adapter<RecyclerVie
                     Utils.LikeMemberId = String.valueOf(Utils.getAppUserId(mContext));
                     Utils.LikeReferenceId = videoIdStr;
                     Utils.LikeSourceType = "2";
-                    Utils.viewsMemberId=String.valueOf(Utils.getAppUserId(mContext));
-                    Utils.viewsReferenceId=videoIdStr;
-                    Utils.viewsSourceType="2";
-                    Utils.viewsTokenId= Utils.getPref(mContext, "registration_id");
+                    Utils.viewsMemberId = String.valueOf(Utils.getAppUserId(mContext));
+                    Utils.viewsReferenceId = videoIdStr;
+                    Utils.viewsSourceType = "2";
+                    Utils.viewsTokenId = Utils.getPref(mContext, "registration_id");
 
-                    Utils.InsertBAViews(mContext,activity);
+                    Utils.InsertBAViews(mContext, activity);
 
-                    if (relatedVerticalVideoDetail.getWidth()> relatedVerticalVideoDetail.getHeight()){
-                        AppConfiguration.videoType="horizontal";
+                    if (relatedVerticalVideoDetail.getWidth() > relatedVerticalVideoDetail.getHeight()) {
+                        AppConfiguration.videoType = "horizontal";
                         Intent videogalleryhorizontaldetailIntent = new Intent(mContext, VideoDetailHorizontalActivity.class);
                         videogalleryhorizontaldetailIntent.putExtra("videoData", relatedVerticalVideoDetail.getVideoFileURL());
                         videogalleryhorizontaldetailIntent.putExtra("videoName", relatedVerticalVideoDetail.getVideoName());
                         videogalleryhorizontaldetailIntent.putExtra("videoUserName", relatedVerticalVideoDetail.getUserName());
                         videogalleryhorizontaldetailIntent.putExtra("videoLike", String.valueOf(relatedVerticalVideoDetail.getIsLike()));
                         videogalleryhorizontaldetailIntent.putExtra("WhereToVideoCome", "VideoFragment");
-                        videogalleryhorizontaldetailIntent.putExtra("videoThumb",relatedVerticalVideoDetail.getVideoImageURL());
-                        videogalleryhorizontaldetailIntent.putExtra("videoId",String.valueOf(relatedVerticalVideoDetail.getBAVideoGalleryId()));
+                        videogalleryhorizontaldetailIntent.putExtra("videoThumb", relatedVerticalVideoDetail.getVideoImageURL());
+                        videogalleryhorizontaldetailIntent.putExtra("videoId", String.valueOf(relatedVerticalVideoDetail.getBAVideoGalleryId()));
                         videogalleryhorizontaldetailIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         mContext.startActivity(videogalleryhorizontaldetailIntent);
-                    }else if(relatedVerticalVideoDetail.getWidth()<relatedVerticalVideoDetail.getHeight()){
-                        AppConfiguration.videoType="vertical";
+                    } else if (relatedVerticalVideoDetail.getWidth() < relatedVerticalVideoDetail.getHeight()) {
+                        AppConfiguration.videoType = "vertical";
                         Intent videogalleryverticaldetailIntent = new Intent(mContext, VideoDetailVerticalActivity.class);
                         videogalleryverticaldetailIntent.putExtra("videoData", relatedVerticalVideoDetail.getVideoFileURL());
                         videogalleryverticaldetailIntent.putExtra("videoName", relatedVerticalVideoDetail.getVideoName());
                         videogalleryverticaldetailIntent.putExtra("videoUserName", relatedVerticalVideoDetail.getUserName());
                         videogalleryverticaldetailIntent.putExtra("videoLike", String.valueOf(relatedVerticalVideoDetail.getIsLike()));
                         videogalleryverticaldetailIntent.putExtra("WhereToVideoCome", "VideoFragment");
-                        videogalleryverticaldetailIntent.putExtra("videoThumb",relatedVerticalVideoDetail.getVideoImageURL());
-                        videogalleryverticaldetailIntent.putExtra("videoId",String.valueOf(relatedVerticalVideoDetail.getBAVideoGalleryId()));
+                        videogalleryverticaldetailIntent.putExtra("videoThumb", relatedVerticalVideoDetail.getVideoImageURL());
+                        videogalleryverticaldetailIntent.putExtra("videoId", String.valueOf(relatedVerticalVideoDetail.getBAVideoGalleryId()));
                         videogalleryverticaldetailIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         mContext.startActivity(videogalleryverticaldetailIntent);
-                    } else if(relatedVerticalVideoDetail.getWidth()==relatedVerticalVideoDetail.getHeight()){
-                        AppConfiguration.videoType="horizontal";
+                    } else if (relatedVerticalVideoDetail.getWidth() == relatedVerticalVideoDetail.getHeight()) {
+                        AppConfiguration.videoType = "horizontal";
                         Intent videogalleryhorizontaldetailIntent = new Intent(mContext, VideoDetailHorizontalActivity.class);
                         videogalleryhorizontaldetailIntent.putExtra("videoData", relatedVerticalVideoDetail.getVideoFileURL());
                         videogalleryhorizontaldetailIntent.putExtra("videoName", relatedVerticalVideoDetail.getVideoName());
                         videogalleryhorizontaldetailIntent.putExtra("videoUserName", relatedVerticalVideoDetail.getUserName());
                         videogalleryhorizontaldetailIntent.putExtra("videoLike", String.valueOf(relatedVerticalVideoDetail.getIsLike()));
                         videogalleryhorizontaldetailIntent.putExtra("WhereToVideoCome", "VideoFragment");
-                        videogalleryhorizontaldetailIntent.putExtra("videoThumb",relatedVerticalVideoDetail.getVideoImageURL());
-                        videogalleryhorizontaldetailIntent.putExtra("videoId",String.valueOf(relatedVerticalVideoDetail.getBAVideoGalleryId()));
+                        videogalleryhorizontaldetailIntent.putExtra("videoThumb", relatedVerticalVideoDetail.getVideoImageURL());
+                        videogalleryhorizontaldetailIntent.putExtra("videoId", String.valueOf(relatedVerticalVideoDetail.getBAVideoGalleryId()));
                         videogalleryhorizontaldetailIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         mContext.startActivity(videogalleryhorizontaldetailIntent);
                     }
@@ -171,42 +200,42 @@ public class VideoDetailVerticalAdapter extends RecyclerView.Adapter<RecyclerVie
             ((HeaderViewHolder) holder).videoDetailVerticaleHeaderBinding.showVideoSharenameTxt.setVisibility(View.VISIBLE);
             ((HeaderViewHolder) holder).videoDetailVerticaleHeaderBinding.showVideoSharenameTxt.setText("By " + videoUserName);
 
-            if (postedDataModel!=null){
-                if (postedDataModel.getLikes()!=null){
-                    if (postedDataModel.getLikes().equals(0)){
-                        ((HeaderViewHolder)holder).videoDetailVerticaleHeaderBinding.totalLikeTxt.setText("");
-                    }else{
-                        ((HeaderViewHolder)holder).videoDetailVerticaleHeaderBinding.totalLikeTxt
+            if (postedDataModel != null) {
+                if (postedDataModel.getLikes() != null) {
+                    if (postedDataModel.getLikes().equals(0)) {
+                        ((HeaderViewHolder) holder).videoDetailVerticaleHeaderBinding.totalLikeTxt.setText("");
+                    } else {
+                        ((HeaderViewHolder) holder).videoDetailVerticaleHeaderBinding.totalLikeTxt
                                 .setText(String.valueOf(postedDataModel.getLikes()));
                     }
                 }
             }
-            if (postedDataModel!=null){
-                if (postedDataModel.getPosted()!=null){
-                    if (postedDataModel.getPosted().equals(0)){
-                        ((HeaderViewHolder)holder).videoDetailVerticaleHeaderBinding.totalPostedTxt.setText("");
-                    }else{
-                        ((HeaderViewHolder)holder).videoDetailVerticaleHeaderBinding.totalPostedTxt
+            if (postedDataModel != null) {
+                if (postedDataModel.getPosted() != null) {
+                    if (postedDataModel.getPosted().equals(0)) {
+                        ((HeaderViewHolder) holder).videoDetailVerticaleHeaderBinding.totalPostedTxt.setText("");
+                    } else {
+                        ((HeaderViewHolder) holder).videoDetailVerticaleHeaderBinding.totalPostedTxt
                                 .setText(String.valueOf(postedDataModel.getPosted()));
                     }
                 }
             }
-            if (postedDataModel!=null){
-                if (postedDataModel.getComments()!=null){
-                    if (postedDataModel.getComments().equals(0)){
-                        ((HeaderViewHolder)holder).videoDetailVerticaleHeaderBinding.totalCommentTxt.setText("");
-                    }else{
-                        ((HeaderViewHolder)holder).videoDetailVerticaleHeaderBinding.totalCommentTxt
+            if (postedDataModel != null) {
+                if (postedDataModel.getComments() != null) {
+                    if (postedDataModel.getComments().equals(0)) {
+                        ((HeaderViewHolder) holder).videoDetailVerticaleHeaderBinding.totalCommentTxt.setText("");
+                    } else {
+                        ((HeaderViewHolder) holder).videoDetailVerticaleHeaderBinding.totalCommentTxt
                                 .setText(String.valueOf(postedDataModel.getComments()));
                     }
                 }
             }
-            if (postedDataModel!=null){
-                if (postedDataModel.getPostView()!=null){
-                    if (postedDataModel.getPostView().equals(0)){
-                        ((HeaderViewHolder)holder).videoDetailVerticaleHeaderBinding.totalVideoViewTxt.setText("");
-                    }else{
-                        ((HeaderViewHolder)holder).videoDetailVerticaleHeaderBinding.totalVideoViewTxt
+            if (postedDataModel != null) {
+                if (postedDataModel.getPostView() != null) {
+                    if (postedDataModel.getPostView().equals(0)) {
+                        ((HeaderViewHolder) holder).videoDetailVerticaleHeaderBinding.totalVideoViewTxt.setText("");
+                    } else {
+                        ((HeaderViewHolder) holder).videoDetailVerticaleHeaderBinding.totalVideoViewTxt
                                 .setText(String.valueOf(postedDataModel.getPostView()));
                     }
                 }
@@ -224,11 +253,11 @@ public class VideoDetailVerticalAdapter extends RecyclerView.Adapter<RecyclerVie
                     if (Utils.isMember(mContext, "galleryDetail")) {
                         Utils.LikeStatus = "1";
                         Utils.InsertLike(mContext, activity);
-                        likeunlikecount= Integer.parseInt(((HeaderViewHolder)holder).videoDetailVerticaleHeaderBinding.totalLikeTxt.getText().toString());
+                        likeunlikecount = Integer.parseInt(((HeaderViewHolder) holder).videoDetailVerticaleHeaderBinding.totalLikeTxt.getText().toString());
                         notifyItemChanged(position,
-                                likeunlikecount+1);
+                                likeunlikecount + 1);
                         EventBus.getDefault().post(new MyScreenChnagesModel(videoIdStr));
-                    }else{
+                    } else {
                         ((HeaderViewHolder) holder).videoDetailVerticaleHeaderBinding.videoLikeBtn.setLiked(false);
                     }
                 }
@@ -238,11 +267,11 @@ public class VideoDetailVerticalAdapter extends RecyclerView.Adapter<RecyclerVie
                     if (Utils.isMember(mContext, "galleryDetail")) {
                         Utils.LikeStatus = "0";
                         Utils.InsertLike(mContext, activity);
-                        likeunlikecount= Integer.parseInt(((HeaderViewHolder)holder).videoDetailVerticaleHeaderBinding.totalLikeTxt.getText().toString());
+                        likeunlikecount = Integer.parseInt(((HeaderViewHolder) holder).videoDetailVerticaleHeaderBinding.totalLikeTxt.getText().toString());
                         notifyItemChanged(position,
-                                likeunlikecount-1);
+                                likeunlikecount - 1);
                         EventBus.getDefault().post(new MyScreenChnagesModel(videoIdStr));
-                    }else{
+                    } else {
                         ((HeaderViewHolder) holder).videoDetailVerticaleHeaderBinding.videoLikeBtn.setLiked(true);
                     }
                 }
@@ -255,7 +284,7 @@ public class VideoDetailVerticalAdapter extends RecyclerView.Adapter<RecyclerVie
                         Intent commentIntent = new Intent(mContext, CommentActivity.class);
                         commentIntent.putExtra("referenceId", videoIdStr);
                         commentIntent.putExtra("sourceType", "2");
-                        commentIntent.putExtra("pageTitle",videoName);
+                        commentIntent.putExtra("pageTitle", videoName);
                         mContext.startActivity(commentIntent);
                     }
                 }
@@ -265,11 +294,11 @@ public class VideoDetailVerticalAdapter extends RecyclerView.Adapter<RecyclerVie
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position, @NonNull List<Object> payloads) {
-        if (!payloads.isEmpty()){
+        if (!payloads.isEmpty()) {
             for (final Object payload : payloads) {
                 ((HeaderViewHolder) holder).videoDetailVerticaleHeaderBinding.totalLikeTxt.setText(payload.toString());
             }
-        }else {
+        } else {
             super.onBindViewHolder(holder, position, payloads);
         }
     }

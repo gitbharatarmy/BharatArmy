@@ -16,8 +16,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bharatarmy.Activity.AlbumDetailActivity;
 import com.bharatarmy.Models.ImageDetailModel;
 import com.bharatarmy.R;
+import com.bharatarmy.TargetCallback;
 import com.bharatarmy.Utility.Utils;
 import com.bumptech.glide.request.RequestOptions;
+import com.squareup.picasso.Picasso;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -58,6 +60,7 @@ List<ImageDetailModel> imageDetailModelList;
         Intrinsics.checkExpressionValueIsNotNull(var10000, "holder.itemView");
 
         Utils.setImageInImageView($receiver.getGalleryThumbURL(),holder.getMImgPoster(),var10000.getContext());
+
 
         ConstraintSet var6 = this.set;
         String var10 = "%d:%d";
@@ -147,7 +150,13 @@ List<ImageDetailModel> imageDetailModelList;
             this.mtopView = (View)var10001;
         }
     }
+    // Clean all elements of the recycler
+    public void clear() {
+        imageDetailModelList.clear();
+        notifyDataSetChanged();
+    }
 
+    // Add a list of items -- change to type used
     public void addMoreDataToList(List<ImageDetailModel> result){
         imageDetailModelList.addAll(result);
         notifyDataSetChanged();

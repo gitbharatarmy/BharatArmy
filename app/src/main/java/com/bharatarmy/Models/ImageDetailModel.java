@@ -40,7 +40,27 @@ public class ImageDetailModel implements Serializable {
     @SerializedName("IsLike")
     @Expose
     private Integer isLike;
+    @SerializedName("IsPrivate")
+    @Expose
+    private Integer isPrivate;
+    @SerializedName("IsInWatchlist")
+    @Expose
+    private Integer isInWatchlist;
 
+    public Integer getIsInWatchlist() {
+        return isInWatchlist;
+    }
+
+    public void setIsInWatchlist(Integer isInWatchlist) {
+        this.isInWatchlist = isInWatchlist;
+    }
+
+    public Integer getIsPrivate() {
+        return isPrivate;
+    }
+    public void setIsPrivate(Integer isPrivate) {
+        this.isPrivate = isPrivate;
+    }
     public String getThumbImageName() {
         return thumbImageName;
     }
@@ -1350,16 +1370,18 @@ public class ImageDetailModel implements Serializable {
     }
 
 
-//    @Override
-//    public boolean equals(Object o) {
-//        if (this == o) return true;
-//        if (!(o instanceof ImageDetailModel)) return false;
-//        ImageDetailModel that = (ImageDetailModel) o;
-//        return bAGalleryId.equals(that.bAGalleryId);
-//    }
-//
-//    @Override
-//    public int hashCode() {
-//        return Objects.hash(bAGalleryId);
-//    }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ImageDetailModel)) return false;
+        ImageDetailModel that = (ImageDetailModel) o;
+        return Objects.equals(bAGalleryId, that.bAGalleryId) &&
+                Objects.equals(bAStoryId, that.bAStoryId) &&
+                Objects.equals(bAVideoGalleryId, that.bAVideoGalleryId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(bAGalleryId, bAStoryId, bAVideoGalleryId);
+    }
 }

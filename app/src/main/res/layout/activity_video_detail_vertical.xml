@@ -14,8 +14,7 @@
         android:id="@+id/appbar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_420sdp"
-        android:fitsSystemWindows="true"
-        >
+        android:fitsSystemWindows="true">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/collapsing_toolbar"
@@ -44,8 +43,7 @@
                     android:layout_alignParentLeft="true"
                     android:orientation="horizontal"
                     android:layout_marginLeft="@dimen/_10sdp"
-                    android:layout_marginTop="@dimen/_10sdp"
-                   >
+                    android:layout_marginTop="@dimen/_10sdp">
 
                     <ImageView
                         android:id="@+id/vertical_backimage"
@@ -75,19 +73,6 @@
                         android:tint="@color/black" />
                 </LinearLayout>
             </RelativeLayout>
-<!--            <androidx.appcompat.widget.Toolbar-->
-<!--                android:id="@+id/vertical_toolbar"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="@dimen/_15sdp"-->
-<!--                app:contentInsetLeft="0dp"-->
-<!--                app:contentInsetRight="0dp"-->
-<!--                app:contentInsetStartWithNavigation="0dp"-->
-<!--                app:layout_collapseMode="pin"-->
-<!--                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" >-->
-
-
-<!--            </androidx.appcompat.widget.Toolbar>-->
-
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -116,14 +101,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-
         android:layout_marginTop="@dimen/_10sdp"
         android:layout_marginBottom="@dimen/_2sdp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
-
-
-<!--    android:layout_marginLeft="@dimen/_10sdp"-->
-<!--    android:layout_marginRight="@dimen/_10sdp"-->
 
     <LinearLayout
         android:id="@+id/bottom_gradiant_line"

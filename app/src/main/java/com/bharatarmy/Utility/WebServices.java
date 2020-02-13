@@ -6,29 +6,29 @@ import com.bharatarmy.Models.GetWalkthroughModel;
 import com.bharatarmy.Models.HomeTemplateModel;
 import com.bharatarmy.Models.ImageMainModel;
 import com.bharatarmy.Models.LogginModel;
-import com.bharatarmy.Models.LoginDataModel;
 import com.bharatarmy.Models.MoreDataModel;
 import com.bharatarmy.Models.OtpModel;
 import com.bharatarmy.Models.TravelMainModel;
+import com.bharatarmy.Models.WatchListModel;
+import com.bharatarmy.Models.WatchListModelDemo;
 
 import java.util.List;
 import java.util.Map;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
-import okhttp3.ResponseBody;
 import retrofit.Callback;
 import retrofit.http.FieldMap;
 import retrofit.http.FormUrlEncoded;
 import retrofit.http.POST;
 
 import retrofit2.Call;
-import retrofit2.http.Body;
+import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.Part;
-import retrofit2.http.PartMap;
-import retrofit2.http.Query;
+import retrofit2.http.Url;
 
+//24-01-2020
 
 public interface WebServices {
     @FormUrlEncoded
@@ -140,15 +140,6 @@ public interface WebServices {
     /* gallery image/video uploading with multiple parameter */
     @Multipart
     @retrofit2.http.POST("/API/v1/UploadFiles_New")
-    Call<LogginModel> uploadfiles(@Part MultipartBody.Part file, @Part("FileTypeId") RequestBody filetype,
-                                  @Part("MemberId") RequestBody userid, @Part("MemberFullName") RequestBody memberName,
-                                  @Part("VideoLength") RequestBody videoLength,
-                                  @Part("Title") RequestBody videoTitle,
-                                  @Part("TitleDescription") RequestBody titleDescription); //@Part("FileTypeId") RequestBody userid,
-
-    /* gallery image/video uploading with multiple parameter */
-    @Multipart
-    @retrofit2.http.POST("/API/v1/UploadFiles_New")
     Call<LogginModel> uploadvideo(@Part MultipartBody.Part[] file, @Part("FileTypeId") RequestBody filetype,
                                   @Part("MemberId") RequestBody userid, @Part("MemberFullName") RequestBody memberName,
                                   @Part("VideoLength") RequestBody videoLength,
@@ -156,7 +147,7 @@ public interface WebServices {
                                   @Part("TitleDescription") RequestBody titleDescription,
                                   @Part("height") RequestBody height,
                                   @Part("width") RequestBody width,
-                                  @Part("PrivacySetting") RequestBody privacysetting); //@Part("FileTypeId") RequestBody userid,
+                                  @Part("IsPrivate") RequestBody privacysetting); //@Part("FileTypeId") RequestBody userid,
     //if we pass array of imagethen use MultipartBody.Part[] file
 
     @FormUrlEncoded
@@ -202,6 +193,10 @@ public interface WebServices {
     @FormUrlEncoded
     @POST("/InsertBALike")
     void getInsertBALike(@FieldMap Map<String, String> map, Callback<ImageMainModel> callback);
+
+    @FormUrlEncoded
+    @POST("/InsertBAWatchlist")
+    void getInsertBAWatchlist(@FieldMap Map<String, String> map, Callback<ImageMainModel> callback);
 
     @FormUrlEncoded
     @POST("/InsertBAComments")
@@ -250,4 +245,8 @@ public interface WebServices {
     @FormUrlEncoded
     @POST("/AssingUsertoInquiry")
     void getAssingUsertoInquiry(@FieldMap Map<String, String> map, Callback<MoreDataModel> callback);
+
+
+    @GET
+    Call<WatchListModelDemo> getWatchList(@Url String url);
 }

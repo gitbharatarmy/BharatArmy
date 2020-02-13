@@ -72,21 +72,23 @@
         android:layout_marginTop="@dimen/_15sdp">
 
         <TextView
+            android:id="@+id/privacy_header_txt"
             style="@style/title_text_font"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:text="@string/photo_privacy_header_txt"
+            android:text="@string/photo_privacy_Imageheader_txt"
             android:textColor="@color/heading_bg"
             android:textSize="@dimen/_13sdp" />
 
         <TextView
+            android:id="@+id/privacy_sub_txt"
             style="@style/text_font"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:layout_marginTop="@dimen/_5sdp"
-            android:text="@string/photo_privacy_sub_txt"
+            android:text="@string/photo_privacy_Imagesub_txt"
             android:textColor="@color/normal_font_color"
             android:textSize="@dimen/_11sdp" />
 
@@ -101,17 +103,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:text="@string/photo_privacy_more_txt"
+                android:text="@string/photo_privacy_Imagemore_txt"
                 android:textColor="@color/normal_font_color"
                 android:textSize="@dimen/_11sdp" />
 
             <TextView
+                android:id="@+id/privacy_link_txt"
                 style="@style/text_font"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:paddingLeft="@dimen/_7sdp"
-                android:text="@string/photo_privacy_txt"
+                android:text="@string/photo_privacy_Imagetxt"
                 android:textColor="@color/skip_color"
                 android:textSize="@dimen/_11sdp" />
         </LinearLayout>

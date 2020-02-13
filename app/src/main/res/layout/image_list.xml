@@ -1,18 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    app:cardCornerRadius="10dp"
-    android:layout_marginTop="@dimen/_3sdp"
-    android:layout_marginLeft="@dimen/_3sdp">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <ImageView
-        android:id="@+id/fans_image"
-        android:layout_width="@dimen/_100sdp"
-        android:layout_height="@dimen/_100sdp"
-        android:scaleType="centerCrop"/>
-</androidx.cardview.widget.CardView>
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/_3sdp"
+        android:layout_marginTop="@dimen/_3sdp"
+        android:orientation="vertical"
+        app:cardCornerRadius="10dp">
+
+        <RelativeLayout
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_100sdp">
+
+            <ImageView
+                android:id="@+id/fans_image"
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="@dimen/_100sdp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ajif" />
+
+            <RelativeLayout
+                android:id="@+id/image_like_privacy_linear"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/image_overlay"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <RelativeLayout
+                    android:id="@+id/love_img_linear"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:elevation="10dp"
+                    android:visibility="gone">
+                    <!--                    android:background="@drawable/image_background_dropshadow"-->
+                    <ImageView
+                        android:id="@+id/love_img"
+                        android:layout_width="@dimen/_25sdp"
+                        android:layout_height="@dimen/_25sdp"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginTop="-1dp"
+                        android:layout_marginRight="@dimen/_2sdp"
+                        android:paddingLeft="@dimen/_3sdp"
+                        android:paddingRight="@dimen/_8sdp"
+                        android:src="@drawable/ic_like_heart"
+                        android:tint="@color/splash_bg_color" />
+
+                </RelativeLayout>
+
+
+                    <RelativeLayout
+                    android:id="@+id/private_img_linear"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:elevation="10dp"
+                    android:visibility="gone">
+                    <!--                    android:background="@drawable/image_background_dropshadow"-->
+                    <ImageView
+                        android:id="@+id/private_img"
+                        android:layout_width="@dimen/_25sdp"
+                        android:layout_height="@dimen/_25sdp"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="@dimen/_1sdp"
+                        android:paddingLeft="@dimen/_3sdp"
+                        android:paddingRight="@dimen/_7sdp"
+                        android:src="@drawable/ic_private_image"
+                        android:tint="@color/splash_bg_color" />
+
+
+                </RelativeLayout>
+
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+
+    </androidx.cardview.widget.CardView>
 </layout>

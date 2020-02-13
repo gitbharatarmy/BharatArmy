@@ -68,9 +68,8 @@ public class ProfileChangePasswordAlertActivity extends AppCompatActivity implem
     }
 
     public void whereToBack() {
-        Intent alertIntent = new Intent(mContext, ProfileSettingActivity.class);
-        alertIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(alertIntent);
+//        Intent alertIntent = new Intent(mContext, ProfileSettingActivity.class);
+//        startActivity(alertIntent);
         finish();
     }
 
@@ -103,9 +102,8 @@ public class ProfileChangePasswordAlertActivity extends AppCompatActivity implem
                     if (changepasswordotpModel.getData() != null) {
                         Intent profileotpIntent = new Intent(mContext, ProfileChangePasswordOtpActivity.class);
                         profileotpIntent.putExtra("otpStr",changepasswordotpModel.getData().getOTP());
-                        profileotpIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(profileotpIntent);
-                        finish();
+//                        finish();
                     }
 
                 }

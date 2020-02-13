@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/notification_tag_txt"
+            style="@style/title_text_font"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:paddingRight="@dimen/_5sdp"
+            android:text="Today"
+            android:textColor="@color/heading_bg"
+            android:textSize="@dimen/_15sdp" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:orientation="horizontal"
+            android:weightSum="3">
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/profile_image"
+                    android:layout_width="@dimen/_35sdp"
+                    android:layout_height="@dimen/_35sdp"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/proflie"
+                    app:civ_border_color="#2a3550"
+                    app:civ_border_width="1dp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1.8">
+
+                <TextView
+                    android:id="@+id/comment_like_txt"
+                    style="@style/text_font"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:gravity="center_vertical"
+                    android:paddingRight="@dimen/_5sdp"
+                    android:text="parash shah comment your photos. 1h"
+                    android:textColor="@color/normal_font_color"
+                    android:textSize="@dimen/_11sdp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.7">
+
+                <ImageView
+                    android:id="@+id/selected_image"
+                    android:layout_width="@dimen/_50sdp"
+                    android:layout_height="@dimen/_50sdp"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/australia_tour" />
+
+            </RelativeLayout>
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</layout>

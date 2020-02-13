@@ -153,7 +153,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
                 }
                 if (changeModel.getIsValid() == 1) {
                     if (changeModel.getData() != null) {
-
+                        Utils.setPref(mContext, "LoginType", "Email");
                         Utils.setPref(mContext, "IsLoginUser", "1");
                         Utils.storeLoginData(changeModel.getData(), mContext);
                         Utils.storeCurrentLocationData(changeModel.getCurrentLocation(),mContext);

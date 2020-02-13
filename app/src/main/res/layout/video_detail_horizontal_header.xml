@@ -34,12 +34,13 @@
             style="@style/title_text_font"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_12sdp"
             android:ellipsize="end"
             android:maxLines="4"
             android:text="By"
             android:textColor="@color/heading_bg"
             android:textSize="@dimen/_12sdp" />
+
         <LinearLayout
             android:id="@+id/auhtor_story_detail_view"
             android:layout_width="wrap_content"
@@ -167,6 +168,7 @@
 
             </LinearLayout>
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

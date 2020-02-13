@@ -162,16 +162,28 @@
     <string name="dialog_permission_message" translatable="false">This app needs permission to use this feature. You can grant them in app settings.</string>
     <string name="go_to_settings" translatable="false">GOTO SETTINGS</string>
     <string name="rationale_photo_picker" translatable="false">We require this permission to select photo from gallery and camera.</string>
-    <string name="photo_privacy_header_txt" translatable="false">Who can see your picture?</string>
-    <string name="photo_privacy_sub_txt" translatable="false">Your picture will show up in gallery, on your profile and in search result.</string>
-    <string name="photo_privacy_more_txt" translatable="false">Learn more about</string>
-    <string name="photo_privacy_txt" translatable="false"><u>picture privacy</u></string>
-    <string name="photo_public_option_header_txt" translatable="false">Public</string>
-    <string name="photo_public_option_sub_txt" translatable="false">Anyone see your picture</string>
-    <string name="photo_private_option_header_txt" translatable="false">Private</string>
-    <string name="photo_private_option_sub_txt" translatable="false">No one see your picture</string>
     <string name="remove_image" translatable="false"><u>Remove</u></string>
     <string name="image_select_limit" translatable="false">Cannot select more than 20 items</string>
+
+    <!--    image -->
+    <string name="photo_privacy_Imageheader_txt" translatable="false">Who can see your picture?</string>
+    <string name="photo_privacy_Imagesub_txt" translatable="false">Your picture will show up in gallery, on your profile and in search result.</string>
+    <string name="photo_privacy_Imagemore_txt" translatable="false">Learn more about</string>
+    <string name="photo_privacy_Imagetxt" translatable="false"><u>picture privacy</u></string>
+    <string name="photo_public_option_Imageheader_txt" translatable="false">Public</string>
+    <string name="photo_public_option_Imagesub_txt" translatable="false">Anyone see your picture</string>
+    <string name="photo_private_option_Imageheader_txt" translatable="false">Private</string>
+    <string name="photo_private_option_Imagesub_txt" translatable="false">No one see your picture</string>
+
+    <!--    video-->
+    <string name="photo_privacy_videoheader_txt" translatable="false">Who can see your video?</string>
+    <string name="photo_privacy_videosub_txt" translatable="false">Your video will show up in gallery, on your profile and in search result.</string>
+    <string name="photo_privacy_videomore_txt" translatable="false">Learn more about</string>
+    <string name="photo_privacy_videotxt" translatable="false"><u>video privacy</u></string>
+    <string name="photo_public_option_videoheader_txt" translatable="false">Public</string>
+    <string name="photo_public_option_videosub_txt" translatable="false">Anyone see your video</string>
+    <string name="photo_private_option_videoheader_txt" translatable="false">Private</string>
+    <string name="photo_private_option_videosub_txt" translatable="false">No one see your video</string>
 
     <!--History Screen String-->
     <string name="history_title_txt" translatable="false">Bharat Army Booking History</string>
@@ -389,27 +401,42 @@ Sincerity is the hallmark of Pan Pacific Hotels Group. The Group is known to its
     <string name="finish" translatable="false">OK</string>
 
     <!--Feedback Screen-->
-    <string name="question3" translatable="false">Do you like the design of our app?</string>
-    <string name="question3_ans1" translatable="false">Yes</string>
-    <string name="question3_ans2" translatable="false">No</string>
-
-    <string name="question4" translatable="false">Is our app helping you achieve your goals?</string>
-    <string name="question4_ans1" translatable="false">Yes</string>
-    <string name="question4_ans2" translatable="false">No</string>
-
+    <!--All question -->
     <string name="question_category" translatable="false">Hi there, a quick question for you:</string>
     <string name="question1" translatable="false">Are there any functions you would like us to add?</string>
+    <string name="question2" translatable="false">What goals are we helping you achieve?</string>
+    <string name="question3" translatable="false">Do you like the design of our app?</string>
+    <string name="question4" translatable="false">Is our app helping you achieve your goals?</string>
+    <string name="question5" translatable="false">Would you recommend this app to your friends?</string>
+    <string name="question6" translatable="false">Great! Would you like to give us a Review?</string>
+    <string name="question7" translatable="false">Which of the following features do you use least?</string>
+    <string name="question8" translatable="false">How would you rate our app?</string>
+    <string name="question9" translatable="false">How would you rate this new feature?</string>
+    <string name="question10" translatable="false">How do you like the app design?</string>
+    <string name="question11" translatable="false">Can you describe a situation in which our app is most useful?</string>
+    <string name="question12" translatable="false">How often do you use the following features on other apps and would like to see implemented in the Bharat Army app?(List features like: Sport Scorecards, Fantasy Gaming, Members Chat Forums, E-Sports)</string>
+    <!--    (List features like: Sport Scorecards, Fantasy Gaming, Members Chat Forums, E-Sports)-->
+    <string name="question13" translatable="false">What is the reason for your score?</string>
+    <string name="question14" translatable="false">Should this feature be above (on top)?</string>
+    <string name="question15" translatable="false">What can we do to improve?</string>
+
+    <!--All answer-->
+    <string name="question_ansyes" translatable="false">Yes</string>
+    <string name="question_ansno" translatable="false">No</string>
     <string name="question1_ans1" translatable="false">User show gallery with privacy</string>
     <string name="question1_ans2" translatable="false">Support chat</string>
     <string name="question1_ans3" translatable="false">Favourites tab</string>
     <string name="question1_ans4" translatable="false">Loation</string>
-    <string name="question1_ans5" translatable="false">Face augmented reality</string>
-    <string name="question1_ans6" translatable="false">Share Gallery Social Media</string>
-    <string name="question1_ans7" translatable="false">Remove Gallery</string>
-    <string name="question1_ans8" translatable="false">Travel Package</string>
 
-    <string name="question2" translatable="false">What goals are we helping you achieve?</string>
+    <string name="question7_ans1" translatable="false">Gallery</string>
+    <string name="question7_ans2" translatable="false">Application Bal Display</string>
+    <string name="question7_ans3" translatable="false">Story View</string>
+    <string name="question7_ans4" translatable="false">Image Comment</string>
 
+    <string name="question8_ans4" translatable="false">2 Star</string>
+    <string name="question8_ans3" translatable="false">3 Star</string>
+    <string name="question8_ans2" translatable="false">4 Star</string>
+    <string name="question8_ans1" translatable="false">5 Star</string>
 
     <string name="submit_feedback" translatable="false">Submit</string>
 </resources>

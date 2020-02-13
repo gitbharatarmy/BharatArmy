@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
+
     <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
@@ -17,8 +18,8 @@
             android:id="@+id/horizontal_video_linear"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:background="@color/colorGrey100"
+            android:orientation="horizontal"
             android:weightSum="1">
 
             <RelativeLayout
@@ -30,14 +31,53 @@
                     android:id="@+id/horizontal_related_video_img"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-         android:layout_margin="@dimen/_7sdp"
+                    android:layout_margin="@dimen/_7sdp"
                     android:adjustViewBounds="true"
                     android:scaleType="centerCrop"
                     android:src="@drawable/ajif"
                     app:cornerRadius="@dimen/_7sdp"
-                    app:roundedCorners="topLeft|topRight|bottomLeft|bottomRight"
-                    />
+                    app:roundedCorners="topLeft|topRight|bottomLeft|bottomRight" />
+
                 <LinearLayout
+                    android:id="@+id/video_privacy_linear"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentBottom="true"
+                    android:layout_margin="@dimen/_7sdp"
+                    android:background="@drawable/video_detail_overlay"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent">
+
+                        <LinearLayout
+                            android:id="@+id/private_img_linear"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_alignParentBottom="true"
+                            android:layout_marginRight="@dimen/_3sdp"
+                            android:layout_marginBottom="@dimen/_4sdp"
+                            android:elevation="10dp"
+                            android:visibility="gone">
+
+                            <ImageView
+                                android:id="@+id/private_img"
+                                android:layout_width="@dimen/_13sdp"
+                                android:layout_height="@dimen/_13sdp"
+                                android:layout_gravity="center"
+                                android:src="@drawable/ic_private_image"
+                                android:tint="@color/splash_bg_color" />
+
+                        </LinearLayout>
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/video_time_linear"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
@@ -110,45 +150,47 @@
                         android:textStyle="bold" />
                 </LinearLayout>
 
-<RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-                <TextView
-                    android:id="@+id/horizontal_show_video_title_txt"
-                    style="@style/title_text_font"
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:maxLines="3"
-                    android:paddingTop="@dimen/_5sdp"
-                    android:paddingRight="@dimen/_10sdp"
-                    android:text="World Cup 2019: Bring o..."
-                    android:textColor="@color/heading_bg"
-                    android:textSize="@dimen/_13sdp" />
-    <TextView
-        android:id="@+id/horizontal_show_video_description_txt"
-        style="@style/text_font"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/horizontal_show_video_title_txt"
-        android:ellipsize="end"
-        android:maxLines="3"
-        android:layout_marginTop="@dimen/_5sdp"
-        android:paddingRight="@dimen/_10sdp"
-        android:text="World Cup 2019: Bring o.."
-        android:textColor="@color/normal_font_color"
-        android:textSize="@dimen/_9sdp" />
+                    android:layout_height="match_parent">
 
-                <ImageView
-                    android:id="@+id/horizontal_recommended_image"
-                    android:layout_width="@dimen/_40sdp"
-                    android:layout_height="@dimen/_55sdp"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentBottom="true"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/bal"
-                    android:layout_marginRight="@dimen/_7sdp"/>
-</RelativeLayout>
+                    <TextView
+                        android:id="@+id/horizontal_show_video_title_txt"
+                        style="@style/title_text_font"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:maxLines="3"
+                        android:paddingTop="@dimen/_5sdp"
+                        android:paddingRight="@dimen/_10sdp"
+                        android:text="World Cup 2019: Bring o..."
+                        android:textColor="@color/heading_bg"
+                        android:textSize="@dimen/_13sdp" />
+
+                    <TextView
+                        android:id="@+id/horizontal_show_video_description_txt"
+                        style="@style/text_font"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/horizontal_show_video_title_txt"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:ellipsize="end"
+                        android:maxLines="3"
+                        android:paddingRight="@dimen/_10sdp"
+                        android:text="World Cup 2019: Bring o.."
+                        android:textColor="@color/normal_font_color"
+                        android:textSize="@dimen/_9sdp" />
+
+                    <ImageView
+                        android:id="@+id/horizontal_recommended_image"
+                        android:layout_width="@dimen/_40sdp"
+                        android:layout_height="@dimen/_55sdp"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginRight="@dimen/_7sdp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/bal" />
+                </RelativeLayout>
             </LinearLayout>
 
         </LinearLayout>
@@ -159,6 +201,6 @@
             android:layout_height="3dp"
             android:layout_gravity="bottom"
             android:background="@drawable/bg_gradiant_line"
-            android:visibility="gone"/>
+            android:visibility="gone" />
     </androidx.cardview.widget.CardView>
 </layout>

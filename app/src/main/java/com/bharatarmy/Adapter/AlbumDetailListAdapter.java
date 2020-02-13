@@ -60,13 +60,6 @@ public class AlbumDetailListAdapter extends RecyclerView.Adapter<AlbumDetailList
         viewHolder.albumDetailListBinding.albumImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent showImageVideoIntent=new Intent(mContext, AlbumImageVideoShowActivity.class);
-//                showImageVideoIntent.putExtra("AlbumImageThumb",detail.getThumbFileUrl());
-//                showImageVideoIntent.putExtra("AlbumImageVideoPath",detail.getFileNameUrl());
-//                showImageVideoIntent.putExtra("MediaType","Album");
-//                showImageVideoIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                mContext.startActivity(showImageVideoIntent);
-
                 dataCheck = new ArrayList<String>();
                 dataCheck.add(detail.getFileNameUrl());
                 imageClick.image_more_click();
@@ -106,6 +99,13 @@ public class AlbumDetailListAdapter extends RecyclerView.Adapter<AlbumDetailList
         return dataCheck;
     }
 
+    // Clean all elements of the recycler
+    public void clear() {
+        albumdetailDataList.clear();
+        notifyDataSetChanged();
+    }
+
+    // Add a list of items -- change to type used
     public void addMoreDataToList(List<ImageDetailModel> result) {
         albumdetailDataList.addAll(result);
         notifyDataSetChanged();
