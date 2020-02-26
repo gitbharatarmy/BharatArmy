@@ -20,6 +20,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
+                android:clickable="false"
                android:background="@drawable/flag_border_shape" >
 
                 <ImageView
@@ -28,6 +29,7 @@
                     android:layout_height="@dimen/_25sdp"
                     android:layout_margin="1dp"
                     android:scaleType="centerCrop"
+                    android:clickable="false"
                     android:src="@drawable/flag_india" />
             </LinearLayout>
             <RelativeLayout
@@ -35,6 +37,7 @@
                 android:layout_width="@dimen/_43sdp"
                 android:layout_height="@dimen/_25sdp"
                 android:layout_centerInParent="true"
+                android:clickable="false"
                 android:background="@drawable/selected_linear"
                 android:visibility="gone">
 
@@ -61,6 +64,7 @@
                 android:paddingTop="@dimen/_2sdp"
                 android:gravity="center_horizontal"
                 android:maxLines="2"
+                android:clickable="false"
                 android:text="Hospitality"
                 android:textAllCaps="true"
                 android:textColor="#979696"

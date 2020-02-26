@@ -4,6 +4,7 @@
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/main_linear"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -20,7 +21,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/_15sdp"
-                android:layout_marginRight="@dimen/_15sdp"
+                android:layout_marginRight="@dimen/_11sdp"
                 android:orientation="horizontal">
 
                 <LinearLayout
@@ -53,6 +54,7 @@
                         android:ellipsize="end"
                         android:maxLines="1"
                         android:paddingLeft="@dimen/_5sdp"
+                        android:paddingRight="@dimen/_5sdp"
                         android:text="Tickets"
                         android:textAllCaps="true"
                         android:textColor="@color/splash_bg_color"
@@ -80,6 +82,7 @@
                             android:gravity="center_vertical"
                             android:maxLines="1"
                             android:paddingLeft="@dimen/_4sdp"
+                            android:paddingRight="@dimen/_5sdp"
                             android:paddingTop="@dimen/_1sdp"
                             android:text="Jan 2020 - July 2020"
                             android:textAllCaps="true"
@@ -97,11 +100,18 @@
                         android:gravity="center_vertical"
                         android:maxLines="1"
                         android:paddingLeft="@dimen/_5sdp"
+                        android:paddingRight="@dimen/_5sdp"
                         android:text="Tickets"
                         android:textAllCaps="true"
                         android:textColor="@color/splash_bg_color"
                         android:textSize="@dimen/title_subtext_size" />
                 </LinearLayout>
+<!--                <include-->
+<!--                    layout="@layout/addcart_icon_layout"-->
+<!--                    android:id="@+id/addcarticon"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_centerVertical="true"/>-->
             </RelativeLayout>
         </androidx.appcompat.widget.Toolbar>
 

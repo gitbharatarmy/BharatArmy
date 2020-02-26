@@ -3,6 +3,7 @@ package com.bharatarmy.Adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bharatarmy.Activity.TravelBookActivity;
 import com.bharatarmy.Activity.TravelPackageActivity;
+import com.bharatarmy.Interfaces.MorestoryClick;
 import com.bharatarmy.Models.TravelModel;
 import com.bharatarmy.R;
 import com.bharatarmy.databinding.TravelMatchPackageListItemBinding;
@@ -26,11 +28,13 @@ import java.util.List;
 public class TravelMatchPackageAdapter extends RecyclerView.Adapter<TravelMatchPackageAdapter.MyViewHolder> {
     Context mContext;
     List<TravelModel> popularPackageList;
+    MorestoryClick morestoryClick;
 
 
-    public TravelMatchPackageAdapter(Context mContext, List<TravelModel> popularPackageList) {
+    public TravelMatchPackageAdapter(Context mContext, List<TravelModel> popularPackageList, MorestoryClick morestoryClick) {
         this.mContext=mContext;
         this.popularPackageList=popularPackageList;
+        this.morestoryClick=morestoryClick;
     }
 
 
@@ -59,6 +63,8 @@ public class TravelMatchPackageAdapter extends RecyclerView.Adapter<TravelMatchP
                 .load(packagedetail.getTourImage())
                 .into(holder.travelMatchPackageListItemBinding.travelPopularPackageBannerImg);
 
+        holder.travelMatchPackageListItemBinding.packagepriceTxt.priceTxt.setTextSize(TypedValue.COMPLEX_UNIT_PX,mContext.getResources().getDimension(R.dimen._15sdp));
+//        holder.travelMatchPackageListItemBinding.packagepriceTxt.priceTxt.setText("");
         holder.travelMatchPackageListItemBinding.packageplacenameTxt.setText(packagedetail.getTourCountryName());
         holder.travelMatchPackageListItemBinding.showPackageTourDescriptionTxt.setText(packagedetail.getTourDescription());
 
@@ -84,6 +90,8 @@ public class TravelMatchPackageAdapter extends RecyclerView.Adapter<TravelMatchP
                 bookIntent.putExtra("pacakgeName","Australian Double Dhamaka: Honeymoon and adventure at one shot");
                 bookIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 mContext.startActivity(bookIntent);
+
+//                morestoryClick.getmorestoryClick();
             }
         });
     }

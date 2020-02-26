@@ -13,22 +13,26 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bharatarmy.Activity.TravelMatchTicketAndHospitalityDetailActivity;
+import com.bharatarmy.Models.HomeTemplateDetailModel;
 import com.bharatarmy.Models.TravelModel;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.HospitalityRelatedHospitalityListItemBinding;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class RelatedHospitalityDetailAdapter extends RecyclerView.Adapter<RelatedHospitalityDetailAdapter.MyItemViewHolder> {
 
-    ArrayList<TravelModel> travelHospitalityRealtedHospitalityList;
+    List<HomeTemplateDetailModel> travelHospitalityRealtedHospitalityfinalList;
     Context mContext;
     int last;
 
-    public RelatedHospitalityDetailAdapter(Context mContext, ArrayList<TravelModel> travelHospitalityRealtedHospitalityList) {
-        this.mContext = mContext;
-        this.travelHospitalityRealtedHospitalityList = travelHospitalityRealtedHospitalityList;
+
+
+    public RelatedHospitalityDetailAdapter(Context mContext, List<HomeTemplateDetailModel> travelHospitalityRealtedHospitalityfinalList) {
+        this.mContext=mContext;
+        this.travelHospitalityRealtedHospitalityfinalList = travelHospitalityRealtedHospitalityfinalList;
     }
 
 
@@ -54,25 +58,20 @@ public class RelatedHospitalityDetailAdapter extends RecyclerView.Adapter<Relate
     @SuppressLint("ResourceAsColor")
     @Override
     public void onBindViewHolder(@NonNull final RelatedHospitalityDetailAdapter.MyItemViewHolder holder, int position) {
-        TravelModel detail = travelHospitalityRealtedHospitalityList.get(position);
-//        last = travelHospitalityRealtedHospitalityList.size();
-//        Log.d("last index :",""+last);
-//
-//        if (last-1 == position){
-//            holder.hospitalityRelatedHospitalityListItemBinding.dividerView.setVisibility(View.GONE);
-//        }
+        HomeTemplateDetailModel detail = travelHospitalityRealtedHospitalityfinalList.get(position);
 
-        Utils.setImageInImageView(detail.getTicket_hospitality_bannerImage(), holder.hospitalityRelatedHospitalityListItemBinding.travelOtherHospitalityBannerImg, mContext);
-        holder.hospitalityRelatedHospitalityListItemBinding.hospitalityNameTxt.setText(detail.getTicket_hospitality_namecategory());
-        holder.hospitalityRelatedHospitalityListItemBinding.showHospitalityDescriptionTxt.setText(detail.getTicket_hospitality_desc());
-
+        Utils.setImageInImageView(detail.getHospitalityBannerImageUrl(), holder.hospitalityRelatedHospitalityListItemBinding.travelOtherHospitalityBannerImg, mContext);
+        holder.hospitalityRelatedHospitalityListItemBinding.hospitalityNameTxt.setText(detail.getHospitalityName());
+        holder.hospitalityRelatedHospitalityListItemBinding.showHospitalityDescriptionTxt.setText(detail.getHospitalityDescription());
+        holder.hospitalityRelatedHospitalityListItemBinding.tickethospitalitypriceTxt.priceTxt.setText(detail.getHospitalityPrice());
+        holder.hospitalityRelatedHospitalityListItemBinding.offersTxt.setText(detail.getHospitalityOffers());
 
         holder.hospitalityRelatedHospitalityListItemBinding.otherHospitalityLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Utils.handleClickEvent(mContext,holder.hospitalityRelatedHospitalityListItemBinding.otherHospitalityLayout);
                 Intent hospitalityCategoryIntent = new Intent(mContext, TravelMatchTicketAndHospitalityDetailActivity.class);
-                hospitalityCategoryIntent.putExtra("categoryName", detail.getTicket_hospitality_namecategory());
+                hospitalityCategoryIntent.putExtra("categoryName", detail.getHospitalityName());
                 hospitalityCategoryIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 mContext.startActivity(hospitalityCategoryIntent);
             }
@@ -95,7 +94,7 @@ public class RelatedHospitalityDetailAdapter extends RecyclerView.Adapter<Relate
 
     @Override
     public int getItemCount() {
-        return travelHospitalityRealtedHospitalityList.size();
+        return travelHospitalityRealtedHospitalityfinalList.size();
     }
 
 

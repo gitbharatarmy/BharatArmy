@@ -305,10 +305,10 @@ public class MoreFragment extends Fragment implements View.OnClickListener, Goog
                 startActivity(wishlist);
                 break;
             case R.id.feedback_linear:
-                Utils.handleClickEvent(mContext, fragmentMoreBinding.feedbackLinear);
-                Intent DashboardIntent = new Intent(mContext, DashboardActivity.class);
-                DashboardIntent.putExtra("whichPageRun", "2");
-                startActivity(DashboardIntent);
+//                Utils.handleClickEvent(mContext, fragmentMoreBinding.feedbackLinear);
+//                Intent DashboardIntent = new Intent(mContext, DashboardActivity.class);
+//                DashboardIntent.putExtra("whichPageRun", "2");
+//                startActivity(DashboardIntent);
                 break;
         }
     }

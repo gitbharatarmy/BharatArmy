@@ -64,8 +64,10 @@ public class MatchScheduleAdvanceFragment extends BottomSheetDialogFragment impl
 
     }
     public void setDataValue() {
-        fragmentMatchScheduleAdvanceBinding.tabLayoutSchedulefilter.addTab(fragmentMatchScheduleAdvanceBinding.tabLayoutSchedulefilter.newTab().setText("TEAMS"),true);
-        fragmentMatchScheduleAdvanceBinding.tabLayoutSchedulefilter.addTab(fragmentMatchScheduleAdvanceBinding.tabLayoutSchedulefilter.newTab().setText("VENUES"));
+        fragmentMatchScheduleAdvanceBinding.tabLayoutSchedulefilter.addTab(fragmentMatchScheduleAdvanceBinding.tabLayoutSchedulefilter.newTab().setText(" TEAMS "),true);
+        fragmentMatchScheduleAdvanceBinding.tabLayoutSchedulefilter.addTab(fragmentMatchScheduleAdvanceBinding.tabLayoutSchedulefilter.newTab().setText(" VENUES "));
+        fragmentMatchScheduleAdvanceBinding.tabLayoutSchedulefilter.addTab(fragmentMatchScheduleAdvanceBinding.tabLayoutSchedulefilter.newTab().setText(" CITIES "));
+//        fragmentMatchScheduleAdvanceBinding.tabLayoutSchedulefilter.addTab(fragmentMatchScheduleAdvanceBinding.tabLayoutSchedulefilter.newTab().setText(" MATCH TYPES "));
 
         fragmentMatchScheduleAdvanceBinding.tabLayoutSchedulefilter.setTabMode(TabLayout.MODE_FIXED);
         fragmentMatchScheduleAdvanceBinding.tabLayoutSchedulefilter.setTabGravity(TabLayout.GRAVITY_FILL);

@@ -54,9 +54,13 @@
     <dimen name="welcome_content_min_height">96.0dip</dimen>
     <dimen name="welcome_content">@dimen/_13sdp</dimen>
     <dimen name="detail_backdrop_height">@dimen/_300sdp</dimen>
-    <dimen name="detail_backdrop_height_travel_schedule">@dimen/_370sdp</dimen>
+    <dimen name="detail_backdrop_height_travel_schedule">@dimen/_300sdp</dimen>
     <dimen name="detail_alert_margin">@dimen/_350sdp</dimen>
+
     <!--Travel-->
+    <dimen name="per_pax_dimens">@dimen/_12sdp</dimen>
+<dimen name="per_pax_top_dimens">@dimen/_5sdp</dimen>
+
     <!--Integer Value that number of column in RecyclerView-->
     <integer name="photo_list_preview_columns">1</integer>
 

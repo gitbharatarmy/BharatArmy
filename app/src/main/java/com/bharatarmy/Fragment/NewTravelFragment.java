@@ -23,8 +23,6 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.bharatarmy.Activity.DashboardActivity;
 import com.bharatarmy.Activity.TravelMatchHospitalityActivity;
 import com.bharatarmy.Activity.TravelMatchHotelActivity;
 import com.bharatarmy.Activity.TravelMatchPackageActivity;
@@ -32,7 +30,6 @@ import com.bharatarmy.Activity.TravelMatchScheduleActivity;
 import com.bharatarmy.Activity.TravelMatchSightseeingActivity;
 import com.bharatarmy.Activity.TravelMatchStadiumActivity;
 import com.bharatarmy.Activity.TravelMatchTicketActivity;
-import com.bharatarmy.Adapter.PartnersAdapter;
 import com.bharatarmy.Adapter.TravelNewandUpdatesAdapter;
 import com.bharatarmy.Adapter.TravelPartnersAdapter;
 import com.bharatarmy.Adapter.TravelPopularPackageAdapter;
@@ -40,10 +37,7 @@ import com.bharatarmy.Adapter.TravelFacilityMainAdapter;
 import com.bharatarmy.Adapter.TravelPopularCItyAdapter;
 import com.bharatarmy.Adapter.TravelVideoAdapter;
 import com.bharatarmy.Adapter.UltraPagerAdapter;
-import com.bharatarmy.Appguide.ShowCaseBuilder;
-import com.bharatarmy.Appguide.ShowCaseContentPosition;
 import com.bharatarmy.Appguide.ShowCaseDialog;
-import com.bharatarmy.Appguide.ShowCaseObject;
 import com.bharatarmy.Interfaces.MorestoryClick;
 import com.bharatarmy.Models.MyScreenChnagesModel;
 import com.bharatarmy.Models.TravelModel;
@@ -56,13 +50,14 @@ import com.leinardi.android.speeddial.SpeedDialView;
 import com.tmall.ultraviewpager.UltraViewPager;
 import com.tmall.ultraviewpager.transformer.UltraScaleTransformer;
 
+
 import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
 
-// code travel page change to newtravelfragment 13-12-2019
+/* code travel page change to newtravelfragment 13-12-2019
+* remove extra code 18-02-2020 */
 public class NewTravelFragment extends Fragment implements View.OnClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER

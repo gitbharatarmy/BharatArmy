@@ -26,6 +26,7 @@ android {
     }
     lintOptions {
         abortOnError false
+        disable 'ContentDescription'
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -136,8 +137,7 @@ dependencies {
     implementation 'io.michaelrocks:libphonenumber-android:8.10.16'
 //video trim
     implementation 'com.googlecode.mp4parser:isoparser:1.1.20'
-//shadow
-    api 'tk.zielony:carbon:0.16.0.1'
+
 
 //    unuse gradle
 /* SVG Loader implementation 'com.github.ar-android:AndroidSvgLoader:1.0.0'
@@ -149,7 +149,8 @@ dependencies {
    mobile number implementation files('D:\\Working Projects\\Android\\BharatArmy_images\\libphonenumber-5.3.jar')
    api 'io.michaelrocks:libphonenumber-android:8.10.7'
 
-
+//shadow
+    api 'tk.zielony:carbon:0.16.0.1'
   photoview implementation 'com.commit451:PhotoView:1.2.4'
   facebook implementation 'com.github.androidquery:androidquery:0.26.9'
   auto start permission  implementation 'com.github.judemanutd:autostarter:1.0.4'*/

@@ -11,6 +11,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bharatarmy.Interfaces.MorestoryClick;
+import com.bharatarmy.Models.ImageDetailModel;
 import com.bharatarmy.Models.InquiryStatusModel;
 import com.bharatarmy.Models.TravelModel;
 import com.bharatarmy.R;
@@ -97,6 +98,14 @@ public class TravelMatchTeamNameFlagScheduleAdapter extends RecyclerView.Adapter
             }
         });
 
+        if (teamdetail.getTeamSelected().equalsIgnoreCase("1")) {
+            holder.matchTeamNameFlagScheduleItemListBinding.selectedChk.setChecked(true);
+            holder.matchTeamNameFlagScheduleItemListBinding.selectedLinear.setVisibility(View.VISIBLE);
+        } else {
+            holder.matchTeamNameFlagScheduleItemListBinding.selectedChk.setChecked(false);
+            holder.matchTeamNameFlagScheduleItemListBinding.selectedLinear.setVisibility(View.GONE);
+        }
+
     }
 
     @Override
@@ -123,6 +132,7 @@ public class TravelMatchTeamNameFlagScheduleAdapter extends RecyclerView.Adapter
     public String checkornot() {
         return checkornot;
     }
+
 }
 
 

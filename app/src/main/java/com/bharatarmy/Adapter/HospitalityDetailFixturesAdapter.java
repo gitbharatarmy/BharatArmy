@@ -13,22 +13,34 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bharatarmy.Activity.AddToCartActivity;
+import com.bharatarmy.Activity.TravelMatchScheduleDetailActivity;
+import com.bharatarmy.Interfaces.MorestoryClick;
+import com.bharatarmy.Interfaces.image_click;
+import com.bharatarmy.Models.HomeTemplateDetailModel;
 import com.bharatarmy.Models.TravelModel;
 import com.bharatarmy.R;
+import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.HospitalityDetailFixturesItemListBinding;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class HospitalityDetailFixturesAdapter extends RecyclerView.Adapter<HospitalityDetailFixturesAdapter.MyItemViewHolder> {
 
     HospitalitySubAdapter hospitalitySubAdapter;
-    ArrayList<TravelModel> travelHospitalityFixturesList;
+    List<HomeTemplateDetailModel> travelHospitalityFixturesList;
     ArrayList<TravelModel> hospitalitySubList;
+    MorestoryClick morestoryClick;
+    image_click image_click;
     Context mContext;
+    int adapteraddcartposition;
 
-    public HospitalityDetailFixturesAdapter(Context mContext, ArrayList<TravelModel> travelHospitalityFixturesList) {
+    public HospitalityDetailFixturesAdapter(Context mContext, List<HomeTemplateDetailModel> travelHospitalityFixturesList,
+                                            MorestoryClick morestoryClick, image_click image_click) {
         this.mContext = mContext;
         this.travelHospitalityFixturesList = travelHospitalityFixturesList;
+        this.morestoryClick = morestoryClick;
+        this.image_click = image_click;
     }
 
 
@@ -54,27 +66,66 @@ public class HospitalityDetailFixturesAdapter extends RecyclerView.Adapter<Hospi
     @SuppressLint("ResourceAsColor")
     @Override
     public void onBindViewHolder(@NonNull final HospitalityDetailFixturesAdapter.MyItemViewHolder holder, int position) {
-        TravelModel detail = travelHospitalityFixturesList.get(position);
+        HomeTemplateDetailModel detail = travelHospitalityFixturesList.get(position);
 
-        holder.hospitalityDetailFixturesItemListBinding.layout2.matchTypeTagTxt.setText(detail.getMatchtype());
-        holder.hospitalityDetailFixturesItemListBinding.layout2.firstCountryNameTxt.setText(detail.getFirstcountryname());
-        holder.hospitalityDetailFixturesItemListBinding.layout2.firstCountryflagImage.setImageResource(detail.getFirstcountryflag());
-        holder.hospitalityDetailFixturesItemListBinding.layout2.secondCountryNameTxt.setText(detail.getSecondcountryname());
-        holder.hospitalityDetailFixturesItemListBinding.layout2.secondCountryflagImage.setImageResource(detail.getSecondcountryflag());
-        holder.hospitalityDetailFixturesItemListBinding.layout2.matchGroundLocationTxt.setText(detail.getGroundname());
-        holder.hospitalityDetailFixturesItemListBinding.layout2.matchDateTimeTxt.setText("Sat 24 OCt, 07:00 PM (Local)");
+//holder.hospitalityDetailFixturesItemListBinding.layout2.tickethospitalitypriceTxt.priceTxt.setText("");
+        holder.hospitalityDetailFixturesItemListBinding.layout2.matchTypeTagTxt.setText(detail.getTicketMatchType());
+        holder.hospitalityDetailFixturesItemListBinding.layout2.firstCountryNameTxt.setText(detail.getTicketMatchFirstCountryName());
+        Utils.setImageInImageView(detail.getTicketMatchFirstCountryFlag(), holder.hospitalityDetailFixturesItemListBinding.layout2.firstCountryflagImage, mContext);
+        holder.hospitalityDetailFixturesItemListBinding.layout2.secondCountryNameTxt.setText(detail.getTicketMatchSecondCountryName());
+        Utils.setImageInImageView(detail.getTicketMatchSecondCountryFlag(), holder.hospitalityDetailFixturesItemListBinding.layout2.secondCountryflagImage, mContext);
+        holder.hospitalityDetailFixturesItemListBinding.layout2.matchGroundLocationTxt.setText(detail.getTicketMatchGroundName());
+        holder.hospitalityDetailFixturesItemListBinding.layout2.matchDateTimeTxt.setText(detail.getTicketMatchTimeDate());
 
-        holder.hospitalityDetailFixturesItemListBinding.layout2.cartLayout.setOnClickListener(new View.OnClickListener() {
+        holder.hospitalityDetailFixturesItemListBinding.mainGroupLiner.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent cartIntent=new Intent(mContext, AddToCartActivity.class);
-                cartIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                mContext.startActivity(cartIntent);
+                Intent scheduleDetailIntent = new Intent(mContext, TravelMatchScheduleDetailActivity.class);
+                scheduleDetailIntent.putExtra("firstcountryName", holder.hospitalityDetailFixturesItemListBinding.layout2.firstCountryNameTxt.getText().toString());
+                scheduleDetailIntent.putExtra("secondcountryName", holder.hospitalityDetailFixturesItemListBinding.layout2.secondCountryNameTxt.getText().toString());
+                scheduleDetailIntent.putExtra("firstscountryFlag", detail.getTicketMatchFirstCountryFlag());
+                scheduleDetailIntent.putExtra("secondcountryFlag", detail.getTicketMatchSecondCountryFlag());
+                scheduleDetailIntent.putExtra("groundLocation", holder.hospitalityDetailFixturesItemListBinding.layout2.matchGroundLocationTxt.getText().toString());
+                scheduleDetailIntent.putExtra("matchdatetime", holder.hospitalityDetailFixturesItemListBinding.layout2.matchDateTimeTxt.getText().toString());
+                scheduleDetailIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                mContext.startActivity(scheduleDetailIntent);
             }
         });
 
+
+        holder.hospitalityDetailFixturesItemListBinding.layout2.addCartLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                holder.hospitalityDetailFixturesItemListBinding.layout2.addCartLayout.setVisibility(View.GONE);
+                holder.hospitalityDetailFixturesItemListBinding.layout2.removeCartLayout.setVisibility(View.VISIBLE);
+                adapteraddcartposition = position;
+                morestoryClick.getmorestoryClick();
+            }
+        });
+        holder.hospitalityDetailFixturesItemListBinding.layout2.removeCartLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                holder.hospitalityDetailFixturesItemListBinding.layout2.addCartLayout.setVisibility(View.VISIBLE);
+                holder.hospitalityDetailFixturesItemListBinding.layout2.removeCartLayout.setVisibility(View.GONE);
+                image_click.image_more_click();
+            }
+        });
     }
 
+    @Override
+    public void onBindViewHolder(@NonNull MyItemViewHolder holder, int position, @NonNull List<Object> payloads) {
+        if (!payloads.isEmpty()) {
+            for (final Object payload : payloads) {
+                if (payload.toString().equalsIgnoreCase("remove")) {
+                    holder.hospitalityDetailFixturesItemListBinding.layout2.addCartLayout.setVisibility(View.VISIBLE);
+                    holder.hospitalityDetailFixturesItemListBinding.layout2.removeCartLayout.setVisibility(View.GONE);
+                }
+            }
+        } else {
+            // in this case regular onBindViewHolder will be called
+            super.onBindViewHolder(holder, position, payloads);
+        }
+    }
 
     @Override
     public long getItemId(int position) {
@@ -92,7 +143,9 @@ public class HospitalityDetailFixturesAdapter extends RecyclerView.Adapter<Hospi
         return travelHospitalityFixturesList.size();
     }
 
-
+    public int adptercartAddPosition() {
+        return adapteraddcartposition;
+    }
 }
 
 

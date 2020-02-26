@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.view.View;
 import com.bharatarmy.Adapter.TravelMatchHotelAdapter;
 import com.bharatarmy.Fragment.MatchHotelFilterFragment;
 import com.bharatarmy.Interfaces.MorestoryClick;
+import com.bharatarmy.Interfaces.image_click;
 import com.bharatarmy.Models.MyScreenChnagesModel;
 import com.bharatarmy.Models.RegisterIntrestFilterDataModel;
 import com.bharatarmy.Models.TravelModel;
@@ -51,13 +53,13 @@ public class TravelMatchHotelActivity extends AppCompatActivity implements View.
 
     String selectedroomImageStr = "", selectedroomNameStr = "", selectedposition = "";
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activityTravelMatchHotelBinding = DataBindingUtil.setContentView(this, R.layout.activity_travel_match_hotel);
         mContext = TravelMatchHotelActivity.this;
         EventBus.getDefault().register(this);
-
 
         init();
         setListiner();
@@ -68,7 +70,11 @@ public class TravelMatchHotelActivity extends AppCompatActivity implements View.
             activityTravelMatchHotelBinding.toolbarTitleTxt.setText(getIntent().getStringExtra("tourtitle"));
         }
 
+        Utils.addCartItemCount(mContext, activityTravelMatchHotelBinding.addcarticon.cartCountItemTxt);
+
+
         activityTravelMatchHotelBinding.shimmerViewContainerHotel.startShimmerAnimation();
+
 
         tournamnethotellist = new ArrayList<>();
         tournamnethotellist.add(new TravelModel("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSCtpFvQulc666pbmJhIdodJxCSFhPlACieZOemcK3qb5w95acjRQ&s",
@@ -121,11 +127,31 @@ public class TravelMatchHotelActivity extends AppCompatActivity implements View.
     public void setListiner() {
         activityTravelMatchHotelBinding.backImg.setOnClickListener(this);
         activityTravelMatchHotelBinding.fabLinear.setOnClickListener(this);
+        activityTravelMatchHotelBinding.addcarticon.cartLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent addcartItemIntent = new Intent(mContext, CartItemShowActivity.class);
+                startActivity(addcartItemIntent);
+            }
+        });
     }
 
     public void setDataInList() {
         /*fill match hotel list*/
-        travelMatchHotelAdapter = new TravelMatchHotelAdapter(mContext, tournamnethotellist);
+        travelMatchHotelAdapter = new TravelMatchHotelAdapter(mContext, tournamnethotellist, new MorestoryClick() {
+            @Override
+            public void getmorestoryClick() {
+                int addTocartposition = travelMatchHotelAdapter.adptercartAddPosition();
+                Utils.animationAdd(mContext, activityTravelMatchHotelBinding.addcarticon.cartLayout, activityTravelMatchHotelBinding.toolbar,
+                        activityTravelMatchHotelBinding.addcarticon.cartImage, activityTravelMatchHotelBinding.addcarticon.cartCountItemTxt,
+                        null, activityTravelMatchHotelBinding.mainLinear, null, addTocartposition, "travelmatchHoteladapter");
+            }
+        }, new image_click() {
+            @Override
+            public void image_more_click() {
+                Utils.removeCartItemCount(mContext, activityTravelMatchHotelBinding.addcarticon.cartCountItemTxt);
+            }
+        });
         hotelmLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
         activityTravelMatchHotelBinding.travelMatchHotelRcv.setLayoutManager(hotelmLayoutManager);
         activityTravelMatchHotelBinding.travelMatchHotelRcv.setItemAnimator(new DefaultItemAnimator());
@@ -219,7 +245,15 @@ public class TravelMatchHotelActivity extends AppCompatActivity implements View.
                 activityTravelMatchHotelBinding.shimmerViewContainerHotel.setVisibility(View.GONE);
                 activityTravelMatchHotelBinding.travelMatchHotelRcv.setVisibility(View.VISIBLE);
                 activityTravelMatchHotelBinding.noRecordrel.setVisibility(View.GONE);
-                travelMatchHotelAdapter = new TravelMatchHotelAdapter(mContext, tournamentfilterRatingModelList);
+                travelMatchHotelAdapter = new TravelMatchHotelAdapter(mContext, tournamentfilterRatingModelList, new MorestoryClick() {
+                    @Override
+                    public void getmorestoryClick() {
+                    }
+                }, new image_click() {
+                    @Override
+                    public void image_more_click() {
+                    }
+                });
                 hotelmLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
                 activityTravelMatchHotelBinding.travelMatchHotelRcv.setLayoutManager(hotelmLayoutManager);
                 activityTravelMatchHotelBinding.travelMatchHotelRcv.setItemAnimator(new DefaultItemAnimator());
@@ -256,7 +290,15 @@ public class TravelMatchHotelActivity extends AppCompatActivity implements View.
                         activityTravelMatchHotelBinding.shimmerViewContainerHotel.setVisibility(View.GONE);
                         activityTravelMatchHotelBinding.travelMatchHotelRcv.setVisibility(View.VISIBLE);
                         activityTravelMatchHotelBinding.noRecordrel.setVisibility(View.GONE);
-                        travelMatchHotelAdapter = new TravelMatchHotelAdapter(mContext, tournamentfilterRatingwithTeamModelList);
+                        travelMatchHotelAdapter = new TravelMatchHotelAdapter(mContext, tournamentfilterRatingwithTeamModelList, new MorestoryClick() {
+                            @Override
+                            public void getmorestoryClick() {
+                            }
+                        }, new image_click() {
+                            @Override
+                            public void image_more_click() {
+                            }
+                        });
                         hotelmLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
                         activityTravelMatchHotelBinding.travelMatchHotelRcv.setLayoutManager(hotelmLayoutManager);
                         activityTravelMatchHotelBinding.travelMatchHotelRcv.setItemAnimator(new DefaultItemAnimator());
@@ -265,7 +307,15 @@ public class TravelMatchHotelActivity extends AppCompatActivity implements View.
                         activityTravelMatchHotelBinding.shimmerViewContainerHotel.setVisibility(View.GONE);
                         activityTravelMatchHotelBinding.travelMatchHotelRcv.setVisibility(View.VISIBLE);
                         activityTravelMatchHotelBinding.noRecordrel.setVisibility(View.GONE);
-                        travelMatchHotelAdapter = new TravelMatchHotelAdapter(mContext, tournamentfilterRatingwithTeamModelList);
+                        travelMatchHotelAdapter = new TravelMatchHotelAdapter(mContext, tournamentfilterRatingwithTeamModelList, new MorestoryClick() {
+                            @Override
+                            public void getmorestoryClick() {
+                            }
+                        }, new image_click() {
+                            @Override
+                            public void image_more_click() {
+                            }
+                        });
                         hotelmLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
                         activityTravelMatchHotelBinding.travelMatchHotelRcv.setLayoutManager(hotelmLayoutManager);
                         activityTravelMatchHotelBinding.travelMatchHotelRcv.setItemAnimator(new DefaultItemAnimator());
@@ -277,7 +327,15 @@ public class TravelMatchHotelActivity extends AppCompatActivity implements View.
                         activityTravelMatchHotelBinding.shimmerViewContainerHotel.setVisibility(View.GONE);
                         activityTravelMatchHotelBinding.travelMatchHotelRcv.setVisibility(View.VISIBLE);
                         activityTravelMatchHotelBinding.noRecordrel.setVisibility(View.GONE);
-                        travelMatchHotelAdapter = new TravelMatchHotelAdapter(mContext, tournamentfilterRatingwithTeamModelList);
+                        travelMatchHotelAdapter = new TravelMatchHotelAdapter(mContext, tournamentfilterRatingwithTeamModelList, new MorestoryClick() {
+                            @Override
+                            public void getmorestoryClick() {
+                            }
+                        }, new image_click() {
+                            @Override
+                            public void image_more_click() {
+                            }
+                        });
                         hotelmLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
                         activityTravelMatchHotelBinding.travelMatchHotelRcv.setLayoutManager(hotelmLayoutManager);
                         activityTravelMatchHotelBinding.travelMatchHotelRcv.setItemAnimator(new DefaultItemAnimator());
@@ -295,7 +353,15 @@ public class TravelMatchHotelActivity extends AppCompatActivity implements View.
                         activityTravelMatchHotelBinding.shimmerViewContainerHotel.setVisibility(View.GONE);
                         activityTravelMatchHotelBinding.travelMatchHotelRcv.setVisibility(View.VISIBLE);
                         activityTravelMatchHotelBinding.noRecordrel.setVisibility(View.GONE);
-                        travelMatchHotelAdapter = new TravelMatchHotelAdapter(mContext, tournamentfilterRatingModelList);
+                        travelMatchHotelAdapter = new TravelMatchHotelAdapter(mContext, tournamentfilterRatingModelList, new MorestoryClick() {
+                            @Override
+                            public void getmorestoryClick() {
+                            }
+                        }, new image_click() {
+                            @Override
+                            public void image_more_click() {
+                            }
+                        });
                         hotelmLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
                         activityTravelMatchHotelBinding.travelMatchHotelRcv.setLayoutManager(hotelmLayoutManager);
                         activityTravelMatchHotelBinding.travelMatchHotelRcv.setItemAnimator(new DefaultItemAnimator());
@@ -320,7 +386,15 @@ public class TravelMatchHotelActivity extends AppCompatActivity implements View.
                     activityTravelMatchHotelBinding.shimmerViewContainerHotel.setVisibility(View.GONE);
                     activityTravelMatchHotelBinding.travelMatchHotelRcv.setVisibility(View.VISIBLE);
                     activityTravelMatchHotelBinding.noRecordrel.setVisibility(View.GONE);
-                    travelMatchHotelAdapter = new TravelMatchHotelAdapter(mContext, tournamentfilterRatingwithCityModelList);
+                    travelMatchHotelAdapter = new TravelMatchHotelAdapter(mContext, tournamentfilterRatingwithCityModelList, new MorestoryClick() {
+                        @Override
+                        public void getmorestoryClick() {
+                        }
+                    }, new image_click() {
+                        @Override
+                        public void image_more_click() {
+                        }
+                    });
                     hotelmLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
                     activityTravelMatchHotelBinding.travelMatchHotelRcv.setLayoutManager(hotelmLayoutManager);
                     activityTravelMatchHotelBinding.travelMatchHotelRcv.setItemAnimator(new DefaultItemAnimator());
@@ -330,37 +404,61 @@ public class TravelMatchHotelActivity extends AppCompatActivity implements View.
                         activityTravelMatchHotelBinding.shimmerViewContainerHotel.setVisibility(View.GONE);
                         activityTravelMatchHotelBinding.travelMatchHotelRcv.setVisibility(View.VISIBLE);
                         activityTravelMatchHotelBinding.noRecordrel.setVisibility(View.GONE);
-                        travelMatchHotelAdapter = new TravelMatchHotelAdapter(mContext, tournamentfilterRatingwithCityModelList);
+                        travelMatchHotelAdapter = new TravelMatchHotelAdapter(mContext, tournamentfilterRatingwithCityModelList, new MorestoryClick() {
+                            @Override
+                            public void getmorestoryClick() {
+                            }
+                        }, new image_click() {
+                            @Override
+                            public void image_more_click() {
+                            }
+                        });
                         hotelmLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
                         activityTravelMatchHotelBinding.travelMatchHotelRcv.setLayoutManager(hotelmLayoutManager);
                         activityTravelMatchHotelBinding.travelMatchHotelRcv.setItemAnimator(new DefaultItemAnimator());
                         activityTravelMatchHotelBinding.travelMatchHotelRcv.setAdapter(travelMatchHotelAdapter);
                     } else if (tournamentfilterRatingwithTeamModelList.size() != 0 && tournamentfilterRatingModelList.size() == 0) {
-                        if (selectedtournamentRatingname.size()==0){
+                        if (selectedtournamentRatingname.size() == 0) {
                             activityTravelMatchHotelBinding.shimmerViewContainerHotel.setVisibility(View.GONE);
                             activityTravelMatchHotelBinding.travelMatchHotelRcv.setVisibility(View.VISIBLE);
                             activityTravelMatchHotelBinding.noRecordrel.setVisibility(View.GONE);
-                            travelMatchHotelAdapter = new TravelMatchHotelAdapter(mContext, tournamentfilterRatingwithCityModelList);
+                            travelMatchHotelAdapter = new TravelMatchHotelAdapter(mContext, tournamentfilterRatingwithCityModelList, new MorestoryClick() {
+                                @Override
+                                public void getmorestoryClick() {
+                                }
+                            }, new image_click() {
+                                @Override
+                                public void image_more_click() {
+                                }
+                            });
                             hotelmLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
                             activityTravelMatchHotelBinding.travelMatchHotelRcv.setLayoutManager(hotelmLayoutManager);
                             activityTravelMatchHotelBinding.travelMatchHotelRcv.setItemAnimator(new DefaultItemAnimator());
                             activityTravelMatchHotelBinding.travelMatchHotelRcv.setAdapter(travelMatchHotelAdapter);
-                        }else{
+                        } else {
                             activityTravelMatchHotelBinding.noRecordrel.setVisibility(View.VISIBLE);
                             activityTravelMatchHotelBinding.shimmerViewContainerHotel.setVisibility(View.GONE);
                             activityTravelMatchHotelBinding.travelMatchHotelRcv.setVisibility(View.GONE);
                         }
-                    }else if (tournamentfilterRatingwithTeamModelList.size() == 0 && tournamentfilterRatingModelList.size() != 0) {
-                        if (selectedtournamentTeamname.size()==0){
+                    } else if (tournamentfilterRatingwithTeamModelList.size() == 0 && tournamentfilterRatingModelList.size() != 0) {
+                        if (selectedtournamentTeamname.size() == 0) {
                             activityTravelMatchHotelBinding.shimmerViewContainerHotel.setVisibility(View.GONE);
                             activityTravelMatchHotelBinding.travelMatchHotelRcv.setVisibility(View.VISIBLE);
                             activityTravelMatchHotelBinding.noRecordrel.setVisibility(View.GONE);
-                            travelMatchHotelAdapter = new TravelMatchHotelAdapter(mContext, tournamentfilterRatingwithCityModelList);
+                            travelMatchHotelAdapter = new TravelMatchHotelAdapter(mContext, tournamentfilterRatingwithCityModelList, new MorestoryClick() {
+                                @Override
+                                public void getmorestoryClick() {
+                                }
+                            }, new image_click() {
+                                @Override
+                                public void image_more_click() {
+                                }
+                            });
                             hotelmLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
                             activityTravelMatchHotelBinding.travelMatchHotelRcv.setLayoutManager(hotelmLayoutManager);
                             activityTravelMatchHotelBinding.travelMatchHotelRcv.setItemAnimator(new DefaultItemAnimator());
                             activityTravelMatchHotelBinding.travelMatchHotelRcv.setAdapter(travelMatchHotelAdapter);
-                        }else{
+                        } else {
                             activityTravelMatchHotelBinding.noRecordrel.setVisibility(View.VISIBLE);
                             activityTravelMatchHotelBinding.shimmerViewContainerHotel.setVisibility(View.GONE);
                             activityTravelMatchHotelBinding.travelMatchHotelRcv.setVisibility(View.GONE);
@@ -384,7 +482,15 @@ public class TravelMatchHotelActivity extends AppCompatActivity implements View.
                 activityTravelMatchHotelBinding.shimmerViewContainerHotel.setVisibility(View.GONE);
                 activityTravelMatchHotelBinding.travelMatchHotelRcv.setVisibility(View.VISIBLE);
                 activityTravelMatchHotelBinding.noRecordrel.setVisibility(View.GONE);
-                travelMatchHotelAdapter = new TravelMatchHotelAdapter(mContext, tournamnethotellist);
+                travelMatchHotelAdapter = new TravelMatchHotelAdapter(mContext, tournamnethotellist, new MorestoryClick() {
+                    @Override
+                    public void getmorestoryClick() {
+                    }
+                }, new image_click() {
+                    @Override
+                    public void image_more_click() {
+                    }
+                });
                 hotelmLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
                 activityTravelMatchHotelBinding.travelMatchHotelRcv.setLayoutManager(hotelmLayoutManager);
                 activityTravelMatchHotelBinding.travelMatchHotelRcv.setItemAnimator(new DefaultItemAnimator());
@@ -401,18 +507,28 @@ public class TravelMatchHotelActivity extends AppCompatActivity implements View.
 
     @Subscribe
     public void customEventReceived(MyScreenChnagesModel event) {
-        Log.d("event :", event.getRoomName());
-        if (!event.getRoomName().equalsIgnoreCase("")) {
-            selectedroomNameStr = event.getRoomName();
-            selectedroomImageStr = event.getRoomImage();
-            selectedposition = event.getPosition();
+        if (event.getRoomName() != null) {
+            if (!event.getRoomName().equalsIgnoreCase("")) {
+                selectedroomNameStr = event.getRoomName();
+                selectedroomImageStr = event.getRoomImage();
+                selectedposition = event.getPosition();
 
-            if (travelMatchHotelAdapter != null) {
-                travelMatchHotelAdapter.notifyItemChanged(Integer.parseInt(selectedposition), selectedposition + "|" + selectedroomNameStr + "|" + selectedroomImageStr);//
+                if (travelMatchHotelAdapter != null) {
+                    travelMatchHotelAdapter.notifyItemChanged(Integer.parseInt(selectedposition), selectedposition + "|" + selectedroomNameStr + "|" + selectedroomImageStr);//
+                }
+
             }
-
+        } else if (event.getAdapterListName() != null) {
+            if (!event.getAdapterListName().equalsIgnoreCase("")) {
+                if (tournamnethotellist != null && tournamnethotellist.size() != 0) {
+                    for (int i = 0; i < tournamnethotellist.size(); i++) {
+                        if (event.getAdapterremvoePosition() == i) {
+                            travelMatchHotelAdapter.notifyItemChanged(i, "remove");
+                        }
+                    }
+                }
+            }
         }
-
     }
 
 

@@ -399,4 +399,208 @@ public class HomeTemplateDetailModel {
         this.check = check;
     }
 
+
+     //    ****************** Hospitality Detail Fixtures **************************
+     @SerializedName("BAFixtureListId")
+     @Expose
+     private Integer bAFixtureListId;
+    @SerializedName("TicketMatchFirstCountryName")
+    @Expose
+    private String ticketMatchFirstCountryName;
+    @SerializedName("TicketMatchSecondCountryName")
+    @Expose
+    private String ticketMatchSecondCountryName;
+    @SerializedName("TicketMatchFirstCountryFlag")
+    @Expose
+    private String ticketMatchFirstCountryFlag;
+    @SerializedName("TicketMatchSecondCountryFlag")
+    @Expose
+    private String ticketMatchSecondCountryFlag;
+    @SerializedName("TicketMatchGroundName")
+    @Expose
+    private String ticketMatchGroundName;
+    @SerializedName("TicketMatchTimeDate")
+    @Expose
+    private String ticketMatchTimeDate;
+    @SerializedName("TicketMatchType")
+    @Expose
+    private String ticketMatchType;
+
+    public Integer getBAFixtureListId() {
+        return bAFixtureListId;
+    }
+
+    public void setBAFixtureListId(Integer bAFixtureListId) {
+        this.bAFixtureListId = bAFixtureListId;
+    }
+
+    public String getTicketMatchFirstCountryName() {
+        return ticketMatchFirstCountryName;
+    }
+
+    public void setTicketMatchFirstCountryName(String ticketMatchFirstCountryName) {
+        this.ticketMatchFirstCountryName = ticketMatchFirstCountryName;
+    }
+
+    public String getTicketMatchSecondCountryName() {
+        return ticketMatchSecondCountryName;
+    }
+
+    public void setTicketMatchSecondCountryName(String ticketMatchSecondCountryName) {
+        this.ticketMatchSecondCountryName = ticketMatchSecondCountryName;
+    }
+
+    public String getTicketMatchFirstCountryFlag() {
+        return ticketMatchFirstCountryFlag;
+    }
+
+    public void setTicketMatchFirstCountryFlag(String ticketMatchFirstCountryFlag) {
+        this.ticketMatchFirstCountryFlag = ticketMatchFirstCountryFlag;
+    }
+
+    public String getTicketMatchSecondCountryFlag() {
+        return ticketMatchSecondCountryFlag;
+    }
+
+    public void setTicketMatchSecondCountryFlag(String ticketMatchSecondCountryFlag) {
+        this.ticketMatchSecondCountryFlag = ticketMatchSecondCountryFlag;
+    }
+
+    public String getTicketMatchGroundName() {
+        return ticketMatchGroundName;
+    }
+
+    public void setTicketMatchGroundName(String ticketMatchGroundName) {
+        this.ticketMatchGroundName = ticketMatchGroundName;
+    }
+
+    public String getTicketMatchTimeDate() {
+        return ticketMatchTimeDate;
+    }
+
+    public void setTicketMatchTimeDate(String ticketMatchTimeDate) {
+        this.ticketMatchTimeDate = ticketMatchTimeDate;
+    }
+
+    public String getTicketMatchType() {
+        return ticketMatchType;
+    }
+
+    public void setTicketMatchType(String ticketMatchType) {
+        this.ticketMatchType = ticketMatchType;
+    }
+
+
+    //    ****************** Related Hospitality Detail **************************
+    @SerializedName("HospitalityListId")
+    @Expose
+    private Integer hospitalityListId;
+    @SerializedName("HospitalityBannerImageUrl")
+    @Expose
+    private String hospitalityBannerImageUrl;
+    @SerializedName("HospitalityMainHeader")
+    @Expose
+    private String hospitalityMainHeader;
+    @SerializedName("HospitalityName")
+    @Expose
+    private String hospitalityName;
+    @SerializedName("HospitalityDescription")
+    @Expose
+    private String hospitalityDescription;
+    @SerializedName("HospitalityOffers")
+    @Expose
+    private String hospitalityOffers;
+    @SerializedName("HospitalityPrice")
+    @Expose
+    private String hospitalityPrice;
+    @SerializedName("HospitalityInclusion")
+    @Expose
+    private String hospitalityInclusion;
+    @SerializedName("HospitalityType")
+    @Expose
+    private String hospitalityType;
+    @SerializedName("HospitalitySelected")
+    @Expose
+    private String hospitalitySelected;
+
+    public Integer getHospitalityListId() {
+        return hospitalityListId;
+    }
+
+    public void setHospitalityListId(Integer hospitalityListId) {
+        this.hospitalityListId = hospitalityListId;
+    }
+
+    public String getHospitalityBannerImageUrl() {
+        return hospitalityBannerImageUrl;
+    }
+
+    public void setHospitalityBannerImageUrl(String hospitalityBannerImageUrl) {
+        this.hospitalityBannerImageUrl = hospitalityBannerImageUrl;
+    }
+
+    public String getHospitalityMainHeader() {
+        return hospitalityMainHeader;
+    }
+
+    public void setHospitalityMainHeader(String hospitalityMainHeader) {
+        this.hospitalityMainHeader = hospitalityMainHeader;
+    }
+
+    public String getHospitalityName() {
+        return hospitalityName;
+    }
+
+    public void setHospitalityName(String hospitalityName) {
+        this.hospitalityName = hospitalityName;
+    }
+
+    public String getHospitalityDescription() {
+        return hospitalityDescription;
+    }
+
+    public void setHospitalityDescription(String hospitalityDescription) {
+        this.hospitalityDescription = hospitalityDescription;
+    }
+
+    public String getHospitalityOffers() {
+        return hospitalityOffers;
+    }
+
+    public void setHospitalityOffers(String hospitalityOffers) {
+        this.hospitalityOffers = hospitalityOffers;
+    }
+
+    public String getHospitalityPrice() {
+        return hospitalityPrice;
+    }
+
+    public void setHospitalityPrice(String hospitalityPrice) {
+        this.hospitalityPrice = hospitalityPrice;
+    }
+
+    public String getHospitalityInclusion() {
+        return hospitalityInclusion;
+    }
+
+    public void setHospitalityInclusion(String hospitalityInclusion) {
+        this.hospitalityInclusion = hospitalityInclusion;
+    }
+
+    public String getHospitalityType() {
+        return hospitalityType;
+    }
+
+    public void setHospitalityType(String hospitalityType) {
+        this.hospitalityType = hospitalityType;
+    }
+
+    public String getHospitalitySelected() {
+        return hospitalitySelected;
+    }
+
+    public void setHospitalitySelected(String hospitalitySelected) {
+        this.hospitalitySelected = hospitalitySelected;
+    }
+
 }

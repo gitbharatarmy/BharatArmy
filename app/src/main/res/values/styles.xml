@@ -1,5 +1,5 @@
 <resources>
-
+<!-- remove code 25-02-2020 with backup-->
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
@@ -269,11 +269,6 @@
         <item name="android:windowMinWidthMinor">70%</item>
     </style>
 
-
-<!--    shadow style-->
-    <style name="carbon_LinearLayout">
-        <item name="carbon_rippleColor">@null</item>
-    </style>
 
 <!--    facebook progressbar hide-->
     <style name="FullyTranslucent" parent="android:Theme.Translucent.NoTitleBar">

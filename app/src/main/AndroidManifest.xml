@@ -25,7 +25,18 @@
         android:resizeableActivity="false"
         android:roundIcon="@drawable/app_logo_new"
         android:supportsRtl="true"
-        android:usesCleartextTraffic="true">
+        android:usesCleartextTraffic="true"
+        tools:ignore="LockedOrientationActivity">
+        <activity
+            android:name=".Activity.CartItemShowActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".Activity.TravelMatchScheduleDetailActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".Activity.WishListShowActivity"
             android:launchMode="singleTop"
@@ -109,12 +120,10 @@
             android:theme="@style/AppTheme" />
         <activity
             android:name=".Activity.ProfileChangePasswordAlertActivity"
-
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".Activity.ProfileChangePasswordOtpActivity"
-
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
@@ -347,7 +356,7 @@
             android:name=".Activity.MobileVerificationNewActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".Activity.FTPDetailsActivity"
             android:launchMode="singleTop"
@@ -387,7 +396,6 @@
         <activity
             android:name=".Activity.DashboardActivity"
             android:label="@string/title_activity_dashboard"
-
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="adjustResize" />

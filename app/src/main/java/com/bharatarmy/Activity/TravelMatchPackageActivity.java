@@ -11,10 +11,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.bharatarmy.Adapter.TravelMatchPackageAdapter;
-import com.bharatarmy.Adapter.TravelMatchTicketMAinAdapter;
-import com.bharatarmy.Adapter.TravelPopularPackageAdapter;
-import com.bharatarmy.Models.HomeTemplateDetailModel;
-import com.bharatarmy.Models.RegisterIntrestFilterDataModel;
+import com.bharatarmy.Interfaces.MorestoryClick;
 import com.bharatarmy.Models.TravelModel;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.AppConfiguration;
@@ -34,11 +31,14 @@ public class TravelMatchPackageActivity extends AppCompatActivity implements Vie
     LinearLayoutManager pacakgemLayoutManager;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activityTravelMatchPackageBinding = DataBindingUtil.setContentView(this, R.layout.activity_travel_match_package);
         mContext = TravelMatchPackageActivity.this;
+
+
 
         init();
         setListiner();
@@ -55,6 +55,8 @@ public class TravelMatchPackageActivity extends AppCompatActivity implements Vie
         activityTravelMatchPackageBinding.shimmerViewContainerPackage.startShimmerAnimation();
         activityTravelMatchPackageBinding.travelMatchPackageRcv.setVisibility(View.GONE);
         activityTravelMatchPackageBinding.noRecordrel.setVisibility(View.GONE);
+
+
 
         /*PopularPackage List*/
         travelpackageList = new ArrayList<TravelModel>();
@@ -83,7 +85,12 @@ public class TravelMatchPackageActivity extends AppCompatActivity implements Vie
     }
 
     public void setDataInList() {
-        travelMatchPackageAdapter = new TravelMatchPackageAdapter(mContext, travelpackageList);
+        travelMatchPackageAdapter = new TravelMatchPackageAdapter(mContext, travelpackageList, new MorestoryClick() {
+            @Override
+            public void getmorestoryClick() {
+
+            }
+        });
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(mContext, RecyclerView.VERTICAL, false);
         activityTravelMatchPackageBinding.travelMatchPackageRcv.setLayoutManager(layoutManager);
         activityTravelMatchPackageBinding.travelMatchPackageRcv.setItemAnimator(new DefaultItemAnimator());

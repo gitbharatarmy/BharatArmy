@@ -5,13 +5,22 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import com.bharatarmy.Adapter.TravelMatchTicketHospitalityAdapter;
+import com.bharatarmy.Interfaces.MorestoryClick;
+import com.bharatarmy.Interfaces.image_click;
+import com.bharatarmy.Models.MyScreenChnagesModel;
 import com.bharatarmy.Models.TravelModel;
 import com.bharatarmy.R;
+import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.ActivityRelatedTicketCategoryMatchesBinding;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 
@@ -24,11 +33,14 @@ public class RelatedTicketCategoryMatchesActivity extends AppCompatActivity impl
     boolean isUp;
     int selectedposition = -1;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activityRelatedTicketCategoryMatchesBinding = DataBindingUtil.setContentView(this, R.layout.activity_related_ticket_category_matches);
         mContext = RelatedTicketCategoryMatchesActivity.this;
+        EventBus.getDefault().register(this);
+
 
         init();
         setListiner();
@@ -40,11 +52,20 @@ public class RelatedTicketCategoryMatchesActivity extends AppCompatActivity impl
         isUp = false;
 //        activityRelatedTicketCategoryMatchesBinding.toolbarTitleTxt.setText("Tickets and Hospitality");
 
+        Utils.addCartItemCount(mContext, activityRelatedTicketCategoryMatchesBinding.addcarticon.cartCountItemTxt);
     }
 
     public void setListiner() {
         activityRelatedTicketCategoryMatchesBinding.backImg.setOnClickListener(this);
 //        activityRelatedTicketCategoryMatchesBinding.closeFilter.setOnClickListener(this);
+
+        activityRelatedTicketCategoryMatchesBinding.addcarticon.cartLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent addcartItemIntent = new Intent(mContext, CartItemShowActivity.class);
+                startActivity(addcartItemIntent);
+            }
+        });
     }
 
     public void setDataValue() {
@@ -81,7 +102,22 @@ public class RelatedTicketCategoryMatchesActivity extends AppCompatActivity impl
             }
         }
 
-        travelMatchTicketHospitalityAdapter = new TravelMatchTicketHospitalityAdapter(mContext, tickethospitalityList, selectedposition);
+        travelMatchTicketHospitalityAdapter = new TravelMatchTicketHospitalityAdapter(mContext, tickethospitalityList, selectedposition, new MorestoryClick() {
+            @Override
+            public void getmorestoryClick() {
+                int addTocartposition = travelMatchTicketHospitalityAdapter.adptercartAddPosition();
+                Utils.animationAdd(mContext, activityRelatedTicketCategoryMatchesBinding.addcarticon.cartLayout,
+                        activityRelatedTicketCategoryMatchesBinding.toolbar, activityRelatedTicketCategoryMatchesBinding.addcarticon.cartImage,
+                        activityRelatedTicketCategoryMatchesBinding.addcarticon.cartCountItemTxt,
+                        null, activityRelatedTicketCategoryMatchesBinding.mainLinear,
+                        null, addTocartposition,"relatedMatchTicketHospitalityadapter");
+            }
+        }, new image_click() {
+            @Override
+            public void image_more_click() {
+                Utils.removeCartItemCount(mContext, activityRelatedTicketCategoryMatchesBinding.addcarticon.cartCountItemTxt);
+            }
+        });
         staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, 1);
         activityRelatedTicketCategoryMatchesBinding.ticketHospitalityRcv.setLayoutManager(staggeredGridLayoutManager);
         activityRelatedTicketCategoryMatchesBinding.ticketHospitalityRcv.setAdapter(travelMatchTicketHospitalityAdapter);
@@ -97,5 +133,23 @@ public class RelatedTicketCategoryMatchesActivity extends AppCompatActivity impl
         }
     }
 
+    @Override
+    protected void onResume() {
+        Utils.addCartItemCount(mContext, activityRelatedTicketCategoryMatchesBinding.addcarticon.cartCountItemTxt);
+        super.onResume();
+    }
 
+    @Subscribe
+    public void customEventReceived(MyScreenChnagesModel event) {
+        Log.d("eventBusPosition :", "" + event.getAdapterremvoePosition());
+
+       if (tickethospitalityList!=null && tickethospitalityList.size()!=0){
+           for (int i=0;i<tickethospitalityList.size();i++){
+               if (event.getAdapterremvoePosition() == i){
+                   travelMatchTicketHospitalityAdapter.notifyItemChanged(i,"remove");
+               }
+           }
+       }
+
+    }
 }

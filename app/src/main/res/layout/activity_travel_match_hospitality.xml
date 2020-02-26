@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
+
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
@@ -13,13 +14,23 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_50sdp"
-            android:background="@color/heading_bg">
-
+            android:contentInsetLeft="@dimen/_6sdp"
+            android:contentInsetRight="0dp"
+            android:contentInsetEnd="0dp"
+            android:contentInsetStart="@dimen/_6sdp"
+            app:contentInsetLeft="0dp"
+            app:contentInsetRight="@dimen/_20sdp"
+            app:contentInsetStartWithNavigation="0dp"
+            app:layout_collapseMode="pin"
+            app:contentInsetStart="@dimen/_6sdp"
+            app:contentInsetEnd="0dp"
+            android:background="@color/heading_bg"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/_15sdp"
-                android:layout_marginRight="@dimen/_15sdp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/_6sdp"
+                android:layout_marginRight="@dimen/_5sdp"
                 android:orientation="horizontal">
 
                 <LinearLayout
@@ -27,6 +38,7 @@
                     android:layout_width="@dimen/_40sdp"
                     android:layout_height="@dimen/_40sdp"
                     android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
                     android:orientation="horizontal">
 
                     <ImageView
@@ -40,6 +52,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_40sdp"
+                    android:layout_centerVertical="true"
                     android:layout_toRightOf="@+id/back_img"
                     android:orientation="vertical">
 
@@ -48,25 +61,28 @@
                         style="@style/title_text_font"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:ellipsize="end"
                         android:layout_marginTop="@dimen/_2sdp"
+                        android:ellipsize="end"
                         android:maxLines="1"
                         android:paddingLeft="@dimen/_5sdp"
                         android:text="hospitality"
                         android:textAllCaps="true"
                         android:textColor="@color/splash_bg_color"
                         android:textSize="@dimen/main_title_size" />
+
                     <LinearLayout
                         android:id="@+id/toolbar_timedate_linear"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
+
                         <ImageView
                             android:layout_width="@dimen/title_date_time_icon_size"
                             android:layout_height="@dimen/title_date_time_icon_size"
                             android:paddingLeft="@dimen/_5sdp"
                             android:src="@drawable/calendar"
                             android:tint="@color/splash_bg_color" />
+
                         <TextView
                             android:id="@+id/toolbar_timedate_txt"
                             style="@style/title_text_font"
@@ -75,21 +91,21 @@
                             android:ellipsize="end"
                             android:gravity="center_vertical"
                             android:maxLines="1"
-                            android:paddingTop="@dimen/_1sdp"
                             android:paddingLeft="@dimen/_4sdp"
+                            android:paddingTop="@dimen/_1sdp"
                             android:text="Jan 2020 - July 2020"
                             android:textAllCaps="true"
                             android:textColor="@color/splash_bg_color"
-                            android:textSize="@dimen/title_date_time_size"
-                            />
+                            android:textSize="@dimen/title_date_time_size" />
                     </LinearLayout>
+
                     <TextView
                         android:id="@+id/toolbar_subtitle_txt"
                         style="@style/title_text_font"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:ellipsize="end"
                         android:layout_marginTop="@dimen/_1sdp"
+                        android:ellipsize="end"
                         android:maxLines="1"
                         android:paddingLeft="@dimen/_5sdp"
                         android:text="hospitality"
@@ -99,7 +115,6 @@
                 </LinearLayout>
             </RelativeLayout>
         </androidx.appcompat.widget.Toolbar>
-
         <View
             android:id="@+id/top_gradiant_view"
             android:layout_width="match_parent"
@@ -139,8 +154,8 @@
                     android:layout_marginLeft="@dimen/_3sdp"
                     android:layout_marginTop="@dimen/_3sdp"
                     android:layout_marginRight="@dimen/_3sdp"
-                    android:paddingBottom="@dimen/_30sdp"
                     android:clipToPadding="false"
+                    android:paddingBottom="@dimen/_30sdp"
                     android:visibility="gone" />
 
                 <RelativeLayout

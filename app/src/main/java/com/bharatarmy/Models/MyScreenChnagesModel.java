@@ -18,6 +18,8 @@ public class MyScreenChnagesModel {
     String screen;
 
 
+    int adapterremvoePosition;
+    String adapterListName;
 
 
     public MyScreenChnagesModel(String message) {
@@ -81,5 +83,24 @@ public class MyScreenChnagesModel {
         this.privacyname = privacyname;
     }
 
+    public MyScreenChnagesModel(int adapterremvoePosition, String adapterListName) {
+        this.adapterremvoePosition = adapterremvoePosition;
+        this.adapterListName = adapterListName;
+    }
 
+    public int getAdapterremvoePosition() {
+        return adapterremvoePosition;
+    }
+
+    public void setAdapterremvoePosition(int adapterremvoePosition) {
+        this.adapterremvoePosition = adapterremvoePosition;
+    }
+
+    public String getAdapterListName() {
+        return adapterListName;
+    }
+
+    public void setAdapterListName(String adapterListName) {
+        this.adapterListName = adapterListName;
+    }
 }

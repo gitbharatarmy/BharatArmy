@@ -24,9 +24,11 @@ public class OtherMatchShowAdapter extends RecyclerView.Adapter<OtherMatchShowAd
     Context mContext;
     ArrayList<String> othermatchshowList;
 
+
     public OtherMatchShowAdapter(Context mContext, ArrayList<String> othermatchshowList) {
         this.mContext = mContext;
         this.othermatchshowList = othermatchshowList;
+
     }
     public class MyViewHolder extends RecyclerView.ViewHolder {
         OtherMatchShowItemListBinding otherMatchShowItemListBinding;
@@ -49,12 +51,13 @@ public class OtherMatchShowAdapter extends RecyclerView.Adapter<OtherMatchShowAd
     @Override
     public void onBindViewHolder(OtherMatchShowAdapter.MyViewHolder holder, int position) {
 
-        holder.otherMatchShowItemListBinding.layout1.matchTicketBuyTagTxt.setOnClickListener(new View.OnClickListener() {
+        holder.otherMatchShowItemListBinding.layout1.ticketLinear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent ticketandhospitalityIntent = new Intent(mContext, RelatedTicketCategoryMatchesActivity.class);
                 ticketandhospitalityIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 mContext.startActivity(ticketandhospitalityIntent);
+
             }
         });
     }

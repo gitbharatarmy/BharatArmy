@@ -1,6 +1,5 @@
 package com.bharatarmy.Activity;
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -12,20 +11,22 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Rect;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
 import com.bharatarmy.Adapter.OtherMatchShowAdapter;
 import com.bharatarmy.Adapter.RelatedTicketCategoryAdapter;
-import com.bharatarmy.Interfaces.MorestoryClick;
+import com.bharatarmy.CallTwoAnimationCartAddItemMethod;
+import com.bharatarmy.Models.MyScreenChnagesModel;
 import com.bharatarmy.Models.TravelModel;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.ActivityTravelMatchTicketAndHosipitalityticketdetailBinding;
 import com.squareup.picasso.Picasso;
 
+
+import org.greenrobot.eventbus.Subscribe;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -75,41 +76,29 @@ public class TravelMatchTicketAndHosipitalityticketdetailActivity extends AppCom
         if (getIntent().getStringExtra("categoryName") != null) {
             toolbarTitleStr = getIntent().getStringExtra("categoryName");
         }
-        /*else if(Utils.getPref(mContext,"toolbarTitle")!=null){
-            toolbarTitleStr=Utils.getPref(mContext,"toolbarTitle");
-        }
-Log.d("toolbartitle ",toolbarTitleStr);*/
-        activityTravelMatchTicketAndHosipitalityticketdetailBinding.matchTicketTypeTagTxt.setText(toolbarTitleStr);
 
-
+        activityTravelMatchTicketAndHosipitalityticketdetailBinding.bottomCartRemoveView.setVisibility(View.GONE);
+        activityTravelMatchTicketAndHosipitalityticketdetailBinding.bottomCartAddView.setVisibility(View.VISIBLE);
+        Utils.addCartItemCount(mContext, activityTravelMatchTicketAndHosipitalityticketdetailBinding.addcarticon.cartCountItemTxt);
     }
 
 
     @SuppressLint("NewApi")
     public void setListiner() {
         activityTravelMatchTicketAndHosipitalityticketdetailBinding.backImg.setOnClickListener(this);
-        activityTravelMatchTicketAndHosipitalityticketdetailBinding.bottomCartView.setOnClickListener(this);
+        activityTravelMatchTicketAndHosipitalityticketdetailBinding.bottomCartAddView.setOnClickListener(this);
+        activityTravelMatchTicketAndHosipitalityticketdetailBinding.bottomCartRemoveView.setOnClickListener(this);
         activityTravelMatchTicketAndHosipitalityticketdetailBinding.ticketPlusLayout.setOnClickListener(this);
         activityTravelMatchTicketAndHosipitalityticketdetailBinding.ticketMinusLayout.setOnClickListener(this);
 
-//        activityTravelMatchTicketAndHosipitalityticketdetailBinding.scrollViewTicketdetail.setOnScrollChangeListener(new View.OnScrollChangeListener() {
-//            @Override
-//            public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-//                if (activityTravelMatchTicketAndHosipitalityticketdetailBinding.bottomCartView != null) {
-//
-//                    if (activityTravelMatchTicketAndHosipitalityticketdetailBinding.bottomCartView.getLocalVisibleRect(scrollBounds)) {
-//                        if (!activityTravelMatchTicketAndHosipitalityticketdetailBinding.bottomCartView.getLocalVisibleRect(scrollBounds)
-//                                || scrollBounds.height() < activityTravelMatchTicketAndHosipitalityticketdetailBinding.bottomCartView.getHeight()) {
-//                            activityTravelMatchTicketAndHosipitalityticketdetailBinding.cartView.setVisibility(View.GONE);
-//                        } else {
-//                            activityTravelMatchTicketAndHosipitalityticketdetailBinding.cartView.setVisibility(View.GONE);
-//                        }
-//                    } else {
-//                        activityTravelMatchTicketAndHosipitalityticketdetailBinding.cartView.setVisibility(View.VISIBLE);
-//                    }
-//                }
-//            }
-//        });
+        activityTravelMatchTicketAndHosipitalityticketdetailBinding.addcarticon.cartLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent addcartItemIntent = new Intent(mContext, CartItemShowActivity.class);
+                startActivity(addcartItemIntent);
+            }
+        });
+
     }
 
     public void setDataValue() {
@@ -184,43 +173,40 @@ Log.d("toolbartitle ",toolbarTitleStr);*/
             case R.id.back_img:
                 finish();
                 break;
-            case R.id.bottom_cart_view:
-                Utils.handleClickEvent(mContext, activityTravelMatchTicketAndHosipitalityticketdetailBinding.bottomCartView);
-                if (Utils.isMember(mContext, "Ticket Detail")) {
-                    Intent cartIntent = new Intent(mContext, AddToCartActivity.class);
-                    cartIntent.putExtra("bookingItemName", activityTravelMatchTicketAndHosipitalityticketdetailBinding.matchTicketTypeTagTxt.getText().toString());
-                    cartIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(cartIntent);
-                }
+            case R.id.bottom_cart_add_view:
+                Utils.handleClickEvent(mContext, activityTravelMatchTicketAndHosipitalityticketdetailBinding.bottomCartAddView);
+                activityTravelMatchTicketAndHosipitalityticketdetailBinding.bottomCartAddView.setVisibility(View.GONE);
+                activityTravelMatchTicketAndHosipitalityticketdetailBinding.bottomCartRemoveView.setVisibility(View.VISIBLE);
+                Utils.animationAdd(mContext, activityTravelMatchTicketAndHosipitalityticketdetailBinding.addcarticon.cartLayout,
+                        activityTravelMatchTicketAndHosipitalityticketdetailBinding.toolbar,
+                        activityTravelMatchTicketAndHosipitalityticketdetailBinding.addcarticon.cartImage,
+                        activityTravelMatchTicketAndHosipitalityticketdetailBinding.addcarticon.cartCountItemTxt, null,
+                        activityTravelMatchTicketAndHosipitalityticketdetailBinding.mainLinear, null,0,"noadapter");
+                break;
+            case R.id.bottom_cart_remove_view:
+                Utils.handleClickEvent(mContext, activityTravelMatchTicketAndHosipitalityticketdetailBinding.bottomCartRemoveView);
+                activityTravelMatchTicketAndHosipitalityticketdetailBinding.bottomCartAddView.setVisibility(View.VISIBLE);
+                activityTravelMatchTicketAndHosipitalityticketdetailBinding.bottomCartRemoveView.setVisibility(View.GONE);
+               Utils.removeCartItemCount(mContext,activityTravelMatchTicketAndHosipitalityticketdetailBinding.addcarticon.cartCountItemTxt);
                 break;
             case R.id.ticket_minus_layout:
                 if (ticketcount != 1) {
                     ticketcount = ticketcount - 1;
-//                    if (ticketcount <= 9) {
-//                        activityTravelMatchTicketAndHosipitalityticketdetailBinding.countOfItem.setText("0" + String.valueOf(ticketcount));
-//
-//                    } else {
                     activityTravelMatchTicketAndHosipitalityticketdetailBinding.countOfItem.setText(String.valueOf(ticketcount));
-//                    }
-
                     totalamount = 500 * ticketcount;
                     activityTravelMatchTicketAndHosipitalityticketdetailBinding.priceTxt.setText(String.valueOf(roundTwoDecimals(totalamount)));
                 } else {
                     activityTravelMatchTicketAndHosipitalityticketdetailBinding.ticketMinusImg.setClickable(false);
                 }
-
                 break;
             case R.id.ticket_plus_layout:
                 activityTravelMatchTicketAndHosipitalityticketdetailBinding.ticketMinusImg.setClickable(true);
                 ticketcount = ticketcount + 1;
-//                if (ticketcount <= 9) {
-//                    activityTravelMatchTicketAndHosipitalityticketdetailBinding.countOfItem.setText("0" + String.valueOf(ticketcount));
-//                } else {
                 totalamount = 500 * ticketcount;
                 activityTravelMatchTicketAndHosipitalityticketdetailBinding.priceTxt.setText(String.valueOf(roundTwoDecimals(totalamount)));
                 activityTravelMatchTicketAndHosipitalityticketdetailBinding.countOfItem.setText(String.valueOf(ticketcount));
-//                }
                 break;
+
         }
     }
 
@@ -228,5 +214,19 @@ Log.d("toolbartitle ",toolbarTitleStr);*/
     double roundTwoDecimals(double d) {
         DecimalFormat twoDForm = new DecimalFormat("#.##");
         return Double.valueOf(twoDForm.format(d));
+    }
+
+    @Override
+    protected void onResume() {
+        Utils.addCartItemCount(mContext, activityTravelMatchTicketAndHosipitalityticketdetailBinding.addcarticon.cartCountItemTxt);
+        super.onResume();
+    }
+
+    @Subscribe
+    public void customEventReceived(MyScreenChnagesModel event) {
+        if (event.getAdapterListName().equalsIgnoreCase("noadapter")) {
+            activityTravelMatchTicketAndHosipitalityticketdetailBinding.bottomCartRemoveView.setVisibility(View.GONE);
+            activityTravelMatchTicketAndHosipitalityticketdetailBinding.bottomCartAddView.setVisibility(View.VISIBLE);
+        }
     }
 }

@@ -14,18 +14,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.bharatarmy.Adapter.MatchFilterTeamAdapter;
-import com.bharatarmy.Adapter.ScheduleFilterTeamAdapter;
+import com.bharatarmy.Adapter.ScheduleFilterMatchTypeAdapter;
+import com.bharatarmy.Adapter.ScheduleFilterStadiumAdapter;
 import com.bharatarmy.Models.InquiryStatusModel;
 import com.bharatarmy.Models.RegisterIntrestFilterDataModel;
 import com.bharatarmy.R;
-import com.bharatarmy.databinding.FragmentMatchFilterTeamBinding;
-import com.bharatarmy.databinding.FragmentScheduleTeamBinding;
+import com.bharatarmy.databinding.FragmentScheduleMatchTypeFilterBinding;
+import com.bharatarmy.databinding.FragmentScheduleStadiumFilterBinding;
 
 import java.util.List;
 
 
-public class ScheduleTeamFragment extends Fragment {
+public class ScheduleMatchTypeFilterFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -35,25 +35,24 @@ public class ScheduleTeamFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    FragmentScheduleTeamBinding fragmentScheduleTeamBinding;
+    FragmentScheduleMatchTypeFilterBinding fragmentScheduleMatchTypeFilterBinding;
     private View rootView;
     private Context mContext;
-    List<InquiryStatusModel> matchteamList;
-    ScheduleFilterTeamAdapter scheduleFilterTeamAdapter;
-    RegisterIntrestFilterDataModel tournamentotherDataModel;
+
+    ScheduleFilterMatchTypeAdapter scheduleFilterMatchTypeAdapter;
+    RegisterIntrestFilterDataModel registerIntrestFilterDataMode;
+    List<InquiryStatusModel> teamMatchTypelist;
 
 
-
-    public ScheduleTeamFragment(RegisterIntrestFilterDataModel tournamentotherDataModel) {
+    public ScheduleMatchTypeFilterFragment(RegisterIntrestFilterDataModel registerIntrestFilterDataMode) {
         // Required empty public constructor
-
-        this.tournamentotherDataModel= tournamentotherDataModel;
+        this.registerIntrestFilterDataMode=registerIntrestFilterDataMode;
     }
 
 
 //    // TODO: Rename and change types and number of parameters
-//    public static MatchFilterTeamFragment newInstance(String param1, String param2) {
-//        MatchFilterTeamFragment fragment = new MatchFilterTeamFragment(registerIntrestFilterDataMode);
+//    public static MatchFilterVenuesFragment newInstance(String param1, String param2) {
+//        MatchFilterVenuesFragment fragment = new MatchFilterVenuesFragment(registerIntrestFilterDataMode);
 //        Bundle args = new Bundle();
 //        args.putString(ARG_PARAM1, param1);
 //        args.putString(ARG_PARAM2, param2);
@@ -73,9 +72,9 @@ public class ScheduleTeamFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        fragmentScheduleTeamBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_schedule_team, container, false);
+        fragmentScheduleMatchTypeFilterBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_schedule_match_type_filter, container, false);
 
-        rootView = fragmentScheduleTeamBinding.getRoot();
+        rootView = fragmentScheduleMatchTypeFilterBinding.getRoot();
         mContext = getActivity().getApplicationContext();
 
 
@@ -93,25 +92,26 @@ public class ScheduleTeamFragment extends Fragment {
     }
 
     public void setDataValue(){
-        matchteamList=tournamentotherDataModel.getCountries();
-        for (int i=0;i<matchteamList.size();i++){
-            if (matchteamList.get(i).getTeamSelected()!=null){
-                if (matchteamList.get(i).getTeamSelected().equalsIgnoreCase("1")){
-                    matchteamList.get(i).setTeamSelected("1");
+
+        teamMatchTypelist=registerIntrestFilterDataMode.getStadiums();
+        for (int i=0;i<teamMatchTypelist.size();i++){
+            if (teamMatchTypelist.get(i).getVenueSelected()!=null){
+                if (teamMatchTypelist.get(i).getVenueSelected().equalsIgnoreCase("1")){
+                    teamMatchTypelist.get(i).setVenueSelected("1");
                 }else{
-                    matchteamList.get(i).setTeamSelected("0");
+                    teamMatchTypelist.get(i).setVenueSelected("0");
                 }
             }else{
-                matchteamList.get(i).setTeamSelected("0");
+                teamMatchTypelist.get(i).setVenueSelected("0");
             }
 
         }
-        matchteamList=tournamentotherDataModel.getCountries();
-        scheduleFilterTeamAdapter = new ScheduleFilterTeamAdapter(mContext, matchteamList);
+        teamMatchTypelist=registerIntrestFilterDataMode.getStadiums();
+        scheduleFilterMatchTypeAdapter = new ScheduleFilterMatchTypeAdapter(mContext, teamMatchTypelist);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(mContext, RecyclerView.VERTICAL, false);
-        fragmentScheduleTeamBinding.teamsRcv.setLayoutManager(mLayoutManager);
-        fragmentScheduleTeamBinding.teamsRcv.setItemAnimator(new DefaultItemAnimator());
-        fragmentScheduleTeamBinding.teamsRcv.setAdapter(scheduleFilterTeamAdapter);
+        fragmentScheduleMatchTypeFilterBinding.matchTypeRcv.setLayoutManager(mLayoutManager);
+        fragmentScheduleMatchTypeFilterBinding.matchTypeRcv.setItemAnimator(new DefaultItemAnimator());
+        fragmentScheduleMatchTypeFilterBinding.matchTypeRcv.setAdapter(scheduleFilterMatchTypeAdapter);
 
     }
 }

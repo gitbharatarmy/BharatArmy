@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
@@ -22,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bharatarmy.Activity.CommentActivity;
 import com.bharatarmy.Fragment.ImageCommentsBottomSheetFragment;
+import com.bharatarmy.Interfaces.MorestoryClick;
 import com.bharatarmy.Interfaces.image_click;
 import com.bharatarmy.Models.MyScreenChnagesModel;
 import com.bharatarmy.R;
@@ -50,22 +52,27 @@ public class GalleryImageDetailAdapter extends RecyclerView.Adapter<GalleryImage
     ArrayList<String> imageLike;
     Activity activity;
     image_click image_click;
+    MorestoryClick morestoryClick;
     private int lastPosition = -1;
     private ArrayList<String> dataCheck = new ArrayList<String>();
     private Animation fadein, fadeout;
     private RecyclerViewOnTouchListener touchListener;
+    LinearLayout watchlistLinear;
 
     public GalleryImageDetailAdapter(Context mContext, Activity activity, ArrayList<String> imageList,
                                      ArrayList<String> imageAddusername, ArrayList<String> imageDuration,
-                                     ArrayList<String> imageId, ArrayList<String> imageLike, image_click image_click) {
+                                     ArrayList<String> imageId, ArrayList<String> imageLike, LinearLayout watchlistLinear,
+                                     MorestoryClick morestoryClick,image_click image_click) {
         this.mContext = mContext;
+        this.activity = activity;
         this.imageList = imageList;
         this.userNameList = imageAddusername;
         this.imageDuration = imageDuration;
         this.imageId = imageId;
         this.imageLike = imageLike;
-        this.activity = activity;
+        this.watchlistLinear=watchlistLinear;
         this.image_click = image_click;
+        this.morestoryClick=morestoryClick;
     }
 
 
@@ -118,12 +125,14 @@ public class GalleryImageDetailAdapter extends RecyclerView.Adapter<GalleryImage
                 .setDoubleTapEnabled(false);
 
         holder.galleryImageDetailListBinding.imageBottomLinear.setVisibility(View.GONE);
+        watchlistLinear.setVisibility(View.GONE);
 
         Picasso.with(mContext).load(imageList.get(position)).placeholder(R.drawable.loader_new)
                 .into(holder.galleryImageDetailListBinding.imageFull, new TargetCallback(holder.galleryImageDetailListBinding.imageFull) {
                     @Override
                     public void onSuccess(ImageView target) {
                         if (target != null) {
+                            morestoryClick.getmorestoryClick();
                             holder.galleryImageDetailListBinding.imageBottomLinear.setVisibility(View.VISIBLE);
                             holder.galleryImageDetailListBinding.imageBottomLinear.startAnimation(fadein);
                             holder.galleryImageDetailListBinding.imageFull.getController()
@@ -131,6 +140,8 @@ public class GalleryImageDetailAdapter extends RecyclerView.Adapter<GalleryImage
                                     .setPanEnabled(true)
                                     .setZoomEnabled(true)
                                     .setDoubleTapEnabled(true);
+
+
                             holder.galleryImageDetailListBinding.imageFull.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {

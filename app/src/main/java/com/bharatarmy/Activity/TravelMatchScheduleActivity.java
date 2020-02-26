@@ -28,6 +28,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.bharatarmy.Adapter.TravelMatchHotelAdapter;
 import com.bharatarmy.Adapter.TravelMatchScheduleAdapter;
 import com.bharatarmy.Adapter.TravelMatchTeamNameFlagScheduleAdapter;
 import com.bharatarmy.Appguide.ShowCaseBuilder;
@@ -49,6 +50,7 @@ import com.bharatarmy.databinding.ActivityTravelMatchScheduleBinding;
 import com.bharatarmy.databinding.TravelScheduleBannerListItemBinding;
 
 import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 
@@ -77,8 +79,10 @@ public class TravelMatchScheduleActivity extends AppCompatActivity implements Vi
     ArrayList<HomeTemplateDetailModel> tournamentfilterDetailModel;
     ArrayList<HomeTemplateDetailModel> tournamentadvancefilterteamDetailModel;
     ArrayList<HomeTemplateDetailModel> tournamentfiltervenuewithteamDetailModel;
-
-
+    ArrayList<HomeTemplateDetailModel> tournamentfilterteamwithcityDetailModel;
+    ArrayList<String> selectedtournamentteamId ;
+    ArrayList<String> selectedtournamentVenuename;
+    ArrayList<String> selectedtournamentCityname;
     String checkornotStr;
     int selectedposition = -1;
 
@@ -224,7 +228,7 @@ public class TravelMatchScheduleActivity extends AppCompatActivity implements Vi
                     activityTravelMatchScheduleBinding.toolbarTimedateLinear.setVisibility(View.GONE);
                     activityTravelMatchScheduleBinding.toolbarTitleTxt.setText("");
                     activityTravelMatchScheduleBinding.collapsingToolbar.setTitle("");
-                    activityTravelMatchScheduleBinding.alertRel.setVisibility(View.VISIBLE);
+                    activityTravelMatchScheduleBinding.alertRel.setVisibility(View.GONE);
                     activityTravelMatchScheduleBinding.toolbarBottomView.setVisibility(View.GONE);
                     isShow = false;
                 }
@@ -234,6 +238,8 @@ public class TravelMatchScheduleActivity extends AppCompatActivity implements Vi
     }
 
     public void setDataInList() {
+
+
         /*fill country flag with name list*/
         teamnameflagList = tournamentotherDataModel.getCountries();
         for (int i = 0; i < teamnameflagList.size(); i++) {
@@ -275,16 +281,18 @@ public class TravelMatchScheduleActivity extends AppCompatActivity implements Vi
         activityTravelMatchScheduleBinding.travelMatchScheduleRcv.setAdapter(travelMatchScheduleAdapter);
 
         /*Guide the user for filter*/
-        setappguide();
-        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (teamNameFlagScheduleAdapter != null && travelMatchScheduleAdapter != null) {
-//                    activityTravelMatchScheduleBinding.alertLinear.performClick();
-                    setTooltip();
-                }
-            }
-        }, 400);
+//        setappguide();
+//        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                if (teamNameFlagScheduleAdapter != null && travelMatchScheduleAdapter != null) {
+////                    activityTravelMatchScheduleBinding.alertLinear.performClick();
+//
+////                    disableScroll();
+////                    setTooltip();
+//                }
+//            }
+//        }, 400);
 
     }
 
@@ -351,8 +359,14 @@ public class TravelMatchScheduleActivity extends AppCompatActivity implements Vi
         }
     }
 
+
+
+    
+    
+    
     public void setAdvanceFilter() {
-        ArrayList<String> selectedtournamentteamId = new ArrayList<>();
+        /*tournament team filter*/
+         selectedtournamentteamId = new ArrayList<>();
         for (int i = 0; i < tournamentotherDataModel.getCountries().size(); i++) {
             if (tournamentotherDataModel.getCountries().get(i).getTeamSelected().equalsIgnoreCase("1")) {
                 selectedtournamentteamId.add(String.valueOf(tournamentotherDataModel.getCountries().get(i).getCountryId()));
@@ -370,15 +384,28 @@ public class TravelMatchScheduleActivity extends AppCompatActivity implements Vi
             Log.d("finalstatusStr", tournamentIdStr);
         }
 
-        ArrayList<String> selectedtournamentVenuename = new ArrayList<>();
+        /*tournament venue filter*/
+         selectedtournamentVenuename = new ArrayList<>();
         for (int i = 0; i < tournamentotherDataModel.getStadiums().size(); i++) {
             if (tournamentotherDataModel.getStadiums().get(i).getVenueSelected().equalsIgnoreCase("1")) {
                 selectedtournamentVenuename.add(tournamentotherDataModel.getStadiums().get(i).getLabel());
                 Log.d("selectedVenueName :", selectedtournamentVenuename.toString());
             }
         }
+//        /*tournament cities filter*/
+//        selectedtournamentCityname = new ArrayList<>();
+//        for (int i = 0; i < tournamnetcitylist.size(); i++) {
+//            if (tournamnetcitylist.get(i).getCityHotelAmenitiesName().equalsIgnoreCase("1")) {
+//                selectedtournamentCityname.add(tournamnetcitylist.get(i).getCityHotelAmenitiesImage());
+//                Log.d("selectedCityName :", selectedtournamentCityname.toString());
+//            }
+//        }
+
 
         tournamentadvancefilterteamDetailModel = new ArrayList<>();
+        tournamentfiltervenuewithteamDetailModel = new ArrayList<>();
+        tournamentfilterteamwithcityDetailModel =new ArrayList<>();
+        
         if (selectedtournamentteamId.size() != 0) {
             if (tournamentfilterDetailModel != null) {
                 if (tournamentfilterDetailModel.size() != 0) {
@@ -413,7 +440,7 @@ public class TravelMatchScheduleActivity extends AppCompatActivity implements Vi
 
 
         }
-        tournamentfiltervenuewithteamDetailModel = new ArrayList<>();
+     
         if (selectedtournamentVenuename.size() != 0) {
             for (int k = 0; k < selectedtournamentVenuename.size(); k++) {
                 if (tournamentadvancefilterteamDetailModel.size() != 0) {
@@ -456,10 +483,14 @@ public class TravelMatchScheduleActivity extends AppCompatActivity implements Vi
                 activityTravelMatchScheduleBinding.travelMatchScheduleRcv.setLayoutManager(linearLayoutManager);
                 activityTravelMatchScheduleBinding.travelMatchScheduleRcv.setItemAnimator(new DefaultItemAnimator());
                 activityTravelMatchScheduleBinding.travelMatchScheduleRcv.setAdapter(travelMatchScheduleAdapter);
+
+             updateteamflagAdapter();
+
             }
         }
         Log.d("filterteamData :", "" + tournamentadvancefilterteamDetailModel.size());
         Log.d("filterteamvenueData:", "" + tournamentfiltervenuewithteamDetailModel.size());
+        Log.d("filterteamcitiesData:",""+ tournamentfilterteamwithcityDetailModel.size());
         if (selectedtournamentVenuename.size() != 0) {
             if (tournamentfiltervenuewithteamDetailModel.size() != 0) {
                 activityTravelMatchScheduleBinding.noRecordrel.setVisibility(View.GONE);
@@ -470,11 +501,12 @@ public class TravelMatchScheduleActivity extends AppCompatActivity implements Vi
                 activityTravelMatchScheduleBinding.travelMatchScheduleRcv.setLayoutManager(linearLayoutManager);
                 activityTravelMatchScheduleBinding.travelMatchScheduleRcv.setItemAnimator(new DefaultItemAnimator());
                 activityTravelMatchScheduleBinding.travelMatchScheduleRcv.setAdapter(travelMatchScheduleAdapter);
-
+                updateteamflagAdapter();
             } else {
                 activityTravelMatchScheduleBinding.noRecordrel.setVisibility(View.VISIBLE);
                 activityTravelMatchScheduleBinding.shimmerViewContainer.setVisibility(View.GONE);
                 activityTravelMatchScheduleBinding.travelMatchScheduleRcv.setVisibility(View.GONE);
+                updateteamflagAdapter();
             }
 
         }
@@ -490,11 +522,12 @@ public class TravelMatchScheduleActivity extends AppCompatActivity implements Vi
                 activityTravelMatchScheduleBinding.travelMatchScheduleRcv.setLayoutManager(linearLayoutManager);
                 activityTravelMatchScheduleBinding.travelMatchScheduleRcv.setItemAnimator(new DefaultItemAnimator());
                 activityTravelMatchScheduleBinding.travelMatchScheduleRcv.setAdapter(travelMatchScheduleAdapter);
-
+                updateteamflagAdapter();
             } else {
                 activityTravelMatchScheduleBinding.shimmerViewContainer.setVisibility(View.GONE);
                 activityTravelMatchScheduleBinding.travelMatchScheduleRcv.setVisibility(View.GONE);
                 activityTravelMatchScheduleBinding.noRecordrel.setVisibility(View.VISIBLE);
+                updateteamflagAdapter();
             }
 
 
@@ -598,7 +631,21 @@ public class TravelMatchScheduleActivity extends AppCompatActivity implements Vi
                 .useSkipWord(true)
                 .build();
 
+        showCaseDialog.setShowCaseStepListener(new ShowCaseDialog.OnShowCaseStepListener() {
+            @Override
+            public boolean onShowCaseGoTo(int previousStep, int nextStep, ShowCaseObject showCaseObject) {
+                Log.d("ToolTipNext :", "" + nextStep + "ToolTipPrevious :" + "" + previousStep);
+                if (nextStep == 0 && previousStep == 1) {
+                    enableScroll();
+                } else if (nextStep == 2 && previousStep == 1) {
+                    enableScroll();
+                } else if (nextStep == 0 && previousStep == -1) {
+                    enableScroll();
+                }
 
+                return false;
+            }
+        });
     }
 
     @Override
@@ -608,6 +655,7 @@ public class TravelMatchScheduleActivity extends AppCompatActivity implements Vi
                 finish();
                 break;
             case R.id.fab_linear:
+                Utils.handleClickEvent(mContext,activityTravelMatchScheduleBinding.fabLinear);
                 bottomSheetDialogFragment = new MatchScheduleAdvanceFragment(tournamentotherDataModel, new MorestoryClick() {
                     @Override
                     public void getmorestoryClick() {
@@ -707,7 +755,6 @@ public class TravelMatchScheduleActivity extends AppCompatActivity implements Vi
                             }
                         }
 
-
                         activityTravelMatchScheduleBinding.shimmerViewContainer.stopShimmerAnimation();
                         activityTravelMatchScheduleBinding.shimmerViewContainer.setVisibility(View.GONE);
                         activityTravelMatchScheduleBinding.shimmerViewContainerTeamflagInfo.stopShimmerAnimation();
@@ -741,5 +788,44 @@ public class TravelMatchScheduleActivity extends AppCompatActivity implements Vi
         map.put("TournamentId", "11");
         map.put("MemberId", String.valueOf(Utils.getAppUserId(mContext)));
         return map;
+    }
+
+
+    public void enableScroll() {
+        final AppBarLayout.LayoutParams params = (AppBarLayout.LayoutParams)
+                activityTravelMatchScheduleBinding.collapsingToolbar.getLayoutParams();
+        params.setScrollFlags(
+                AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL
+                        | AppBarLayout.LayoutParams.SCROLL_FLAG_EXIT_UNTIL_COLLAPSED
+        );
+        activityTravelMatchScheduleBinding.collapsingToolbar.setLayoutParams(params);
+    }
+
+    public void disableScroll() {
+        final AppBarLayout.LayoutParams params = (AppBarLayout.LayoutParams)
+                activityTravelMatchScheduleBinding.collapsingToolbar.getLayoutParams();
+        params.setScrollFlags(0);
+        activityTravelMatchScheduleBinding.collapsingToolbar.setLayoutParams(params);
+    }
+
+    public void updateteamflagAdapter(){
+        if (selectedtournamentteamId != null && selectedtournamentteamId.size() != 0) {
+            for (int i = 0; i < teamnameflagList.size(); i++) {
+                for (int j = 0; j < selectedtournamentteamId.size(); j++) {
+                    if (String.valueOf(teamnameflagList.get(i).getCountryId()).equalsIgnoreCase(selectedtournamentteamId.get(j))) {
+                        teamnameflagList.get(i).setTeamSelected("1");
+                    }
+                }
+
+            }
+            teamNameFlagScheduleAdapter.notifyDataSetChanged();
+        }else{
+            for (int i = 0; i < teamnameflagList.size(); i++) {
+
+                teamnameflagList.get(i).setTeamSelected("0");
+
+            }
+            teamNameFlagScheduleAdapter.notifyDataSetChanged();
+        }
     }
 }

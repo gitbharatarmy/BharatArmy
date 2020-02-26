@@ -148,6 +148,7 @@ public class TravelMatchSightseeingActivity extends AppCompatActivity implements
                 finish();
                 break;
             case R.id.fab_linear:
+                Utils.handleClickEvent(mContext,activityTravelMatchSightseeingBinding.fabLinear);
                 bottomSheetDialogFragment = new MatchSightseenFilterFragment(tournamentcitylist, new MorestoryClick() {
                     @Override
                     public void getmorestoryClick() {

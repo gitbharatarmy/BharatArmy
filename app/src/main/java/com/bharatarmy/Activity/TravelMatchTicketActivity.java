@@ -4,23 +4,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
-import com.bharatarmy.Adapter.RegisterInterestFilterAdapter;
-import com.bharatarmy.Adapter.TravelMatchScheduleAdapter;
 import com.bharatarmy.Adapter.TravelMatchTicketMAinAdapter;
-import com.bharatarmy.Fragment.MatchScheduleAdvanceFragment;
 import com.bharatarmy.Fragment.MatchTicketFilterFragment;
 import com.bharatarmy.Interfaces.MorestoryClick;
 import com.bharatarmy.Models.HomeTemplateDetailModel;
 import com.bharatarmy.Models.HomeTemplateModel;
-import com.bharatarmy.Models.InquiryStatusModel;
-import com.bharatarmy.Models.MyScreenChnagesModel;
 import com.bharatarmy.Models.RegisterIntrestFilterDataModel;
 import com.bharatarmy.Models.TravelModel;
 import com.bharatarmy.R;
@@ -29,12 +23,8 @@ import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.ActivityTravelMatchTicketBinding;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import retrofit.RetrofitError;
@@ -59,6 +49,7 @@ public class TravelMatchTicketActivity extends AppCompatActivity implements View
     ArrayList<HomeTemplateDetailModel> tournamentfiltervenuewithteamDetailModel;
     ArrayList<HomeTemplateDetailModel> tournamentfiltercityDetailModel;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,19 +57,21 @@ public class TravelMatchTicketActivity extends AppCompatActivity implements View
         mContext = TravelMatchTicketActivity.this;
 
 
-
         init();
         setListiner();
     }
 
     public void init() {
-        if (getIntent().getStringExtra("tourtitle")!=null){
+        if (getIntent().getStringExtra("tourtitle") != null) {
             activityTravelMatchTicketBinding.toolbarTitleTxt.setText(getIntent().getStringExtra("tourtitle"));
         }
 
         activityTravelMatchTicketBinding.shimmerViewContainerTicket.startShimmerAnimation();
 
-        callTravelMatchTicketData();
+
+
+
+            callTravelMatchTicketData();
     }
 
     public void setListiner() {
@@ -114,7 +107,7 @@ public class TravelMatchTicketActivity extends AppCompatActivity implements View
                 if (tournamentmodel.getIsValid() == 1) {
 
                     if (tournamentmodel.getData() != null) {
-//                        tournamentDetailModel = tournamentmodel.getData();
+
                         tournamentticketModel = new ArrayList<>();
                         for (int i = 0; i < tournamentmodel.getData().size(); i++) {
 
@@ -130,9 +123,7 @@ public class TravelMatchTicketActivity extends AppCompatActivity implements View
                             activityTravelMatchTicketBinding.fabLinear.setVisibility(View.VISIBLE);
                         }
                         if (tournamentmodel.getOtherData() != null) {
-//                            cityarraylist = new ArrayList<>();
-//                            cityarraylist.add(new TravelModel("1", "Geelong", "Geelong", "graphbackcolor"));
-//                            tournamentmodel.getOtherData().setCity(cityarraylist);
+
                             tournamentotherDataModel = tournamentmodel.getOtherData();
                         }
                         setDataInList();
@@ -176,7 +167,7 @@ public class TravelMatchTicketActivity extends AppCompatActivity implements View
                 finish();
                 break;
             case R.id.fab_linear:
-                Utils.handleClickEvent(mContext,activityTravelMatchTicketBinding.fabLinear);
+                Utils.handleClickEvent(mContext, activityTravelMatchTicketBinding.fabLinear);
                 bottomSheetDialogFragment = new MatchTicketFilterFragment(tournamentotherDataModel, new MorestoryClick() {
                     @Override
                     public void getmorestoryClick() {

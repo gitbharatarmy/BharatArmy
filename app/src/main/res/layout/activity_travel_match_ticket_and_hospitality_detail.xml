@@ -1,373 +1,649 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_linear"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Activity.TravelMatchTicketAndHospitalityDetailActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        tools:context=".Activity.TravelMatchTicketAndHospitalityDetailActivity">
+        android:layout_height="@dimen/_50sdp"
+        android:background="@color/heading_bg">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_50sdp"
-            android:background="@color/heading_bg">
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_13sdp"
+            android:layout_marginRight="@dimen/_9sdp"
+            android:orientation="horizontal">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/_13sdp"
-                android:layout_marginRight="@dimen/_13sdp"
+            <LinearLayout
+                android:id="@+id/back_img"
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_alignParentLeft="true"
                 android:orientation="horizontal">
 
-                <LinearLayout
-                    android:id="@+id/back_img"
-                    android:layout_width="@dimen/_40sdp"
-                    android:layout_height="@dimen/_40sdp"
-                    android:layout_alignParentLeft="true"
-                    android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_15sdp"
+                    android:layout_gravity="left|center_vertical"
+                    android:src="@drawable/ic_left_arrow2"
+                    android:tint="@color/splash_bg_color" />
+            </LinearLayout>
 
-                    <ImageView
-                        android:layout_width="@dimen/_20sdp"
-                        android:layout_height="@dimen/_15sdp"
-                        android:layout_gravity="left|center_vertical"
-                        android:src="@drawable/ic_left_arrow2"
-                        android:tint="@color/splash_bg_color" />
-                </LinearLayout>
+            <LinearLayout
+                android:layout_width="@dimen/_220sdp"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_toRightOf="@+id/back_img"
+                android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_40sdp"
-                    android:layout_toRightOf="@+id/back_img"
-                    android:orientation="vertical">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_2sdp"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/toolbar_country1_txt"
-                            style="@style/title_text_font"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:ellipsize="end"
-                            android:maxLines="1"
-                            android:paddingLeft="@dimen/_2sdp"
-                            android:text="India"
-                            android:textAllCaps="true"
-                            android:textColor="@color/splash_bg_color"
-                            android:textSize="@dimen/main_title_size" />
-
-                        <TextView
-                            android:id="@+id/toolbar_v_txt"
-                            style="@style/title_text_font"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/_5sdp"
-                            android:ellipsize="end"
-                            android:maxLines="1"
-                            android:text="v"
-                            android:textAllCaps="true"
-                            android:textColor="@color/splash_bg_color"
-                            android:textSize="@dimen/main_title_size" />
-
-                        <TextView
-                            android:id="@+id/toolbar_country2_txt"
-                            style="@style/title_text_font"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/_5sdp"
-                            android:ellipsize="end"
-                            android:maxLines="1"
-                            android:text="South Africa"
-                            android:textAllCaps="true"
-                            android:textColor="@color/splash_bg_color"
-                            android:textSize="@dimen/main_title_size" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/toolbar_ground_linear"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:layout_width="@dimen/title_date_time_size"
-                            android:layout_height="@dimen/title_date_time_size"
-                            android:layout_gravity="center_vertical"
-                            android:src="@drawable/ic_location"
-                            android:tint="@color/splash_bg_color" />
-
-                        <TextView
-                            android:id="@+id/toolbar_location_txt"
-                            style="@style/title_text_font"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:ellipsize="end"
-                            android:gravity="center_vertical"
-                            android:maxLines="1"
-                            android:paddingLeft="@dimen/_4sdp"
-                            android:paddingTop="@dimen/_1sdp"
-                            android:text="Perth Stadium, Perth, Australia"
-                            android:textAllCaps="true"
-                            android:textColor="@color/splash_bg_color"
-                            android:textSize="@dimen/title_date_time_size" />
-                    </LinearLayout>
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_2sdp"
+                    android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/toolbar_datetime_txt"
+                        android:id="@+id/toolbar_country1_txt"
+                        style="@style/title_text_font"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:paddingLeft="@dimen/_2sdp"
+                        android:text="India"
+                        android:textAllCaps="true"
+                        android:textColor="@color/splash_bg_color"
+                        android:textSize="@dimen/main_title_size" />
+
+                    <TextView
+                        android:id="@+id/toolbar_v_txt"
+                        style="@style/title_text_font"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_5sdp"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:text="v"
+                        android:textAllCaps="false"
+                        android:textColor="@color/splash_bg_color"
+                        android:textSize="@dimen/main_title_size" />
+
+                    <TextView
+                        android:id="@+id/toolbar_country2_txt"
+                        style="@style/title_text_font"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_5sdp"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:text="South Africa"
+                        android:textAllCaps="true"
+                        android:textColor="@color/splash_bg_color"
+                        android:textSize="@dimen/main_title_size" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/toolbar_ground_linear"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/title_date_time_size"
+                        android:layout_height="@dimen/title_date_time_size"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/ic_location"
+                        android:tint="@color/splash_bg_color" />
+
+                    <TextView
+                        android:id="@+id/toolbar_location_txt"
                         style="@style/title_text_font"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
                         android:gravity="center_vertical"
                         android:maxLines="1"
-                        android:paddingLeft="@dimen/_4sdp"
+                        android:paddingLeft="@dimen/_2sdp"
                         android:paddingTop="@dimen/_1sdp"
-                        android:text="Sat 24 Oct, 07:00 PM (Local)"
+                        android:text="Perth Stadium, Perth, Australia"
                         android:textAllCaps="true"
                         android:textColor="@color/splash_bg_color"
-                        android:textSize="@dimen/title_subtext_size" />
-
+                        android:textSize="@dimen/title_date_time_size" />
                 </LinearLayout>
-                <!--                <TextView-->
-                <!--                    android:id="@+id/toolbar_title_txt"-->
-                <!--                    style="@style/title_text_font"-->
-                <!--                    android:layout_width="@dimen/_140sdp"-->
-                <!--                    android:layout_height="@dimen/_40sdp"-->
-                <!--                    android:layout_toRightOf="@+id/back_img"-->
-                <!--                    android:ellipsize="end"-->
-                <!--                    android:gravity="center_vertical"-->
-                <!--                    android:maxLines="1"-->
-                <!--                    android:paddingLeft="@dimen/_5sdp"-->
-                <!--                    android:text="@string/heading"-->
-                <!--                    android:textColor="@color/splash_bg_color"-->
-                <!--                    android:textSize="@dimen/_14sdp"-->
-                <!--                    android:visibility="gone"/>-->
 
+                <TextView
+                    android:id="@+id/toolbar_datetime_txt"
+                    style="@style/title_text_font"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:gravity="center_vertical"
+                    android:maxLines="1"
+                    android:paddingLeft="@dimen/_4sdp"
+                    android:paddingTop="@dimen/_1sdp"
+                    android:text="Sat 24 Oct, 07:00 PM (Local)"
+                    android:textAllCaps="true"
+                    android:textColor="@color/splash_bg_color"
+                    android:textSize="@dimen/title_subtext_size" />
 
-            </RelativeLayout>
-        </androidx.appcompat.widget.Toolbar>
+            </LinearLayout>
 
-        <ScrollView
-            android:id="@+id/parent_scrollview"
+            <include
+                android:id="@+id/addcarticon"
+                layout="@layout/addcart_icon_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true" />
+        </RelativeLayout>
+    </androidx.appcompat.widget.Toolbar>
+
+    <ScrollView
+        android:id="@+id/parent_scrollview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolbar"
+        android:fillViewport="true"
+        android:scrollbars="none">
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fillViewport="true"
-            android:scrollbars="none">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_230sdp">
+
+                <androidx.viewpager.widget.ViewPager
+                    android:id="@+id/hospitalityGallery_viewpager"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+                <LinearLayout
+                    android:id="@+id/viewPager_dotlinear"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:orientation="horizontal" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_2sdp"
+                android:background="@drawable/bg_gradiant_line" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/heading_bg"
                 android:orientation="vertical">
 
-                <RelativeLayout
+                <HorizontalScrollView
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_230sdp">
-
-                    <androidx.viewpager.widget.ViewPager
-                        android:id="@+id/hospitalityGallery_viewpager"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
+                    android:layout_height="wrap_content"
+                    android:fillViewport="true"
+                    android:scrollbars="none">
 
                     <LinearLayout
-                        android:id="@+id/viewPager_dotlinear"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentBottom="true"
-                        android:layout_centerHorizontal="true"
-                        android:orientation="horizontal" />
-                </RelativeLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_2sdp"
-                    android:background="@drawable/bg_gradiant_line" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/heading_bg"
-                    android:orientation="vertical">
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/hospitality_facility_rcv"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:visibility="gone" />
-
-                    <HorizontalScrollView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fillViewport="true"
-                        android:scrollbars="none">
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_marginRight="@dimen/_40sdp"
+                        android:layout_marginBottom="@dimen/_10sdp"
+                        android:orientation="horizontal">
 
                         <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginTop="@dimen/_10sdp"
-                            android:layout_marginRight="@dimen/_40sdp"
-                            android:layout_marginBottom="@dimen/_10sdp"
-                            android:orientation="horizontal">
+                            android:layout_width="@dimen/_95sdp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:orientation="vertical">
 
                             <LinearLayout
-                                android:layout_width="@dimen/_95sdp"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
+                                android:id="@+id/hotel_linear"
+                                android:layout_width="@dimen/_40sdp"
+                                android:layout_height="@dimen/_40sdp"
+                                android:layout_gravity="center_horizontal"
+                                android:background="@drawable/circle_graidant"
                                 android:orientation="vertical">
 
-                                <LinearLayout
-                                    android:id="@+id/hotel_linear"
-                                    android:layout_width="@dimen/_40sdp"
-                                    android:layout_height="@dimen/_40sdp"
-                                    android:layout_gravity="center_horizontal"
-                                    android:background="@drawable/circle_graidant"
-                                    android:orientation="vertical">
-
-                                    <ImageView
-                                        android:id="@+id/hotel_facility_img"
-                                        android:layout_width="@dimen/_15sdp"
-                                        android:layout_height="@dimen/_15sdp"
-                                        android:layout_margin="@dimen/_12sdp"
-                                        android:src="@drawable/seating"
-                                        android:tint="@color/splash_bg_color" />
-                                </LinearLayout>
-
-                                <TextView
-                                    style="@style/title_text_font"
-                                    android:layout_width="@dimen/_95sdp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="@dimen/_5sdp"
-                                    android:ellipsize="end"
-                                    android:gravity="center_horizontal"
-                                    android:maxLines="2"
-                                    android:text="Premium Seating"
-                                    android:textAllCaps="true"
-                                    android:textColor="@color/splash_bg_color"
-                                    android:textSize="@dimen/_8sdp" />
+                                <ImageView
+                                    android:id="@+id/hotel_facility_img"
+                                    android:layout_width="@dimen/_15sdp"
+                                    android:layout_height="@dimen/_15sdp"
+                                    android:layout_margin="@dimen/_12sdp"
+                                    android:src="@drawable/seating"
+                                    android:tint="@color/splash_bg_color" />
                             </LinearLayout>
 
-                            <LinearLayout
+                            <TextView
+                                style="@style/title_text_font"
                                 android:layout_width="@dimen/_95sdp"
                                 android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:orientation="vertical">
-
-                                <LinearLayout
-                                    android:layout_width="@dimen/_40sdp"
-                                    android:layout_height="@dimen/_40sdp"
-                                    android:layout_gravity="center_horizontal"
-                                    android:background="@drawable/circle_graidant"
-                                    android:orientation="vertical">
-
-                                    <ImageView
-                                        android:layout_width="@dimen/_15sdp"
-                                        android:layout_height="@dimen/_15sdp"
-                                        android:layout_margin="@dimen/_12sdp"
-                                        android:src="@drawable/lunch"
-                                        android:tint="@color/splash_bg_color" />
-                                </LinearLayout>
-
-                                <TextView
-                                    style="@style/title_text_font"
-                                    android:layout_width="@dimen/_95sdp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="@dimen/_5sdp"
-                                    android:ellipsize="end"
-                                    android:gravity="center_horizontal"
-                                    android:maxLines="2"
-                                    android:text="GRAZING"
-                                    android:textAllCaps="true"
-                                    android:textColor="@color/splash_bg_color"
-                                    android:textSize="@dimen/_8sdp" />
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="@dimen/_95sdp"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:orientation="vertical">
-
-                                <LinearLayout
-                                    android:layout_width="@dimen/_40sdp"
-                                    android:layout_height="@dimen/_40sdp"
-                                    android:layout_gravity="center_horizontal"
-                                    android:background="@drawable/circle_graidant"
-                                    android:orientation="vertical">
-
-                                    <ImageView
-                                        android:layout_width="@dimen/_15sdp"
-                                        android:layout_height="@dimen/_15sdp"
-                                        android:layout_margin="@dimen/_12sdp"
-                                        android:src="@drawable/drink"
-                                        android:tint="@color/splash_bg_color" />
-                                </LinearLayout>
-
-                                <TextView
-                                    style="@style/title_text_font"
-                                    android:layout_width="@dimen/_95sdp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="@dimen/_5sdp"
-                                    android:ellipsize="end"
-                                    android:gravity="center_horizontal"
-                                    android:maxLines="2"
-                                    android:text="PREMIUM BEVERAGES"
-                                    android:textAllCaps="true"
-                                    android:textColor="@color/splash_bg_color"
-                                    android:textSize="@dimen/_8sdp" />
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="@dimen/_95sdp"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical"
-                                android:layout_marginLeft="@dimen/_10sdp"
-                                android:orientation="vertical">
-
-                                <LinearLayout
-                                    android:layout_width="@dimen/_40sdp"
-                                    android:layout_height="@dimen/_40sdp"
-                                    android:layout_gravity="center_horizontal"
-                                    android:background="@drawable/circle_graidant"
-                                    android:orientation="vertical">
-
-                                    <ImageView
-                                        android:layout_width="@dimen/_15sdp"
-                                        android:layout_height="@dimen/_15sdp"
-                                        android:layout_margin="@dimen/_12sdp"
-                                        android:src="@drawable/ic_entertainment"
-                                        android:tint="@color/splash_bg_color" />
-                                </LinearLayout>
-
-                                <TextView
-                                    style="@style/title_text_font"
-                                    android:layout_width="@dimen/_95sdp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="@dimen/_5sdp"
-                                    android:ellipsize="end"
-                                    android:gravity="center_horizontal"
-                                    android:maxLines="2"
-                                    android:text="LIVE Entertainment"
-                                    android:textAllCaps="true"
-                                    android:textColor="@color/splash_bg_color"
-                                    android:textSize="@dimen/_8sdp" />
-                            </LinearLayout>
+                                android:layout_marginTop="@dimen/_5sdp"
+                                android:ellipsize="end"
+                                android:gravity="center_horizontal"
+                                android:maxLines="2"
+                                android:text="Premium Seating"
+                                android:textAllCaps="true"
+                                android:textColor="@color/splash_bg_color"
+                                android:textSize="@dimen/_8sdp" />
                         </LinearLayout>
 
-                    </HorizontalScrollView>
-                </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="@dimen/_95sdp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:layout_width="@dimen/_40sdp"
+                                android:layout_height="@dimen/_40sdp"
+                                android:layout_gravity="center_horizontal"
+                                android:background="@drawable/circle_graidant"
+                                android:orientation="vertical">
+
+                                <ImageView
+                                    android:layout_width="@dimen/_15sdp"
+                                    android:layout_height="@dimen/_15sdp"
+                                    android:layout_margin="@dimen/_12sdp"
+                                    android:src="@drawable/lunch"
+                                    android:tint="@color/splash_bg_color" />
+                            </LinearLayout>
+
+                            <TextView
+                                style="@style/title_text_font"
+                                android:layout_width="@dimen/_95sdp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/_5sdp"
+                                android:ellipsize="end"
+                                android:gravity="center_horizontal"
+                                android:maxLines="2"
+                                android:text="GRAZING"
+                                android:textAllCaps="true"
+                                android:textColor="@color/splash_bg_color"
+                                android:textSize="@dimen/_8sdp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="@dimen/_95sdp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:layout_width="@dimen/_40sdp"
+                                android:layout_height="@dimen/_40sdp"
+                                android:layout_gravity="center_horizontal"
+                                android:background="@drawable/circle_graidant"
+                                android:orientation="vertical">
+
+                                <ImageView
+                                    android:layout_width="@dimen/_15sdp"
+                                    android:layout_height="@dimen/_15sdp"
+                                    android:layout_margin="@dimen/_12sdp"
+                                    android:src="@drawable/drink"
+                                    android:tint="@color/splash_bg_color" />
+                            </LinearLayout>
+
+                            <TextView
+                                style="@style/title_text_font"
+                                android:layout_width="@dimen/_95sdp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/_5sdp"
+                                android:ellipsize="end"
+                                android:gravity="center_horizontal"
+                                android:maxLines="2"
+                                android:text="PREMIUM BEVERAGES"
+                                android:textAllCaps="true"
+                                android:textColor="@color/splash_bg_color"
+                                android:textSize="@dimen/_8sdp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="@dimen/_95sdp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="@dimen/_10sdp"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:layout_width="@dimen/_40sdp"
+                                android:layout_height="@dimen/_40sdp"
+                                android:layout_gravity="center_horizontal"
+                                android:background="@drawable/circle_graidant"
+                                android:orientation="vertical">
+
+                                <ImageView
+                                    android:layout_width="@dimen/_15sdp"
+                                    android:layout_height="@dimen/_15sdp"
+                                    android:layout_margin="@dimen/_12sdp"
+                                    android:src="@drawable/ic_entertainment"
+                                    android:tint="@color/splash_bg_color" />
+                            </LinearLayout>
+
+                            <TextView
+                                style="@style/title_text_font"
+                                android:layout_width="@dimen/_95sdp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/_5sdp"
+                                android:ellipsize="end"
+                                android:gravity="center_horizontal"
+                                android:maxLines="2"
+                                android:text="LIVE Entertainment"
+                                android:textAllCaps="true"
+                                android:textColor="@color/splash_bg_color"
+                                android:textSize="@dimen/_8sdp" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                </HorizontalScrollView>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_16sdp"
+                android:layout_marginTop="@dimen/top_margin"
+                android:layout_marginRight="@dimen/_16sdp"
+                android:orientation="horizontal"
+                android:visibility="visible">
+
+
+                <TextView
+                    android:id="@+id/match_hospitality_type_tag_txt"
+                    style="@style/title_text_font"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_2sdp"
+                    android:ellipsize="end"
+                    android:maxLines="2"
+                    android:text="World Cup 2019: Bring o.."
+                    android:textColor="@color/heading_bg"
+                    android:textSize="@dimen/_25sdp" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_17sdp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginRight="@dimen/_17sdp"
+                android:orientation="vertical"
+                android:visibility="visible">
+
+                <TextView
+                    style="@style/text_font"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="6"
+                    android:text="@string/ticket_desc"
+                    android:textColor="@color/normal_font_color"
+                    android:textSize="@dimen/_12sdp" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_16sdp"
+                android:layout_marginTop="@dimen/top_margin"
+                android:layout_marginRight="@dimen/_16sdp"
+                android:orientation="horizontal"
+                android:visibility="visible"
+                android:weightSum="1">
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.5"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/ticket_view_txt"
+                        style="@style/title_text_font"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/_3sdp"
+                        android:text="Hospitality"
+                        android:textColor="@color/unselected_view"
+                        android:textSize="@dimen/_9sdp" />
+
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/rectangle_line"
+                        android:orientation="horizontal">
+
+                        <RelativeLayout
+                            android:id="@+id/hospitality_minus_layout"
+                            android:layout_width="@dimen/_30sdp"
+                            android:layout_height="@dimen/_30sdp"
+                            android:background="@color/heading_bg">
+
+                            <ImageView
+                                android:id="@+id/hospitality_minus_img"
+                                android:layout_width="@dimen/_13sdp"
+                                android:layout_height="@dimen/_13sdp"
+                                android:layout_centerInParent="true"
+                                android:src="@drawable/summary_minus"
+                                android:tint="@color/splash_bg_color" />
+                        </RelativeLayout>
+
+
+                        <TextView
+                            android:id="@+id/count_of_item"
+                            style="@style/title_text_font"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="@dimen/_10sdp"
+                            android:layout_toRightOf="@+id/hospitality_minus_layout"
+                            android:ellipsize="end"
+                            android:gravity="center_vertical"
+                            android:maxLines="1"
+                            android:text="1"
+                            android:textColor="@color/heading_bg"
+                            android:textSize="@dimen/_14sdp" />
+
+                        <RelativeLayout
+                            android:id="@+id/hospitality_plus_layout"
+                            android:layout_width="@dimen/_30sdp"
+                            android:layout_height="@dimen/_30sdp"
+                            android:layout_marginLeft="@dimen/_10sdp"
+                            android:layout_toRightOf="@+id/count_of_item"
+                            android:background="@color/heading_bg">
+
+                            <ImageView
+                                android:id="@+id/hospitality_plus_img"
+                                android:layout_width="@dimen/_13sdp"
+                                android:layout_height="@dimen/_13sdp"
+                                android:layout_centerInParent="true"
+                                android:src="@drawable/summary_plus"
+                                android:tint="@color/splash_bg_color" />
+                        </RelativeLayout>
+
+                    </RelativeLayout>
+
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.5"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:id="@+id/price_view_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/price_view_txt"
+                            style="@style/title_text_font"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginRight="@dimen/_3sdp"
+                            android:text="Price"
+                            android:textColor="@color/unselected_view"
+                            android:textSize="@dimen/_9sdp" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/price_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_26sdp"
+                        android:layout_below="@+id/price_view_layout"
+                        android:layout_marginTop="-2dp"
+                        android:visibility="visible">
+
+                        <TextView
+                            android:id="@+id/pricetype_txt"
+                            style="@style/title_text_font"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_toLeftOf="@+id/price_txt"
+                            android:ellipsize="end"
+                            android:gravity="center_vertical"
+                            android:maxLines="1"
+                            android:text="₹ "
+                            android:textColor="@color/normal_font_color"
+                            android:textSize="@dimen/_24sdp" />
+
+                        <TextView
+                            android:id="@+id/price_txt"
+                            style="@style/title_text_font"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginRight="@dimen/_2sdp"
+                            android:ellipsize="end"
+                            android:gravity="center_vertical"
+                            android:maxLines="1"
+                            android:text="500.0"
+                            android:textColor="@color/normal_font_color"
+                            android:textSize="@dimen/_24sdp" />
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:id="@+id/bottom_cart_add_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/_30sdp"
+                        android:layout_below="@+id/price_layout"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginTop="@dimen/_3sdp"
+                        android:background="@drawable/book_btn"
+                        android:orientation="horizontal"
+                        android:visibility="visible">
+
+                        <ImageView
+                            android:layout_width="@dimen/_15sdp"
+                            android:layout_height="@dimen/_15sdp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="@dimen/_6sdp"
+                            android:src="@drawable/ic_cart"
+                            android:tint="@color/splash_bg_color" />
+
+                        <TextView
+                            style="@style/title_text_font"
+                            android:layout_width="@dimen/_65sdp"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical|center_horizontal"
+                            android:paddingRight="@dimen/_1sdp"
+                            android:text="Add to Cart"
+                            android:textColor="@color/splash_bg_color"
+                            android:textSize="@dimen/_11sdp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/bottom_cart_remove_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/_30sdp"
+                        android:layout_below="@+id/price_layout"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginTop="@dimen/_3sdp"
+                        android:background="@drawable/remove_cart_shape"
+                        android:orientation="horizontal"
+                        android:visibility="gone">
+
+                        <ImageView
+                            android:layout_width="@dimen/_15sdp"
+                            android:layout_height="@dimen/_15sdp"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginLeft="@dimen/_6sdp"
+                            android:src="@drawable/ic_remove_cart"
+                            android:tint="@color/splash_bg_color" />
+
+                        <TextView
+                            style="@style/title_text_font"
+                            android:layout_width="@dimen/_65sdp"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical|center_horizontal"
+                            android:paddingRight="@dimen/_1sdp"
+                            android:text="Remove"
+                            android:textColor="@color/splash_bg_color"
+                            android:textSize="@dimen/_11sdp" />
+                    </LinearLayout>
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_17sdp"
+                android:layout_marginTop="@dimen/top_margin"
+                android:layout_marginRight="@dimen/_17sdp"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/title_text_font"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:text="Includes"
+                    android:textAllCaps="true"
+                    android:textColor="@color/normal_font_color"
+                    android:textSize="@dimen/_13sdp" />
+
+                <LinearLayout
+                    android:id="@+id/inclusion_linear"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:orientation="vertical" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/related_hospitality_linear"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/top_margin"
+                android:orientation="vertical"
+                android:visibility="visible">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/_16sdp"
-                    android:layout_marginTop="@dimen/top_margin"
-                    android:layout_marginRight="@dimen/_16sdp"
+                    android:layout_marginLeft="@dimen/_15sdp"
+                    android:layout_marginRight="@dimen/_15sdp"
                     android:orientation="horizontal"
                     android:visibility="visible">
 
@@ -375,688 +651,204 @@
                         android:layout_width="@dimen/_3sdp"
                         android:layout_height="match_parent"
                         android:background="@drawable/vertical_line"
-                        android:orientation="vertical"
-                        android:visibility="gone"/>
+                        android:orientation="vertical" />
 
-                    <LinearLayout
+                    <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_7sdp"
                         android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/toolbar_subtitle_txt"
                             style="@style/title_text_font"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/square_tag_shape"
-                            android:gravity="center_vertical|center_horizontal"
-                            android:padding="@dimen/_5sdp"
-                            android:text="Hospitality"
-                            android:textAllCaps="true"
-                            android:textColor="@color/splash_bg_color"
-                            android:textSize="@dimen/_7sdp"
-                            android:textStyle="bold"
-                            android:visibility="gone"/>
-
-                        <TextView
-                            android:id="@+id/match_hospitality_type_tag_txt"
-                            style="@style/title_text_font"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/_2sdp"
                             android:ellipsize="end"
                             android:maxLines="2"
-                            android:text="World Cup 2019: Bring o.."
+                            android:text="Related Hospitality"
+                            android:textAllCaps="true"
                             android:textColor="@color/heading_bg"
-                            android:textSize="@dimen/_25sdp"/>
-                    </LinearLayout>
-                </LinearLayout>
+                            android:textSize="@dimen/_16sdp" />
 
-
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:layout_marginLeft="@dimen/_17sdp"
-                    android:layout_marginRight="@dimen/_17sdp"
-                    android:orientation="vertical"
-                    android:visibility="visible">
-
-                    <TextView
-                        style="@style/text_font"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:ellipsize="end"
-                        android:maxLines="6"
-                        android:text="@string/ticket_desc"
-                        android:textColor="@color/normal_font_color"
-                        android:textSize="@dimen/_12sdp" />
-
-
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/_16sdp"
-                    android:layout_marginRight="@dimen/_16sdp"
-                  android:layout_marginTop="@dimen/top_margin"
-                    android:orientation="horizontal"
-                    android:visibility="visible"
-                    android:weightSum="1">
-
-                    <RelativeLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="0.5"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/ticket_view_txt"
-                            style="@style/title_text_font"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginRight="@dimen/_3sdp"
-                            android:text="Hospitality"
-                            android:textColor="@color/unselected_view"
-                            android:textSize="@dimen/_9sdp" />
-
-                        <RelativeLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:background="@drawable/rectangle_line"
-                            android:orientation="horizontal">
-
-                            <RelativeLayout
-                                android:id="@+id/hospitality_minus_layout"
-                                android:layout_width="@dimen/_30sdp"
-                                android:layout_height="@dimen/_30sdp"
-                                android:background="@color/heading_bg">
-
-                                <ImageView
-                                    android:id="@+id/hospitality_minus_img"
-                                    android:layout_width="@dimen/_13sdp"
-                                    android:layout_height="@dimen/_13sdp"
-                                    android:layout_centerInParent="true"
-                                    android:src="@drawable/summary_minus"
-                                    android:tint="@color/splash_bg_color" />
-                            </RelativeLayout>
-
-
-                            <TextView
-                                android:id="@+id/count_of_item"
-                                style="@style/title_text_font"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerVertical="true"
-                                android:layout_marginLeft="@dimen/_10sdp"
-                                android:layout_toRightOf="@+id/hospitality_minus_layout"
-                                android:ellipsize="end"
-                                android:gravity="center_vertical"
-                                android:maxLines="1"
-                                android:text="1"
-                                android:textColor="@color/heading_bg"
-                                android:textSize="@dimen/_14sdp" />
-
-                            <RelativeLayout
-                                android:id="@+id/hospitality_plus_layout"
-                                android:layout_width="@dimen/_30sdp"
-                                android:layout_height="@dimen/_30sdp"
-                                android:layout_marginLeft="@dimen/_10sdp"
-                                android:layout_toRightOf="@+id/count_of_item"
-                                android:background="@color/heading_bg">
-
-                                <ImageView
-                                    android:id="@+id/hospitality_plus_img"
-                                    android:layout_width="@dimen/_13sdp"
-                                    android:layout_height="@dimen/_13sdp"
-                                    android:layout_centerInParent="true"
-                                    android:src="@drawable/summary_plus"
-                                    android:tint="@color/splash_bg_color" />
-                            </RelativeLayout>
-
-                        </RelativeLayout>
-
-
-                    </RelativeLayout>
-
-                    <RelativeLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="0.5"
-                        android:orientation="vertical">
-
-                        <RelativeLayout
-                            android:id="@+id/price_view_layout"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-
-                            <TextView
-                                android:id="@+id/price_view_txt"
-                                style="@style/title_text_font"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentRight="true"
-                                android:layout_marginRight="@dimen/_3sdp"
-                                android:text="Price"
-                                android:textColor="@color/unselected_view"
-                                android:textSize="@dimen/_9sdp" />
-                        </RelativeLayout>
-
-                        <RelativeLayout
-                            android:id="@+id/price_layout"
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/_26sdp"
-                            android:layout_below="@+id/price_view_layout"
-                            android:layout_marginTop="-2dp"
-                            android:visibility="visible">
-
-                            <TextView
-                                android:id="@+id/pricetype_txt"
-                                style="@style/title_text_font"
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:layout_toLeftOf="@+id/price_txt"
-                                android:ellipsize="end"
-                                android:gravity="center_vertical"
-                                android:maxLines="1"
-                                android:text="₹ "
-                                android:textColor="@color/normal_font_color"
-                                android:textSize="@dimen/_24sdp" />
-
-                            <TextView
-                                android:id="@+id/price_txt"
-                                style="@style/title_text_font"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentRight="true"
-                                android:layout_marginRight="@dimen/_2sdp"
-                                android:ellipsize="end"
-                                android:gravity="center_vertical"
-                                android:maxLines="1"
-                                android:text="500.0"
-                                android:textColor="@color/normal_font_color"
-                                android:textSize="@dimen/_24sdp" />
-                        </RelativeLayout>
-
-                        <LinearLayout
-                            android:id="@+id/bottom_cart_view"
-                            android:layout_width="wrap_content"
-                            android:layout_height="@dimen/_30sdp"
-                            android:layout_below="@+id/price_layout"
+                        <ImageView
+                            android:id="@+id/travel_related_hospitality_swipe"
+                            android:layout_width="@dimen/_18sdp"
+                            android:layout_height="@dimen/_13sdp"
                             android:layout_alignParentRight="true"
-                            android:layout_marginTop="@dimen/_3sdp"
-                            android:background="@drawable/book_btn"
-                            android:orientation="horizontal"
-                            android:visibility="visible">
+                            android:layout_centerVertical="true"
+                            android:src="@drawable/ic_swipe"
+                            android:visibility="visible" />
 
-                            <ImageView
-                                android:layout_width="@dimen/_15sdp"
-                                android:layout_height="@dimen/_15sdp"
-                                android:layout_gravity="center_vertical"
-                                android:layout_marginLeft="@dimen/_6sdp"
-                                android:src="@drawable/ic_cart"
-                                android:tint="@color/splash_bg_color" />
-
-                            <TextView
-                                style="@style/title_text_font"
-                                android:layout_width="@dimen/_65sdp"
-                                android:layout_height="match_parent"
-                                android:gravity="center_vertical|center_horizontal"
-                                android:paddingRight="@dimen/_1sdp"
-                                android:text="Add to Cart"
-                                android:textColor="@color/splash_bg_color"
-                                android:textSize="@dimen/_11sdp" />
-                        </LinearLayout>
                     </RelativeLayout>
-
                 </LinearLayout>
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginLeft="@dimen/_17sdp"
-    android:layout_marginRight="@dimen/_17sdp"
- android:layout_marginTop="@dimen/top_margin"
-    android:orientation="vertical">
-    <TextView
-        style="@style/title_text_font"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-
-        android:gravity="center_vertical"
-        android:text="Includes"
-        android:textAllCaps="true"
-        android:textColor="@color/normal_font_color"
-        android:textSize="@dimen/_13sdp" />
-
-    <LinearLayout
-        android:id="@+id/inclusion_linear"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_5sdp"
-        android:orientation="vertical"/>
-</LinearLayout>
-
-
-                <LinearLayout
-                    android:id="@+id/related_hospitality_linear"
+                <com.facebook.shimmer.ShimmerFrameLayout
+                    android:id="@+id/shimmer_view_container_hospitality"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/top_margin"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/_15sdp"
                     android:orientation="vertical"
                     android:visibility="visible">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/_15sdp"
-                        android:layout_marginRight="@dimen/_15sdp"
-                        android:orientation="horizontal"
-                        android:visibility="visible">
+                    <include layout="@layout/storie_data_holder" />
 
-                        <LinearLayout
-                            android:layout_width="@dimen/_3sdp"
-                            android:layout_height="match_parent"
-                            android:background="@drawable/vertical_line"
-                            android:orientation="vertical" />
 
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/_7sdp"
-                            android:orientation="vertical">
+                </com.facebook.shimmer.ShimmerFrameLayout>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/related_hospitality_rcv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/_14sdp"
+                    android:layout_marginTop="@dimen/top_margin"
+                    android:layout_marginRight="@dimen/_10sdp"
+                    android:visibility="gone"/>
 
-                            <TextView
-                                style="@style/title_text_font"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:ellipsize="end"
-                                android:maxLines="2"
-                                android:text="Related Hospitality"
-                                android:textAllCaps="true"
-                                android:textColor="@color/heading_bg"
-                                android:textSize="@dimen/_16sdp" />
-                            <ImageView
-                                android:id="@+id/travel_related_hospitality_swipe"
-                                android:layout_width="@dimen/_18sdp"
-                                android:layout_height="@dimen/_13sdp"
-                                android:layout_alignParentRight="true"
-                                android:layout_centerVertical="true"
-                                android:src="@drawable/ic_swipe"
-                                android:visibility="visible" />
-                            <TextView
-                                style="@style/title_text_font"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:ellipsize="end"
-                                android:gravity="center_vertical|left"
-                                android:maxLines="1"
-                                android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-                                android:textColor="@color/gray"
-                                android:textSize="@dimen/_11sdp"
-                                android:visibility="gone"/>
-                        </RelativeLayout>
-                    </LinearLayout>
+            </LinearLayout>
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/related_hospitality_rcv"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginLeft="@dimen/_14sdp"
-                        android:layout_marginTop="@dimen/top_margin"
-                        android:layout_marginRight="@dimen/_10sdp" />
 
-                </LinearLayout>
-
+            <LinearLayout
+                android:id="@+id/cricket_ground_linear"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/top_margin"
+                android:orientation="vertical"
+                android:visibility="visible">
 
                 <LinearLayout
-                    android:id="@+id/cricket_ground_linear"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/top_margin"
-                    android:orientation="vertical"
-                    android:visibility="visible">
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_marginRight="@dimen/_10sdp"
+                    android:orientation="horizontal">
 
-                    <LinearLayout
+                    <TextView
+                        style="@style/title_text_font"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginLeft="@dimen/_10sdp"
-                        android:layout_marginRight="@dimen/_10sdp"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            style="@style/title_text_font"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:ellipsize="end"
-                            android:gravity="center_horizontal"
-                            android:maxLines="1"
-                            android:text="MelBourne"
-                            android:textAllCaps="true"
-                            android:textColor="@color/heading_bg"
-                            android:textSize="@dimen/_16sdp" />
-
-                        <TextView
-                            style="@style/text_font"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/_3sdp"
-                            android:ellipsize="end"
-                            android:gravity="center_horizontal"
-                            android:maxLines="1"
-                            android:text="Cricket ground"
-                            android:textAllCaps="true"
-                            android:textColor="@color/gray"
-                            android:textSize="@dimen/_16sdp" />
-                    </LinearLayout>
-
-                    <com.alexvasilkov.gestures.views.GestureImageView
-                        android:id="@+id/cricket_ground_img"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/top_margin"
-                        android:adjustViewBounds="true"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/stadium_map" />
+                        android:ellipsize="end"
+                        android:gravity="center_horizontal"
+                        android:maxLines="1"
+                        android:text="MelBourne"
+                        android:textAllCaps="true"
+                        android:textColor="@color/heading_bg"
+                        android:textSize="@dimen/_16sdp" />
 
                     <TextView
                         style="@style/text_font"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/_15sdp"
-                        android:layout_marginTop="@dimen/top_margin"
-                        android:layout_marginRight="@dimen/_15sdp"
+                        android:layout_marginLeft="@dimen/_3sdp"
                         android:ellipsize="end"
-                        android:gravity="center_vertical"
-                        android:maxLines="5"
-                        android:text="@string/ticket_desc"
-                        android:textColor="@color/normal_font_color"
-                        android:textSize="@dimen/_12sdp" />
-
+                        android:gravity="center_horizontal"
+                        android:maxLines="1"
+                        android:text="Cricket ground"
+                        android:textAllCaps="true"
+                        android:textColor="@color/gray"
+                        android:textSize="@dimen/_16sdp" />
                 </LinearLayout>
 
-                <LinearLayout
-                    android:id="@+id/fixture_linear"
-                    android:layout_width="match_parent"
+                <com.alexvasilkov.gestures.views.GestureImageView
+                    android:id="@+id/cricket_ground_img"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:visibility="visible">
+                    android:layout_marginTop="@dimen/top_margin"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/stadium_map" />
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/_15sdp"
-                        android:layout_marginTop="@dimen/top_margin"
-                        android:layout_marginRight="@dimen/_15sdp"
-                        android:orientation="horizontal"
-                        android:visibility="visible">
+                <TextView
+                    style="@style/text_font"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_15sdp"
+                    android:layout_marginTop="@dimen/top_margin"
+                    android:layout_marginRight="@dimen/_15sdp"
+                    android:ellipsize="end"
+                    android:gravity="center_vertical"
+                    android:maxLines="5"
+                    android:text="@string/ticket_desc"
+                    android:textColor="@color/normal_font_color"
+                    android:textSize="@dimen/_12sdp" />
 
-                        <LinearLayout
-                            android:layout_width="@dimen/_3sdp"
-                            android:layout_height="match_parent"
-                            android:background="@drawable/vertical_line"
-                            android:orientation="vertical" />
+            </LinearLayout>
 
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/_7sdp"
-                            android:orientation="vertical">
-
-                            <TextView
-                                style="@style/title_text_font"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_toLeftOf="@+id/travel_latest_fixture_swipe"
-                                android:ellipsize="end"
-                                android:maxLines="2"
-                                android:text="ICC World T20 Australia 2020 Fitures"
-                                android:textAllCaps="true"
-                                android:textColor="@color/heading_bg"
-                                android:textSize="@dimen/_16sdp" />
-
-                            <ImageView
-                                android:id="@+id/travel_latest_fixture_swipe"
-                                android:layout_width="@dimen/_18sdp"
-                                android:layout_height="@dimen/_13sdp"
-                                android:layout_alignParentRight="true"
-                                android:layout_centerVertical="true"
-                                android:src="@drawable/ic_swipe"
-                                android:visibility="visible" />
-                        </RelativeLayout>
-                    </LinearLayout>
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/fixture_rcv"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginLeft="@dimen/_14sdp"
-                        android:layout_marginTop="@dimen/top_margin"
-                        android:layout_marginRight="@dimen/_10sdp"
-                        android:clipToPadding="false"
-                        android:paddingBottom="@dimen/_20sdp" />
-
-                </LinearLayout>
+            <LinearLayout
+                android:id="@+id/fixture_linear"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="visible">
 
                 <LinearLayout
-                    android:id="@+id/near_by_ground_linear"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/_15sdp"
                     android:layout_marginTop="@dimen/top_margin"
                     android:layout_marginRight="@dimen/_15sdp"
-                    android:orientation="vertical"
-                    android:visibility="gone">
+                    android:orientation="horizontal"
+                    android:visibility="visible">
 
                     <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:visibility="visible">
-
-                        <LinearLayout
-                            android:layout_width="@dimen/_3sdp"
-                            android:layout_height="match_parent"
-                            android:background="@drawable/vertical_line"
-                            android:orientation="vertical" />
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/_7sdp"
-                            android:orientation="vertical">
-
-                            <TextView
-                                style="@style/title_text_font"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:ellipsize="end"
-                                android:gravity="center_horizontal"
-                                android:maxLines="2"
-                                android:text="NEAR By Melbourne Cricket Ground"
-                                android:textAllCaps="true"
-                                android:textColor="@color/heading_bg"
-                                android:textSize="@dimen/_16sdp" />
-
-                            <TextView
-                                android:id="@+id/cricket_ground_subtitle_txt"
-                                style="@style/title_text_font"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:ellipsize="end"
-                                android:gravity="center_vertical|left"
-                                android:maxLines="1"
-                                android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-                                android:textColor="@color/gray"
-                                android:textSize="@dimen/_11sdp" />
-                        </LinearLayout>
-                    </LinearLayout>
-
-                    <TextView
-                        style="@style/text_font"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_25sdp"
-                        android:ellipsize="end"
-                        android:gravity="center_vertical"
-                        android:maxLines="3"
-                        android:text="Jarlsberg lancashire edam. Dolcelatte hard cheese brie st. agur blue
-    cheese caerphilly bavarian bergkase cheese and biscuits mascarpone. Cheeseburger swiss bavarian
-    bergkase cream cheese fromage frais cheesy feet port-salut airedale. St. agur blue cheese rubber
-    cheese caerphilly cheddar cheesecake cream cheese manchego lancashire. Roquefort squirty cheese
-    the big cheese.Jarlsberg lancashire edam. Dolcelatte hard cheese brie st."
-                        android:textColor="@color/normal_font_color"
-                        android:textSize="@dimen/_12sdp" />
+                        android:layout_width="@dimen/_3sdp"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/vertical_line"
+                        android:orientation="vertical" />
 
                     <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/_300sdp">
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_7sdp"
+                        android:orientation="vertical">
 
-                        <fragment
-                            android:id="@+id/map"
-                            class="com.google.android.gms.maps.SupportMapFragment"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_gravity="center"
-                            android:layout_marginTop="@dimen/_30sdp"
-                            android:layout_marginBottom="@dimen/_30sdp" />
+                        <TextView
+                            style="@style/title_text_font"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toLeftOf="@+id/travel_latest_fixture_swipe"
+                            android:ellipsize="end"
+                            android:maxLines="2"
+                            android:text="ICC World T20 Australia 2020 Fitures"
+                            android:textAllCaps="true"
+                            android:textColor="@color/heading_bg"
+                            android:textSize="@dimen/_16sdp" />
 
-                        <View
-                            android:id="@+id/customView"
-                            android:layout_width="fill_parent"
-                            android:layout_height="fill_parent"
-                            android:background="@android:color/transparent" />
+                        <ImageView
+                            android:id="@+id/travel_latest_fixture_swipe"
+                            android:layout_width="@dimen/_18sdp"
+                            android:layout_height="@dimen/_13sdp"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:src="@drawable/ic_swipe"
+                            android:visibility="visible" />
                     </RelativeLayout>
                 </LinearLayout>
+                <com.facebook.shimmer.ShimmerFrameLayout
+                    android:id="@+id/shimmer_view_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/_15sdp"
+                    android:orientation="vertical"
+                    android:visibility="visible">
+
+                    <include layout="@layout/storie_data_holder" />
+
+
+                </com.facebook.shimmer.ShimmerFrameLayout>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/fixture_rcv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/_14sdp"
+                    android:layout_marginTop="@dimen/top_margin"
+                    android:layout_marginRight="@dimen/_10sdp"
+                    android:clipToPadding="false"
+                    android:paddingBottom="@dimen/_20sdp"
+                    android:visibility="gone"/>
+
             </LinearLayout>
-        </ScrollView>
-    </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>
 </layout>
-
-
-    <!--<LinearLayout-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_marginLeft="@dimen/_7sdp"-->
-    <!--android:orientation="vertical"-->
-    <!--android:visibility="gone">-->
-
-    <!--<TextView-->
-    <!--    style="@style/title_text_font"-->
-    <!--    android:layout_width="wrap_content"-->
-    <!--    android:layout_height="wrap_content"-->
-    <!--    android:ellipsize="end"-->
-    <!--    android:gravity="center_horizontal"-->
-    <!--    android:maxLines="2"-->
-    <!--    android:text="About The Hospitality"-->
-    <!--    android:textAllCaps="true"-->
-    <!--    android:textColor="@color/heading_bg"-->
-    <!--    android:textSize="@dimen/_16sdp" />-->
-
-    <!--<TextView-->
-    <!--    android:id="@+id/army_popularcity_subtitle_txt"-->
-    <!--    style="@style/title_text_font"-->
-    <!--    android:layout_width="match_parent"-->
-    <!--    android:layout_height="wrap_content"-->
-    <!--    android:ellipsize="end"-->
-    <!--    android:gravity="center_vertical|left"-->
-    <!--    android:maxLines="1"-->
-    <!--    android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit."-->
-    <!--    android:textColor="@color/gray"-->
-    <!--    android:textSize="@dimen/_11sdp" />-->
-    <!--</LinearLayout>-->
-    <!--    </LinearLayout>-->
-
-
-    <!--<LinearLayout-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_marginLeft="@dimen/_10sdp"-->
-    <!--android:orientation="vertical"-->
-    <!--android:visibility="gone">-->
-
-    <!--<LinearLayout-->
-    <!--    android:layout_width="wrap_content"-->
-    <!--    android:layout_height="@dimen/_20sdp"-->
-    <!--    android:layout_gravity="left"-->
-    <!--    android:orientation="horizontal">-->
-
-    <!--    <TextView-->
-    <!--        style="@style/title_text_font"-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="match_parent"-->
-    <!--        android:ellipsize="end"-->
-    <!--        android:gravity="center_horizontal"-->
-    <!--        android:maxLines="1"-->
-    <!--        android:text="India"-->
-    <!--        android:textColor="@color/heading_bg"-->
-    <!--        android:textSize="@dimen/_16sdp" />-->
-
-
-    <!--    <com.bharatarmy.RoundishImageView-->
-    <!--        android:layout_width="@dimen/_20sdp"-->
-    <!--        android:layout_height="@dimen/_15sdp"-->
-    <!--        android:layout_marginLeft="@dimen/_3sdp"-->
-    <!--        android:layout_marginTop="@dimen/_1sdp"-->
-    <!--        android:layout_marginRight="@dimen/_3sdp"-->
-    <!--        android:adjustViewBounds="true"-->
-    <!--        android:scaleType="centerCrop"-->
-    <!--        android:src="@drawable/flag_india"-->
-    <!--        app:cornerRadius="5dp"-->
-    <!--        app:roundedCorners="topLeft|topRight|bottomLeft|bottomRight" />-->
-
-    <!--    <TextView-->
-    <!--        style="@style/title_text_font"-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="match_parent"-->
-    <!--        android:ellipsize="end"-->
-    <!--        android:gravity="center_horizontal"-->
-    <!--        android:maxLines="1"-->
-    <!--        android:text="vs"-->
-    <!--        android:textColor="@color/heading_bg"-->
-    <!--        android:textSize="@dimen/_16sdp" />-->
-
-    <!--    <com.bharatarmy.RoundishImageView-->
-    <!--        android:layout_width="@dimen/_20sdp"-->
-    <!--        android:layout_height="@dimen/_15sdp"-->
-    <!--        android:layout_gravity=""-->
-    <!--        android:layout_marginLeft="@dimen/_3sdp"-->
-    <!--        android:layout_marginTop="@dimen/_1sdp"-->
-    <!--        android:layout_marginRight="@dimen/_3sdp"-->
-    <!--        android:adjustViewBounds="true"-->
-    <!--        android:scaleType="centerCrop"-->
-    <!--        android:src="@drawable/wl"-->
-    <!--        app:cornerRadius="5dp"-->
-    <!--        app:roundedCorners="topLeft|topRight|bottomLeft|bottomRight" />-->
-
-    <!--    <TextView-->
-    <!--        style="@style/title_text_font"-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="match_parent"-->
-    <!--        android:ellipsize="end"-->
-    <!--        android:gravity="center_horizontal"-->
-    <!--        android:maxLines="1"-->
-    <!--        android:text="Windies"-->
-    <!--        android:textColor="@color/heading_bg"-->
-    <!--        android:textSize="@dimen/_16sdp" />-->
-
-    <!--</LinearLayout>-->
-
-    <!--<LinearLayout-->
-    <!--    android:layout_width="wrap_content"-->
-    <!--    android:layout_height="wrap_content"-->
-    <!--    android:orientation="horizontal">-->
-
-    <!--    <TextView-->
-    <!--        style="@style/text_font"-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:text="Match 01 | Central Broward Regional Park Stadium Turf Ground, Lauderhill, Florida"-->
-    <!--        android:textColor="@color/unselected_view"-->
-    <!--        android:textSize="@dimen/_11sdp" />-->
-
-    <!--</LinearLayout>-->
-
-    <!--</LinearLayout>-->

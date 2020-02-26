@@ -5,22 +5,28 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.view.animation.TranslateAnimation;
 
 import com.bharatarmy.Adapter.TravelMatchTicketHospitalityAdapter;
+import com.bharatarmy.CallTwoAnimationCartAddItemMethod;
 import com.bharatarmy.Interfaces.MorestoryClick;
+import com.bharatarmy.Interfaces.image_click;
+import com.bharatarmy.Models.MyScreenChnagesModel;
 import com.bharatarmy.Models.TravelModel;
 import com.bharatarmy.R;
+import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.ActivityTravelMatchTicketAndHospitalityBinding;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 
 /*https://stackoverflow.com/questions/35082794/animation-transitions-during-move-from-one-activity-to-another-activity-in-andro
-* https://stackoverflow.com/questions/10243557/how-to-apply-slide-animation-between-two-activities-in-android*/
+ * https://stackoverflow.com/questions/10243557/how-to-apply-slide-animation-between-two-activities-in-android*/
 
 public class TravelMatchTicketAndHospitalityActivity extends AppCompatActivity implements View.OnClickListener {
     ActivityTravelMatchTicketAndHospitalityBinding activityTravelMatchTicketAndHospitalityBinding;
@@ -31,11 +37,13 @@ public class TravelMatchTicketAndHospitalityActivity extends AppCompatActivity i
     boolean isUp;
     int selectedposition = -1;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activityTravelMatchTicketAndHospitalityBinding = DataBindingUtil.setContentView(this, R.layout.activity_travel_match_ticket_and_hospitality);
         mContext = TravelMatchTicketAndHospitalityActivity.this;
+        EventBus.getDefault().register(this);
 
         init();
         setListiner();
@@ -45,13 +53,19 @@ public class TravelMatchTicketAndHospitalityActivity extends AppCompatActivity i
 
     public void init() {
         isUp = false;
-//        activityTravelMatchTicketAndHospitalityBinding.toolbarTitleTxt.setText("Tickets and Hospitality");
 
+        Utils.addCartItemCount(mContext, activityTravelMatchTicketAndHospitalityBinding.addcarticon.cartCountItemTxt);
     }
 
     public void setListiner() {
         activityTravelMatchTicketAndHospitalityBinding.backImg.setOnClickListener(this);
-//        activityTravelMatchTicketAndHospitalityBinding.closeFilter.setOnClickListener(this);
+        activityTravelMatchTicketAndHospitalityBinding.addcarticon.cartLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent addcartItemIntent = new Intent(mContext, CartItemShowActivity.class);
+                startActivity(addcartItemIntent);
+            }
+        });
     }
 
     public void setDataValue() {
@@ -88,7 +102,22 @@ public class TravelMatchTicketAndHospitalityActivity extends AppCompatActivity i
             }
         }
 
-        travelMatchTicketHospitalityAdapter = new TravelMatchTicketHospitalityAdapter(mContext, tickethospitalityList, selectedposition);
+        travelMatchTicketHospitalityAdapter = new TravelMatchTicketHospitalityAdapter(mContext, tickethospitalityList, selectedposition, new MorestoryClick() {
+            @Override
+            public void getmorestoryClick() {
+                int addTocartposition = travelMatchTicketHospitalityAdapter.adptercartAddPosition();
+                Utils.animationAdd(mContext, activityTravelMatchTicketAndHospitalityBinding.addcarticon.cartLayout,
+                        activityTravelMatchTicketAndHospitalityBinding.toolbar,
+                        activityTravelMatchTicketAndHospitalityBinding.addcarticon.cartImage,
+                        activityTravelMatchTicketAndHospitalityBinding.addcarticon.cartCountItemTxt, null,
+                        activityTravelMatchTicketAndHospitalityBinding.mainLinear, null, addTocartposition, "travelmatchhospitalityadapter");
+            }
+        }, new image_click() {
+            @Override
+            public void image_more_click() {
+                Utils.removeCartItemCount(mContext, activityTravelMatchTicketAndHospitalityBinding.addcarticon.cartCountItemTxt);
+            }
+        });
         staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, 1);
         activityTravelMatchTicketAndHospitalityBinding.ticketHospitalityRcv.setLayoutManager(staggeredGridLayoutManager);
         activityTravelMatchTicketAndHospitalityBinding.ticketHospitalityRcv.setAdapter(travelMatchTicketHospitalityAdapter);
@@ -104,5 +133,23 @@ public class TravelMatchTicketAndHospitalityActivity extends AppCompatActivity i
         }
     }
 
+    @Override
+    protected void onResume() {
+        Utils.addCartItemCount(mContext, activityTravelMatchTicketAndHospitalityBinding.addcarticon.cartCountItemTxt);
+        super.onResume();
+    }
 
+    @Subscribe
+    public void customEventReceived(MyScreenChnagesModel event) {
+        Log.d("eventBusPosition :", "" + event.getAdapterremvoePosition());
+
+        if (tickethospitalityList != null && tickethospitalityList.size() != 0) {
+            for (int i = 0; i < tickethospitalityList.size(); i++) {
+                if (event.getAdapterremvoePosition() == i) {
+                    travelMatchTicketHospitalityAdapter.notifyItemChanged(i, "remove");
+                }
+            }
+        }
+
+    }
 }

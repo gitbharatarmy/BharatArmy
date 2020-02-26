@@ -62,7 +62,7 @@ public class RelatedTicketCategoryAdapter extends RecyclerView.Adapter<RelatedTi
         TravelModel detail = relatedticketCategorylist.get(position);
 
 
-        holder.relatedCategoryTicketListItemBinding.tickethospitalitypriceTxt.setText(detail.getTicket_hospitality_price());
+        holder.relatedCategoryTicketListItemBinding.tickethospitalitypriceTxt.priceTxt.setText(detail.getTicket_hospitality_price());
         Utils.setImageInImageView(detail.getTicket_hospitality_bannerImage(), holder.relatedCategoryTicketListItemBinding.travelTicketHospitalityBannerImg, mContext);
         holder.relatedCategoryTicketListItemBinding.categoryNameTxt.setText(detail.getTicket_hospitality_namecategory());
         holder.relatedCategoryTicketListItemBinding.showPackageTourDescriptionTxt.setText(detail.getTicket_hospitality_desc());
@@ -84,45 +84,10 @@ public class RelatedTicketCategoryAdapter extends RecyclerView.Adapter<RelatedTi
             }
         });
 
-        if (selectedposition == position){
-            holder.relatedCategoryTicketListItemBinding.ticketHospitalitysCartAddimage.setImageResource(R.drawable.fill_checkbox_schedule);
-            holder.relatedCategoryTicketListItemBinding.ticketHospitalityLayout.setBackground(mContext.getResources().getDrawable(R.drawable.ticket_hospitality_select_item_shape));
-            LinearLayout.LayoutParams relativeParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, mContext.getResources().getDimensionPixelSize(R.dimen._30sdp));
-            relativeParams.setMargins(2,
-                    mContext.getResources().getDimensionPixelSize(R.dimen._5sdp), 2,
-                    2);
-            holder.relatedCategoryTicketListItemBinding.cartLayout.setLayoutParams(relativeParams);
-
-            RelativeLayout.LayoutParams imageParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, mContext.getResources().getDimensionPixelSize(R.dimen._100sdp));
-            imageParams.setMargins(2, 2,
-                    2, 0);
-            holder.relatedCategoryTicketListItemBinding.travelTicketHospitalityBannerImg.setLayoutParams(imageParams);
-
-            RelativeLayout.LayoutParams shadowParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, mContext.getResources().getDimensionPixelSize(R.dimen._100sdp));
-            shadowParams.setMargins(0, 2, 0, 0);
-            holder.relatedCategoryTicketListItemBinding.shadowLinear.setLayoutParams(shadowParams);
-
-        }else{
-            holder.relatedCategoryTicketListItemBinding.ticketHospitalitysCartAddimage.setImageResource(R.drawable.ic_blank_check);
-            holder.relatedCategoryTicketListItemBinding.ticketHospitalityLayout.setBackground(mContext.getResources().getDrawable(R.drawable.ticket_hospitality_all_corner_shape));
-            LinearLayout.LayoutParams relativeParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, mContext.getResources().getDimensionPixelSize(R.dimen._30sdp));
-            relativeParams.setMargins(0, mContext.getResources().getDimensionPixelSize(R.dimen._5sdp), 0, 0);
-            holder.relatedCategoryTicketListItemBinding.cartLayout.setLayoutParams(relativeParams);
-
-            RelativeLayout.LayoutParams imageParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, mContext.getResources().getDimensionPixelSize(R.dimen._100sdp));
-            imageParams.setMargins(0, 0, 0, 0);
-            holder.relatedCategoryTicketListItemBinding.travelTicketHospitalityBannerImg.setLayoutParams(imageParams);
-
-            RelativeLayout.LayoutParams shadowParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, mContext.getResources().getDimensionPixelSize(R.dimen._100sdp));
-            shadowParams.setMargins(0, 0, 0, 0);
-            holder.relatedCategoryTicketListItemBinding.shadowLinear.setLayoutParams(shadowParams);
-        }
 
         holder.relatedCategoryTicketListItemBinding.tickethospitalityCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                selectedposition = position;
-                notifyDataSetChanged();
 
                 Intent categoryIntent = new Intent(mContext, TravelMatchTicketAndHosipitalityticketdetailActivity.class);
                 categoryIntent.putExtra("categoryName", detail.getTicket_hospitality_namecategory());

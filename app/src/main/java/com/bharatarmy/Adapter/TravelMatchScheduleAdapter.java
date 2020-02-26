@@ -2,6 +2,8 @@ package com.bharatarmy.Adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +11,7 @@ import android.view.ViewGroup;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bharatarmy.Activity.TravelMatchScheduleDetailActivity;
 import com.bharatarmy.Models.HomeTemplateDetailModel;
 import com.bharatarmy.Models.TravelModel;
 import com.bharatarmy.R;
@@ -20,8 +23,8 @@ import java.util.List;
 
 public class TravelMatchScheduleAdapter extends RecyclerView.Adapter<TravelMatchScheduleAdapter.MyViewHolder> {
     Context mContext;
-   List<HomeTemplateDetailModel> matchscheduleList;
-
+    List<HomeTemplateDetailModel> matchscheduleList;
+    String firstcountryFlagStr, secondcountryFlagStr;
     private ArrayList<String> dataCheck = new ArrayList<String>();
 
 
@@ -54,7 +57,7 @@ public class TravelMatchScheduleAdapter extends RecyclerView.Adapter<TravelMatch
     @Override
     public void onBindViewHolder(TravelMatchScheduleAdapter.MyViewHolder holder, int position) {
 
-        final HomeTemplateDetailModel scheduledetail = matchscheduleList.get(position);
+        HomeTemplateDetailModel scheduledetail = matchscheduleList.get(position);
 
         if (scheduledetail.getDbFromCountryName().equalsIgnoreCase("")) {
             holder.travelMatchScheduleItemListBinding.firstCountryNameTxt.setText(
@@ -74,10 +77,26 @@ public class TravelMatchScheduleAdapter extends RecyclerView.Adapter<TravelMatch
         Utils.setImageInImageView(scheduledetail.getObjFromCountry().getCountryFlagUrl(), holder.travelMatchScheduleItemListBinding.firstCountryflagImage, mContext);
         Utils.setImageInImageView(scheduledetail.getObjToCountry().getCountryFlagUrl(), holder.travelMatchScheduleItemListBinding.secondCountryflagImage, mContext);
 
+
         holder.travelMatchScheduleItemListBinding.matchTypeTagTxt.setText(scheduledetail.getStrMatchType());
         holder.travelMatchScheduleItemListBinding.matchDateTimeTxt.setText(scheduledetail.getStrMatchDateTime());
 
         holder.travelMatchScheduleItemListBinding.matchGroundLocationTxt.setText(scheduledetail.getStadiumName());
+
+        holder.travelMatchScheduleItemListBinding.scheduleCardLinear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent scheduledetailIntent = new Intent(mContext, TravelMatchScheduleDetailActivity.class);
+                scheduledetailIntent.putExtra("firstcountryName", holder.travelMatchScheduleItemListBinding.firstCountryNameTxt.getText().toString());
+                scheduledetailIntent.putExtra("secondcountryName", holder.travelMatchScheduleItemListBinding.secondCountryNameTxt.getText().toString());
+                scheduledetailIntent.putExtra("firstscountryFlag", scheduledetail.getObjFromCountry().getCountryFlagUrl());
+                scheduledetailIntent.putExtra("secondcountryFlag", scheduledetail.getObjToCountry().getCountryFlagUrl());
+                scheduledetailIntent.putExtra("groundLocation", holder.travelMatchScheduleItemListBinding.matchGroundLocationTxt.getText().toString());
+                scheduledetailIntent.putExtra("matchdatetime", holder.travelMatchScheduleItemListBinding.matchDateTimeTxt.getText().toString());
+                scheduledetailIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                mContext.startActivity(scheduledetailIntent);
+            }
+        });
 
     }
 

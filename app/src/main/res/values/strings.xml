@@ -330,9 +330,14 @@ Sincerity is the hallmark of Pan Pacific Hotels Group. The Group is known to its
 
     <string name="view_more" translatable="false"><u>View More</u></string>
     <string name="add_cart" translatable="false">ADD TO CART</string>
+    <string name="cart_total" translatable="false">Total</string>
+    <string name="cart_screen_header" translatable="false">Cart Detail</string>
+    <string name="cart_total_txt" translatable="false">₹ 10000</string>
+    <string name="cart_book_txt" translatable="false">Check Out</string>
     <string name="ticket_header" translatable="false">Tickets</string>
     <string name="hospitality_header" translatable="false">Hospitality</string>
     <string name="transfer_header" translatable="false">Transfer</string>
+    <string name="cart_swipe_delete" translatable="false">Delete</string>
 
     <string name="privacy_detail" translatable="false"> \u25CF Please note that after the finalization of the Tour service Cost, if there are any Hike in entrance fees of monuments  museums, Taxes, fuel cost or guide charges – by Govt of India, the same would be charged as extra. \n \u25CF TourMyIndia.com act only in the capacity of agent for the hotels, airlines, transporters, railways &amp; contractors providing other services &amp; all exchange orders, receipts, contracts &amp; tickets issued by us are issued subject to terms &amp; conditions under which these services are provided by them.</string>
 

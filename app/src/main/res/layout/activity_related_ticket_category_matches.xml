@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/main_linear"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -14,17 +15,30 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_50sdp"
+            android:contentInsetLeft="@dimen/_6sdp"
+            android:contentInsetRight="0dp"
+            android:contentInsetEnd="0dp"
+            android:contentInsetStart="@dimen/_6sdp"
+            app:contentInsetLeft="0dp"
+            app:contentInsetRight="@dimen/_20sdp"
+            app:contentInsetStartWithNavigation="0dp"
+            app:layout_collapseMode="pin"
+            app:contentInsetStart="@dimen/_6sdp"
+            app:contentInsetEnd="0dp"
             android:background="@color/heading_bg"
-            app:titleTextAppearance="@style/ToolbarTitle"
-            android:minHeight="?attr/actionBarSize"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+            <!--        <LinearLayout-->
+            <!--            android:id="@+id/toolbar"-->
+            <!--            android:layout_width="match_parent"-->
+            <!--            android:layout_height="@dimen/_50sdp"-->
+            <!--            android:background="@color/heading_bg"-->
+            <!--            android:orientation="vertical">-->
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/_15sdp"
-                android:layout_marginRight="@dimen/_15sdp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/_6sdp"
+                android:layout_marginRight="@dimen/_4sdp"
                 android:orientation="horizontal">
 
                 <LinearLayout
@@ -32,6 +46,7 @@
                     android:layout_width="@dimen/_40sdp"
                     android:layout_height="@dimen/_40sdp"
                     android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
                     android:orientation="horizontal">
 
                     <ImageView
@@ -43,15 +58,19 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:id="@+id/header_title_linear"
+                    android:layout_width="@dimen/_220sdp"
                     android:layout_height="@dimen/_40sdp"
+                    android:layout_centerVertical="true"
                     android:layout_toRightOf="@+id/back_img"
                     android:orientation="vertical">
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_2sdp"
                         android:orientation="horizontal">
+
                         <TextView
                             android:id="@+id/toolbar_country1_txt"
                             style="@style/title_text_font"
@@ -59,6 +78,7 @@
                             android:layout_height="wrap_content"
                             android:ellipsize="end"
                             android:maxLines="1"
+                            android:paddingLeft="@dimen/_2sdp"
                             android:text="India"
                             android:textAllCaps="true"
                             android:textColor="@color/splash_bg_color"
@@ -69,21 +89,21 @@
                             style="@style/title_text_font"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/_5sdp"
                             android:ellipsize="end"
                             android:maxLines="1"
-                            android:layout_marginLeft="@dimen/_5sdp"
                             android:text="v"
-                            android:textAllCaps="true"
                             android:textColor="@color/splash_bg_color"
                             android:textSize="@dimen/main_title_size" />
+
                         <TextView
                             android:id="@+id/toolbar_country2_txt"
                             style="@style/title_text_font"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/_5sdp"
                             android:ellipsize="end"
                             android:maxLines="1"
-                            android:layout_marginLeft="@dimen/_5sdp"
                             android:text="South Africa"
                             android:textAllCaps="true"
                             android:textColor="@color/splash_bg_color"
@@ -97,8 +117,9 @@
                         android:orientation="horizontal">
 
                         <ImageView
-                            android:layout_width="@dimen/title_date_time_icon_size"
-                            android:layout_height="@dimen/title_date_time_icon_size"
+                            android:layout_width="@dimen/title_date_time_size"
+                            android:layout_height="@dimen/title_date_time_size"
+                            android:layout_gravity="center_vertical"
                             android:src="@drawable/ic_location"
                             android:tint="@color/splash_bg_color" />
 
@@ -110,7 +131,7 @@
                             android:ellipsize="end"
                             android:gravity="center_vertical"
                             android:maxLines="1"
-                            android:paddingLeft="@dimen/_4sdp"
+                            android:paddingLeft="@dimen/_2sdp"
                             android:paddingTop="@dimen/_1sdp"
                             android:text="Perth Stadium, Perth, Australia"
                             android:textAllCaps="true"
@@ -121,8 +142,9 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginTop="@dimen/_1sdp">
+                        android:layout_marginTop="@dimen/_1sdp"
+                        android:orientation="horizontal">
+
                         <TextView
                             android:id="@+id/toolbar_subtitle_txt"
                             style="@style/title_text_font"
@@ -131,6 +153,7 @@
                             android:ellipsize="end"
                             android:gravity="center_vertical"
                             android:maxLines="1"
+                            android:paddingLeft="@dimen/_2sdp"
                             android:text="Tickets and Hospitality"
                             android:textAllCaps="true"
                             android:textColor="@color/splash_bg_color"
@@ -138,6 +161,15 @@
                     </LinearLayout>
 
                 </LinearLayout>
+
+
+                <include
+                    layout="@layout/addcart_icon_layout"
+                    android:id="@+id/addcarticon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"/>
             </RelativeLayout>
         </androidx.appcompat.widget.Toolbar>
         <View
@@ -167,11 +199,12 @@
             android:id="@+id/ticket_hospitalityRcv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/top_gradiant_view"
             android:layout_marginTop="@dimen/_2sdp"
             android:layout_marginBottom="@dimen/_2sdp"
             android:layout_marginLeft="@dimen/_3sdp"
             android:layout_marginRight="@dimen/_3sdp"/>
 
 
-    </LinearLayout>
+    </RelativeLayout>
 </layout>

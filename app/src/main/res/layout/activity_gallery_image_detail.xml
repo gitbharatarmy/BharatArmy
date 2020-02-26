@@ -53,10 +53,12 @@
                     android:textSize="@dimen/_14sdp" />
 
                 <LinearLayout
+                    android:id="@+id/watchlist_linear"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="0.6"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:visibility="gone">
 
                     <com.like.LikeButton
                         android:id="@+id/watchlist_btn"

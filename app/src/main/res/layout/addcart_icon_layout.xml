@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/cart_layout"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+    <RelativeLayout
+        android:id="@+id/cart_linear"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/_40sdp"
+        android:layout_centerVertical="true"
+        android:visibility="visible">
+
+        <ImageView
+            android:id="@+id/cart_image"
+            android:layout_width="@dimen/_27sdp"
+            android:layout_height="@dimen/_28sdp"
+            android:layout_marginTop="@dimen/_4sdp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginRight="@dimen/_5sdp"
+            android:src="@drawable/ic_menu_cart" />
+
+        <TextView
+            android:id="@+id/cart_view_txt"
+            style="@style/title_text_font"
+            android:layout_width="@dimen/_32sdp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/cart_image"
+            android:layout_alignParentLeft="true"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="@dimen/_1sdp"
+            android:text="Your Cart"
+            android:textColor="@color/splash_bg_color"
+            android:textSize="@dimen/_6sdp"
+            android:textStyle="bold"
+            android:visibility="visible" />
+        <TextView
+            android:id="@+id/cart_count_item_txt"
+            style="@style/title_text_font"
+            android:layout_width="@dimen/_13sdp"
+            android:layout_height="@dimen/_13sdp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="@dimen/_15sdp"
+            android:layout_marginBottom="@dimen/_24sdp"
+            android:background="@drawable/cart_count_bg_shape"
+            android:gravity="center"
+            android:text="00"
+            android:textAllCaps="true"
+            android:textColor="@color/splash_bg_color"
+            android:textSize="@dimen/_8sdp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+</LinearLayout>
+</layout>

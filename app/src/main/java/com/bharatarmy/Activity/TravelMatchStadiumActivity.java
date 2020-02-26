@@ -151,6 +151,7 @@ public class TravelMatchStadiumActivity extends AppCompatActivity implements Vie
                 finish();
                 break;
             case R.id.fab_linear:
+                Utils.handleClickEvent(mContext,activityTravelMatchStadiumBinding.fabLinear);
                 bottomSheetDialogFragment = new MatchStadiumFilterFragment(tournamentotherDataModel, new MorestoryClick() {
                     @Override
                     public void getmorestoryClick() {

@@ -28,6 +28,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bharatarmy.Adapter.GalleryImageDetailAdapter;
 import com.bharatarmy.Fragment.ImageCommentsBottomSheetFragment;
+import com.bharatarmy.Interfaces.MorestoryClick;
 import com.bharatarmy.Interfaces.image_click;
 import com.bharatarmy.Models.MyScreenChnagesModel;
 import com.bharatarmy.OnSwipeListener;
@@ -212,31 +213,38 @@ public class GalleryImageDetailActivity extends AppCompatActivity implements Vie
             }
         }
         galleryImageDetailAdapter = new GalleryImageDetailAdapter(mContext, GalleryImageDetailActivity.this,
-                imageList, imageAddusername, imageDuration, imageId, imageLike, new image_click() {
-            @Override
-            public void image_more_click() {
-                Dexter.withActivity(GalleryImageDetailActivity.this)
-                        .withPermissions(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE,
-                                Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                        .withListener(new MultiplePermissionsListener() {
-                            @Override
-                            public void onPermissionsChecked(MultiplePermissionsReport report) {
-                                if (report.areAllPermissionsGranted()) {
-                                    shareImage();
-                                }
+                imageList, imageAddusername, imageDuration, imageId, imageLike, activityGalleryImageDetailBinding.watchlistLinear,
+                new MorestoryClick() {
+                    @Override
+                    public void getmorestoryClick() {
+                        activityGalleryImageDetailBinding.watchlistLinear.setVisibility(View.VISIBLE);
+                    }
+                },
+                new image_click() {
+                    @Override
+                    public void image_more_click() {
+                        Dexter.withActivity(GalleryImageDetailActivity.this)
+                                .withPermissions(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE,
+                                        Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                                .withListener(new MultiplePermissionsListener() {
+                                    @Override
+                                    public void onPermissionsChecked(MultiplePermissionsReport report) {
+                                        if (report.areAllPermissionsGranted()) {
+                                            shareImage();
+                                        }
 
-                                if (report.isAnyPermissionPermanentlyDenied()) {
-                                    showSettingsDialog();
-                                }
-                            }
+                                        if (report.isAnyPermissionPermanentlyDenied()) {
+                                            showSettingsDialog();
+                                        }
+                                    }
 
-                            @Override
-                            public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
-                                token.continuePermissionRequest();
-                            }
-                        }).check();
-            }
-        });//,onTouchListener
+                                    @Override
+                                    public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
+                                        token.continuePermissionRequest();
+                                    }
+                                }).check();
+                    }
+                });//,onTouchListener
         linearLayoutManager = new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false);
         LinearSnapHelper linearSnapHelper = new SnapHelperOneByOne();
         linearSnapHelper.attachToRecyclerView(activityGalleryImageDetailBinding.imageDetailRcvList);

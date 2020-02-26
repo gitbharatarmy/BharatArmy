@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/schedule_match_sightseenclick_linear"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/_7sdp"
+        android:elevation="3dp"
+        android:orientation="vertical"
+        app:cardCornerRadius="10dp">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="@dimen/_2sdp"
+            android:layout_marginBottom="@dimen/_4sdp"
+            android:weightSum="1">
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.35">
+
+                <com.bharatarmy.RoundishImageView
+                    android:id="@+id/schedule_match_sightseen_img"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="@dimen/_5sdp"
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ajif"
+                    app:cornerRadius="@dimen/_7sdp"
+                    app:roundedCorners="topLeft|topRight|bottomLeft|bottomRight" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_100sdp"
+                android:layout_marginRight="@dimen/_5sdp"
+                android:layout_weight="0.65"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/schedule_match_sightseen_title_txt"
+                        style="@style/title_text_font"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:maxLines="3"
+                        android:paddingTop="@dimen/_5sdp"
+                        android:paddingRight="@dimen/_10sdp"
+                        android:text="World Cup 2019: Bring o..."
+                        android:textColor="@color/heading_bg"
+                        android:textSize="@dimen/_13sdp" />
+
+                    <TextView
+                        android:id="@+id/schedule_match_sightseen_description_txt"
+                        style="@style/text_font"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/schedule_match_sightseen_title_txt"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:ellipsize="end"
+                        android:maxLines="3"
+                        android:paddingRight="@dimen/_10sdp"
+                        android:text="World Cup 2019: Bring o.. \n World Cup 2019: Bring o.. \n World Cup 2019: Bring o.."
+                        android:textColor="@color/normal_font_color"
+                        android:textSize="@dimen/_9sdp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/schedule_match_sightseen_description_txt"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="@dimen/_10sdp"
+                            android:layout_height="@dimen/_10sdp"
+                            android:src="@drawable/ic_location"
+                            android:tint="@color/unselected_view" />
+
+                        <TextView
+                            android:id="@+id/schedule_match_sightseen_location_txt"
+                            style="@style/title_desc_font"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:gravity="center_vertical"
+                            android:maxLines="3"
+                            android:paddingLeft="@dimen/_2sdp"
+                            android:text="Sydney Cricket Ground, Sydney, Australia"
+                            android:textColor="@color/unselected_view"
+                            android:textSize="@dimen/_10sdp" />
+                    </LinearLayout>
+                </RelativeLayout>
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <View
+            android:id="@+id/divider_view"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_1sdp"
+            android:layout_marginLeft="@dimen/_5sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:background="@drawable/divider" />
+    </LinearLayout>
+</layout>
+

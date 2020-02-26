@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
@@ -56,7 +58,8 @@ public class TravelMatchHospitalityAdapter extends RecyclerView.Adapter<TravelMa
     public void onBindViewHolder(TravelMatchHospitalityAdapter.MyViewHolder holder, int position) {
         TravelModel detail = tournamenthospitalitylist.get(position);
 
-        holder.travelMatchHospitalityItemBinding.tickethospitalitypriceTxt.setText(detail.getTicket_hospitality_price());
+
+        holder.travelMatchHospitalityItemBinding.tickethospitalitypriceTxt.priceTxt.setText(detail.getTicket_hospitality_price());
         Utils.setImageInImageView(detail.getTicket_hospitality_bannerImage(), holder.travelMatchHospitalityItemBinding.travelHospitalityBannerImg, mContext);
         holder.travelMatchHospitalityItemBinding.categoryNameTxt.setText(detail.getTicket_hospitality_namecategory());
         holder.travelMatchHospitalityItemBinding.showPackageTourDescriptionTxt.setText(detail.getTicket_hospitality_desc());
@@ -92,19 +95,9 @@ public class TravelMatchHospitalityAdapter extends RecyclerView.Adapter<TravelMa
             holder.travelMatchHospitalityItemBinding.restaurantLinear.setVisibility(View.VISIBLE);
         }
 
-        if (selectedposition == position){
-            holder.travelMatchHospitalityItemBinding.hospitalitysCartAddimage.setImageResource(R.drawable.fill_checkbox_schedule);
-            holder.travelMatchHospitalityItemBinding.hospitalityLayout.setBackground(mContext.getResources().getDrawable(R.drawable.travel_match_selectedchild_curveshape));
-        }else{
-            holder.travelMatchHospitalityItemBinding.hospitalitysCartAddimage.setImageResource(R.drawable.ic_blank_check);
-            holder.travelMatchHospitalityItemBinding.hospitalityLayout.setBackground(mContext.getResources().getDrawable(R.drawable.match_detail_curveshape));
-        }
-
         holder.travelMatchHospitalityItemBinding.hospitalityLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                selectedposition=position;
-                notifyDataSetChanged();
                     Intent hospitalityCategoryIntent=new Intent(mContext, TravelMatchTicketAndHospitalityDetailActivity.class);
                     hospitalityCategoryIntent.putExtra("categoryName",detail.getTicket_hospitality_namecategory());
                     hospitalityCategoryIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |  Intent.FLAG_ACTIVITY_CLEAR_TOP);

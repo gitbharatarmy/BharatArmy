@@ -8,6 +8,7 @@ import com.bharatarmy.Models.ImageMainModel;
 import com.bharatarmy.Models.LogginModel;
 import com.bharatarmy.Models.MoreDataModel;
 import com.bharatarmy.Models.OtpModel;
+import com.bharatarmy.Models.TravelDataModel;
 import com.bharatarmy.Models.TravelMainModel;
 import com.bharatarmy.Models.WatchListModel;
 import com.bharatarmy.Models.WatchListModelDemo;
@@ -249,4 +250,10 @@ public interface WebServices {
 
     @GET
     Call<WatchListModelDemo> getWatchList(@Url String url);
+
+    @GET
+    Call<WatchListModelDemo> getCartList(@Url String url);
+
+    @GET
+    Call<TravelDataModel> getHospitalityList(@Url String url);
 }

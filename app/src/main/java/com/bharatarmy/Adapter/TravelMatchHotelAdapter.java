@@ -14,10 +14,10 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bharatarmy.Activity.AddToCartActivity;
 import com.bharatarmy.Activity.TravelCityHotelDetailsActivity;
 import com.bharatarmy.Activity.TravelMatchHotelRoomTypeActivity;
 import com.bharatarmy.Interfaces.MorestoryClick;
+import com.bharatarmy.Interfaces.image_click;
 import com.bharatarmy.Models.TravelModel;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.AppConfiguration;
@@ -31,13 +31,18 @@ public class TravelMatchHotelAdapter extends RecyclerView.Adapter<TravelMatchHot
     Context mContext;
     ArrayList<TravelModel> hotelList;
     MorestoryClick morestoryClick;
+    image_click image_click;
     private ArrayList<String> dataCheck = new ArrayList<String>();
     ArrayList<TravelModel> matchHotelAmenitiesList;
     MatchHotelAmenitiesAdapter matchHotelAmenitiesAdapter;
-    String audltcountstr,childcountstr;
-    public TravelMatchHotelAdapter(Context mContext, ArrayList<TravelModel> hotelList) {
+    String audltcountstr, childcountstr;
+    int adapteraddcartposition;
+
+    public TravelMatchHotelAdapter(Context mContext, ArrayList<TravelModel> hotelList, MorestoryClick morestoryClick, image_click image_click) {
         this.mContext = mContext;
         this.hotelList = hotelList;
+        this.morestoryClick = morestoryClick;
+        this.image_click = image_click;
     }
 
 
@@ -74,7 +79,7 @@ public class TravelMatchHotelAdapter extends RecyclerView.Adapter<TravelMatchHot
         holder.travelMatchHotelListItemBinding.ratingBar.setCount(detail.getCityHotelRatingStr());
         holder.travelMatchHotelListItemBinding.hoteldescTxt.setText(detail.getCityHotelDescStr());
 
-        Utils.setImageInImageView(AppConfiguration.IMAGE_URL+"d_hotelroom2.jpg",holder.travelMatchHotelListItemBinding.roomImg,mContext);
+        Utils.setImageInImageView(AppConfiguration.IMAGE_URL + "d_hotelroom2.jpg", holder.travelMatchHotelListItemBinding.roomImg, mContext);
 
         matchHotelAmenitiesList = new ArrayList<TravelModel>();
         matchHotelAmenitiesList.add(new TravelModel(AppConfiguration.IMAGE_URL + "parking.png", "Parking"));
@@ -88,34 +93,43 @@ public class TravelMatchHotelAdapter extends RecyclerView.Adapter<TravelMatchHot
         holder.travelMatchHotelListItemBinding.amenities.setAdapter(matchHotelAmenitiesAdapter);
 
         audltcountstr = holder.travelMatchHotelListItemBinding.countOfAudltTxt.getText().toString();
-        childcountstr=holder.travelMatchHotelListItemBinding.countOfChildTxt.getText().toString();
+        childcountstr = holder.travelMatchHotelListItemBinding.countOfChildTxt.getText().toString();
 
         holder.travelMatchHotelListItemBinding.selectRoomLinear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent roomIntent = new Intent(mContext, TravelMatchHotelRoomTypeActivity.class);
-                roomIntent.putExtra("clickposition",String.valueOf(position));
-                roomIntent.putExtra("roomName",holder.travelMatchHotelListItemBinding.roomNametxt.getText().toString());
-                roomIntent.putExtra("adult",audltcountstr);
-                roomIntent.putExtra("child",childcountstr);
+                roomIntent.putExtra("clickposition", String.valueOf(position));
+                roomIntent.putExtra("roomName", holder.travelMatchHotelListItemBinding.roomNametxt.getText().toString());
+                roomIntent.putExtra("adult", audltcountstr);
+                roomIntent.putExtra("child", childcountstr);
                 roomIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 mContext.startActivity(roomIntent);
             }
         });
 
-        holder.travelMatchHotelListItemBinding.cartView.setOnClickListener(new View.OnClickListener() {
+        holder.travelMatchHotelListItemBinding.addCartLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent cartIntent=new Intent(mContext, AddToCartActivity.class);
-                cartIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                mContext.startActivity(cartIntent);
+                holder.travelMatchHotelListItemBinding.addCartLayout.setVisibility(View.GONE);
+                holder.travelMatchHotelListItemBinding.removeCartLayout.setVisibility(View.VISIBLE);
+                adapteraddcartposition = position;
+                morestoryClick.getmorestoryClick();
+            }
+        });
+        holder.travelMatchHotelListItemBinding.removeCartLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                holder.travelMatchHotelListItemBinding.addCartLayout.setVisibility(View.VISIBLE);
+                holder.travelMatchHotelListItemBinding.removeCartLayout.setVisibility(View.GONE);
+                image_click.image_more_click();
             }
         });
 
         holder.travelMatchHotelListItemBinding.hotelLinear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent cityHotelDetail=new Intent(mContext, TravelCityHotelDetailsActivity.class);
+                Intent cityHotelDetail = new Intent(mContext, TravelCityHotelDetailsActivity.class);
                 cityHotelDetail.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 mContext.startActivity(cityHotelDetail);
             }
@@ -124,17 +138,22 @@ public class TravelMatchHotelAdapter extends RecyclerView.Adapter<TravelMatchHot
 
     @Override
     public void onBindViewHolder(@NonNull TravelMatchHotelAdapter.MyViewHolder holder, int position, @NonNull List<Object> payloads) {
-        if (!payloads.isEmpty()){
+        if (!payloads.isEmpty()) {
             for (final Object payload : payloads) {
-                Log.d("payloadHotelDetail:",payload.toString());
+                Log.d("payloadHotelDetail:", payload.toString());
+                if (!payload.toString().equalsIgnoreCase("remove")) {
+                    String payLoaddata = payload.toString();
+                    String[] splitvalue = payLoaddata.split("\\|");
+                    holder.travelMatchHotelListItemBinding.roomNametxt.setText(splitvalue[1]);
+                    Utils.setImageInImageView(splitvalue[2], holder.travelMatchHotelListItemBinding.roomImg, mContext);
 
-                String payLoaddata =payload.toString();
-                String [] splitvalue=payLoaddata.split("\\|");
-                holder.travelMatchHotelListItemBinding.roomNametxt.setText(splitvalue[1]);
-                Utils.setImageInImageView(splitvalue[2],holder.travelMatchHotelListItemBinding.roomImg,mContext);
+                } else {
+                    holder.travelMatchHotelListItemBinding.addCartLayout.setVisibility(View.VISIBLE);
+                    holder.travelMatchHotelListItemBinding.removeCartLayout.setVisibility(View.GONE);
+                }
 
             }
-        }else{
+        } else {
             super.onBindViewHolder(holder, position, payloads);
         }
     }
@@ -157,6 +176,10 @@ public class TravelMatchHotelAdapter extends RecyclerView.Adapter<TravelMatchHot
 
     public ArrayList<String> getDatas() {
         return dataCheck;
+    }
+
+    public int adptercartAddPosition() {
+        return adapteraddcartposition;
     }
 }
 

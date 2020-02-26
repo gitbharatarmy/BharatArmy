@@ -60,11 +60,15 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.content.ContextCompat;
 
 import com.bharatarmy.Activity.AppLoginActivity;
 import com.bharatarmy.Activity.DashboardActivity;
+import com.bharatarmy.CallOneAnimationCartAddItemMethod;
+import com.bharatarmy.CallTwoAnimationCartAddItemMethod;
 import com.bharatarmy.Models.GalleryImageModel;
 import com.bharatarmy.Models.ImageMainModel;
 import com.bharatarmy.Models.LoginDataModel;
@@ -593,7 +597,7 @@ public class Utils {
                     } else if (wheretocome.equalsIgnoreCase("Feedback")) {
                         Intent dashboardIntent = new Intent(activity, DashboardActivity.class);
                         activity.startActivity(dashboardIntent);
-                    }else if (wheretocome.equalsIgnoreCase("sports")) {
+                    } else if (wheretocome.equalsIgnoreCase("sports")) {
 
                     }
 
@@ -1006,7 +1010,6 @@ public class Utils {
     }
 
 
-
     public static void scrollScreen(ScrollView scrollView) {
         scrollView.postDelayed(new Runnable() {
             @Override
@@ -1160,6 +1163,53 @@ public class Utils {
         return (resourceId > 0) ? resources.getDimensionPixelSize(resourceId) : 0;
     }
 
+    public static void addCartItemCount(Context mContext, TextView textView) {
+        if (Utils.getPref(mContext, "cartCounter") != null) {
+            if (!Utils.getPref(mContext, "cartCounter").equalsIgnoreCase("")) {
+                if (Integer.valueOf(Utils.getPref(mContext, "cartCounter")) <= 9) {
+                    textView.setText("0" + Utils.getPref(mContext, "cartCounter"));
+                } else {
+                    textView.setText(Utils.getPref(mContext, "cartCounter"));
+                }
 
+            }
+        }
+    }
 
+    public static void removeCartItemCount(Context mContext, TextView textView) {
+        int removecount = Integer.parseInt(textView.getText().toString());
+        if (removecount != 0) {
+            removecount = removecount - 1;
+            Utils.setPref(mContext, "cartCounter", String.valueOf(removecount));
+            if (removecount <= 9) {
+                textView.setText("0" + Utils.getPref(mContext, "cartCounter"));
+            } else {
+                textView.setText(Utils.getPref(mContext, "cartCounter"));
+            }
+
+        }
+    }
+
+    public static void animationAdd(Context mContext, LinearLayout cartlayout, Toolbar toolbar, ImageView cartImage,
+                                    TextView cartCounttxt, CoordinatorLayout coordinatorLayout,
+                                    RelativeLayout relativeLayout, LinearLayout linearLayout, int position, String adapterListName) {
+        if (cartlayout.isShown()) {
+            CallTwoAnimationCartAddItemMethod callCart = new CallTwoAnimationCartAddItemMethod();
+            callCart.defineCartControl(mContext, toolbar, cartImage, cartCounttxt, position, adapterListName);
+            if (coordinatorLayout != null) {
+                callCart.startAnimationOnClick(coordinatorLayout);
+            } else if (relativeLayout != null) {
+                callCart.startAnimationOnClick(relativeLayout);
+            }
+
+        } else {
+            CallOneAnimationCartAddItemMethod callCart = new CallOneAnimationCartAddItemMethod();
+            callCart.defineCartControl(mContext, toolbar, cartImage, cartCounttxt, position, adapterListName);
+            if (coordinatorLayout != null) {
+                callCart.startAnimationOnClick(coordinatorLayout);
+            } else if (relativeLayout != null) {
+                callCart.startAnimationOnClick(relativeLayout);
+            }
+        }
+    }
 }

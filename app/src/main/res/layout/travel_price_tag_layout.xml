@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/price_txt"
+        style="@style/title_text_font"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginRight="@dimen/_2sdp"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/_5sdp"
+        android:paddingTop="@dimen/_2sdp"
+        android:paddingRight="@dimen/_5sdp"
+        android:paddingBottom="@dimen/_2sdp"
+        android:text="₹ 10000"
+        android:textColor="@color/splash_bg_color"
+        android:textSize="@dimen/_11sdp"
+        android:textStyle="bold" />
+
+</layout>
+

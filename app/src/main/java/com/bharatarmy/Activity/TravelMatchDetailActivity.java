@@ -274,4 +274,6 @@ public class TravelMatchDetailActivity extends AppCompatActivity implements View
         travelMatchDetailBinding.matchRcv.setAdapter(travelMatchDetailSightseensRecyclerAdapter);
         travelMatchDetailRecyclerAdapter.notifyDataSetChanged();
     }
+
+
 }

@@ -11,6 +11,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bharatarmy.Activity.TravelMatchTicketAndHospitalityActivity;
+import com.bharatarmy.Interfaces.MorestoryClick;
 import com.bharatarmy.Models.HomeTemplateDetailModel;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.Utils;
@@ -22,13 +23,13 @@ import java.util.List;
 public class TravelMatchTicketMAinAdapter extends RecyclerView.Adapter<TravelMatchTicketMAinAdapter.MyViewHolder> {
     Context mContext;
     List<HomeTemplateDetailModel> matchticketList;
-
     private ArrayList<String> dataCheck = new ArrayList<String>();
 
 
     public TravelMatchTicketMAinAdapter(Context mContext, List<HomeTemplateDetailModel> matchticketList) {
         this.mContext = mContext;
         this.matchticketList = matchticketList;
+
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
@@ -46,7 +47,7 @@ public class TravelMatchTicketMAinAdapter extends RecyclerView.Adapter<TravelMat
     public TravelMatchTicketMAinAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         TravelMatchTicketItemListBinding travelMatchTicketItemListBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
-                        R.layout.travel_match_ticket_item_list, parent, false);
+                R.layout.travel_match_ticket_item_list, parent, false);
         return new TravelMatchTicketMAinAdapter.MyViewHolder(travelMatchTicketItemListBinding);
     }
 
@@ -80,32 +81,25 @@ public class TravelMatchTicketMAinAdapter extends RecyclerView.Adapter<TravelMat
         holder.travelMatchTicketItemListBinding.layout1.matchGroundLocationTxt.setText(ticketdetail.getStadiumName());
 
 
-        holder.travelMatchTicketItemListBinding.layout1.matchTicketBuyTagTxt.setOnClickListener(new View.OnClickListener() {
+
+
+        holder.travelMatchTicketItemListBinding.layout1.ticketLinear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent ticketandhospitalityIntent = new Intent(mContext, TravelMatchTicketAndHospitalityActivity.class);
-                ticketandhospitalityIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                ticketandhospitalityIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 mContext.startActivity(ticketandhospitalityIntent);
             }
         });
 
-        holder.travelMatchTicketItemListBinding.layout1.matchImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent ticketandhospitalityIntent = new Intent(mContext, TravelMatchTicketAndHospitalityActivity.class);
-                ticketandhospitalityIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                mContext.startActivity(ticketandhospitalityIntent);
-            }
-        });
-
-        holder.travelMatchTicketItemListBinding.layout1.ticketDetailLinear.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent ticketandhospitalityIntent = new Intent(mContext, TravelMatchTicketAndHospitalityActivity.class);
-                ticketandhospitalityIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                mContext.startActivity(ticketandhospitalityIntent);
-            }
-        });
+//        holder.travelMatchTicketItemListBinding.layout1.ticketDetailLinear.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent ticketandhospitalityIntent = new Intent(mContext, TravelMatchTicketAndHospitalityActivity.class);
+//                ticketandhospitalityIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                mContext.startActivity(ticketandhospitalityIntent);
+//            }
+//        });
 
     }
 

@@ -1,0 +1,615 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/view_background"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/heading_bg">
+
+            <ImageView
+                android:id="@+id/delete_icon"
+                android:layout_width="@dimen/_14sdp"
+                android:layout_height="@dimen/_14sdp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:src="@drawable/ic_delete_cart"
+                android:tint="@color/splash_bg_color" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:layout_toEndOf="@id/delete_icon"
+                android:text="@string/cart_swipe_delete"
+                android:textColor="@color/splash_bg_color"
+                android:textSize="@dimen/_14sdp" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/view_foreground"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white">
+
+            <LinearLayout
+                android:id="@+id/ticket_main_cart_linear"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_14sdp"
+                android:layout_marginTop="@dimen/_14sdp"
+                android:layout_marginEnd="@dimen/_7sdp"
+                android:layout_marginBottom="@dimen/_14sdp"
+                android:orientation="horizontal"
+                android:visibility="visible"
+                android:weightSum="1"
+                android:baselineAligned="false">
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.35">
+
+                    <com.bharatarmy.RoundishImageView
+                        android:id="@+id/cart_ticket_img"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:adjustViewBounds="true"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/ajif"
+                        app:cornerRadius="@dimen/_7sdp"
+                        app:roundedCorners="topLeft|topRight|bottomLeft|bottomRight" />
+
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:id="@+id/cart_ticket_detail_linear"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.65"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_13sdp"
+                        android:layout_marginStart="@dimen/_5sdp"
+                        android:layout_marginTop="@dimen/_3sdp"
+                        android:layout_marginEnd="@dimen/_4sdp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/cart_ticket_match_type_tag_txt"
+                            style="@style/title_text_font"
+                            android:layout_width="27dp"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/square_tag_shape"
+                            android:gravity="center_vertical|center_horizontal"
+                            android:text="T20"
+                            android:textColor="@color/splash_bg_color"
+                            android:textSize="@dimen/_8sdp"
+                            android:textStyle="bold"
+                            android:visibility="visible" />
+
+                        <ImageView
+                            android:layout_width="@dimen/_10sdp"
+                            android:layout_height="@dimen/_10sdp"
+                            android:src="@drawable/ic_clock"
+                            android:tint="@color/unselected_view"
+                            android:visibility="gone" />
+
+                        <TextView
+                            android:id="@+id/cart_ticket_match_date_time_txt"
+                            style="@style/title_text_font"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="@dimen/_5sdp"
+                            android:gravity="center_vertical"
+                            android:text="Sat 03 Aug,10:30 AM (Local)"
+                            android:textColor="@color/unselected_view"
+                            android:textSize="@dimen/_10sdp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_7sdp"
+                        android:layout_marginBottom="@dimen/_7sdp"
+                        android:orientation="horizontal">
+
+
+                        <TextView
+                            android:id="@+id/cart_first_country_Name_txt"
+                            style="@style/title_text_font"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginStart="@dimen/_5sdp"
+                            android:ellipsize="end"
+                            android:gravity="top|left"
+                            android:maxLines="2"
+                            android:paddingEnd="@dimen/_5sdp"
+                            android:text="India"
+                            android:textColor="@color/heading_bg"
+                            android:textSize="@dimen/_11sdp" />
+
+                        <RelativeLayout
+                            android:id="@+id/cart_flag_boder_linear"
+                            android:layout_width="@dimen/_33sdp"
+                            android:layout_height="@dimen/_21sdp"
+                            android:background="@drawable/curve_flag_boader_shape">
+
+                            <com.bharatarmy.RoundishImageView
+                                android:id="@+id/cart_first_countryflag_image"
+                                android:layout_width="@dimen/_32sdp"
+                                android:layout_height="@dimen/_20sdp"
+                                android:layout_centerInParent="true"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/flag_india"
+                                app:cornerRadius="3dp"
+                                app:roundedCorners="topLeft|topRight|bottomLeft|bottomRight" />
+
+                        </RelativeLayout>
+
+                        <TextView
+                            style="@style/title_text_font"
+                            android:layout_width="@dimen/_15sdp"
+                            android:layout_height="match_parent"
+                            android:gravity="center_horizontal|center_vertical"
+                            android:text="v"
+                            android:textColor="@color/heading_bg"
+                            android:textSize="@dimen/_11sdp" />
+
+                        <RelativeLayout
+                            android:layout_width="@dimen/_33sdp"
+                            android:layout_height="@dimen/_21sdp"
+                            android:background="@drawable/curve_flag_boader_shape">
+
+                            <com.bharatarmy.RoundishImageView
+                                android:id="@+id/cart_second_countryflag_image"
+                                android:layout_width="@dimen/_32sdp"
+                                android:layout_height="@dimen/_20sdp"
+                                android:layout_centerInParent="true"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/south_flag"
+                                app:cornerRadius="3dp"
+                                app:roundedCorners="topLeft|topRight|bottomLeft|bottomRight" />
+                        </RelativeLayout>
+
+                        <TextView
+                            android:id="@+id/cart_second_country_Name_txt"
+                            style="@style/title_text_font"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginEnd="@dimen/_5sdp"
+                            android:ellipsize="end"
+                            android:gravity="top"
+                            android:maxLines="2"
+                            android:paddingStart="@dimen/_5sdp"
+                            android:text="South Africa"
+                            android:textColor="@color/heading_bg"
+                            android:textSize="@dimen/_11sdp" />
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_5sdp"
+                        android:layout_marginEnd="@dimen/_4sdp"
+                        android:layout_marginBottom="@dimen/_2sdp"
+                        android:orientation="vertical"
+                        android:visibility="visible">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginBottom="@dimen/_1sdp">
+                            <ImageView
+                                android:layout_width="@dimen/_10sdp"
+                                android:layout_height="@dimen/_10sdp"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/ic_travel_page_tickets"
+                                android:tint="@color/unselected_view"
+                                android:visibility="visible" />
+                            <TextView
+                                android:id="@+id/ticket_view_txt"
+                                style="@style/title_text_font"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/_2sdp"
+                                android:text="Ticket"
+                                android:textColor="@color/unselected_view"
+                                android:textSize="@dimen/_9sdp" />
+                        </LinearLayout>
+
+
+                        <TextView
+                            android:id="@+id/cart_ticket_match_category_txt"
+                            style="@style/title_text_font"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:gravity="center_vertical"
+                            android:maxLines="3"
+                            android:text="Category A "
+                            android:textColor="@color/heading_bg"
+                            android:textSize="@dimen/_14sdp" />
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/_5sdp"
+                        android:orientation="horizontal"
+                        android:visibility="gone"
+                        android:weightSum="1">
+
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.5"
+                            android:orientation="vertical">
+
+
+                            <RelativeLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/rectangle_line"
+                                android:orientation="horizontal">
+
+                                <RelativeLayout
+                                    android:id="@+id/cart_ticket_minus_layout"
+                                    android:layout_width="@dimen/_20sdp"
+                                    android:layout_height="@dimen/_20sdp"
+                                    android:background="@color/heading_bg">
+
+                                    <ImageView
+                                        android:id="@+id/cart_ticket_minus_img"
+                                        android:layout_width="@dimen/_10sdp"
+                                        android:layout_height="@dimen/_10sdp"
+                                        android:layout_centerInParent="true"
+                                        android:src="@drawable/summary_minus"
+                                        android:tint="@color/splash_bg_color" />
+                                </RelativeLayout>
+
+
+                                <TextView
+                                    android:id="@+id/cart_count_of_item"
+                                    style="@style/title_text_font"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginLeft="@dimen/_10sdp"
+                                    android:layout_toRightOf="@+id/cart_ticket_minus_layout"
+                                    android:ellipsize="end"
+                                    android:gravity="center_vertical"
+                                    android:maxLines="1"
+                                    android:text="1"
+                                    android:textColor="@color/heading_bg"
+                                    android:textSize="@dimen/_10sdp" />
+
+                                <RelativeLayout
+                                    android:id="@+id/cart_ticket_plus_layout"
+                                    android:layout_width="@dimen/_20sdp"
+                                    android:layout_height="@dimen/_20sdp"
+                                    android:layout_marginLeft="@dimen/_10sdp"
+                                    android:layout_toRightOf="@+id/cart_count_of_item"
+                                    android:background="@color/heading_bg">
+
+                                    <ImageView
+                                        android:id="@+id/cart_ticket_plus_img"
+                                        android:layout_width="@dimen/_10sdp"
+                                        android:layout_height="@dimen/_10sdp"
+                                        android:layout_centerInParent="true"
+                                        android:src="@drawable/summary_plus"
+                                        android:tint="@color/splash_bg_color" />
+                                </RelativeLayout>
+
+                            </RelativeLayout>
+
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.5"
+                            android:orientation="vertical">
+
+                            <RelativeLayout
+                                android:id="@+id/cart_price_layout"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/_20sdp"
+                                android:layout_below="@+id/price_view_layout"
+                                android:layout_marginTop="-2dp"
+                                android:visibility="visible">
+
+                                <TextView
+                                    android:id="@+id/cart_pricetype_txt"
+                                    style="@style/title_text_font"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_toLeftOf="@+id/cart_price_txt"
+                                    android:ellipsize="end"
+                                    android:gravity="center_vertical"
+                                    android:maxLines="1"
+                                    android:text="₹ "
+                                    android:textColor="@color/normal_font_color"
+                                    android:textSize="@dimen/_14sdp" />
+
+                                <TextView
+                                    android:id="@+id/cart_price_txt"
+                                    style="@style/title_text_font"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_marginRight="@dimen/_2sdp"
+                                    android:ellipsize="end"
+                                    android:gravity="center_vertical"
+                                    android:maxLines="1"
+                                    android:text="500.0"
+                                    android:textColor="@color/normal_font_color"
+                                    android:textSize="@dimen/_14sdp" />
+                            </RelativeLayout>
+
+                        </RelativeLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/hotel_main_cart_linear"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_14sdp"
+                android:layout_marginTop="@dimen/_14sdp"
+                android:layout_marginEnd="@dimen/_7sdp"
+                android:layout_marginBottom="@dimen/_14sdp"
+                android:orientation="horizontal"
+                android:visibility="gone"
+                android:weightSum="1">
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.35">
+
+                    <com.bharatarmy.RoundishImageView
+                        android:id="@+id/cart_hotel_img"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:adjustViewBounds="true"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/ajif"
+                        app:cornerRadius="@dimen/_7sdp"
+                        app:roundedCorners="topLeft|topRight|bottomLeft|bottomRight" />
+
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:id="@+id/cart_hotel_detail_linear"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_5sdp"
+                    android:layout_weight="0.65"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_13sdp"
+                        android:layout_marginTop="@dimen/_3sdp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/cart_hotel_Name_txt"
+                            style="@style/title_text_font"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:ellipsize="end"
+                            android:gravity="top|left"
+                            android:maxLines="2"
+                            android:paddingRight="@dimen/_5sdp"
+                            android:text="India"
+                            android:textColor="@color/heading_bg"
+                            android:textSize="@dimen/_12sdp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+
+                        <com.whinc.widget.ratingbar.RatingBar
+                            android:id="@+id/cart_ratingBar"
+                            android:layout_width="@dimen/_50sdp"
+                            android:layout_height="@dimen/_15sdp"
+                            app:rb_click_rating="false"
+                            app:rb_count="3"
+                            app:rb_empty="@drawable/empty"
+                            app:rb_fill="@drawable/fill"
+                            app:rb_max_count="5"
+                            app:rb_space="0dp"
+                            app:rb_touch_rating="false" />
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:visibility="visible"
+                        android:layout_marginBottom="@dimen/_2sdp">
+
+
+                        <TextView
+                            android:id="@+id/cart_hotel_description_txt"
+                            style="@style/text_font"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:gravity="center_vertical"
+                            android:maxLines="3"
+                            android:paddingEnd="@dimen/_5sdp"
+                            android:text="Category A"
+                            android:textColor="@color/normal_font_color"
+                            android:textSize="@dimen/_10sdp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:layout_marginRight="@dimen/_5sdp"
+                        android:layout_marginBottom="@dimen/_3sdp"
+                        android:orientation="horizontal"
+                        android:visibility="gone"
+                        android:weightSum="1">
+
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.5"
+                            android:orientation="vertical">
+
+
+                            <RelativeLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:background="@drawable/rectangle_line"
+                                android:orientation="horizontal">
+
+                                <RelativeLayout
+                                    android:id="@+id/cart_hotel_minus_layout"
+                                    android:layout_width="@dimen/_20sdp"
+                                    android:layout_height="@dimen/_20sdp"
+                                    android:background="@color/heading_bg">
+
+                                    <ImageView
+                                        android:id="@+id/cart_hotel_minus_img"
+                                        android:layout_width="@dimen/_10sdp"
+                                        android:layout_height="@dimen/_10sdp"
+                                        android:layout_centerInParent="true"
+                                        android:src="@drawable/summary_minus"
+                                        android:tint="@color/splash_bg_color" />
+                                </RelativeLayout>
+
+
+                                <TextView
+                                    android:id="@+id/cart_hotel_count_of_item"
+                                    style="@style/title_text_font"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_centerVertical="true"
+                                    android:layout_marginLeft="@dimen/_10sdp"
+                                    android:layout_toRightOf="@+id/cart_hotel_minus_layout"
+                                    android:ellipsize="end"
+                                    android:gravity="center_vertical"
+                                    android:maxLines="1"
+                                    android:text="1"
+                                    android:textColor="@color/heading_bg"
+                                    android:textSize="@dimen/_10sdp" />
+
+                                <RelativeLayout
+                                    android:id="@+id/cart_hotel_plus_layout"
+                                    android:layout_width="@dimen/_20sdp"
+                                    android:layout_height="@dimen/_20sdp"
+                                    android:layout_marginLeft="@dimen/_10sdp"
+                                    android:layout_toRightOf="@+id/cart_hotel_count_of_item"
+                                    android:background="@color/heading_bg">
+
+                                    <ImageView
+                                        android:id="@+id/cart_hotel_plus_img"
+                                        android:layout_width="@dimen/_10sdp"
+                                        android:layout_height="@dimen/_10sdp"
+                                        android:layout_centerInParent="true"
+                                        android:src="@drawable/summary_plus"
+                                        android:tint="@color/splash_bg_color" />
+                                </RelativeLayout>
+
+                            </RelativeLayout>
+
+
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="0.5"
+                            android:orientation="vertical">
+
+                            <RelativeLayout
+                                android:id="@+id/cart_hotel_price_layout"
+                                android:layout_width="match_parent"
+                                android:layout_height="@dimen/_20sdp"
+                                android:visibility="visible">
+
+                                <TextView
+                                    android:id="@+id/cart_hotel_pricetype_txt"
+                                    style="@style/title_text_font"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_toLeftOf="@+id/cart_hotel_price_txt"
+                                    android:ellipsize="end"
+                                    android:gravity="center_vertical"
+                                    android:maxLines="1"
+                                    android:text="₹ "
+                                    android:textColor="@color/normal_font_color"
+                                    android:textSize="@dimen/_14sdp" />
+
+                                <TextView
+                                    android:id="@+id/cart_hotel_price_txt"
+                                    style="@style/title_text_font"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentRight="true"
+                                    android:layout_marginRight="@dimen/_2sdp"
+                                    android:ellipsize="end"
+                                    android:gravity="center_vertical"
+                                    android:maxLines="1"
+                                    android:text="500.0"
+                                    android:textColor="@color/normal_font_color"
+                                    android:textSize="@dimen/_14sdp" />
+                            </RelativeLayout>
+
+                        </RelativeLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+            </LinearLayout>
+        </RelativeLayout>
+
+        <View
+            android:id="@+id/bottom_line_view"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_gravity="bottom"
+            android:layout_marginStart="@dimen/_14sdp"
+            android:layout_marginTop="@dimen/_6sdp"
+            android:layout_marginEnd="@dimen/_14sdp"
+            android:background="@color/colorGrey300"
+            android:visibility="visible" />
+    </FrameLayout>
+</layout>
+
