@@ -94,8 +94,8 @@
                 android:id="@+id/cart_item_rcv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="@dimen/_60sdp"
-                android:clipToPadding="false"/>
+                android:clipToPadding="false"
+                android:paddingBottom="@dimen/_55sdp" />
         </LinearLayout>
 
         <View
@@ -110,9 +110,9 @@
             android:id="@+id/bottom_linear"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_50sdp"
+            android:layout_alignParentBottom="true"
             android:background="@color/heading_bg"
             android:baselineAligned="false"
-            android:layout_alignParentBottom="true"
             android:orientation="horizontal"
             android:visibility="visible"
             android:weightSum="1">
@@ -154,14 +154,14 @@
                         android:textSize="@dimen/_15sdp"
                         android:textStyle="bold" />
 
-<!--                    <TextView-->
-<!--                        style="@style/text_font"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:paddingLeft="@dimen/_2sdp"-->
-<!--                        android:text="Per person"-->
-<!--                        android:textColor="@color/colorGrey300"-->
-<!--                        android:textSize="@dimen/_10sdp" />-->
+                    <!--                    <TextView-->
+                    <!--                        style="@style/text_font"-->
+                    <!--                        android:layout_width="wrap_content"-->
+                    <!--                        android:layout_height="wrap_content"-->
+                    <!--                        android:paddingLeft="@dimen/_2sdp"-->
+                    <!--                        android:text="Per person"-->
+                    <!--                        android:textColor="@color/colorGrey300"-->
+                    <!--                        android:textSize="@dimen/_10sdp" />-->
                 </LinearLayout>
 
             </LinearLayout>
@@ -191,5 +191,46 @@
             </RelativeLayout>
         </LinearLayout>
 
+        <RelativeLayout
+            android:id="@+id/no_cartdatarel"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/nocartdata_img"
+                android:layout_width="@dimen/_70sdp"
+                android:layout_height="@dimen/_70sdp"
+                android:layout_centerInParent="true"
+                android:src="@drawable/ic_cart" />
+
+            <TextView
+                android:id="@+id/cart_empty_txt"
+                style="@style/title_text_font"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/nocartdata_img"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:gravity="center_horizontal"
+                android:text="Cart is empty"
+                android:textColor="@color/heading_bg"
+                android:textSize="@dimen/_16sdp" />
+
+            <Button
+                android:id="@+id/next_btn"
+                android:layout_width="@dimen/_130sdp"
+                android:layout_height="@dimen/_35sdp"
+                android:layout_centerHorizontal="true"
+                android:text="Back to Shopping"
+                android:gravity="center"
+                android:layout_below="@+id/cart_empty_txt"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:background="@color/heading_bg"
+                android:textColor="@color/splash_bg_color"
+                android:textAllCaps="false"
+                android:textSize="@dimen/_15sdp"
+                style="@style/title_text_font" />
+
+        </RelativeLayout>
     </RelativeLayout>
 </layout>

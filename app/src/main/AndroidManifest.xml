@@ -28,6 +28,11 @@
         android:usesCleartextTraffic="true"
         tools:ignore="LockedOrientationActivity">
         <activity
+            android:name=".Activity.TravelMatchStadiumDetailActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
             android:name=".Activity.CartItemShowActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"

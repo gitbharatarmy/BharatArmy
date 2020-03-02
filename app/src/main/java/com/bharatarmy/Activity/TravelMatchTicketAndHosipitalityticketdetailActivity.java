@@ -222,11 +222,5 @@ public class TravelMatchTicketAndHosipitalityticketdetailActivity extends AppCom
         super.onResume();
     }
 
-    @Subscribe
-    public void customEventReceived(MyScreenChnagesModel event) {
-        if (event.getAdapterListName().equalsIgnoreCase("noadapter")) {
-            activityTravelMatchTicketAndHosipitalityticketdetailBinding.bottomCartRemoveView.setVisibility(View.GONE);
-            activityTravelMatchTicketAndHosipitalityticketdetailBinding.bottomCartAddView.setVisibility(View.VISIBLE);
-        }
-    }
+
 }

@@ -2,8 +2,6 @@ package com.bharatarmy.Adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,27 +9,16 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.databinding.DataBindingUtil;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bharatarmy.Activity.TravelCityHotelDetailsActivity;
-import com.bharatarmy.Activity.TravelMatchHotelRoomTypeActivity;
-import com.bharatarmy.Interfaces.MorestoryClick;
-import com.bharatarmy.Models.TravelModel;
 import com.bharatarmy.Models.WatchListDetailModel;
 import com.bharatarmy.R;
 import com.bharatarmy.RoundishImageView;
-import com.bharatarmy.Utility.AppConfiguration;
 import com.bharatarmy.Utility.Utils;
-import com.bharatarmy.databinding.CartItemShowListItemBinding;
-import com.bharatarmy.databinding.TravelMatchHotelListItemBinding;
 import com.whinc.widget.ratingbar.RatingBar;
 
-import java.util.ArrayList;
 import java.util.List;
+// delete code 27-02-2020 with backup
 
 public class CartItemShowAdapter extends RecyclerView.Adapter<CartItemShowAdapter.MyViewHolder> {
     Context mContext;
@@ -46,18 +33,14 @@ public class CartItemShowAdapter extends RecyclerView.Adapter<CartItemShowAdapte
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
-        //        CartItemShowListItemBinding cartItemShowListItemBinding;
-        /*public MyViewHolder(CartItemShowListItemBinding cartItemShowListItemBinding) {
-            super(cartItemShowListItemBinding.getRoot());
-            this.cartItemShowListItemBinding = cartItemShowListItemBinding;
-        }*/
         public RelativeLayout viewBackground, viewForeground;
         public LinearLayout ticketMainCartLinear, hotelMainCartLinear, cartTicketDetailLinear, cartHotelDetailLinear;
         public RoundishImageView cartTicketImage, cartHotelImage, cartFirstCountryFlagImage, cartSecondCountryFlagImage;
         public TextView cartTicketMatchTypeTagTextView, cartTicketMatchDateTimeTextView,
                 cartFirstCountryNameTextView, cartSecondCountryNameTextView,
                 cartTicketMatchCategoryTextView, cartPriceTicketTextView,
-                cartHotelNameTextView, cartHotelDescriptionTextView, cartHotelPriceTextView;
+                cartHotelNameTextView, cartHotelDescriptionTextView,
+                cartHotelPriceTextView, cartHotelRoomNameTextView;
         public RatingBar hotelRatingBar;
         public View bottomLineView;
 
@@ -83,6 +66,7 @@ public class CartItemShowAdapter extends RecyclerView.Adapter<CartItemShowAdapte
             cartHotelNameTextView = view.findViewById(R.id.cart_hotel_Name_txt);
             cartHotelDescriptionTextView = view.findViewById(R.id.cart_hotel_description_txt);
             cartHotelPriceTextView = view.findViewById(R.id.cart_hotel_price_txt);
+            cartHotelRoomNameTextView = view.findViewById(R.id.cart_hotel_room_match_category_txt);
             hotelRatingBar = view.findViewById(R.id.cart_ratingBar);
             bottomLineView = view.findViewById(R.id.bottom_line_view);
         }
@@ -91,11 +75,6 @@ public class CartItemShowAdapter extends RecyclerView.Adapter<CartItemShowAdapte
 
     @Override
     public CartItemShowAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
-//        CartItemShowListItemBinding cartItemShowListItemBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
-//                R.layout.cart_item_show_list_item, parent, false);
-//        return new CartItemShowAdapter.MyViewHolder(cartItemShowListItemBinding);
-
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.cart_item_show_list_item, parent, false);
 
@@ -107,6 +86,12 @@ public class CartItemShowAdapter extends RecyclerView.Adapter<CartItemShowAdapte
 
     public void onBindViewHolder(CartItemShowAdapter.MyViewHolder holder, int position) {
         WatchListDetailModel cartDetail = cartItemList.get(position);
+
+        if (cartItemList.size() - 1 == position) {
+            holder.bottomLineView.setVisibility(View.GONE);
+        } else {
+            holder.bottomLineView.setVisibility(View.GONE);
+        }
         if (cartDetail.getCartItemType().equalsIgnoreCase("Ticket")) {
             holder.ticketMainCartLinear.setVisibility(View.VISIBLE);
             holder.hotelMainCartLinear.setVisibility(View.GONE);
@@ -128,45 +113,10 @@ public class CartItemShowAdapter extends RecyclerView.Adapter<CartItemShowAdapte
             holder.cartHotelDescriptionTextView.setText(cartDetail.getHotelDescription());
             holder.hotelRatingBar.setCount(Integer.parseInt(cartDetail.getHotelRating()));
             holder.cartHotelPriceTextView.setText(cartDetail.getHotelPrice());
+            holder.cartHotelRoomNameTextView.setText(cartDetail.getHotelRoomName());
 
-        } else if (cartDetail.getCartItemType().equalsIgnoreCase("Hospitality")) {
-            holder.ticketMainCartLinear.setVisibility(View.GONE);
-            holder.hotelMainCartLinear.setVisibility(View.GONE);
-            holder.viewBackground.setVisibility(View.GONE);
-            holder.viewForeground.setVisibility(View.GONE);
-            holder.bottomLineView.setVisibility(View.GONE);
         }
 
-       /* if (cartDetail.getCartItemType().equalsIgnoreCase("Ticket")) {
-            holder.cartItemShowListItemBinding.ticketMainCartLinear.setVisibility(View.VISIBLE);
-            holder.cartItemShowListItemBinding.hotelMainCartLinear.setVisibility(View.GONE);
-            holder.cartItemShowListItemBinding.bottomLineView.setVisibility(View.VISIBLE);
-            Utils.setImageInImageView(cartDetail.getTicketImageUrl(), holder.cartItemShowListItemBinding.cartTicketImg, mContext);
-            holder.cartItemShowListItemBinding.cartTicketMatchTypeTagTxt.setText(cartDetail.getTicketMatchType());
-            holder.cartItemShowListItemBinding.cartTicketMatchDateTimeTxt.setText(cartDetail.getTicketMatchTimeDate());
-            holder.cartItemShowListItemBinding.cartTicketMatchCategoryTxt.setText(cartDetail.getTicketCategoryName());
-            holder.cartItemShowListItemBinding.cartFirstCountryNameTxt.setText(cartDetail.getTicketMatchFirstCountryName());
-            holder.cartItemShowListItemBinding.cartSecondCountryNameTxt.setText(cartDetail.getTicketMatchSecondCountryName());
-            Utils.setImageInImageView(cartDetail.getTicketMatchFirstCountryFlag(), holder.cartItemShowListItemBinding.cartFirstCountryflagImage, mContext);
-            Utils.setImageInImageView(cartDetail.getTicketMatchSecondCountryFlag(), holder.cartItemShowListItemBinding.cartSecondCountryflagImage, mContext);
-            holder.cartItemShowListItemBinding.cartPriceTxt.setText(cartDetail.getTicketPrice());
-        } else if (cartDetail.getCartItemType().equalsIgnoreCase("Hotel")) {
-            holder.cartItemShowListItemBinding.ticketMainCartLinear.setVisibility(View.GONE);
-            holder.cartItemShowListItemBinding.hotelMainCartLinear.setVisibility(View.VISIBLE);
-            holder.cartItemShowListItemBinding.bottomLineView.setVisibility(View.VISIBLE);
-
-            Utils.setImageInImageView(cartDetail.getHotelImageUrl(), holder.cartItemShowListItemBinding.cartHotelImg, mContext);
-            holder.cartItemShowListItemBinding.cartHotelNameTxt.setText(cartDetail.getHotelName());
-            holder.cartItemShowListItemBinding.cartHotelDescriptionTxt.setText(cartDetail.getHotelDescription());
-            holder.cartItemShowListItemBinding.ratingBar.setCount(Integer.parseInt(cartDetail.getHotelRating()));
-            holder.cartItemShowListItemBinding.cartHotelPriceTxt.setText(cartDetail.getHotelPrice());
-
-
-        } else if (cartDetail.getCartItemType().equalsIgnoreCase("Hospitality")) {
-            holder.cartItemShowListItemBinding.ticketMainCartLinear.setVisibility(View.GONE);
-            holder.cartItemShowListItemBinding.hotelMainCartLinear.setVisibility(View.GONE);
-            holder.cartItemShowListItemBinding.bottomLineView.setVisibility(View.GONE);
-        }*/
     }
 
 
@@ -192,6 +142,8 @@ public class CartItemShowAdapter extends RecyclerView.Adapter<CartItemShowAdapte
         // to perform recycler view delete animations
         // NOTE: don't call notifyDataSetChanged()
         notifyItemRemoved(position);
+
+//        notifyDataSetChanged();
     }
 
     public void restoreItem(WatchListDetailModel item, int position) {

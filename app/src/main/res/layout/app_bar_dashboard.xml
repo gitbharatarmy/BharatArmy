@@ -69,8 +69,8 @@
 
                             <ImageView
                                 android:id="@+id/cart_image"
-                                android:layout_width="@dimen/_23sdp"
-                                android:layout_height="@dimen/_23sdp"
+                                android:layout_width="@dimen/_24sdp"
+                                android:layout_height="@dimen/_25sdp"
                                 android:layout_alignParentRight="true"
                                 android:layout_marginTop="@dimen/_16sdp"
                                 android:layout_marginRight="@dimen/_5sdp"
@@ -122,12 +122,13 @@
         </com.google.android.material.appbar.AppBarLayout>
 
         <include layout="@layout/content_dashboard" />
-
+<!--        android:layout_marginBottom="@dimen/_8sdp"-->
         <com.etebarian.meowbottomnavigation.MeowBottomNavigation
             android:id="@+id/bottomNavigation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
+
             android:visibility="visible"
             app:mbn_backgroundBottomColor="@color/heading_bg"
             app:mbn_countBackgroundColor="#ff6f00"
@@ -136,7 +137,67 @@
             app:mbn_rippleColor="#2f424242"
             app:mbn_selectedIconColor="@color/skip_color"
             app:mbn_shadowColor="#1f212121" />
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="horizontal"-->
+<!--            android:layout_gravity="bottom"-->
+<!--            android:background="@color/heading_bg"-->
+<!--            android:weightSum="5"-->
+<!--            android:paddingBottom="@dimen/_4sdp"-->
+<!--            android:visibility="gone">-->
 
+<!--            <TextView-->
+<!--                android:id="@+id/first_menu_txt"-->
+<!--                style="@style/text_font"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:layout_weight="1"-->
+<!--                android:gravity="center"-->
+<!--                android:text="Gallery"-->
+<!--                android:textColor="@color/splash_bg_color"-->
+<!--                android:textSize="@dimen/_7sdp" />-->
+<!--            <TextView-->
+<!--                android:id="@+id/second_menu_txt"-->
+<!--                style="@style/text_font"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:layout_weight="1"-->
+<!--                android:gravity="center"-->
+<!--                android:text="Travel"-->
+<!--                android:textColor="@color/splash_bg_color"-->
+<!--                android:textSize="@dimen/_7sdp" />-->
+<!--            <TextView-->
+<!--                android:id="@+id/third_menu_txt"-->
+<!--                style="@style/text_font"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:layout_weight="1"-->
+<!--                android:gravity="center"-->
+<!--                android:text="Home"-->
+<!--                android:textColor="@color/splash_bg_color"-->
+<!--                android:textSize="@dimen/_7sdp" />-->
+<!--            <TextView-->
+<!--                android:id="@+id/fourth_menu_txt"-->
+<!--                style="@style/text_font"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:layout_weight="1"-->
+<!--                android:gravity="center"-->
+<!--                android:text="Blog"-->
+<!--                android:textColor="@color/splash_bg_color"-->
+<!--                android:textSize="@dimen/_7sdp" />-->
+<!--            <TextView-->
+<!--                android:id="@+id/five_menu_txt"-->
+<!--                style="@style/text_font"-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="match_parent"-->
+<!--                android:layout_weight="1"-->
+<!--                android:gravity="center"-->
+<!--                android:text="Other"-->
+<!--                android:textColor="@color/splash_bg_color"-->
+<!--                android:textSize="@dimen/_7sdp" />-->
+<!--        </LinearLayout>-->
 
         <com.leinardi.android.speeddial.SpeedDialOverlayLayout
             android:id="@+id/overlay"

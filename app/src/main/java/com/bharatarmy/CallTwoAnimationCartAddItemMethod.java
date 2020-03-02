@@ -52,21 +52,6 @@ public class CallTwoAnimationCartAddItemMethod {
         closelinear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int removecount = Integer.parseInt(Utils.getPref(mContext, "cartCounter"));
-                Log.d("beforeremoveCount :" ,""+removecount);
-                if (removecount != 0) {
-                    removecount = removecount - 1;
-                    Log.d("afterremoveCount :" ,""+removecount);
-                    Utils.setPref(mContext, "cartCounter", String.valueOf(removecount));
-                    Log.d("beftextsetremoveCount" ,Utils.getPref(mContext, "cartCounter"));
-                    if (removecount <= 9) {
-                        textView.setText("0" + Utils.getPref(mContext, "cartCounter"));
-                    } else {
-                        textView.setText(Utils.getPref(mContext, "cartCounter"));
-                    }
-
-                }
-                EventBus.getDefault().post(new MyScreenChnagesModel(position,adapterlistname));
                 mCartsDetailView.removeWithAnimation(false);
             }
         });

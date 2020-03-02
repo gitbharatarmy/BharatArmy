@@ -90,7 +90,6 @@ public class TravelMatchScheduleDetailActivity extends AppCompatActivity impleme
         activityTravelMatchScheduleDetailBinding = DataBindingUtil.setContentView(this, R.layout.activity_travel_match_schedule_detail);
         mContext = TravelMatchScheduleDetailActivity.this;
 
-        EventBus.getDefault().register(this);
         init();
         setListiner();
         setDataValue();
@@ -531,26 +530,5 @@ public class TravelMatchScheduleDetailActivity extends AppCompatActivity impleme
         super.onResume();
     }
 
-    @Subscribe
-    public void customEventReceived(MyScreenChnagesModel event) {
-        Log.d("eventBusPosition :", "" + event.getAdapterremvoePosition());
-        if (event.getAdapterListName().equalsIgnoreCase("travelmatchscheduleticket")) {
-            if (travelticketList != null && travelticketList.size() != 0) {
-                for (int i = 0; i < travelticketList.size(); i++) {
-                    if (event.getAdapterremvoePosition() == i) {
-                        travelMatchScheduleTicketDetailAdapter.notifyItemChanged(i, "remove");
-                    }
-                }
-            }
-        } else if (event.getAdapterListName().equalsIgnoreCase("travelmatchschedulehotel")) {
-            if (travelhotelList != null && travelhotelList.size() != 0) {
-//                for (int i = 0; i < travelhotelList.size(); i++) {
-//                    if (event.getAdapterremvoePosition() == i) {
-                travelMatchScheduleHotelDetailAdapter.notifyItemChanged(event.getAdapterremvoePosition(), "remove");
-//                    }
-//                }
-            }
-        }
 
-    }
 }

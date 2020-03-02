@@ -39,7 +39,7 @@ public class RelatedTicketCategoryMatchesActivity extends AppCompatActivity impl
         super.onCreate(savedInstanceState);
         activityRelatedTicketCategoryMatchesBinding = DataBindingUtil.setContentView(this, R.layout.activity_related_ticket_category_matches);
         mContext = RelatedTicketCategoryMatchesActivity.this;
-        EventBus.getDefault().register(this);
+//        EventBus.getDefault().register(this);
 
 
         init();
@@ -139,17 +139,17 @@ public class RelatedTicketCategoryMatchesActivity extends AppCompatActivity impl
         super.onResume();
     }
 
-    @Subscribe
-    public void customEventReceived(MyScreenChnagesModel event) {
-        Log.d("eventBusPosition :", "" + event.getAdapterremvoePosition());
-
-       if (tickethospitalityList!=null && tickethospitalityList.size()!=0){
-           for (int i=0;i<tickethospitalityList.size();i++){
-               if (event.getAdapterremvoePosition() == i){
-                   travelMatchTicketHospitalityAdapter.notifyItemChanged(i,"remove");
-               }
-           }
-       }
-
-    }
+//    @Subscribe
+//    public void customEventReceived(MyScreenChnagesModel event) {
+//        Log.d("eventBusPosition :", "" + event.getAdapterremvoePosition());
+//
+//       if (tickethospitalityList!=null && tickethospitalityList.size()!=0){
+//           for (int i=0;i<tickethospitalityList.size();i++){
+//               if (event.getAdapterremvoePosition() == i){
+//                   travelMatchTicketHospitalityAdapter.notifyItemChanged(i,"remove");
+//               }
+//           }
+//       }
+//
+//    }
 }

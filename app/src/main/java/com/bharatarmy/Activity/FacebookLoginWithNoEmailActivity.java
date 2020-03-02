@@ -8,7 +8,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.TextView;
 
 import com.bharatarmy.Models.LogginModel;
 import com.bharatarmy.R;
@@ -68,6 +71,16 @@ public class FacebookLoginWithNoEmailActivity extends AppCompatActivity implemen
     public void setListiner() {
         activityFacebookLoginWithNoEmailBinding.backImg.setOnClickListener(this);
         activityFacebookLoginWithNoEmailBinding.continueBtn.setOnClickListener(this);
+
+        activityFacebookLoginWithNoEmailBinding.phoneNoEdt.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE){
+                    facebookLogin();
+                }
+                return false;
+            }
+        });
 
     }
 

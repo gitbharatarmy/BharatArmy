@@ -81,7 +81,6 @@ public class TravelMatchTicketAndHospitalityDetailActivity extends AppCompatActi
         super.onCreate(savedInstanceState);
         activityTravelMatchTicketAndHospitalityDetailBinding = DataBindingUtil.setContentView(this, R.layout.activity_travel_match_ticket_and_hospitality_detail);
         mContext = TravelMatchTicketAndHospitalityDetailActivity.this;
-        EventBus.getDefault().register(this);
 
         init();
         setListiner();
@@ -123,24 +122,8 @@ public class TravelMatchTicketAndHospitalityDetailActivity extends AppCompatActi
         activityTravelMatchTicketAndHospitalityDetailBinding.shimmerViewContainer.stopShimmerAnimation();
         activityTravelMatchTicketAndHospitalityDetailBinding.shimmerViewContainer.setVisibility(View.GONE);
         activityTravelMatchTicketAndHospitalityDetailBinding.fixtureRcv.setVisibility(View.VISIBLE);
-        hospitalityDetailFixturesAdapter = new HospitalityDetailFixturesAdapter(mContext, travelHospitalityFixturesList, new MorestoryClick() {
-            @Override
-            public void getmorestoryClick() {
-                int addTocartposition = hospitalityDetailFixturesAdapter.adptercartAddPosition();
-                Utils.animationAdd(mContext, activityTravelMatchTicketAndHospitalityDetailBinding.addcarticon.cartLayout,
-                        activityTravelMatchTicketAndHospitalityDetailBinding.toolbar,
-                        activityTravelMatchTicketAndHospitalityDetailBinding.addcarticon.cartImage,
-                        activityTravelMatchTicketAndHospitalityDetailBinding.addcarticon.cartCountItemTxt, null,
-                        activityTravelMatchTicketAndHospitalityDetailBinding.mainLinear,
-                        null, addTocartposition, "hospitalityfixtures");
-            }
-        }, new image_click() {
-            @Override
-            public void image_more_click() {
-                Utils.removeCartItemCount(mContext, activityTravelMatchTicketAndHospitalityDetailBinding.addcarticon.cartCountItemTxt);
-            }
-        });
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
+        hospitalityDetailFixturesAdapter = new HospitalityDetailFixturesAdapter(mContext, travelHospitalityFixturesList);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
         activityTravelMatchTicketAndHospitalityDetailBinding.fixtureRcv.setLayoutManager(layoutManager);
         activityTravelMatchTicketAndHospitalityDetailBinding.fixtureRcv.setItemAnimator(new DefaultItemAnimator());
         activityTravelMatchTicketAndHospitalityDetailBinding.fixtureRcv.setAdapter(hospitalityDetailFixturesAdapter);
@@ -381,20 +364,5 @@ public class TravelMatchTicketAndHospitalityDetailActivity extends AppCompatActi
         super.onResume();
     }
 
-    @Subscribe
-    public void customEventReceived(MyScreenChnagesModel event) {
-        Log.d("eventBusPosition :", "" + event.getAdapterremvoePosition());
-        if (event.getAdapterListName().equalsIgnoreCase("noadapter")) {
-            activityTravelMatchTicketAndHospitalityDetailBinding.bottomCartRemoveView.setVisibility(View.GONE);
-            activityTravelMatchTicketAndHospitalityDetailBinding.bottomCartAddView.setVisibility(View.VISIBLE);
-        } else {
-            if (travelHospitalityFixturesList != null && travelHospitalityFixturesList.size() != 0) {
-                for (int i = 0; i < travelHospitalityFixturesList.size(); i++) {
-                    if (event.getAdapterremvoePosition() == i) {
-                        hospitalityDetailFixturesAdapter.notifyItemChanged(i, "remove");
-                    }
-                }
-            }
-        }
-    }
+
 }

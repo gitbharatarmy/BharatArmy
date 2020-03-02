@@ -805,7 +805,7 @@
                             style="@style/title_text_font"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_toLeftOf="@+id/travel_latest_fixture_swipe"
+                            android:layout_alignParentStart="true"
                             android:ellipsize="end"
                             android:maxLines="2"
                             android:text="ICC World T20 Australia 2020 Fitures"
@@ -813,14 +813,6 @@
                             android:textColor="@color/heading_bg"
                             android:textSize="@dimen/_16sdp" />
 
-                        <ImageView
-                            android:id="@+id/travel_latest_fixture_swipe"
-                            android:layout_width="@dimen/_18sdp"
-                            android:layout_height="@dimen/_13sdp"
-                            android:layout_alignParentRight="true"
-                            android:layout_centerVertical="true"
-                            android:src="@drawable/ic_swipe"
-                            android:visibility="visible" />
                     </RelativeLayout>
                 </LinearLayout>
                 <com.facebook.shimmer.ShimmerFrameLayout
@@ -832,7 +824,7 @@
                     android:orientation="vertical"
                     android:visibility="visible">
 
-                    <include layout="@layout/storie_data_holder" />
+                    <include layout="@layout/travel_match_schedule_dataholder" />
 
 
                 </com.facebook.shimmer.ShimmerFrameLayout>
@@ -841,8 +833,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="@dimen/_14sdp"
-                    android:layout_marginTop="@dimen/top_margin"
-                    android:layout_marginRight="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginRight="@dimen/_13sdp"
                     android:clipToPadding="false"
                     android:paddingBottom="@dimen/_20sdp"
                     android:visibility="gone"/>

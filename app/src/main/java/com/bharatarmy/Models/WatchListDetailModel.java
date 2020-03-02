@@ -168,6 +168,9 @@ public class WatchListDetailModel {
     @SerializedName("HotelDescription")
     @Expose
     private String hotelDescription;
+    @SerializedName("HotelRoomName")
+    @Expose
+    private String hotelRoomName;
     @SerializedName("HospitalityImageUrl")
     @Expose
     private String hospitalityImageUrl;
@@ -318,6 +321,14 @@ public class WatchListDetailModel {
 
     public void setHotelDescription(String hotelDescription) {
         this.hotelDescription = hotelDescription;
+    }
+
+    public String getHotelRoomName() {
+        return hotelRoomName;
+    }
+
+    public void setHotelRoomName(String hotelRoomName) {
+        this.hotelRoomName = hotelRoomName;
     }
 
     public String getHospitalityImageUrl() {

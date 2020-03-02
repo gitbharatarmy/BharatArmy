@@ -518,7 +518,7 @@ public class TravelMatchHotelActivity extends AppCompatActivity implements View.
                 }
 
             }
-        } else if (event.getAdapterListName() != null) {
+        } /*else if (event.getAdapterListName() != null) {
             if (!event.getAdapterListName().equalsIgnoreCase("")) {
                 if (tournamnethotellist != null && tournamnethotellist.size() != 0) {
                     for (int i = 0; i < tournamnethotellist.size(); i++) {
@@ -528,7 +528,7 @@ public class TravelMatchHotelActivity extends AppCompatActivity implements View.
                     }
                 }
             }
-        }
+        }*/
     }
 
 

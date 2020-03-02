@@ -71,7 +71,7 @@ public class TravelCitySightseenDetailActivity extends AppCompatActivity impleme
                 //Check if the view is collapsed
                 if (scrollRange + verticalOffset == 0) {
                     activityTravelCitySightseenDetailBinding.toolbar.setBackgroundColor(ContextCompat.getColor(mContext, R.color.heading_bg));
-                    activityTravelCitySightseenDetailBinding.collapsingToolbar.setTitle("Marine Drive");
+                    activityTravelCitySightseenDetailBinding.collapsingToolbar.setTitle("Pinnacle Tour");
                     Typeface typeface = ResourcesCompat.getFont(mContext, R.font.helveticaneueltstdbdcn);
                     activityTravelCitySightseenDetailBinding.collapsingToolbar.setCollapsedTitleTypeface(typeface);
                     activityTravelCitySightseenDetailBinding.collapsingToolbar.setExpandedTitleTypeface(typeface);

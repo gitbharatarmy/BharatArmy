@@ -349,7 +349,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
         customergalleryList.add(new TravelModel("Balu Ramachandran", "http://devenv.bharatarmy.com//Docs/16636938-9.jpg",
                 "2", "",
-                "http://devenv.bharatarmy.com//Docs/Media/Thumb/acdb7074-8588-4059-a5f4-67d09730785a-1570441108244.jpg",
+                    "http://devenv.bharatarmy.com//Docs/Media/Thumb/acdb7074-8588-4059-a5f4-67d09730785a-1570441108244.jpg",
                 "http://devenv.bharatarmy.com//Docs/Media/11f98532-8171-4c81-b8e1-60a33ccf193f-MP4_20191007_150748.mp4",
                 "5"));
 

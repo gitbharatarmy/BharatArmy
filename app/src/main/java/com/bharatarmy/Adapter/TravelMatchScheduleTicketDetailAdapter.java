@@ -124,20 +124,7 @@ public class TravelMatchScheduleTicketDetailAdapter extends RecyclerView.Adapter
         });
     }
 
-    @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position, @NonNull List<Object> payloads) {
-        if (!payloads.isEmpty()) {
-            for (final Object payload : payloads) {
-                if (payload.equals("remove")) {
-                    holder.travelMatchScheduleTicketDetailListItemBinding.cartAddLayout.setVisibility(View.VISIBLE);
-                    holder.travelMatchScheduleTicketDetailListItemBinding.cartRemoveLayout.setVisibility(View.GONE);
-                }
-            }
-        } else {
-            // in this case regular onBindViewHolder will be called
-            super.onBindViewHolder(holder, position, payloads);
-        }
-    }
+
 
     @Override
     public long getItemId(int position) {

@@ -3,21 +3,18 @@ package com.bharatarmy.Activity;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
-import android.graphics.Color;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
 import com.bharatarmy.Adapter.CartItemShowAdapter;
-import com.bharatarmy.Adapter.TravelMatchTeamNameFlagScheduleAdapter;
-import com.bharatarmy.Interfaces.MorestoryClick;
-import com.bharatarmy.Models.TravelModel;
+import com.bharatarmy.DividerItemDecoration;
 import com.bharatarmy.Models.WatchListDetailModel;
 import com.bharatarmy.Models.WatchListModelDemo;
 import com.bharatarmy.R;
@@ -26,9 +23,7 @@ import com.bharatarmy.Utility.AppConfiguration;
 import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.Utility.WebServices;
 import com.bharatarmy.databinding.ActivityCartItemShowBinding;
-import com.google.android.material.snackbar.Snackbar;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -68,18 +63,20 @@ public class CartItemShowActivity extends AppCompatActivity implements View.OnCl
 
     public void setListiner() {
         activityCartItemShowBinding.backImg.setOnClickListener(this);
+        activityCartItemShowBinding.nextBtn.setOnClickListener(this);
     }
 
     public void setDataValueInList() {
         activityCartItemShowBinding.shimmerViewContainer.stopShimmerAnimation();
         activityCartItemShowBinding.shimmerViewContainer.setVisibility(View.GONE);
         activityCartItemShowBinding.cartItemRcv.setVisibility(View.VISIBLE);
-        Log.d("cartItemList :", ""+cartItemList.size());
+        Log.d("cartItemList :", "" + cartItemList.size());
         cartItemShowAdapter = new CartItemShowAdapter(mContext, cartItemList);
         cartlinearLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
         activityCartItemShowBinding.cartItemRcv.setLayoutManager(cartlinearLayoutManager);
         activityCartItemShowBinding.cartItemRcv.setItemAnimator(new DefaultItemAnimator());
-//        activityCartItemShowBinding.cartItemRcv.addItemDecoration(new DividerItemDecoration(mContext, DividerItemDecoration.VERTICAL));
+        activityCartItemShowBinding.cartItemRcv.addItemDecoration(new DividerItemDecoration(mContext));
+
         activityCartItemShowBinding.cartItemRcv.setAdapter(cartItemShowAdapter);
 
         ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new RecyclerItemTouchHelper(0, ItemTouchHelper.LEFT, this);
@@ -92,7 +89,15 @@ public class CartItemShowActivity extends AppCompatActivity implements View.OnCl
         switch (v.getId()) {
 
             case R.id.back_img:
-                finish();
+                if (cartItemList.size() != 0) {
+                    finish();
+                } else {
+                    cartEmptyRedirect();
+                }
+
+                break;
+            case R.id.next_btn:
+                cartEmptyRedirect();
                 break;
         }
     }
@@ -111,7 +116,7 @@ public class CartItemShowActivity extends AppCompatActivity implements View.OnCl
 
         WebServices api = retrofit.create(WebServices.class);
 
-        Call<WatchListModelDemo> call = api.getCartList("http://www.mocky.io/v2/5e512180310000850041592e");
+        Call<WatchListModelDemo> call = api.getCartList("http://www.mocky.io/v2/5e578dfd300000067bfd3b09");
 
         call.enqueue(new Callback<WatchListModelDemo>() {
             @Override
@@ -134,36 +139,42 @@ public class CartItemShowActivity extends AppCompatActivity implements View.OnCl
 
     @Override
     public void onBackPressed() {
-        finish();
+        if (cartItemList.size() != 0) {
+            finish();
+        } else {
+            cartEmptyRedirect();
+        }
+
         super.onBackPressed();
     }
 
     @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, int position) {
-        if (viewHolder instanceof CartItemShowAdapter.MyViewHolder) {
-            // get the removed item name to display it in snack bar
-//            String name = cartItemList.get(viewHolder.getAdapterPosition()).getName();
 
+        if (viewHolder instanceof CartItemShowAdapter.MyViewHolder) {
             // backup of removed item for undo purpose
             final WatchListDetailModel deletedItem = cartItemList.get(viewHolder.getAdapterPosition());
             final int deletedIndex = viewHolder.getAdapterPosition();
 
             // remove the item from recycler view
             cartItemShowAdapter.removeItem(viewHolder.getAdapterPosition());
-
-//            // showing snack bar with Undo option
-//            Snackbar snackbar = Snackbar
-//                    .make(coordinatorLayout, name + " removed from cart!", Snackbar.LENGTH_LONG);
-//            snackbar.setAction("UNDO", new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//
-//                    // undo is selected, restore the deleted item
-//                    mAdapter.restoreItem(deletedItem, deletedIndex);
-//                }
-//            });
-//            snackbar.setActionTextColor(Color.YELLOW);
-//            snackbar.show();
+            Log.d("cartListsize :", "" + cartItemList.size());
+            if (cartItemList.size() == 0) {
+                activityCartItemShowBinding.noCartdatarel.setVisibility(View.VISIBLE);
+                activityCartItemShowBinding.bottomLinear.setVisibility(View.GONE);
+                activityCartItemShowBinding.bottomGradiantView.setVisibility(View.GONE);
+            } else {
+                activityCartItemShowBinding.noCartdatarel.setVisibility(View.GONE);
+                activityCartItemShowBinding.bottomLinear.setVisibility(View.VISIBLE);
+                activityCartItemShowBinding.bottomGradiantView.setVisibility(View.VISIBLE);
+            }
         }
+    }
+
+    public void cartEmptyRedirect() {
+        Intent DashboardIntent = new Intent(mContext, DashboardActivity.class);
+        DashboardIntent.putExtra("whichPageRun", "2");
+        startActivity(DashboardIntent);
+//        finish();
     }
 }

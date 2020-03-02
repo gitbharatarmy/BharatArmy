@@ -65,6 +65,14 @@ public class SelectedImageVideoViewAdapter extends RecyclerView.Adapter<Selected
     @SuppressLint("ResourceAsColor")
     @Override
     public void onBindViewHolder(SelectedImageVideoViewAdapter.MyViewHolder holder, final int position) {
+
+        if (imageDetailModel.size()-1 == position){
+            holder.selectedImageVideoListItemBinding.dividerBottom.setVisibility(View.GONE);
+        }else{
+            holder.selectedImageVideoListItemBinding.dividerBottom.setVisibility(View.VISIBLE);
+        }
+
+
         Utils.setGalleryImageInImageView(imageDetailModel.get(position).getImageUri(),holder.selectedImageVideoListItemBinding.selectedImage,mContext);
 
         File file = new File(imageDetailModel.get(position).getImageUri());

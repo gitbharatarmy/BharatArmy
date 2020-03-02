@@ -133,20 +133,20 @@ public class TravelMatchTicketHospitalityAdapter extends RecyclerView.Adapter<Tr
         });
     }
 
-    @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position, @NonNull List<Object> payloads) {
-        if (!payloads.isEmpty()) {
-            for (final Object payload : payloads) {
-                if (payload.toString().equalsIgnoreCase("remove")) {
-                    holder.travelMatchTicketHospitalityItemListBinding.addCartLayout.setVisibility(View.VISIBLE);
-                    holder.travelMatchTicketHospitalityItemListBinding.removeCartLayout.setVisibility(View.GONE);
-                }
-            }
-        } else {
-            // in this case regular onBindViewHolder will be called
-            super.onBindViewHolder(holder, position, payloads);
-        }
-    }
+//    @Override
+//    public void onBindViewHolder(@NonNull MyViewHolder holder, int position, @NonNull List<Object> payloads) {
+//        if (!payloads.isEmpty()) {
+//            for (final Object payload : payloads) {
+//                if (payload.toString().equalsIgnoreCase("remove")) {
+//                    holder.travelMatchTicketHospitalityItemListBinding.addCartLayout.setVisibility(View.VISIBLE);
+//                    holder.travelMatchTicketHospitalityItemListBinding.removeCartLayout.setVisibility(View.GONE);
+//                }
+//            }
+//        } else {
+//            // in this case regular onBindViewHolder will be called
+//            super.onBindViewHolder(holder, position, payloads);
+//        }
+//    }
 
     @Override
     public long getItemId(int position) {

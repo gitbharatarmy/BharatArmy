@@ -10,12 +10,11 @@ import android.view.ViewGroup;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bharatarmy.Activity.StoryDetailActivity;
+import com.bharatarmy.Activity.TravelMatchStadiumDetailActivity;
 import com.bharatarmy.Models.TravelModel;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.TravelMatchStadiumItemBinding;
-import com.bharatarmy.databinding.TravelNewUpdateItemBinding;
 
 import java.util.List;
 
@@ -62,6 +61,16 @@ public class TravelMatchStadiumAdapter extends RecyclerView.Adapter<TravelMatchS
         holder.travelMatchStadiumItemBinding.travelStadiumDescriptionTxt.setText(stadiumdetail.getMain_desc());
         holder.travelMatchStadiumItemBinding.matchGroundLocationTxt.setText(stadiumdetail.getBg_name());
 
+        holder.travelMatchStadiumItemBinding.stadiumclickLinear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent stadiumDetail=new Intent(mcontext, TravelMatchStadiumDetailActivity.class);
+                stadiumDetail.putExtra("stadiumName",stadiumdetail.getMain_titleName());
+                stadiumDetail.putExtra("stadiumDescription",stadiumdetail.getMain_desc());
+                stadiumDetail.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                mcontext.startActivity(stadiumDetail);
+            }
+        });
     }
 
     @Override

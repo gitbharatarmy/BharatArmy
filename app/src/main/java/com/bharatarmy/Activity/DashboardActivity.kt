@@ -43,6 +43,11 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, StoryFragme
     internal lateinit var speedDial: SpeedDialView
     internal lateinit var overlay: SpeedDialOverlayLayout
     internal lateinit var cart_count_item_txt: TextView
+    /*internal lateinit var first_menu_txt: TextView
+    internal lateinit var second_menu_txt: TextView
+    internal lateinit var third_menu_txt: TextView
+    internal lateinit var fourth_menu_txt: TextView
+    internal lateinit var five_menu_txt: TextView*/
     internal lateinit var cartLayoutRel: RelativeLayout
 
     //  flag to load home fragment when user presses back key
@@ -71,8 +76,7 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, StoryFragme
         setContentView(R.layout.activity_dashboard)
         mContext = this@DashboardActivity
         toolbar = findViewById<View>(R.id.toolbar) as Toolbar
-        cart_count_item_txt = findViewById<View>(R.id.cart_count_item_txt) as TextView
-        cartLayoutRel = findViewById<View>(R.id.cartLayout_rel) as RelativeLayout
+
 
         mHandler = Handler()
         setSupportActionBar(toolbar)
@@ -96,14 +100,23 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, StoryFragme
 
     fun init() {
         AppConfiguration.firstDashStr = "true"
-        Utils.addCartItemCount(mContext, cart_count_item_txt)
+
 
         overlay = findViewById<View>(R.id.overlay) as SpeedDialOverlayLayout
         speedDial = findViewById<View>(R.id.speedDial) as SpeedDialView
+        cart_count_item_txt = findViewById<View>(R.id.cart_count_item_txt) as TextView
+        cartLayoutRel = findViewById<View>(R.id.cartLayout_rel) as RelativeLayout
+        /*first_menu_txt = findViewById<View>(R.id.first_menu_txt) as TextView
+        second_menu_txt = findViewById<View>(R.id.second_menu_txt) as TextView
+        third_menu_txt = findViewById<View>(R.id.third_menu_txt) as TextView
+        fourth_menu_txt = findViewById<View>(R.id.fourth_menu_txt) as TextView
+        five_menu_txt = findViewById<View>(R.id.five_menu_txt) as TextView*/
+
 
         speedDial.visibility = View.GONE
         overlay.visibility = View.GONE
 
+        Utils.addCartItemCount(mContext, cart_count_item_txt)
     }
 
     fun setListiner() {
@@ -271,10 +284,11 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, StoryFragme
             Utils.addCartItemCount(mContext, cart_count_item_txt)
             when (it.id) {
                 1 -> {
+
+
                     navItemIndex = 1
                     fragment = FansFragment()
                     loadFragment(fragment as FansFragment)
-
 
                 }
                 2 -> {
@@ -288,6 +302,7 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, StoryFragme
 
                 }
                 3 -> {
+
 
                     navItemIndex = 0
                     fragment = HomeFragment()

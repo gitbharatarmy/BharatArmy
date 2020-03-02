@@ -147,15 +147,10 @@ public class TravelMatchScheduleHotelDetailAdapter extends RecyclerView.Adapter<
         if (!payloads.isEmpty()){
             for (final Object payload : payloads) {
                 Log.d("payloadHotelDetail:",payload.toString());
-                if (!payload.toString().equalsIgnoreCase("remove")) {
                     String payLoaddata = payload.toString();
                     String[] splitvalue = payLoaddata.split("\\|");
                     holder.travelMatchScheduleHotelDetailListItemBinding.roomNametxt.setText(splitvalue[1]);
                     Utils.setImageInImageView(splitvalue[2], holder.travelMatchScheduleHotelDetailListItemBinding.roomImg, mContext);
-                }else{
-                    holder.travelMatchScheduleHotelDetailListItemBinding.addCartLayout.setVisibility(View.VISIBLE);
-                    holder.travelMatchScheduleHotelDetailListItemBinding.removeCartLayout.setVisibility(View.GONE);
-                }
             }
         }else{
             super.onBindViewHolder(holder, position, payloads);

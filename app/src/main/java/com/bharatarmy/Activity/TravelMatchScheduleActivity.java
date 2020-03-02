@@ -80,7 +80,7 @@ public class TravelMatchScheduleActivity extends AppCompatActivity implements Vi
     ArrayList<HomeTemplateDetailModel> tournamentadvancefilterteamDetailModel;
     ArrayList<HomeTemplateDetailModel> tournamentfiltervenuewithteamDetailModel;
     ArrayList<HomeTemplateDetailModel> tournamentfilterteamwithcityDetailModel;
-    ArrayList<String> selectedtournamentteamId ;
+    ArrayList<String> selectedtournamentteamId;
     ArrayList<String> selectedtournamentVenuename;
     ArrayList<String> selectedtournamentCityname;
     String checkornotStr;
@@ -103,6 +103,9 @@ public class TravelMatchScheduleActivity extends AppCompatActivity implements Vi
     private ShowCaseDialog showCaseDialog;
     public static final String SHOWCASE_TAG = "sample_showcase_tag";
 
+    /*video play in slider variable*/
+    int videoplayposition = 0;
+    String videopathStr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,10 +135,11 @@ public class TravelMatchScheduleActivity extends AppCompatActivity implements Vi
 
         //        travel match schedule gallery List
         travelmatchscheduleGalleryList = new ArrayList<TravelModel>();
-        travelmatchscheduleGalleryList.add(new TravelModel("https://www.bharatarmy.com/Docs/Mobile/25cf4087-b.jpg", "Hotel1"));
-        travelmatchscheduleGalleryList.add(new TravelModel("https://www.bharatarmy.com/Docs/banner_app_02.jpg", "Hotel2"));
-        travelmatchscheduleGalleryList.add(new TravelModel("https://www.bharatarmy.com/Docs/Mobile/25cf4087-b.jpg", "Hotel1"));
-        travelmatchscheduleGalleryList.add(new TravelModel("https://www.bharatarmy.com/Docs/banner_app_02.jpg", "Hotel2"));
+        travelmatchscheduleGalleryList.add(new TravelModel("https://www.bharatarmy.com/Docs/Mobile/25cf4087-b.jpg", "Image"));
+        travelmatchscheduleGalleryList.add(new TravelModel("https://www.bharatarmy.com/Docs/banner_app_02.jpg", "Image"));
+        travelmatchscheduleGalleryList.add(new TravelModel("https://www.bharatarmy.com/Docs/Mobile/25cf4087-b.jpg", "Image"));
+        travelmatchscheduleGalleryList.add(new TravelModel("https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_5mb.mp4", "Video"));
+        travelmatchscheduleGalleryList.add(new TravelModel("https://www.bharatarmy.com/Docs/banner_app_02.jpg", "Image"));
 
         addBottomDots(0);
         myTravelMatchScheduleGalleryViewPagerAdapter = new MyTravelMatchScheduleGalleryViewPagerAdapter();
@@ -360,13 +364,9 @@ public class TravelMatchScheduleActivity extends AppCompatActivity implements Vi
     }
 
 
-
-    
-    
-    
     public void setAdvanceFilter() {
         /*tournament team filter*/
-         selectedtournamentteamId = new ArrayList<>();
+        selectedtournamentteamId = new ArrayList<>();
         for (int i = 0; i < tournamentotherDataModel.getCountries().size(); i++) {
             if (tournamentotherDataModel.getCountries().get(i).getTeamSelected().equalsIgnoreCase("1")) {
                 selectedtournamentteamId.add(String.valueOf(tournamentotherDataModel.getCountries().get(i).getCountryId()));
@@ -385,7 +385,7 @@ public class TravelMatchScheduleActivity extends AppCompatActivity implements Vi
         }
 
         /*tournament venue filter*/
-         selectedtournamentVenuename = new ArrayList<>();
+        selectedtournamentVenuename = new ArrayList<>();
         for (int i = 0; i < tournamentotherDataModel.getStadiums().size(); i++) {
             if (tournamentotherDataModel.getStadiums().get(i).getVenueSelected().equalsIgnoreCase("1")) {
                 selectedtournamentVenuename.add(tournamentotherDataModel.getStadiums().get(i).getLabel());
@@ -404,8 +404,8 @@ public class TravelMatchScheduleActivity extends AppCompatActivity implements Vi
 
         tournamentadvancefilterteamDetailModel = new ArrayList<>();
         tournamentfiltervenuewithteamDetailModel = new ArrayList<>();
-        tournamentfilterteamwithcityDetailModel =new ArrayList<>();
-        
+        tournamentfilterteamwithcityDetailModel = new ArrayList<>();
+
         if (selectedtournamentteamId.size() != 0) {
             if (tournamentfilterDetailModel != null) {
                 if (tournamentfilterDetailModel.size() != 0) {
@@ -440,7 +440,7 @@ public class TravelMatchScheduleActivity extends AppCompatActivity implements Vi
 
 
         }
-     
+
         if (selectedtournamentVenuename.size() != 0) {
             for (int k = 0; k < selectedtournamentVenuename.size(); k++) {
                 if (tournamentadvancefilterteamDetailModel.size() != 0) {
@@ -484,13 +484,13 @@ public class TravelMatchScheduleActivity extends AppCompatActivity implements Vi
                 activityTravelMatchScheduleBinding.travelMatchScheduleRcv.setItemAnimator(new DefaultItemAnimator());
                 activityTravelMatchScheduleBinding.travelMatchScheduleRcv.setAdapter(travelMatchScheduleAdapter);
 
-             updateteamflagAdapter();
+                updateteamflagAdapter();
 
             }
         }
         Log.d("filterteamData :", "" + tournamentadvancefilterteamDetailModel.size());
         Log.d("filterteamvenueData:", "" + tournamentfiltervenuewithteamDetailModel.size());
-        Log.d("filterteamcitiesData:",""+ tournamentfilterteamwithcityDetailModel.size());
+        Log.d("filterteamcitiesData:", "" + tournamentfilterteamwithcityDetailModel.size());
         if (selectedtournamentVenuename.size() != 0) {
             if (tournamentfiltervenuewithteamDetailModel.size() != 0) {
                 activityTravelMatchScheduleBinding.noRecordrel.setVisibility(View.GONE);
@@ -655,7 +655,7 @@ public class TravelMatchScheduleActivity extends AppCompatActivity implements Vi
                 finish();
                 break;
             case R.id.fab_linear:
-                Utils.handleClickEvent(mContext,activityTravelMatchScheduleBinding.fabLinear);
+                Utils.handleClickEvent(mContext, activityTravelMatchScheduleBinding.fabLinear);
                 bottomSheetDialogFragment = new MatchScheduleAdvanceFragment(tournamentotherDataModel, new MorestoryClick() {
                     @Override
                     public void getmorestoryClick() {
@@ -687,8 +687,59 @@ public class TravelMatchScheduleActivity extends AppCompatActivity implements Vi
             TravelScheduleBannerListItemBinding travelScheduleBannerListItemBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
                     R.layout.travel_schedule_banner_list_item, parent, false);
 
+            if (travelmatchscheduleGalleryList.get(position).getCityHotelAmenitiesName().equalsIgnoreCase("Image")) {
+                travelScheduleBannerListItemBinding.backgroundImage.setVisibility(View.VISIBLE);
+                travelScheduleBannerListItemBinding.dropshadowLinear.setVisibility(View.VISIBLE);
+                travelScheduleBannerListItemBinding.videodropshadowLinear.setVisibility(View.GONE);
+                travelScheduleBannerListItemBinding.baVideoRlv.setVisibility(View.GONE);
+                Utils.setImageInImageView(travelmatchscheduleGalleryList.get(position).getCityHotelAmenitiesImage(),
+                        travelScheduleBannerListItemBinding.backgroundImage, mContext);
 
-            Utils.setImageInImageView(travelmatchscheduleGalleryList.get(position).getCityHotelAmenitiesImage(), travelScheduleBannerListItemBinding.backgroundImage, mContext);
+                Log.d("HotelGalleeryAdapter : ", travelmatchscheduleGalleryList.get(position).getCityHotelAmenitiesImage());
+            } else {
+                travelScheduleBannerListItemBinding.backgroundImage.setVisibility(View.GONE);
+                travelScheduleBannerListItemBinding.dropshadowLinear.setVisibility(View.GONE);
+                travelScheduleBannerListItemBinding.videodropshadowLinear.setVisibility(View.VISIBLE);
+                travelScheduleBannerListItemBinding.baVideoRlv.setVisibility(View.VISIBLE);
+
+                videopathStr = travelmatchscheduleGalleryList.get(position).getCityHotelAmenitiesImage();
+                Utils.setImageInImageView("http://devenv.bharatarmy.com//Docs/Media/Thumb/a983346f-b0ac-4a49-91c6-f7196efd4629-1570705345206.jpg", travelScheduleBannerListItemBinding.videoThumbnailImage, mContext);
+
+                travelScheduleBannerListItemBinding.startPauseMediaButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Utils.videoPlayinSlider(mContext, travelScheduleBannerListItemBinding.baVideo, travelScheduleBannerListItemBinding.imageProgress,
+                                travelScheduleBannerListItemBinding.startPauseMediaButton, travelScheduleBannerListItemBinding.volmueVideoButton,
+                                travelScheduleBannerListItemBinding.muteVideoButton, travelScheduleBannerListItemBinding.videoThumbnailImage,
+                                travelScheduleBannerListItemBinding.volmueLinear, videopathStr, videoplayposition);
+                    }
+                });
+                travelScheduleBannerListItemBinding.volmueLinear.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Utils.voluesetting(mContext, travelScheduleBannerListItemBinding.volmueVideoButton, travelScheduleBannerListItemBinding.muteVideoButton);
+                    }
+                });
+                travelScheduleBannerListItemBinding.baVideo.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (travelScheduleBannerListItemBinding.baVideo.isPlaying()) {
+                            videoplayposition = travelScheduleBannerListItemBinding.baVideo.getCurrentPosition();
+                            travelScheduleBannerListItemBinding.baVideo.pause();
+                            Log.d("videorunposition :", "" + videoplayposition);
+                            travelScheduleBannerListItemBinding.startPauseMediaButton.setVisibility(View.VISIBLE);
+                            travelScheduleBannerListItemBinding.volmueLinear.setVisibility(View.GONE);
+                        } else {
+                            Utils.videoPlayinSlider(mContext, travelScheduleBannerListItemBinding.baVideo, travelScheduleBannerListItemBinding.imageProgress,
+                                    travelScheduleBannerListItemBinding.startPauseMediaButton, travelScheduleBannerListItemBinding.volmueVideoButton,
+                                    travelScheduleBannerListItemBinding.muteVideoButton, travelScheduleBannerListItemBinding.videoThumbnailImage,
+                                    travelScheduleBannerListItemBinding.volmueLinear, videopathStr, videoplayposition);
+                        }
+                    }
+                });
+
+            }
+
 
             parent.addView(travelScheduleBannerListItemBinding.getRoot());
 
@@ -808,7 +859,7 @@ public class TravelMatchScheduleActivity extends AppCompatActivity implements Vi
         activityTravelMatchScheduleBinding.collapsingToolbar.setLayoutParams(params);
     }
 
-    public void updateteamflagAdapter(){
+    public void updateteamflagAdapter() {
         if (selectedtournamentteamId != null && selectedtournamentteamId.size() != 0) {
             for (int i = 0; i < teamnameflagList.size(); i++) {
                 for (int j = 0; j < selectedtournamentteamId.size(); j++) {
@@ -819,7 +870,7 @@ public class TravelMatchScheduleActivity extends AppCompatActivity implements Vi
 
             }
             teamNameFlagScheduleAdapter.notifyDataSetChanged();
-        }else{
+        } else {
             for (int i = 0; i < teamnameflagList.size(); i++) {
 
                 teamnameflagList.get(i).setTeamSelected("0");

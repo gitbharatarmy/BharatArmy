@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
+
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/detail_backdrop_height_travel_schedule">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <ImageView
-            android:id="@+id/background_image"
+            android:id="@+id/detail_gallery_image"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
             android:scaleType="centerCrop"
-            android:src="@drawable/ajif" />
+            android:src="@drawable/header_banner"
+            android:visibility="gone" />
 
         <RelativeLayout
             android:id="@+id/ba_video_rlv"
@@ -42,12 +46,6 @@
                         android:scaleType="centerCrop"
                         android:src="@drawable/australia_tour" />
 
-                    <LinearLayout
-                        android:id="@+id/videodropshadow_linear"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/detail_backdrop_height_travel_schedule"
-                        android:background="@drawable/travel_dropshadow"
-                        android:orientation="horizontal" />
 
                     <LinearLayout
                         android:id="@+id/volmue_linear"
@@ -57,7 +55,7 @@
                         android:layout_alignParentBottom="true"
                         android:layout_marginRight="@dimen/_10sdp"
                         android:layout_marginBottom="@dimen/_30sdp"
-                        android:background="@drawable/volume_bg_circle"
+                        android:background="@drawable/blue_circle"
                         android:visibility="gone">
 
                         <ImageView
@@ -97,22 +95,11 @@
                         android:indeterminate="true"
                         android:indeterminateTint="@color/white"
                         android:visibility="gone" />
-
-
                 </RelativeLayout>
             </LinearLayout>
 
 
         </RelativeLayout>
 
-        <LinearLayout
-            android:id="@+id/dropshadow_linear"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/detail_backdrop_height_travel_schedule"
-            android:background="@drawable/travel_dropshadow"
-            android:orientation="horizontal"
-            android:visibility="gone"/>
-
     </RelativeLayout>
-
 </layout>

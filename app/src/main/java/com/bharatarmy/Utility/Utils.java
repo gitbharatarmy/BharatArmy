@@ -23,7 +23,9 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.InsetDrawable;
+import android.media.AudioManager;
 import android.media.MediaMetadataRetriever;
+import android.media.MediaPlayer;
 import android.media.MediaScannerConnection;
 import android.media.ThumbnailUtils;
 import android.net.ConnectivityManager;
@@ -53,10 +55,12 @@ import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -127,6 +131,11 @@ public class Utils {
     public static ArrayList<String> videoFile;
 
     public static ProgressDialog mProgressDialog;
+
+    public static AudioManager audioManager;
+    public static int musicVolume, maxVolume;
+
+    public static MediaPlayer mediaPlayer;
 
     public static boolean checkNetwork(Context context) {
         boolean wifiAvailable = false;
@@ -1210,6 +1219,81 @@ public class Utils {
             } else if (relativeLayout != null) {
                 callCart.startAnimationOnClick(relativeLayout);
             }
+        }
+    }
+
+    public static void videoPlayinSlider(Context mContext, VideoView videoView, ProgressBar progressImage,
+                                         ImageView startpauseVideoImage, ImageView volumeImage, ImageView muteImage,
+                                         ImageView videoThumbnailImage, LinearLayout volumeLinear,
+                                         String videoPathString, int  videoplayposition) {
+/* https://baappvideo.s3.ap-south-1.amazonaws.com/appvideo.mp4
+* http://devenv.bharatarmy.com//Docs/Media/bharatarmy_app_2a07427c-8fba-4be9-baf0-969dfb84fdb4.mp4
+* https://baappvideo.s3.ap-south-1.amazonaws.com/appvideo_1.mp4
+* http://devenv.bharatarmy.com//Docs/Media/e83c8278-f1f8-4aa6-b618-1d2302b80416-MP4_20191010_163200.mp4 */
+
+        videoView.setVideoPath(videoPathString);
+        audioManager = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
+        musicVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+        if (videoplayposition == 0) {
+            startpauseVideoImage.setVisibility(View.GONE);
+            progressImage.setVisibility(View.VISIBLE);
+
+            videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                @Override
+                public void onPrepared(MediaPlayer mp) {
+                    mp.setLooping(true);
+                    videoView.start();
+                    mediaPlayer = mp;
+                    if (musicVolume == 0) {
+                        maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+                        audioManager.adjustVolume(AudioManager.ADJUST_RAISE, AudioManager.FLAG_PLAY_SOUND);
+                    }
+                    setVolume(0);
+                    volumeLinear.setVisibility(View.VISIBLE);
+                    videoThumbnailImage.setVisibility(View.GONE);
+                    progressImage.setVisibility(View.GONE);
+                }
+            });
+            videoView.setOnErrorListener(new MediaPlayer.OnErrorListener() {
+                @Override
+                public boolean onError(MediaPlayer mp, int what, int extra) {
+                    startpauseVideoImage.setVisibility(View.VISIBLE);
+                    volumeLinear.setVisibility(View.GONE);
+                    videoThumbnailImage.setVisibility(View.VISIBLE);
+                    progressImage.setVisibility(View.GONE);
+                    return false;
+                }
+            });
+        } else {
+            startpauseVideoImage.setVisibility(View.GONE);
+            volumeLinear.setVisibility(View.VISIBLE);
+            progressImage.setVisibility(View.VISIBLE);
+            videoView.seekTo(videoplayposition);
+            videoView.start();
+        }
+
+    }
+    public static void voluesetting(Context mContext, ImageView volumeImage, ImageView muteImage) {
+        if (mediaPlayer != null) {
+            if (muteImage.isShown()) {
+                audioManager.adjustVolume(AudioManager.ADJUST_RAISE, AudioManager.FLAG_PLAY_SOUND);
+                setVolume(100);
+                muteImage.setVisibility(View.GONE);
+                volumeImage.setVisibility(View.VISIBLE);
+
+            } else {
+                setVolume(0);
+                muteImage.setVisibility(View.VISIBLE);
+                volumeImage.setVisibility(View.GONE);
+            }
+        }
+    }
+    public static void setVolume(int amount) {
+        final int max = 100;
+        final double numerator = max - amount > 0 ? Math.log(max - amount) : 0;
+        final float volume = (float) (1 - (numerator / Math.log(max)));
+        if (mediaPlayer != null) {
+            mediaPlayer.setVolume(volume, volume);
         }
     }
 }

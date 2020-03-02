@@ -147,10 +147,11 @@ public class TravelMatchHotelAdapter extends RecyclerView.Adapter<TravelMatchHot
                     holder.travelMatchHotelListItemBinding.roomNametxt.setText(splitvalue[1]);
                     Utils.setImageInImageView(splitvalue[2], holder.travelMatchHotelListItemBinding.roomImg, mContext);
 
-                } else {
+                }
+                /*else {
                     holder.travelMatchHotelListItemBinding.addCartLayout.setVisibility(View.VISIBLE);
                     holder.travelMatchHotelListItemBinding.removeCartLayout.setVisibility(View.GONE);
-                }
+                }*/
 
             }
         } else {

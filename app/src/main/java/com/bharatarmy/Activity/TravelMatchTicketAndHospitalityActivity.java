@@ -43,7 +43,7 @@ public class TravelMatchTicketAndHospitalityActivity extends AppCompatActivity i
         super.onCreate(savedInstanceState);
         activityTravelMatchTicketAndHospitalityBinding = DataBindingUtil.setContentView(this, R.layout.activity_travel_match_ticket_and_hospitality);
         mContext = TravelMatchTicketAndHospitalityActivity.this;
-        EventBus.getDefault().register(this);
+
 
         init();
         setListiner();
@@ -139,17 +139,5 @@ public class TravelMatchTicketAndHospitalityActivity extends AppCompatActivity i
         super.onResume();
     }
 
-    @Subscribe
-    public void customEventReceived(MyScreenChnagesModel event) {
-        Log.d("eventBusPosition :", "" + event.getAdapterremvoePosition());
 
-        if (tickethospitalityList != null && tickethospitalityList.size() != 0) {
-            for (int i = 0; i < tickethospitalityList.size(); i++) {
-                if (event.getAdapterremvoePosition() == i) {
-                    travelMatchTicketHospitalityAdapter.notifyItemChanged(i, "remove");
-                }
-            }
-        }
-
-    }
 }
