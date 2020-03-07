@@ -1,0 +1,457 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/stadium_detail_main_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/splash_bg_color"
+        android:fitsSystemWindows="true">
+
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appbar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/detail_backdrop_height"
+            android:fitsSystemWindows="true"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:id="@+id/collapsing_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fitsSystemWindows="true"
+                app:collapsedTitleTextAppearance="@style/TextAppearance.AppCompat.Title.Collapse"
+                app:contentInsetStart="0dp"
+                app:contentScrim="?attr/colorPrimary"
+                app:expandedTitleMarginEnd="2dp"
+                app:expandedTitleMarginStart="0dp"
+                app:expandedTitleTextAppearance="@style/TextAppearance.AppCompat.Title.Expand"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+                <RelativeLayout
+                    android:id="@+id/stadium_gallery_rel"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="visible">
+
+                    <com.facebook.shimmer.ShimmerFrameLayout
+                        android:id="@+id/shimmer_view_container_gallery"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
+                        <include layout="@layout/detail_gallery_list_dataholder" />
+
+
+                    </com.facebook.shimmer.ShimmerFrameLayout>
+
+                    <androidx.viewpager.widget.ViewPager
+                        android:id="@+id/stadium_detail_Gallery_viewpager"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/heading_bg"/>
+
+                    <LinearLayout
+                        android:id="@+id/viewPager_dotlinear"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginBottom="@dimen/_20sdp"
+                        android:orientation="horizontal"></LinearLayout>
+                </RelativeLayout>
+
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    app:contentInsetLeft="0dp"
+                    app:contentInsetRight="@dimen/_20sdp"
+                    app:contentInsetStartWithNavigation="0dp"
+                    app:layout_collapseMode="pin"
+                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_13sdp"
+                        android:layout_marginRight="@dimen/_9sdp"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:id="@+id/back_img"
+                            android:layout_width="@dimen/_40sdp"
+                            android:layout_height="@dimen/_40sdp"
+                            android:layout_alignParentLeft="true"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="@dimen/_20sdp"
+                                android:layout_height="@dimen/_15sdp"
+                                android:layout_gravity="left|center_vertical"
+                                android:src="@drawable/ic_left_arrow2"
+                                android:tint="@color/splash_bg_color" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/toolbar_header_linear"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_40sdp"
+                            android:layout_toRightOf="@+id/back_img"
+                            android:orientation="vertical"
+                            android:visibility="gone">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/_2sdp"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:id="@+id/toolbar_country1_txt"
+                                    style="@style/title_text_font"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:ellipsize="end"
+                                    android:maxLines="1"
+                                    android:paddingLeft="@dimen/_2sdp"
+                                    android:text="India"
+                                    android:textAllCaps="true"
+                                    android:textColor="@color/splash_bg_color"
+                                    android:textSize="@dimen/main_title_size" />
+
+                                <TextView
+                                    android:id="@+id/toolbar_v_txt"
+                                    style="@style/title_text_font"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="@dimen/_5sdp"
+                                    android:ellipsize="end"
+                                    android:maxLines="1"
+                                    android:text="v"
+                                    android:textAllCaps="false"
+                                    android:textColor="@color/splash_bg_color"
+                                    android:textSize="@dimen/main_title_size" />
+
+                                <TextView
+                                    android:id="@+id/toolbar_country2_txt"
+                                    style="@style/title_text_font"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="@dimen/_5sdp"
+                                    android:ellipsize="end"
+                                    android:maxLines="1"
+                                    android:text="South Africa"
+                                    android:textAllCaps="true"
+                                    android:textColor="@color/splash_bg_color"
+                                    android:textSize="@dimen/main_title_size" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:id="@+id/toolbar_ground_linear"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <ImageView
+                                    android:layout_width="@dimen/title_date_time_size"
+                                    android:layout_height="@dimen/title_date_time_size"
+                                    android:layout_gravity="center_vertical"
+                                    android:src="@drawable/ic_location"
+                                    android:tint="@color/splash_bg_color" />
+
+                                <TextView
+                                    android:id="@+id/toolbar_location_txt"
+                                    style="@style/title_text_font"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:ellipsize="end"
+                                    android:gravity="center_vertical"
+                                    android:maxLines="1"
+                                    android:paddingLeft="@dimen/_2sdp"
+                                    android:paddingTop="@dimen/_1sdp"
+                                    android:text="Perth Stadium, Perth, Australia"
+                                    android:textAllCaps="true"
+                                    android:textColor="@color/splash_bg_color"
+                                    android:textSize="@dimen/title_date_time_size" />
+                            </LinearLayout>
+
+                            <TextView
+                                android:id="@+id/toolbar_datetime_txt"
+                                style="@style/title_text_font"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:ellipsize="end"
+                                android:gravity="center_vertical"
+                                android:maxLines="1"
+                                android:paddingLeft="@dimen/_4sdp"
+                                android:paddingTop="@dimen/_1sdp"
+                                android:text="Sat 24 Oct, 07:00 PM (Local)"
+                                android:textAllCaps="true"
+                                android:textColor="@color/splash_bg_color"
+                                android:textSize="@dimen/title_subtext_size" />
+
+                        </LinearLayout>
+                    </RelativeLayout>
+                </androidx.appcompat.widget.Toolbar>
+
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/nestedScroll"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/_10sdp"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <LinearLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:visibility="visible">
+
+                <com.facebook.shimmer.ShimmerFrameLayout
+                    android:id="@+id/shimmer_view_container_main"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="visible">
+
+                    <include layout="@layout/stadium_detail_dataholder" />
+
+
+                </com.facebook.shimmer.ShimmerFrameLayout>
+
+                <LinearLayout
+                    android:id="@+id/main_detail_linear"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_16sdp"
+                        android:layout_marginRight="@dimen/_16sdp"
+                        android:orientation="horizontal"
+                        android:visibility="visible">
+
+
+                        <TextView
+                            android:id="@+id/stadium_name_txt"
+                            style="@style/title_text_font"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_2sdp"
+                            android:ellipsize="end"
+                            android:maxLines="2"
+                            android:text="World Cup 2019: Bring o.."
+                            android:textColor="@color/heading_bg"
+                            android:textSize="@dimen/_25sdp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_17sdp"
+                        android:layout_marginTop="@dimen/_10sdp"
+                        android:layout_marginRight="@dimen/_17sdp"
+                        android:orientation="vertical"
+                        android:visibility="visible">
+
+                        <TextView
+                            android:id="@+id/stadium_desc_txt"
+                            style="@style/text_font"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:maxLines="6"
+                            android:text="@string/ticket_desc"
+                            android:textColor="@color/normal_font_color"
+                            android:textSize="@dimen/_12sdp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_17sdp"
+                        android:layout_marginTop="@dimen/top_margin"
+                        android:layout_marginRight="@dimen/_17sdp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/title_text_font"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:text="Includes"
+                            android:textAllCaps="true"
+                            android:textColor="@color/normal_font_color"
+                            android:textSize="@dimen/_13sdp" />
+
+                        <LinearLayout
+                            android:id="@+id/inclusion_linear"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:orientation="vertical" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/cricket_ground_linear"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/top_margin"
+                        android:orientation="vertical"
+                        android:visibility="visible">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginLeft="@dimen/_10sdp"
+                            android:layout_marginRight="@dimen/_10sdp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                style="@style/title_text_font"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:ellipsize="end"
+                                android:gravity="center_horizontal"
+                                android:maxLines="1"
+                                android:text="MelBourne"
+                                android:textAllCaps="true"
+                                android:textColor="@color/heading_bg"
+                                android:textSize="@dimen/_16sdp" />
+
+                            <TextView
+                                style="@style/text_font"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/_3sdp"
+                                android:ellipsize="end"
+                                android:gravity="center_horizontal"
+                                android:maxLines="1"
+                                android:text="Cricket ground"
+                                android:textAllCaps="true"
+                                android:textColor="@color/gray"
+                                android:textSize="@dimen/_16sdp" />
+                        </LinearLayout>
+
+                        <com.alexvasilkov.gestures.views.GestureImageView
+                            android:id="@+id/cricket_ground_img"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/top_margin"
+                            android:adjustViewBounds="true"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/stadium_map" />
+
+                        <TextView
+                            style="@style/text_font"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/_15sdp"
+                            android:layout_marginTop="@dimen/top_margin"
+                            android:layout_marginRight="@dimen/_15sdp"
+                            android:ellipsize="end"
+                            android:gravity="center_vertical"
+                            android:maxLines="5"
+                            android:text="@string/ticket_desc"
+                            android:textColor="@color/normal_font_color"
+                            android:textSize="@dimen/_12sdp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/related_stadium_matches_linear"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:visibility="visible">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/_15sdp"
+                            android:layout_marginTop="@dimen/top_margin"
+                            android:layout_marginRight="@dimen/_15sdp"
+                            android:orientation="horizontal"
+                            android:visibility="visible">
+
+                            <LinearLayout
+                                android:layout_width="@dimen/_3sdp"
+                                android:layout_height="match_parent"
+                                android:background="@drawable/vertical_line"
+                                android:orientation="vertical" />
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/_7sdp"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    style="@style/title_text_font"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentStart="true"
+                                    android:ellipsize="end"
+                                    android:maxLines="2"
+                                    android:text="Other Matches"
+                                    android:textAllCaps="true"
+                                    android:textColor="@color/heading_bg"
+                                    android:textSize="@dimen/_16sdp" />
+
+                            </RelativeLayout>
+                        </LinearLayout>
+
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/related_stadium_matches_rcv"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="@dimen/_14sdp"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:layout_marginRight="@dimen/_13sdp"
+                            android:clipToPadding="false"
+                            android:paddingBottom="@dimen/_20sdp"
+                            android:visibility="gone" />
+
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="1"
+            app:layout_anchor="@id/appbar"
+            app:layout_anchorGravity="bottom|end">
+
+            <View
+                android:id="@+id/toolbar_bottom_left_view"
+                android:layout_width="0dp"
+                android:layout_height="3dp"
+                android:layout_below="@+id/toolbar"
+                android:layout_alignParentBottom="false"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:background="@drawable/bg_gradiant_line" />
+
+
+        </LinearLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

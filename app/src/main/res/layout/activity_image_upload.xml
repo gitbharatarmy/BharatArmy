@@ -136,13 +136,13 @@
                         android:background="@drawable/rectangle_line"
                         android:orientation="horizontal">
 
-                        <ImageView
+                        <androidx.appcompat.widget.AppCompatImageView
                             android:id="@+id/privacy_image"
                             android:layout_width="@dimen/_13sdp"
                             android:layout_height="@dimen/_13sdp"
                             android:layout_gravity="center_vertical"
                             android:layout_marginLeft="@dimen/_5sdp"
-                            android:src="@drawable/ic_aboutus"
+                            app:srcCompat="@drawable/ic_aboutus"
                             android:tint="@color/gray" />
 
                         <TextView

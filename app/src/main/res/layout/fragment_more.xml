@@ -167,13 +167,13 @@
                         android:layout_marginTop="@dimen/more_rowTop"
                         android:orientation="horizontal">
 
-                        <ImageView
+                        <androidx.appcompat.widget.AppCompatImageView
                             android:layout_width="@dimen/_25sdp"
                             android:layout_height="@dimen/_25sdp"
                             android:layout_marginTop="@dimen/_5sdp"
                             android:scaleType="centerCrop"
                             android:tint="@color/skip_color"
-                            android:src="@drawable/ic_notification"/>
+                            app:srcCompat="@drawable/ic_notification"/>
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -210,13 +210,13 @@
                         android:layout_marginTop="@dimen/more_rowTop"
                         android:orientation="horizontal">
 
-                        <ImageView
+                        <androidx.appcompat.widget.AppCompatImageView
                             android:layout_width="@dimen/_23sdp"
                             android:layout_height="@dimen/_23sdp"
                             android:layout_marginTop="@dimen/_5sdp"
                             android:scaleType="centerCrop"
                             android:tint="@color/green"
-                            android:src="@drawable/ic_heart_like" />
+                            app:srcCompat="@drawable/ic_heart_like" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -253,13 +253,13 @@
                         android:layout_marginTop="@dimen/more_rowTop"
                         android:orientation="horizontal">
 
-                        <ImageView
+                        <androidx.appcompat.widget.AppCompatImageView
                             android:layout_width="@dimen/_23sdp"
                             android:layout_height="@dimen/_23sdp"
                             android:layout_marginTop="@dimen/_5sdp"
                             android:scaleType="centerCrop"
                             android:tint="@color/heading_bg"
-                            android:src="@drawable/ic_image_icon" />
+                            app:srcCompat="@drawable/ic_image_icon" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -296,13 +296,13 @@
                         android:layout_marginTop="@dimen/more_rowTop"
                         android:orientation="horizontal">
 
-                        <ImageView
+                        <androidx.appcompat.widget.AppCompatImageView
                             android:layout_width="@dimen/_23sdp"
                             android:layout_height="@dimen/_23sdp"
                             android:layout_marginTop="@dimen/_5sdp"
                             android:scaleType="centerCrop"
                             android:tint="@color/green"
-                            android:src="@drawable/ic_feedback_other" />
+                            app:srcCompat="@drawable/ic_feedback_other" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -440,12 +440,12 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
-                        <ImageView
+                        <androidx.appcompat.widget.AppCompatImageView
                             android:layout_width="@dimen/_25sdp"
                             android:layout_height="@dimen/_25sdp"
                             android:scaleType="centerCrop"
                             android:tint="@color/green"
-                            android:src="@drawable/ic_aboutus"/>
+                            app:srcCompat="@drawable/ic_aboutus"/>
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -474,12 +474,12 @@
                         android:layout_marginTop="@dimen/more_rowTop"
                         android:orientation="horizontal">
 
-                        <ImageView
+                        <androidx.appcompat.widget.AppCompatImageView
                             android:layout_width="@dimen/_25sdp"
                             android:layout_height="@dimen/_25sdp"
                             android:scaleType="centerCrop"
                             android:tint="@color/skip_color"
-                            android:src="@drawable/ic_contactus"/>
+                            app:srcCompat="@drawable/ic_contactus"/>
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -507,12 +507,12 @@
                         android:layout_marginTop="@dimen/more_rowTop"
                         android:orientation="horizontal">
 
-                        <ImageView
+                        <androidx.appcompat.widget.AppCompatImageView
                             android:layout_width="@dimen/_25sdp"
                             android:layout_height="@dimen/_25sdp"
                             android:scaleType="centerCrop"
                             android:tint="@color/orange"
-                            android:src="@drawable/ic_help"/>
+                            app:srcCompat="@drawable/ic_help"/>
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -598,12 +598,12 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
-                        <ImageView
+                        <androidx.appcompat.widget.AppCompatImageView
                             android:layout_width="@dimen/_25sdp"
                             android:layout_height="@dimen/_25sdp"
                             android:scaleType="centerCrop"
                             android:tint="@color/green"
-                            android:src="@drawable/ic_inquriy"/>
+                            app:srcCompat="@drawable/ic_inquriy"/>
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -632,12 +632,12 @@
                         android:layout_marginTop="@dimen/more_rowTop"
                         android:orientation="horizontal">
 
-                        <ImageView
+                        <androidx.appcompat.widget.AppCompatImageView
                             android:layout_width="@dimen/_25sdp"
                             android:layout_height="@dimen/_25sdp"
                             android:scaleType="centerCrop"
                             android:tint="@color/skip_color"
-                            android:src="@drawable/ic_user"/>
+                            app:srcCompat="@drawable/ic_user"/>
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -665,12 +665,12 @@
                         android:layout_marginTop="@dimen/more_rowTop"
                         android:orientation="horizontal">
 
-                        <ImageView
+                        <androidx.appcompat.widget.AppCompatImageView
                             android:layout_width="@dimen/_25sdp"
                             android:layout_height="@dimen/_25sdp"
                             android:scaleType="centerCrop"
                             android:tint="@color/orange"
-                            android:src="@drawable/ic_sfaentry"/>
+                            app:srcCompat="@drawable/ic_sfaentry"/>
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -699,13 +699,13 @@
                         android:orientation="horizontal"
                         android:visibility="visible">
 
-                        <ImageView
+                        <androidx.appcompat.widget.AppCompatImageView
                             android:layout_width="@dimen/_25sdp"
                             android:layout_height="@dimen/_25sdp"
                             android:layout_marginTop="@dimen/_5sdp"
                             android:scaleType="centerCrop"
                             android:tint="@color/green"
-                            android:src="@drawable/ic_myuser" />
+                            app:srcCompat="@drawable/ic_myuser" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -735,13 +735,13 @@
                         android:orientation="horizontal"
                         android:visibility="visible">
 
-                        <ImageView
+                        <androidx.appcompat.widget.AppCompatImageView
                             android:layout_width="@dimen/_25sdp"
                             android:layout_height="@dimen/_25sdp"
                             android:layout_marginTop="@dimen/_5sdp"
                             android:scaleType="centerCrop"
                             android:tint="@color/heading_bg"
-                            android:src="@drawable/ic_certification" />
+                            app:srcCompat="@drawable/ic_certification" />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -825,12 +825,12 @@
 
                         android:orientation="horizontal">
 
-                        <ImageView
+                        <androidx.appcompat.widget.AppCompatImageView
                             android:layout_width="@dimen/_25sdp"
                             android:layout_height="@dimen/_25sdp"
                             android:scaleType="centerCrop"
                             android:tint="@color/heading_bg"
-                            android:src="@drawable/ic_profilesetting"/>
+                            app:srcCompat="@drawable/ic_profilesetting"/>
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -858,12 +858,12 @@
                         android:layout_marginTop="@dimen/more_rowTop"
                         android:orientation="horizontal">
 
-                        <ImageView
+                        <androidx.appcompat.widget.AppCompatImageView
                             android:layout_width="@dimen/_25sdp"
                             android:layout_height="@dimen/_25sdp"
                             android:scaleType="centerCrop"
                             android:tint="@color/gray"
-                            android:src="@drawable/ic_logout"/>
+                            app:srcCompat="@drawable/ic_logout"/>
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -892,12 +892,12 @@
                         android:layout_marginTop="@dimen/more_rowTop"
                         android:orientation="horizontal">
 
-                        <ImageView
+                        <androidx.appcompat.widget.AppCompatImageView
                             android:layout_width="@dimen/_25sdp"
                             android:layout_height="@dimen/_25sdp"
                             android:scaleType="centerCrop"
                             android:tint="@color/sign_up"
-                            android:src="@drawable/ic_remove_user"/>
+                            app:srcCompat="@drawable/ic_remove_user"/>
 
                         <LinearLayout
                             android:layout_width="match_parent"

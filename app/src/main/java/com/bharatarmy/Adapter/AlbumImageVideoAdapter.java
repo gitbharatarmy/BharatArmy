@@ -102,9 +102,9 @@ public class AlbumImageVideoAdapter extends RecyclerView.Adapter<AlbumImageVideo
 
         if (albumMediaType.get(position).equalsIgnoreCase("1")) {
             holder.albumImageVideoListItemBinding.showAlbumImage.setVisibility(View.VISIBLE);
-            holder.albumImageVideoListItemBinding.playAlbumvideo.setVisibility(View.GONE);
-            holder.albumImageVideoListItemBinding.videoViewThumbnail.setVisibility(View.GONE);
-            holder.albumImageVideoListItemBinding.imageProgress.setVisibility(View.GONE);
+//            holder.albumImageVideoListItemBinding.playAlbumvideo.setVisibility(View.GONE);
+//            holder.albumImageVideoListItemBinding.videoViewThumbnail.setVisibility(View.GONE);
+//            holder.albumImageVideoListItemBinding.imageProgress.setVisibility(View.GONE);
 //            Utils.setImageInImageView(albumImageUrl.get(position), holder.albumImageVideoListItemBinding.showAlbumImage, mContext);
             Picasso.with(mContext).load(albumImageUrl.get(position)).placeholder(R.drawable.loader_new)
                     .into(holder.albumImageVideoListItemBinding.showAlbumImage,
@@ -139,64 +139,64 @@ public class AlbumImageVideoAdapter extends RecyclerView.Adapter<AlbumImageVideo
 
 
         } else if (albumMediaType.get(position).equalsIgnoreCase("2")) {
-            holder.albumImageVideoListItemBinding.imageProgress.setVisibility(View.VISIBLE);
-            holder.albumImageVideoListItemBinding.playAlbumvideo.setVisibility(View.VISIBLE);
+//            holder.albumImageVideoListItemBinding.imageProgress.setVisibility(View.VISIBLE);
+//            holder.albumImageVideoListItemBinding.playAlbumvideo.setVisibility(View.VISIBLE);
             holder.albumImageVideoListItemBinding.showAlbumImage.setVisibility(View.GONE);
-            holder.albumImageVideoListItemBinding.videoViewThumbnail.setVisibility(View.VISIBLE);
+//            holder.albumImageVideoListItemBinding.videoViewThumbnail.setVisibility(View.VISIBLE);
 
 //            Utils.setImageInImageView(albumImageThumbUrl.get(position), holder.albumImageVideoListItemBinding.videoViewThumbnail, mContext);
 
-            Picasso.with(mContext).load(albumImageThumbUrl.get(position)).placeholder(R.drawable.loader_new)
-                    .into(holder.albumImageVideoListItemBinding.videoViewThumbnail, new TargetCallback(holder.albumImageVideoListItemBinding.videoViewThumbnail) {
-                        @Override
-                        public void onSuccess(ImageView target) {
-                            if (target != null) {
-                                holder.albumImageVideoListItemBinding.imageBottomLinear.setVisibility(View.VISIBLE);
-                                holder.albumImageVideoListItemBinding.imageBottomLinear.startAnimation(fadein);
-                                holder.albumImageVideoListItemBinding.videoViewThumbnail.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        if (holder.albumImageVideoListItemBinding.imageBottomLinear.isShown()) {
-                                            holder.albumImageVideoListItemBinding.imageBottomLinear.setVisibility(View.GONE);
-                                            holder.albumImageVideoListItemBinding.imageBottomLinear.startAnimation(fadeout);
-                                        } else {
-                                            holder.albumImageVideoListItemBinding.imageBottomLinear.setVisibility(View.VISIBLE);
-                                            holder.albumImageVideoListItemBinding.imageBottomLinear.startAnimation(fadein);
-                                        }
-                                    }
-                                });
-                            } else {
-                                holder.albumImageVideoListItemBinding.imageBottomLinear.setVisibility(View.GONE);
-                            }
-                        }
-
-                        @Override
-                        public void onError(ImageView target) {
-                            holder.albumImageVideoListItemBinding.imageBottomLinear.setVisibility(View.GONE);
-                        }
-                    });
-
-
-            mediaController = new MediaController(mContext);
-            mediaController.setAnchorView(holder.albumImageVideoListItemBinding.playAlbumvideo);
-            holder.albumImageVideoListItemBinding.playAlbumvideo.setMediaController(mediaController);
-            holder.albumImageVideoListItemBinding.playAlbumvideo.requestFocus();
-
-            holder.albumImageVideoListItemBinding.playAlbumvideo.setVideoPath(albumImageUrl.get(position));
-
-            holder.albumImageVideoListItemBinding.playAlbumvideo.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                @Override
-                public void onPrepared(MediaPlayer mp) {
-                    mp.setLooping(true);
-                    holder.albumImageVideoListItemBinding.videoViewThumbnail.setVisibility(View.GONE);
-                    holder.albumImageVideoListItemBinding.imageProgress.setVisibility(View.GONE);
-                    holder.albumImageVideoListItemBinding.playAlbumvideo.start();
-                    if (!holder.albumImageVideoListItemBinding.imageBottomLinear.isShown()) {
-                        holder.albumImageVideoListItemBinding.imageBottomLinear.setVisibility(View.VISIBLE);
-                        holder.albumImageVideoListItemBinding.imageBottomLinear.startAnimation(fadein);
-                    }
-                }
-            });
+//            Picasso.with(mContext).load(albumImageThumbUrl.get(position)).placeholder(R.drawable.loader_new)
+//                    .into(holder.albumImageVideoListItemBinding.videoViewThumbnail, new TargetCallback(holder.albumImageVideoListItemBinding.videoViewThumbnail) {
+//                        @Override
+//                        public void onSuccess(ImageView target) {
+//                            if (target != null) {
+//                                holder.albumImageVideoListItemBinding.imageBottomLinear.setVisibility(View.VISIBLE);
+//                                holder.albumImageVideoListItemBinding.imageBottomLinear.startAnimation(fadein);
+//                                holder.albumImageVideoListItemBinding.videoViewThumbnail.setOnClickListener(new View.OnClickListener() {
+//                                    @Override
+//                                    public void onClick(View v) {
+//                                        if (holder.albumImageVideoListItemBinding.imageBottomLinear.isShown()) {
+//                                            holder.albumImageVideoListItemBinding.imageBottomLinear.setVisibility(View.GONE);
+//                                            holder.albumImageVideoListItemBinding.imageBottomLinear.startAnimation(fadeout);
+//                                        } else {
+//                                            holder.albumImageVideoListItemBinding.imageBottomLinear.setVisibility(View.VISIBLE);
+//                                            holder.albumImageVideoListItemBinding.imageBottomLinear.startAnimation(fadein);
+//                                        }
+//                                    }
+//                                });
+//                            } else {
+//                                holder.albumImageVideoListItemBinding.imageBottomLinear.setVisibility(View.GONE);
+//                            }
+//                        }
+//
+//                        @Override
+//                        public void onError(ImageView target) {
+//                            holder.albumImageVideoListItemBinding.imageBottomLinear.setVisibility(View.GONE);
+//                        }
+//                    });
+//
+//
+//            mediaController = new MediaController(mContext);
+//            mediaController.setAnchorView(holder.albumImageVideoListItemBinding.playAlbumvideo);
+//            holder.albumImageVideoListItemBinding.playAlbumvideo.setMediaController(mediaController);
+//            holder.albumImageVideoListItemBinding.playAlbumvideo.requestFocus();
+//
+//            holder.albumImageVideoListItemBinding.playAlbumvideo.setVideoPath(albumImageUrl.get(position));
+//
+//            holder.albumImageVideoListItemBinding.playAlbumvideo.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+//                @Override
+//                public void onPrepared(MediaPlayer mp) {
+//                    mp.setLooping(true);
+//                    holder.albumImageVideoListItemBinding.videoViewThumbnail.setVisibility(View.GONE);
+//                    holder.albumImageVideoListItemBinding.imageProgress.setVisibility(View.GONE);
+//                    holder.albumImageVideoListItemBinding.playAlbumvideo.start();
+//                    if (!holder.albumImageVideoListItemBinding.imageBottomLinear.isShown()) {
+//                        holder.albumImageVideoListItemBinding.imageBottomLinear.setVisibility(View.VISIBLE);
+//                        holder.albumImageVideoListItemBinding.imageBottomLinear.startAnimation(fadein);
+//                    }
+//                }
+//            });
         }
 
         holder.albumImageVideoListItemBinding.uploadimageViewstxt.setText(albumImageViews.get(position));

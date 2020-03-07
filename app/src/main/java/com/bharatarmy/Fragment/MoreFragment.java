@@ -257,8 +257,6 @@ public class MoreFragment extends Fragment implements View.OnClickListener, Goog
             case R.id.withoutlogin_linear:
                 Utils.handleClickEvent(mContext, fragmentMoreBinding.withoutloginLinear);
                 Intent intent = new Intent(mContext, AppLoginActivity.class);
-                intent.putExtra("whereTocomeLogin", "more");
-//                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 break;
             case R.id.sports_interest_linear:

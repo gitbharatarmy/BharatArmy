@@ -18,7 +18,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.media.AudioManager;
-import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -31,13 +30,14 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bharatarmy.Adapter.MyStadiumDetailGalleryPagerAdapter;
 import com.bharatarmy.Adapter.StadiumDetailRelatedMatchesAdapter;
 import com.bharatarmy.Models.HomeTemplateDetailModel;
 import com.bharatarmy.Models.TravelDataModel;
@@ -47,7 +47,6 @@ import com.bharatarmy.Utility.AppConfiguration;
 import com.bharatarmy.Utility.MyApplication;
 import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.Utility.WebServices;
-import com.bharatarmy.databinding.ActivityTravelMatchStadiumDetailBinding;
 import com.bharatarmy.databinding.ActivityTravelMatchStadiumPlayerBinding;
 import com.bharatarmy.databinding.DetailPageGalleryPagerListItemBinding;
 import com.google.android.exoplayer2.C;
@@ -56,6 +55,7 @@ import com.google.android.exoplayer2.DefaultRenderersFactory;
 import com.google.android.exoplayer2.ExoPlaybackException;
 import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.ExoPlayerFactory;
+import com.google.android.exoplayer2.PlaybackPreparer;
 import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.drm.FrameworkMediaDrm;
@@ -74,6 +74,7 @@ import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.trackselection.MappingTrackSelector;
 import com.google.android.exoplayer2.trackselection.TrackSelection;
 import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
+import com.google.android.exoplayer2.ui.DefaultTimeBar;
 import com.google.android.exoplayer2.ui.PlayerView;
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultAllocator;
@@ -94,8 +95,7 @@ import retrofit2.Callback;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-
-public class TravelMatchStadiumDetailActivity extends AppCompatActivity implements View.OnClickListener {
+public class TravelMatchStadiumPlayerActivity extends AppCompatActivity implements View.OnClickListener {
     ActivityTravelMatchStadiumPlayerBinding activityTravelMatchStadiumPlayerBinding;
     Context mContext;
     /*Stadium Detail variable*/
@@ -109,7 +109,7 @@ public class TravelMatchStadiumDetailActivity extends AppCompatActivity implemen
     List<HomeTemplateDetailModel> travelStadiumOtherMatchesList;
 
     /*Use for stadium gallery*/
-    private TravelMatchStadiumDetailActivity.MyStadiumDetailGalleryPagerAdapter myStadiumDetailGalleryPagerAdapter;
+    private MyStadiumDetailGalleryPagerAdapter myStadiumDetailGalleryPagerAdapter;
     //    DetailPageGalleryPagerListItemBinding detailPageGalleryPagerListItemBinding;
     private TextView[] dots;
     ArrayList<TravelModel> stadiumDetailGalleryList;
@@ -180,7 +180,7 @@ public class TravelMatchStadiumDetailActivity extends AppCompatActivity implemen
         }
 
         activityTravelMatchStadiumPlayerBinding = DataBindingUtil.setContentView(this, R.layout.activity_travel_match_stadium_player);
-        mContext = TravelMatchStadiumDetailActivity.this;
+        mContext = TravelMatchStadiumPlayerActivity.this;
         init();
         setListiner();
 
@@ -263,7 +263,7 @@ public class TravelMatchStadiumDetailActivity extends AppCompatActivity implemen
     // Api calling GetStadiumDetailListData
     public void GetStadiumDetailListData() {
         if (!Utils.checkNetwork(mContext)) {
-            Utils.showCustomDialog(getResources().getString(R.string.internet_error), getResources().getString(R.string.internet_connection_error), TravelMatchStadiumDetailActivity.this);
+            Utils.showCustomDialog(getResources().getString(R.string.internet_error), getResources().getString(R.string.internet_connection_error), TravelMatchStadiumPlayerActivity.this);
             return;
 
         }
@@ -362,7 +362,7 @@ public class TravelMatchStadiumDetailActivity extends AppCompatActivity implemen
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.back_img:
-                TravelMatchStadiumDetailActivity.this.finish();
+                TravelMatchStadiumPlayerActivity.this.finish();
                 break;
         }
     }
@@ -371,7 +371,7 @@ public class TravelMatchStadiumDetailActivity extends AppCompatActivity implemen
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                TravelMatchStadiumDetailActivity.this.finish();
+                TravelMatchStadiumPlayerActivity.this.finish();
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -404,6 +404,7 @@ public class TravelMatchStadiumDetailActivity extends AppCompatActivity implemen
     private int getItem(int i) {
         return activityTravelMatchStadiumPlayerBinding.stadiumDetailGalleryViewpager.getCurrentItem() + i;
     }
+
     public class MyStadiumDetailGalleryPagerAdapter extends PagerAdapter {
 
 
@@ -415,7 +416,7 @@ public class TravelMatchStadiumDetailActivity extends AppCompatActivity implemen
         public Object instantiateItem(ViewGroup parent, int position) {
             DetailPageGalleryPagerListItemBinding detailPageGalleryPagerListItemBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
                     R.layout.detail_page_gallery_pager_list_item, parent, false);
-            exoPlay = (ImageView)findViewById(R.id.exo_play);
+            exoPlay = (ImageView) findViewById(R.id.exo_play);
 
             if (stadiumDetailGalleryList.get(position).getCityHotelAmenitiesName().equalsIgnoreCase("Image")) {
                 detailPageGalleryPagerListItemBinding.detailGalleryImage.setVisibility(View.VISIBLE);
@@ -428,7 +429,7 @@ public class TravelMatchStadiumDetailActivity extends AppCompatActivity implemen
                 detailPageGalleryPagerListItemBinding.detailGalleryImage.setVisibility(View.GONE);
                 detailPageGalleryPagerListItemBinding.baVideoRlv.setVisibility(View.VISIBLE);
 
-                Utils.setImageInImageView("http://devenv.bharatarmy.com//Docs/Media/Thumb/3b484b79-ad6f-4db2-838a-478b117fabf7-Thumb_20200210_BA121034.jpg",detailPageGalleryPagerListItemBinding.videoThumbnailImage,mContext);
+                Utils.setImageInImageView("http://devenv.bharatarmy.com//Docs/Media/Thumb/3b484b79-ad6f-4db2-838a-478b117fabf7-Thumb_20200210_BA121034.jpg", detailPageGalleryPagerListItemBinding.videoThumbnailImage, mContext);
                 videopathStr = stadiumDetailGalleryList.get(position).getCityHotelAmenitiesImage();
 
                 detailPageGalleryPagerListItemBinding.videoPlayImg.setOnClickListener(new View.OnClickListener() {
@@ -448,11 +449,11 @@ public class TravelMatchStadiumDetailActivity extends AppCompatActivity implemen
                 detailPageGalleryPagerListItemBinding.volumeLinear.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (detailPageGalleryPagerListItemBinding.volmueVideoButton.isShown()){
+                        if (detailPageGalleryPagerListItemBinding.volmueVideoButton.isShown()) {
                             detailPageGalleryPagerListItemBinding.volmueVideoButton.setVisibility(View.GONE);
                             detailPageGalleryPagerListItemBinding.muteVideoButton.setVisibility(View.VISIBLE);
 
-                        }else{
+                        } else {
                             detailPageGalleryPagerListItemBinding.volmueVideoButton.setVisibility(View.VISIBLE);
                             detailPageGalleryPagerListItemBinding.muteVideoButton.setVisibility(View.GONE);
 
@@ -522,13 +523,13 @@ public class TravelMatchStadiumDetailActivity extends AppCompatActivity implemen
         );
 
         player = ExoPlayerFactory.newSimpleInstance(/* context= */ this, renderersFactory, trackSelector, defaultLoadControl);
-        player.addListener(new TravelMatchStadiumDetailActivity.PlayerEventListener());
+        player.addListener(new PlayerEventListener());
         player.setPlayWhenReady(startAutoPlay);
         player.addAnalyticsListener(new EventLogger(trackSelector));
         playerView.setPlayer(player);
 
 
-        mediaSource = buildMediaSource(Uri.parse("https://baappvideo.s3.ap-south-1.amazonaws.com/appvideo_1.mp4")); // videoUrlStr
+        mediaSource = buildMediaSource(Uri.parse(videopathStr));
 //        https://baappvideo.s3.ap-south-1.amazonaws.com/74425094_140387590620474_1342703700878427324_n.mp4
 //                https://www.bharatarmy.com//Docs/74425094_140387590620474_1342703700878427324_n.mp4
         player.prepare(mediaSource);
@@ -752,8 +753,6 @@ public class TravelMatchStadiumDetailActivity extends AppCompatActivity implemen
             return Pair.create(0, errorString);
         }
     }
-
-
 
 
     @Override

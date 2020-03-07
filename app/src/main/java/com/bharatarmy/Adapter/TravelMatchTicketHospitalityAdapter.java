@@ -128,7 +128,7 @@ public class TravelMatchTicketHospitalityAdapter extends RecyclerView.Adapter<Tr
                 holder.travelMatchTicketHospitalityItemListBinding.addCartLayout.setVisibility(View.VISIBLE);
                 holder.travelMatchTicketHospitalityItemListBinding.removeCartLayout.setVisibility(View.GONE);
 
-                morestoryClick.getmorestoryClick();
+                image_click.image_more_click();
             }
         });
     }

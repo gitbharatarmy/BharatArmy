@@ -2,20 +2,19 @@ package com.bharatarmy.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bharatarmy.Activity.ExoVideoHorizontalPlayerActivity;
+import com.bharatarmy.Activity.ExoVideoVerticalPlayerActivity;
 import com.bharatarmy.Activity.VideoDetailHorizontalActivity;
-import com.bharatarmy.Activity.VideoDetailVerticalActivity;
 import com.bharatarmy.Interfaces.image_click;
 import com.bharatarmy.Models.ImageDetailModel;
 import com.bharatarmy.R;
@@ -108,7 +107,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.Item
 
                 if (videodetail.getWidth() > videodetail.getHeight()) {
                     AppConfiguration.videoType = "horizontal";
-                    Intent videogalleryhorizontalvideodetailIntent = new Intent(mContext, VideoDetailHorizontalActivity.class);
+                    Intent videogalleryhorizontalvideodetailIntent = new Intent(mContext, ExoVideoHorizontalPlayerActivity.class);
                     videogalleryhorizontalvideodetailIntent.putExtra("videoData", videodetail.getVideoFileURL());
                     videogalleryhorizontalvideodetailIntent.putExtra("videoName", videodetail.getVideoName());
                     videogalleryhorizontalvideodetailIntent.putExtra("videoUserName", videodetail.getUserName());
@@ -120,7 +119,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.Item
                     mContext.startActivity(videogalleryhorizontalvideodetailIntent);
                 } else if (videodetail.getWidth() < videodetail.getHeight()) {
                     AppConfiguration.videoType = "vertical";
-                    Intent videogalleryverticalvideodetailIntent = new Intent(mContext, VideoDetailVerticalActivity.class);
+                    Intent videogalleryverticalvideodetailIntent = new Intent(mContext, ExoVideoVerticalPlayerActivity.class); //VideoDetailVerticalActivity
                     videogalleryverticalvideodetailIntent.putExtra("videoData", videodetail.getVideoFileURL());
                     videogalleryverticalvideodetailIntent.putExtra("videoName", videodetail.getVideoName());
                     videogalleryverticalvideodetailIntent.putExtra("videoUserName", videodetail.getUserName());
@@ -132,7 +131,7 @@ public class VideoListAdapter extends RecyclerView.Adapter<VideoListAdapter.Item
                     mContext.startActivity(videogalleryverticalvideodetailIntent);
                 } else if (videodetail.getWidth().equals(videodetail.getHeight())) {
                     AppConfiguration.videoType = "horizontal";
-                    Intent videogalleryhorizontalvideodetailIntent = new Intent(mContext, VideoDetailHorizontalActivity.class);
+                    Intent videogalleryhorizontalvideodetailIntent = new Intent(mContext, ExoVideoHorizontalPlayerActivity.class);
                     videogalleryhorizontalvideodetailIntent.putExtra("videoData", videodetail.getVideoFileURL());
                     videogalleryhorizontalvideodetailIntent.putExtra("videoName", videodetail.getVideoName());
                     videogalleryhorizontalvideodetailIntent.putExtra("videoUserName", videodetail.getUserName());

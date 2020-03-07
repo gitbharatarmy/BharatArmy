@@ -60,7 +60,7 @@ dependencies {
     implementation 'com.squareup.retrofit:retrofit:1.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
     implementation 'com.squareup.retrofit2:retrofit:2.3.0'
-//    implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
+
 //    JSON data call
     implementation 'com.google.code.gson:gson:2.8.5'
 
@@ -70,13 +70,12 @@ dependencies {
     //  scale wise give dimens
     implementation 'com.intuit.sdp:sdp-android:1.0.5'
 
-
-//    recyclerview, cardview, pullTorefresh
+    //  recyclerview, cardview, pullTorefresh
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.0.0'
     implementation 'androidx.cardview:cardview:1.0.0'
 
-//    shimmer effects
+    //  shimmer effects
     implementation 'com.github.sharish:ShimmerRecyclerView:v1.3'
     implementation 'com.facebook.shimmer:shimmer:0.1.0'
 
@@ -84,59 +83,76 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.5.0'
     api 'com.github.bumptech.glide:glide:4.9.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
+
     //    zoom image
     implementation 'com.alexvasilkov:gesture-views:2.5.2'
-    //    use for round corner imageview
-//    implementation 'com.github.siyamed:android-shape-imageview:0.9.+@aar'
 
-//   circular imageview
+    //   circular imageview
     implementation 'de.hdodenhof:circleimageview:3.0.0'
+
     // crop image
     implementation 'com.github.yalantis:ucrop:2.2.2'
 
-    //dexter permissions
+    // dexter permissions
     implementation "com.karumi:dexter:5.0.0"
 
-//    use for mediapicker for gallery
+    //  use for mediapicker for gallery
     implementation 'com.droidninja:filepicker:2.2.1'
     implementation "com.github.xinyuez:easypermissions:2.0.1"
 
-// flexible layout
+    // flexible layout
     implementation 'com.google.android:flexbox:1.1.0'
-//    bottom navigation view
+
+    //  bottom navigation view
     implementation 'com.etebarian:meow-bottom-navigation:1.0.1'  //1.0.1  1.2.0
-//    image/view upload select option
+
+    //  image/view upload select option
     implementation "com.leinardi.android:speed-dial:2.0.1"
-//rating bar
+
+    //  rating bar
     implementation 'com.github.whinc:ratingbar:1.1.1'
-//google maps
+
+    //  google maps
     implementation 'com.google.android.gms:play-services-maps:16.1.0'
     implementation 'com.google.android.gms:play-services-base:15.0.2'
-//    like unlike
+
+    //  like unlike
     implementation 'com.github.jd-alexander:LikeButton:0.2.3'
-// ultraview pagere
+
+    // ultraview pagere
     implementation('com.alibaba.android:ultraviewpager:1.0.7.7@aar') {
         transitive = true
     }
-//    EventBus
+    //  EventBus
     implementation 'org.greenrobot:eventbus:3.1.1'
-//    google signup
+
+    //  google signup
     implementation 'com.google.android.gms:play-services-auth:17.0.0'
+
     // lib for SMS verification (Phone Auth)
     implementation 'com.google.android.gms:play-services-auth-api-phone:17.0.0'
-//    facebook signup
+
+    //  facebook signup
     implementation 'com.facebook.android:facebook-login:5.0.1'
-//    firebase notification
+
+    //  firebase notification
     implementation "com.google.firebase:firebase-core:17.0.1"
     implementation 'com.google.firebase:firebase-messaging:20.0.1'
     implementation 'com.google.firebase:firebase-analytics:17.2.1'
     implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
+
     // Add the Crashlytics NDK dependency
     implementation 'com.crashlytics.sdk.android:crashlytics-ndk:2.1.1'
-//    country code picker
+
+    // country code picker
     implementation 'io.michaelrocks:libphonenumber-android:8.10.16'
-//video trim
+
+    //  video trim
     implementation 'com.googlecode.mp4parser:isoparser:1.1.20'
+
+    //  video file streaming and fast loading
+    implementation 'com.google.android.exoplayer:exoplayer:2.9.3'
+//    implementation 'com.github.HaarigerHarald:android-youtubeExtractor:master-SNAPSHOT'
 
 
 //    unuse gradle
@@ -148,7 +164,8 @@ dependencies {
    for Timeline implementation 'com.github.vipulasri:timelineview:1.1.0'
    mobile number implementation files('D:\\Working Projects\\Android\\BharatArmy_images\\libphonenumber-5.3.jar')
    api 'io.michaelrocks:libphonenumber-android:8.10.7'
-
+    //    use for round corner imageview
+//    implementation 'com.github.siyamed:android-shape-imageview:0.9.+@aar'
 //shadow
     api 'tk.zielony:carbon:0.16.0.1'
   photoview implementation 'com.commit451:PhotoView:1.2.4'

@@ -592,6 +592,9 @@ public class Utils {
                         activity.startActivity(dashboardIntent);
                         activity.finish();
                     } else if (wheretocome.equalsIgnoreCase("changePassword|finishApp")) {
+                        Intent dashboardIntent = new Intent(activity, DashboardActivity.class);
+//                        dashboardIntent.putExtra("whichPageRun", "4");
+                        activity.startActivity(dashboardIntent);
                         activity.finish();
                     } else if (wheretocome.equalsIgnoreCase("imageUpload")) {
                         Intent intent = new Intent(activity, UploadService.class);
@@ -1274,7 +1277,9 @@ public class Utils {
 
     }
     public static void voluesetting(Context mContext, ImageView volumeImage, ImageView muteImage) {
-        if (mediaPlayer != null) {
+        audioManager = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
+        musicVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+
             if (muteImage.isShown()) {
                 audioManager.adjustVolume(AudioManager.ADJUST_RAISE, AudioManager.FLAG_PLAY_SOUND);
                 setVolume(100);
@@ -1286,14 +1291,13 @@ public class Utils {
                 muteImage.setVisibility(View.VISIBLE);
                 volumeImage.setVisibility(View.GONE);
             }
-        }
+
     }
     public static void setVolume(int amount) {
         final int max = 100;
         final double numerator = max - amount > 0 ? Math.log(max - amount) : 0;
         final float volume = (float) (1 - (numerator / Math.log(max)));
-        if (mediaPlayer != null) {
             mediaPlayer.setVolume(volume, volume);
-        }
+
     }
 }

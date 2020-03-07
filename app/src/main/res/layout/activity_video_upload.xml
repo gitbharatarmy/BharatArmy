@@ -256,7 +256,7 @@
                                     android:layout_height="@dimen/_23sdp"
                                     android:layout_centerVertical="true"
                                     android:layout_marginLeft="@dimen/_10sdp"
-                                    android:src="@drawable/ic_aboutus" />
+                                    app:srcCompat="@drawable/ic_aboutus" />
 
                                 <LinearLayout
                                     android:id="@+id/privacy_linear"

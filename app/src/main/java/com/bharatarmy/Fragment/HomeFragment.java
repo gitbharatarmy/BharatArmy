@@ -42,10 +42,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import com.bharatarmy.Activity.AlbumImageVideoShowActivity;
+import com.bharatarmy.Activity.AllVideoShowInFullScreenActivity;
 import com.bharatarmy.Activity.MoreInformationActivity;
 import com.bharatarmy.Activity.MyProfileActivity;
-import com.bharatarmy.Activity.VideoDetailActivity;
 import com.bharatarmy.Adapter.BharatArmyStoriesAdapter;
 import com.bharatarmy.Adapter.MyBgpageAdapter;
 import com.bharatarmy.Adapter.MyPagerAdapter;
@@ -630,7 +629,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 fragmentHomeBinding.volmueLinear.setVisibility(View.GONE);
                 fragmentHomeBinding.image.setVisibility(View.VISIBLE);
                 fragmentHomeBinding.startPauseMediaButton.setVisibility(View.VISIBLE);
-                Intent showImageVideoIntent = new Intent(mContext, AlbumImageVideoShowActivity.class);
+                Intent showImageVideoIntent = new Intent(mContext, AllVideoShowInFullScreenActivity.class);
                 showImageVideoIntent.putExtra("AlbumImageThumb", videoImagePathStr);
                 showImageVideoIntent.putExtra("AlbumImageVideoPath", videopathStr);
                 showImageVideoIntent.putExtra("MediaType", "2");
@@ -928,7 +927,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             customerGalleryItemBinding.customerImg.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent showImageVideoIntent = new Intent(mContext, AlbumImageVideoShowActivity.class);
+                    Intent showImageVideoIntent = new Intent(mContext, AllVideoShowInFullScreenActivity.class);
                     showImageVideoIntent.putExtra("AlbumImageThumb", customergalleryList.get(position).getTourTotalView());
                     showImageVideoIntent.putExtra("AlbumImageVideoPath", customergalleryList.get(position).getTourTotalComment());
                     showImageVideoIntent.putExtra("MediaType", "2");
@@ -939,7 +938,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             customerGalleryItemBinding.startPauseMediaButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent showImageVideoIntent = new Intent(mContext, AlbumImageVideoShowActivity.class);
+                    Intent showImageVideoIntent = new Intent(mContext, AllVideoShowInFullScreenActivity.class);
                     showImageVideoIntent.putExtra("AlbumImageThumb", customergalleryList.get(position).getTourTotalView());
                     showImageVideoIntent.putExtra("AlbumImageVideoPath", customergalleryList.get(position).getTourTotalComment());
                     showImageVideoIntent.putExtra("MediaType", "2");

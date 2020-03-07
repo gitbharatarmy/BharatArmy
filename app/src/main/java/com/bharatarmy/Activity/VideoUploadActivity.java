@@ -132,77 +132,83 @@ public class VideoUploadActivity extends AppCompatActivity implements View.OnCli
 
                 if (!videoTitleStr.equalsIgnoreCase("")) {
                     if (!videoDescriptionStr.equalsIgnoreCase("")) {
+                        if (!videoHeightStr.equalsIgnoreCase("") && !videoHeightStr.equalsIgnoreCase("0")) {
+                            if (!videoWidthStr.equalsIgnoreCase("") && !videoWidthStr.equalsIgnoreCase("0")) {
+
 //                        if (Utils.createVideoThumbNail(pathStr) != null) {
-                        galleryImageList.add(new GalleryImageModel(pathStr, sizeStr, "0", durationStr, "2", videoTitleStr, videoDescriptionStr, videoHeightStr, videoWidthStr, privacysettingstr/*,thumbnailpath*/));
-                        boolean connected = Utils.checkNetwork(mContext);
+                                galleryImageList.add(new GalleryImageModel(pathStr, sizeStr, "0", durationStr, "2", videoTitleStr, videoDescriptionStr, videoHeightStr, videoWidthStr, privacysettingstr/*,thumbnailpath*/));
+                                boolean connected = Utils.checkNetwork(mContext);
 
-                        if (connected == true) {
-                            if (galleryImageList != null && galleryImageList.size() > 0) {
-                                for (int i = 0; i < galleryImageList.size(); i++) {
-                                    dbHandler.insertImageDetails(galleryImageList.get(i).getImageUri(),
-                                            galleryImageList.get(i).getImageSize(),
-                                            galleryImageList.get(i).getUploadcompelet(),
-                                            galleryImageList.get(i).getVideolength(),
-                                            galleryImageList.get(i).getFileType(),
-                                            galleryImageList.get(i).getVideoTitle(),
-                                            galleryImageList.get(i).getVideoDesc(),
-                                            galleryImageList.get(i).getVideoHeight(),
-                                            galleryImageList.get(i).getVideoWidth(),
-                                            galleryImageList.get(i).getPrivacySetting(),
-                                            /*  galleryImageList.get(i).getThumbnail(),*/
-                                            mContext);
-                                }
-                                Intent intent = new Intent(mContext, UploadService.class);
-                                startService(intent);
-                                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(VideoUploadActivity.this);
-                                LayoutInflater inflater = getLayoutInflater();
-                                View dialogView = inflater.inflate(R.layout.thankyou_dialog_item, null);
-                                dialogBuilder.setView(dialogView);
-                                alertDialog = dialogBuilder.create();
-                                alertDialog.setCanceledOnTouchOutside(false);
-                                alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-                                TextView dialog_headertxt = (TextView) dialogView.findViewById(R.id.dialog_headertxt);
-                                TextView dialog_descriptiontxt = (TextView) dialogView.findViewById(R.id.dialog_descriptiontxt);
-                                TextView hometxt = (TextView) dialogView.findViewById(R.id.home_txt);
-
-
-                                if (Utils.retriveLoginOtherData(mContext) != null) {
-                                    for (int i = 0; i < Utils.retriveLoginOtherData(mContext).size(); i++) {
-                                        if (Utils.retriveLoginOtherData(mContext).get(i).getMessageId().equals(1)) {
-                                            dialog_headertxt.setText(Utils.retriveLoginOtherData(mContext).get(i).getMessageHeaderText());
-                                            dialog_descriptiontxt.setText(Utils.retriveLoginOtherData(mContext).get(i).getMessageDescription());
+                                if (connected == true) {
+                                    if (galleryImageList != null && galleryImageList.size() > 0) {
+                                        for (int i = 0; i < galleryImageList.size(); i++) {
+                                            dbHandler.insertImageDetails(galleryImageList.get(i).getImageUri(),
+                                                    galleryImageList.get(i).getImageSize(),
+                                                    galleryImageList.get(i).getUploadcompelet(),
+                                                    galleryImageList.get(i).getVideolength(),
+                                                    galleryImageList.get(i).getFileType(),
+                                                    galleryImageList.get(i).getVideoTitle(),
+                                                    galleryImageList.get(i).getVideoDesc(),
+                                                    galleryImageList.get(i).getVideoHeight(),
+                                                    galleryImageList.get(i).getVideoWidth(),
+                                                    galleryImageList.get(i).getPrivacySetting(),
+                                                    /*  galleryImageList.get(i).getThumbnail(),*/
+                                                    mContext);
                                         }
+                                        Intent intent = new Intent(mContext, UploadService.class);
+                                        startService(intent);
+                                        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(VideoUploadActivity.this);
+                                        LayoutInflater inflater = getLayoutInflater();
+                                        View dialogView = inflater.inflate(R.layout.thankyou_dialog_item, null);
+                                        dialogBuilder.setView(dialogView);
+                                        alertDialog = dialogBuilder.create();
+                                        alertDialog.setCanceledOnTouchOutside(false);
+                                        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+                                        TextView dialog_headertxt = (TextView) dialogView.findViewById(R.id.dialog_headertxt);
+                                        TextView dialog_descriptiontxt = (TextView) dialogView.findViewById(R.id.dialog_descriptiontxt);
+                                        TextView hometxt = (TextView) dialogView.findViewById(R.id.home_txt);
 
-                                    }
-                                }
 
-                                hometxt.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        try {
-                                            if (alertDialog != null && alertDialog.isShowing()) {
-                                                alertDialog.dismiss();
+                                        if (Utils.retriveLoginOtherData(mContext) != null) {
+                                            for (int i = 0; i < Utils.retriveLoginOtherData(mContext).size(); i++) {
+                                                if (Utils.retriveLoginOtherData(mContext).get(i).getMessageId().equals(1)) {
+                                                    dialog_headertxt.setText(Utils.retriveLoginOtherData(mContext).get(i).getMessageHeaderText());
+                                                    dialog_descriptiontxt.setText(Utils.retriveLoginOtherData(mContext).get(i).getMessageDescription());
+                                                }
+
                                             }
-                                            Intent dashboardIntent = new Intent(mContext, DashboardActivity.class);
-                                            dashboardIntent.putExtra("whichPageRun", "1");
-                                            startActivity(dashboardIntent);
-                                            finish();
-                                        } catch (Exception e) {
-
                                         }
-                                    }
-                                });
-                                alertDialog.show();
 
-                            } else {
-                                Utils.ping(mContext, "Please select video");
+                                        hometxt.setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                try {
+                                                    if (alertDialog != null && alertDialog.isShowing()) {
+                                                        alertDialog.dismiss();
+                                                    }
+                                                    Intent dashboardIntent = new Intent(mContext, DashboardActivity.class);
+                                                    dashboardIntent.putExtra("whichPageRun", "1");
+                                                    startActivity(dashboardIntent);
+                                                    finish();
+                                                } catch (Exception e) {
+
+                                                }
+                                            }
+                                        });
+                                        alertDialog.show();
+
+                                    } else {
+                                        Utils.ping(mContext, "Please select video");
+                                    }
+                                } else {
+                                    Utils.showCustomDialog(getResources().getString(R.string.internet_error), getResources().getString(R.string.internet_connection_error), VideoUploadActivity.this);
+                                }
+                            }else {
+                                Utils.ping(mContext, "video can't support");
                             }
                         } else {
-                            Utils.showCustomDialog(getResources().getString(R.string.internet_error), getResources().getString(R.string.internet_connection_error), VideoUploadActivity.this);
+                            Utils.ping(mContext, "video can't support");
                         }
-//                        } else {
-//                            Utils.ping(mContext, "video can't support");
-//                        }
                     } else {
                         activityVideoUploadBinding.videodescEdt.setError("please enter video description");
                     }
@@ -214,7 +220,7 @@ public class VideoUploadActivity extends AppCompatActivity implements View.OnCli
                 photoprivacyStr = activityVideoUploadBinding.privacyOptionTxt.getText().toString();
                 Intent privacyIntent = new Intent(mContext, ImageVideoPrivacyActivity.class);
                 privacyIntent.putExtra("privacytxt", photoprivacyStr);
-                privacyIntent.putExtra("privacytype","Video");
+                privacyIntent.putExtra("privacytype", "Video");
                 startActivity(privacyIntent);
                 break;
         }

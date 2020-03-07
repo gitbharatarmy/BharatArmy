@@ -40,7 +40,8 @@
                     <androidx.viewpager.widget.ViewPager
                         android:id="@+id/travel_match_schedule_detail_gallery_viewpager"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
+                        android:layout_height="match_parent"
+                        android:background="@color/heading_bg"/>
 
 
                     <LinearLayout
