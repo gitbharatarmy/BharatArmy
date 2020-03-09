@@ -921,15 +921,15 @@ public class Utils {
             public void success(ImageMainModel likeModel, Response response) {
                 Utils.dismissDialog();
                 if (likeModel == null) {
-                    Utils.ping(mContext, mContext.getString(R.string.something_wrong));
+//                    Utils.ping(mContext, mContext.getString(R.string.something_wrong));
                     return;
                 }
                 if (likeModel.getIsValid() == null) {
-                    Utils.ping(mContext, mContext.getString(R.string.something_wrong));
+//                    Utils.ping(mContext, mContext.getString(R.string.something_wrong));
                     return;
                 }
                 if (likeModel.getIsValid() == 0) {
-                    Utils.ping(mContext, mContext.getString(R.string.false_msg));
+//                    Utils.ping(mContext, mContext.getString(R.string.false_msg));
                     return;
                 }
                 if (likeModel.getIsValid() == 1) {

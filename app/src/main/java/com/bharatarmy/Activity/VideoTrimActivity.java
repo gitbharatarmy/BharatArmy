@@ -59,8 +59,8 @@ public class VideoTrimActivity extends AppCompatActivity implements View.OnClick
             path = FileUtils.getPath(this, selectedUri);
             maxDuration = getMediaDuration(selectedUri);
             duration = getDuration(selectedUri);
-            Log.d("duration :", "" + duration);
-            Log.d("path :", "" + path);
+//            Log.d("duration :", "" + duration);
+//            Log.d("path :", "" + path);
             if (path != null) {
 
                 if (activityVideoTrimBinding.timeLine != null) {

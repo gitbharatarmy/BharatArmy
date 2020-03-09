@@ -404,6 +404,7 @@ public class TravelMatchStadiumDetailActivity extends AppCompatActivity implemen
     private int getItem(int i) {
         return activityTravelMatchStadiumPlayerBinding.stadiumDetailGalleryViewpager.getCurrentItem() + i;
     }
+
     public class MyStadiumDetailGalleryPagerAdapter extends PagerAdapter {
 
 
@@ -415,7 +416,9 @@ public class TravelMatchStadiumDetailActivity extends AppCompatActivity implemen
         public Object instantiateItem(ViewGroup parent, int position) {
             DetailPageGalleryPagerListItemBinding detailPageGalleryPagerListItemBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
                     R.layout.detail_page_gallery_pager_list_item, parent, false);
-            exoPlay = (ImageView)findViewById(R.id.exo_play);
+            exoPlay = (ImageView) findViewById(R.id.exo_play);
+            AudioManager audioManager = (AudioManager)mContext.getSystemService(Context.AUDIO_SERVICE);
+            audioManager.adjustVolume(AudioManager.ADJUST_MUTE,AudioManager.ADJUST_MUTE);
 
             if (stadiumDetailGalleryList.get(position).getCityHotelAmenitiesName().equalsIgnoreCase("Image")) {
                 detailPageGalleryPagerListItemBinding.detailGalleryImage.setVisibility(View.VISIBLE);
@@ -428,7 +431,7 @@ public class TravelMatchStadiumDetailActivity extends AppCompatActivity implemen
                 detailPageGalleryPagerListItemBinding.detailGalleryImage.setVisibility(View.GONE);
                 detailPageGalleryPagerListItemBinding.baVideoRlv.setVisibility(View.VISIBLE);
 
-                Utils.setImageInImageView("http://devenv.bharatarmy.com//Docs/Media/Thumb/3b484b79-ad6f-4db2-838a-478b117fabf7-Thumb_20200210_BA121034.jpg",detailPageGalleryPagerListItemBinding.videoThumbnailImage,mContext);
+                Utils.setImageInImageView("http://devenv.bharatarmy.com//Docs/Media/Thumb/3b484b79-ad6f-4db2-838a-478b117fabf7-Thumb_20200210_BA121034.jpg", detailPageGalleryPagerListItemBinding.videoThumbnailImage, mContext);
                 videopathStr = stadiumDetailGalleryList.get(position).getCityHotelAmenitiesImage();
 
                 detailPageGalleryPagerListItemBinding.videoPlayImg.setOnClickListener(new View.OnClickListener() {
@@ -448,14 +451,16 @@ public class TravelMatchStadiumDetailActivity extends AppCompatActivity implemen
                 detailPageGalleryPagerListItemBinding.volumeLinear.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (detailPageGalleryPagerListItemBinding.volmueVideoButton.isShown()){
+                        if (detailPageGalleryPagerListItemBinding.volmueVideoButton.isShown()) {
                             detailPageGalleryPagerListItemBinding.volmueVideoButton.setVisibility(View.GONE);
                             detailPageGalleryPagerListItemBinding.muteVideoButton.setVisibility(View.VISIBLE);
-
-                        }else{
+                            AudioManager audioManager = (AudioManager)mContext.getSystemService(Context.AUDIO_SERVICE);
+                            audioManager.adjustVolume(AudioManager.ADJUST_MUTE,AudioManager.ADJUST_MUTE);
+                        } else {
                             detailPageGalleryPagerListItemBinding.volmueVideoButton.setVisibility(View.VISIBLE);
                             detailPageGalleryPagerListItemBinding.muteVideoButton.setVisibility(View.GONE);
-
+                            AudioManager audioManager = (AudioManager)mContext.getSystemService(Context.AUDIO_SERVICE);
+                            audioManager.adjustVolume(AudioManager.ADJUST_RAISE,AudioManager.FLAG_PLAY_SOUND);
                         }
                     }
                 });
@@ -752,8 +757,6 @@ public class TravelMatchStadiumDetailActivity extends AppCompatActivity implemen
             return Pair.create(0, errorString);
         }
     }
-
-
 
 
     @Override

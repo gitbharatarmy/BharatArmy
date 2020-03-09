@@ -372,45 +372,6 @@ public class AlbumImageVideoShowActivity extends AppCompatActivity implements Vi
         shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         startActivity(Intent.createChooser(shareIntent, "Share It"));
 
-//        String fname = "myVideo" + Utils.imagesaveDate() + "_BA" + Utils.imagesavetime() + ".mp4";
-//
-//
-//        File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "BharatArmy");
-//        if (!file.exists()) file.mkdirs();
-//        File image = new File(file,"BharatArmyVideo");
-//        mFinalPath =image.getPath()+File.separator;
-//
-//
-//        DownloadManager downloadmanager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
-//        Uri uri = Uri.parse("http://devenv.bharatarmy.com//Docs/Media/bharatarmy_app_bdad52bb-a687-486e-9162-c8334f46e4b1.mp4");
-//
-//        DownloadManager.Request request = new DownloadManager.Request(uri);
-//        request.setTitle("My File");
-//        request.setDescription("Downloading");
-//        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-//        request.setVisibleInDownloadsUi(false);
-//        request.setDestinationUri(Uri.parse("file://" +mFinalPath + fname));
-//
-//        downloadmanager.enqueue(request);
-//        File downloadfile = new File(file, fname); //Utils.camerafilesavepath()
-//        Log.i("file", "" + downloadfile);
-//
-//        Uri myUri = getUriForFile(mContext, getPackageName() + ".provider", downloadfile);
-//        Log.d("SHareVideo :", myUri.toString());
-//        ContentValues content = new ContentValues(4);
-//        content.put(MediaStore.Video.VideoColumns.DATE_ADDED,
-//                System.currentTimeMillis() / 1000);
-//        content.put(MediaStore.Video.Media.MIME_TYPE, "video/mp4");
-//        content.put(MediaStore.Video.Media.DATA, String.valueOf(myUri));
-//        ContentResolver resolver = getBaseContext().getContentResolver();
-//        Uri videouri = resolver.insert(MediaStore.Video.Media.EXTERNAL_CONTENT_URI, content);
-//
-//        Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
-//        sharingIntent.setType("video/*");
-//        sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT,"Title");
-//        sharingIntent.putExtra(android.content.Intent.EXTRA_STREAM,videouri);
-//        startActivity(Intent.createChooser(sharingIntent,"share:"));
-
     }
 
     private void showSettingsDialog() {
@@ -451,7 +412,7 @@ public class AlbumImageVideoShowActivity extends AppCompatActivity implements Vi
     }
 
     /*Image and video play adapter*/
-    public class AlbumImageVideoAdapter extends RecyclerView.Adapter<AlbumImageVideoAdapter.MyViewHolder> implements PlayerControlView.VisibilityListener {
+    public class AlbumImageVideoAdapter extends RecyclerView.Adapter<AlbumImageVideoAdapter.MyViewHolder> {
         Context mContext;
 
         private int lastPosition = -1;
@@ -489,9 +450,6 @@ public class AlbumImageVideoShowActivity extends AppCompatActivity implements Vi
             this.imageClick = imageClick;
         }
 
-        @Override
-        public void onVisibilityChange(int visibility) {
-        }
 
 
         public class MyViewHolder extends RecyclerView.ViewHolder {
@@ -522,7 +480,7 @@ public class AlbumImageVideoShowActivity extends AppCompatActivity implements Vi
 
             if (albumMediaType.get(position).equalsIgnoreCase("1")) {
                 holder.albumImageVideoListItemBinding.showAlbumImage.setVisibility(View.VISIBLE);
-                holder.albumImageVideoListItemBinding.frameLayoutMain.setVisibility(View.GONE);
+                holder.albumImageVideoListItemBinding.baVideoRlv.setVisibility(View.GONE);
                 Utils.setImageInImageView(albumImageUrl.get(position), holder.albumImageVideoListItemBinding.showAlbumImage, mContext);
                 Picasso.with(mContext).load(albumImageUrl.get(position)).placeholder(R.drawable.loader_new)
                         .into(holder.albumImageVideoListItemBinding.showAlbumImage,
@@ -558,75 +516,108 @@ public class AlbumImageVideoShowActivity extends AppCompatActivity implements Vi
 
             } else if (albumMediaType.get(position).equalsIgnoreCase("2")) {
                 holder.albumImageVideoListItemBinding.showAlbumImage.setVisibility(View.GONE);
-                holder.albumImageVideoListItemBinding.frameLayoutMain.setVisibility(View.VISIBLE);
+                holder.albumImageVideoListItemBinding.baVideoRlv.setVisibility(View.VISIBLE);
+                Utils.setImageInImageView(albumImageThumbUrl.get(position), holder.albumImageVideoListItemBinding.videoThumbnailImage, mContext);
                 playVideoPathStr = albumImageUrl.get(position);
 
-                playerView = holder.albumImageVideoListItemBinding.playerView;
-                progressBar = holder.albumImageVideoListItemBinding.loading;
-                imgBwd = holder.albumImageVideoListItemBinding.imgBwd;
-                imgFwd = holder.albumImageVideoListItemBinding.imgFwd;
-                tvPlaybackSpeed = holder.albumImageVideoListItemBinding.tvPlayBackSpeed;
-                tvPlayerCurrentTime = holder.albumImageVideoListItemBinding.tvPlayerCurrentTime;
-                tvPlayerEndTime = holder.albumImageVideoListItemBinding.tvPlayerEndTime;
-                imgSetting = holder.albumImageVideoListItemBinding.imgSetting;
-                tvPlaybackSpeedSymbol = holder.albumImageVideoListItemBinding.tvPlayBackSpeedSymbol;
-                imgFullScreenEnterExit = holder.albumImageVideoListItemBinding.imgFullScreenEnterExit;
 
-                imgFullScreenEnterExit.setVisibility(View.GONE);
-                LinearLayout.LayoutParams params = (LinearLayout.LayoutParams)holder.albumImageVideoListItemBinding.imgSetting.getLayoutParams();
-                params.setMargins(5, 0, 20, 0); //substitute parameters for left, top, right, bottom
-                holder.albumImageVideoListItemBinding.imgSetting.setLayoutParams(params);
-                tvPlaybackSpeed.setOnClickListener(new View.OnClickListener() {
+                holder.albumImageVideoListItemBinding.baVideoRlv.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        tvbackSpeedfuncation();
-                    }
-                });
-                tvPlaybackSpeed.setText("" + tapCount);
-                tvPlaybackSpeedSymbol.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        tvbackSpeedfuncation();
-                    }
-                });
-                imgSetting.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        MappingTrackSelector.MappedTrackInfo mappedTrackInfo = trackSelector.getCurrentMappedTrackInfo();
-                        if (mappedTrackInfo != null) {
+                        holder.albumImageVideoListItemBinding.videoThumbnailImage.setVisibility(View.GONE);
+                        holder.albumImageVideoListItemBinding.frameLayoutMain.setVisibility(View.VISIBLE);
+                        holder.albumImageVideoListItemBinding.loading.setVisibility(View.VISIBLE);
+                        playerView = holder.albumImageVideoListItemBinding.playerView;
+                        progressBar = holder.albumImageVideoListItemBinding.loading;
+                        exoPlay = holder.albumImageVideoListItemBinding.exoPlay;
+                        exoPause = holder.albumImageVideoListItemBinding.exoPause;
 
-                            Pair<android.app.AlertDialog, TrackSelectionView> dialogPair =
-                                    TrackSelectionView.getDialog(activity, "Select Video Resolution", trackSelector, 0);
-                            dialogPair.second.setShowDisableOption(false);
-                            dialogPair.second.setAllowAdaptiveSelections(false);
-                            dialogPair.first.show();
-                        }
-                    }
-                });
+                        exoPlay.setVisibility(View.GONE);
+                        exoPause.setVisibility(View.GONE);
 
-                setProgress();
-                initializePlayer();
+                        initializePlayer();
+//                        playerView.setControllerVisibilityListener(this);
+                        playerView.setErrorMessageProvider(new PlayerErrorMessageProvider());
+                        playerView.requestFocus();
 
-                playerView.setControllerVisibilityListener(this);
-                playerView.setErrorMessageProvider(new PlayerErrorMessageProvider());
-                playerView.requestFocus();
-
-                if (playerView !=null){
-                    holder.albumImageVideoListItemBinding.imageBottomLinear.setVisibility(View.VISIBLE);
-                    holder.albumImageVideoListItemBinding.imageBottomLinear.startAnimation(fadein);
-                    holder.albumImageVideoListItemBinding.playerView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            if (holder.albumImageVideoListItemBinding.imageBottomLinear.isShown()) {
-                                holder.albumImageVideoListItemBinding.imageBottomLinear.setVisibility(View.GONE);
-                                holder.albumImageVideoListItemBinding.imageBottomLinear.startAnimation(fadeout);
-                            } else {
-                                holder.albumImageVideoListItemBinding.imageBottomLinear.setVisibility(View.VISIBLE);
-                                holder.albumImageVideoListItemBinding.imageBottomLinear.startAnimation(fadein);
+                        holder.albumImageVideoListItemBinding.imageBottomLinear.setVisibility(View.VISIBLE);
+                        holder.albumImageVideoListItemBinding.imageBottomLinear.startAnimation(fadein);
+                        holder.albumImageVideoListItemBinding.playerView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if (holder.albumImageVideoListItemBinding.imageBottomLinear.isShown()) {
+                                    holder.albumImageVideoListItemBinding.imageBottomLinear.setVisibility(View.GONE);
+                                    holder.albumImageVideoListItemBinding.imageBottomLinear.startAnimation(fadeout);
+                                } else {
+                                    holder.albumImageVideoListItemBinding.imageBottomLinear.setVisibility(View.VISIBLE);
+                                    holder.albumImageVideoListItemBinding.imageBottomLinear.startAnimation(fadein);
+                                }
                             }
-                        }
-                    });
-                }
+                        });
+                    }
+                });
+//                imgBwd = holder.albumImageVideoListItemBinding.imgBwd;
+//                imgFwd = holder.albumImageVideoListItemBinding.imgFwd;
+//                tvPlaybackSpeed = holder.albumImageVideoListItemBinding.tvPlayBackSpeed;
+//                tvPlayerCurrentTime = holder.albumImageVideoListItemBinding.tvPlayerCurrentTime;
+//                tvPlayerEndTime = holder.albumImageVideoListItemBinding.tvPlayerEndTime;
+//                imgSetting = holder.albumImageVideoListItemBinding.imgSetting;
+//                tvPlaybackSpeedSymbol = holder.albumImageVideoListItemBinding.tvPlayBackSpeedSymbol;
+//                imgFullScreenEnterExit = holder.albumImageVideoListItemBinding.imgFullScreenEnterExit;
+//
+//                imgFullScreenEnterExit.setVisibility(View.GONE);
+//                LinearLayout.LayoutParams params = (LinearLayout.LayoutParams)holder.albumImageVideoListItemBinding.imgSetting.getLayoutParams();
+//                params.setMargins(5, 0, 20, 0); //substitute parameters for left, top, right, bottom
+//                holder.albumImageVideoListItemBinding.imgSetting.setLayoutParams(params);
+//                tvPlaybackSpeed.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        tvbackSpeedfuncation();
+//                    }
+//                });
+//                tvPlaybackSpeed.setText("" + tapCount);
+//                tvPlaybackSpeedSymbol.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        tvbackSpeedfuncation();
+//                    }
+//                });
+//                imgSetting.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        MappingTrackSelector.MappedTrackInfo mappedTrackInfo = trackSelector.getCurrentMappedTrackInfo();
+//                        if (mappedTrackInfo != null) {
+//
+//                            Pair<android.app.AlertDialog, TrackSelectionView> dialogPair =
+//                                    TrackSelectionView.getDialog(activity, "Select Video Resolution", trackSelector, 0);
+//                            dialogPair.second.setShowDisableOption(false);
+//                            dialogPair.second.setAllowAdaptiveSelections(false);
+//                            dialogPair.first.show();
+//                        }
+//                    }
+//                });
+//
+//                setProgress();
+//                initializePlayer();
+
+
+
+//                if (playerView !=null){
+//                    holder.albumImageVideoListItemBinding.imageBottomLinear.setVisibility(View.VISIBLE);
+//                    holder.albumImageVideoListItemBinding.imageBottomLinear.startAnimation(fadein);
+//                    holder.albumImageVideoListItemBinding.playerView.setOnClickListener(new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View v) {
+//                            if (holder.albumImageVideoListItemBinding.imageBottomLinear.isShown()) {
+//                                holder.albumImageVideoListItemBinding.imageBottomLinear.setVisibility(View.GONE);
+//                                holder.albumImageVideoListItemBinding.imageBottomLinear.startAnimation(fadeout);
+//                            } else {
+//                                holder.albumImageVideoListItemBinding.imageBottomLinear.setVisibility(View.VISIBLE);
+//                                holder.albumImageVideoListItemBinding.imageBottomLinear.startAnimation(fadein);
+//                            }
+//                        }
+//                    });
+//                }
             }
 
             holder.albumImageVideoListItemBinding.uploadimageViewstxt.setText(albumImageViews.get(position));
@@ -740,35 +731,7 @@ public class AlbumImageVideoShowActivity extends AppCompatActivity implements Vi
             return galleryVideoStr;
         }
 
-        public void tvbackSpeedfuncation() {
-            if (tvPlaybackSpeed.getText().equals("1")) {
-                tapCount++;
-                PlaybackParameters param = new PlaybackParameters(2f);
-                player.setPlaybackParameters(param);
-                tvPlaybackSpeed.setText("" + 2);
-            } else if (tvPlaybackSpeed.getText().equals("2")) {
-                tapCount++;
-                PlaybackParameters param = new PlaybackParameters(3f);
-                player.setPlaybackParameters(param);
-                tvPlaybackSpeed.setText("" + 3);
 
-            } else if (tvPlaybackSpeed.getText().equals("3")) {
-                tapCount++;
-                PlaybackParameters param = new PlaybackParameters(4f);
-                player.setPlaybackParameters(param);
-                tvPlaybackSpeed.setText("" + 4);
-            } else if (tvPlaybackSpeed.getText().equals("4")) {
-                tapCount++;
-                PlaybackParameters param = new PlaybackParameters(5f);
-                player.setPlaybackParameters(param);
-                tvPlaybackSpeed.setText("" + 5);
-            } else {
-                tapCount = 0;
-                player.setPlaybackParameters(null);
-                tvPlaybackSpeed.setText("" + 1);
-
-            }
-        }
 
     }
 
@@ -816,8 +779,8 @@ public class AlbumImageVideoShowActivity extends AppCompatActivity implements Vi
 //        "https://baappvideo.s3.ap-south-1.amazonaws.com/appvideo_1.mp4"
         player.prepare(mediaSource);
         updateButtonVisibilities();
-        initBwd();
-        initFwd();
+//        initBwd();
+//        initFwd();
     }
 
     private MediaSource buildMediaSource(Uri uri) {
@@ -945,43 +908,6 @@ public class AlbumImageVideoShowActivity extends AppCompatActivity implements Vi
         Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
     }
 
-    private void initBwd() {
-        imgBwd.requestFocus();
-        imgBwd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                player.seekTo(player.getCurrentPosition() - 10000);
-            }
-        });
-    }
-
-    private void initFwd() {
-        imgFwd.requestFocus();
-        imgFwd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                player.seekTo(player.getCurrentPosition() + 10000);
-            }
-        });
-
-    }
-
-    private String stringForTime(int timeMs) {
-        mFormatBuilder = new StringBuilder();
-        mFormatter = new Formatter(mFormatBuilder, Locale.getDefault());
-        int totalSeconds = timeMs / 1000;
-
-        int seconds = totalSeconds % 60;
-        int minutes = (totalSeconds / 60) % 60;
-        int hours = totalSeconds / 3600;
-
-        mFormatBuilder.setLength(0);
-        if (hours > 0) {
-            return mFormatter.format("%d:%02d:%02d", hours, minutes, seconds).toString();
-        } else {
-            return mFormatter.format("%02d:%02d", minutes, seconds).toString();
-        }
-    }
 
     private class PlayerEventListener implements Player.EventListener {
 
@@ -990,11 +916,16 @@ public class AlbumImageVideoShowActivity extends AppCompatActivity implements Vi
             switch (playbackState) {
                 case ExoPlayer.STATE_READY:
                     progressBar.setVisibility(View.GONE);
+                    exoPlay.setVisibility(View.VISIBLE);
+                    exoPause.setVisibility(View.VISIBLE);
 
                     break;
                 case ExoPlayer.STATE_BUFFERING:
                     progressBar.setVisibility(View.VISIBLE);
+                    exoPlay.setVisibility(View.GONE);
+                    exoPause.setVisibility(View.GONE);
                     break;
+
             }
             updateButtonVisibilities();
         }
@@ -1157,28 +1088,11 @@ public class AlbumImageVideoShowActivity extends AppCompatActivity implements Vi
 
 // OnClickListener methods
 
-    @Override
-    public boolean dispatchKeyEvent(KeyEvent event) {
-        // See whether the player view wants to handle media or DPAD keys events.
-        return playerView.dispatchKeyEvent(event) || super.dispatchKeyEvent(event);
-    }
-
-    private void setProgress() {
+//    @Override
+//    public boolean dispatchKeyEvent(KeyEvent event) {
+//        // See whether the player view wants to handle media or DPAD keys events.
+//        return playerView.dispatchKeyEvent(event) || super.dispatchKeyEvent(event);
+//    }
 
 
-        handler = new Handler();
-        //Make sure you update Seekbar on UI thread
-        handler.post(new Runnable() {
-
-            @Override
-            public void run() {
-                if (player != null) {
-                    tvPlayerCurrentTime.setText(stringForTime((int) player.getCurrentPosition()));
-                    tvPlayerEndTime.setText(stringForTime((int) player.getDuration()));
-
-                    handler.postDelayed(this, 1000);
-                }
-            }
-        });
-    }
 }

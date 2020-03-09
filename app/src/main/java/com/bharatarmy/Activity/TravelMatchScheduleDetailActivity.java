@@ -19,6 +19,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Typeface;
+import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -443,6 +444,9 @@ public class TravelMatchScheduleDetailActivity extends AppCompatActivity impleme
                     R.layout.travel_schedule_banner_list_item, parent, false);
 
             exoPlay = (ImageView)findViewById(R.id.exo_play);
+            AudioManager audioManager = (AudioManager)mContext.getSystemService(Context.AUDIO_SERVICE);
+            audioManager.adjustVolume(AudioManager.ADJUST_MUTE,AudioManager.ADJUST_MUTE);
+
 
             if (travelmatchscheduledetailGalleryList.get(position).getCityHotelAmenitiesName().equalsIgnoreCase("Image")) {
                 travelScheduleBannerListItemBinding.detailGalleryImage.setVisibility(View.VISIBLE);
@@ -478,11 +482,13 @@ Utils.setImageInImageView("http://devenv.bharatarmy.com//Docs/Media/Thumb/3b484b
                         if (travelScheduleBannerListItemBinding.volmueVideoButton.isShown()){
                             travelScheduleBannerListItemBinding.volmueVideoButton.setVisibility(View.GONE);
                             travelScheduleBannerListItemBinding.muteVideoButton.setVisibility(View.VISIBLE);
-
+                            AudioManager audioManager = (AudioManager)mContext.getSystemService(Context.AUDIO_SERVICE);
+                            audioManager.adjustVolume(AudioManager.ADJUST_MUTE,AudioManager.ADJUST_MUTE);
                         }else{
                             travelScheduleBannerListItemBinding.volmueVideoButton.setVisibility(View.VISIBLE);
                             travelScheduleBannerListItemBinding.muteVideoButton.setVisibility(View.GONE);
-
+                            AudioManager audioManager = (AudioManager)mContext.getSystemService(Context.AUDIO_SERVICE);
+                            audioManager.adjustVolume(AudioManager.ADJUST_RAISE,AudioManager.FLAG_PLAY_SOUND);
                         }
                     }
                 });
@@ -870,11 +876,11 @@ Utils.setImageInImageView("http://devenv.bharatarmy.com//Docs/Media/Thumb/3b484b
 
 // OnClickListener methods
 
-    @Override
-    public boolean dispatchKeyEvent(KeyEvent event) {
-        // See whether the player view wants to handle media or DPAD keys events.
-        return playerView.dispatchKeyEvent(event) || super.dispatchKeyEvent(event);
-    }
+//    @Override
+//    public boolean dispatchKeyEvent(KeyEvent event) {
+//        // See whether the player view wants to handle media or DPAD keys events.
+//        return playerView.dispatchKeyEvent(event) || super.dispatchKeyEvent(event);
+//    }
 
     public void setticketsListValue() {
         travelticketList = new ArrayList<TravelModel>();

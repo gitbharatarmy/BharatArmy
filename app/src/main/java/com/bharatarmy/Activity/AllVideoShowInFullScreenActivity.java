@@ -167,30 +167,30 @@ public class AllVideoShowInFullScreenActivity extends AppCompatActivity implemen
             clearStartPosition();
         }
 
-        setProgress();
+//        setProgress();
     }
 
     public void init() {
         frameLayout = (FrameLayout) findViewById(R.id.frame_layout_main);
-        tvPlaybackSpeed = (TextView) findViewById(R.id.tv_play_back_speed);
-        tvPlaybackSpeed.setOnClickListener(this);
-        tvPlaybackSpeed.setText("" + tapCount);
-        tvPlaybackSpeedSymbol = (TextView) findViewById(R.id.tv_play_back_speed_symbol);
-        tvPlaybackSpeedSymbol.setOnClickListener(this);
-        imgBwd = (ImageView) findViewById(R.id.img_bwd);
+//        tvPlaybackSpeed = (TextView) findViewById(R.id.tv_play_back_speed);
+//        tvPlaybackSpeed.setOnClickListener(this);
+//        tvPlaybackSpeed.setText("" + tapCount);
+//        tvPlaybackSpeedSymbol = (TextView) findViewById(R.id.tv_play_back_speed_symbol);
+//        tvPlaybackSpeedSymbol.setOnClickListener(this);
+//        imgBwd = (ImageView) findViewById(R.id.img_bwd);
         exoPlay = (ImageView) findViewById(R.id.exo_play);
         exoPause = (ImageView) findViewById(R.id.exo_pause);
-        imgFwd = (ImageView) findViewById(R.id.img_fwd);
-        tvPlayerCurrentTime = (TextView) findViewById(R.id.tv_player_current_time);
-        exoProgress = (DefaultTimeBar) findViewById(R.id.exo_progress);
-        tvPlayerEndTime = (TextView) findViewById(R.id.tv_player_end_time);
-        imgSetting = (ImageView) findViewById(R.id.img_setting);
-        imgFullScreenEnterExit = (ImageView) findViewById(R.id.img_full_screen_enter_exit);
-        imgFullScreenEnterExit.setOnClickListener(this);
+//        imgFwd = (ImageView) findViewById(R.id.img_fwd);
+//        tvPlayerCurrentTime = (TextView) findViewById(R.id.tv_player_current_time);
+//        exoProgress = (DefaultTimeBar) findViewById(R.id.exo_progress);
+//        tvPlayerEndTime = (TextView) findViewById(R.id.tv_player_end_time);
+//        imgSetting = (ImageView) findViewById(R.id.img_setting);
+//        imgFullScreenEnterExit = (ImageView) findViewById(R.id.img_full_screen_enter_exit);
+//        imgFullScreenEnterExit.setOnClickListener(this);
         progressBar = (ProgressBar) findViewById(R.id.loading);
         playerView = findViewById(R.id.player_view);
 
-        imgFullScreenEnterExit.setVisibility(View.GONE);
+//        imgFullScreenEnterExit.setVisibility(View.GONE);
 
         /* other controller */
         pathStr = getIntent().getStringExtra("AlbumImageVideoPath");
@@ -200,7 +200,7 @@ public class AllVideoShowInFullScreenActivity extends AppCompatActivity implemen
 
     public void setListiner() {
         activityAllVideoShowInFullScreenBinding.backImg.setOnClickListener(this);
-        imgSetting.setOnClickListener(this);
+//        imgSetting.setOnClickListener(this);
         playerView.setControllerVisibilityListener(this);
         playerView.setErrorMessageProvider(new AllVideoShowInFullScreenActivity.PlayerErrorMessageProvider());
         playerView.requestFocus();
@@ -416,8 +416,8 @@ public class AllVideoShowInFullScreenActivity extends AppCompatActivity implemen
 
         player.prepare(mediaSource);
         updateButtonVisibilities();
-        initBwd();
-        initFwd();
+//        initBwd();
+//        initFwd();
     }
 
     private MediaSource buildMediaSource(Uri uri) {

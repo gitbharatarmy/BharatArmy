@@ -9,6 +9,7 @@ import android.content.pm.ResolveInfo;
 import android.graphics.drawable.TransitionDrawable;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -18,6 +19,8 @@ import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.util.Log;
+import android.util.Pair;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -28,7 +31,9 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
 
@@ -45,6 +50,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.bharatarmy.Activity.AllVideoShowInFullScreenActivity;
 import com.bharatarmy.Activity.MoreInformationActivity;
 import com.bharatarmy.Activity.MyProfileActivity;
+import com.bharatarmy.Activity.TravelMatchStadiumDetailActivity;
 import com.bharatarmy.Adapter.BharatArmyStoriesAdapter;
 import com.bharatarmy.Adapter.MyBgpageAdapter;
 import com.bharatarmy.Adapter.MyPagerAdapter;
@@ -63,15 +69,50 @@ import com.bharatarmy.R;
 import com.bharatarmy.CountDownClockHome;
 import com.bharatarmy.Utility.ApiHandler;
 import com.bharatarmy.Utility.AppConfiguration;
+import com.bharatarmy.Utility.MyApplication;
 import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.CustomerGalleryItemBinding;
 import com.bharatarmy.databinding.FragmentHomeBinding;
+import com.google.android.exoplayer2.C;
+import com.google.android.exoplayer2.DefaultLoadControl;
+import com.google.android.exoplayer2.DefaultRenderersFactory;
+import com.google.android.exoplayer2.ExoPlaybackException;
+import com.google.android.exoplayer2.ExoPlayer;
+import com.google.android.exoplayer2.ExoPlayerFactory;
+import com.google.android.exoplayer2.Player;
+import com.google.android.exoplayer2.SimpleExoPlayer;
+import com.google.android.exoplayer2.drm.FrameworkMediaDrm;
+import com.google.android.exoplayer2.mediacodec.MediaCodecRenderer;
+import com.google.android.exoplayer2.mediacodec.MediaCodecUtil;
+import com.google.android.exoplayer2.source.BehindLiveWindowException;
+import com.google.android.exoplayer2.source.ExtractorMediaSource;
+import com.google.android.exoplayer2.source.MediaSource;
+import com.google.android.exoplayer2.source.TrackGroupArray;
+import com.google.android.exoplayer2.source.ads.AdsLoader;
+import com.google.android.exoplayer2.source.dash.DashMediaSource;
+import com.google.android.exoplayer2.source.hls.HlsMediaSource;
+import com.google.android.exoplayer2.source.smoothstreaming.SsMediaSource;
+import com.google.android.exoplayer2.trackselection.AdaptiveTrackSelection;
+import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
+import com.google.android.exoplayer2.trackselection.MappingTrackSelector;
+import com.google.android.exoplayer2.trackselection.TrackSelection;
+import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
+import com.google.android.exoplayer2.ui.PlayerView;
+import com.google.android.exoplayer2.upstream.DataSource;
+import com.google.android.exoplayer2.upstream.DefaultAllocator;
+import com.google.android.exoplayer2.util.ErrorMessageProvider;
+import com.google.android.exoplayer2.util.EventLogger;
+import com.google.android.exoplayer2.util.Util;
 import com.leinardi.android.speeddial.SpeedDialView;
 
+import java.net.CookieHandler;
+import java.net.CookieManager;
+import java.net.CookiePolicy;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Formatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -121,6 +162,60 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     //    autostart
     String manufacturer;
 
+    // Saved instance state keys.
+    private static final String KEY_TRACK_SELECTOR_PARAMETERS = "track_selector_parameters";
+    private static final String KEY_WINDOW = "window";
+    private static final String KEY_POSITION = "position";
+    private static final String KEY_AUTO_PLAY = "auto_play";
+
+    private static final CookieManager DEFAULT_COOKIE_MANAGER;
+
+    static {
+        DEFAULT_COOKIE_MANAGER = new CookieManager();
+        DEFAULT_COOKIE_MANAGER.setCookiePolicy(CookiePolicy.ACCEPT_ORIGINAL_SERVER);
+    }
+
+    int tapCount = 1;
+    ProgressBar progressBar;
+    private PlayerView playerView;
+    private DataSource.Factory dataSourceFactory;
+    private SimpleExoPlayer player;
+    private FrameworkMediaDrm mediaDrm;
+    private MediaSource mediaSource;
+    private DefaultTrackSelector trackSelector;
+    private DefaultTrackSelector.Parameters trackSelectorParameters;
+    private TrackGroupArray lastSeenTrackGroupArray;
+    private TextView tvPlaybackSpeed, tvPlaybackSpeedSymbol;
+    private boolean startAutoPlay;
+    private int startWindow;
+
+    // Fields used only for ad playback. The ads loader is loaded via reflection.
+    private long startPosition;
+    private AdsLoader adsLoader;
+    private Uri loadedAdTagUri;
+    //    FrameLayout frameLayout;
+    private ImageView exoPlay;
+    //    private ImageView exoPause;
+    private Handler handler;
+    private StringBuilder mFormatBuilder;
+    private Formatter mFormatter;
+
+
+    // Activity lifecycle
+    private static boolean isBehindLiveWindow(ExoPlaybackException e) {
+        if (e.type != ExoPlaybackException.TYPE_SOURCE) {
+            return false;
+        }
+        Throwable cause = e.getSourceException();
+        while (cause != null) {
+            if (cause instanceof BehindLiveWindowException) {
+                return true;
+            }
+            cause = cause.getCause();
+        }
+        return false;
+    }
+
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -155,6 +250,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        dataSourceFactory = buildDataSourceFactory();
+        if (CookieHandler.getDefault() != DEFAULT_COOKIE_MANAGER) {
+            CookieHandler.setDefault(DEFAULT_COOKIE_MANAGER);
+        }
+
         // Inflate the layout for this fragment
         fragmentHomeBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_home, container, false);
 
@@ -164,6 +264,18 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
         speedDial = getActivity().findViewById(R.id.speedDial);
         speedDial.setVisibility(View.GONE);
+
+
+        if (savedInstanceState != null) {
+            trackSelectorParameters = savedInstanceState.getParcelable(KEY_TRACK_SELECTOR_PARAMETERS);
+            startAutoPlay = savedInstanceState.getBoolean(KEY_AUTO_PLAY);
+            startWindow = savedInstanceState.getInt(KEY_WINDOW);
+            startPosition = savedInstanceState.getLong(KEY_POSITION);
+        } else {
+            trackSelectorParameters = new DefaultTrackSelector.ParametersBuilder().build();
+            clearStartPosition();
+        }
+
         return rootView;
 
     }
@@ -195,13 +307,19 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
 
 //        scrollview
-        fragmentHomeBinding.scrollHome.post(new Runnable() {
+//        fragmentHomeBinding.scrollHome.post(new Runnable() {
+//            @Override
+//            public void run() {
+//                fragmentHomeBinding.scrollHome.fullScroll(View.FOCUS_UP);
+//            }
+//        });
+        fragmentHomeBinding.scrollHome.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
-            public void run() {
+            public void onGlobalLayout() {
+                // Ready, move up
                 fragmentHomeBinding.scrollHome.fullScroll(View.FOCUS_UP);
             }
         });
-
 
 //      fill user profile section data
         if (Utils.retriveLoginData(mContext) != null) {
@@ -288,7 +406,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         audioManager = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
 
         videoImagePathStr = "http://devenv.bharatarmy.com//Docs/Media/Thumb/a983346f-b0ac-4a49-91c6-f7196efd4629-1570705345206.jpg";
-        Utils.setImageInImageView(videoImagePathStr, fragmentHomeBinding.image, mContext);
+        Utils.setImageInImageView(videoImagePathStr, fragmentHomeBinding.videoThumbnailImage, mContext);
 
         musicVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
 
@@ -383,6 +501,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     }
 
     public void setListiner() {
+
+        playerView = fragmentHomeBinding.sliderPlayerView;
+        progressBar = fragmentHomeBinding.loading;
+        playerView.setErrorMessageProvider(new PlayerErrorMessageProvider());
+        playerView.requestFocus();
+
+
         fragmentHomeBinding.subTitleTxt.setVisibility(View.GONE);
         fragmentHomeBinding.titleTxt.setVisibility(View.GONE);
         fragmentHomeBinding.knowMore.setVisibility(View.GONE);
@@ -400,7 +525,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         fragmentHomeBinding.termsConditionLinear.setOnClickListener(this);
 
         fragmentHomeBinding.settingLinear.setOnClickListener(this);
-        fragmentHomeBinding.baVideo.setOnClickListener(this);
+//        fragmentHomeBinding.baVideo.setOnClickListener(this);
     }
 
     // Api calling GetDashboardData
@@ -622,13 +747,21 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 mContext.startActivity(profileintent);
                 break;
             case R.id.start_pause_media_button:
-                playvideo();
+                fragmentHomeBinding.videoThumbnailImage.setVisibility(View.GONE);
+                fragmentHomeBinding.frameLayoutMain.setVisibility(View.VISIBLE);
+                fragmentHomeBinding.loading.setVisibility(View.VISIBLE);
+
+                fragmentHomeBinding.sliderPlayerView.setVisibility(View.VISIBLE);
+
+                initializePlayer();
+//                playvideo();
                 break;
             case R.id.full_screen_button:
                 fragmentHomeBinding.fullScreenButton.setVisibility(View.GONE);
                 fragmentHomeBinding.volmueLinear.setVisibility(View.GONE);
-                fragmentHomeBinding.image.setVisibility(View.VISIBLE);
-                fragmentHomeBinding.startPauseMediaButton.setVisibility(View.VISIBLE);
+                fragmentHomeBinding.frameLayoutMain.setVisibility(View.GONE);
+                fragmentHomeBinding.videoThumbnailImage.setVisibility(View.VISIBLE);
+//                fragmentHomeBinding.startPauseMediaButton.setVisibility(View.VISIBLE);
                 Intent showImageVideoIntent = new Intent(mContext, AllVideoShowInFullScreenActivity.class);
                 showImageVideoIntent.putExtra("AlbumImageThumb", videoImagePathStr);
                 showImageVideoIntent.putExtra("AlbumImageVideoPath", videopathStr);
@@ -637,7 +770,18 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 mContext.startActivity(showImageVideoIntent);
                 break;
             case R.id.volmue_linear:
-                voluesetting();
+                if (fragmentHomeBinding.volmueVideoButton.isShown()) {
+                    fragmentHomeBinding.volmueVideoButton.setVisibility(View.GONE);
+                    fragmentHomeBinding.muteVideoButton.setVisibility(View.VISIBLE);
+                    AudioManager audioManager = (AudioManager)mContext.getSystemService(Context.AUDIO_SERVICE);
+                    audioManager.adjustVolume(AudioManager.ADJUST_MUTE,AudioManager.ADJUST_MUTE);
+                } else {
+                    fragmentHomeBinding.volmueVideoButton.setVisibility(View.VISIBLE);
+                    fragmentHomeBinding.muteVideoButton.setVisibility(View.GONE);
+                    AudioManager audioManager = (AudioManager)mContext.getSystemService(Context.AUDIO_SERVICE);
+                    audioManager.adjustVolume(AudioManager.ADJUST_RAISE,AudioManager.FLAG_PLAY_SOUND);
+                }
+//                voluesetting();
                 break;
             case R.id.faq_linear:
                 Intent faqIntent = new Intent(mContext, MoreInformationActivity.class);
@@ -659,17 +803,18 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 autoStartNotificationPermissionDialog(mContext);
                 break;
             case R.id.ba_video:
-                if (fragmentHomeBinding.baVideo.isPlaying()) {
-                    position = fragmentHomeBinding.baVideo.getCurrentPosition();
-                    fragmentHomeBinding.baVideo.pause();
-                    Log.d("videorunposition :", "" + position);
-                    fragmentHomeBinding.startPauseMediaButton.setVisibility(View.VISIBLE);
-                    fragmentHomeBinding.fullScreenButton.setVisibility(View.GONE);
-                    fragmentHomeBinding.volmueLinear.setVisibility(View.GONE);
-                } else {
-                    playvideo();
-                }
+//                if (fragmentHomeBinding.baVideo.isPlaying()) {
+//                    position = fragmentHomeBinding.baVideo.getCurrentPosition();
+//                    fragmentHomeBinding.baVideo.pause();
+//                    Log.d("videorunposition :", "" + position);
+//                    fragmentHomeBinding.startPauseMediaButton.setVisibility(View.VISIBLE);
+//                    fragmentHomeBinding.fullScreenButton.setVisibility(View.GONE);
+//                    fragmentHomeBinding.volmueLinear.setVisibility(View.GONE);
+//                } else {
+//                    playvideo();
+//                }
                 break;
+
         }
     }
 
@@ -771,6 +916,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         }
     }
 
+
+
     public interface OnItemClick {
         void onStoryCategory(String categoryId, String categoryName, String wheretocome);
 
@@ -823,48 +970,48 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     }
 
     public void playvideo() {
-        fragmentHomeBinding.baVideo.setVideoPath(videopathStr);
-        if (position == 0) {
-            fragmentHomeBinding.startPauseMediaButton.setVisibility(View.GONE);
-            fragmentHomeBinding.imageProgress.setVisibility(View.VISIBLE);
-
-            fragmentHomeBinding.baVideo.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                @Override
-                public void onPrepared(MediaPlayer mp) {
-                    mp.setLooping(true);
-                    fragmentHomeBinding.baVideo.start();
-                    mediaPlayer = mp;
-                    if (musicVolume == 0) {
-                        maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_RING);
-                        audioManager.adjustVolume(AudioManager.ADJUST_RAISE, AudioManager.FLAG_PLAY_SOUND);
-                    }
-                    setVolume(0);
-                    fragmentHomeBinding.fullScreenButton.setVisibility(View.VISIBLE);
-                    fragmentHomeBinding.volmueLinear.setVisibility(View.VISIBLE);
-                    fragmentHomeBinding.image.setVisibility(View.GONE);
-                    fragmentHomeBinding.imageProgress.setVisibility(View.GONE);
-                }
-            });
-
-            fragmentHomeBinding.baVideo.setOnErrorListener(new MediaPlayer.OnErrorListener() {
-                @Override
-                public boolean onError(MediaPlayer mp, int what, int extra) {
-                    fragmentHomeBinding.startPauseMediaButton.setVisibility(View.VISIBLE);
-                    fragmentHomeBinding.fullScreenButton.setVisibility(View.GONE);
-                    fragmentHomeBinding.volmueLinear.setVisibility(View.GONE);
-                    fragmentHomeBinding.image.setVisibility(View.VISIBLE);
-                    fragmentHomeBinding.imageProgress.setVisibility(View.GONE);
-                    return false;
-                }
-            });
-        } else {
-            fragmentHomeBinding.startPauseMediaButton.setVisibility(View.GONE);
-            fragmentHomeBinding.fullScreenButton.setVisibility(View.VISIBLE);
-            fragmentHomeBinding.volmueLinear.setVisibility(View.VISIBLE);
-            fragmentHomeBinding.imageProgress.setVisibility(View.VISIBLE);
-            fragmentHomeBinding.baVideo.seekTo(position);
-            fragmentHomeBinding.baVideo.start();
-        }
+//        fragmentHomeBinding.baVideo.setVideoPath(videopathStr);
+//        if (position == 0) {
+//            fragmentHomeBinding.startPauseMediaButton.setVisibility(View.GONE);
+//            fragmentHomeBinding.imageProgress.setVisibility(View.VISIBLE);
+//
+//            fragmentHomeBinding.baVideo.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+//                @Override
+//                public void onPrepared(MediaPlayer mp) {
+//                    mp.setLooping(true);
+//                    fragmentHomeBinding.baVideo.start();
+//                    mediaPlayer = mp;
+//                    if (musicVolume == 0) {
+//                        maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_RING);
+//                        audioManager.adjustVolume(AudioManager.ADJUST_RAISE, AudioManager.FLAG_PLAY_SOUND);
+//                    }
+//                    setVolume(0);
+//                    fragmentHomeBinding.fullScreenButton.setVisibility(View.VISIBLE);
+//                    fragmentHomeBinding.volmueLinear.setVisibility(View.VISIBLE);
+//                    fragmentHomeBinding.image.setVisibility(View.GONE);
+//                    fragmentHomeBinding.imageProgress.setVisibility(View.GONE);
+//                }
+//            });
+//
+//            fragmentHomeBinding.baVideo.setOnErrorListener(new MediaPlayer.OnErrorListener() {
+//                @Override
+//                public boolean onError(MediaPlayer mp, int what, int extra) {
+//                    fragmentHomeBinding.startPauseMediaButton.setVisibility(View.VISIBLE);
+//                    fragmentHomeBinding.fullScreenButton.setVisibility(View.GONE);
+//                    fragmentHomeBinding.volmueLinear.setVisibility(View.GONE);
+//                    fragmentHomeBinding.image.setVisibility(View.VISIBLE);
+//                    fragmentHomeBinding.imageProgress.setVisibility(View.GONE);
+//                    return false;
+//                }
+//            });
+//        } else {
+//            fragmentHomeBinding.startPauseMediaButton.setVisibility(View.GONE);
+//            fragmentHomeBinding.fullScreenButton.setVisibility(View.VISIBLE);
+//            fragmentHomeBinding.volmueLinear.setVisibility(View.VISIBLE);
+//            fragmentHomeBinding.imageProgress.setVisibility(View.VISIBLE);
+//            fragmentHomeBinding.baVideo.seekTo(position);
+//            fragmentHomeBinding.baVideo.start();
+//        }
 
 
     }
@@ -1041,5 +1188,352 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     public void onDestroy() {
         super.onDestroy();
         Utils.dismissDialog();
+        releaseAdsLoader();
     }
+
+
+    // Internal methods
+    private void initializePlayer() {
+
+        TrackSelection.Factory trackSelectionFactory;
+        trackSelectionFactory = new AdaptiveTrackSelection.Factory();
+
+
+        @DefaultRenderersFactory.ExtensionRendererMode int extensionRendererMode =
+                ((MyApplication)getActivity().getApplication()).useExtensionRenderers()
+                        ? (true ? DefaultRenderersFactory.EXTENSION_RENDERER_MODE_PREFER
+                        : DefaultRenderersFactory.EXTENSION_RENDERER_MODE_ON)
+                        : DefaultRenderersFactory.EXTENSION_RENDERER_MODE_OFF;
+
+        DefaultRenderersFactory renderersFactory = new DefaultRenderersFactory(mContext, null,
+                DefaultRenderersFactory.EXTENSION_RENDERER_MODE_PREFER);
+
+        trackSelector = new DefaultTrackSelector(trackSelectionFactory);
+        trackSelector.setParameters(trackSelectorParameters);
+        lastSeenTrackGroupArray = null;
+
+
+        DefaultAllocator defaultAllocator = new DefaultAllocator(true, C.DEFAULT_VIDEO_BUFFER_SIZE);
+        DefaultLoadControl defaultLoadControl = new DefaultLoadControl(defaultAllocator,
+                DefaultLoadControl.DEFAULT_MIN_BUFFER_MS,
+                DefaultLoadControl.DEFAULT_MAX_BUFFER_MS,
+                DefaultLoadControl.DEFAULT_BUFFER_FOR_PLAYBACK_MS,
+                DefaultLoadControl.DEFAULT_BUFFER_FOR_PLAYBACK_AFTER_REBUFFER_MS,
+                DefaultLoadControl.DEFAULT_TARGET_BUFFER_BYTES,
+                DefaultLoadControl.DEFAULT_PRIORITIZE_TIME_OVER_SIZE_THRESHOLDS
+        );
+
+        player = ExoPlayerFactory.newSimpleInstance(/* context= */ mContext, renderersFactory, trackSelector, defaultLoadControl);
+        player.addListener(new PlayerEventListener());
+        player.setPlayWhenReady(startAutoPlay);
+        player.addAnalyticsListener(new EventLogger(trackSelector));
+        playerView.setPlayer(player);
+
+
+        mediaSource = buildMediaSource(Uri.parse("https://baappvideo.s3.ap-south-1.amazonaws.com/appvideo.mp4")); // videoUrlStr
+//        https://baappvideo.s3.ap-south-1.amazonaws.com/74425094_140387590620474_1342703700878427324_n.mp4
+//                https://www.bharatarmy.com//Docs/74425094_140387590620474_1342703700878427324_n.mp4
+        player.prepare(mediaSource);
+        fragmentHomeBinding.fullScreenButton.setVisibility(View.VISIBLE);
+        fragmentHomeBinding.volmueLinear.setVisibility(View.VISIBLE);
+        updateButtonVisibilities();
+
+    }
+
+    private MediaSource buildMediaSource(Uri uri) {
+        return buildMediaSource(uri, null);
+    }
+
+    @SuppressWarnings("unchecked")
+    private MediaSource buildMediaSource(Uri uri, @Nullable String overrideExtension) {
+        @C.ContentType int type = Util.inferContentType(uri, overrideExtension);
+        switch (type) {
+            case C.TYPE_DASH:
+                Log.d("Dash", "Dash");
+                return new DashMediaSource.Factory(dataSourceFactory)
+                        .createMediaSource(uri);
+            case C.TYPE_SS:
+                Log.d("SS", "SS");
+                return new SsMediaSource.Factory(dataSourceFactory)
+                        .createMediaSource(uri);
+            case C.TYPE_HLS:
+                Log.d("HLS", "HLS");
+                return new HlsMediaSource.Factory(dataSourceFactory)
+                        .createMediaSource(uri);
+            case C.TYPE_OTHER:
+                Log.d("Other", "Other");
+                return new ExtractorMediaSource.Factory(dataSourceFactory).createMediaSource(uri);
+            default: {
+                throw new IllegalStateException("Unsupported type: " + type);
+            }
+        }
+    }
+
+    private void releasePlayer() {
+        if (player != null) {
+            updateTrackSelectorParameters();
+            updateStartPosition();
+            player.release();
+            player = null;
+            mediaSource = null;
+            trackSelector = null;
+        }
+        releaseMediaDrm();
+    }
+
+    private void releaseMediaDrm() {
+        if (mediaDrm != null) {
+            mediaDrm.release();
+            mediaDrm = null;
+        }
+    }
+
+    private void releaseAdsLoader() {
+        if (adsLoader != null) {
+            adsLoader.release();
+            adsLoader = null;
+            loadedAdTagUri = null;
+            playerView.getOverlayFrameLayout().removeAllViews();
+        }
+    }
+
+    private void updateTrackSelectorParameters() {
+        if (trackSelector != null) {
+            trackSelectorParameters = trackSelector.getParameters();
+        }
+    }
+
+    private void updateStartPosition() {
+        if (player != null) {
+            startAutoPlay = player.getPlayWhenReady();
+            startWindow = player.getCurrentWindowIndex();
+            startPosition = Math.max(0, player.getContentPosition());
+        }
+    }
+
+    private void clearStartPosition() {
+        startAutoPlay = true;
+        startWindow = C.INDEX_UNSET;
+        startPosition = C.TIME_UNSET;
+    }
+
+    /**
+     * Returns a new DataSource factory.
+     */
+    private DataSource.Factory buildDataSourceFactory() {
+        return ((MyApplication) getActivity().getApplication()).buildDataSourceFactory();
+    }
+
+
+    private void updateButtonVisibilities() {
+        if (player == null) {
+            return;
+        }
+
+        MappingTrackSelector.MappedTrackInfo mappedTrackInfo = trackSelector.getCurrentMappedTrackInfo();
+        if (mappedTrackInfo == null) {
+            return;
+        }
+
+        for (int i = 0; i < mappedTrackInfo.getRendererCount(); i++) {
+            TrackGroupArray trackGroups = mappedTrackInfo.getTrackGroups(i);
+            if (trackGroups.length != 0) {
+                int label;
+                switch (player.getRendererType(i)) {
+                    case C.TRACK_TYPE_AUDIO:
+                        label = R.string.exo_track_selection_title_audio;
+                        break;
+                    case C.TRACK_TYPE_VIDEO:
+                        label = R.string.exo_track_selection_title_video;
+                        break;
+                    case C.TRACK_TYPE_TEXT:
+                        label = R.string.exo_track_selection_title_text;
+                        break;
+                    default:
+                        continue;
+                }
+            }
+        }
+    }
+
+
+    private void showToast(int messageId) {
+        showToast(getString(messageId));
+    }
+
+    private void showToast(String message) {
+        Toast.makeText(mContext, message, Toast.LENGTH_LONG).show();
+    }
+
+    private class PlayerEventListener implements Player.EventListener {
+
+        @Override
+        public void onPlayerStateChanged(boolean playWhenReady, int playbackState) {
+            switch (playbackState) {
+                case ExoPlayer.STATE_READY:
+                    progressBar.setVisibility(View.GONE);
+
+                    break;
+                case ExoPlayer.STATE_BUFFERING:
+                    progressBar.setVisibility(View.VISIBLE);
+                    break;
+            }
+            updateButtonVisibilities();
+        }
+
+        @Override
+        public void onPositionDiscontinuity(@Player.DiscontinuityReason int reason) {
+            if (player.getPlaybackError() != null) {
+                // The user has performed a seek whilst in the error state. Update the resume position so
+                // that if the user then retries, playback resumes from the position to which they seeked.
+                updateStartPosition();
+            }
+        }
+
+        @Override
+        public void onPlayerError(ExoPlaybackException e) {
+            if (isBehindLiveWindow(e)) {
+                clearStartPosition();
+                initializePlayer();
+            } else {
+                updateStartPosition();
+                updateButtonVisibilities();
+//                showControls();
+            }
+        }
+
+        @Override
+        @SuppressWarnings("ReferenceEquality")
+        public void onTracksChanged(TrackGroupArray trackGroups, TrackSelectionArray trackSelections) {
+            updateButtonVisibilities();
+            if (trackGroups != lastSeenTrackGroupArray) {
+                MappingTrackSelector.MappedTrackInfo mappedTrackInfo = trackSelector.getCurrentMappedTrackInfo();
+                if (mappedTrackInfo != null) {
+                    if (mappedTrackInfo.getTypeSupport(C.TRACK_TYPE_VIDEO)
+                            == MappingTrackSelector.MappedTrackInfo.RENDERER_SUPPORT_UNSUPPORTED_TRACKS) {
+                        showToast(R.string.error_unsupported_video);
+                    }
+                    if (mappedTrackInfo.getTypeSupport(C.TRACK_TYPE_AUDIO)
+                            == MappingTrackSelector.MappedTrackInfo.RENDERER_SUPPORT_UNSUPPORTED_TRACKS) {
+                        showToast(R.string.error_unsupported_audio);
+                    }
+                }
+                lastSeenTrackGroupArray = trackGroups;
+            }
+        }
+    }
+
+    private class PlayerErrorMessageProvider implements ErrorMessageProvider<ExoPlaybackException> {
+
+        @Override
+        public Pair<Integer, String> getErrorMessage(ExoPlaybackException e) {
+            String errorString = getString(R.string.error_generic);
+            if (e.type == ExoPlaybackException.TYPE_RENDERER) {
+                Exception cause = e.getRendererException();
+                if (cause instanceof MediaCodecRenderer.DecoderInitializationException) {
+                    // Special case for decoder initialization failures.
+                    MediaCodecRenderer.DecoderInitializationException decoderInitializationException =
+                            (MediaCodecRenderer.DecoderInitializationException) cause;
+                    if (decoderInitializationException.decoderName == null) {
+                        if (decoderInitializationException.getCause() instanceof MediaCodecUtil.DecoderQueryException) {
+                            errorString = getString(R.string.error_querying_decoders);
+                        } else if (decoderInitializationException.secureDecoderRequired) {
+                            errorString =
+                                    getString(
+                                            R.string.error_no_secure_decoder, decoderInitializationException.mimeType);
+                        } else {
+                            errorString =
+                                    getString(R.string.error_no_decoder, decoderInitializationException.mimeType);
+                        }
+                    } else {
+                        errorString =
+                                getString(
+                                        R.string.error_instantiating_decoder,
+                                        decoderInitializationException.decoderName);
+                    }
+                }
+            }
+            return Pair.create(0, errorString);
+        }
+    }
+
+
+//    @Override
+//    protected void onNewIntent(Intent intent) {
+//        super.onNewIntent(intent);
+//
+//        // Check if the fragment is an instance of the right fragment
+//        if (fragment instanceof MyNFCFragment) {
+//            MyNFCFragment my = (MyNFCFragment) fragment;
+//            // Pass intent or its data to the fragment's method
+//            my.processNFC(intent.getStringExtra());
+//        }
+//
+//    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (Util.SDK_INT <= 23 || player == null) {
+            if (playerView != null) {
+                initializePlayer();
+            }
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (Util.SDK_INT <= 23) {
+            if (playerView != null) {
+                playerView.onPause();
+            }
+            releasePlayer();
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (Util.SDK_INT > 23) {
+            if (playerView != null) {
+                playerView.onPause();
+            }
+            releasePlayer();
+        }
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        if (grantResults.length == 0) {
+            // Empty results are triggered if a permission is requested while another request was already
+            // pending and can be safely ignored in this case.
+            return;
+        }
+        if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            initializePlayer();
+        } else {
+            showToast(R.string.storage_permission_denied);
+            getActivity().finish();
+        }
+    }
+
+// Activity input
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        updateTrackSelectorParameters();
+        updateStartPosition();
+        outState.putParcelable(KEY_TRACK_SELECTOR_PARAMETERS, trackSelectorParameters);
+        outState.putBoolean(KEY_AUTO_PLAY, startAutoPlay);
+        outState.putInt(KEY_WINDOW, startWindow);
+        outState.putLong(KEY_POSITION, startPosition);
+    }
+
+
+
 }

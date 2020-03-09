@@ -19,6 +19,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -798,6 +799,8 @@ public class TravelMatchScheduleActivity extends AppCompatActivity implements Vi
             TravelScheduleBannerListItemBinding travelScheduleBannerListItemBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
                     R.layout.travel_schedule_banner_list_item, parent, false);
             exoPlay = (ImageView)findViewById(R.id.exo_play);
+            AudioManager audioManager = (AudioManager)mContext.getSystemService(Context.AUDIO_SERVICE);
+            audioManager.adjustVolume(AudioManager.ADJUST_MUTE,AudioManager.ADJUST_MUTE);
 
             if (travelmatchscheduleGalleryList.get(position).getCityHotelAmenitiesName().equalsIgnoreCase("Image")) {
                 travelScheduleBannerListItemBinding.detailGalleryImage.setVisibility(View.VISIBLE);
@@ -833,11 +836,13 @@ public class TravelMatchScheduleActivity extends AppCompatActivity implements Vi
                         if (travelScheduleBannerListItemBinding.volmueVideoButton.isShown()){
                             travelScheduleBannerListItemBinding.volmueVideoButton.setVisibility(View.GONE);
                             travelScheduleBannerListItemBinding.muteVideoButton.setVisibility(View.VISIBLE);
-
+                            AudioManager audioManager = (AudioManager)mContext.getSystemService(Context.AUDIO_SERVICE);
+                            audioManager.adjustVolume(AudioManager.ADJUST_MUTE,AudioManager.ADJUST_MUTE);
                         }else{
                             travelScheduleBannerListItemBinding.volmueVideoButton.setVisibility(View.VISIBLE);
                             travelScheduleBannerListItemBinding.muteVideoButton.setVisibility(View.GONE);
-
+                            AudioManager audioManager = (AudioManager)mContext.getSystemService(Context.AUDIO_SERVICE);
+                            audioManager.adjustVolume(AudioManager.ADJUST_RAISE,AudioManager.FLAG_PLAY_SOUND);
                         }
                     }
                 });
@@ -1227,11 +1232,12 @@ public class TravelMatchScheduleActivity extends AppCompatActivity implements Vi
 
 // OnClickListener methods
 
-    @Override
-    public boolean dispatchKeyEvent(KeyEvent event) {
-        // See whether the player view wants to handle media or DPAD keys events.
-        return playerView.dispatchKeyEvent(event) || super.dispatchKeyEvent(event);
-    }
+//    @Override
+//    public boolean dispatchKeyEvent(KeyEvent event) {
+//        // See whether the player view wants to handle media or DPAD keys events.
+//        if (playerView !=null && event!=null)
+//        return playerView.dispatchKeyEvent(event) || super.dispatchKeyEvent(event);
+//    }
     // Api calling GetTravelMatchScheduleDetailData
     public void callTravelMatchScheduleDetailData() {
         if (!Utils.checkNetwork(mContext)) {

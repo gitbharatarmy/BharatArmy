@@ -2,6 +2,7 @@ package com.bharatarmy.Adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.util.Log;
@@ -12,6 +13,7 @@ import android.view.ViewGroup;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bharatarmy.Activity.AllVideoShowInFullScreenActivity;
 import com.bharatarmy.Models.TravelModel;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.Utils;
@@ -59,63 +61,69 @@ public class TravelVideoAdapter extends RecyclerView.Adapter<TravelVideoAdapter.
 
 
         Utils.setImageInImageView(videodetail.getCityHotelAmenitiesImage(),holder.travelVideoListItemBinding.image,mcontext);
-        holder.travelVideoListItemBinding.baVideo.setVideoPath(videodetail.getCityHotelAmenitiesName());
-        audioManager = (AudioManager) mcontext.getSystemService(Context.AUDIO_SERVICE);
-        musicVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+//        holder.travelVideoListItemBinding.baVideo.setVideoPath(videodetail.getCityHotelAmenitiesName());
+//        audioManager = (AudioManager) mcontext.getSystemService(Context.AUDIO_SERVICE);
+//        musicVolume = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
 
         holder.travelVideoListItemBinding.baVideo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (holder.travelVideoListItemBinding.baVideo.isPlaying()) {
-                    videoseekposition = holder.travelVideoListItemBinding.baVideo.getCurrentPosition();
-                    holder.travelVideoListItemBinding.baVideo.pause();
-                    Log.d("videorunposition :", "" + position);
-                    holder.travelVideoListItemBinding.startPauseMediaButton.setVisibility(View.VISIBLE);
-                    holder.travelVideoListItemBinding.fullScreenButton.setVisibility(View.GONE);
-                    holder.travelVideoListItemBinding.volmueLinear.setVisibility(View.GONE);
-                } else {
-                    if (videoseekposition == 0) {
-                        holder.travelVideoListItemBinding.startPauseMediaButton.setVisibility(View.GONE);
-                        holder.travelVideoListItemBinding.imageProgress.setVisibility(View.VISIBLE);
-
-                        holder.travelVideoListItemBinding.baVideo.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                            @Override
-                            public void onPrepared(MediaPlayer mp) {
-                                mp.setLooping(true);
-                                holder.travelVideoListItemBinding.baVideo.start();
-                                mediaPlayer = mp;
-                                if (musicVolume == 0) {
-                                    maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_RING);
-                                    audioManager.adjustVolume(AudioManager.ADJUST_RAISE, AudioManager.FLAG_PLAY_SOUND);
-                                }
-                                setVolume(0);
-                                holder.travelVideoListItemBinding.fullScreenButton.setVisibility(View.VISIBLE);
-                                holder.travelVideoListItemBinding.volmueLinear.setVisibility(View.VISIBLE);
-                                holder.travelVideoListItemBinding.image.setVisibility(View.GONE);
-                                holder.travelVideoListItemBinding.imageProgress.setVisibility(View.GONE);
-                            }
-                        });
-
-                        holder.travelVideoListItemBinding.baVideo.setOnErrorListener(new MediaPlayer.OnErrorListener() {
-                            @Override
-                            public boolean onError(MediaPlayer mp, int what, int extra) {
-                                holder.travelVideoListItemBinding.startPauseMediaButton.setVisibility(View.VISIBLE);
-                                holder.travelVideoListItemBinding.fullScreenButton.setVisibility(View.GONE);
-                                holder.travelVideoListItemBinding.volmueLinear.setVisibility(View.GONE);
-                                holder.travelVideoListItemBinding.image.setVisibility(View.VISIBLE);
-                                holder.travelVideoListItemBinding.imageProgress.setVisibility(View.GONE);
-                                return false;
-                            }
-                        });
-                    } else {
-                        holder.travelVideoListItemBinding.startPauseMediaButton.setVisibility(View.GONE);
-                        holder.travelVideoListItemBinding.fullScreenButton.setVisibility(View.VISIBLE);
-                        holder.travelVideoListItemBinding.volmueLinear.setVisibility(View.VISIBLE);
-                        holder.travelVideoListItemBinding.imageProgress.setVisibility(View.VISIBLE);
-                        holder.travelVideoListItemBinding.baVideo.seekTo(position);
-                        holder.travelVideoListItemBinding.baVideo.start();
-                    }
-                }
+                Intent showImageVideoIntent = new Intent(mcontext, AllVideoShowInFullScreenActivity.class);
+                showImageVideoIntent.putExtra("AlbumImageThumb", travelvideoList.get(position).getCityHotelAmenitiesImage());
+                showImageVideoIntent.putExtra("AlbumImageVideoPath", travelvideoList.get(position).getCityHotelAmenitiesName());
+                showImageVideoIntent.putExtra("MediaType", "2");
+                showImageVideoIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                mcontext.startActivity(showImageVideoIntent);
+//                if (holder.travelVideoListItemBinding.baVideo.isPlaying()) {
+//                    videoseekposition = holder.travelVideoListItemBinding.baVideo.getCurrentPosition();
+//                    holder.travelVideoListItemBinding.baVideo.pause();
+//                    Log.d("videorunposition :", "" + position);
+//                    holder.travelVideoListItemBinding.startPauseMediaButton.setVisibility(View.VISIBLE);
+//                    holder.travelVideoListItemBinding.fullScreenButton.setVisibility(View.GONE);
+//                    holder.travelVideoListItemBinding.volmueLinear.setVisibility(View.GONE);
+//                } else {
+//                    if (videoseekposition == 0) {
+//                        holder.travelVideoListItemBinding.startPauseMediaButton.setVisibility(View.GONE);
+//                        holder.travelVideoListItemBinding.imageProgress.setVisibility(View.VISIBLE);
+//
+//                        holder.travelVideoListItemBinding.baVideo.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+//                            @Override
+//                            public void onPrepared(MediaPlayer mp) {
+//                                mp.setLooping(true);
+//                                holder.travelVideoListItemBinding.baVideo.start();
+//                                mediaPlayer = mp;
+//                                if (musicVolume == 0) {
+//                                    maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_RING);
+//                                    audioManager.adjustVolume(AudioManager.ADJUST_RAISE, AudioManager.FLAG_PLAY_SOUND);
+//                                }
+//                                setVolume(0);
+//                                holder.travelVideoListItemBinding.fullScreenButton.setVisibility(View.VISIBLE);
+//                                holder.travelVideoListItemBinding.volmueLinear.setVisibility(View.VISIBLE);
+//                                holder.travelVideoListItemBinding.image.setVisibility(View.GONE);
+//                                holder.travelVideoListItemBinding.imageProgress.setVisibility(View.GONE);
+//                            }
+//                        });
+//
+//                        holder.travelVideoListItemBinding.baVideo.setOnErrorListener(new MediaPlayer.OnErrorListener() {
+//                            @Override
+//                            public boolean onError(MediaPlayer mp, int what, int extra) {
+//                                holder.travelVideoListItemBinding.startPauseMediaButton.setVisibility(View.VISIBLE);
+//                                holder.travelVideoListItemBinding.fullScreenButton.setVisibility(View.GONE);
+//                                holder.travelVideoListItemBinding.volmueLinear.setVisibility(View.GONE);
+//                                holder.travelVideoListItemBinding.image.setVisibility(View.VISIBLE);
+//                                holder.travelVideoListItemBinding.imageProgress.setVisibility(View.GONE);
+//                                return false;
+//                            }
+//                        });
+//                    } else {
+//                        holder.travelVideoListItemBinding.startPauseMediaButton.setVisibility(View.GONE);
+//                        holder.travelVideoListItemBinding.fullScreenButton.setVisibility(View.VISIBLE);
+//                        holder.travelVideoListItemBinding.volmueLinear.setVisibility(View.VISIBLE);
+//                        holder.travelVideoListItemBinding.imageProgress.setVisibility(View.VISIBLE);
+//                        holder.travelVideoListItemBinding.baVideo.seekTo(position);
+//                        holder.travelVideoListItemBinding.baVideo.start();
+//                    }
+//                }
             }
         });
 

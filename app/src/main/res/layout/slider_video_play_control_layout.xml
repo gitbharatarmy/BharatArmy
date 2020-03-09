@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <LinearLayout
         android:id="@+id/video_bg_image_linear"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="@dimen/_40sdp"
+        android:layout_height="@dimen/_40sdp"
+        android:layout_gravity="center"
+        android:background="@drawable/video_play_pause_bg"
         android:orientation="vertical"
         android:visibility="visible">
 
@@ -19,8 +22,15 @@
                 android:layout_width="@dimen/_30sdp"
                 android:layout_height="@dimen/_30sdp"
                 android:layout_centerInParent="true"
-                android:src="@drawable/ic_play_icon" />
-
+                android:src="@drawable/ic_video"
+                android:tint="@color/splash_bg_color"/>
+            <ImageView
+                android:id="@+id/exo_pause"
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_centerInParent="true"
+                android:src="@drawable/ic_music_and_multimedia"
+                android:tint="@color/splash_bg_color"/>
         </RelativeLayout>
     </LinearLayout>
-</RelativeLayout>
+</FrameLayout>
