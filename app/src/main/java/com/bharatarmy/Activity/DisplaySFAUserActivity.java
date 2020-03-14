@@ -459,7 +459,8 @@ int agentid;
                                 Utils.ping(mContext, "You are logout suceessfully");
                                 Intent ilogin = new Intent(mContext, AppLoginActivity.class);  //LoginwithEmailActivity
                                 ilogin.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                ilogin.putExtra("whereTocomeLogin", "more");
+//                                ilogin.putExtra("whereTocomeLogin", "more");
+                                Utils.whereTocomeLogin = "more";
                                 startActivity(ilogin);
                                 finish();
                             }

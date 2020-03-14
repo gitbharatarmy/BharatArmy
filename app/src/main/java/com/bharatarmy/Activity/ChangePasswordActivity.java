@@ -98,9 +98,9 @@ public class ChangePasswordActivity extends AppCompatActivity {
     }
 
     public void wheretoBack(){
-        Intent iLogin = new Intent(mContext, ForgotActivity.class);
-        iLogin.putExtra("whereTocomeLogin", getIntent().getStringExtra("whereTocomeLogin"));
-        startActivity(iLogin);
+//        Intent iLogin = new Intent(mContext, ForgotActivity.class);
+//        iLogin.putExtra("whereTocomeLogin", getIntent().getStringExtra("whereTocomeLogin"));
+//        startActivity(iLogin);
         finish();
     }
 
@@ -158,8 +158,8 @@ public class ChangePasswordActivity extends AppCompatActivity {
                         Utils.storeLoginData(changeModel.getData(), mContext);
                         Utils.storeCurrentLocationData(changeModel.getCurrentLocation(),mContext);
                         Utils.storeLoginOtherData(changeModel.getOtherData(), mContext);
-                        if (getIntent().getStringExtra("whereTocomeLogin") != null) {
-                            if (getIntent().getStringExtra("whereTocomeLogin").equalsIgnoreCase("more")) {
+                        if (Utils.whereTocomeLogin != null) {
+                            if (Utils.whereTocomeLogin.equalsIgnoreCase("more")) {
                                 Utils.showThanyouDialog(ChangePasswordActivity.this, "changePassword|InApp");
                             } else {
                                 Utils.showThanyouDialog(ChangePasswordActivity.this, "changePassword|finishApp");

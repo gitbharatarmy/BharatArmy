@@ -201,9 +201,9 @@ public class ForgotPasswordOtpActivity extends AppCompatActivity implements View
 
 
     public void whereToBack(){
-        Intent iLogin = new Intent(mContext, ForgotActivity.class);
-        iLogin.putExtra("whereTocomeLogin",getIntent().getStringExtra("whereTocomeLogin"));
-        startActivity(iLogin);
+//        Intent iLogin = new Intent(mContext, ForgotActivity.class);
+//        iLogin.putExtra("whereTocomeLogin",getIntent().getStringExtra("whereTocomeLogin"));
+//        startActivity(iLogin);
         finish();
     }
     public void getForgotPasswordOtpData() {
@@ -218,9 +218,9 @@ public class ForgotPasswordOtpActivity extends AppCompatActivity implements View
             if (finalgetOtpStr.equalsIgnoreCase(otpStr)) {
                 Intent changePasswordIntent = new Intent(mContext, ChangePasswordActivity.class);
                 changePasswordIntent.putExtra("memberId",memberIdStr);
-                changePasswordIntent.putExtra( "whereTocomeLogin",getIntent().getStringExtra("whereTocomeLogin"));
+//                changePasswordIntent.putExtra( "whereTocomeLogin",getIntent().getStringExtra("whereTocomeLogin"));
                 startActivity(changePasswordIntent);
-                finish();
+//                finish();
             } else {
                 Utils.ping(mContext, "Please enter valid otp");
             }

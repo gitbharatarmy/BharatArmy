@@ -3,12 +3,14 @@ package com.bharatarmy.Activity;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import androidx.viewpager.widget.PagerAdapter;
@@ -30,7 +32,9 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -95,14 +99,18 @@ import java.util.ArrayList;
 import java.util.Formatter;
 import java.util.List;
 
+import me.relex.circleindicator.CircleIndicator2;
+
 public class TravelMatchScheduleDetailActivity extends AppCompatActivity implements View.OnClickListener {
     ActivityTravelMatchScheduleDetailBinding activityTravelMatchScheduleDetailBinding;
     Context mContext;
 
     /*viewpager control*/
-    private MyTravelMatchScheduleDetailGalleryViewPagerAdapter myTravelMatchScheduleDetailGalleryViewPagerAdapter;
     ArrayList<TravelModel> travelmatchscheduledetailGalleryList;
     private ImageView[] dots;
+    TravelMatchScheduleDetailGalleryAdapter travelMatchScheduleDetailGalleryAdapter;
+    LinearLayoutManager linearLayoutManager;
+
 
     /*Schedule detail variable*/
     String firstcounrtyNameStr, secondcountryNameStr, firstcountryFlagStr, secondcountryFlagStr, groundLocationStr, matchdatescheduleStr;
@@ -143,6 +151,9 @@ public class TravelMatchScheduleDetailActivity extends AppCompatActivity impleme
     String videopathStr;
     int tapCount = 1;
     ProgressBar progressBar;
+    private FrameLayout mainframeLayout;
+    private AppCompatImageView videoThumbnailImage;
+    private LinearLayout volumeLinear;
     private PlayerView playerView;
     private DataSource.Factory dataSourceFactory;
     private SimpleExoPlayer player;
@@ -311,6 +322,30 @@ public class TravelMatchScheduleDetailActivity extends AppCompatActivity impleme
                 startActivity(addcartItemIntent);
             }
         });
+
+        activityTravelMatchScheduleDetailBinding.travelMatchScheduleDetailGalleryViewpager.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (playerView != null) {
+                    if (player != null) {
+                        if (isPlaying()) {
+                            player.setPlayWhenReady(false);
+                        } else if (player.getPlaybackState() == Player.STATE_ENDED) {
+                            player.seekTo(0);
+                            player.setPlayWhenReady(false);
+                        } else if(player.getPlaybackState() == Player.STATE_BUFFERING){
+                            player.seekTo(0);
+                            player.setPlayWhenReady(false);
+                        }
+                    }
+
+                }
+            }
+        });
+    }
+    public boolean isPlaying() {
+        return player.getPlaybackState() == Player.STATE_READY && player.getPlayWhenReady();
     }
 
     public void setDataValue() {
@@ -322,11 +357,15 @@ public class TravelMatchScheduleDetailActivity extends AppCompatActivity impleme
         travelmatchscheduledetailGalleryList.add(new TravelModel("https://sample-videos.com/video123/mp4/720/big_buck_bunny_720p_5mb.mp4", "Video"));
         travelmatchscheduledetailGalleryList.add(new TravelModel("https://www.bharatarmy.com/Docs/banner_app_02.jpg", "Image"));
 
-        addBottomDots(0);
-        myTravelMatchScheduleDetailGalleryViewPagerAdapter = new MyTravelMatchScheduleDetailGalleryViewPagerAdapter();
-        activityTravelMatchScheduleDetailBinding.travelMatchScheduleDetailGalleryViewpager.setAdapter(myTravelMatchScheduleDetailGalleryViewPagerAdapter);
-        activityTravelMatchScheduleDetailBinding.travelMatchScheduleDetailGalleryViewpager.addOnPageChangeListener(viewPagerPageChangeListener);
+        travelMatchScheduleDetailGalleryAdapter = new TravelMatchScheduleDetailGalleryAdapter(mContext, travelmatchscheduledetailGalleryList);
+        linearLayoutManager = new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false);
+        activityTravelMatchScheduleDetailBinding.travelMatchScheduleDetailGalleryViewpager.setLayoutManager(linearLayoutManager);
+        activityTravelMatchScheduleDetailBinding.travelMatchScheduleDetailGalleryViewpager.setAdapter(travelMatchScheduleDetailGalleryAdapter);
+        PagerSnapHelper pagerSnapHelper = new PagerSnapHelper();
+        pagerSnapHelper.attachToRecyclerView(activityTravelMatchScheduleDetailBinding.travelMatchScheduleDetailGalleryViewpager);
 
+        CircleIndicator2 indicator = activityTravelMatchScheduleDetailBinding.indicator;
+        indicator.attachToRecyclerView(activityTravelMatchScheduleDetailBinding.travelMatchScheduleDetailGalleryViewpager, pagerSnapHelper);
 
     }
 
@@ -389,138 +428,7 @@ public class TravelMatchScheduleDetailActivity extends AppCompatActivity impleme
         }
     }
 
-    @SuppressLint("ResourceAsColor")
-    private void addBottomDots(int currentPage) {
-        dots = new ImageView[travelmatchscheduledetailGalleryList.size()];
-        List<String> colorsActiveList = new ArrayList<>();
-        List<String> colorsInactive = new ArrayList<>();
-        for (int i = 0; i < travelmatchscheduledetailGalleryList.size(); i++) {
-            colorsActiveList.add(String.valueOf(getResources().getColor(R.color.splash_bg_color)));
-            colorsInactive.add(String.valueOf(getResources().getColor(R.color.gray)));
-        }
 
-        activityTravelMatchScheduleDetailBinding.viewPagerDotlinear.removeAllViews();
-        for (int i = 0; i < dots.length; i++) {
-            dots[i] = new ImageView(this);
-
-            dots[i].setImageResource(R.drawable.unselected_new);
-            dots[i].setPadding(0, 0, 10, 0);
-            activityTravelMatchScheduleDetailBinding.viewPagerDotlinear.addView(dots[i]);
-        }
-
-        if (dots.length > 0)
-            dots[currentPage].setImageResource(R.drawable.selected_new);
-//            dots[currentPage].setTextColor(Integer.parseInt(colorsActiveList.get(currentPage)));//colorsActive[currentPage]
-    }
-
-    //  viewpager change listener
-    ViewPager.OnPageChangeListener viewPagerPageChangeListener = new ViewPager.OnPageChangeListener() {
-
-        @Override
-        public void onPageSelected(int position) {
-            addBottomDots(position);//position
-
-
-        }
-
-        @Override
-        public void onPageScrolled(int arg0, float arg1, int arg2) {
-
-        }
-
-        @Override
-        public void onPageScrollStateChanged(int arg0) {
-
-        }
-    };
-
-    public class MyTravelMatchScheduleDetailGalleryViewPagerAdapter extends PagerAdapter {
-        public MyTravelMatchScheduleDetailGalleryViewPagerAdapter() {
-        }
-
-        @Override
-        public Object instantiateItem(ViewGroup parent, int position) {
-            TravelScheduleBannerListItemBinding travelScheduleBannerListItemBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
-                    R.layout.travel_schedule_banner_list_item, parent, false);
-
-            exoPlay = (ImageView)findViewById(R.id.exo_play);
-            AudioManager audioManager = (AudioManager)mContext.getSystemService(Context.AUDIO_SERVICE);
-            audioManager.adjustVolume(AudioManager.ADJUST_MUTE,AudioManager.ADJUST_MUTE);
-
-
-            if (travelmatchscheduledetailGalleryList.get(position).getCityHotelAmenitiesName().equalsIgnoreCase("Image")) {
-                travelScheduleBannerListItemBinding.detailGalleryImage.setVisibility(View.VISIBLE);
-                travelScheduleBannerListItemBinding.baVideoRlv.setVisibility(View.GONE);
-                travelScheduleBannerListItemBinding.volumeLinear.setVisibility(View.GONE);
-                Utils.setImageInImageView(travelmatchscheduledetailGalleryList.get(position).getCityHotelAmenitiesImage(), travelScheduleBannerListItemBinding.detailGalleryImage, mContext);
-
-                Log.d("HotelGalleeryAdapter : ", travelmatchscheduledetailGalleryList.get(position).getCityHotelAmenitiesImage());
-            } else {
-                travelScheduleBannerListItemBinding.detailGalleryImage.setVisibility(View.GONE);
-                travelScheduleBannerListItemBinding.baVideoRlv.setVisibility(View.VISIBLE);
-
-Utils.setImageInImageView("http://devenv.bharatarmy.com//Docs/Media/Thumb/3b484b79-ad6f-4db2-838a-478b117fabf7-Thumb_20200210_BA121034.jpg",travelScheduleBannerListItemBinding.videoThumbnailImage,mContext);
-                videopathStr = travelmatchscheduledetailGalleryList.get(position).getCityHotelAmenitiesImage();
-
-                travelScheduleBannerListItemBinding.videoPlayImg.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        travelScheduleBannerListItemBinding.videoThumbnailImage.setVisibility(View.GONE);
-                        travelScheduleBannerListItemBinding.frameLayoutMain.setVisibility(View.VISIBLE);
-                        travelScheduleBannerListItemBinding.loading.setVisibility(View.VISIBLE);
-
-                        travelScheduleBannerListItemBinding.sliderPlayerView.setVisibility(View.VISIBLE);
-                        travelScheduleBannerListItemBinding.volumeLinear.setVisibility(View.VISIBLE);
-                        playerView = travelScheduleBannerListItemBinding.sliderPlayerView;
-                        progressBar = travelScheduleBannerListItemBinding.loading;
-                        initializePlayer();
-                    }
-                });
-                travelScheduleBannerListItemBinding.volumeLinear.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (travelScheduleBannerListItemBinding.volmueVideoButton.isShown()){
-                            travelScheduleBannerListItemBinding.volmueVideoButton.setVisibility(View.GONE);
-                            travelScheduleBannerListItemBinding.muteVideoButton.setVisibility(View.VISIBLE);
-                            AudioManager audioManager = (AudioManager)mContext.getSystemService(Context.AUDIO_SERVICE);
-                            audioManager.adjustVolume(AudioManager.ADJUST_MUTE,AudioManager.ADJUST_MUTE);
-                        }else{
-                            travelScheduleBannerListItemBinding.volmueVideoButton.setVisibility(View.VISIBLE);
-                            travelScheduleBannerListItemBinding.muteVideoButton.setVisibility(View.GONE);
-                            AudioManager audioManager = (AudioManager)mContext.getSystemService(Context.AUDIO_SERVICE);
-                            audioManager.adjustVolume(AudioManager.ADJUST_RAISE,AudioManager.FLAG_PLAY_SOUND);
-                        }
-                    }
-                });
-            }
-
-            parent.addView(travelScheduleBannerListItemBinding.getRoot());
-
-            return travelScheduleBannerListItemBinding.getRoot();
-        }
-
-        @Override
-        public int getCount() {
-            return travelmatchscheduledetailGalleryList.size();
-        }
-
-        @Override
-        public boolean isViewFromObject(View view, Object obj) {
-            return view == obj;
-        }
-
-
-        @Override
-        public void destroyItem(ViewGroup container, int position, Object object) {
-            View view = (View) object;
-            container.removeView(view);
-        }
-
-        @Override
-        public int getItemPosition(@NonNull Object object) {
-            return super.getItemPosition(object);
-        }
-    }
     // Internal methods
     private void initializePlayer() {
 
@@ -699,10 +607,22 @@ Utils.setImageInImageView("http://devenv.bharatarmy.com//Docs/Media/Thumb/3b484b
             switch (playbackState) {
                 case ExoPlayer.STATE_READY:
                     progressBar.setVisibility(View.GONE);
-
+                    if (player.getPlayWhenReady() == true){
+                        volumeLinear.setVisibility(View.VISIBLE);
+                    }else if (player.getPlayWhenReady() == false){
+                        volumeLinear.setVisibility(View.GONE);
+                    }
                     break;
                 case ExoPlayer.STATE_BUFFERING:
                     progressBar.setVisibility(View.VISIBLE);
+                    volumeLinear.setVisibility(View.GONE);
+                    break;
+                case ExoPlayer.STATE_ENDED:
+                    if (player.getPlayWhenReady() == true){
+                        volumeLinear.setVisibility(View.VISIBLE);
+                    }else if (player.getPlayWhenReady() == false){
+                        volumeLinear.setVisibility(View.GONE);
+                    }
                     break;
             }
             updateButtonVisibilities();
@@ -873,14 +793,108 @@ Utils.setImageInImageView("http://devenv.bharatarmy.com//Docs/Media/Thumb/3b484b
         outState.putInt(KEY_WINDOW, startWindow);
         outState.putLong(KEY_POSITION, startPosition);
     }
+    /*Travel match schedule detail gallery adapter*/
+    public class TravelMatchScheduleDetailGalleryAdapter extends RecyclerView.Adapter<TravelMatchScheduleDetailGalleryAdapter.MyViewHolder> {
+        Context mContext;
+        ArrayList<TravelModel> travelmatchscheduledetailGalleryList;
+        public TravelMatchScheduleDetailGalleryAdapter(Context mContext, ArrayList<TravelModel> travelmatchscheduledetailGalleryList) {
+            this.mContext=mContext;
+            this.travelmatchscheduledetailGalleryList=travelmatchscheduledetailGalleryList;
+        }
+        public class MyViewHolder extends RecyclerView.ViewHolder {
 
-// OnClickListener methods
+            TravelScheduleBannerListItemBinding travelScheduleBannerListItemBinding;
 
-//    @Override
-//    public boolean dispatchKeyEvent(KeyEvent event) {
-//        // See whether the player view wants to handle media or DPAD keys events.
-//        return playerView.dispatchKeyEvent(event) || super.dispatchKeyEvent(event);
-//    }
+            public MyViewHolder(TravelScheduleBannerListItemBinding travelScheduleBannerListItemBinding) {
+                super(travelScheduleBannerListItemBinding.getRoot());
+                this.travelScheduleBannerListItemBinding = travelScheduleBannerListItemBinding;
+
+            }
+        }
+
+
+        @Override
+        public TravelMatchScheduleDetailGalleryAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            TravelScheduleBannerListItemBinding travelScheduleBannerListItemBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
+                    R.layout.travel_schedule_banner_list_item, parent, false);
+            return new TravelMatchScheduleDetailGalleryAdapter.MyViewHolder(travelScheduleBannerListItemBinding);
+        }
+
+        @SuppressLint("ResourceAsColor")
+        @Override
+        public void onBindViewHolder(TravelMatchScheduleDetailGalleryAdapter.MyViewHolder holder, int position) {
+            exoPlay = (ImageView) findViewById(R.id.exo_play);
+            AudioManager audioManager = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
+            audioManager.adjustVolume(AudioManager.ADJUST_MUTE, AudioManager.ADJUST_MUTE);
+
+            if (travelmatchscheduledetailGalleryList.get(position).getCityHotelAmenitiesName().equalsIgnoreCase("Image")) {
+                holder.travelScheduleBannerListItemBinding.detailGalleryImage.setVisibility(View.VISIBLE);
+                holder.travelScheduleBannerListItemBinding.baVideoRlv.setVisibility(View.GONE);
+                holder.travelScheduleBannerListItemBinding.volumeLinear.setVisibility(View.GONE);
+                Utils.setImageInImageView(travelmatchscheduledetailGalleryList.get(position).getCityHotelAmenitiesImage(), holder.travelScheduleBannerListItemBinding.detailGalleryImage, mContext);
+
+                Log.d("HotelGalleeryAdapter : ", travelmatchscheduledetailGalleryList.get(position).getCityHotelAmenitiesImage());
+            } else {
+                holder.travelScheduleBannerListItemBinding.detailGalleryImage.setVisibility(View.GONE);
+                holder. travelScheduleBannerListItemBinding.baVideoRlv.setVisibility(View.VISIBLE);
+
+                Utils.setImageInImageView("http://devenv.bharatarmy.com//Docs/Media/Thumb/3b484b79-ad6f-4db2-838a-478b117fabf7-Thumb_20200210_BA121034.jpg",holder.travelScheduleBannerListItemBinding.videoThumbnailImage,mContext);
+                videopathStr = travelmatchscheduledetailGalleryList.get(position).getCityHotelAmenitiesImage();
+
+                holder.travelScheduleBannerListItemBinding.videoPlayImg.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        holder.travelScheduleBannerListItemBinding.videoThumbnailImage.setVisibility(View.GONE);
+                        holder.travelScheduleBannerListItemBinding.frameLayoutMain.setVisibility(View.VISIBLE);
+                        holder.travelScheduleBannerListItemBinding.loading.setVisibility(View.VISIBLE);
+
+                        holder.travelScheduleBannerListItemBinding.sliderPlayerView.setVisibility(View.VISIBLE);
+                        videoThumbnailImage = holder.travelScheduleBannerListItemBinding.videoThumbnailImage;
+                        mainframeLayout = holder.travelScheduleBannerListItemBinding.frameLayoutMain;
+                        volumeLinear=holder.travelScheduleBannerListItemBinding.volumeLinear;
+                        playerView = holder.travelScheduleBannerListItemBinding.sliderPlayerView;
+                        progressBar = holder.travelScheduleBannerListItemBinding.loading;
+                        initializePlayer();
+                    }
+                });
+                holder.travelScheduleBannerListItemBinding.volumeLinear.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (holder.travelScheduleBannerListItemBinding.volmueVideoButton.isShown()){
+                            holder.travelScheduleBannerListItemBinding.volmueVideoButton.setVisibility(View.GONE);
+                            holder.travelScheduleBannerListItemBinding.muteVideoButton.setVisibility(View.VISIBLE);
+                            AudioManager audioManager = (AudioManager)mContext.getSystemService(Context.AUDIO_SERVICE);
+                            audioManager.adjustVolume(AudioManager.ADJUST_MUTE,AudioManager.ADJUST_MUTE);
+                        }else{
+                            holder.travelScheduleBannerListItemBinding.volmueVideoButton.setVisibility(View.VISIBLE);
+                            holder.travelScheduleBannerListItemBinding.muteVideoButton.setVisibility(View.GONE);
+                            AudioManager audioManager = (AudioManager)mContext.getSystemService(Context.AUDIO_SERVICE);
+                            audioManager.adjustVolume(AudioManager.ADJUST_RAISE,AudioManager.FLAG_PLAY_SOUND);
+                        }
+                    }
+                });
+            }
+        }
+
+
+        @Override
+        public long getItemId(int position) {
+// return specific item's id here
+            return position;
+        }
+
+        @Override
+        public int getItemViewType(int position) {
+            return position;
+        }
+
+        @Override
+        public int getItemCount() {
+            return travelmatchscheduledetailGalleryList.size();
+        }
+
+
+    }
 
     public void setticketsListValue() {
         travelticketList = new ArrayList<TravelModel>();
@@ -1049,6 +1063,15 @@ Utils.setImageInImageView("http://devenv.bharatarmy.com//Docs/Media/Thumb/3b484b
 
     @Override
     protected void onResume() {
+        if (playerView != null) {
+            mainframeLayout.setVisibility(View.GONE);
+            volumeLinear.setVisibility(View.GONE);
+            videoThumbnailImage.setVisibility(View.VISIBLE);
+//            initializePlayer();
+        }
+        if (playerView != null) {
+            playerView.onResume();
+        }
         Utils.addCartItemCount(mContext, activityTravelMatchScheduleDetailBinding.addcarticon.cartCountItemTxt);
         super.onResume();
     }

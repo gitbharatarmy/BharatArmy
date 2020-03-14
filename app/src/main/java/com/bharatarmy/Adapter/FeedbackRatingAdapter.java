@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bharatarmy.Models.FeedbackAnswerList;
 import com.bharatarmy.Models.TravelModel;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.AppConfiguration;
@@ -16,15 +17,18 @@ import com.bharatarmy.databinding.FeedbackRatingListItemBinding;
 import com.bharatarmy.databinding.FeedbackSingleChoiceListItemBinding;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class FeedbackRatingAdapter extends RecyclerView.Adapter<FeedbackRatingAdapter.MyViewHolder> {
     Context mcontext;
-    ArrayList<TravelModel> feedbackratinglist;
+    List<FeedbackAnswerList> feedbackratingsinglechoicelist;
     int selectedroomforchangesposition = -1;
 
-    public FeedbackRatingAdapter(Context mContext, ArrayList<TravelModel> feedbackratinglist) {
+
+
+    public FeedbackRatingAdapter(Context mContext, List<FeedbackAnswerList> feedbackratingsinglechoicelist) {
         this.mcontext = mContext;
-        this.feedbackratinglist = feedbackratinglist;
+        this.feedbackratingsinglechoicelist=feedbackratingsinglechoicelist;
     }
 
 
@@ -51,30 +55,30 @@ public class FeedbackRatingAdapter extends RecyclerView.Adapter<FeedbackRatingAd
     @SuppressLint("ResourceAsColor")
     @Override
     public void onBindViewHolder(FeedbackRatingAdapter.MyViewHolder holder, int position) {
-        TravelModel ansratingdetail = feedbackratinglist.get(position);
+        FeedbackAnswerList ansratingdetail = feedbackratingsinglechoicelist.get(position);
 
-        holder.feedbackRatingListItemBinding.question3starOption1Txt.setText(ansratingdetail.getPopularcity_image());
+        holder.feedbackRatingListItemBinding.textratingSinglechoiceOptionTxt.setText(ansratingdetail.getQuestionAnswerText());
 
 
-        if (ansratingdetail.getPopularcity_image_count().equalsIgnoreCase("5")) {
+        if (ansratingdetail.getQuestionAnswerRating().equalsIgnoreCase("5")) {
             holder.feedbackRatingListItemBinding.start1Img.setVisibility(View.VISIBLE);
             holder.feedbackRatingListItemBinding.start2Img.setVisibility(View.VISIBLE);
             holder.feedbackRatingListItemBinding.start3Img.setVisibility(View.VISIBLE);
             holder.feedbackRatingListItemBinding.start4Img.setVisibility(View.VISIBLE);
             holder.feedbackRatingListItemBinding.start5Img.setVisibility(View.VISIBLE);
-        }else if(ansratingdetail.getPopularcity_image_count().equalsIgnoreCase("4")){
+        }else if(ansratingdetail.getQuestionAnswerRating().equalsIgnoreCase("4")){
             holder.feedbackRatingListItemBinding.start1Img.setVisibility(View.VISIBLE);
             holder.feedbackRatingListItemBinding.start2Img.setVisibility(View.VISIBLE);
             holder.feedbackRatingListItemBinding.start3Img.setVisibility(View.VISIBLE);
             holder.feedbackRatingListItemBinding.start4Img.setVisibility(View.VISIBLE);
             holder.feedbackRatingListItemBinding.start5Img.setVisibility(View.GONE);
-        }else if(ansratingdetail.getPopularcity_image_count().equalsIgnoreCase("3")){
+        }else if(ansratingdetail.getQuestionAnswerRating().equalsIgnoreCase("3")){
             holder.feedbackRatingListItemBinding.start1Img.setVisibility(View.VISIBLE);
             holder.feedbackRatingListItemBinding.start2Img.setVisibility(View.VISIBLE);
             holder.feedbackRatingListItemBinding.start3Img.setVisibility(View.VISIBLE);
             holder.feedbackRatingListItemBinding.start4Img.setVisibility(View.GONE);
             holder.feedbackRatingListItemBinding.start5Img.setVisibility(View.GONE);
-        }else if(ansratingdetail.getPopularcity_image_count().equalsIgnoreCase("2")){
+        }else if(ansratingdetail.getQuestionAnswerRating().equalsIgnoreCase("2")){
             holder.feedbackRatingListItemBinding.start1Img.setVisibility(View.VISIBLE);
             holder.feedbackRatingListItemBinding.start2Img.setVisibility(View.VISIBLE);
             holder.feedbackRatingListItemBinding.start3Img.setVisibility(View.GONE);
@@ -86,34 +90,34 @@ public class FeedbackRatingAdapter extends RecyclerView.Adapter<FeedbackRatingAd
 
 
         if (selectedroomforchangesposition == position) {
-            holder.feedbackRatingListItemBinding.question3starOption1Chk.setChecked(true);
-            holder.feedbackRatingListItemBinding.question3Option1Btn.setBackground(mcontext.getResources().getDrawable(R.drawable.feedback_corner_select_shape));
+            holder.feedbackRatingListItemBinding.textratingSinglechoiceOptionChk.setChecked(true);
+            holder.feedbackRatingListItemBinding.textratingSinglechoiceLinear.setBackground(mcontext.getResources().getDrawable(R.drawable.feedback_corner_select_shape));
 
             AppConfiguration.singlechoice = "fill";
         } else {
-            holder.feedbackRatingListItemBinding.question3starOption1Chk.setChecked(false);
-            holder.feedbackRatingListItemBinding.question3Option1Btn.setBackground(mcontext.getResources().getDrawable(R.drawable.feedback_corner_shape));
+            holder.feedbackRatingListItemBinding.textratingSinglechoiceOptionChk.setChecked(false);
+            holder.feedbackRatingListItemBinding.textratingSinglechoiceLinear.setBackground(mcontext.getResources().getDrawable(R.drawable.feedback_corner_shape));
 
 
         }
 
 
-        holder.feedbackRatingListItemBinding.question3Option1Btn.setOnClickListener(new View.OnClickListener() {
+        holder.feedbackRatingListItemBinding.textratingSinglechoiceLinear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                ansratingdetail.setPopularcity_name("1");
+//                ansratingdetail.setPopularcity_name("1");
                 selectedroomforchangesposition = position;
                 notifyDataSetChanged();
 
             }
         });
 
-        holder.feedbackRatingListItemBinding.question3starOption1Chk.setOnClickListener(new View.OnClickListener() {
+        holder.feedbackRatingListItemBinding.textratingSinglechoiceOptionChk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                ansratingdetail.setPopularcity_name("1");
+//                ansratingdetail.setPopularcity_name("1");
                 selectedroomforchangesposition = position;
                 notifyDataSetChanged();
             }
@@ -133,7 +137,7 @@ public class FeedbackRatingAdapter extends RecyclerView.Adapter<FeedbackRatingAd
 
     @Override
     public int getItemCount() {
-        return feedbackratinglist.size();
+        return feedbackratingsinglechoicelist.size();
     }
 
 

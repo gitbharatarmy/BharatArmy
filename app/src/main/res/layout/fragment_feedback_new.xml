@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -11,7 +11,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/_70sdp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="gone">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:layout_width="match_parent"
@@ -105,14 +106,14 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/singleimagechoice_linear"
+            android:id="@+id/singleimagetextchoice_linear"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/question_linear"
             android:visibility="gone">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/singleimagechoice_ans_rcv"
+                android:id="@+id/singleimagetextchoice_ans_rcv"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:clipToPadding="false"
@@ -147,15 +148,36 @@
                 android:textSize="@dimen/allans_font_size" />
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/textview_ans_linear"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_30sdp"
+            android:layout_below="@+id/question_linear"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/textview_ans_txt"
+                style="@style/text_font"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="top|left"
+                android:paddingBottom="@dimen/_3sdp"
+                android:textColor="@color/all_text_color"
+                android:textSize="@dimen/allans_font_size"
+                android:text="@string/hotel_room_type"/>
+        </LinearLayout>
+
         <RelativeLayout
             android:id="@+id/next_linear"
-            android:layout_width="@dimen/_75sdp"
-            android:layout_height="@dimen/_30sdp"
+            android:layout_width="88dp"
+            android:layout_height="46dp"
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
             android:layout_marginLeft="@dimen/_15sdp"
             android:layout_marginRight="@dimen/_15sdp"
-            android:layout_marginBottom="@dimen/_60sdp"
+            android:layout_marginBottom="71dp"
             android:background="@drawable/feedback_submit_shape"
             android:backgroundTint="@color/heading_bg"
             android:visibility="visible">

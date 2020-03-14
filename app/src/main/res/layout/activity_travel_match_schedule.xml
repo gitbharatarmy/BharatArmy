@@ -34,12 +34,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/detail_backdrop_height_travel_schedule">
 
-                    <androidx.viewpager.widget.ViewPager
-                        android:id="@+id/travel_match_schedule_gallery_viewpager"
+
+                    <androidx.recyclerview.widget.RecyclerView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@color/heading_bg"/>
-
+                        android:background="@color/heading_bg"
+                        android:id="@+id/travel_match_schedule_gallery_viewpager"/>
 
                     <TextView
                         android:id="@+id/travel_match_heading_txt"
@@ -61,7 +61,7 @@
                         style="@style/title_text_font"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_above="@+id/viewPager_dotlinear"
+                        android:layout_above="@+id/indicator"
                         android:layout_marginLeft="@dimen/_15sdp"
                         android:layout_marginTop="@dimen/_1sdp"
                         android:layout_marginRight="@dimen/_15sdp"
@@ -70,16 +70,21 @@
                         android:textAllCaps="true"
                         android:textColor="@color/splash_bg_color"
                         android:textSize="@dimen/_20sdp" />
-
-                    <LinearLayout
-                        android:id="@+id/viewPager_dotlinear"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
+                    <me.relex.circleindicator.CircleIndicator2
+                        android:id="@+id/indicator"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_30sdp"
                         android:layout_alignParentBottom="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginTop="@dimen/_5sdp"
                         android:layout_marginLeft="@dimen/_15sdp"
-                        android:layout_marginBottom="@dimen/_30sdp"
-                        android:orientation="horizontal"></LinearLayout>
+                        android:layout_marginBottom="@dimen/_20sdp"
+                        app:ci_drawable="@drawable/selected_new"
+                        app:ci_drawable_unselected="@drawable/unselected_new"
+                        app:ci_height="@dimen/_10sdp"
+                        app:ci_width="@dimen/_7sdp"
+                        app:ci_gravity="left"/>
+
                 </RelativeLayout>
 
                 <androidx.appcompat.widget.Toolbar

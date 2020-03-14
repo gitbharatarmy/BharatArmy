@@ -109,9 +109,9 @@ public class LoginwithEmailActivity extends AppCompatActivity implements View.On
             case R.id.sign_up_txt:
                 Utils.handleClickEvent(mContext, loginBinding.signUpTxt);
                 Intent signupIntent = new Intent(mContext, SignUpActivity.class);
-                signupIntent.putExtra("whereTocomeLogin", getIntent().getStringExtra("whereTocomeLogin"));
+//                signupIntent.putExtra("whereTocomeLogin", getIntent().getStringExtra("whereTocomeLogin"));
                 startActivity(signupIntent);
-                finish();
+//                finish();
                 break;
             case R.id.loggin_btn:
 //                Utils.handleClickEvent(mContext, loginBinding.logginBtn);
@@ -120,9 +120,9 @@ public class LoginwithEmailActivity extends AppCompatActivity implements View.On
             case R.id.forgot_txt:
                 Utils.handleClickEvent(mContext, loginBinding.forgotTxt);
                 Intent forgotIntent = new Intent(mContext, ForgotActivity.class);
-                forgotIntent.putExtra("whereTocomeLogin", getIntent().getStringExtra("whereTocomeLogin"));
+//                forgotIntent.putExtra("whereTocomeLogin", getIntent().getStringExtra("whereTocomeLogin"));
                 startActivity(forgotIntent);
-                finish();
+//                finish();
                 break;
             case R.id.back_img:
                 whereToBack();
@@ -212,15 +212,15 @@ public class LoginwithEmailActivity extends AppCompatActivity implements View.On
     }
 
     public void whereToBack() {
-        Intent appLoginIntent = new Intent(mContext, AppLoginActivity.class);
-        appLoginIntent.putExtra("whereTocomeLogin", getIntent().getStringExtra("whereTocomeLogin"));
-        startActivity(appLoginIntent);
+//        Intent appLoginIntent = new Intent(mContext, AppLoginActivity.class);
+//        appLoginIntent.putExtra("whereTocomeLogin", getIntent().getStringExtra("whereTocomeLogin"));
+//        startActivity(appLoginIntent);
         finish();
     }
 
     public void goToAfterLogin() {
-        if (getIntent().getStringExtra("whereTocomeLogin") != null) {
-            if (getIntent().getStringExtra("whereTocomeLogin").equalsIgnoreCase("more")) {
+        if (Utils.whereTocomeLogin != null) {
+            if (Utils.whereTocomeLogin.equalsIgnoreCase("more")) {
                 /*Direct goto SFA Screen*/
                 if (Utils.retriveLoginData(mContext).getMemberType().equalsIgnoreCase(",3,")) {
                     Intent SFAintent = new Intent(mContext, DisplaySFAUserActivity.class);

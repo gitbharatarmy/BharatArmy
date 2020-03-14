@@ -1,6 +1,7 @@
 package com.bharatarmy.Utility;
 
 import com.bharatarmy.Models.DashboardModel;
+import com.bharatarmy.Models.FeedbackMainModel;
 import com.bharatarmy.Models.GetSchoolNameModel;
 import com.bharatarmy.Models.GetWalkthroughModel;
 import com.bharatarmy.Models.HomeTemplateModel;
@@ -256,4 +257,7 @@ public interface WebServices {
 
     @GET
     Call<TravelDataModel> getHospitalityList(@Url String url);
+
+    @GET
+    Call<FeedbackMainModel> getFeedbackQuestionANswerList(@Url String url);
 }

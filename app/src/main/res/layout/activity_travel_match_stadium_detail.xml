@@ -49,20 +49,17 @@
 
                     </com.facebook.shimmer.ShimmerFrameLayout>
 
-                    <androidx.viewpager.widget.ViewPager
-                        android:id="@+id/stadium_detail_Gallery_viewpager"
+                    <androidx.recyclerview.widget.RecyclerView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@color/heading_bg"/>
-
-                    <LinearLayout
-                        android:id="@+id/viewPager_dotlinear"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:background="@color/heading_bg"
+                        android:id="@+id/stadium_detail_Gallery_viewpager"/>
+                    <me.relex.circleindicator.CircleIndicator2
+                        android:id="@+id/indicator"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_30sdp"
                         android:layout_alignParentBottom="true"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginBottom="@dimen/_20sdp"
-                        android:orientation="horizontal"></LinearLayout>
+                        android:layout_marginBottom="@dimen/_15sdp"/>
                 </RelativeLayout>
 
                 <androidx.appcompat.widget.Toolbar

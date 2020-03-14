@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.graphics.Outline;
 import android.graphics.drawable.TransitionDrawable;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -25,6 +26,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewOutlineProvider;
 import android.view.ViewTreeObserver;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -32,6 +34,7 @@ import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewSwitcher;
@@ -306,20 +309,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         mContext.startActivity(displayoffersIntent);*/
 
 
-//        scrollview
-//        fragmentHomeBinding.scrollHome.post(new Runnable() {
-//            @Override
-//            public void run() {
-//                fragmentHomeBinding.scrollHome.fullScroll(View.FOCUS_UP);
-//            }
-//        });
-        fragmentHomeBinding.scrollHome.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                // Ready, move up
-                fragmentHomeBinding.scrollHome.fullScroll(View.FOCUS_UP);
-            }
-        });
+        fragmentHomeBinding.scrollHome.fullScroll(ScrollView.FOCUS_UP);
 
 //      fill user profile section data
         if (Utils.retriveLoginData(mContext) != null) {
@@ -466,7 +456,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
         customergalleryList.add(new TravelModel("Balu Ramachandran", "http://devenv.bharatarmy.com//Docs/16636938-9.jpg",
                 "2", "",
-                    "http://devenv.bharatarmy.com//Docs/Media/Thumb/acdb7074-8588-4059-a5f4-67d09730785a-1570441108244.jpg",
+                "http://devenv.bharatarmy.com//Docs/Media/Thumb/acdb7074-8588-4059-a5f4-67d09730785a-1570441108244.jpg",
                 "http://devenv.bharatarmy.com//Docs/Media/11f98532-8171-4c81-b8e1-60a33ccf193f-MP4_20191007_150748.mp4",
                 "5"));
 
@@ -506,7 +496,14 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         progressBar = fragmentHomeBinding.loading;
         playerView.setErrorMessageProvider(new PlayerErrorMessageProvider());
         playerView.requestFocus();
+        playerView.setOutlineProvider(new ViewOutlineProvider() {
+            @Override
+            public void getOutline(View view, Outline outline) {
+                outline.setRoundRect(0, 0, view.getWidth(), view.getHeight(), 60);
+            }
+        });
 
+        playerView.setClipToOutline(true);
 
         fragmentHomeBinding.subTitleTxt.setVisibility(View.GONE);
         fragmentHomeBinding.titleTxt.setVisibility(View.GONE);
@@ -696,7 +693,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 }
                 if (homeTemplateModel.getIsValid() == 1) {
                     if (homeTemplateModel.getData() != null) {
-                        if (homeTemplateModel.getData().size()!=0){
+                        if (homeTemplateModel.getData().size() != 0) {
                             homeTemplateDetailModelList = homeTemplateModel.getData();
                             fragmentHomeBinding.shimmerViewContainerhome.stopShimmerAnimation();
                             fragmentHomeBinding.shimmerViewContainerhome.setVisibility(View.GONE);
@@ -750,7 +747,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 fragmentHomeBinding.videoThumbnailImage.setVisibility(View.GONE);
                 fragmentHomeBinding.frameLayoutMain.setVisibility(View.VISIBLE);
                 fragmentHomeBinding.loading.setVisibility(View.VISIBLE);
-
                 fragmentHomeBinding.sliderPlayerView.setVisibility(View.VISIBLE);
 
                 initializePlayer();
@@ -773,13 +769,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 if (fragmentHomeBinding.volmueVideoButton.isShown()) {
                     fragmentHomeBinding.volmueVideoButton.setVisibility(View.GONE);
                     fragmentHomeBinding.muteVideoButton.setVisibility(View.VISIBLE);
-                    AudioManager audioManager = (AudioManager)mContext.getSystemService(Context.AUDIO_SERVICE);
-                    audioManager.adjustVolume(AudioManager.ADJUST_MUTE,AudioManager.ADJUST_MUTE);
+                    AudioManager audioManager = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
+                    audioManager.adjustVolume(AudioManager.ADJUST_MUTE, AudioManager.ADJUST_MUTE);
                 } else {
                     fragmentHomeBinding.volmueVideoButton.setVisibility(View.VISIBLE);
                     fragmentHomeBinding.muteVideoButton.setVisibility(View.GONE);
-                    AudioManager audioManager = (AudioManager)mContext.getSystemService(Context.AUDIO_SERVICE);
-                    audioManager.adjustVolume(AudioManager.ADJUST_RAISE,AudioManager.FLAG_PLAY_SOUND);
+                    AudioManager audioManager = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
+                    audioManager.adjustVolume(AudioManager.ADJUST_RAISE, AudioManager.FLAG_PLAY_SOUND);
                 }
 //                voluesetting();
                 break;
@@ -915,7 +911,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                     + " must implement OnFragmentInteractionListener");
         }
     }
-
 
 
     public interface OnItemClick {
@@ -1200,7 +1195,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
 
         @DefaultRenderersFactory.ExtensionRendererMode int extensionRendererMode =
-                ((MyApplication)getActivity().getApplication()).useExtensionRenderers()
+                ((MyApplication) getActivity().getApplication()).useExtensionRenderers()
                         ? (true ? DefaultRenderersFactory.EXTENSION_RENDERER_MODE_PREFER
                         : DefaultRenderersFactory.EXTENSION_RENDERER_MODE_ON)
                         : DefaultRenderersFactory.EXTENSION_RENDERER_MODE_OFF;
@@ -1234,8 +1229,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 //        https://baappvideo.s3.ap-south-1.amazonaws.com/74425094_140387590620474_1342703700878427324_n.mp4
 //                https://www.bharatarmy.com//Docs/74425094_140387590620474_1342703700878427324_n.mp4
         player.prepare(mediaSource);
-        fragmentHomeBinding.fullScreenButton.setVisibility(View.VISIBLE);
-        fragmentHomeBinding.volmueLinear.setVisibility(View.VISIBLE);
         updateButtonVisibilities();
 
     }
@@ -1372,10 +1365,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             switch (playbackState) {
                 case ExoPlayer.STATE_READY:
                     progressBar.setVisibility(View.GONE);
-
+                    fragmentHomeBinding.volmueLinear.setVisibility(View.VISIBLE);
+                    fragmentHomeBinding.fullScreenButton.setVisibility(View.VISIBLE);
                     break;
                 case ExoPlayer.STATE_BUFFERING:
                     progressBar.setVisibility(View.VISIBLE);
+                    fragmentHomeBinding.volmueLinear.setVisibility(View.GONE);
+                    fragmentHomeBinding.fullScreenButton.setVisibility(View.GONE);
                     break;
             }
             updateButtonVisibilities();
@@ -1476,9 +1472,10 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     public void onResume() {
         super.onResume();
         if (Util.SDK_INT <= 23 || player == null) {
-            if (playerView != null) {
-                initializePlayer();
-            }
+            fragmentHomeBinding.videoThumbnailImage.setVisibility(View.VISIBLE);
+            fragmentHomeBinding.fullScreenButton.setVisibility(View.GONE);
+            fragmentHomeBinding.volmueLinear.setVisibility(View.GONE);
+           fragmentHomeBinding.frameLayoutMain.setVisibility(View.GONE);
         }
     }
 
@@ -1533,7 +1530,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         outState.putInt(KEY_WINDOW, startWindow);
         outState.putLong(KEY_POSITION, startPosition);
     }
-
 
 
 }

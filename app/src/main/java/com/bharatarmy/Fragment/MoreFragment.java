@@ -303,10 +303,10 @@ public class MoreFragment extends Fragment implements View.OnClickListener, Goog
                 startActivity(wishlist);
                 break;
             case R.id.feedback_linear:
-//                Utils.handleClickEvent(mContext, fragmentMoreBinding.feedbackLinear);
-//                Intent DashboardIntent = new Intent(mContext, DashboardActivity.class);
-//                DashboardIntent.putExtra("whichPageRun", "2");
-//                startActivity(DashboardIntent);
+                Utils.handleClickEvent(mContext, fragmentMoreBinding.feedbackLinear);
+                Intent DashboardIntent = new Intent(mContext, DashboardActivity.class);
+                DashboardIntent.putExtra("whichPageRun", "2");
+                startActivity(DashboardIntent);
                 break;
         }
     }
@@ -372,7 +372,8 @@ public class MoreFragment extends Fragment implements View.OnClickListener, Goog
         Utils.setPref(mContext, "feedbackgiveflag", "");
         Utils.ping(mContext, "You are logout suceessfully");
         Intent ilogin = new Intent(mContext, AppLoginActivity.class);  //LoginwithEmailActivity
-        ilogin.putExtra("whereTocomeLogin", "more");
+//        ilogin.putExtra("whereTocomeLogin", "more");
+        Utils.whereTocomeLogin = "more";
         ilogin.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(ilogin);
         getActivity().finish();

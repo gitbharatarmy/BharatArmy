@@ -11,24 +11,26 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bharatarmy.Interfaces.MorestoryClick;
 import com.bharatarmy.Interfaces.buttonclick_result;
+import com.bharatarmy.Models.FeedbackAnswerList;
 import com.bharatarmy.Models.TravelModel;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.AppConfiguration;
 import com.bharatarmy.databinding.FeedbackSingleChoiceListItemBinding;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class FeedbackSingleChoiceAdapter extends RecyclerView.Adapter<FeedbackSingleChoiceAdapter.MyViewHolder> {
     Context mcontext;
-    ArrayList<TravelModel> feedbackanslist;
+    List<FeedbackAnswerList> feedbacktextsinglechoicelist;
     int selectedroomforchangesposition = -1;
     String selectedAnsStr;
 
 
-    public FeedbackSingleChoiceAdapter(Context mContext, ArrayList<TravelModel> feedbackanslist) {
-        this.mcontext = mContext;
-        this.feedbackanslist = feedbackanslist;
 
+    public FeedbackSingleChoiceAdapter(Context mContext, List<FeedbackAnswerList> feedbacktextsinglechoicelist) {
+        this.mcontext = mContext;
+        this.feedbacktextsinglechoicelist=feedbacktextsinglechoicelist;
     }
 
 
@@ -55,9 +57,9 @@ public class FeedbackSingleChoiceAdapter extends RecyclerView.Adapter<FeedbackSi
     @SuppressLint("ResourceAsColor")
     @Override
     public void onBindViewHolder(FeedbackSingleChoiceAdapter.MyViewHolder holder, int position) {
-        TravelModel ansdetail = feedbackanslist.get(position);
+        FeedbackAnswerList ansdetail = feedbacktextsinglechoicelist.get(position);
 
-        holder.feedbackSingleChoiceListItemBinding.question3Option1Txt.setText(ansdetail.getCityHotelAmenitiesImage());
+        holder.feedbackSingleChoiceListItemBinding.question3Option1Txt.setText(ansdetail.getQuestionAnswerText());
 
         if (selectedroomforchangesposition == position) {
             holder.feedbackSingleChoiceListItemBinding.question3Option1Chk.setChecked(true);
@@ -65,7 +67,7 @@ public class FeedbackSingleChoiceAdapter extends RecyclerView.Adapter<FeedbackSi
 
             AppConfiguration.singlechoice = "fill";
         } else {
-            ansdetail.setCityHotelAmenitiesName("0");
+//            ansdetail.setCityHotelAmenitiesName("0");
             holder.feedbackSingleChoiceListItemBinding.question3Option1Chk.setChecked(false);
             holder.feedbackSingleChoiceListItemBinding.question3Option1Btn.setBackground(mcontext.getResources().getDrawable(R.drawable.feedback_corner_shape));
 
@@ -76,7 +78,7 @@ public class FeedbackSingleChoiceAdapter extends RecyclerView.Adapter<FeedbackSi
         holder.feedbackSingleChoiceListItemBinding.question3Option1Btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ansdetail.setCityHotelAmenitiesName("1");
+//                ansdetail.setCityHotelAmenitiesName("1");
                 selectedroomforchangesposition = position;
                 notifyDataSetChanged();
 
@@ -87,7 +89,7 @@ public class FeedbackSingleChoiceAdapter extends RecyclerView.Adapter<FeedbackSi
         holder.feedbackSingleChoiceListItemBinding.question3Option1Chk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ansdetail.setCityHotelAmenitiesName("1");
+//                ansdetail.setCityHotelAmenitiesName("1");
                 selectedroomforchangesposition = position;
                 notifyDataSetChanged();
 
@@ -108,7 +110,7 @@ public class FeedbackSingleChoiceAdapter extends RecyclerView.Adapter<FeedbackSi
 
     @Override
     public int getItemCount() {
-        return feedbackanslist.size();
+        return feedbacktextsinglechoicelist.size();
     }
 
     public String getSelectedANS() {

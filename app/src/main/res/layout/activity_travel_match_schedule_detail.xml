@@ -37,11 +37,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
-                    <androidx.viewpager.widget.ViewPager
-                        android:id="@+id/travel_match_schedule_detail_gallery_viewpager"
+                    <androidx.recyclerview.widget.RecyclerView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@color/heading_bg"/>
+                        android:background="@color/heading_bg"
+                        android:id="@+id/travel_match_schedule_detail_gallery_viewpager"/>
 
 
                     <LinearLayout
@@ -166,7 +166,7 @@
                         android:id="@+id/location_detail_linear"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_above="@+id/viewPager_dotlinear"
+                        android:layout_above="@+id/indicator"
                         android:layout_marginLeft="@dimen/_15sdp"
                         android:layout_marginTop="@dimen/_1sdp"
                         android:layout_marginRight="@dimen/_15sdp"
@@ -205,16 +205,31 @@
                                 android:textSize="@dimen/_9sdp" />
                         </LinearLayout>
                     </LinearLayout>
-
-                    <LinearLayout
-                        android:id="@+id/viewPager_dotlinear"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
+                    <me.relex.circleindicator.CircleIndicator2
+                        android:id="@+id/indicator"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_30sdp"
                         android:layout_alignParentBottom="true"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginTop="@dimen/_5sdp"
                         android:layout_marginLeft="@dimen/_15sdp"
-                        android:layout_marginBottom="@dimen/_30sdp"
-                        android:orientation="horizontal"></LinearLayout>
+                        android:layout_marginBottom="@dimen/_20sdp"
+                        app:ci_drawable="@drawable/selected_new"
+                        app:ci_drawable_unselected="@drawable/unselected_new"
+                        app:ci_height="@dimen/_10sdp"
+                        app:ci_width="@dimen/_10sdp"
+                        app:ci_gravity="left"/>
+
+
+<!--                    <LinearLayout-->
+<!--                        android:id="@+id/viewPager_dotlinear"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_alignParentLeft="true"-->
+<!--                        android:layout_alignParentBottom="true"-->
+<!--                        android:layout_marginLeft="@dimen/_15sdp"-->
+<!--                        android:layout_marginBottom="@dimen/_30sdp"-->
+<!--                        android:orientation="horizontal"></LinearLayout>-->
                 </RelativeLayout>
 
                 <androidx.appcompat.widget.Toolbar

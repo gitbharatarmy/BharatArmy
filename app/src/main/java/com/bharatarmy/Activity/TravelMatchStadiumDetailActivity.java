@@ -3,14 +3,15 @@ package com.bharatarmy.Activity;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.LinearSnapHelper;
+import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.PagerAdapter;
-import androidx.viewpager.widget.ViewPager;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -18,37 +19,35 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.media.AudioManager;
-import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.Html;
 import android.util.Log;
 import android.util.Pair;
 import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bharatarmy.Adapter.MyStadiumDetailGalleryPagerAdapter;
 import com.bharatarmy.Adapter.StadiumDetailRelatedMatchesAdapter;
+import com.bharatarmy.LinePagerIndicatorDecoration;
 import com.bharatarmy.Models.HomeTemplateDetailModel;
 import com.bharatarmy.Models.TravelDataModel;
 import com.bharatarmy.Models.TravelModel;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.AppConfiguration;
 import com.bharatarmy.Utility.MyApplication;
+import com.bharatarmy.Utility.SnapHelperOneByOne;
 import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.Utility.WebServices;
 import com.bharatarmy.databinding.ActivityTravelMatchStadiumDetailBinding;
-import com.bharatarmy.databinding.ActivityTravelMatchStadiumPlayerBinding;
 import com.bharatarmy.databinding.DetailPageGalleryPagerListItemBinding;
 import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.DefaultLoadControl;
@@ -89,6 +88,7 @@ import java.util.ArrayList;
 import java.util.Formatter;
 import java.util.List;
 
+import me.relex.circleindicator.CircleIndicator2;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Retrofit;
@@ -96,7 +96,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class TravelMatchStadiumDetailActivity extends AppCompatActivity implements View.OnClickListener {
-    ActivityTravelMatchStadiumPlayerBinding activityTravelMatchStadiumPlayerBinding;
+    ActivityTravelMatchStadiumDetailBinding activityTravelMatchStadiumDetailBinding;
     Context mContext;
     /*Stadium Detail variable*/
     String stadiumNameStr, stadiumDescriptionStr;
@@ -109,10 +109,12 @@ public class TravelMatchStadiumDetailActivity extends AppCompatActivity implemen
     List<HomeTemplateDetailModel> travelStadiumOtherMatchesList;
 
     /*Use for stadium gallery*/
-    private TravelMatchStadiumDetailActivity.MyStadiumDetailGalleryPagerAdapter myStadiumDetailGalleryPagerAdapter;
+//    private TravelMatchStadiumDetailActivity.MyStadiumDetailGalleryPagerAdapter myStadiumDetailGalleryPagerAdapter;
     //    DetailPageGalleryPagerListItemBinding detailPageGalleryPagerListItemBinding;
     private TextView[] dots;
     ArrayList<TravelModel> stadiumDetailGalleryList;
+    TravelMatchStadiumGalleryAdapter travelMatchStadiumGalleryAdapter;
+    LinearLayoutManager linearLayoutManager;
 
     int videoplayposition = 0;
     String videopathStr;
@@ -132,6 +134,9 @@ public class TravelMatchStadiumDetailActivity extends AppCompatActivity implemen
 
     int tapCount = 1;
     ProgressBar progressBar;
+    private LinearLayout volumeLinear;
+    private FrameLayout mainframeLayout;
+    private AppCompatImageView videoThumbnailImage;
     private PlayerView playerView;
     private DataSource.Factory dataSourceFactory;
     private SimpleExoPlayer player;
@@ -179,7 +184,7 @@ public class TravelMatchStadiumDetailActivity extends AppCompatActivity implemen
             CookieHandler.setDefault(DEFAULT_COOKIE_MANAGER);
         }
 
-        activityTravelMatchStadiumPlayerBinding = DataBindingUtil.setContentView(this, R.layout.activity_travel_match_stadium_player);
+        activityTravelMatchStadiumDetailBinding = DataBindingUtil.setContentView(this, R.layout.activity_travel_match_stadium_detail);
         mContext = TravelMatchStadiumDetailActivity.this;
         init();
         setListiner();
@@ -198,8 +203,8 @@ public class TravelMatchStadiumDetailActivity extends AppCompatActivity implemen
     public void init() {
         stadiumNameStr = getIntent().getStringExtra("stadiumName");
         stadiumDescriptionStr = getIntent().getStringExtra("stadiumDescription");
-        activityTravelMatchStadiumPlayerBinding.shimmerViewContainerMain.startShimmerAnimation();
-        activityTravelMatchStadiumPlayerBinding.mainDetailLinear.setVisibility(View.GONE);
+        activityTravelMatchStadiumDetailBinding.shimmerViewContainerMain.startShimmerAnimation();
+        activityTravelMatchStadiumDetailBinding.mainDetailLinear.setVisibility(View.GONE);
 
         //        stadium gallery List
         stadiumDetailGalleryList = new ArrayList<TravelModel>();
@@ -211,22 +216,29 @@ public class TravelMatchStadiumDetailActivity extends AppCompatActivity implemen
         stadiumDetailGalleryList.add(new TravelModel("https://images.immediate.co.uk/production/volatile/sites/3/2019/05/GettyImages-809641044-3d448c5.jpg?quality=45&resize=620,413", "Image"));
         stadiumDetailGalleryList.add(new TravelModel("https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTOoK5jxwSYxPaujnLqPAFoEBH2yOOpWWVxQ2Qlom1pGQqCttwq", "Image"));
 
-        addBottomDots(0);
-        myStadiumDetailGalleryPagerAdapter = new MyStadiumDetailGalleryPagerAdapter(); //mContext, stadiumDetailGalleryList
-        activityTravelMatchStadiumPlayerBinding.stadiumDetailGalleryViewpager.setAdapter(myStadiumDetailGalleryPagerAdapter);
-        activityTravelMatchStadiumPlayerBinding.stadiumDetailGalleryViewpager.addOnPageChangeListener(viewPagerPageChangeListener);
 
+        travelMatchStadiumGalleryAdapter = new TravelMatchStadiumGalleryAdapter(mContext, stadiumDetailGalleryList);
+        linearLayoutManager = new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false);
+        activityTravelMatchStadiumDetailBinding.stadiumDetailGalleryViewpager.setLayoutManager(linearLayoutManager);
+        activityTravelMatchStadiumDetailBinding.stadiumDetailGalleryViewpager.setAdapter(travelMatchStadiumGalleryAdapter);
+        PagerSnapHelper pagerSnapHelper = new PagerSnapHelper();
+        pagerSnapHelper.attachToRecyclerView(activityTravelMatchStadiumDetailBinding.stadiumDetailGalleryViewpager);
+
+        CircleIndicator2 indicator = activityTravelMatchStadiumDetailBinding.indicator;
+        indicator.attachToRecyclerView(activityTravelMatchStadiumDetailBinding.stadiumDetailGalleryViewpager, pagerSnapHelper);
+//        LinePagerIndicatorDecoration linePagerIndicatorDecoration = new LinePagerIndicatorDecoration();
+//        activityTravelMatchStadiumDetailBinding.stadiumDetailGalleryViewpager.addItemDecoration(linePagerIndicatorDecoration);
         GetStadiumDetailListData();
     }
 
     public void setListiner() {
-        setSupportActionBar(activityTravelMatchStadiumPlayerBinding.toolbar);
+        setSupportActionBar(activityTravelMatchStadiumDetailBinding.toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setDisplayShowHomeEnabled(false);
 
-        activityTravelMatchStadiumPlayerBinding.backImg.setOnClickListener(this);
-        activityTravelMatchStadiumPlayerBinding.appbar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+        activityTravelMatchStadiumDetailBinding.backImg.setOnClickListener(this);
+        activityTravelMatchStadiumDetailBinding.appbar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             boolean isShow = true;
             int scrollRange = -1;
 
@@ -238,25 +250,44 @@ public class TravelMatchStadiumDetailActivity extends AppCompatActivity implemen
                 }
                 //Check if the view is collapsed
                 if (scrollRange + verticalOffset == 0) {
-                    activityTravelMatchStadiumPlayerBinding.toolbar.setBackgroundColor(ContextCompat.getColor(mContext, R.color.heading_bg));
+                    activityTravelMatchStadiumDetailBinding.toolbar.setBackgroundColor(ContextCompat.getColor(mContext, R.color.heading_bg));
                     Typeface typeface = ResourcesCompat.getFont(mContext, R.font.helveticaneueltstdbdcn);
-                    activityTravelMatchStadiumPlayerBinding.collapsingToolbar.setCollapsedTitleTypeface(typeface);
-                    activityTravelMatchStadiumPlayerBinding.collapsingToolbar.setExpandedTitleTypeface(typeface);
-                    activityTravelMatchStadiumPlayerBinding.collapsingToolbar.setCollapsedTitleGravity(Gravity.START);
-                    activityTravelMatchStadiumPlayerBinding.collapsingToolbar.setExpandedTitleGravity(Gravity.START);
-                    activityTravelMatchStadiumPlayerBinding.toolbarHeaderLinear.setVisibility(View.VISIBLE);
+                    activityTravelMatchStadiumDetailBinding.collapsingToolbar.setCollapsedTitleTypeface(typeface);
+                    activityTravelMatchStadiumDetailBinding.collapsingToolbar.setExpandedTitleTypeface(typeface);
+                    activityTravelMatchStadiumDetailBinding.collapsingToolbar.setCollapsedTitleGravity(Gravity.START);
+                    activityTravelMatchStadiumDetailBinding.collapsingToolbar.setExpandedTitleGravity(Gravity.START);
+                    activityTravelMatchStadiumDetailBinding.toolbarHeaderLinear.setVisibility(View.VISIBLE);
 
                     isShow = true;
                 } else if (isShow) {
-                    activityTravelMatchStadiumPlayerBinding.toolbar.setBackgroundColor(ContextCompat.getColor(mContext, R.color.transparent));
-                    activityTravelMatchStadiumPlayerBinding.collapsingToolbar.setTitle(" ");
-                    activityTravelMatchStadiumPlayerBinding.toolbarHeaderLinear.setVisibility(View.GONE);
+                    activityTravelMatchStadiumDetailBinding.toolbar.setBackgroundColor(ContextCompat.getColor(mContext, R.color.transparent));
+                    activityTravelMatchStadiumDetailBinding.collapsingToolbar.setTitle(" ");
+                    activityTravelMatchStadiumDetailBinding.toolbarHeaderLinear.setVisibility(View.GONE);
                     isShow = false;
                 }
 
             }
         });
+        activityTravelMatchStadiumDetailBinding.stadiumDetailGalleryViewpager.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (playerView != null) {
+                    if (player != null) {
+                        if (isPlaying()) {
+                            player.setPlayWhenReady(false);
+                        } else if (player.getPlaybackState() == Player.STATE_ENDED) {
+                            player.seekTo(0);
+                            player.setPlayWhenReady(false);
+                        } else if(player.getPlaybackState() == Player.STATE_BUFFERING){
+                            player.seekTo(0);
+                            player.setPlayWhenReady(false);
+                        }
+                    }
 
+                }
+            }
+        });
 
     }
 
@@ -296,15 +327,15 @@ public class TravelMatchStadiumDetailActivity extends AppCompatActivity implemen
     }
 
     public void setDataList() {
-        activityTravelMatchStadiumPlayerBinding.shimmerViewContainerMain.stopShimmerAnimation();
-        activityTravelMatchStadiumPlayerBinding.shimmerViewContainerMain.setVisibility(View.GONE);
+        activityTravelMatchStadiumDetailBinding.shimmerViewContainerMain.stopShimmerAnimation();
+        activityTravelMatchStadiumDetailBinding.shimmerViewContainerMain.setVisibility(View.GONE);
 
-        activityTravelMatchStadiumPlayerBinding.viewPagerDotlinear.setVisibility(View.VISIBLE);
-        activityTravelMatchStadiumPlayerBinding.mainDetailLinear.setVisibility(View.VISIBLE);
-        activityTravelMatchStadiumPlayerBinding.relatedStadiumMatchesRcv.setVisibility(View.VISIBLE);
+//        activityTravelMatchStadiumDetailBinding.viewPagerDotlinear.setVisibility(View.VISIBLE);
+        activityTravelMatchStadiumDetailBinding.mainDetailLinear.setVisibility(View.VISIBLE);
+        activityTravelMatchStadiumDetailBinding.relatedStadiumMatchesRcv.setVisibility(View.VISIBLE);
 
-        activityTravelMatchStadiumPlayerBinding.stadiumNameTxt.setText(stadiumNameStr);
-        activityTravelMatchStadiumPlayerBinding.stadiumDescTxt.setText(stadiumDescriptionStr);
+        activityTravelMatchStadiumDetailBinding.stadiumNameTxt.setText(stadiumNameStr);
+        activityTravelMatchStadiumDetailBinding.stadiumDescTxt.setText(stadiumDescriptionStr);
 
 
         //    inclusion list
@@ -323,39 +354,20 @@ public class TravelMatchStadiumDetailActivity extends AppCompatActivity implemen
 
             txt.setText(travelStadiumInclusionList.get(i).getMatchteamVenues());
 
-            activityTravelMatchStadiumPlayerBinding.inclusionLinear.addView(view);
+            activityTravelMatchStadiumDetailBinding.inclusionLinear.addView(view);
         }
 
         /*OtherMatch list*/
 
-        activityTravelMatchStadiumPlayerBinding.relatedStadiumMatchesRcv.setVisibility(View.VISIBLE);
+        activityTravelMatchStadiumDetailBinding.relatedStadiumMatchesRcv.setVisibility(View.VISIBLE);
         stadiumDetailRelatedMatchesAdapter = new StadiumDetailRelatedMatchesAdapter(mContext, travelStadiumOtherMatchesList);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
-        activityTravelMatchStadiumPlayerBinding.relatedStadiumMatchesRcv.setLayoutManager(layoutManager);
-        activityTravelMatchStadiumPlayerBinding.relatedStadiumMatchesRcv.setItemAnimator(new DefaultItemAnimator());
-        activityTravelMatchStadiumPlayerBinding.relatedStadiumMatchesRcv.setAdapter(stadiumDetailRelatedMatchesAdapter);
+        activityTravelMatchStadiumDetailBinding.relatedStadiumMatchesRcv.setLayoutManager(layoutManager);
+        activityTravelMatchStadiumDetailBinding.relatedStadiumMatchesRcv.setItemAnimator(new DefaultItemAnimator());
+        activityTravelMatchStadiumDetailBinding.relatedStadiumMatchesRcv.setAdapter(stadiumDetailRelatedMatchesAdapter);
 
     }
 
-    //  viewpager change listener
-    ViewPager.OnPageChangeListener viewPagerPageChangeListener = new ViewPager.OnPageChangeListener() {
-
-        @Override
-        public void onPageSelected(int position) {
-            addBottomDots(position);//position
-
-        }
-
-        @Override
-        public void onPageScrolled(int arg0, float arg1, int arg2) {
-
-        }
-
-        @Override
-        public void onPageScrollStateChanged(int arg0) {
-
-        }
-    };
 
     @Override
 
@@ -377,123 +389,6 @@ public class TravelMatchStadiumDetailActivity extends AppCompatActivity implemen
         return super.onOptionsItemSelected(item);
     }
 
-
-    @SuppressLint("ResourceAsColor")
-    private void addBottomDots(int currentPage) {
-        dots = new TextView[stadiumDetailGalleryList.size()];
-        List<String> colorsActiveList = new ArrayList<>();
-        List<String> colorsInactive = new ArrayList<>();
-        for (int i = 0; i < stadiumDetailGalleryList.size(); i++) {
-            colorsActiveList.add(String.valueOf(getResources().getColor(R.color.splash_bg_color)));
-            colorsInactive.add(String.valueOf(getResources().getColor(R.color.heading_bg)));
-        }
-
-
-        activityTravelMatchStadiumPlayerBinding.viewPagerDotlinear.removeAllViews();
-        for (int i = 0; i < dots.length; i++) {
-            dots[i] = new TextView(this);
-            dots[i].setText(Html.fromHtml("&#8226;"));
-            dots[i].setTextSize(35);
-            activityTravelMatchStadiumPlayerBinding.viewPagerDotlinear.addView(dots[i]);
-        }
-
-        if (dots.length > 0)
-            dots[currentPage].setTextColor(Integer.parseInt(colorsActiveList.get(currentPage)));//colorsActive[currentPage]
-    }
-
-    private int getItem(int i) {
-        return activityTravelMatchStadiumPlayerBinding.stadiumDetailGalleryViewpager.getCurrentItem() + i;
-    }
-
-    public class MyStadiumDetailGalleryPagerAdapter extends PagerAdapter {
-
-
-        public MyStadiumDetailGalleryPagerAdapter() {
-        }
-
-
-        @Override
-        public Object instantiateItem(ViewGroup parent, int position) {
-            DetailPageGalleryPagerListItemBinding detailPageGalleryPagerListItemBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
-                    R.layout.detail_page_gallery_pager_list_item, parent, false);
-            exoPlay = (ImageView) findViewById(R.id.exo_play);
-            AudioManager audioManager = (AudioManager)mContext.getSystemService(Context.AUDIO_SERVICE);
-            audioManager.adjustVolume(AudioManager.ADJUST_MUTE,AudioManager.ADJUST_MUTE);
-
-            if (stadiumDetailGalleryList.get(position).getCityHotelAmenitiesName().equalsIgnoreCase("Image")) {
-                detailPageGalleryPagerListItemBinding.detailGalleryImage.setVisibility(View.VISIBLE);
-                detailPageGalleryPagerListItemBinding.baVideoRlv.setVisibility(View.GONE);
-                detailPageGalleryPagerListItemBinding.volumeLinear.setVisibility(View.GONE);
-                Utils.setImageInImageView(stadiumDetailGalleryList.get(position).getCityHotelAmenitiesImage(), detailPageGalleryPagerListItemBinding.detailGalleryImage, mContext);
-
-                Log.d("HotelGalleeryAdapter : ", stadiumDetailGalleryList.get(position).getCityHotelAmenitiesImage());
-            } else {
-                detailPageGalleryPagerListItemBinding.detailGalleryImage.setVisibility(View.GONE);
-                detailPageGalleryPagerListItemBinding.baVideoRlv.setVisibility(View.VISIBLE);
-
-                Utils.setImageInImageView("http://devenv.bharatarmy.com//Docs/Media/Thumb/3b484b79-ad6f-4db2-838a-478b117fabf7-Thumb_20200210_BA121034.jpg", detailPageGalleryPagerListItemBinding.videoThumbnailImage, mContext);
-                videopathStr = stadiumDetailGalleryList.get(position).getCityHotelAmenitiesImage();
-
-                detailPageGalleryPagerListItemBinding.videoPlayImg.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        detailPageGalleryPagerListItemBinding.videoThumbnailImage.setVisibility(View.GONE);
-                        detailPageGalleryPagerListItemBinding.frameLayoutMain.setVisibility(View.VISIBLE);
-                        detailPageGalleryPagerListItemBinding.loading.setVisibility(View.VISIBLE);
-
-                        detailPageGalleryPagerListItemBinding.sliderPlayerView.setVisibility(View.VISIBLE);
-                        detailPageGalleryPagerListItemBinding.volumeLinear.setVisibility(View.VISIBLE);
-                        playerView = detailPageGalleryPagerListItemBinding.sliderPlayerView;
-                        progressBar = detailPageGalleryPagerListItemBinding.loading;
-                        initializePlayer();
-                    }
-                });
-                detailPageGalleryPagerListItemBinding.volumeLinear.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (detailPageGalleryPagerListItemBinding.volmueVideoButton.isShown()) {
-                            detailPageGalleryPagerListItemBinding.volmueVideoButton.setVisibility(View.GONE);
-                            detailPageGalleryPagerListItemBinding.muteVideoButton.setVisibility(View.VISIBLE);
-                            AudioManager audioManager = (AudioManager)mContext.getSystemService(Context.AUDIO_SERVICE);
-                            audioManager.adjustVolume(AudioManager.ADJUST_MUTE,AudioManager.ADJUST_MUTE);
-                        } else {
-                            detailPageGalleryPagerListItemBinding.volmueVideoButton.setVisibility(View.VISIBLE);
-                            detailPageGalleryPagerListItemBinding.muteVideoButton.setVisibility(View.GONE);
-                            AudioManager audioManager = (AudioManager)mContext.getSystemService(Context.AUDIO_SERVICE);
-                            audioManager.adjustVolume(AudioManager.ADJUST_RAISE,AudioManager.FLAG_PLAY_SOUND);
-                        }
-                    }
-                });
-            }
-
-
-            parent.addView(detailPageGalleryPagerListItemBinding.getRoot());
-
-            return detailPageGalleryPagerListItemBinding.getRoot();
-        }
-
-        @Override
-        public int getCount() {
-            return stadiumDetailGalleryList.size();
-        }
-
-        @Override
-        public boolean isViewFromObject(View view, Object obj) {
-            return view == obj;
-        }
-
-
-        @Override
-        public void destroyItem(ViewGroup container, int position, Object object) {
-            View view = (View) object;
-            container.removeView(view);
-        }
-
-        @Override
-        public int getItemPosition(@NonNull Object object) {
-            return super.getItemPosition(object);
-        }
-    }
 
     // Internal methods
     private void initializePlayer() {
@@ -527,7 +422,7 @@ public class TravelMatchStadiumDetailActivity extends AppCompatActivity implemen
         );
 
         player = ExoPlayerFactory.newSimpleInstance(/* context= */ this, renderersFactory, trackSelector, defaultLoadControl);
-        player.addListener(new TravelMatchStadiumDetailActivity.PlayerEventListener());
+        player.addListener(new PlayerEventListener());
         player.setPlayWhenReady(startAutoPlay);
         player.addAnalyticsListener(new EventLogger(trackSelector));
         playerView.setPlayer(player);
@@ -618,6 +513,10 @@ public class TravelMatchStadiumDetailActivity extends AppCompatActivity implemen
         startPosition = C.TIME_UNSET;
     }
 
+    public boolean isPlaying() {
+        return player.getPlaybackState() == Player.STATE_READY && player.getPlayWhenReady();
+    }
+
     /**
      * Returns a new DataSource factory.
      */
@@ -673,10 +572,22 @@ public class TravelMatchStadiumDetailActivity extends AppCompatActivity implemen
             switch (playbackState) {
                 case ExoPlayer.STATE_READY:
                     progressBar.setVisibility(View.GONE);
-
+                    if (player.getPlayWhenReady() == true){
+                        volumeLinear.setVisibility(View.VISIBLE);
+                    }else if (player.getPlayWhenReady() == false){
+                        volumeLinear.setVisibility(View.GONE);
+                    }
                     break;
                 case ExoPlayer.STATE_BUFFERING:
                     progressBar.setVisibility(View.VISIBLE);
+                    volumeLinear.setVisibility(View.GONE);
+                    break;
+                case ExoPlayer.STATE_ENDED:
+                    if (player.getPlayWhenReady() == true){
+                        volumeLinear.setVisibility(View.VISIBLE);
+                    }else if (player.getPlayWhenReady() == false){
+                        volumeLinear.setVisibility(View.GONE);
+                    }
                     break;
             }
             updateButtonVisibilities();
@@ -778,16 +689,21 @@ public class TravelMatchStadiumDetailActivity extends AppCompatActivity implemen
 //        }
 //    }
 //
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//        if (Util.SDK_INT <= 23 || player == null) {
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (Util.SDK_INT <= 23 || player == null) {
+            if (playerView != null) {
+                mainframeLayout.setVisibility(View.GONE);
+                volumeLinear.setVisibility(View.GONE);
+                videoThumbnailImage.setVisibility(View.VISIBLE);
 //            initializePlayer();
-//            if (playerView != null) {
-//                playerView.onResume();
-//            }
-//        }
-//    }
+            }
+            if (playerView != null) {
+                playerView.onResume();
+            }
+        }
+    }
 
     @Override
     public void onPause() {
@@ -848,10 +764,131 @@ public class TravelMatchStadiumDetailActivity extends AppCompatActivity implemen
 
 // OnClickListener methods
 
-    @Override
-    public boolean dispatchKeyEvent(KeyEvent event) {
-        // See whether the player view wants to handle media or DPAD keys events.
-        return playerView.dispatchKeyEvent(event) || super.dispatchKeyEvent(event);
+//    @Override
+//    public boolean dispatchKeyEvent(KeyEvent event) {
+//        // See whether the player view wants to handle media or DPAD keys events.
+//        return playerView.dispatchKeyEvent(event) || super.dispatchKeyEvent(event);
+//    }
+
+
+    /*Stadium detail gallery adapter*/  // https://github.com/ongakuer/CircleIndicator
+    public class TravelMatchStadiumGalleryAdapter extends RecyclerView.Adapter<TravelMatchStadiumGalleryAdapter.MyViewHolder> {
+        Context mContext;
+        ArrayList<TravelModel> stadiumDetailGalleryList;
+
+        public TravelMatchStadiumGalleryAdapter(Context mContext, ArrayList<TravelModel> stadiumDetailGalleryList) {
+            this.mContext = mContext;
+            this.stadiumDetailGalleryList = stadiumDetailGalleryList;
+        }
+
+
+        public class MyViewHolder extends RecyclerView.ViewHolder {
+
+            DetailPageGalleryPagerListItemBinding detailPageGalleryPagerListItemBinding;
+
+            public MyViewHolder(DetailPageGalleryPagerListItemBinding detailPageGalleryPagerListItemBinding) {
+                super(detailPageGalleryPagerListItemBinding.getRoot());
+                this.detailPageGalleryPagerListItemBinding = detailPageGalleryPagerListItemBinding;
+
+            }
+        }
+
+
+        @Override
+        public TravelMatchStadiumGalleryAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            DetailPageGalleryPagerListItemBinding detailPageGalleryPagerListItemBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
+                    R.layout.detail_page_gallery_pager_list_item, parent, false);
+            return new TravelMatchStadiumGalleryAdapter.MyViewHolder(detailPageGalleryPagerListItemBinding);
+        }
+
+        @SuppressLint("ResourceAsColor")
+        @Override
+        public void onBindViewHolder(TravelMatchStadiumGalleryAdapter.MyViewHolder holder, int position) {
+            exoPlay = (ImageView) findViewById(R.id.exo_play);
+            AudioManager audioManager = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
+            audioManager.adjustVolume(AudioManager.ADJUST_MUTE, AudioManager.ADJUST_MUTE);
+
+            if (stadiumDetailGalleryList.get(position).getCityHotelAmenitiesName().equalsIgnoreCase("Image")) {
+                holder.detailPageGalleryPagerListItemBinding.detailGalleryImage.setVisibility(View.VISIBLE);
+                holder.detailPageGalleryPagerListItemBinding.baVideoRlv.setVisibility(View.GONE);
+                holder.detailPageGalleryPagerListItemBinding.volumeLinear.setVisibility(View.GONE);
+                Utils.setImageInImageView(stadiumDetailGalleryList.get(position).getCityHotelAmenitiesImage(), holder.detailPageGalleryPagerListItemBinding.detailGalleryImage, mContext);
+
+                Log.d("HotelGalleeryAdapter : ", stadiumDetailGalleryList.get(position).getCityHotelAmenitiesImage());
+            } else {
+                holder.detailPageGalleryPagerListItemBinding.detailGalleryImage.setVisibility(View.GONE);
+                holder.detailPageGalleryPagerListItemBinding.baVideoRlv.setVisibility(View.VISIBLE);
+
+                Utils.setImageInImageView("http://devenv.bharatarmy.com//Docs/Media/Thumb/3b484b79-ad6f-4db2-838a-478b117fabf7-Thumb_20200210_BA121034.jpg", holder.detailPageGalleryPagerListItemBinding.videoThumbnailImage, mContext);
+                videopathStr = stadiumDetailGalleryList.get(position).getCityHotelAmenitiesImage();
+
+                holder.detailPageGalleryPagerListItemBinding.videoPlayImg.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        holder.detailPageGalleryPagerListItemBinding.videoThumbnailImage.setVisibility(View.GONE);
+                        holder.detailPageGalleryPagerListItemBinding.frameLayoutMain.setVisibility(View.VISIBLE);
+                        holder.detailPageGalleryPagerListItemBinding.loading.setVisibility(View.VISIBLE);
+
+                        holder.detailPageGalleryPagerListItemBinding.sliderPlayerView.setVisibility(View.VISIBLE);
+                        videoThumbnailImage = holder.detailPageGalleryPagerListItemBinding.videoThumbnailImage;
+                        mainframeLayout = holder.detailPageGalleryPagerListItemBinding.frameLayoutMain;
+                        volumeLinear = holder.detailPageGalleryPagerListItemBinding.volumeLinear;
+                        playerView = holder.detailPageGalleryPagerListItemBinding.sliderPlayerView;
+                        progressBar = holder.detailPageGalleryPagerListItemBinding.loading;
+                        initializePlayer();
+                    }
+                });
+                    holder.detailPageGalleryPagerListItemBinding.volumeLinear.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (holder.detailPageGalleryPagerListItemBinding.volmueVideoButton.isShown()) {
+                                holder.detailPageGalleryPagerListItemBinding.volmueVideoButton.setVisibility(View.GONE);
+                                holder.detailPageGalleryPagerListItemBinding.muteVideoButton.setVisibility(View.VISIBLE);
+                                AudioManager audioManager = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
+                                audioManager.adjustVolume(AudioManager.ADJUST_MUTE, AudioManager.ADJUST_MUTE);
+                            } else {
+                                holder.detailPageGalleryPagerListItemBinding.volmueVideoButton.setVisibility(View.VISIBLE);
+                                holder.detailPageGalleryPagerListItemBinding.muteVideoButton.setVisibility(View.GONE);
+                                AudioManager audioManager = (AudioManager) mContext.getSystemService(Context.AUDIO_SERVICE);
+                                audioManager.adjustVolume(AudioManager.ADJUST_RAISE, AudioManager.FLAG_PLAY_SOUND);
+                            }
+                        }
+                    });
+                holder.detailPageGalleryPagerListItemBinding.muteVideoButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+
+                    }
+                });
+                holder.detailPageGalleryPagerListItemBinding.volmueVideoButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                    }
+                });
+            }
+        }
+
+
+        @Override
+        public long getItemId(int position) {
+// return specific item's id here
+            return position;
+        }
+
+        @Override
+        public int getItemViewType(int position) {
+            return position;
+        }
+
+        @Override
+        public int getItemCount() {
+            return stadiumDetailGalleryList.size();
+        }
+
+
     }
+
 
 }

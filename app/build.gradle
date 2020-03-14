@@ -154,6 +154,9 @@ dependencies {
     implementation 'com.google.android.exoplayer:exoplayer:2.9.3'
 //    implementation 'com.github.HaarigerHarald:android-youtubeExtractor:master-SNAPSHOT'
 
+//    circle indicator in recyclerview
+    implementation 'me.relex:circleindicator:2.1.4'
+
 
 //    unuse gradle
 /* SVG Loader implementation 'com.github.ar-android:AndroidSvgLoader:1.0.0'

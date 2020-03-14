@@ -596,7 +596,8 @@
                                 app:repeat_toggle_modes="all"
                                 app:keep_content_on_player_reset="true"
                                 android:layout_width="match_parent"
-                                android:layout_height="match_parent"/>
+                                android:layout_height="match_parent"
+                                />
                             <ProgressBar
                                 android:id="@+id/loading"
                                 android:layout_width="@dimen/_50sdp"

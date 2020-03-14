@@ -11,7 +11,6 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bharatarmy.Activity.TravelMatchStadiumDetailActivity;
-import com.bharatarmy.Activity.TravelMatchStadiumPlayerActivity;
 import com.bharatarmy.Models.TravelModel;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.Utils;

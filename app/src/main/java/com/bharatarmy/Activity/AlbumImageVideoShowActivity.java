@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -19,8 +18,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.media.Image;
-import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -29,7 +26,6 @@ import android.os.StrictMode;
 import android.provider.Settings;
 import android.util.Log;
 import android.util.Pair;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,18 +33,13 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.MediaController;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.alexvasilkov.gestures.views.GestureImageView;
-import com.bharatarmy.Adapter.AlbumImageVideoAdapter;
-import com.bharatarmy.Adapter.ExoVideoVerticalPlayerAdapter;
 import com.bharatarmy.Interfaces.image_click;
-import com.bharatarmy.Models.ImageDetailModel;
-import com.bharatarmy.Models.LoginDataModel;
+import com.bharatarmy.LinePagerIndicatorDecoration;
 import com.bharatarmy.Models.MyScreenChnagesModel;
 import com.bharatarmy.R;
 import com.bharatarmy.TargetCallback;
@@ -58,15 +49,12 @@ import com.bharatarmy.Utility.SnapHelperOneByOne;
 import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.ActivityAlbumImageVideoShowBinding;
 import com.bharatarmy.databinding.AlbumImageVideoListItemBinding;
-import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.DefaultRenderersFactory;
 import com.google.android.exoplayer2.ExoPlaybackException;
 import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.ExoPlayerFactory;
-import com.google.android.exoplayer2.PlaybackParameters;
-import com.google.android.exoplayer2.PlaybackPreparer;
 import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.SimpleExoPlayer;
 import com.google.android.exoplayer2.drm.FrameworkMediaDrm;
@@ -86,16 +74,12 @@ import com.google.android.exoplayer2.trackselection.MappingTrackSelector;
 import com.google.android.exoplayer2.trackselection.TrackSelection;
 import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
 import com.google.android.exoplayer2.ui.DefaultTimeBar;
-import com.google.android.exoplayer2.ui.PlayerControlView;
 import com.google.android.exoplayer2.ui.PlayerView;
-import com.google.android.exoplayer2.ui.TrackSelectionView;
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultAllocator;
 import com.google.android.exoplayer2.util.ErrorMessageProvider;
 import com.google.android.exoplayer2.util.EventLogger;
 import com.google.android.exoplayer2.util.Util;
-import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
@@ -106,7 +90,6 @@ import com.like.OnLikeListener;
 import com.squareup.picasso.Picasso;
 
 import org.greenrobot.eventbus.EventBus;
-import org.w3c.dom.Text;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -116,7 +99,6 @@ import java.net.CookiePolicy;
 import java.util.ArrayList;
 import java.util.Formatter;
 import java.util.List;
-import java.util.Locale;
 
 import static androidx.core.content.FileProvider.getUriForFile;
 
@@ -159,6 +141,8 @@ public class AlbumImageVideoShowActivity extends AppCompatActivity implements Vi
 
     int tapCount = 1;
     ProgressBar progressBar;
+    private FrameLayout videoframeLayout;
+    private ImageView videoThumbnailImage;
     private PlayerView playerView;
     DataSource.Factory dataSourceFactory;
     SimpleExoPlayer player;
@@ -259,7 +243,39 @@ public class AlbumImageVideoShowActivity extends AppCompatActivity implements Vi
 
     public void setListiner() {
         activityAlbumImageVideoShowBinding.backImg.setOnClickListener(this);
+        activityAlbumImageVideoShowBinding.albumDetailRcvList.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
 
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (playerView != null) {
+                    if (player!=null){
+                        if (isPlaying()) {
+                            player.setPlayWhenReady(false);
+                        }else if(player.getPlaybackState() == Player.STATE_ENDED){
+                            player.seekTo(0);
+                            player.setPlayWhenReady(false);
+                        }
+                        /*else if(player.getPlaybackState() == Player.STATE_BUFFERING){
+                            videoframeLayout.setVisibility(View.GONE);
+                            videoThumbnailImage.setVisibility(View.VISIBLE);
+                        }else if (player.getPlaybackState() == Player.STATE_IDLE){
+                            videoframeLayout.setVisibility(View.GONE);
+                            videoThumbnailImage.setVisibility(View.VISIBLE);
+                        }*/
+                    }
+
+                }
+            }
+        });
+    }
+
+    public boolean isPlaying() {
+        return player.getPlaybackState() == Player.STATE_READY && player.getPlayWhenReady();
     }
 
 
@@ -322,6 +338,8 @@ public class AlbumImageVideoShowActivity extends AppCompatActivity implements Vi
         activityAlbumImageVideoShowBinding.albumDetailRcvList.getLayoutManager().scrollToPosition(positon);
 
         activityAlbumImageVideoShowBinding.albumDetailRcvList.setItemAnimator(new DefaultItemAnimator());
+
+
         activityAlbumImageVideoShowBinding.albumDetailRcvList.setAdapter(albumImageVideoAdapter);
     }
 
@@ -451,7 +469,6 @@ public class AlbumImageVideoShowActivity extends AppCompatActivity implements Vi
         }
 
 
-
         public class MyViewHolder extends RecyclerView.ViewHolder {
 
             AlbumImageVideoListItemBinding albumImageVideoListItemBinding;
@@ -517,8 +534,11 @@ public class AlbumImageVideoShowActivity extends AppCompatActivity implements Vi
             } else if (albumMediaType.get(position).equalsIgnoreCase("2")) {
                 holder.albumImageVideoListItemBinding.showAlbumImage.setVisibility(View.GONE);
                 holder.albumImageVideoListItemBinding.baVideoRlv.setVisibility(View.VISIBLE);
+
+                videoframeLayout = holder.albumImageVideoListItemBinding.frameLayoutMain;
+                videoThumbnailImage =holder.albumImageVideoListItemBinding.videoThumbnailImage;
+
                 Utils.setImageInImageView(albumImageThumbUrl.get(position), holder.albumImageVideoListItemBinding.videoThumbnailImage, mContext);
-                playVideoPathStr = albumImageUrl.get(position);
 
 
                 holder.albumImageVideoListItemBinding.baVideoRlv.setOnClickListener(new View.OnClickListener() {
@@ -534,7 +554,8 @@ public class AlbumImageVideoShowActivity extends AppCompatActivity implements Vi
 
                         exoPlay.setVisibility(View.GONE);
                         exoPause.setVisibility(View.GONE);
-
+                        playVideoPathStr = albumImageUrl.get(position);
+                        Log.d("videopath Url", playVideoPathStr);
                         initializePlayer();
 //                        playerView.setControllerVisibilityListener(this);
                         playerView.setErrorMessageProvider(new PlayerErrorMessageProvider());
@@ -599,7 +620,6 @@ public class AlbumImageVideoShowActivity extends AppCompatActivity implements Vi
 //
 //                setProgress();
 //                initializePlayer();
-
 
 
 //                if (playerView !=null){
@@ -732,7 +752,6 @@ public class AlbumImageVideoShowActivity extends AppCompatActivity implements Vi
         }
 
 
-
     }
 
     // Internal methods
@@ -772,7 +791,7 @@ public class AlbumImageVideoShowActivity extends AppCompatActivity implements Vi
         player.addAnalyticsListener(new EventLogger(trackSelector));
         playerView.setPlayer(player);
 
-
+        Log.d("initializePlayerUrl", playVideoPathStr);
         mediaSource = buildMediaSource(Uri.parse(playVideoPathStr)); // videoUrlStr
 //        https://baappvideo.s3.ap-south-1.amazonaws.com/74425094_140387590620474_1342703700878427324_n.mp4
 //                https://www.bharatarmy.com//Docs/74425094_140387590620474_1342703700878427324_n.mp4
@@ -926,6 +945,7 @@ public class AlbumImageVideoShowActivity extends AppCompatActivity implements Vi
                     exoPause.setVisibility(View.GONE);
                     break;
 
+
             }
             updateButtonVisibilities();
         }
@@ -1014,11 +1034,12 @@ public class AlbumImageVideoShowActivity extends AppCompatActivity implements Vi
         clearStartPosition();
         setIntent(intent);
     }
+
     @Override
     public void onResume() {
         super.onResume();
         if (Util.SDK_INT <= 23 || player == null) {
-            if (playerView !=null){
+            if (playerView != null) {
                 initializePlayer();
             }
 

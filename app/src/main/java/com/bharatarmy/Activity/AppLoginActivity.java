@@ -68,7 +68,7 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 import static com.facebook.FacebookSdk.setAutoLogAppEventsEnabled;
-
+//https://github.com/gitbharatarmy/BharatArmy
 /* Google web client id
  * 718860760622-parj58505tgu73h704s5qq1kuffojg2r.apps.googleusercontent.com
 
@@ -152,7 +152,7 @@ public class AppLoginActivity extends AppCompatActivity implements View.OnClickL
                                     fbloginIntent.putExtra("personName", personNameStr);
                                     fbloginIntent.putExtra("personImage", personImageStr);
                                     startActivity(fbloginIntent);
-                                    finish();
+//                                    finish();
 
                                 }
 
@@ -288,9 +288,10 @@ public class AppLoginActivity extends AppCompatActivity implements View.OnClickL
         switch (v.getId()) {
             case R.id.login_withemail_linear:
                 Intent loginemail = new Intent(mContext, LoginwithEmailActivity.class);
-                loginemail.putExtra("whereTocomeLogin", getIntent().getStringExtra("whereTocomeLogin"));
+//                loginemail.putExtra("whereTocomeLogin", getIntent().getStringExtra("whereTocomeLogin"));
+
                 startActivity(loginemail);
-                finish();
+//                finish();
                 break;
 
             case R.id.skip_linear:
@@ -583,8 +584,8 @@ public class AppLoginActivity extends AppCompatActivity implements View.OnClickL
                         Utils.storeLoginData(loginModel.getData(), mContext);
                         Utils.storeCurrentLocationData(loginModel.getCurrentLocation(), mContext);
                         Utils.storeLoginOtherData(loginModel.getOtherData(), mContext);
-                        if (getIntent().getStringExtra("whereTocomeLogin") != null) {
-                            if (getIntent().getStringExtra("whereTocomeLogin").equalsIgnoreCase("more")) {
+                        if (Utils.whereTocomeLogin != null) {
+                            if (Utils.whereTocomeLogin.equalsIgnoreCase("more")) {
                                 Intent DashboardIntent = new Intent(mContext, DashboardActivity.class);
 //                                DashboardIntent.putExtra("whichPageRun", "4");
                                 startActivity(DashboardIntent);
@@ -661,8 +662,8 @@ public class AppLoginActivity extends AppCompatActivity implements View.OnClickL
                         Utils.storeLoginData(loginModel.getData(), mContext);
                         Utils.storeCurrentLocationData(loginModel.getCurrentLocation(), mContext);
                         Utils.storeLoginOtherData(loginModel.getOtherData(), mContext);
-                        if (getIntent().getStringExtra("whereTocomeLogin") != null) {
-                            if (getIntent().getStringExtra("whereTocomeLogin").equalsIgnoreCase("more")) {
+                        if (Utils.whereTocomeLogin != null) {
+                            if (Utils.whereTocomeLogin.equalsIgnoreCase("more")) {
                                 Intent DashboardIntent = new Intent(mContext, DashboardActivity.class);
 //                                DashboardIntent.putExtra("whichPageRun", "4");
                                 startActivity(DashboardIntent);
@@ -708,8 +709,8 @@ public class AppLoginActivity extends AppCompatActivity implements View.OnClickL
 
     @Override
     public void onBackPressed() {
-        if (getIntent().getStringExtra("whereTocomeLogin") != null) {
-            if (getIntent().getStringExtra("whereTocomeLogin").equalsIgnoreCase("profile")) {
+        if (Utils.whereTocomeLogin != null) {
+            if (Utils.whereTocomeLogin.equalsIgnoreCase("profile")) {
                 Intent DashboardIntent = new Intent(mContext, DashboardActivity.class);
 //                                DashboardIntent.putExtra("whichPageRun", "4");
                 startActivity(DashboardIntent);

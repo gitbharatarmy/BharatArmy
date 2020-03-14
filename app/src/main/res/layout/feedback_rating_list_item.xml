@@ -3,7 +3,7 @@
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/question3_option1_btn"
+        android:id="@+id/textrating_singlechoice_linear"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_46sdp"
         android:layout_marginLeft="@dimen/_2sdp"
@@ -22,7 +22,7 @@
             android:visibility="visible">
 
             <CheckBox
-                android:id="@+id/question3star_option1_chk"
+                android:id="@+id/textrating_singlechoice_option_chk"
                 android:layout_width="@dimen/_20sdp"
                 android:layout_height="@dimen/_20sdp"
                 android:layout_alignParentRight="true"
@@ -33,11 +33,11 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_toLeftOf="@+id/question3star_option1_chk"
+                android:layout_toLeftOf="@+id/textrating_singlechoice_option_chk"
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/question3star_option1_txt"
+                    android:id="@+id/textrating_singlechoice_option_txt"
                     style="@style/title_text_font"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

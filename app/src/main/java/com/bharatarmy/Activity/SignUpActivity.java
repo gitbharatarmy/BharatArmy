@@ -247,9 +247,9 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                     otpIntent.putExtra("signupMobileno", strMobileno);
                     otpIntent.putExtra("signupPassword", strPassword);
                     otpIntent.putExtra("signupCheck", strCheck);
-                    otpIntent.putExtra("whereTocomeLogin", getIntent().getStringExtra("whereTocomeLogin"));
+//                    otpIntent.putExtra("whereTocomeLogin", getIntent().getStringExtra("whereTocomeLogin"));
                     startActivity(otpIntent);
-                    finish();
+//                    finish();
                 }
             }
 
@@ -280,9 +280,9 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     public void whereToBack(){
-        Intent iLogin = new Intent(mContext, LoginwithEmailActivity.class);
-        iLogin.putExtra("whereTocomeLogin",getIntent().getStringExtra("whereTocomeLogin"));
-        startActivity(iLogin);
+//        Intent iLogin = new Intent(mContext, LoginwithEmailActivity.class);
+//        iLogin.putExtra("whereTocomeLogin",getIntent().getStringExtra("whereTocomeLogin"));
+//        startActivity(iLogin);
         finish();
     }
 }

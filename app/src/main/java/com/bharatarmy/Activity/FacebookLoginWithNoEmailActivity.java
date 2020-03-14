@@ -75,7 +75,7 @@ public class FacebookLoginWithNoEmailActivity extends AppCompatActivity implemen
         activityFacebookLoginWithNoEmailBinding.phoneNoEdt.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_DONE){
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
                     facebookLogin();
                 }
                 return false;
@@ -91,9 +91,9 @@ public class FacebookLoginWithNoEmailActivity extends AppCompatActivity implemen
         personCountryDialCodeStr = activityFacebookLoginWithNoEmailBinding.ccp.getSelectedCountryCode();
         AppConfiguration.currentCountryISOCode = activityFacebookLoginWithNoEmailBinding.ccp.getSelectedCountryNameCode();
 
-        Log.d("facebookLoginData :","Name :"+personNameStr+"Email :"+personEmailStr+
-                "personNumber :"+personNumberStr+"countrycode :"+personCountryDialCodeStr+
-                "countryISO :"+AppConfiguration.currentCountryISOCode);
+        Log.d("facebookLoginData :", "Name :" + personNameStr + "Email :" + personEmailStr +
+                "personNumber :" + personNumberStr + "countrycode :" + personCountryDialCodeStr +
+                "countryISO :" + AppConfiguration.currentCountryISOCode);
 
         if (!personNameStr.equalsIgnoreCase("")) {
             if (!personEmailStr.equalsIgnoreCase("")) {
@@ -130,8 +130,8 @@ public class FacebookLoginWithNoEmailActivity extends AppCompatActivity implemen
             public void onCompleted(GraphResponse graphResponse) {
 
                 LoginManager.getInstance().logOut();
-                Intent returnAppLoginIntent = new Intent(mContext, AppLoginActivity.class);
-                startActivity(returnAppLoginIntent);
+//                Intent returnAppLoginIntent = new Intent(mContext, AppLoginActivity.class);
+//                startActivity(returnAppLoginIntent);
                 finish();
                 hideProgressDialog();
             }
@@ -221,8 +221,8 @@ public class FacebookLoginWithNoEmailActivity extends AppCompatActivity implemen
                         Utils.storeLoginData(loginModel.getData(), mContext);
                         Utils.storeCurrentLocationData(loginModel.getCurrentLocation(), mContext);
                         Utils.storeLoginOtherData(loginModel.getOtherData(), mContext);
-                        if (getIntent().getStringExtra("whereTocomeLogin") != null) {
-                            if (getIntent().getStringExtra("whereTocomeLogin").equalsIgnoreCase("more")) {
+                        if (Utils.whereTocomeLogin != null) {
+                            if (Utils.whereTocomeLogin.equalsIgnoreCase("more")) {
                                 Intent DashboardIntent = new Intent(mContext, DashboardActivity.class);
 //                                DashboardIntent.putExtra("whichPageRun", "4");
                                 startActivity(DashboardIntent);

@@ -452,33 +452,42 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
                 getOtpData();
                 break;
             case R.id.back_img:
-                if (strWheretocome.equalsIgnoreCase("Signup")) {
-                    Intent mobileIntent = new Intent(mContext, SignUpActivity.class);
-                    mobileIntent.putExtra("wheretocome", "OTP");
-                    mobileIntent.putExtra("signupFirstname", strFirstName);
-                    mobileIntent.putExtra("signupLastname", strLastName);
-                    mobileIntent.putExtra("signupEmail", strEmail);
-                    mobileIntent.putExtra("signupCountryCode", strCountrycode);
-                    mobileIntent.putExtra("signupMobileno", strMobileno);
-                    mobileIntent.putExtra("signupPassword", strPassword);
-                    mobileIntent.putExtra("signupCheck", strCheck);
-                    startActivity(mobileIntent);
-                    overridePendingTransition(0, 0);
+//                if (strWheretocome.equalsIgnoreCase("Signup")) {
+////                    Intent mobileIntent = new Intent(mContext, SignUpActivity.class);
+////                    mobileIntent.putExtra("wheretocome", "OTP");
+////                    mobileIntent.putExtra("signupFirstname", strFirstName);
+////                    mobileIntent.putExtra("signupLastname", strLastName);
+////                    mobileIntent.putExtra("signupEmail", strEmail);
+////                    mobileIntent.putExtra("signupCountryCode", strCountrycode);
+////                    mobileIntent.putExtra("signupMobileno", strMobileno);
+////                    mobileIntent.putExtra("signupPassword", strPassword);
+////                    mobileIntent.putExtra("signupCheck", strCheck);
+////                    startActivity(mobileIntent);
+////                    overridePendingTransition(0, 0);
 //                    finish();
-                } else if (strWheretocome.equalsIgnoreCase("EditProfile")) {
-                    Intent editIntent = new Intent(mContext, EditProfileActivity.class);
-                    startActivity(editIntent);
-                    finish();
-                } else if (getIntent().getStringExtra("whereTocomeLogin") != null) {
-                    finish();
-                } else {
-                    Intent mobileIntent = new Intent(mContext, MobileVerificationNewActivity.class);
-                    startActivity(mobileIntent);
-                    overridePendingTransition(0, 0);
+//                } else if (strWheretocome.equalsIgnoreCase("EditProfile")) {
+////                    Intent editIntent = new Intent(mContext, EditProfileActivity.class);
+////                    startActivity(editIntent);
 //                    finish();
-                }
+//                }
+//                /*else if (getIntent().getStringExtra("whereTocomeLogin") != null) {
+//                    finish();
+//                } */
+//                else if (Utils.whereTocomeLogin != null) {
+//                    finish();
+//                } else {
+////                    Intent mobileIntent = new Intent(mContext, MobileVerificationNewActivity.class);
+////                    startActivity(mobileIntent);
+////                    overridePendingTransition(0, 0);
+//                    finish();
+//                }
+                finish();
                 break;
         }
+    }
+
+    public void wheretoback() {
+        finish();
     }
 
     public void getOtpData() {
@@ -612,8 +621,8 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
                             startActivity(SFAintent);
                             finish();
                         } else {
-                            if (getIntent().getStringExtra("whereTocomeLogin") != null) {
-                                if (getIntent().getStringExtra("whereTocomeLogin").equalsIgnoreCase("more")) {
+                            if (Utils.whereTocomeLogin != null) {
+                                if (Utils.whereTocomeLogin.equalsIgnoreCase("more")) {
                                     if (Utils.retriveLoginData(mContext).getMemberType().equalsIgnoreCase(",3,")) {
                                         Intent SFAintent = new Intent(mContext, DisplaySFAUserActivity.class);
                                         startActivity(SFAintent);
@@ -688,31 +697,32 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
 
     @Override
     public void onBackPressed() {
-        if (strWheretocome.equalsIgnoreCase("Signup")) {
-            Intent mobileIntent = new Intent(mContext, SignUpActivity.class);
-            mobileIntent.putExtra("wheretocome", "OTP");
-            mobileIntent.putExtra("signupFirstname", strFirstName);
-            mobileIntent.putExtra("signupLastname", strLastName);
-            mobileIntent.putExtra("signupEmail", strEmail);
-            mobileIntent.putExtra("signupCountryCode", strCountrycode);
-            mobileIntent.putExtra("signupMobileno", strMobileno);
-            mobileIntent.putExtra("signupPassword", strPassword);
-            mobileIntent.putExtra("signupCheck", strCheck);
-            startActivity(mobileIntent);
-            overridePendingTransition(0, 0);
-//                    finish();
-        } else if (getIntent().getStringExtra("whereTocomeLogin") != null) {
-            finish();
-        } else if (strWheretocome.equalsIgnoreCase("EditProfile")) {
-            Intent editIntent = new Intent(mContext, EditProfileActivity.class);
-            startActivity(editIntent);
-            OTPActivity.this.finish();
-        } else {
-            Intent mobileIntent = new Intent(mContext, MobileVerificationNewActivity.class);
-            startActivity(mobileIntent);
-            overridePendingTransition(0, 0);
-            finish();
-        }
+//        if (strWheretocome.equalsIgnoreCase("Signup")) {
+////            Intent mobileIntent = new Intent(mContext, SignUpActivity.class);
+////            mobileIntent.putExtra("wheretocome", "OTP");
+////            mobileIntent.putExtra("signupFirstname", strFirstName);
+////            mobileIntent.putExtra("signupLastname", strLastName);
+////            mobileIntent.putExtra("signupEmail", strEmail);
+////            mobileIntent.putExtra("signupCountryCode", strCountrycode);
+////            mobileIntent.putExtra("signupMobileno", strMobileno);
+////            mobileIntent.putExtra("signupPassword", strPassword);
+////            mobileIntent.putExtra("signupCheck", strCheck);
+////            startActivity(mobileIntent);
+////            overridePendingTransition(R.anim.slide_in_left, 0);
+//            finish();
+//        } else if (Utils.whereTocomeLogin != null) {
+//            finish();
+//        } else if (strWheretocome.equalsIgnoreCase("EditProfile")) {
+//            Intent editIntent = new Intent(mContext, EditProfileActivity.class);
+//            startActivity(editIntent);
+//            OTPActivity.this.finish();
+//        } else {
+//            Intent mobileIntent = new Intent(mContext, MobileVerificationNewActivity.class);
+//            startActivity(mobileIntent);
+//            overridePendingTransition(0, 0);
+////            finish();
+//        }
+        finish();
         super.onBackPressed();
     }
 

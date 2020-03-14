@@ -97,9 +97,9 @@ public class ForgotActivity extends AppCompatActivity {
 
 
     public void whereToBack(){
-        Intent iLogin = new Intent(mContext, LoginwithEmailActivity.class);
-        iLogin.putExtra("whereTocomeLogin",getIntent().getStringExtra("whereTocomeLogin"));
-        startActivity(iLogin);
+//        Intent iLogin = new Intent(mContext, LoginwithEmailActivity.class);
+//        iLogin.putExtra("whereTocomeLogin",getIntent().getStringExtra("whereTocomeLogin"));
+//        startActivity(iLogin);
         finish();
     }
     public void getForgotPassword() {
@@ -131,9 +131,9 @@ public class ForgotActivity extends AppCompatActivity {
                         Intent otpIntent = new Intent(mContext, ForgotPasswordOtpActivity.class);
                         otpIntent.putExtra("Forgototp", forgotModel.getData().getOTP());
                         otpIntent.putExtra("MemberId", forgotModel.getData().getId());
-                        otpIntent.putExtra( "whereTocomeLogin",getIntent().getStringExtra("whereTocomeLogin"));
+//                        otpIntent.putExtra( "whereTocomeLogin",getIntent().getStringExtra("whereTocomeLogin"));
                         startActivity(otpIntent);
-                        finish();
+//                        finish();
                     }
 
                 }
