@@ -226,8 +226,6 @@ public class TravelMatchStadiumDetailActivity extends AppCompatActivity implemen
 
         CircleIndicator2 indicator = activityTravelMatchStadiumDetailBinding.indicator;
         indicator.attachToRecyclerView(activityTravelMatchStadiumDetailBinding.stadiumDetailGalleryViewpager, pagerSnapHelper);
-//        LinePagerIndicatorDecoration linePagerIndicatorDecoration = new LinePagerIndicatorDecoration();
-//        activityTravelMatchStadiumDetailBinding.stadiumDetailGalleryViewpager.addItemDecoration(linePagerIndicatorDecoration);
         GetStadiumDetailListData();
     }
 

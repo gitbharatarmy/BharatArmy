@@ -13,12 +13,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
-import com.bharatarmy.Adapter.AlbumDetailListAdapter;
 import com.bharatarmy.Adapter.WishListShowAdapter;
 import com.bharatarmy.Interfaces.image_click;
-import com.bharatarmy.Models.FeedbackModel;
-import com.bharatarmy.Models.ImageDetailModel;
-import com.bharatarmy.Models.ImageMainModel;
 import com.bharatarmy.Models.MyScreenChnagesModel;
 import com.bharatarmy.Models.WatchListDetailModel;
 import com.bharatarmy.Models.WatchListModel;

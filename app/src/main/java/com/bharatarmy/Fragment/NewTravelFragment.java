@@ -57,7 +57,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /* code travel page change to newtravelfragment 13-12-2019
-* remove extra code 18-02-2020 */
+* remove extra code 18-02-2020
+* remove extra code 17-03-2020 */
 public class NewTravelFragment extends Fragment implements View.OnClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER

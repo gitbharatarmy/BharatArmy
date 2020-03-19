@@ -5,7 +5,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/text_singlechoice_linear"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_100sdp"
+        android:layout_height="@dimen/_70sdp"
         android:layout_margin="@dimen/_5sdp"
         android:background="@drawable/feedback_corner_shape"
         android:elevation="2dp"
@@ -29,7 +29,7 @@
                 android:gravity="center"
                 android:text="10"
                 android:textColor="@color/all_text_color"
-                android:textSize="@dimen/_25sdp" />
+                android:textSize="@dimen/_30sdp" />
 
             <LinearLayout
                 android:id="@+id/header_linear"

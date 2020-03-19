@@ -16,6 +16,7 @@
         app:cardMaxElevation="6dp">
 
         <LinearLayout
+            android:id="@+id/text_question_linear"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/_5sdp"
@@ -28,36 +29,165 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="@dimen/_7sdp"
-                android:layout_marginRight="@dimen/_5sdp"
                 android:layout_marginTop="@dimen/_4sdp"
+                android:layout_marginRight="@dimen/_5sdp"
                 android:layout_marginBottom="@dimen/_5sdp"
-                android:text="@string/question1"
                 android:lineSpacingExtra="@dimen/_5sdp"
+                android:text="@string/question1"
                 android:textColor="@color/heading_bg"
                 android:textSize="@dimen/_14sdp"
-                android:visibility="visible"/>
+                android:visibility="visible" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/text_ans_linear"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/ans_txt"
                 style="@style/text_font"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="@dimen/_7sdp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/_10sdp"
                 android:layout_marginRight="@dimen/_5sdp"
                 android:layout_marginBottom="@dimen/_5sdp"
-                android:text="@string/question1_ans1"
+                android:text="poor"
                 android:textColor="@color/all_text_color"
-                android:textSize="@dimen/_12sdp"
-                android:visibility="gone"/>
-            <ImageView
-                android:id="@+id/ans_image"
-                android:layout_width="@dimen/_50sdp"
-                android:layout_height="@dimen/_50sdp"
-                android:layout_marginLeft="@dimen/_7sdp"
-                android:layout_marginBottom="@dimen/_5sdp"
-                android:src="@drawable/australia_tour"
-                android:visibility="gone"/>
+                android:textSize="@dimen/_12sdp" />
         </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/rating_ans_linear"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_5sdp"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/rating_ans_txt"
+                style="@style/title_text_font"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/_7sdp"
+                android:layout_marginRight="@dimen/_5sdp"
+                android:layout_marginBottom="@dimen/_3sdp"
+                android:paddingLeft="@dimen/_2sdp"
+                android:text="poor"
+                android:textColor="@color/all_text_color"
+                android:textSize="@dimen/_12sdp"/>
+
+            <LinearLayout
+                android:id="@+id/rating_linear"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_6sdp"
+                android:layout_marginBottom="@dimen/_5sdp"
+                android:orientation="horizontal"
+                android:visibility="visible">
+
+                <ImageView
+                    android:id="@+id/start1_img"
+                    android:layout_width="@dimen/_13sdp"
+                    android:layout_height="@dimen/_13sdp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/fill" />
+
+                <ImageView
+                    android:id="@+id/start2_img"
+                    android:layout_width="@dimen/_13sdp"
+                    android:layout_height="@dimen/_13sdp"
+                    android:layout_marginLeft="-2dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/fill" />
+
+                <ImageView
+                    android:id="@+id/start3_img"
+                    android:layout_width="@dimen/_13sdp"
+                    android:layout_height="@dimen/_13sdp"
+                    android:layout_marginLeft="-2dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/fill" />
+
+                <ImageView
+                    android:id="@+id/start4_img"
+                    android:layout_width="@dimen/_13sdp"
+                    android:layout_height="@dimen/_13sdp"
+                    android:layout_marginLeft="-2dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/fill" />
+
+                <ImageView
+                    android:id="@+id/start5_img"
+                    android:layout_width="@dimen/_13sdp"
+                    android:layout_height="@dimen/_13sdp"
+                    android:layout_marginLeft="-2dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/fill" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/image_text_layout"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:background="@drawable/feedback_corner_shape"
+            android:visibility="gone"
+            android:elevation="2dp">
+
+            <ImageView
+                android:id="@+id/feedback_image"
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_centerInParent="true"
+                android:adjustViewBounds="true"
+                android:src="@drawable/australia_tour" />
+
+            <TextView
+                android:id="@+id/textview_ans_txt"
+                style="@style/text_font"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/feedback_image"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:gravity="center"
+                android:text="Fantastic"
+                android:textColor="@color/all_text_color"
+                android:textSize="@dimen/_12sdp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/textgrid_ans_linear"
+            android:layout_width="@dimen/_80sdp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:background="@drawable/feedback_corner_shape"
+            android:visibility="gone"
+            android:elevation="2dp">
+
+            <TextView
+                android:id="@+id/textgrid_ans_txt"
+                style="@style/text_font"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:text="10"
+                android:textColor="@color/all_text_color"
+                android:textSize="@dimen/_30sdp" />
+
+        </RelativeLayout>
+
     </LinearLayout>
 </layout>

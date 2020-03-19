@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bharatarmy.Interfaces.MorestoryClick;
 import com.bharatarmy.Models.FeedbackAnswerList;
 import com.bharatarmy.Models.TravelModel;
 import com.bharatarmy.R;
@@ -22,13 +23,16 @@ import java.util.List;
 public class FeedbackRatingAdapter extends RecyclerView.Adapter<FeedbackRatingAdapter.MyViewHolder> {
     Context mcontext;
     List<FeedbackAnswerList> feedbackratingsinglechoicelist;
-    int selectedroomforchangesposition = -1;
+    int selectedratingchangeposition = -1;
+    MorestoryClick morestoryClick;
 
 
 
-    public FeedbackRatingAdapter(Context mContext, List<FeedbackAnswerList> feedbackratingsinglechoicelist) {
+    public FeedbackRatingAdapter(Context mContext, List<FeedbackAnswerList> feedbackratingsinglechoicelist, int selectedratingchangeposition, MorestoryClick morestoryClick) {
         this.mcontext = mContext;
         this.feedbackratingsinglechoicelist=feedbackratingsinglechoicelist;
+        this.morestoryClick=morestoryClick;
+        this.selectedratingchangeposition = selectedratingchangeposition;
     }
 
 
@@ -89,14 +93,14 @@ public class FeedbackRatingAdapter extends RecyclerView.Adapter<FeedbackRatingAd
         }
 
 
-        if (selectedroomforchangesposition == position) {
+        if (selectedratingchangeposition == position) {
             holder.feedbackRatingListItemBinding.textratingSinglechoiceOptionChk.setChecked(true);
-            holder.feedbackRatingListItemBinding.textratingSinglechoiceLinear.setBackground(mcontext.getResources().getDrawable(R.drawable.feedback_corner_select_shape));
+//            holder.feedbackRatingListItemBinding.textratingSinglechoiceLinear.setBackground(mcontext.getResources().getDrawable(R.drawable.feedback_corner_select_shape));
 
             AppConfiguration.singlechoice = "fill";
         } else {
             holder.feedbackRatingListItemBinding.textratingSinglechoiceOptionChk.setChecked(false);
-            holder.feedbackRatingListItemBinding.textratingSinglechoiceLinear.setBackground(mcontext.getResources().getDrawable(R.drawable.feedback_corner_shape));
+//            holder.feedbackRatingListItemBinding.textratingSinglechoiceLinear.setBackground(mcontext.getResources().getDrawable(R.drawable.feedback_corner_shape));
 
 
         }
@@ -105,10 +109,18 @@ public class FeedbackRatingAdapter extends RecyclerView.Adapter<FeedbackRatingAd
         holder.feedbackRatingListItemBinding.textratingSinglechoiceLinear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-//                ansratingdetail.setPopularcity_name("1");
-                selectedroomforchangesposition = position;
-                notifyDataSetChanged();
+                if (holder.feedbackRatingListItemBinding.textratingSinglechoiceOptionChk.isChecked()){
+                    holder.feedbackRatingListItemBinding.textratingSinglechoiceOptionChk.setChecked(false);
+                    ansratingdetail.setQuestionAnswerRatingSelect("0");
+                    selectedratingchangeposition =position;
+                    notifyDataSetChanged();
+                }else{
+                    holder.feedbackRatingListItemBinding.textratingSinglechoiceOptionChk.setChecked(true);
+                    ansratingdetail.setQuestionAnswerRatingSelect("1");
+                    selectedratingchangeposition = position;
+                    notifyDataSetChanged();
+                    morestoryClick.getmorestoryClick();
+                }
 
             }
         });
@@ -116,12 +128,21 @@ public class FeedbackRatingAdapter extends RecyclerView.Adapter<FeedbackRatingAd
         holder.feedbackRatingListItemBinding.textratingSinglechoiceOptionChk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (holder.feedbackRatingListItemBinding.textratingSinglechoiceOptionChk.isChecked()){
+                    ansratingdetail.setQuestionAnswerRatingSelect("1");
+                    selectedratingchangeposition = position;
+                    notifyDataSetChanged();
+                    morestoryClick.getmorestoryClick();
+                }else{
+                    ansratingdetail.setQuestionAnswerRatingSelect("0");
+                    selectedratingchangeposition = position;
+                    notifyDataSetChanged();
+                }
 
-//                ansratingdetail.setPopularcity_name("1");
-                selectedroomforchangesposition = position;
-                notifyDataSetChanged();
             }
         });
+
+
     }
 
     @Override

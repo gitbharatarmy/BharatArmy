@@ -23,14 +23,17 @@ import java.util.List;
 public class FeedbackSingleChoiceAdapter extends RecyclerView.Adapter<FeedbackSingleChoiceAdapter.MyViewHolder> {
     Context mcontext;
     List<FeedbackAnswerList> feedbacktextsinglechoicelist;
-    int selectedroomforchangesposition = -1;
+    int selectedtextsinglechangesposition = -1;
     String selectedAnsStr;
+    MorestoryClick morestoryClick;
 
 
 
-    public FeedbackSingleChoiceAdapter(Context mContext, List<FeedbackAnswerList> feedbacktextsinglechoicelist) {
+    public FeedbackSingleChoiceAdapter(Context mContext, List<FeedbackAnswerList> feedbacktextsinglechoicelist, int selectedtextsinglechangesposition, MorestoryClick morestoryClick) {
         this.mcontext = mContext;
         this.feedbacktextsinglechoicelist=feedbacktextsinglechoicelist;
+        this.morestoryClick=morestoryClick;
+        this.selectedtextsinglechangesposition=selectedtextsinglechangesposition;
     }
 
 
@@ -61,15 +64,15 @@ public class FeedbackSingleChoiceAdapter extends RecyclerView.Adapter<FeedbackSi
 
         holder.feedbackSingleChoiceListItemBinding.question3Option1Txt.setText(ansdetail.getQuestionAnswerText());
 
-        if (selectedroomforchangesposition == position) {
+        if (selectedtextsinglechangesposition == position) {
             holder.feedbackSingleChoiceListItemBinding.question3Option1Chk.setChecked(true);
-            holder.feedbackSingleChoiceListItemBinding.question3Option1Btn.setBackground(mcontext.getResources().getDrawable(R.drawable.feedback_corner_select_shape));
+//            holder.feedbackSingleChoiceListItemBinding.question3Option1Btn.setBackground(mcontext.getResources().getDrawable(R.drawable.feedback_corner_select_shape));
 
             AppConfiguration.singlechoice = "fill";
         } else {
 //            ansdetail.setCityHotelAmenitiesName("0");
             holder.feedbackSingleChoiceListItemBinding.question3Option1Chk.setChecked(false);
-            holder.feedbackSingleChoiceListItemBinding.question3Option1Btn.setBackground(mcontext.getResources().getDrawable(R.drawable.feedback_corner_shape));
+//            holder.feedbackSingleChoiceListItemBinding.question3Option1Btn.setBackground(mcontext.getResources().getDrawable(R.drawable.feedback_corner_shape));
 
 
         }
@@ -78,9 +81,19 @@ public class FeedbackSingleChoiceAdapter extends RecyclerView.Adapter<FeedbackSi
         holder.feedbackSingleChoiceListItemBinding.question3Option1Btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                ansdetail.setCityHotelAmenitiesName("1");
-                selectedroomforchangesposition = position;
-                notifyDataSetChanged();
+
+                if (holder.feedbackSingleChoiceListItemBinding.question3Option1Chk.isChecked()){
+                    holder.feedbackSingleChoiceListItemBinding.question3Option1Chk.setChecked(false);
+                    ansdetail.setQuestionAnswerTextSingleSelect("0");
+                    selectedtextsinglechangesposition =position;
+                    notifyDataSetChanged();
+                }else{
+                    holder.feedbackSingleChoiceListItemBinding.question3Option1Chk.setChecked(true);
+                    ansdetail.setQuestionAnswerTextSingleSelect("1");
+                    selectedtextsinglechangesposition = position;
+                    notifyDataSetChanged();
+                    morestoryClick.getmorestoryClick();
+                }
 
 
             }
@@ -89,9 +102,17 @@ public class FeedbackSingleChoiceAdapter extends RecyclerView.Adapter<FeedbackSi
         holder.feedbackSingleChoiceListItemBinding.question3Option1Chk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                ansdetail.setCityHotelAmenitiesName("1");
-                selectedroomforchangesposition = position;
-                notifyDataSetChanged();
+                if(holder.feedbackSingleChoiceListItemBinding.question3Option1Chk.isChecked()){
+                    ansdetail.setQuestionAnswerTextSingleSelect("1");
+                    selectedtextsinglechangesposition = position;
+                    notifyDataSetChanged();
+                    morestoryClick.getmorestoryClick();
+                }else{
+                    ansdetail.setQuestionAnswerTextSingleSelect("0");
+                    selectedtextsinglechangesposition = position;
+                    notifyDataSetChanged();
+                }
+
 
             }
         });

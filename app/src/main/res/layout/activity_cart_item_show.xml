@@ -104,7 +104,8 @@
             android:layout_height="@dimen/_3sdp"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="@dimen/_50sdp"
-            android:background="@drawable/bg_gradiant_line" />
+            android:background="@drawable/bg_gradiant_line"
+            android:visibility="gone"/>
 
         <LinearLayout
             android:id="@+id/bottom_linear"
@@ -114,7 +115,7 @@
             android:background="@color/heading_bg"
             android:baselineAligned="false"
             android:orientation="horizontal"
-            android:visibility="visible"
+            android:visibility="gone"
             android:weightSum="1">
 
 

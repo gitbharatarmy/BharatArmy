@@ -633,7 +633,11 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
                                         startActivity(DashboardIntent);
                                         finish();
                                     }
-                                } else {
+                                } else if (Utils.whereTocomeLogin.equalsIgnoreCase("Feedback")) {
+                                    Intent DashboardIntent = new Intent(mContext, DashboardActivity.class);
+                                    startActivity(DashboardIntent);
+                                    finish();
+                                }else {
                                     finish();
                                 }
                             } else {

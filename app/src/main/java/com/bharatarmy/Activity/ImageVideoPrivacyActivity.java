@@ -113,4 +113,11 @@ public class ImageVideoPrivacyActivity extends AppCompatActivity implements View
                 break;
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        EventBus.getDefault().post(new MyScreenChnagesModel(headertxt,subtxt));
+        finish();
+        super.onBackPressed();
+    }
 }

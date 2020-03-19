@@ -182,7 +182,6 @@ public class MoreFragment extends Fragment implements View.OnClickListener, Goog
             case R.id.userprofile_linear:
                 Utils.handleClickEvent(mContext, fragmentMoreBinding.userprofileLinear);
                 Intent myProfile = new Intent(mContext, MyProfileActivity.class);
-                myProfile.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(myProfile);
                 break;
             case R.id.aboutus_linear:
@@ -191,25 +190,19 @@ public class MoreFragment extends Fragment implements View.OnClickListener, Goog
                 aboutus.putExtra("Story Heading", "About Us");
                 aboutus.putExtra("StroyUrl", "https://www.bharatarmy.com/BAFoundation/sfanow?isapp=1");
                 aboutus.putExtra("whereTocome", "aboutus");
-//                aboutus.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(aboutus);
                 break;
             case R.id.contactus_linear:
                 Utils.handleClickEvent(mContext, fragmentMoreBinding.contactusLinear);
-//                Intent contactus = new Intent(mContext, ContactusActivity.class);
-//                contactus.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                startActivity(contactus);
                 Intent contactus = new Intent(mContext, MoreInformationActivity.class);
                 contactus.putExtra("Story Heading", "Contact Us");
                 contactus.putExtra("StroyUrl", "https://www.bharatarmy.com/contact?isapp=1");
                 contactus.putExtra("whereTocome", "aboutus");
-//                contactus.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(contactus);
                 break;
             case R.id.inquiry_linear:
                 Utils.handleClickEvent(mContext, fragmentMoreBinding.inquiryLinear);
                 Intent inquriy = new Intent(mContext, InquriyActivity.class);
-//                inquriy.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(inquriy);
                 break;
             case R.id.logout_linear:
@@ -224,13 +217,10 @@ public class MoreFragment extends Fragment implements View.OnClickListener, Goog
                             public void onClick(DialogInterface dialog, int which) {
                                 if (Utils.getPref(mContext, "LoginType") != null) {
                                     if (Utils.getPref(mContext, "LoginType").equalsIgnoreCase("Email")) {
-//                                     Utils.showProgressDialog(mContext);
                                         emailSignOut();
                                     } else if (Utils.getPref(mContext, "LoginType").equalsIgnoreCase("Facebook")) {
-//                                        Utils.showProgressDialog(mContext);
                                         facebookSignOut();
                                     } else if (Utils.getPref(mContext, "LoginType").equalsIgnoreCase("Gmail")) {
-//                                        Utils.showProgressDialog(mContext);
                                         googleSignOut();
                                     }
                                 }
@@ -251,7 +241,6 @@ public class MoreFragment extends Fragment implements View.OnClickListener, Goog
                 Utils.handleClickEvent(mContext, fragmentMoreBinding.mediaLinear);
                 Utils.setPref(mContext, "cometonotification", "menu");
                 Intent media = new Intent(mContext, MyMediaActivity.class);
-//                media.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(media);
                 break;
             case R.id.withoutlogin_linear:
@@ -263,26 +252,22 @@ public class MoreFragment extends Fragment implements View.OnClickListener, Goog
                 Utils.setPref(mContext, "entryType", "1");
                 Utils.handleClickEvent(mContext, fragmentMoreBinding.sportsInterestLinear);
                 Intent sportsintent = new Intent(mContext, DisplaySFAUserActivity.class);
-//                sportsintent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(sportsintent);
                 break;
             case R.id.data_entry_linear:
                 Utils.handleClickEvent(mContext, fragmentMoreBinding.dataEntryLinear);
                 Intent displayuserentry = new Intent(mContext, DisplayAddedUserActivity.class);
-//                displayuserentry.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(displayuserentry);
                 break;
             case R.id.setting_linear:
                 Utils.handleClickEvent(mContext, fragmentMoreBinding.settingLinear);
                 Intent settingeIntent = new Intent(mContext, ProfileSettingActivity.class);
-//                settingeIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(settingeIntent);
                 break;
             case R.id.certificate_linear:
                 Utils.setPref(mContext, "entryType", "2");
                 Utils.handleClickEvent(mContext, fragmentMoreBinding.sportsInterestLinear);
                 Intent certificateintent = new Intent(mContext, DisplaySFAUserActivity.class);
-//                certificateintent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(certificateintent);
                 break;
             case R.id.remove_account_linear:
@@ -293,13 +278,11 @@ public class MoreFragment extends Fragment implements View.OnClickListener, Goog
             case R.id.notification_linear:
                 Utils.handleClickEvent(mContext, fragmentMoreBinding.notificationLinear);
                 Intent notification = new Intent(mContext, NotificationDetailActivity.class);
-//                notification.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(notification);
                 break;
             case R.id.wishlist_linear:
                 Utils.handleClickEvent(mContext, fragmentMoreBinding.wishlistLinear);
                 Intent wishlist = new Intent(mContext, WishListShowActivity.class);
-//                wishlist.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(wishlist);
                 break;
             case R.id.feedback_linear:

@@ -81,7 +81,7 @@
                         android:layout_marginBottom="@dimen/_20sdp"
                         app:ci_drawable="@drawable/selected_new"
                         app:ci_drawable_unselected="@drawable/unselected_new"
-                        app:ci_height="@dimen/_10sdp"
+                        app:ci_height="@dimen/_7sdp"
                         app:ci_width="@dimen/_7sdp"
                         app:ci_gravity="left"/>
 

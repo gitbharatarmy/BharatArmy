@@ -5,7 +5,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/image_text_choice_linear"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_150sdp"
+        android:layout_height="@dimen/_90sdp"
         android:layout_margin="@dimen/_5sdp"
         android:background="@drawable/feedback_corner_shape"
         android:elevation="2dp"
@@ -23,7 +23,7 @@
             <com.bharatarmy.RoundishImageView
                 android:id="@+id/feedback_image"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_50sdp"
+                android:layout_height="@dimen/_30sdp"
                 android:layout_centerInParent="true"
                 android:adjustViewBounds="true"
                 android:src="@drawable/australia_tour"
@@ -38,8 +38,8 @@
                 android:layout_below="@+id/feedback_image"
                 android:gravity="center"
                 android:text="@string/hotel_room_type"
-                android:textColor="@color/all_text_color"
-                android:textSize="@dimen/allans_font_size" />
+                android:textColor="@color/heading_bg"
+                android:textSize="@dimen/_12sdp" />
 
             <LinearLayout
                 android:id="@+id/header_linear"
@@ -57,7 +57,6 @@
                     android:layout_height="@dimen/_18sdp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:baselineAligned="false"
                     android:button="@drawable/round_checkbox_indicator" />
 
             </LinearLayout>

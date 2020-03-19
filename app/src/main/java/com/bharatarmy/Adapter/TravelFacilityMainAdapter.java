@@ -2,19 +2,12 @@ package com.bharatarmy.Adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Color;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.bharatarmy.Activity.TravelMatchScheduleActivity;
-import com.bharatarmy.Activity.TravelMatchTicketActivity;
 import com.bharatarmy.Interfaces.MorestoryClick;
 import com.bharatarmy.Models.TravelModel;
 import com.bharatarmy.R;
@@ -106,10 +99,6 @@ public class TravelFacilityMainAdapter extends RecyclerView.Adapter<TravelFacili
             }
         });
 
-
-    }
-
-    public void appguiderView() {
 
     }
 

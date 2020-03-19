@@ -248,6 +248,10 @@ public interface WebServices {
     @POST("/AssingUsertoInquiry")
     void getAssingUsertoInquiry(@FieldMap Map<String, String> map, Callback<MoreDataModel> callback);
 
+    @FormUrlEncoded
+    @POST("/GetFeedback")
+    void getFeedback(@FieldMap Map<String, String> map, Callback<FeedbackMainModel> callback);
+
 
     @GET
     Call<WatchListModelDemo> getWatchList(@Url String url);

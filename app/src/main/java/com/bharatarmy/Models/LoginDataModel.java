@@ -3,6 +3,8 @@ package com.bharatarmy.Models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class LoginDataModel {
     @SerializedName("Email")
     @Expose
@@ -637,5 +639,73 @@ public class LoginDataModel {
         this.countryIds = countryIds;
     }
 
+   // feedback data
+    @SerializedName("HeaderTypeText")
+    @Expose
+    private String headerTypeText;
+    @SerializedName("FeedbackQuestion")
+    @Expose
+    private String feedbackQuestion;
+    @SerializedName("FeedbackDescription")
+    @Expose
+    private Object feedbackDescription;
+    @SerializedName("FeedbackType")
+    @Expose
+    private Integer feedbackType;
+    @SerializedName("Options")
+    @Expose
+    private List<FeedbackAnswerList> options = null;
+    @SerializedName("IsRequired")
+    @Expose
+    private Integer isRequired;
+
+
+    public String getHeaderTypeText() {
+        return headerTypeText;
+    }
+
+    public void setHeaderTypeText(String headerTypeText) {
+        this.headerTypeText = headerTypeText;
+    }
+
+    public String getFeedbackQuestion() {
+        return feedbackQuestion;
+    }
+
+    public void setFeedbackQuestion(String feedbackQuestion) {
+        this.feedbackQuestion = feedbackQuestion;
+    }
+
+    public Object getFeedbackDescription() {
+        return feedbackDescription;
+    }
+
+    public void setFeedbackDescription(Object feedbackDescription) {
+        this.feedbackDescription = feedbackDescription;
+    }
+
+    public Integer getFeedbackType() {
+        return feedbackType;
+    }
+
+    public void setFeedbackType(Integer feedbackType) {
+        this.feedbackType = feedbackType;
+    }
+
+    public List<FeedbackAnswerList> getOptions() {
+        return options;
+    }
+
+    public void setOptions(List<FeedbackAnswerList> options) {
+        this.options = options;
+    }
+
+    public Integer getIsRequired() {
+        return isRequired;
+    }
+
+    public void setIsRequired(Integer isRequired) {
+        this.isRequired = isRequired;
+    }
 
 }

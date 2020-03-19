@@ -17,7 +17,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.bharatarmy.Adapter.MatchScheduleAdvanceFilterAdapter;
 import com.bharatarmy.Adapter.MatchTicketFilterAdapter;
 import com.bharatarmy.Interfaces.MorestoryClick;
 import com.bharatarmy.Models.RegisterIntrestFilterDataModel;

@@ -70,6 +70,8 @@ public class CartItemShowActivity extends AppCompatActivity implements View.OnCl
         activityCartItemShowBinding.shimmerViewContainer.stopShimmerAnimation();
         activityCartItemShowBinding.shimmerViewContainer.setVisibility(View.GONE);
         activityCartItemShowBinding.cartItemRcv.setVisibility(View.VISIBLE);
+        activityCartItemShowBinding.bottomGradiantView.setVisibility(View.VISIBLE);
+        activityCartItemShowBinding.bottomLinear.setVisibility(View.VISIBLE);
         Log.d("cartItemList :", "" + cartItemList.size());
         cartItemShowAdapter = new CartItemShowAdapter(mContext, cartItemList);
         cartlinearLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);

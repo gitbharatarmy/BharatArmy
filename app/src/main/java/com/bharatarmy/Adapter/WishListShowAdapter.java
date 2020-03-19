@@ -11,7 +11,6 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bharatarmy.Interfaces.image_click;
-import com.bharatarmy.Models.FeedbackModel;
 import com.bharatarmy.Models.ImageDetailModel;
 import com.bharatarmy.Models.WatchListDetailModel;
 import com.bharatarmy.Models.WatchListModel;

@@ -135,6 +135,6 @@
 <!--    feedback screen font-->
     <dimen name="allquestion_font_size">@dimen/_17sdp</dimen>
     <dimen name="allans_font_size">@dimen/_14sdp</dimen>
-    <dimen name="category_font_size">@dimen/_9sdp</dimen>
+    <dimen name="category_font_size">@dimen/_8sdp</dimen>
     <dimen name="scollview_padding">@dimen/_85sdp</dimen>
 </resources>

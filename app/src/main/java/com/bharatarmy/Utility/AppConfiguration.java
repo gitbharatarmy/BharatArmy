@@ -51,13 +51,13 @@ public class AppConfiguration {
     public static String imagechoice = "not fill";
     public static String addtextchoice = "not fill";
 
-    public static String question2 = "";
-    public static String question10 = "";
-    public static String question11 = "";
+    public static String question3 = "";
+    public static String question4 = "";
+    public static String question5 = "";
+    public static String question6 = "";
+    public static String question8 = "";
     public static String question12 = "";
     public static String question13 = "";
-    public static String question14 = "";
-    public static String question15 = "";
 
 
     /*Image watchlist list*/

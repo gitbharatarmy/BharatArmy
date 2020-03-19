@@ -3,31 +3,33 @@ package com.bharatarmy.Adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bharatarmy.Interfaces.MorestoryClick;
 import com.bharatarmy.Models.FeedbackAnswerList;
-import com.bharatarmy.Models.FeedbackModel;
-import com.bharatarmy.Models.FeedbackQuestionAnswerDatum;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.AppConfiguration;
 import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.FeedbackImageWithTextChoiceListItemBinding;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class FeedbackImagewithTextAdapter extends RecyclerView.Adapter<FeedbackImagewithTextAdapter.MyViewHolder> {
     Context mcontext;
     List<FeedbackAnswerList> feedbackansimagetextlist;
-    int selectedroomforchangesposition = -1;
+    int selectedchangesposition = -1;
+    MorestoryClick morestoryClick;
 
 
-    public FeedbackImagewithTextAdapter(Context mContext, List<FeedbackAnswerList> feedbackansimagetextlist) {
+    public FeedbackImagewithTextAdapter(Context mContext, List<FeedbackAnswerList> feedbackansimagetextlist, int selectedchangesposition, MorestoryClick morestoryClick) {
         this.mcontext = mContext;
         this.feedbackansimagetextlist = feedbackansimagetextlist;
+        this.morestoryClick = morestoryClick;
+        this.selectedchangesposition = selectedchangesposition;
     }
 
 
@@ -56,18 +58,56 @@ public class FeedbackImagewithTextAdapter extends RecyclerView.Adapter<FeedbackI
     public void onBindViewHolder(FeedbackImagewithTextAdapter.MyViewHolder holder, int position) {
         FeedbackAnswerList detail = feedbackansimagetextlist.get(position);
 
-        if (selectedroomforchangesposition == position) {
+        if (selectedchangesposition == position) {
             holder.feedbackImageWithTextChoiceListItemBinding.optionChk.setChecked(true);
-            holder.feedbackImageWithTextChoiceListItemBinding.optionChk.setBackground(mcontext.getResources().getDrawable(R.drawable.feedback_corner_select_shape));
+//            holder.feedbackImageWithTextChoiceListItemBinding.optionChk.setBackground(mcontext.getResources().getDrawable(R.drawable.feedback_corner_select_shape));
             AppConfiguration.imagechoice = "fill";
         } else {
             holder.feedbackImageWithTextChoiceListItemBinding.optionChk.setChecked(false);
-            holder.feedbackImageWithTextChoiceListItemBinding.optionChk.setBackground(mcontext.getResources().getDrawable(R.drawable.feedback_corner_shape));
+//            holder.feedbackImageWithTextChoiceListItemBinding.optionChk.setBackground(mcontext.getResources().getDrawable(R.drawable.feedback_corner_shape));
         }
 
-        Utils.setImageInImageView(detail.getQuestionAnswerImage(), holder.feedbackImageWithTextChoiceListItemBinding.feedbackImage, mcontext);
-        holder.feedbackImageWithTextChoiceListItemBinding.textviewAnsTxt.setText(detail.getQuestionAnswerText());
+        Utils.setImageInImageView(detail.getImageUrl(), holder.feedbackImageWithTextChoiceListItemBinding.feedbackImage, mcontext);
+        holder.feedbackImageWithTextChoiceListItemBinding.textviewAnsTxt.setText(detail.getText());
 
+
+        holder.feedbackImageWithTextChoiceListItemBinding.imageTextChoiceLinear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (holder.feedbackImageWithTextChoiceListItemBinding.optionChk.isChecked()){
+                    holder.feedbackImageWithTextChoiceListItemBinding.optionChk.setChecked(false);
+                    detail.setQuestionAnswerImagewithTextSelect("0");
+                    selectedchangesposition = position;
+                    notifyDataSetChanged();
+                    morestoryClick.getmorestoryClick();
+                }else{
+                    holder.feedbackImageWithTextChoiceListItemBinding.optionChk.setChecked(true);
+                    detail.setQuestionAnswerImagewithTextSelect("1");
+                    selectedchangesposition = position;
+                    notifyDataSetChanged();
+                    morestoryClick.getmorestoryClick();
+                }
+
+            }
+        });
+
+        holder.feedbackImageWithTextChoiceListItemBinding.optionChk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (holder.feedbackImageWithTextChoiceListItemBinding.optionChk.isChecked()){
+                    detail.setQuestionAnswerImagewithTextSelect("1");
+                    selectedchangesposition = position;
+                    notifyDataSetChanged();
+                    morestoryClick.getmorestoryClick();
+                }else{
+                    detail.setQuestionAnswerImagewithTextSelect("0");
+                    selectedchangesposition = position;
+                    notifyDataSetChanged();
+                    morestoryClick.getmorestoryClick();
+                }
+
+            }
+        });
     }
 
     @Override

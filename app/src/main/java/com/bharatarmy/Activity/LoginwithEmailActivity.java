@@ -232,7 +232,12 @@ public class LoginwithEmailActivity extends AppCompatActivity implements View.On
                     startActivity(DashboardIntent);
                     finish();
                 }
-            } else {
+            } else if (Utils.whereTocomeLogin.equalsIgnoreCase("Feedback")) {
+                Intent DashboardIntent = new Intent(mContext, DashboardActivity.class);
+                DashboardIntent.putExtra("whichPageRun", "2");
+                startActivity(DashboardIntent);
+                finish();
+            }else{
                 finish();
             }
         } else {

@@ -7,276 +7,378 @@
         android:id="@+id/feedback_mainLinear"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="@dimen/_10sdp"
-        android:layout_marginTop="@dimen/_70sdp"
-        android:layout_marginRight="@dimen/_10sdp"
         android:orientation="vertical"
         tools:context=".Fragment.FeedbackFragment">
 
-        <com.facebook.shimmer.ShimmerFrameLayout
-            android:id="@+id/shimmer_view_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:visibility="gone">
-
-            <include layout="@layout/display_user_item_dataholder" />
-        </com.facebook.shimmer.ShimmerFrameLayout>
-
         <RelativeLayout
-            android:id="@+id/question_linear"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:visibility="gone">
-
-            <TextView
-                android:id="@+id/question_category_title_txt"
-                style="@style/text_font"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:paddingLeft="@dimen/_2sdp"
-                android:paddingRight="@dimen/_2sdp"
-                android:text="@string/question_category"
-                android:textColor="@color/all_text_color"
-                android:textSize="@dimen/category_font_size"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/question_txt"
-                style="@style/text_font"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/question_category_title_txt"
-                android:layout_marginTop="@dimen/_7sdp"
-                android:paddingLeft="@dimen/_2sdp"
-                android:paddingRight="@dimen/_2sdp"
-                android:text="@string/question1"
-                android:textColor="@color/heading_bg"
-                android:textSize="@dimen/allquestion_font_size" />
-        </RelativeLayout>
-
-        <LinearLayout
-            android:id="@+id/textview_ans_linear"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/question_linear"
-            android:layout_marginTop="@dimen/_30sdp"
-            android:orientation="vertical"
-            android:visibility="gone">
-
-            <TextView
-                android:id="@+id/textview_ans_txt"
-                style="@style/text_font"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="top|left"
-                android:paddingBottom="@dimen/_3sdp"
-                android:text="@string/hotel_room_type"
-                android:textColor="@color/all_text_color"
-                android:textSize="@dimen/allans_font_size" />
-        </LinearLayout>
-
-        <RelativeLayout
-            android:id="@+id/Imagewithtextsinglechoice_linear"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/question_linear"
-            android:visibility="gone">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/Imagewithtextsinglechoice_ans_rcv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:clipToPadding="false"
-                android:overScrollMode="never"
-                android:paddingBottom="@dimen/_50sdp" />
-        </RelativeLayout>
-        <RelativeLayout
-            android:id="@+id/textsinglegridchoice_linear"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/question_linear"
-            android:visibility="gone">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/textsinglegridchoice_ans_rcv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:clipToPadding="false"
-                android:overScrollMode="never"
-                android:paddingBottom="@dimen/_50sdp" />
-        </RelativeLayout>
-        <RelativeLayout
-            android:id="@+id/edittext_ans_linear"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/question_linear"
-            android:layout_marginTop="@dimen/_30sdp"
-            android:background="@drawable/feedback_editbox_border"
-            android:orientation="vertical"
-            android:visibility="gone">
-
-            <EditText
-                android:id="@+id/edittext_ans_txt"
-                style="@style/text_font"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@null"
-                android:gravity="top|left"
-                android:imeOptions="actionGo"
-                android:inputType="textMultiLine"
-                android:maxLines="15"
-                android:paddingBottom="@dimen/_3sdp"
-                android:textColor="@color/all_text_color"
-                android:textCursorDrawable="@drawable/color_cursor"
-                android:textSize="@dimen/allans_font_size" />
-        </RelativeLayout>
-        <RelativeLayout
-            android:id="@+id/textmultichoice_linear"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/question_linear"
-            android:visibility="gone">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/textmultichoice_ans_rcv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:clipToPadding="false"
-                android:overScrollMode="never"
-                android:paddingBottom="@dimen/_50sdp" />
-
-        </RelativeLayout>
-        <RelativeLayout
-            android:id="@+id/textwithsingleratingchoice_linear"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/question_linear"
-            android:visibility="gone">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/textwithsingleratingchoice_ans_rcv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:clipToPadding="false"
-                android:overScrollMode="never"
-                android:paddingBottom="@dimen/_50sdp" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/textsinglechoice_linear"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/question_linear"
-            android:visibility="gone">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/textsinglechoice_ans_rcv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:clipToPadding="false"
-                android:overScrollMode="never"
-                android:paddingBottom="@dimen/_50sdp" />
-
-        </RelativeLayout>
-        <LinearLayout
-            android:id="@+id/thankyou_linear"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_70sdp"
-            android:layout_marginBottom="@dimen/_60sdp"
-            android:orientation="vertical"
-            android:visibility="gone"
-            android:weightSum="1">
+            android:layout_marginRight="@dimen/_10sdp"
+            android:orientation="vertical">
+
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:id="@+id/shimmer_view_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <include layout="@layout/feedback_loading_dataholder" />
+            </com.facebook.shimmer.ShimmerFrameLayout>
 
             <RelativeLayout
+                android:id="@+id/question_linear"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="0.5">
-
-                <ImageView
-                    android:id="@+id/thankyou_img"
-                    android:layout_width="@dimen/_120sdp"
-                    android:layout_height="@dimen/_120sdp"
-                    android:layout_centerHorizontal="true"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/ic_likes_blue"
-                    android:tint="@color/heading_bg" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="0.5">
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <TextView
-                    android:id="@+id/thank_txt"
+                    android:id="@+id/question_category_title_txt"
                     style="@style/text_font"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_horizontal"
-                    android:text="Thank you for register your feedback"
-                    android:textColor="@color/heading_bg"
-                    android:textSize="@dimen/_16sdp" />
-
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:paddingLeft="@dimen/_2sdp"
+                    android:paddingRight="@dimen/_2sdp"
+                    android:text="@string/question_category"
+                    android:textAllCaps="true"
+                    android:textColor="@color/all_text_color"
+                    android:textSize="@dimen/category_font_size"
+                    android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/view_feedback_btn"
+                    android:id="@+id/question_txt"
+                    style="@style/text_font"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/question_category_title_txt"
+                    android:layout_marginTop="@dimen/_7sdp"
+                    android:paddingLeft="@dimen/_2sdp"
+                    android:paddingRight="@dimen/_2sdp"
+                    android:text="@string/question1"
+                    android:textColor="@color/heading_bg"
+                    android:textSize="@dimen/allquestion_font_size" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/textview_ans_linear"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/question_linear"
+                android:layout_marginTop="@dimen/_30sdp"
+                android:orientation="vertical"
+                android:visibility="gone">
+                <WebView
+                    android:id="@+id/textview_ans_txt"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_12sdp"
+                    android:layout_marginRight="@dimen/_12sdp"
+                    android:layout_marginBottom="@dimen/_50sdp"
+                    android:background="@color/splash_bg_color"
+                    tools:ignore="WebViewLayout"/>
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/Imagewithtextsinglechoice_linear"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/question_linear"
+                android:layout_marginTop="@dimen/_30sdp"
+                android:visibility="gone">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/Imagewithtextsinglechoice_ans_rcv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clipToPadding="false"
+                    android:overScrollMode="never"
+                    android:paddingBottom="@dimen/_50sdp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/textsinglegridchoice_linear"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/question_linear"
+                android:layout_marginTop="@dimen/_30sdp"
+                android:visibility="gone">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/textsinglegridchoice_ans_rcv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clipToPadding="false"
+                    android:overScrollMode="never"
+                    android:paddingBottom="@dimen/_50sdp" />
+            </RelativeLayout>
+<!--            android:layout_marginBottom="@dimen/_50sdp"-->
+            <ScrollView
+                android:id="@+id/scrollView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/question_linear"
+                android:layout_marginTop="@dimen/_30sdp"
+                android:clipToPadding="false"
+                android:fillViewport="true"
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/scollview_padding"
+                android:scrollbars="none"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:id="@+id/edittext_ans_linear"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/feedback_editbox_border"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
+                        <EditText
+                            android:id="@+id/edittext_ans_txt"
+                            style="@style/text_font"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@null"
+                            android:gravity="top|left"
+                            android:imeOptions="actionGo"
+                            android:inputType="textMultiLine"
+                            android:maxLines="15"
+                            android:paddingBottom="@dimen/_3sdp"
+                            android:textColor="@color/all_text_color"
+                            android:textCursorDrawable="@drawable/color_cursor"
+                            android:textSize="@dimen/allans_font_size"/>
+                    </RelativeLayout>
+                </LinearLayout>
+            </ScrollView>
+
+            <RelativeLayout
+                android:id="@+id/textmultichoice_linear"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/question_linear"
+                android:layout_marginTop="@dimen/_30sdp"
+                android:visibility="gone">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/textmultichoice_ans_rcv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clipToPadding="false"
+                    android:overScrollMode="never"
+                    android:paddingBottom="@dimen/_50sdp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/textwithsingleratingchoice_linear"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/question_linear"
+                android:layout_marginTop="@dimen/_30sdp"
+                android:visibility="gone">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/textwithsingleratingchoice_ans_rcv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clipToPadding="false"
+                    android:overScrollMode="never"
+                    android:paddingBottom="@dimen/_50sdp" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/textsinglechoice_linear"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/question_linear"
+                android:layout_marginTop="@dimen/_30sdp"
+                android:visibility="gone">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/textsinglechoice_ans_rcv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clipToPadding="false"
+                    android:overScrollMode="never"
+                    android:paddingBottom="@dimen/_50sdp" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/thankyou_linear"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/_60sdp"
+                android:orientation="vertical"
+                android:visibility="gone"
+                android:weightSum="1">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.5">
+
+                    <ImageView
+                        android:id="@+id/thankyou_img"
+                        android:layout_width="@dimen/_120sdp"
+                        android:layout_height="@dimen/_120sdp"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_likes_blue"
+                        android:tint="@color/heading_bg" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.5">
+
+                    <TextView
+                        android:id="@+id/thank_txt"
+                        style="@style/text_font"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:text="Thank you for register your feedback"
+                        android:textColor="@color/heading_bg"
+                        android:textSize="@dimen/_16sdp" />
+
+
+                    <TextView
+                        android:id="@+id/view_feedback_btn"
+                        style="@style/title_desc_font"
+                        android:layout_width="@dimen/_70sdp"
+                        android:layout_height="@dimen/_30sdp"
+                        android:layout_below="@+id/thank_txt"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="@dimen/_30sdp"
+                        android:background="@drawable/feedback_submit_shape"
+                        android:gravity="center_horizontal|center_vertical"
+                        android:text="View"
+                        android:textAllCaps="true"
+                        android:textColor="@color/splash_bg_color"
+                        android:textSize="@dimen/_13sdp" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/next_linear"
+                android:layout_width="@dimen/_70sdp"
+                android:layout_height="@dimen/_35sdp"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="@dimen/_75sdp"
+                android:background="@drawable/feedback_submit_shape"
+                android:backgroundTint="@color/heading_bg"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/submit_txt"
                     style="@style/title_desc_font"
-                    android:layout_width="@dimen/_70sdp"
-                    android:layout_height="@dimen/_30sdp"
-                    android:layout_below="@+id/thank_txt"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="@dimen/_30sdp"
-                    android:background="@drawable/feedback_submit_shape"
-                    android:gravity="center_horizontal|center_vertical"
-                    android:text="View"
-                    android:textAllCaps="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/_7sdp"
+                    android:text="01 of 13"
+                    android:textColor="@color/splash_bg_color"
+                    android:textSize="@dimen/_13sdp" />
+
+                <ImageView
+                    android:id="@+id/next_img"
+                    android:layout_width="@dimen/_13sdp"
+                    android:layout_height="@dimen/_13sdp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/_5sdp"
+                    android:layout_marginRight="@dimen/_5sdp"
+                    android:layout_marginBottom="@dimen/_1sdp"
+                    android:layout_toRightOf="@+id/submit_txt"
+                    android:imeOptions="actionDone"
+                    android:paddingTop="@dimen/_2sdp"
+                    android:src="@drawable/ic_next_question"
+                    android:tint="@color/splash_bg_color" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/previous_linear"
+                android:layout_width="@dimen/_70sdp"
+                android:layout_height="@dimen/_35sdp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="@dimen/_75sdp"
+                android:background="@drawable/feedback_submit_shape"
+                android:backgroundTint="@color/heading_bg"
+                android:visibility="gone">
+
+                <ImageView
+                    android:id="@+id/previous_next_img"
+                    android:layout_width="@dimen/_13sdp"
+                    android:layout_height="@dimen/_13sdp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/_5sdp"
+                    android:layout_marginBottom="@dimen/_1sdp"
+                    android:imeOptions="actionDone"
+                    android:paddingTop="@dimen/_2sdp"
+                    android:src="@drawable/ic_prevoius_arrow"
+                    android:tint="@color/splash_bg_color"
+                    android:visibility="visible" />
+
+                <TextView
+                    android:id="@+id/pre_submit_txt"
+                    style="@style/title_desc_font"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                  android:layout_toRightOf="@+id/previous_next_img"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/_4sdp"
+                    android:text="previous"
                     android:textColor="@color/splash_bg_color"
                     android:textSize="@dimen/_13sdp" />
             </RelativeLayout>
-        </LinearLayout>
-        <RelativeLayout
-            android:id="@+id/next_linear"
-            android:layout_width="@dimen/_70sdp"
-            android:layout_height="@dimen/_35sdp"
-            android:layout_alignParentRight="true"
-            android:layout_marginLeft="@dimen/_15sdp"
-            android:layout_marginTop="@dimen/_300sdp"
-            android:layout_marginRight="@dimen/_15sdp"
-            android:background="@drawable/feedback_submit_shape"
-            android:backgroundTint="@color/heading_bg"
-            android:visibility="gone">
 
-            <TextView
-                android:id="@+id/submit_txt"
-                style="@style/title_desc_font"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/_10sdp"
-                android:text="01 of 13"
-                android:textColor="@color/splash_bg_color"
-                android:textSize="@dimen/_13sdp" />
+            <RelativeLayout
+                android:id="@+id/question_ans_view_linear"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:visibility="gone">
 
-            <ImageView
-                android:id="@+id/next_img"
-                android:layout_width="@dimen/_11sdp"
-                android:layout_height="@dimen/_11sdp"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/_5sdp"
-                android:layout_marginRight="@dimen/_10sdp"
-                android:layout_marginBottom="@dimen/_1sdp"
-                android:layout_toRightOf="@+id/submit_txt"
-                android:imeOptions="actionDone"
-                android:paddingTop="@dimen/_2sdp"
-                android:src="@drawable/ic_next_question"
-                android:tint="@color/splash_bg_color" />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/question_ans_view_rcv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clipToPadding="false"
+                    android:overScrollMode="never"
+                    android:paddingBottom="@dimen/_50sdp" />
+
+                <RelativeLayout
+                    android:id="@+id/edit_linear"
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="@dimen/_75sdp"
+                    android:background="@drawable/feedback_edit_button"
+                    android:backgroundTint="@color/heading_bg"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:layout_width="@dimen/_15sdp"
+                        android:layout_height="@dimen/_15sdp"
+                        android:layout_centerInParent="true"
+                        android:layout_marginTop="@dimen/_9sdp"
+                        android:src="@drawable/ic_pencil_edit_button" />
+                </RelativeLayout>
+            </RelativeLayout>
         </RelativeLayout>
-
-
     </RelativeLayout>
 </layout>

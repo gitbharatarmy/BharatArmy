@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bharatarmy.Interfaces.MorestoryClick;
 import com.bharatarmy.Models.FeedbackAnswerList;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.AppConfiguration;
@@ -18,15 +19,16 @@ import java.util.List;
 
 public class FeedbackTextSingleChoiceGridAdapter extends RecyclerView.Adapter<FeedbackTextSingleChoiceGridAdapter.MyViewHolder> {
     Context mContext;
-    List<FeedbackAnswerList> feedbackansimagetextlist;
-    int selectedroomforchangesposition = -1;
+    List<FeedbackAnswerList> feedbackanstextsinglechoicegridlist;
+    int selectedtextsinglegridchangesposition = -1;
+    MorestoryClick morestoryClick;
 
 
-
-
-    public FeedbackTextSingleChoiceGridAdapter(Context mContext, List<FeedbackAnswerList> feedbackansimagetextlist) {
+    public FeedbackTextSingleChoiceGridAdapter(Context mContext, List<FeedbackAnswerList> feedbackanstextsinglechoicegridlist, int selectedtextsinglegridchangesposition, MorestoryClick morestoryClick) {
         this.mContext=mContext;
-        this.feedbackansimagetextlist=feedbackansimagetextlist;
+        this.feedbackanstextsinglechoicegridlist=feedbackanstextsinglechoicegridlist;
+        this.morestoryClick=morestoryClick;
+        this.selectedtextsinglegridchangesposition= selectedtextsinglegridchangesposition;
     }
 
 
@@ -53,19 +55,19 @@ public class FeedbackTextSingleChoiceGridAdapter extends RecyclerView.Adapter<Fe
     @SuppressLint("ResourceAsColor")
     @Override
     public void onBindViewHolder(FeedbackTextSingleChoiceGridAdapter.MyViewHolder holder, int position) {
-        FeedbackAnswerList detail = feedbackansimagetextlist.get(position);
+        FeedbackAnswerList detail = feedbackanstextsinglechoicegridlist.get(position);
 
         holder.feedbackTextSinglechoiceGridListItemBinding.textviewAnsTxt.setText(detail.getQuestionAnswerText());
 
-        if (selectedroomforchangesposition == position) {
+        if (selectedtextsinglegridchangesposition == position) {
             holder.feedbackTextSinglechoiceGridListItemBinding.optionChk.setChecked(true);
-            holder.feedbackTextSinglechoiceGridListItemBinding.textSinglechoiceLinear.setBackground(mContext.getResources().getDrawable(R.drawable.feedback_corner_select_shape));
+//            holder.feedbackTextSinglechoiceGridListItemBinding.textSinglechoiceLinear.setBackground(mContext.getResources().getDrawable(R.drawable.feedback_corner_select_shape));
 
             AppConfiguration.singlechoice = "fill";
         } else {
 //            ansdetail.setCityHotelAmenitiesName("0");
             holder.feedbackTextSinglechoiceGridListItemBinding.optionChk.setChecked(false);
-            holder.feedbackTextSinglechoiceGridListItemBinding.textSinglechoiceLinear.setBackground(mContext.getResources().getDrawable(R.drawable.feedback_corner_shape));
+//            holder.feedbackTextSinglechoiceGridListItemBinding.textSinglechoiceLinear.setBackground(mContext.getResources().getDrawable(R.drawable.feedback_corner_shape));
 
 
         }
@@ -74,24 +76,40 @@ public class FeedbackTextSingleChoiceGridAdapter extends RecyclerView.Adapter<Fe
         holder.feedbackTextSinglechoiceGridListItemBinding.textSinglechoiceLinear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                ansdetail.setCityHotelAmenitiesName("1");
-                selectedroomforchangesposition = position;
-                notifyDataSetChanged();
+                if (holder.feedbackTextSinglechoiceGridListItemBinding.optionChk.isChecked()){
+                    holder.feedbackTextSinglechoiceGridListItemBinding.optionChk.setChecked(false);
+                    detail.setQuestionAnswerTextGridSingleSelect("0");
+                    selectedtextsinglegridchangesposition =position;
+                    notifyDataSetChanged();
+                }else{
+                    holder.feedbackTextSinglechoiceGridListItemBinding.optionChk.setChecked(true);
+                    detail.setQuestionAnswerTextGridSingleSelect("1");
+                    selectedtextsinglegridchangesposition = position;
+                    notifyDataSetChanged();
+                    morestoryClick.getmorestoryClick();
+                }
+
 
 
             }
         });
 
-        holder.feedbackTextSinglechoiceGridListItemBinding.textSinglechoiceLinear.setOnClickListener(new View.OnClickListener() {
+        holder.feedbackTextSinglechoiceGridListItemBinding.optionChk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                ansdetail.setCityHotelAmenitiesName("1");
-                selectedroomforchangesposition = position;
-                notifyDataSetChanged();
+                if (holder.feedbackTextSinglechoiceGridListItemBinding.optionChk.isChecked()){
+                     detail.setQuestionAnswerTextGridSingleSelect("1");
+                    selectedtextsinglegridchangesposition = position;
+                    notifyDataSetChanged();
+                    morestoryClick.getmorestoryClick();
+                }else{
+                    detail.setQuestionAnswerTextGridSingleSelect("0");
+                    selectedtextsinglegridchangesposition = position;
+                    notifyDataSetChanged();
+                }
 
             }
         });
-
     }
 
     @Override
@@ -107,7 +125,7 @@ public class FeedbackTextSingleChoiceGridAdapter extends RecyclerView.Adapter<Fe
 
     @Override
     public int getItemCount() {
-        return feedbackansimagetextlist.size();
+        return feedbackanstextsinglechoicegridlist.size();
     }
 
 

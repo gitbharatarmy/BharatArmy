@@ -11,9 +11,6 @@ import android.widget.TextView;
 
 import androidx.cardview.widget.CardView;
 import androidx.viewpager.widget.PagerAdapter;
-
-import com.bharatarmy.Activity.TravelMatchDetailActivity;
-import com.bharatarmy.Models.MyScreenChnagesModel;
 import com.bharatarmy.Models.TravelModel;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.Utils;
