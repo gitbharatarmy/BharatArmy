@@ -129,7 +129,7 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, StoryFragme
     }
 
     // For Feedback Fragment
-    fun bottomNavigationView() {
+   fun bottomNavigationView() {
 
         bottomNavigation.add(MeowBottomNavigation.Model(1, R.drawable.ic_fans_new))
         bottomNavigation.add(MeowBottomNavigation.Model(2, R.drawable.ic_feedback)) //ic_travel_new  ic_feedback
@@ -270,7 +270,7 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, StoryFragme
 
 
     //    For Travel Fragment
-    /*  fun bottomNavigationView() {
+  /*   fun bottomNavigationView() {
 
           bottomNavigation.add(MeowBottomNavigation.Model(1, R.drawable.ic_fans_new))
           bottomNavigation.add(MeowBottomNavigation.Model(2, R.drawable.ic_travel_new)) //ic_travel_new  ic_feedback
@@ -466,7 +466,7 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, StoryFragme
     }
 
     //    For Use Feedback Fragment
-   override fun onBackPressed() {
+override fun onBackPressed() {
 
         if (speedDial.isOpen) {
             speedDial.close(true);
@@ -544,7 +544,7 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, StoryFragme
     }
 
     //For Use Travel Fragment
- /*  override fun onBackPressed() {
+ /* override fun onBackPressed() {
 
         if (speedDial.isOpen) {
             speedDial.close(true);
@@ -589,7 +589,7 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, StoryFragme
         }
 
 
-    } */
+    }*/
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.

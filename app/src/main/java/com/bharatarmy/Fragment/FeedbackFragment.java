@@ -23,6 +23,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+
 import com.bharatarmy.Adapter.FeedbackImagewithTextAdapter;
 import com.bharatarmy.Adapter.FeedbackRatingAdapter;
 import com.bharatarmy.Adapter.FeedbackSingleChoiceAdapter;
@@ -92,7 +93,7 @@ public class FeedbackFragment extends Fragment implements View.OnClickListener {
 
     /*question answer string*/
     String question2ansStr = "", question2ansimageStr = "", question10ansStr = "", question11ansStr = "", question12ansStr = "",
-            question13ansStr = "", question1ansStr = "", question3ansStr = "", question4ansStr = "",  question5ansStr = "",
+            question13ansStr = "", question1ansStr = "", question3ansStr = "", question4ansStr = "", question5ansStr = "",
             question6ansStr = "", question7ansStr = "", question8ansStr = "", question9ansStr = "", question9ansratingStr = "";
 
 
@@ -104,6 +105,7 @@ public class FeedbackFragment extends Fragment implements View.OnClickListener {
     int nextQuestionIndex = 0;
     int currentQuestionIndex = 0;
     String feedbackAnswerValueStr;
+    int currentQuestionId = 0;
     int isRequired;
     int selectedimageandtextchangesposition = -1;
     int selectedratingchangeposition = -1;
@@ -203,6 +205,7 @@ public class FeedbackFragment extends Fragment implements View.OnClickListener {
                 fragmentFeedbackBinding.shimmerViewContainer.startShimmerAnimation();
                 currentQuestionIndex = 1;
                 nextQuestionIndex = 0;
+                currentQuestionId = 0;
                 callFeedbackQuestionAnswerData();
             }
         } else {
@@ -218,6 +221,7 @@ public class FeedbackFragment extends Fragment implements View.OnClickListener {
             fragmentFeedbackBinding.shimmerViewContainer.startShimmerAnimation();
             currentQuestionIndex = 1;
             nextQuestionIndex = 0;
+            currentQuestionId = 0;
             callFeedbackQuestionAnswerData();
         }
 
@@ -697,10 +701,12 @@ public class FeedbackFragment extends Fragment implements View.OnClickListener {
                 question3ansStr = fragmentFeedbackBinding.edittextAnsTxt.getText().toString();
                 if (question3ansStr.trim().length() >= 1) {
                     AppConfiguration.question3 = "fill";
-                    isRequired = 0 ;
+                    isRequired = 0;
+                    feedbackAnswerValueStr = question3ansStr;
                 } else {
                     AppConfiguration.question3 = "";
-                    isRequired = 1 ;
+                    feedbackAnswerValueStr = "";
+                    isRequired = 1;
                 }
                 currentQuestionIndex = 3;
                 nextQuestionIndex = 4;
@@ -716,10 +722,12 @@ public class FeedbackFragment extends Fragment implements View.OnClickListener {
                 question4ansStr = fragmentFeedbackBinding.edittextAnsTxt.getText().toString();
                 if (question4ansStr.trim().length() >= 1) {
                     AppConfiguration.question4 = "fill";
-                    isRequired = 0 ;
+                    feedbackAnswerValueStr = question4ansStr;
+                    isRequired = 0;
                 } else {
                     AppConfiguration.question4 = "";
-                    isRequired = 1 ;
+                    feedbackAnswerValueStr = "";
+                    isRequired = 1;
                 }
                 currentQuestionIndex = 4;
                 nextQuestionIndex = 5;
@@ -735,10 +743,12 @@ public class FeedbackFragment extends Fragment implements View.OnClickListener {
                 question5ansStr = fragmentFeedbackBinding.edittextAnsTxt.getText().toString();
                 if (question5ansStr.trim().length() >= 1) {
                     AppConfiguration.question5 = "fill";
-                    isRequired = 0 ;
+                    isRequired = 0;
+                    feedbackAnswerValueStr = question5ansStr;
                 } else {
                     AppConfiguration.question5 = "";
-                    isRequired = 1 ;
+                    isRequired = 1;
+                    feedbackAnswerValueStr = "";
                 }
                 currentQuestionIndex = 5;
                 nextQuestionIndex = 6;
@@ -754,10 +764,12 @@ public class FeedbackFragment extends Fragment implements View.OnClickListener {
                 question6ansStr = fragmentFeedbackBinding.edittextAnsTxt.getText().toString();
                 if (question6ansStr.trim().length() >= 1) {
                     AppConfiguration.question6 = "fill";
-                    isRequired = 0 ;
+                    isRequired = 0;
+                    feedbackAnswerValueStr = question6ansStr;
                 } else {
                     AppConfiguration.question6 = "";
-                    isRequired = 1 ;
+                    isRequired = 1;
+                    feedbackAnswerValueStr = "";
                 }
                 currentQuestionIndex = 6;
                 nextQuestionIndex = 7;
@@ -785,10 +797,12 @@ public class FeedbackFragment extends Fragment implements View.OnClickListener {
                 question8ansStr = fragmentFeedbackBinding.edittextAnsTxt.getText().toString();
                 if (question8ansStr.trim().length() >= 1) {
                     AppConfiguration.question8 = "fill";
-                    isRequired = 0 ;
+                    isRequired = 0;
+                    feedbackAnswerValueStr = question8ansStr;
                 } else {
                     AppConfiguration.question8 = "";
-                    isRequired = 1 ;
+                    isRequired = 1;
+                    feedbackAnswerValueStr = "";
                 }
                 currentQuestionIndex = 8;
                 nextQuestionIndex = 9;
@@ -837,10 +851,12 @@ public class FeedbackFragment extends Fragment implements View.OnClickListener {
                 question12ansStr = fragmentFeedbackBinding.edittextAnsTxt.getText().toString();
                 if (question12ansStr.trim().length() >= 1) {
                     AppConfiguration.question12 = "fill";
-                    isRequired = 0 ;
+                    isRequired = 0;
+                    feedbackAnswerValueStr = question12ansStr;
                 } else {
                     AppConfiguration.question12 = "";
-                    isRequired = 1 ;
+                    isRequired = 1;
+                    feedbackAnswerValueStr = "";
                 }
                 currentQuestionIndex = 12;
                 nextQuestionIndex = 13;
@@ -852,10 +868,12 @@ public class FeedbackFragment extends Fragment implements View.OnClickListener {
             question13ansStr = fragmentFeedbackBinding.edittextAnsTxt.getText().toString();
             if (question13ansStr.trim().length() >= 1) {
                 AppConfiguration.question13 = "fill";
-                isRequired = 0 ;
+                isRequired = 0;
+                feedbackAnswerValueStr = question13ansStr;
             } else {
                 AppConfiguration.question13 = "";
-                isRequired = 1 ;
+                isRequired = 1;
+                feedbackAnswerValueStr = "";
             }
             fragmentFeedbackBinding.scrollView.setVisibility(View.GONE);
             fragmentFeedbackBinding.edittextAnsLinear.setVisibility(View.GONE);
@@ -881,6 +899,7 @@ public class FeedbackFragment extends Fragment implements View.OnClickListener {
             Utils.hideKeyboard(getActivity());
             updateNextCountValueText(count);
             if (count == 1) {
+                getSelectedImageandTextValue();
                 fragmentFeedbackBinding.shimmerViewContainer.startShimmerAnimation();
                 fragmentFeedbackBinding.shimmerViewContainer.setVisibility(View.VISIBLE);
                 fragmentFeedbackBinding.questionLinear.setVisibility(View.GONE);
@@ -1063,7 +1082,8 @@ public class FeedbackFragment extends Fragment implements View.OnClickListener {
             if (feedbackansimagetextmodellist.get(i).getQuestionAnswerImagewithTextSelect().equalsIgnoreCase("1")) {
                 question2ansStr = feedbackansimagetextmodellist.get(i).getText();
                 question2ansimageStr = feedbackansimagetextmodellist.get(i).getImageUrl();
-                isRequired = 0 ;
+                isRequired = 0;
+                feedbackAnswerValueStr = question2ansStr;
                 break;
             }
         }
@@ -1074,7 +1094,7 @@ public class FeedbackFragment extends Fragment implements View.OnClickListener {
         for (int i = 0; i < feedbacktextmultichoicelist.size(); i++) {
             if (feedbacktextmultichoicelist.get(i).getQuestionAnswerTextMultiSelect().equalsIgnoreCase("1")) {
                 selectedquestionanslist.add(feedbacktextmultichoicelist.get(i).getText());
-                isRequired = 0 ;
+                isRequired = 0;
             }
         }
         question7ansStr = "";
@@ -1085,6 +1105,8 @@ public class FeedbackFragment extends Fragment implements View.OnClickListener {
             Log.d("question7ansStr", question7ansStr);
             question7ansStr = question7ansStr.substring(1, question7ansStr.length());
             Log.d("finalansweransStr", question7ansStr);
+
+            feedbackAnswerValueStr = question7ansStr;
         }
     }
 
@@ -1093,7 +1115,8 @@ public class FeedbackFragment extends Fragment implements View.OnClickListener {
             if (feedbackratingsinglechoicelist.get(i).getQuestionAnswerRatingSelect().equalsIgnoreCase("1")) {
                 question9ansStr = feedbackratingsinglechoicelist.get(i).getQuestionAnswerText();
                 question9ansratingStr = feedbackratingsinglechoicelist.get(i).getQuestionAnswerRating();
-                isRequired = 0 ;
+                isRequired = 0;
+                feedbackAnswerValueStr = question9ansStr;
                 break;
             }
         }
@@ -1103,7 +1126,8 @@ public class FeedbackFragment extends Fragment implements View.OnClickListener {
         for (int i = 0; i < feedbacktextsinglechoicelist.size(); i++) {
             if (feedbacktextsinglechoicelist.get(i).getQuestionAnswerTextSingleSelect().equalsIgnoreCase("1")) {
                 question11ansStr = feedbacktextsinglechoicelist.get(i).getQuestionAnswerText();
-                isRequired = 0 ;
+                isRequired = 0;
+                feedbackAnswerValueStr = question11ansStr;
                 break;
             }
         }
@@ -1113,7 +1137,8 @@ public class FeedbackFragment extends Fragment implements View.OnClickListener {
         for (int i = 0; i < feedbackanstextsinglechoicegridlist.size(); i++) {
             if (feedbackanstextsinglechoicegridlist.get(i).getQuestionAnswerTextGridSingleSelect().equalsIgnoreCase("1")) {
                 question10ansStr = feedbackanstextsinglechoicegridlist.get(i).getQuestionAnswerText();
-                isRequired = 0 ;
+                isRequired = 0;
+                feedbackAnswerValueStr = question10ansStr;
                 break;
             }
         }
@@ -1154,6 +1179,7 @@ public class FeedbackFragment extends Fragment implements View.OnClickListener {
                         fragmentFeedbackBinding.questionLinear.setVisibility(View.VISIBLE);
                         fragmentFeedbackBinding.edittextAnsTxt.setText("");
                         totalLayout = feedbackQuestionAnswermodellist.getRecordCount();
+                        currentQuestionId = feedbackQuestionAnswermodellist.getData().getId();
                         if (count == 1) {
                             fragmentFeedbackBinding.previousLinear.setVisibility(View.GONE);
                         } else {
@@ -1185,6 +1211,7 @@ public class FeedbackFragment extends Fragment implements View.OnClickListener {
         map.put("NextIndex", String.valueOf(nextQuestionIndex));
         map.put("FeedbackValue", feedbackAnswerValueStr);
         map.put("AppUserId", String.valueOf(Utils.getAppUserId(mContext)));
+        map.put("CurrentId", String.valueOf(currentQuestionId));
         return map;
     }
 
@@ -1254,36 +1281,36 @@ public class FeedbackFragment extends Fragment implements View.OnClickListener {
         if (Utils.getPref(mContext, "question3Ans") != null) {
             question3ansStr = Utils.getPref(mContext, "question3Ans");
         }
-        if(Utils.getPref(mContext, "question4Ans")!=null){
-            question4ansStr = Utils.getPref(mContext,"question4Ans");
+        if (Utils.getPref(mContext, "question4Ans") != null) {
+            question4ansStr = Utils.getPref(mContext, "question4Ans");
         }
-        if(Utils.getPref(mContext, "question5Ans")!=null){
-            question5ansStr = Utils.getPref(mContext,"question5Ans");
+        if (Utils.getPref(mContext, "question5Ans") != null) {
+            question5ansStr = Utils.getPref(mContext, "question5Ans");
         }
-        if(Utils.getPref(mContext, "question6Ans")!=null){
-            question6ansStr = Utils.getPref(mContext,"question6Ans");
+        if (Utils.getPref(mContext, "question6Ans") != null) {
+            question6ansStr = Utils.getPref(mContext, "question6Ans");
         }
-        if(Utils.getPref(mContext, "question7Ans")!=null){
-            question7ansStr = Utils.getPref(mContext,"question7Ans");
+        if (Utils.getPref(mContext, "question7Ans") != null) {
+            question7ansStr = Utils.getPref(mContext, "question7Ans");
         }
-        if(Utils.getPref(mContext, "question8Ans")!=null){
-            question8ansStr = Utils.getPref(mContext,"question8Ans");
+        if (Utils.getPref(mContext, "question8Ans") != null) {
+            question8ansStr = Utils.getPref(mContext, "question8Ans");
         }
-        if(Utils.getPref(mContext, "question9Ans")!=null && Utils.getPref(mContext,"question9ratingAns")!=null){
-            question9ansStr = Utils.getPref(mContext,"question9Ans");
-            question9ansratingStr = Utils.getPref(mContext,"question9ratingAns");
+        if (Utils.getPref(mContext, "question9Ans") != null && Utils.getPref(mContext, "question9ratingAns") != null) {
+            question9ansStr = Utils.getPref(mContext, "question9Ans");
+            question9ansratingStr = Utils.getPref(mContext, "question9ratingAns");
         }
-        if(Utils.getPref(mContext, "question10Ans")!=null){
-            question10ansStr = Utils.getPref(mContext,"question10Ans");
+        if (Utils.getPref(mContext, "question10Ans") != null) {
+            question10ansStr = Utils.getPref(mContext, "question10Ans");
         }
-        if(Utils.getPref(mContext, "question11Ans")!=null){
-            question11ansStr = Utils.getPref(mContext,"question11Ans");
+        if (Utils.getPref(mContext, "question11Ans") != null) {
+            question11ansStr = Utils.getPref(mContext, "question11Ans");
         }
-        if(Utils.getPref(mContext, "question12Ans")!=null){
-            question12ansStr = Utils.getPref(mContext,"question12Ans");
+        if (Utils.getPref(mContext, "question12Ans") != null) {
+            question12ansStr = Utils.getPref(mContext, "question12Ans");
         }
-        if(Utils.getPref(mContext, "question13Ans")!=null){
-            question13ansStr = Utils.getPref(mContext,"question13Ans");
+        if (Utils.getPref(mContext, "question13Ans") != null) {
+            question13ansStr = Utils.getPref(mContext, "question13Ans");
         }
 
     }
