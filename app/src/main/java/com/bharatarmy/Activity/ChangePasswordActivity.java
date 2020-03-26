@@ -190,6 +190,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
         map.put("MemberId", memberIdStr);
         map.put("TokenId", Utils.getPref(mContext, "registration_id"));
         map.put("ModelName", Utils.getDeviceName());
+
         return map;
     }
 }

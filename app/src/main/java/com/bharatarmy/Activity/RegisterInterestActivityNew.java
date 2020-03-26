@@ -353,6 +353,7 @@ public class RegisterInterestActivityNew extends AppCompatActivity implements Vi
         Map<String, String> map = new HashMap<>();
         map.put("TournamentId", tournamentIdStr);
         map.put("MemberId", String.valueOf(Utils.getAppUserId(mContext)));
+
         return map;
     }
 
@@ -595,6 +596,7 @@ public class RegisterInterestActivityNew extends AppCompatActivity implements Vi
         map.put("CountryDialcode", countrydialcodeStr);
         map.put("CountryCode", countrycodeStr);
         map.put("MatchIds", matchidStr);
+
         return map;
     }
 

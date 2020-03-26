@@ -586,7 +586,6 @@ public class SportsInterestActivity extends AppCompatActivity implements View.On
         RequestBody addedbyemail = RequestBody.create(MediaType.parse("text/plain"), addedemailStr);
         RequestBody addedbyname = RequestBody.create(MediaType.parse("text/plain"), addednameStr);
 
-
 //        ShowProgressDialog();
         Call<LogginModel> responseBodyCall = uploadAPIs.insertData(appId, fullname, countryISOCode,
                 countycode, phoneno, gender, email, sports, schoolname, usertype, entryType, addedbyemail, addedbyname, body);
@@ -709,6 +708,7 @@ public class SportsInterestActivity extends AppCompatActivity implements View.On
 
     private Map<String, String> getSportsDetailData() {
         Map<String, String> map = new HashMap<>();
+
         return map;
     }
 
@@ -771,6 +771,7 @@ public class SportsInterestActivity extends AppCompatActivity implements View.On
 
     private Map<String, String> getSchoolData() {
         Map<String, String> map = new HashMap<>();
+
         return map;
     }
 

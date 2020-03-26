@@ -270,6 +270,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         map.put("Email", strEmail);
         map.put("PhoneNo", strMobileno);
         map.put("CountryPhoneNo", strCountrycode);
+
         return map;
     }
 

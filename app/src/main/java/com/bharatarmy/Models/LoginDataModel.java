@@ -658,6 +658,9 @@ public class LoginDataModel {
     @SerializedName("IsRequired")
     @Expose
     private Integer isRequired;
+    @SerializedName("AnswerValue")
+    @Expose
+    private String answerValue;
 
 
     public String getHeaderTypeText() {
@@ -707,5 +710,11 @@ public class LoginDataModel {
     public void setIsRequired(Integer isRequired) {
         this.isRequired = isRequired;
     }
+    public String getAnswerValue() {
+        return answerValue;
+    }
 
+    public void setAnswerValue(String answerValue) {
+        this.answerValue = answerValue;
+    }
 }

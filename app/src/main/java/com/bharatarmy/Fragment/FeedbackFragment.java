@@ -33,6 +33,7 @@ import com.bharatarmy.Adapter.FeedbackViewAdapter;
 import com.bharatarmy.Interfaces.MorestoryClick;
 import com.bharatarmy.Models.FeedbackAnswerList;
 import com.bharatarmy.Models.FeedbackMainModel;
+import com.bharatarmy.Models.LoginDataModel;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.ApiHandler;
 import com.bharatarmy.Utility.AppConfiguration;
@@ -88,13 +89,14 @@ public class FeedbackFragment extends Fragment implements View.OnClickListener {
 
     /*question answer view adapter*/
     FeedbackViewAdapter feedbackViewAdapter;
-    ArrayList<FeedbackAnswerList> feedbackviewanslist;
+    List<LoginDataModel> feedbackviewanslist;
     LinearLayoutManager ansviewmLayout;
 
     /*question answer string*/
     String question2ansStr = "", question2ansimageStr = "", question10ansStr = "", question11ansStr = "", question12ansStr = "",
             question13ansStr = "", question1ansStr = "", question3ansStr = "", question4ansStr = "", question5ansStr = "",
-            question6ansStr = "", question7ansStr = "", question8ansStr = "", question9ansStr = "", question9ansratingStr = "";
+            question6ansStr = "", question7ansStr = "", question8ansStr = "", question9ansStr = "", question9ansratingStr = "",
+            feedbackansimageStr = "", feedbackansratingStr = "";
 
 
     /*Question count*/
@@ -183,47 +185,45 @@ public class FeedbackFragment extends Fragment implements View.OnClickListener {
     }
 
     public void init() {
-        if (Utils.getPref(mContext, "feedbackgiveflag") != null) {
-            if (Utils.getPref(mContext, "feedbackgiveflag").equalsIgnoreCase("1")) {
 
-                fragmentFeedbackBinding.questionAnsViewLinear.setVisibility(View.VISIBLE);
-                /*Animation for visibility visible*/
-                Animation animSlidein = AnimationUtils.loadAnimation(mContext, R.anim.slide_in_right_new);
-                fragmentFeedbackBinding.questionAnsViewLinear.startAnimation(animSlidein);
-                fragmentFeedbackBinding.editLinear.setVisibility(View.VISIBLE);
-                setSelectedValueInList();
-            } else {
-                stayfeedbacksurvey();
-                fragmentFeedbackBinding.shimmerViewContainer.setVisibility(View.VISIBLE);
-                fragmentFeedbackBinding.thankyouLinear.setVisibility(View.GONE);
-                // Load the animation like this
-                Animation animSlidein = AnimationUtils.loadAnimation(mContext,
-                        R.anim.slide_in_right_new);
-
-                // Start the animation like this
-                fragmentFeedbackBinding.shimmerViewContainer.startAnimation(animSlidein);
-                fragmentFeedbackBinding.shimmerViewContainer.startShimmerAnimation();
-                currentQuestionIndex = 1;
-                nextQuestionIndex = 0;
-                currentQuestionId = 0;
-                callFeedbackQuestionAnswerData();
-            }
-        } else {
-            stayfeedbacksurvey();
-            fragmentFeedbackBinding.shimmerViewContainer.setVisibility(View.VISIBLE);
-            fragmentFeedbackBinding.thankyouLinear.setVisibility(View.GONE);
-            // Load the animation like this
-            Animation animSlidein = AnimationUtils.loadAnimation(mContext,
-                    R.anim.slide_in_right_new);
-
-            // Start the animation like this
-            fragmentFeedbackBinding.shimmerViewContainer.startAnimation(animSlidein);
-            fragmentFeedbackBinding.shimmerViewContainer.startShimmerAnimation();
-            currentQuestionIndex = 1;
-            nextQuestionIndex = 0;
-            currentQuestionId = 0;
-            callFeedbackQuestionAnswerData();
-        }
+        callQuestionAnswerList();
+//        if (Utils.getPref(mContext, "feedbackgiveflag") != null) {
+//            if (Utils.getPref(mContext, "feedbackgiveflag").equalsIgnoreCase("1")) {
+//                fragmentFeedbackBinding.shimmerViewContainer.setVisibility(View.VISIBLE);
+//                fragmentFeedbackBinding.shimmerViewContainer.startShimmerAnimation();
+//                callQuestionAnswerList();
+//            } else {
+//                stayfeedbacksurvey();
+//                fragmentFeedbackBinding.shimmerViewContainer.setVisibility(View.VISIBLE);
+//                fragmentFeedbackBinding.thankyouLinear.setVisibility(View.GONE);
+//                // Load the animation like this
+//                Animation animSlidein = AnimationUtils.loadAnimation(mContext,
+//                        R.anim.slide_in_right_new);
+//
+//                // Start the animation like this
+//                fragmentFeedbackBinding.shimmerViewContainer.startAnimation(animSlidein);
+//                fragmentFeedbackBinding.shimmerViewContainer.startShimmerAnimation();
+//                currentQuestionIndex = 1;
+//                nextQuestionIndex = 0;
+//                currentQuestionId = 0;
+//                callFeedbackQuestionAnswerData();
+//            }
+//        } else {
+//            stayfeedbacksurvey();
+//            fragmentFeedbackBinding.shimmerViewContainer.setVisibility(View.VISIBLE);
+//            fragmentFeedbackBinding.thankyouLinear.setVisibility(View.GONE);
+//            // Load the animation like this
+//            Animation animSlidein = AnimationUtils.loadAnimation(mContext,
+//                    R.anim.slide_in_right_new);
+//
+//            // Start the animation like this
+//            fragmentFeedbackBinding.shimmerViewContainer.startAnimation(animSlidein);
+//            fragmentFeedbackBinding.shimmerViewContainer.startShimmerAnimation();
+//            currentQuestionIndex = 1;
+//            nextQuestionIndex = 0;
+//            currentQuestionId = 0;
+//            callFeedbackQuestionAnswerData();
+//        }
 
 
     }
@@ -289,8 +289,6 @@ public class FeedbackFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.view_feedback_btn:
                 Utils.hideKeyboard(getActivity());
-                answerstoreLocal();
-                setSelectedValueInList();
                 fragmentFeedbackBinding.thankyouLinear.setVisibility(View.GONE);
                 fragmentFeedbackBinding.previousLinear.setVisibility(View.GONE);
                 fragmentFeedbackBinding.nextLinear.setVisibility(View.GONE);
@@ -298,15 +296,13 @@ public class FeedbackFragment extends Fragment implements View.OnClickListener {
                 fragmentFeedbackBinding.scrollView.setVisibility(View.GONE);
                 fragmentFeedbackBinding.edittextAnsLinear.setVisibility(View.GONE);
 
-                /*Animation for visibility gone*/
-                Animation animSlideout = AnimationUtils.loadAnimation(mContext, R.anim.slide_out_left_new);
-                fragmentFeedbackBinding.thankyouLinear.startAnimation(animSlideout);
+                fragmentFeedbackBinding.shimmerViewContainer.setVisibility(View.VISIBLE);
+                fragmentFeedbackBinding.shimmerViewContainer.startShimmerAnimation();
+                feedbackAnswerValueStr = "";
+                callQuestionAnswerList();
+//                answerstoreLocal();
 
-                fragmentFeedbackBinding.questionAnsViewLinear.setVisibility(View.VISIBLE);
-                fragmentFeedbackBinding.editLinear.setVisibility(View.VISIBLE);
-                /*Animation for visibility visible*/
-                Animation animSlidein = AnimationUtils.loadAnimation(mContext, R.anim.slide_in_right_new);
-                fragmentFeedbackBinding.questionAnsViewLinear.startAnimation(animSlidein);
+
                 break;
             case R.id.edit_linear:
                 stayfeedbacksurvey();
@@ -347,18 +343,25 @@ public class FeedbackFragment extends Fragment implements View.OnClickListener {
         fragmentFeedbackBinding.questionCategoryTitleTxt.setText(feedbackQuestionAnswermodellist.getData().getHeaderTypeText());
         fragmentFeedbackBinding.questionTxt.setText(feedbackQuestionAnswermodellist.getData().getFeedbackQuestion());
         if (feedbackQuestionAnswermodellist.getData().getFeedbackType().equals(1)) {
+           
             setValueTextView(String.valueOf(feedbackQuestionAnswermodellist.getData().getFeedbackDescription()));
         } else if (feedbackQuestionAnswermodellist.getData().getFeedbackType().equals(4)) {
+           
             setImageandTextValue();
         } else if (feedbackQuestionAnswermodellist.getData().getFeedbackType().equals(5)) {
+
             setEditextValue();
         } else if (feedbackQuestionAnswermodellist.getData().getFeedbackType().equals(6)) {
+           
             setTextMultiChoiceValue();
         } else if (feedbackQuestionAnswermodellist.getData().getFeedbackType().equals(7)) {
+           
             setTextWithRatingSingleChoiceValue();
         } else if (feedbackQuestionAnswermodellist.getData().getFeedbackType().equals(2)) {
+           
             setTextSingleChoiceValue();
         } else if (feedbackQuestionAnswermodellist.getData().getFeedbackType().equals(8)) {
+           
             setTextGridSingleChoiceValue();
         }
 
@@ -376,30 +379,55 @@ public class FeedbackFragment extends Fragment implements View.OnClickListener {
     /*View Question and Answer of Feedback User*/
     public void setSelectedValueInList() {
         quitefeedbacksurvey();
-        answerretriveLocal();
+//        answerretriveLocal();
 
-        /*Question ans view list*/
-        feedbackviewanslist = new ArrayList<>();
-        feedbackviewanslist.add(new FeedbackAnswerList("How does the app run after download or a new update?", question1ansStr, "textview", ""));
-        feedbackviewanslist.add(new FeedbackAnswerList("How do you like the app design?", question2ansStr, "imagetext", question2ansimageStr));
-        feedbackviewanslist.add(new FeedbackAnswerList("Can you describe a situation in which our app is most useful?", question3ansStr, "textview", ""));
-        feedbackviewanslist.add(new FeedbackAnswerList("Is our app helping you achieve your goals?", question4ansStr, "textview", ""));
-        feedbackviewanslist.add(new FeedbackAnswerList("What goals are we helping you achieve?", question5ansStr, "textview", ""));
-        feedbackviewanslist.add(new FeedbackAnswerList("Are there any functions you would like us to add? (Provide a list of new modules and features)", question6ansStr, "textview", ""));
-        feedbackviewanslist.add(new FeedbackAnswerList("How often do you use the following features on other apps and would like to see implemented in the Bharat Army app?", question7ansStr, "textview", ""));
-        feedbackviewanslist.add(new FeedbackAnswerList("Which of the following features do you use least?", question8ansStr, "textview", ""));
-        feedbackviewanslist.add(new FeedbackAnswerList("How would you rate our app?", question9ansStr, "rating", question9ansratingStr));
-        feedbackviewanslist.add(new FeedbackAnswerList("Would you recommend this app to your friends?", question10ansStr, "textgrid", ""));
-        feedbackviewanslist.add(new FeedbackAnswerList("Great! Would you like to give us a Review?", question11ansStr, "textview", ""));
-        feedbackviewanslist.add(new FeedbackAnswerList("What is the reason for your score?", question12ansStr, "textview", ""));
-        feedbackviewanslist.add(new FeedbackAnswerList("What can we do to improve?", question13ansStr, "textview", ""));
+        for (int i = 0; i < feedbackviewanslist.size(); i++) {
+            if (!feedbackviewanslist.get(i).getAnswerValue().equalsIgnoreCase("")) {
+                Utils.setPref(mContext, "feedbackgiveflag", "1");
+                break;
+            } else {
+                Utils.setPref(mContext, "feedbackgiveflag", "0");
+            }
+        }
+        for (int i = 0; i < feedbackviewanslist.size(); i++) {
+            if (feedbackviewanslist.get(i).getFeedbackType().equals(4)) {
+                for (int j = 0; j < feedbackviewanslist.get(i).getOptions().size(); j++) {
+                    if (feedbackviewanslist.get(i).getAnswerValue().equalsIgnoreCase(feedbackviewanslist.get(i).getOptions().get(j).getText())) {
+                        feedbackansimageStr = feedbackviewanslist.get(i).getOptions().get(j).getImageUrl();
+                    }
+                }
+            }
 
 
-        feedbackViewAdapter = new FeedbackViewAdapter(mContext, feedbackviewanslist);
-        ansviewmLayout = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
-        fragmentFeedbackBinding.questionAnsViewRcv.setLayoutManager(ansviewmLayout);
-        fragmentFeedbackBinding.questionAnsViewRcv.setItemAnimator(new DefaultItemAnimator());
-        fragmentFeedbackBinding.questionAnsViewRcv.setAdapter(feedbackViewAdapter);
+        }
+        if (Utils.getPref(mContext, "feedbackgiveflag") != null) {
+            if (Utils.getPref(mContext, "feedbackgiveflag").equalsIgnoreCase("1")) {
+                fragmentFeedbackBinding.shimmerViewContainer.stopShimmerAnimation();
+                fragmentFeedbackBinding.shimmerViewContainer.setVisibility(View.GONE);
+                /*Animation for visibility gone*/
+                Animation animSlideout = AnimationUtils.loadAnimation(mContext, R.anim.slide_out_left_new);
+                fragmentFeedbackBinding.shimmerViewContainer.startAnimation(animSlideout);
+
+                fragmentFeedbackBinding.questionAnsViewLinear.setVisibility(View.VISIBLE);
+                fragmentFeedbackBinding.editLinear.setVisibility(View.VISIBLE);
+                /*Animation for visibility visible*/
+                Animation animSlidein = AnimationUtils.loadAnimation(mContext, R.anim.slide_in_right_new);
+                fragmentFeedbackBinding.questionAnsViewLinear.startAnimation(animSlidein);
+                Log.d("imageStr", feedbackansimageStr);
+                feedbackViewAdapter = new FeedbackViewAdapter(mContext, feedbackviewanslist, feedbackansimageStr);
+                ansviewmLayout = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
+                fragmentFeedbackBinding.questionAnsViewRcv.setLayoutManager(ansviewmLayout);
+                fragmentFeedbackBinding.questionAnsViewRcv.setItemAnimator(new DefaultItemAnimator());
+                fragmentFeedbackBinding.questionAnsViewRcv.setAdapter(feedbackViewAdapter);
+            } else {
+                currentQuestionIndex = 1;
+                nextQuestionIndex = 0;
+                currentQuestionId = 0;
+                count = 1;
+                callFeedbackQuestionAnswerData();
+            }
+        }
+
     }
 
 
@@ -432,8 +460,8 @@ public class FeedbackFragment extends Fragment implements View.OnClickListener {
         fragmentFeedbackBinding.ImagewithtextsinglechoiceLinear.setVisibility(View.VISIBLE);
         for (int i = 0; i < feedbackansimagetextmodellist.size(); i++) {
             feedbackansimagetextmodellist.get(i).setQuestionAnswerImagewithTextSelect("0");
-            if (!question2ansStr.equalsIgnoreCase("")) {
-                if (question2ansStr.equalsIgnoreCase(feedbackansimagetextmodellist.get(i).getText())) {
+            if (!feedbackQuestionAnswermodellist.getData().getAnswerValue().equalsIgnoreCase("")) {
+                if (feedbackQuestionAnswermodellist.getData().getAnswerValue().equalsIgnoreCase(feedbackansimagetextmodellist.get(i).getText())) {
                     selectedimageandtextchangesposition = i;
                     isRequired = 0;
                 }
@@ -466,32 +494,32 @@ public class FeedbackFragment extends Fragment implements View.OnClickListener {
         fragmentFeedbackBinding.edittextAnsLinear.setVisibility(View.VISIBLE);
 
         if (feedbackQuestionAnswermodellist.getData().getId().equals(3)) {
-            if (!question3ansStr.equalsIgnoreCase("")) {
-                fragmentFeedbackBinding.edittextAnsTxt.setText(question3ansStr);
+            if (!feedbackQuestionAnswermodellist.getData().getAnswerValue().equalsIgnoreCase("")) {
+                fragmentFeedbackBinding.edittextAnsTxt.setText(feedbackQuestionAnswermodellist.getData().getAnswerValue());
             }
         } else if (feedbackQuestionAnswermodellist.getData().getId().equals(4)) {
-            if (!question4ansStr.equalsIgnoreCase("")) {
-                fragmentFeedbackBinding.edittextAnsTxt.setText(question4ansStr);
+            if (!feedbackQuestionAnswermodellist.getData().getAnswerValue().equalsIgnoreCase("")) {
+                fragmentFeedbackBinding.edittextAnsTxt.setText(feedbackQuestionAnswermodellist.getData().getAnswerValue());
             }
         } else if (feedbackQuestionAnswermodellist.getData().getId().equals(5)) {
-            if (!question5ansStr.equalsIgnoreCase("")) {
-                fragmentFeedbackBinding.edittextAnsTxt.setText(question5ansStr);
+            if (!feedbackQuestionAnswermodellist.getData().getAnswerValue().equalsIgnoreCase("")) {
+                fragmentFeedbackBinding.edittextAnsTxt.setText(feedbackQuestionAnswermodellist.getData().getAnswerValue());
             }
         } else if (feedbackQuestionAnswermodellist.getData().getId().equals(6)) {
-            if (!question6ansStr.equalsIgnoreCase("")) {
-                fragmentFeedbackBinding.edittextAnsTxt.setText(question6ansStr);
+            if (!feedbackQuestionAnswermodellist.getData().getAnswerValue().equalsIgnoreCase("")) {
+                fragmentFeedbackBinding.edittextAnsTxt.setText(feedbackQuestionAnswermodellist.getData().getAnswerValue());
             }
         } else if (feedbackQuestionAnswermodellist.getData().getId().equals(8)) {
-            if (!question8ansStr.equalsIgnoreCase("")) {
-                fragmentFeedbackBinding.edittextAnsTxt.setText(question8ansStr);
+            if (!feedbackQuestionAnswermodellist.getData().getAnswerValue().equalsIgnoreCase("")) {
+                fragmentFeedbackBinding.edittextAnsTxt.setText(feedbackQuestionAnswermodellist.getData().getAnswerValue());
             }
         } else if (feedbackQuestionAnswermodellist.getData().getId().equals(12)) {
-            if (!question12ansStr.equalsIgnoreCase("")) {
-                fragmentFeedbackBinding.edittextAnsTxt.setText(question12ansStr);
+            if (!feedbackQuestionAnswermodellist.getData().getAnswerValue().equalsIgnoreCase("")) {
+                fragmentFeedbackBinding.edittextAnsTxt.setText(feedbackQuestionAnswermodellist.getData().getAnswerValue());
             }
         } else if (feedbackQuestionAnswermodellist.getData().getId().equals(13)) {
-            if (!question13ansStr.equalsIgnoreCase("")) {
-                fragmentFeedbackBinding.edittextAnsTxt.setText(question13ansStr);
+            if (!feedbackQuestionAnswermodellist.getData().getAnswerValue().equalsIgnoreCase("")) {
+                fragmentFeedbackBinding.edittextAnsTxt.setText(feedbackQuestionAnswermodellist.getData().getAnswerValue());
             }
         }
     }
@@ -502,8 +530,8 @@ public class FeedbackFragment extends Fragment implements View.OnClickListener {
         fragmentFeedbackBinding.textmultichoiceLinear.setVisibility(View.VISIBLE);
         for (int i = 0; i < feedbacktextmultichoicelist.size(); i++) {
             feedbacktextmultichoicelist.get(i).setQuestionAnswerTextMultiSelect("0");
-            if (!question7ansStr.equalsIgnoreCase("")) {
-                List<String> items = Arrays.asList(question7ansStr.split("\\s*,\\s*"));
+            if (!feedbackQuestionAnswermodellist.getData().getAnswerValue().equalsIgnoreCase("")) {
+                List<String> items = Arrays.asList(feedbackQuestionAnswermodellist.getData().getAnswerValue().split("\\s*,\\s*"));
 
                 for (int k = 0; k < items.size(); k++) {
                     if (items.get(k).trim().equalsIgnoreCase(feedbacktextmultichoicelist.get(i).getText())) {
@@ -547,8 +575,8 @@ public class FeedbackFragment extends Fragment implements View.OnClickListener {
 
         for (int i = 0; i < feedbackratingsinglechoicelist.size(); i++) {
             feedbackratingsinglechoicelist.get(i).setQuestionAnswerRatingSelect("0");
-            if (!question9ansStr.equalsIgnoreCase("")) {
-                if (question9ansStr.equalsIgnoreCase(feedbackratingsinglechoicelist.get(i).getQuestionAnswerText())) {
+            if (!feedbackQuestionAnswermodellist.getData().getAnswerValue().equalsIgnoreCase("")) {
+                if (feedbackQuestionAnswermodellist.getData().getAnswerValue().equalsIgnoreCase(feedbackratingsinglechoicelist.get(i).getQuestionAnswerRating())) {
                     selectedratingchangeposition = i;
                     isRequired = 0;
                 }
@@ -584,8 +612,8 @@ public class FeedbackFragment extends Fragment implements View.OnClickListener {
 
         for (int i = 0; i < feedbacktextsinglechoicelist.size(); i++) {
             feedbacktextsinglechoicelist.get(i).setQuestionAnswerTextSingleSelect("0");
-            if (!question11ansStr.equalsIgnoreCase("")) {
-                if (question11ansStr.equalsIgnoreCase(feedbacktextsinglechoicelist.get(i).getQuestionAnswerText())) {
+            if (!feedbackQuestionAnswermodellist.getData().getAnswerValue().equalsIgnoreCase("")) {
+                if (feedbackQuestionAnswermodellist.getData().getAnswerValue().equalsIgnoreCase(feedbacktextsinglechoicelist.get(i).getQuestionAnswerText())) {
                     selectedtextsinglechangesposition = i;
                     isRequired = 0;
                 }
@@ -632,8 +660,8 @@ public class FeedbackFragment extends Fragment implements View.OnClickListener {
 
         for (int i = 0; i < feedbackanstextsinglechoicegridlist.size(); i++) {
             feedbackanstextsinglechoicegridlist.get(i).setQuestionAnswerTextGridSingleSelect("0");
-            if (!question10ansStr.equalsIgnoreCase("")) {
-                if (question10ansStr.equalsIgnoreCase(feedbackanstextsinglechoicegridlist.get(i).getQuestionAnswerText())) {
+            if (!feedbackQuestionAnswermodellist.getData().getAnswerValue().equalsIgnoreCase("")) {
+                if (feedbackQuestionAnswermodellist.getData().getAnswerValue().equalsIgnoreCase(feedbackanstextsinglechoicegridlist.get(i).getQuestionAnswerText())) {
                     selectedtextsinglegridchangesposition = i;
                     isRequired = 0;
                 }
@@ -722,7 +750,7 @@ public class FeedbackFragment extends Fragment implements View.OnClickListener {
                 question4ansStr = fragmentFeedbackBinding.edittextAnsTxt.getText().toString();
                 if (question4ansStr.trim().length() >= 1) {
                     AppConfiguration.question4 = "fill";
-                    feedbackAnswerValueStr = question4ansStr;
+                    feedbackAnswerValueStr = question4ansStr.trim();
                     isRequired = 0;
                 } else {
                     AppConfiguration.question4 = "";
@@ -864,7 +892,6 @@ public class FeedbackFragment extends Fragment implements View.OnClickListener {
             }
         } else {
             Utils.hideKeyboard(getActivity());
-            Utils.setPref(mContext, "feedbackgiveflag", "1");
             question13ansStr = fragmentFeedbackBinding.edittextAnsTxt.getText().toString();
             if (question13ansStr.trim().length() >= 1) {
                 AppConfiguration.question13 = "fill";
@@ -875,19 +902,10 @@ public class FeedbackFragment extends Fragment implements View.OnClickListener {
                 isRequired = 1;
                 feedbackAnswerValueStr = "";
             }
-            fragmentFeedbackBinding.scrollView.setVisibility(View.GONE);
-            fragmentFeedbackBinding.edittextAnsLinear.setVisibility(View.GONE);
-            fragmentFeedbackBinding.previousLinear.setVisibility(View.GONE);
-            fragmentFeedbackBinding.nextLinear.setVisibility(View.GONE);
-            fragmentFeedbackBinding.questionLinear.setVisibility(View.GONE);
-            /*Animation for visibility gone*/
-            Animation animSlideout = AnimationUtils.loadAnimation(mContext, R.anim.slide_out_left_new);
-            fragmentFeedbackBinding.questionLinear.startAnimation(animSlideout);
+            currentQuestionIndex = 13;
+            nextQuestionIndex = 0;
+            callFeedbackQuestionAnswerData();
 
-            fragmentFeedbackBinding.thankyouLinear.setVisibility(View.VISIBLE);
-//                    /*Animation for visibility visible*/
-            Animation animSlidein = AnimationUtils.loadAnimation(mContext, R.anim.slide_in_right_new);
-            fragmentFeedbackBinding.thankyouLinear.startAnimation(animSlidein);
         }
 
     }
@@ -898,6 +916,7 @@ public class FeedbackFragment extends Fragment implements View.OnClickListener {
             count = count - 1;
             Utils.hideKeyboard(getActivity());
             updateNextCountValueText(count);
+            currentQuestionId = 0;
             if (count == 1) {
                 getSelectedImageandTextValue();
                 fragmentFeedbackBinding.shimmerViewContainer.startShimmerAnimation();
@@ -1084,7 +1103,7 @@ public class FeedbackFragment extends Fragment implements View.OnClickListener {
                 question2ansimageStr = feedbackansimagetextmodellist.get(i).getImageUrl();
                 isRequired = 0;
                 feedbackAnswerValueStr = question2ansStr;
-                break;
+//                break;
             }
         }
     }
@@ -1116,8 +1135,8 @@ public class FeedbackFragment extends Fragment implements View.OnClickListener {
                 question9ansStr = feedbackratingsinglechoicelist.get(i).getQuestionAnswerText();
                 question9ansratingStr = feedbackratingsinglechoicelist.get(i).getQuestionAnswerRating();
                 isRequired = 0;
-                feedbackAnswerValueStr = question9ansStr;
-                break;
+                feedbackAnswerValueStr = question9ansratingStr;
+//                break;
             }
         }
     }
@@ -1128,7 +1147,7 @@ public class FeedbackFragment extends Fragment implements View.OnClickListener {
                 question11ansStr = feedbacktextsinglechoicelist.get(i).getQuestionAnswerText();
                 isRequired = 0;
                 feedbackAnswerValueStr = question11ansStr;
-                break;
+//                break;
             }
         }
     }
@@ -1139,7 +1158,7 @@ public class FeedbackFragment extends Fragment implements View.OnClickListener {
                 question10ansStr = feedbackanstextsinglechoicegridlist.get(i).getQuestionAnswerText();
                 isRequired = 0;
                 feedbackAnswerValueStr = question10ansStr;
-                break;
+//                break;
             }
         }
     }
@@ -1173,23 +1192,43 @@ public class FeedbackFragment extends Fragment implements View.OnClickListener {
 
                     if (feedbackMainModel.getData() != null) {
                         feedbackQuestionAnswermodellist = feedbackMainModel;
-
-                        fragmentFeedbackBinding.shimmerViewContainer.stopShimmerAnimation();
-                        fragmentFeedbackBinding.shimmerViewContainer.setVisibility(View.GONE);
-                        fragmentFeedbackBinding.questionLinear.setVisibility(View.VISIBLE);
-                        fragmentFeedbackBinding.edittextAnsTxt.setText("");
-                        totalLayout = feedbackQuestionAnswermodellist.getRecordCount();
-                        currentQuestionId = feedbackQuestionAnswermodellist.getData().getId();
-                        if (count == 1) {
+                        if (currentQuestionIndex == 13 && nextQuestionIndex == 0) {
+                            fragmentFeedbackBinding.scrollView.setVisibility(View.GONE);
+                            fragmentFeedbackBinding.edittextAnsLinear.setVisibility(View.GONE);
                             fragmentFeedbackBinding.previousLinear.setVisibility(View.GONE);
-                        } else {
-                            fragmentFeedbackBinding.previousLinear.setVisibility(View.VISIBLE);
-                        }
-                        updateNextCountValueText(count);
-                        fragmentFeedbackBinding.nextLinear.setVisibility(View.VISIBLE);
-                        setQuestionAnswer();
-                    }
+                            fragmentFeedbackBinding.nextLinear.setVisibility(View.GONE);
+                            fragmentFeedbackBinding.questionLinear.setVisibility(View.GONE);
+                            /*Animation for visibility gone*/
+                            Animation animSlideout = AnimationUtils.loadAnimation(mContext, R.anim.slide_out_left_new);
+                            fragmentFeedbackBinding.questionLinear.startAnimation(animSlideout);
 
+                            fragmentFeedbackBinding.thankyouLinear.setVisibility(View.VISIBLE);
+//                    /*Animation for visibility visible*/
+                            Animation animSlidein = AnimationUtils.loadAnimation(mContext, R.anim.slide_in_right_new);
+                            fragmentFeedbackBinding.thankyouLinear.startAnimation(animSlidein);
+                        } else {
+                            fragmentFeedbackBinding.shimmerViewContainer.stopShimmerAnimation();
+                            fragmentFeedbackBinding.shimmerViewContainer.setVisibility(View.GONE);
+                            fragmentFeedbackBinding.questionLinear.setVisibility(View.VISIBLE);
+                            fragmentFeedbackBinding.edittextAnsTxt.setText("");
+                            totalLayout = feedbackQuestionAnswermodellist.getRecordCount();
+                            currentQuestionId = feedbackQuestionAnswermodellist.getData().getId();
+                            if (count == 1) {
+                                fragmentFeedbackBinding.previousLinear.setVisibility(View.GONE);
+                            } else {
+                                fragmentFeedbackBinding.previousLinear.setVisibility(View.VISIBLE);
+                            }
+                            updateNextCountValueText(count);
+                            fragmentFeedbackBinding.nextLinear.setVisibility(View.VISIBLE);
+                            setQuestionAnswer();
+                        }
+                    } else if (feedbackMainModel.getOtherData() != null) {
+                        if (feedbackMainModel.getOtherData().size() != 0) {
+                            feedbackviewanslist = feedbackMainModel.getOtherData();
+                            setSelectedValueInList();
+
+                        }
+                    }
                 }
             }
 
@@ -1212,6 +1251,7 @@ public class FeedbackFragment extends Fragment implements View.OnClickListener {
         map.put("FeedbackValue", feedbackAnswerValueStr);
         map.put("AppUserId", String.valueOf(Utils.getAppUserId(mContext)));
         map.put("CurrentId", String.valueOf(currentQuestionId));
+
         return map;
     }
 
@@ -1313,5 +1353,12 @@ public class FeedbackFragment extends Fragment implements View.OnClickListener {
             question13ansStr = Utils.getPref(mContext, "question13Ans");
         }
 
+    }
+
+    public void callQuestionAnswerList() {
+        currentQuestionIndex = -1;
+        nextQuestionIndex = 0;
+        currentQuestionId = 0;
+        callFeedbackQuestionAnswerData();
     }
 }

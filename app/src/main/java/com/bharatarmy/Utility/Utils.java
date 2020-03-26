@@ -71,6 +71,7 @@ import androidx.core.content.ContextCompat;
 
 import com.bharatarmy.Activity.AppLoginActivity;
 import com.bharatarmy.Activity.DashboardActivity;
+import com.bharatarmy.BuildConfig;
 import com.bharatarmy.CallOneAnimationCartAddItemMethod;
 import com.bharatarmy.CallTwoAnimationCartAddItemMethod;
 import com.bharatarmy.Models.GalleryImageModel;
@@ -472,7 +473,7 @@ public class Utils {
 //    }
 
 
-    public static void showUpdateDialog(final Activity activity) {
+    public static void showUpdateDialog(final Activity activity,String hideStr,String versioncode) {
         final Dialog dialog = new Dialog(activity);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setCancelable(false);
@@ -486,13 +487,33 @@ public class Utils {
         TextView notnow_txt = (TextView) dialog.findViewById(R.id.notnow_txt);
         ImageView updateapp_img = (ImageView) dialog.findViewById(R.id.updateapp_img);
 
+        if (hideStr.equalsIgnoreCase("hide")){
+            notnow_txt.setVisibility(View.GONE);
+        }else{
+            notnow_txt.setVisibility(View.VISIBLE);
+        }
+
+
         Glide.with(activity)
                 .load(R.drawable.logo_new)
                 .into(updateapp_img);
         update.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 dialog.dismiss();
+                Utils.setPref(getApplicationContext(),"notnow","0");
+                Utils.setPref(getApplicationContext(),"appVersion",versioncode);
+//                try {
+//                    Intent viewIntent =
+//                            new Intent("android.intent.action.VIEW",
+//                                    Uri.parse("https://play.google.com/store/apps/details?id=com.adeebhat.rabbitsvilla"));
+//                    activity.startActivity(viewIntent);
+//                }catch(Exception e) {
+//                    Toast.makeText(getApplicationContext(),"Unable to Connect Try Again...",
+//                            Toast.LENGTH_LONG).show();
+//                    e.printStackTrace();
+//                }
             }
         });
 
@@ -500,6 +521,8 @@ public class Utils {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
+                Utils.setPref(getApplicationContext(),"notnow","1");
+                Utils.setPref(getApplicationContext(),"appVersion",versioncode);
             }
         });
         dialog.show();
@@ -829,6 +852,13 @@ public class Utils {
             id = 0;
         }
         return id;
+    }
+
+    public static String getVersionCode() {
+        String VersionId = "";
+        VersionId = String.valueOf(BuildConfig.VERSION_CODE);
+
+        return VersionId;
     }
 
     public static String getAppUserEmail(Context mContext) {

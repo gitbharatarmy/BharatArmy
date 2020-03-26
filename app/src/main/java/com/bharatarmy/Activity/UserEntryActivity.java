@@ -188,6 +188,7 @@ activityUserEntryBinding.backImg.setOnClickListener(this);
         map.put("EmailId", userEmailStr);
         map.put("Password", userPasswordStr);
         map.put("AddedById", String.valueOf(Utils.getAppUserId(mContext)));
+
         return map;
     }
 

@@ -257,6 +257,7 @@ public class InquiryChildInformationFragment extends BottomSheetDialogFragment {
         Map<String, String> map = new HashMap<>();
         map.put("InquiryId",AppConfiguration.inquiryId);
         map.put("MemberId", String.valueOf(Utils.getAppUserId(mContext)));
+
         return map;
     }
 

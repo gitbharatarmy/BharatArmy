@@ -53,6 +53,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.bharatarmy.Activity.AllVideoShowInFullScreenActivity;
 import com.bharatarmy.Activity.MoreInformationActivity;
 import com.bharatarmy.Activity.MyProfileActivity;
+import com.bharatarmy.Activity.Splash_Screen;
 import com.bharatarmy.Activity.TravelMatchStadiumDetailActivity;
 import com.bharatarmy.Adapter.BharatArmyStoriesAdapter;
 import com.bharatarmy.Adapter.MyBgpageAdapter;
@@ -203,6 +204,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private StringBuilder mFormatBuilder;
     private Formatter mFormatter;
 
+    public String isUpdateAvailable, isForceUpdateAvailable,currentVersionStr;
 
     // Activity lifecycle
     private static boolean isBehindLiveWindow(ExoPlaybackException e) {
@@ -293,7 +295,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         } else {
             fragmentHomeBinding.shimmerViewContainerhome.startShimmerAnimation();
 
-//            Utils.showUpdateDialog(getActivity());
+
             callHomeBannerData();
             callDashboardData();
         }
@@ -303,6 +305,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     }
 
     public void init() {
+
+
 //        display offers page
        /* Intent displayoffersIntent=new Intent(mContext, DisplayOffersActivity.class);
         displayoffersIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -551,6 +555,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                     return;
                 }
                 if (getDashboardModel.getIsValid() == 1) {
+                    isUpdateAvailable = String.valueOf(getDashboardModel.getIsUpdateAvailable());
+//                    isForceUpdateAvailable = String.valueOf(getDashboardModel.getIsForceUpdate());
+                    isForceUpdateAvailable="0";
+                    currentVersionStr= String.valueOf(getDashboardModel.getCurrentVersion());
+                    if (isUpdateAvailable.equalsIgnoreCase("1")) {
+                        updateApplication();
+                    }
                     if (getDashboardModel.getData() != null) {
                         getDashboardDataModel = getDashboardModel.getData();
                         fragmentHomeBinding.shimmerViewContainer.stopShimmerAnimation();
@@ -585,10 +596,13 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private Map<String, String> getDashboardData() {
         Map<String, String> map = new HashMap<>();
         map.put("AppUserId", String.valueOf(Utils.getAppUserId(mContext)));
+
         return map;
     }
 
     public void FillDashboardData() {
+
+
         fragmentHomeBinding.titleTxt.setText(getDashboardDataModel.getCommonData().getPageHeaderText());
         fragmentHomeBinding.subTitleTxt.setText(getDashboardDataModel.getCommonData().getPageHeaderDesc());
 
@@ -697,7 +711,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                             homeTemplateDetailModelList = homeTemplateModel.getData();
                             fragmentHomeBinding.shimmerViewContainerhome.stopShimmerAnimation();
                             fragmentHomeBinding.shimmerViewContainerhome.setVisibility(View.GONE);
-
                             fragmentHomeBinding.homebannerLayout.setVisibility(View.VISIBLE);
                             fillHomeBanner();
                         }
@@ -721,8 +734,31 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private Map<String, String> getHomeBannerData() {
         Map<String, String> map = new HashMap<>();
         map.put("MemberId", String.valueOf(Utils.getAppUserId(mContext)));
+
         return map;
     }
+
+    public void updateApplication() {
+        Utils.setPref(mContext,"Dialogshow","1");
+        if (Utils.getPref(mContext, "notnow") != null && Utils.getPref(mContext, "appVersion") != null) {
+            if (Utils.getPref(mContext, "notnow").equalsIgnoreCase("1") &&
+                    !Utils.getPref(mContext, "appVersion").equalsIgnoreCase(currentVersionStr) && isForceUpdateAvailable.equalsIgnoreCase("1")) {
+                Utils.showUpdateDialog(getActivity(), "hide", currentVersionStr);
+            } else if (Utils.getPref(mContext, "notnow").equalsIgnoreCase("1") &&
+                    !Utils.getPref(mContext, "appVersion").equalsIgnoreCase(currentVersionStr)) {  //isUpdateAvailable
+                Utils.showUpdateDialog(getActivity(), "show", currentVersionStr);
+            } else if (Utils.getPref(mContext, "notnow").equalsIgnoreCase("0") &&
+                    !Utils.getPref(mContext, "appVersion").equalsIgnoreCase(currentVersionStr) && isForceUpdateAvailable.equalsIgnoreCase("1")) {
+                Utils.showUpdateDialog(getActivity(), "hide", currentVersionStr);
+            } else if (Utils.getPref(mContext, "notnow").equalsIgnoreCase("0") &&
+                    !Utils.getPref(mContext, "appVersion").equalsIgnoreCase(currentVersionStr)) {
+                Utils.showUpdateDialog(getActivity(), "show", currentVersionStr);
+            }
+
+
+        }
+    }
+
 
     @Override
     public void onClick(View v) {
@@ -847,8 +883,8 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     }
 
     public void fillHomeBanner() {
-        fragmentHomeBinding.mainPageDealsRcv.setAdapter(new MyBgpageAdapter(homeTemplateDetailModelList, mContext));
 
+        fragmentHomeBinding.mainPageDealsRcv.setAdapter(new MyBgpageAdapter(homeTemplateDetailModelList, mContext));
         fragmentHomeBinding.cardViewPager.setOffscreenPageLimit(3);
         fragmentHomeBinding.cardViewPager.setPageMargin(10);
         fragmentHomeBinding.cardViewPager.setPageTransformer(true, new AlphaPageTransformer());
@@ -962,53 +998,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 fragmentHomeBinding.volmueVideoButton.setVisibility(View.GONE);
             }
         }
-    }
-
-    public void playvideo() {
-//        fragmentHomeBinding.baVideo.setVideoPath(videopathStr);
-//        if (position == 0) {
-//            fragmentHomeBinding.startPauseMediaButton.setVisibility(View.GONE);
-//            fragmentHomeBinding.imageProgress.setVisibility(View.VISIBLE);
-//
-//            fragmentHomeBinding.baVideo.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-//                @Override
-//                public void onPrepared(MediaPlayer mp) {
-//                    mp.setLooping(true);
-//                    fragmentHomeBinding.baVideo.start();
-//                    mediaPlayer = mp;
-//                    if (musicVolume == 0) {
-//                        maxVolume = audioManager.getStreamMaxVolume(AudioManager.STREAM_RING);
-//                        audioManager.adjustVolume(AudioManager.ADJUST_RAISE, AudioManager.FLAG_PLAY_SOUND);
-//                    }
-//                    setVolume(0);
-//                    fragmentHomeBinding.fullScreenButton.setVisibility(View.VISIBLE);
-//                    fragmentHomeBinding.volmueLinear.setVisibility(View.VISIBLE);
-//                    fragmentHomeBinding.image.setVisibility(View.GONE);
-//                    fragmentHomeBinding.imageProgress.setVisibility(View.GONE);
-//                }
-//            });
-//
-//            fragmentHomeBinding.baVideo.setOnErrorListener(new MediaPlayer.OnErrorListener() {
-//                @Override
-//                public boolean onError(MediaPlayer mp, int what, int extra) {
-//                    fragmentHomeBinding.startPauseMediaButton.setVisibility(View.VISIBLE);
-//                    fragmentHomeBinding.fullScreenButton.setVisibility(View.GONE);
-//                    fragmentHomeBinding.volmueLinear.setVisibility(View.GONE);
-//                    fragmentHomeBinding.image.setVisibility(View.VISIBLE);
-//                    fragmentHomeBinding.imageProgress.setVisibility(View.GONE);
-//                    return false;
-//                }
-//            });
-//        } else {
-//            fragmentHomeBinding.startPauseMediaButton.setVisibility(View.GONE);
-//            fragmentHomeBinding.fullScreenButton.setVisibility(View.VISIBLE);
-//            fragmentHomeBinding.volmueLinear.setVisibility(View.VISIBLE);
-//            fragmentHomeBinding.imageProgress.setVisibility(View.VISIBLE);
-//            fragmentHomeBinding.baVideo.seekTo(position);
-//            fragmentHomeBinding.baVideo.start();
-//        }
-
-
     }
 
     @SuppressLint("ResourceAsColor")
@@ -1475,7 +1464,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
             fragmentHomeBinding.videoThumbnailImage.setVisibility(View.VISIBLE);
             fragmentHomeBinding.fullScreenButton.setVisibility(View.GONE);
             fragmentHomeBinding.volmueLinear.setVisibility(View.GONE);
-           fragmentHomeBinding.frameLayoutMain.setVisibility(View.GONE);
+            fragmentHomeBinding.frameLayoutMain.setVisibility(View.GONE);
         }
     }
 

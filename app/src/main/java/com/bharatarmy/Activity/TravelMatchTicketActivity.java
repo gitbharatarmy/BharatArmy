@@ -147,6 +147,7 @@ public class TravelMatchTicketActivity extends AppCompatActivity implements View
         Map<String, String> map = new HashMap<>();
         map.put("TournamentId", "11");
         map.put("MemberId", String.valueOf(Utils.getAppUserId(mContext)));
+
         return map;
     }
 

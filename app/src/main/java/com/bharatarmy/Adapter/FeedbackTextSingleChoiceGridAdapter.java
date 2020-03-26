@@ -61,13 +61,11 @@ public class FeedbackTextSingleChoiceGridAdapter extends RecyclerView.Adapter<Fe
 
         if (selectedtextsinglegridchangesposition == position) {
             holder.feedbackTextSinglechoiceGridListItemBinding.optionChk.setChecked(true);
-//            holder.feedbackTextSinglechoiceGridListItemBinding.textSinglechoiceLinear.setBackground(mContext.getResources().getDrawable(R.drawable.feedback_corner_select_shape));
-
             AppConfiguration.singlechoice = "fill";
+            detail.setQuestionAnswerTextGridSingleSelect("1");
         } else {
-//            ansdetail.setCityHotelAmenitiesName("0");
             holder.feedbackTextSinglechoiceGridListItemBinding.optionChk.setChecked(false);
-//            holder.feedbackTextSinglechoiceGridListItemBinding.textSinglechoiceLinear.setBackground(mContext.getResources().getDrawable(R.drawable.feedback_corner_shape));
+            detail.setQuestionAnswerTextGridSingleSelect("0");
 
 
         }

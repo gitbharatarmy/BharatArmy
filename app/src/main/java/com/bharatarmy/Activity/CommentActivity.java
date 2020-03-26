@@ -201,6 +201,7 @@ public class CommentActivity extends AppCompatActivity implements View.OnClickLi
         map.put("ReferenceId", referenceIdStr);
         map.put("CommentNotes", commentNotesStr);
         map.put("SourceType", sourceTypeStr);
+
         return map;
 
     }
@@ -276,6 +277,7 @@ public class CommentActivity extends AppCompatActivity implements View.OnClickLi
         map.put("MemberId", memberIdStr);
         map.put("PostId", referenceIdStr);
         map.put("SourceType", sourceTypeStr);
+
         return map;
 
     }

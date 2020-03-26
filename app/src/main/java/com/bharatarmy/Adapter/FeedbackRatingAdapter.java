@@ -95,12 +95,11 @@ public class FeedbackRatingAdapter extends RecyclerView.Adapter<FeedbackRatingAd
 
         if (selectedratingchangeposition == position) {
             holder.feedbackRatingListItemBinding.textratingSinglechoiceOptionChk.setChecked(true);
-//            holder.feedbackRatingListItemBinding.textratingSinglechoiceLinear.setBackground(mcontext.getResources().getDrawable(R.drawable.feedback_corner_select_shape));
-
+            ansratingdetail.setQuestionAnswerRatingSelect("1");
             AppConfiguration.singlechoice = "fill";
         } else {
             holder.feedbackRatingListItemBinding.textratingSinglechoiceOptionChk.setChecked(false);
-//            holder.feedbackRatingListItemBinding.textratingSinglechoiceLinear.setBackground(mcontext.getResources().getDrawable(R.drawable.feedback_corner_shape));
+            ansratingdetail.setQuestionAnswerRatingSelect("0");
 
 
         }

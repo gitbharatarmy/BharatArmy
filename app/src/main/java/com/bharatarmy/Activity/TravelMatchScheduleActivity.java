@@ -1324,6 +1324,7 @@ public class TravelMatchScheduleGalleryAdapter extends RecyclerView.Adapter<Trav
         Map<String, String> map = new HashMap<>();
         map.put("TournamentId", "11");
         map.put("MemberId", String.valueOf(Utils.getAppUserId(mContext)));
+
         return map;
     }
 

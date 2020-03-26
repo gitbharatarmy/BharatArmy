@@ -283,6 +283,7 @@ public class StoryDetailActivity extends AppCompatActivity implements View.OnCli
         map.put("StoryId", String.valueOf(storyId));
         map.put("MemberId", String.valueOf(Utils.getAppUserId(mContext)));
         map.put("TokenId", Utils.getPref(mContext, "registration_id"));
+
         return map;
     }
 
@@ -513,6 +514,7 @@ public class StoryDetailActivity extends AppCompatActivity implements View.OnCli
         map.put("MemberId", String.valueOf(Utils.getAppUserId(mContext)));
         map.put("PostId", String.valueOf(storyId));
         map.put("SourceType", "3");
+
         return map;
     }
 }

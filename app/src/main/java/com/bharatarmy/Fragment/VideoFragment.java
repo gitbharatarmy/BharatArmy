@@ -442,6 +442,7 @@ public class VideoFragment extends Fragment {
         map.put("PageIndex", String.valueOf(videopageIndex));
         map.put("PageSize", String.valueOf(videopageSize));
         map.put("MemberId", String.valueOf(Utils.getAppUserId(mContext)));
+
         return map;
     }
 
@@ -537,6 +538,7 @@ public class VideoFragment extends Fragment {
         map.put("PageIndex", "0");
         map.put("PageSize", String.valueOf(videopageSize));
         map.put("MemberId", String.valueOf(Utils.getAppUserId(mContext)));
+
         return map;
     }
 

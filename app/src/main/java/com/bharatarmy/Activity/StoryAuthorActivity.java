@@ -222,6 +222,7 @@ public class StoryAuthorActivity extends AppCompatActivity implements View.OnCli
         map.put("PageSize", "14");
         map.put("AuthorId",String.valueOf(authorIdStr));
         map.put("MemberId", String.valueOf(Utils.getAppUserId(mContext)));
+
         return map;
     }
 
@@ -302,6 +303,7 @@ activityStoryAuthorNewBinding.storyTitleTxt.setText(storyDetailModelList.get(0).
         map.put("PageSize", "14");
         map.put("AuthorId",String.valueOf(authorIdStr));
         map.put("MemberId", String.valueOf(Utils.getAppUserId(mContext)));
+
         return map;
     }
 

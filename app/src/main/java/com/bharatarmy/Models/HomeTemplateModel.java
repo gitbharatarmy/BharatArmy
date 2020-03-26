@@ -33,6 +33,12 @@ public class HomeTemplateModel {
     @SerializedName("RecordCount")
     @Expose
     private Integer recordCount;
+    @SerializedName("IsUpdateAvailable")
+    @Expose
+    private Integer isUpdateAvailable;
+    @SerializedName("IsForceUpdate")
+    @Expose
+    private Integer isForceUpdate;
 
     public Object getMessage() {
         return message;
@@ -104,5 +110,21 @@ public class HomeTemplateModel {
 
     public void setRecordCount(Integer recordCount) {
         this.recordCount = recordCount;
+    }
+
+    public Integer getIsUpdateAvailable() {
+        return isUpdateAvailable;
+    }
+
+    public void setIsUpdateAvailable(Integer isUpdateAvailable) {
+        this.isUpdateAvailable = isUpdateAvailable;
+    }
+
+    public Integer getIsForceUpdate() {
+        return isForceUpdate;
+    }
+
+    public void setIsForceUpdate(Integer isForceUpdate) {
+        this.isForceUpdate = isForceUpdate;
     }
 }

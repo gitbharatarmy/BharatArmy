@@ -24,7 +24,18 @@ public class LogginModel {
     @SerializedName("OtherData")
     @Expose
     private List<LoginOtherDataModel> otherData = null;
-
+    @SerializedName("IsUpdateAvailable")
+    @Expose
+    private Integer isUpdateAvailable;
+    @SerializedName("IsForceUpdate")
+    @Expose
+    private Integer isForceUpdate;
+    @SerializedName("VersionCode")
+    @Expose
+    private Integer versionCode;
+    @SerializedName("CurrentVersion")
+    @Expose
+    private Double currentVersion;
     public String getMessage() {
         return message;
     }
@@ -65,7 +76,6 @@ public class LogginModel {
         this.otherValue = otherValue;
     }
 
-
     public List<LoginOtherDataModel> getOtherData() {
         return otherData;
     }
@@ -73,7 +83,36 @@ public class LogginModel {
     public void setOtherData(List<LoginOtherDataModel> otherData) {
         this.otherData = otherData;
     }
+    public Integer getVersionCode() {
+        return versionCode;
+    }
 
+    public void setVersionCode(Integer versionCode) {
+        this.versionCode = versionCode;
+    }
+
+    public Double getCurrentVersion() {
+        return currentVersion;
+    }
+
+    public void setCurrentVersion(Double currentVersion) {
+        this.currentVersion = currentVersion;
+    }
+    public Integer getIsUpdateAvailable() {
+        return isUpdateAvailable;
+    }
+
+    public void setIsUpdateAvailable(Integer isUpdateAvailable) {
+        this.isUpdateAvailable = isUpdateAvailable;
+    }
+
+    public Integer getIsForceUpdate() {
+        return isForceUpdate;
+    }
+
+    public void setIsForceUpdate(Integer isForceUpdate) {
+        this.isForceUpdate = isForceUpdate;
+    }
 
     @SerializedName("CurrentLocation")
     @Expose

@@ -60,11 +60,11 @@ public class FeedbackImagewithTextAdapter extends RecyclerView.Adapter<FeedbackI
 
         if (selectedchangesposition == position) {
             holder.feedbackImageWithTextChoiceListItemBinding.optionChk.setChecked(true);
-//            holder.feedbackImageWithTextChoiceListItemBinding.optionChk.setBackground(mcontext.getResources().getDrawable(R.drawable.feedback_corner_select_shape));
+            detail.setQuestionAnswerImagewithTextSelect("1");
             AppConfiguration.imagechoice = "fill";
         } else {
             holder.feedbackImageWithTextChoiceListItemBinding.optionChk.setChecked(false);
-//            holder.feedbackImageWithTextChoiceListItemBinding.optionChk.setBackground(mcontext.getResources().getDrawable(R.drawable.feedback_corner_shape));
+            detail.setQuestionAnswerImagewithTextSelect("0");
         }
 
         Utils.setImageInImageView(detail.getImageUrl(), holder.feedbackImageWithTextChoiceListItemBinding.feedbackImage, mcontext);

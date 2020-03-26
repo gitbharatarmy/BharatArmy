@@ -9,6 +9,7 @@ import java.util.concurrent.TimeUnit;
 import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
 import okhttp3.Request;
+import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
 import retrofit.client.OkClient;
 import retrofit.converter.GsonConverter;
@@ -30,12 +31,19 @@ public class ApiHandler {
             okHttpClient.setWriteTimeout(6, TimeUnit.MINUTES);
             okHttpClient.setReadTimeout(6, TimeUnit.MINUTES);
 
-
+            RequestInterceptor requestInterceptor = new RequestInterceptor() {
+                @Override
+                public void intercept(RequestFacade request) {
+                    request.addHeader("VersionId", Utils.getVersionCode());
+                    request.addHeader("SessionKey","SessionKey");
+                }
+            };
 
             RestAdapter restAdapter = new RestAdapter.Builder()
                     .setLogLevel(RestAdapter.LogLevel.FULL)
                     .setEndpoint(BASE_URL)
                     .setConverter(new GsonConverter(new Gson()))
+                    .setRequestInterceptor(requestInterceptor)
                     .build();
 
             apiService = restAdapter.create(WebServices.class);

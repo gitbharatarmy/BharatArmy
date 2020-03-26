@@ -241,6 +241,7 @@ public class StoryFragment extends Fragment {
         map.put("PageIndex", String.valueOf(pageIndex));
         map.put("PageSize",String.valueOf(storypagesize) );
         map.put("MemberId", String.valueOf(Utils.getAppUserId(mContext)));
+
         return map;
     }
 
@@ -353,6 +354,7 @@ public class StoryFragment extends Fragment {
         map.put("PageIndex", "0");
         map.put("PageSize", String.valueOf(storypagesize));
         map.put("MemberId", String.valueOf(Utils.getAppUserId(mContext)));
+
         return map;
     }
 

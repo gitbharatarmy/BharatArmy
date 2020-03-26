@@ -22,6 +22,7 @@ import okhttp3.RequestBody;
 import retrofit.Callback;
 import retrofit.http.FieldMap;
 import retrofit.http.FormUrlEncoded;
+import retrofit.http.Headers;
 import retrofit.http.POST;
 
 import retrofit2.Call;
@@ -66,6 +67,11 @@ public interface WebServices {
     void getApplicationUsage(@FieldMap Map<String, String> map, Callback<LogginModel> callback);
 
     @FormUrlEncoded
+    @POST("/GetHeader")
+    void getHeader(@FieldMap Map<String, String> map, Callback<LogginModel> callback);
+
+    @FormUrlEncoded
+//    @Headers({"cookies: a1"})
     @POST("/GetUserDetails")
     void getUserDetails(@FieldMap Map<String, String> map, Callback<LogginModel> callback);
 

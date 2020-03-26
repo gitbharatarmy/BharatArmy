@@ -206,6 +206,7 @@ public class ImageCommentsBottomSheetFragment extends BottomSheetDialogFragment 
         map.put("ReferenceId", referenceIdStr);
         map.put("CommentNotes", commentNotesStr);
         map.put("SourceType", sourceTypeStr);
+
         return map;
 
     }
@@ -272,6 +273,7 @@ public class ImageCommentsBottomSheetFragment extends BottomSheetDialogFragment 
         map.put("MemberId", memberIdStr);
         map.put("PostId", referenceIdStr);
         map.put("SourceType", sourceTypeStr);
+
         return map;
 
     }

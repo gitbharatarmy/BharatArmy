@@ -51,7 +51,7 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, StoryFragme
     internal lateinit var fourth_menu_txt: TextView
     internal lateinit var five_menu_txt: TextView*/
     internal lateinit var cartLayoutRel: RelativeLayout
-
+    internal lateinit var feedbackLayoutRel: RelativeLayout
     //  flag to load home fragment when user presses back key
     private val shouldLoadHomeFragOnBackPress = true
     private var mHandler: Handler? = null
@@ -108,6 +108,7 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, StoryFragme
         speedDial = findViewById<View>(R.id.speedDial) as SpeedDialView
         cart_count_item_txt = findViewById<View>(R.id.cart_count_item_txt) as TextView
         cartLayoutRel = findViewById<View>(R.id.cartLayout_rel) as RelativeLayout
+        feedbackLayoutRel = findViewById<View>(R.id.feedbackLayout_rel) as RelativeLayout
         /*first_menu_txt = findViewById<View>(R.id.first_menu_txt) as TextView
         second_menu_txt = findViewById<View>(R.id.second_menu_txt) as TextView
         third_menu_txt = findViewById<View>(R.id.third_menu_txt) as TextView
@@ -125,6 +126,11 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, StoryFragme
         cartLayoutRel.setOnClickListener {
             val addcartItemIntent = Intent(mContext, CartItemShowActivity::class.java)
             startActivity(addcartItemIntent)
+        }
+        feedbackLayoutRel.setOnClickListener{
+            bottomNavigation.show(2, true)
+            fragment = FeedbackFragment()
+            loadFragment(fragment as FeedbackFragment)
         }
     }
 
@@ -195,6 +201,7 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, StoryFragme
                         navItemIndex = 2
                         fragment = FeedbackFragment()
                         loadFragment(fragment as FeedbackFragment)
+
                     }
                 }
                 3 -> {

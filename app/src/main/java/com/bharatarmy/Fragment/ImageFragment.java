@@ -402,6 +402,7 @@ public class ImageFragment extends Fragment  {
         map.put("PageIndex", String.valueOf(imagepageIndex));
         map.put("PageSize", String.valueOf(imagepagesize));
         map.put("MemberId", String.valueOf(Utils.getAppUserId(mContext)));
+
         return map;
     }
 
@@ -544,6 +545,7 @@ public class ImageFragment extends Fragment  {
         map.put("PageIndex", "0");
         map.put("PageSize", String.valueOf(imagepagesize));
         map.put("MemberId", String.valueOf(Utils.getAppUserId(mContext)));
+
         return map;
     }
 

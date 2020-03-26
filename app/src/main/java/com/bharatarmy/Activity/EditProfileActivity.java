@@ -560,6 +560,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         RequestBody linkedinprofile = RequestBody.create(MediaType.parse("text/plain"), linkedinprofileStr);
         RequestBody instagramprofile = RequestBody.create(MediaType.parse("text/plain"), instagramprofileStr);
 
+
 //        ShowProgressDialog();
         Call<LogginModel> responseBodyCall = uploadAPIs.updateprofile(appuserId, firstname, lastname, email, countryISOCode,
                 countycode, phoneno, gender, otptext, smssentId, addressLine1, addressLine2, area, stateId,
@@ -682,6 +683,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         map.put("Email", emailStr);
         map.put("PhoneNo", phoneNoStr);
         map.put("CountryPhoneNo", countryCodeStr);
+
         return map;
     }
 
@@ -916,6 +918,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         Map<String, String> map = new HashMap<>();
         map.put("CountryISOCode", AppConfiguration.currentCountryISOCode);
         map.put("MemberId", String.valueOf(Utils.getAppUserId(mContext)));
+
         return map;
     }
 
@@ -970,6 +973,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
         Map<String, String> map = new HashMap<>();
         map.put("StateId", statesIdStr);
         map.put("MemberId", String.valueOf(Utils.getAppUserId(mContext)));
+
         return map;
     }
 

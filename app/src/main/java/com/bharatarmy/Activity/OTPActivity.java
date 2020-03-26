@@ -258,6 +258,7 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
         RequestBody linkedinprofile = RequestBody.create(MediaType.parse("text/plain"), getIntent().getStringExtra("linkedinprofile"));
         RequestBody instagramprofile = RequestBody.create(MediaType.parse("text/plain"), getIntent().getStringExtra("instagramprofile"));
 
+
 //        ShowProgressDialog();
         Call<LogginModel> responseBodyCall = uploadAPIs.updateprofile(appuserId, firstName, lastName, email, countryISOCode,
                 countycode, phoneno, gender, otptext, smssentId, addressLine1, addressLine2, area, stateId,
@@ -574,6 +575,7 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
         map.put("PhoneNo", phoneNoStr);
         map.put("CountryCode", countryCodeStr);
 
+
         return map;
     }
 
@@ -637,7 +639,10 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
                                     Intent DashboardIntent = new Intent(mContext, DashboardActivity.class);
                                     startActivity(DashboardIntent);
                                     finish();
-                                }else {
+                                } else {
+                                    Intent DashboardIntent = new Intent(mContext, DashboardActivity.class);
+//                                DashboardIntent.putExtra("whichPageRun", "4");
+                                    startActivity(DashboardIntent);
                                     finish();
                                 }
                             } else {

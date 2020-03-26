@@ -45,7 +45,7 @@ public class FeedbackMainModel {
     private String otherValue;
     @SerializedName("OtherData")
     @Expose
-    private Object otherData;
+    private List<LoginDataModel> otherData = null;
     @SerializedName("CurrentLocation")
     @Expose
     private Object currentLocation;
@@ -96,11 +96,11 @@ public class FeedbackMainModel {
         this.otherValue = otherValue;
     }
 
-    public Object getOtherData() {
+    public List<LoginDataModel> getOtherData() {
         return otherData;
     }
 
-    public void setOtherData(Object otherData) {
+    public void setOtherData(List<LoginDataModel> otherData) {
         this.otherData = otherData;
     }
 

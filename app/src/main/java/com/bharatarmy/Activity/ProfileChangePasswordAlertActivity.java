@@ -124,6 +124,7 @@ public class ProfileChangePasswordAlertActivity extends AppCompatActivity implem
         Map<String, String> map = new HashMap<>();
         map.put("EmailId", emailStr);
         map.put("MemberId", String.valueOf(Utils.getAppUserId(mContext)));
+
         return map;
     }
 

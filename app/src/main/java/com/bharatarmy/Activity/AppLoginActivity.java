@@ -624,6 +624,7 @@ public class AppLoginActivity extends AppCompatActivity implements View.OnClickL
         map.put("Image", personImageStr);
         map.put("TokenId", Utils.getPref(mContext, "registration_id"));
         map.put("ModelName", Utils.getDeviceName());
+
         return map;
     }
 
@@ -704,6 +705,7 @@ public class AppLoginActivity extends AppCompatActivity implements View.OnClickL
         map.put("PhoneNo", "");
         map.put("CountryISOCode", "");
         map.put("CountryDialCode", "");
+
         return map;
     }
 

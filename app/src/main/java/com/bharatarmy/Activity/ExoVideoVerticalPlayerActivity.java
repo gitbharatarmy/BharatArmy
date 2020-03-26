@@ -928,6 +928,7 @@ public class ExoVideoVerticalPlayerActivity extends AppCompatActivity implements
         map.put("MemberId", String.valueOf(Utils.getAppUserId(mContext)));
         map.put("PostId", videoIdStr);
         map.put("SourceType", "2");
+
         return map;
     }
 
