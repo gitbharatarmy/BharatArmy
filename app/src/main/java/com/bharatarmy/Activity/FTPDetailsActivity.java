@@ -37,6 +37,8 @@ public class FTPDetailsActivity extends AppCompatActivity implements View.OnClic
     String ftpmaintitleStr, ftpdateStr, ftpshortdescStr, ftptourdescStr, ftpbannerimgStr,ftpstr1,ftpstr2,ftpstr3,ftpIdStr;
     int ftpId;
     ImageMainModel ftpDetailDataList;
+    public String isUpdateAvailable, isForceUpdateAvailable, currentVersionStr;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -200,7 +202,13 @@ public class FTPDetailsActivity extends AppCompatActivity implements View.OnClic
                     return;
                 }
                 if (imageMainModel.getIsValid() == 1) {
-
+                    isUpdateAvailable = String.valueOf(imageMainModel.getIsUpdateAvailable());
+                    isForceUpdateAvailable = String.valueOf(imageMainModel.getIsForceUpdate());
+//                    isForceUpdateAvailable = "0";
+                    currentVersionStr = String.valueOf(imageMainModel.getCurrentVersion());
+                    if (isUpdateAvailable.equalsIgnoreCase("1")) {
+                        Utils.checkupdateApplication(mContext,FTPDetailsActivity.this, isForceUpdateAvailable, currentVersionStr);
+                    }
                     if (imageMainModel.getData() != null) {
                         ftpDetailDataList = imageMainModel;
                         setAPIValue();

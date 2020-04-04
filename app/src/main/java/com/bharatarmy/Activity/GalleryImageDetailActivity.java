@@ -56,6 +56,8 @@ import java.util.Random;
 import static androidx.core.content.FileProvider.getUriForFile;
 
 // remove extra code 26/12/2019 , 10/02/2020 code backup in 26/12/2019   https://mockuphone.com/iphonexspacegrey
+// change the code 01/04/2020
+
 public class GalleryImageDetailActivity extends AppCompatActivity implements View.OnClickListener {
     ActivityGalleryImageDetailBinding activityGalleryImageDetailBinding;
     public static Context mContext;
@@ -67,6 +69,7 @@ public class GalleryImageDetailActivity extends AppCompatActivity implements Vie
     ArrayList<String> imageDuration = new ArrayList<>();
     ArrayList<String> imageId = new ArrayList<>();
     ArrayList<String> imageLike = new ArrayList<>();
+    ArrayList<String> imageView = new ArrayList<>();
     ArrayList<String> imageWatchList = new ArrayList<>();
     int currentShowItemPosition;
     LinearLayoutManager linearLayoutManager;
@@ -103,7 +106,25 @@ public class GalleryImageDetailActivity extends AppCompatActivity implements Vie
     }
 
     public void init() {
+        activityGalleryImageDetailBinding.toolbarTitleTxt.setText("Image Gallery");
+        selectedPosition = getIntent().getStringExtra("positon");
+        final Bundle stringArrayList = getIntent().getExtras();
+        imageList = stringArrayList.getStringArrayList("data");
+        imageAddusername = stringArrayList.getStringArrayList("dataName");
+        imageDuration = stringArrayList.getStringArrayList("dataDuration");
+        imageId = stringArrayList.getStringArrayList("dataId");
+        imageLike = stringArrayList.getStringArrayList("dataLike");
+        imageWatchList = stringArrayList.getStringArrayList("dataWatchList");
+        imageView = stringArrayList.getStringArrayList("dataView");
 
+        Log.d("imageList", "" + imageList.size() + "imageWatchList :" + "" + imageWatchList.size());
+
+
+        Utils.viewsMemberId = String.valueOf(Utils.getAppUserId(mContext));
+        Utils.viewsReferenceId = String.valueOf(imageId.get(0));
+        Utils.viewsSourceType = "1";
+        Utils.viewsTokenId = Utils.getPref(mContext, "registration_id");
+        Utils.InsertBAViews(mContext, GalleryImageDetailActivity.this);
     }
 
     public void setListiner() {
@@ -146,6 +167,17 @@ public class GalleryImageDetailActivity extends AppCompatActivity implements Vie
                 for (int i = 0; i < imageId.size(); i++) {
                     if (i == currentShowItemPosition) {
                         Utils.WatchListReferenceId = imageId.get(i);
+                    }
+                }
+                if (currentShowItemPosition > 0) {
+                    for (int i = 0; i < imageId.size(); i++) {
+                        if (i == currentShowItemPosition) {
+                            Utils.viewsMemberId = String.valueOf(Utils.getAppUserId(mContext));
+                            Utils.viewsReferenceId = imageId.get(i);
+                            Utils.viewsSourceType = "1";
+                            Utils.viewsTokenId = Utils.getPref(mContext, "registration_id");
+                            Utils.InsertBAViews(mContext, GalleryImageDetailActivity.this);
+                        }
                     }
                 }
 
@@ -196,24 +228,14 @@ public class GalleryImageDetailActivity extends AppCompatActivity implements Vie
     public void setDataValue() {
         AppConfiguration.watchlistId = new ArrayList<>();
 
-        activityGalleryImageDetailBinding.toolbarTitleTxt.setText("Image Gallery");
-        selectedPosition = getIntent().getStringExtra("positon");
-        final Bundle stringArrayList = getIntent().getExtras();
-        imageList = stringArrayList.getStringArrayList("data");
-        imageAddusername = stringArrayList.getStringArrayList("dataName");
-        imageDuration = stringArrayList.getStringArrayList("dataDuration");
-        imageId = stringArrayList.getStringArrayList("dataId");
-        imageLike = stringArrayList.getStringArrayList("dataLike");
-        imageWatchList = stringArrayList.getStringArrayList("dataWatchList");
 
-        Log.d("imageList", "" + imageList.size() + "imageWatchList :" + "" + imageWatchList.size());
         for (int i = 0; i < imageList.size(); i++) {
             if (selectedPosition.equalsIgnoreCase(String.valueOf(imageList.get(i)))) {
                 positon = i;
             }
         }
         galleryImageDetailAdapter = new GalleryImageDetailAdapter(mContext, GalleryImageDetailActivity.this,
-                imageList, imageAddusername, imageDuration, imageId, imageLike, activityGalleryImageDetailBinding.watchlistLinear,
+                imageList, imageAddusername, imageDuration, imageId, imageLike, imageView, activityGalleryImageDetailBinding.watchlistLinear,
                 new MorestoryClick() {
                     @Override
                     public void getmorestoryClick() {

@@ -196,7 +196,7 @@
                                 style="@style/title_text_font"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="8 unread"
+                                android:text="No notification"
                                 android:textColor="@color/gray"
                                 android:textSize="@dimen/_10sdp" />
                         </LinearLayout>
@@ -231,7 +231,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="@dimen/_3sdp"
                                 android:gravity="center_vertical"
-                                android:text="Wish List"
+                                android:text="Watch List"
                                 android:textColor="@color/heading_bg"
                                 android:textSize="@dimen/_12sdp" />
                             <TextView
@@ -239,7 +239,7 @@
                                 style="@style/title_text_font"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="10 likes"
+                                android:text="No watchlist"
                                 android:textColor="@color/gray"
                                 android:textSize="@dimen/_10sdp" />
                         </LinearLayout>
@@ -502,6 +502,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/help_linear"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/more_rowTop"

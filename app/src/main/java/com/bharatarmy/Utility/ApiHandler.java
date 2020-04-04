@@ -35,7 +35,7 @@ public class ApiHandler {
                 @Override
                 public void intercept(RequestFacade request) {
                     request.addHeader("VersionId", Utils.getVersionCode());
-                    request.addHeader("SessionKey","SessionKey");
+                    request.addHeader("AppId", String.valueOf(Utils.getAppLoginId()));
                 }
             };
 

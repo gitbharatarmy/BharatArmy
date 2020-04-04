@@ -153,6 +153,9 @@ public class ExoVideoVerticalPlayerActivity extends AppCompatActivity implements
     CollapsingToolbarLayout collapsing_toolbar;
     ImageView vertical_backimage;
     LoginDataModel postedDataList;
+    public String isUpdateAvailable, isForceUpdateAvailable, currentVersionStr;
+
+
 
     // Activity lifecycle
     private static boolean isBehindLiveWindow(ExoPlaybackException e) {
@@ -818,7 +821,13 @@ public class ExoVideoVerticalPlayerActivity extends AppCompatActivity implements
                     return;
                 }
                 if (relatedVerticalVideoModel.getIsValid() == 1) {
-
+                    isUpdateAvailable = String.valueOf(relatedVerticalVideoModel.getIsUpdateAvailable());
+                    isForceUpdateAvailable = String.valueOf(relatedVerticalVideoModel.getIsForceUpdate());
+//                    isForceUpdateAvailable = "0";
+                    currentVersionStr = String.valueOf(relatedVerticalVideoModel.getCurrentVersion());
+                    if (isUpdateAvailable.equalsIgnoreCase("1")) {
+                        Utils.checkupdateApplication(mContext, ExoVideoVerticalPlayerActivity.this, isForceUpdateAvailable, currentVersionStr);
+                    }
                     if (relatedVerticalVideoModel.getData() != null) {
                         videoDetailModelsList = relatedVerticalVideoModel.getData();
 

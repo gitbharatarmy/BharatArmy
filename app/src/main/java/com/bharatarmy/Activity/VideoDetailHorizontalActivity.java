@@ -52,7 +52,7 @@ public class VideoDetailHorizontalActivity extends AppCompatActivity implements 
     LoginDataModel postedDataList;
 ImageView videoView_thumbnail;
     View mBottomLayout;
-
+    public String isUpdateAvailable, isForceUpdateAvailable, currentVersionStr;
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {

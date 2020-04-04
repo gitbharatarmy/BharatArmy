@@ -38,7 +38,7 @@ public class PackageTabFragment extends Fragment {
     List<TravelDetailModel> travelPacakgeTabList;
     HashMap<Integer, List<TravelDetailModel>> storeData = new HashMap<>();
     int count = 0;
-
+    public String isUpdateAvailable, isForceUpdateAvailable, currentVersionStr;
     public PackageTabFragment() {
     }
 
@@ -108,7 +108,13 @@ public class PackageTabFragment extends Fragment {
                     return;
                 }
                 if (travelMainModel.getIsValid() == 1) {
-
+                    isUpdateAvailable = String.valueOf(travelMainModel.getIsUpdateAvailable());
+                    isForceUpdateAvailable = String.valueOf(travelMainModel.getIsForceUpdate());
+//                    isForceUpdateAvailable = "0";
+                    currentVersionStr = String.valueOf(travelMainModel.getCurrentVersion());
+                    if (isUpdateAvailable.equalsIgnoreCase("1")) {
+                        Utils.checkupdateApplication(mContext, getActivity(), isForceUpdateAvailable, currentVersionStr);
+                    }
                     if (travelMainModel.getData() != null) {
                         travelPacakgeTabList = travelMainModel.getData();
                         fragmentPackageTabBinding.shimmerViewContainer.stopShimmerAnimation();

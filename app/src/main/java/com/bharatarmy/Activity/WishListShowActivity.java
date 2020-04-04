@@ -74,18 +74,18 @@ public class WishListShowActivity extends AppCompatActivity implements View.OnCl
 
         mContext = WishListShowActivity.this;
 
-        EventBus.getDefault().register(this);
+//        EventBus.getDefault().register(this);
 
         init();
         setListiner();
     }
 
     public void init() {
-        GetWatchListDetailData();
+//        GetWatchListDetailData();
 
-        activityWishListShowBinding.toolbarTitleTxt.setText("WishList");
-        activityWishListShowBinding.shimmerViewContainer.startShimmerAnimation();
-        activityWishListShowBinding.wishlistDetailRcv.setVisibility(View.GONE);
+        activityWishListShowBinding.toolbarTitleTxt.setText("Watch List");
+//        activityWishListShowBinding.shimmerViewContainer.startShimmerAnimation();
+//        activityWishListShowBinding.wishlistDetailRcv.setVisibility(View.GONE);
 
     }
 

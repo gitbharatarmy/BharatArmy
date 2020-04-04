@@ -42,7 +42,7 @@ public class ForgotPasswordOtpActivity extends AppCompatActivity implements View
 
 
     public void setListiner() {
-
+        Utils.scrollScreen(activityForgotPasswordOtpBinding.scrollView);
 
         activityForgotPasswordOtpBinding.edit1.addTextChangedListener(new TextWatcher() {
             @Override

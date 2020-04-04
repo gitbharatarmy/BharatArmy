@@ -44,7 +44,7 @@ public class VideoDetailActivity extends AppCompatActivity implements View.OnCli
     RelatedVideoAdapter relatedVideoAdapter;
     List<ImageDetailModel> videoDetailModelsList;
     String imageClickData;
-
+    public String isUpdateAvailable, isForceUpdateAvailable, currentVersionStr;
 
     View mBottomLayout;
 
@@ -156,7 +156,13 @@ public class VideoDetailActivity extends AppCompatActivity implements View.OnCli
                     return;
                 }
                 if (imageMainModel.getIsValid() == 1) {
-
+                    isUpdateAvailable = String.valueOf(imageMainModel.getIsUpdateAvailable());
+                    isForceUpdateAvailable = String.valueOf(imageMainModel.getIsForceUpdate());
+//                    isForceUpdateAvailable = "0";
+                    currentVersionStr = String.valueOf(imageMainModel.getCurrentVersion());
+                    if (isUpdateAvailable.equalsIgnoreCase("1")) {
+                        Utils.checkupdateApplication(mContext, VideoDetailActivity.this, isForceUpdateAvailable, currentVersionStr);
+                    }
                     if (imageMainModel.getData() != null) {
                         shimmerFrameLayout.stopShimmerAnimation();
                         shimmerFrameLayout.setVisibility(View.GONE);

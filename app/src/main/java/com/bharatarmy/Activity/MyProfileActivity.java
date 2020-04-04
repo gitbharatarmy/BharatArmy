@@ -3,6 +3,7 @@ package com.bharatarmy.Activity;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,6 +23,7 @@ public class MyProfileActivity extends AppCompatActivity implements View.OnClick
     private Context mContext;
     ActivityMyProfileBinding activityMyProfileBinding;
     String countryFlagStr;
+    private ProgressDialog mProgressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,18 +62,18 @@ public class MyProfileActivity extends AppCompatActivity implements View.OnClick
                 } else {
                     activityMyProfileBinding.countryFlagImg.setVisibility(View.GONE);
                 }
-            }else{
-                if (Utils.retriveCurrentLocationData(mContext)!=null){
-                    if (Utils.retriveCurrentLocationData(mContext).getIsoCode()!=null){
+            } else {
+                if (Utils.retriveCurrentLocationData(mContext) != null) {
+                    if (Utils.retriveCurrentLocationData(mContext).getIsoCode() != null) {
                         if (!Utils.retriveCurrentLocationData(mContext).getIsoCode().equalsIgnoreCase("")) {
                             activityMyProfileBinding.countryFlagImg.setVisibility(View.VISIBLE);
                             countryFlagStr = AppConfiguration.FLAG_URL + Utils.retriveCurrentLocationData(mContext).getIsoCode() + ".png";
                             Utils.setImageInImageView(countryFlagStr, activityMyProfileBinding.countryFlagImg, mContext);
-                        }else{
+                        } else {
                             activityMyProfileBinding.countryFlagImg.setVisibility(View.GONE);
                         }
                     }
-                }else{
+                } else {
                     activityMyProfileBinding.countryFlagImg.setVisibility(View.GONE);
                 }
 
@@ -132,9 +134,10 @@ public class MyProfileActivity extends AppCompatActivity implements View.OnClick
 
                 break;
             case R.id.edit_linear:
+                showProgressDialog();
                 Utils.handleClickEvent(mContext, activityMyProfileBinding.editLinear);
                 Intent intent = new Intent(mContext, EditProfileActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
                 finish();
 //                overridePendingTransition(R.anim.slide_out_right_new, 0);
@@ -142,10 +145,28 @@ public class MyProfileActivity extends AppCompatActivity implements View.OnClick
         }
     }
 
+
+
     @Override
     public void onBackPressed() {
         EventBus.getDefault().post(new MyScreenChnagesModel("change"));
         finish();
         super.onBackPressed();
     }
+
+    private void showProgressDialog() {
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(this);
+            mProgressDialog.setMessage(getString(R.string.loading));
+            mProgressDialog.setIndeterminate(true);
+        }
+            mProgressDialog.show();
+    }
+
+    private void hideProgressDialog() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.hide();
+        }
+    }
+
 }

@@ -53,7 +53,7 @@ public class StoryFragment extends Fragment {
     FragmentStoryBinding fragmentStoryBinding;
     private View rootView;
     private Context mContext;
-
+    public String isUpdateAvailable, isForceUpdateAvailable, currentVersionStr;
     StoryLsitAdapter storyLsitAdapter;
     List<ImageDetailModel> storyDetailModelList;
     StoryCategoryAdapter storyCategoryAdapter;
@@ -185,7 +185,13 @@ public class StoryFragment extends Fragment {
                     return;
                 }
                 if (storyMainModel.getIsValid() == 1) {
-
+                    isUpdateAvailable = String.valueOf(storyMainModel.getIsUpdateAvailable());
+                    isForceUpdateAvailable = String.valueOf(storyMainModel.getIsForceUpdate());
+//                    isForceUpdateAvailable = "0";
+                    currentVersionStr = String.valueOf(storyMainModel.getCurrentVersion());
+                    if (isUpdateAvailable.equalsIgnoreCase("1")) {
+                        Utils.checkupdateApplication(mContext, getActivity(), isForceUpdateAvailable, currentVersionStr);
+                    }
                     if (storyMainModel.getData() != null) {
                         fragmentStoryBinding.shimmerViewContainer.stopShimmerAnimation();
                         fragmentStoryBinding.shimmerViewContainer.setVisibility(View.GONE);
@@ -317,10 +323,14 @@ public class StoryFragment extends Fragment {
                     return;
                 }
                 if (storyMainModel.getIsValid() == 1) {
-
+                    isUpdateAvailable = String.valueOf(storyMainModel.getIsUpdateAvailable());
+                    isForceUpdateAvailable = String.valueOf(storyMainModel.getIsForceUpdate());
+//                    isForceUpdateAvailable = "0";
+                    currentVersionStr = String.valueOf(storyMainModel.getCurrentVersion());
+                    if (isUpdateAvailable.equalsIgnoreCase("1")) {
+                        Utils.checkupdateApplication(mContext, getActivity(), isForceUpdateAvailable, currentVersionStr);
+                    }
                     if (storyMainModel.getData() != null) {
-
-
                         storyDetailModelList1.addAll(0, storyMainModel.getData());
                         Set<ImageDetailModel> unique = new LinkedHashSet<ImageDetailModel>(storyDetailModelList1);
                         storyDetailModelList1 = new ArrayList<ImageDetailModel>(unique);

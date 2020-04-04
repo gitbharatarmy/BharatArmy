@@ -34,6 +34,8 @@ import org.greenrobot.eventbus.Subscribe
 // remove code 29/07/2019
 // remove extra code 03/09/2019 with noon backup
 // remove extra and commented code 16/01/2020 with backup of 16/01/2020
+// change the 04/04/2020 with backup BAPhase1
+
 class DashboardActivity : AppCompatActivity(), View.OnClickListener, StoryFragment.OnItemClick, StoryCategoryFragment.OnItemClick, HomeFragment.OnItemClick {
 
 
@@ -45,13 +47,8 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, StoryFragme
     internal lateinit var overlay: SpeedDialOverlayLayout
     internal lateinit var cart_count_item_txt: TextView
 
-    /*internal lateinit var first_menu_txt: TextView
-    internal lateinit var second_menu_txt: TextView
-    internal lateinit var third_menu_txt: TextView
-    internal lateinit var fourth_menu_txt: TextView
-    internal lateinit var five_menu_txt: TextView*/
     internal lateinit var cartLayoutRel: RelativeLayout
-    internal lateinit var feedbackLayoutRel: RelativeLayout
+
     //  flag to load home fragment when user presses back key
     private val shouldLoadHomeFragOnBackPress = true
     private var mHandler: Handler? = null
@@ -108,12 +105,7 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, StoryFragme
         speedDial = findViewById<View>(R.id.speedDial) as SpeedDialView
         cart_count_item_txt = findViewById<View>(R.id.cart_count_item_txt) as TextView
         cartLayoutRel = findViewById<View>(R.id.cartLayout_rel) as RelativeLayout
-        feedbackLayoutRel = findViewById<View>(R.id.feedbackLayout_rel) as RelativeLayout
-        /*first_menu_txt = findViewById<View>(R.id.first_menu_txt) as TextView
-        second_menu_txt = findViewById<View>(R.id.second_menu_txt) as TextView
-        third_menu_txt = findViewById<View>(R.id.third_menu_txt) as TextView
-        fourth_menu_txt = findViewById<View>(R.id.fourth_menu_txt) as TextView
-        five_menu_txt = findViewById<View>(R.id.five_menu_txt) as TextView*/
+
 
 
         speedDial.visibility = View.GONE
@@ -127,18 +119,14 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, StoryFragme
             val addcartItemIntent = Intent(mContext, CartItemShowActivity::class.java)
             startActivity(addcartItemIntent)
         }
-        feedbackLayoutRel.setOnClickListener{
-            bottomNavigation.show(2, true)
-            fragment = FeedbackFragment()
-            loadFragment(fragment as FeedbackFragment)
-        }
+
     }
 
     // For Feedback Fragment
-   fun bottomNavigationView() {
+  /* fun bottomNavigationView() {
 
         bottomNavigation.add(MeowBottomNavigation.Model(1, R.drawable.ic_fans_new))
-        bottomNavigation.add(MeowBottomNavigation.Model(2, R.drawable.ic_feedback)) //ic_travel_new  ic_feedback
+        bottomNavigation.add(MeowBottomNavigation.Model(2, R.drawable.ic_travel_new)) //ic_travel_new  ic_feedback
         bottomNavigation.add(MeowBottomNavigation.Model(3, R.drawable.ic_home_new))
 //        bottomNavigation.add(MeowBottomNavigation.Model(4, R.drawable.ic_ftp_new))
         bottomNavigation.add(MeowBottomNavigation.Model(4, R.drawable.ic_study))
@@ -201,7 +189,6 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, StoryFragme
                         navItemIndex = 2
                         fragment = FeedbackFragment()
                         loadFragment(fragment as FeedbackFragment)
-
                     }
                 }
                 3 -> {
@@ -273,11 +260,11 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, StoryFragme
         }
 
 
-    }
+    }*/
 
 
     //    For Travel Fragment
-  /*   fun bottomNavigationView() {
+    fun bottomNavigationView() {
 
           bottomNavigation.add(MeowBottomNavigation.Model(1, R.drawable.ic_fans_new))
           bottomNavigation.add(MeowBottomNavigation.Model(2, R.drawable.ic_travel_new)) //ic_travel_new  ic_feedback
@@ -324,7 +311,7 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, StoryFragme
           }
 
 
-      } */
+      }
 
     /***
      * Returns respected fragment that user
@@ -359,10 +346,10 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, StoryFragme
                     navItemIndex = 2
                     bottomNavigation.show(2, true)
                     intent.putExtra("whichPageRun", "")
-                    fragment = FeedbackFragment()
-                    loadFragment(fragment as FeedbackFragment)
-//                    fragment = NewTravelFragment()
-//                    loadFragment(fragment as NewTravelFragment)
+//                    fragment = FeedbackFragment()
+//                    loadFragment(fragment as FeedbackFragment)
+                    fragment = NewTravelFragment()
+                    loadFragment(fragment as NewTravelFragment)
                 } else {
                     bottomNavigation.show(3, true)
                     fragment = HomeFragment()
@@ -473,7 +460,7 @@ class DashboardActivity : AppCompatActivity(), View.OnClickListener, StoryFragme
     }
 
     //    For Use Feedback Fragment
-override fun onBackPressed() {
+ /*override fun onBackPressed() {
 
         if (speedDial.isOpen) {
             speedDial.close(true);
@@ -548,10 +535,10 @@ override fun onBackPressed() {
         }
 
 
-    }
+    }*/
 
     //For Use Travel Fragment
- /* override fun onBackPressed() {
+  override fun onBackPressed() {
 
         if (speedDial.isOpen) {
             speedDial.close(true);
@@ -596,7 +583,7 @@ override fun onBackPressed() {
         }
 
 
-    }*/
+    }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.

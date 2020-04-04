@@ -85,7 +85,7 @@ public class VideoFragment extends Fragment {
 
     Uri selectedUri;
     private static final int REQUEST_VIDEO_TRIMMER = 0x01;
-
+    public String isUpdateAvailable, isForceUpdateAvailable, currentVersionStr;
 
     //    lazy loading variable
     int videopageIndex = 0;
@@ -382,7 +382,13 @@ public class VideoFragment extends Fragment {
                     return;
                 }
                 if (videoMainModel.getIsValid() == 1) {
-
+                    isUpdateAvailable = String.valueOf(videoMainModel.getIsUpdateAvailable());
+                    isForceUpdateAvailable = String.valueOf(videoMainModel.getIsForceUpdate());
+//                    isForceUpdateAvailable = "0";
+                    currentVersionStr = String.valueOf(videoMainModel.getCurrentVersion());
+                    if (isUpdateAvailable.equalsIgnoreCase("1")) {
+                        Utils.checkupdateApplication(mContext, getActivity(), isForceUpdateAvailable, currentVersionStr);
+                    }
                     if (videoMainModel.getData() != null) {
                         if (wherecall.equalsIgnoreCase("first")) {
                          if (videoListAdapter!=null){
@@ -499,7 +505,13 @@ public class VideoFragment extends Fragment {
                     return;
                 }
                 if (videoMainModel.getIsValid() == 1) {
-
+                    isUpdateAvailable = String.valueOf(videoMainModel.getIsUpdateAvailable());
+                    isForceUpdateAvailable = String.valueOf(videoMainModel.getIsForceUpdate());
+//                    isForceUpdateAvailable = "0";
+                    currentVersionStr = String.valueOf(videoMainModel.getCurrentVersion());
+                    if (isUpdateAvailable.equalsIgnoreCase("1")) {
+                        Utils.checkupdateApplication(mContext, getActivity(), isForceUpdateAvailable, currentVersionStr);
+                    }
                     if (videoMainModel.getData() != null) {
 
 

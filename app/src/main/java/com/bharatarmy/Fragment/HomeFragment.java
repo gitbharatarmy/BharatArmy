@@ -51,6 +51,7 @@ import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.bharatarmy.Activity.AllVideoShowInFullScreenActivity;
+import com.bharatarmy.Activity.FeedbackActivity;
 import com.bharatarmy.Activity.MoreInformationActivity;
 import com.bharatarmy.Activity.MyProfileActivity;
 import com.bharatarmy.Activity.Splash_Screen;
@@ -204,7 +205,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     private StringBuilder mFormatBuilder;
     private Formatter mFormatter;
 
-    public String isUpdateAvailable, isForceUpdateAvailable,currentVersionStr;
+    public String isUpdateAvailable, isForceUpdateAvailable, currentVersionStr;
 
     // Activity lifecycle
     private static boolean isBehindLiveWindow(ExoPlaybackException e) {
@@ -490,7 +491,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                     LinearLayout.LayoutParams.WRAP_CONTENT
             );
             params.setMargins(0, 0, 0, 200);
-            fragmentHomeBinding.helpLinear.setLayoutParams(params);
+            fragmentHomeBinding.feedbackLinear.setLayoutParams(params);
         }
     }
 
@@ -524,7 +525,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         fragmentHomeBinding.volmueLinear.setOnClickListener(this);
         fragmentHomeBinding.faqLinear.setOnClickListener(this);
         fragmentHomeBinding.termsConditionLinear.setOnClickListener(this);
-
+        fragmentHomeBinding.feedbackLinear.setOnClickListener(this);
         fragmentHomeBinding.settingLinear.setOnClickListener(this);
 //        fragmentHomeBinding.baVideo.setOnClickListener(this);
     }
@@ -556,11 +557,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 }
                 if (getDashboardModel.getIsValid() == 1) {
                     isUpdateAvailable = String.valueOf(getDashboardModel.getIsUpdateAvailable());
-//                    isForceUpdateAvailable = String.valueOf(getDashboardModel.getIsForceUpdate());
-                    isForceUpdateAvailable="0";
-                    currentVersionStr= String.valueOf(getDashboardModel.getCurrentVersion());
+                    isForceUpdateAvailable = String.valueOf(getDashboardModel.getIsForceUpdate());
+//                    isForceUpdateAvailable = "0";
+                    currentVersionStr = String.valueOf(getDashboardModel.getCurrentVersion());
                     if (isUpdateAvailable.equalsIgnoreCase("1")) {
-                        updateApplication();
+                        Utils.checkupdateApplication(mContext, getActivity(), isForceUpdateAvailable, currentVersionStr);
                     }
                     if (getDashboardModel.getData() != null) {
                         getDashboardDataModel = getDashboardModel.getData();
@@ -738,27 +739,6 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         return map;
     }
 
-    public void updateApplication() {
-        Utils.setPref(mContext,"Dialogshow","1");
-        if (Utils.getPref(mContext, "notnow") != null && Utils.getPref(mContext, "appVersion") != null) {
-            if (Utils.getPref(mContext, "notnow").equalsIgnoreCase("1") &&
-                    !Utils.getPref(mContext, "appVersion").equalsIgnoreCase(currentVersionStr) && isForceUpdateAvailable.equalsIgnoreCase("1")) {
-                Utils.showUpdateDialog(getActivity(), "hide", currentVersionStr);
-            } else if (Utils.getPref(mContext, "notnow").equalsIgnoreCase("1") &&
-                    !Utils.getPref(mContext, "appVersion").equalsIgnoreCase(currentVersionStr)) {  //isUpdateAvailable
-                Utils.showUpdateDialog(getActivity(), "show", currentVersionStr);
-            } else if (Utils.getPref(mContext, "notnow").equalsIgnoreCase("0") &&
-                    !Utils.getPref(mContext, "appVersion").equalsIgnoreCase(currentVersionStr) && isForceUpdateAvailable.equalsIgnoreCase("1")) {
-                Utils.showUpdateDialog(getActivity(), "hide", currentVersionStr);
-            } else if (Utils.getPref(mContext, "notnow").equalsIgnoreCase("0") &&
-                    !Utils.getPref(mContext, "appVersion").equalsIgnoreCase(currentVersionStr)) {
-                Utils.showUpdateDialog(getActivity(), "show", currentVersionStr);
-            }
-
-
-        }
-    }
-
 
     @Override
     public void onClick(View v) {
@@ -833,6 +813,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.setting_linear:
                 autoStartNotificationPermissionDialog(mContext);
+                break;
+            case R.id.feedback_linear:
+                Intent feedbackIntent=new Intent(mContext, FeedbackActivity.class);
+                feedbackIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                mContext.startActivity(feedbackIntent);
                 break;
             case R.id.ba_video:
 //                if (fragmentHomeBinding.baVideo.isPlaying()) {

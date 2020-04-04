@@ -118,12 +118,13 @@
                 android:textStyle="bold" />
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/_20sdp"
+                android:layout_height="@dimen/_20sdp"
                 android:layout_gravity="center_horizontal|center_vertical"
                 android:background="@drawable/border_white_round"
                 android:orientation="horizontal"
-                android:padding="@dimen/_3sdp">
+                android:padding="@dimen/_3sdp"
+                android:visibility="gone">
 
                 <TextView
                     android:id="@+id/tv_play_back_speed"
@@ -133,7 +134,7 @@
                     android:gravity="center"
                     android:text="1"
                     android:textColor="#ffffff"
-                    android:textSize="@dimen/_13sdp"
+                    android:textSize="@dimen/_11sdp"
                     android:textStyle="italic" />
 
                 <TextView
@@ -144,7 +145,7 @@
                     android:gravity="center"
                     android:text="X"
                     android:textColor="#ffffff"
-                    android:textSize="@dimen/_13sdp"
+                    android:textSize="@dimen/_11sdp"
                     android:textStyle="bold" />
 
             </LinearLayout>
@@ -156,6 +157,7 @@
                 android:layout_height="@dimen/_15sdp"
                 android:layout_gravity="center_horizontal|center_vertical"
               android:layout_marginLeft="@dimen/_5sdp"
+                android:layout_marginRight="@dimen/_5sdp"
                 app:srcCompat="@drawable/ic_video_setting"
                 android:tint="@color/splash_bg_color"/>
 

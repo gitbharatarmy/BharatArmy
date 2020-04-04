@@ -214,6 +214,8 @@ public class Utils {
 
     }
 
+
+
     public static void hideKeyboard(Activity context) {
         ((InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow((null == context.getCurrentFocus()) ? null : context.getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
     }
@@ -500,10 +502,10 @@ public class Utils {
         update.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                dialog.dismiss();
+                Utils.setPref(getApplicationContext(),"Dialogshow","1");
                 Utils.setPref(getApplicationContext(),"notnow","0");
                 Utils.setPref(getApplicationContext(),"appVersion",versioncode);
+                dialog.dismiss();
 //                try {
 //                    Intent viewIntent =
 //                            new Intent("android.intent.action.VIEW",
@@ -520,13 +522,48 @@ public class Utils {
         notnow_txt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog.dismiss();
+                Utils.setPref(getApplicationContext(),"Dialogshow","1");
                 Utils.setPref(getApplicationContext(),"notnow","1");
                 Utils.setPref(getApplicationContext(),"appVersion",versioncode);
+                dialog.dismiss();
+
             }
         });
         dialog.show();
     }
+
+    public static void checkupdateApplication(Context mContext,Activity activity,String isForceUpdateAvailable,String currentVersionStr) {
+        if (Utils.getPref(mContext, "notnow") != null && Utils.getPref(mContext, "appVersion") != null) {
+            if (!Utils.getPref(mContext,"notnow").equalsIgnoreCase("") && !Utils.getPref(mContext,"appVersion").equalsIgnoreCase("")) {
+                if (Utils.getPref(mContext, "notnow").equalsIgnoreCase("1") &&
+                        !Utils.getPref(mContext, "appVersion").equalsIgnoreCase(currentVersionStr) && isForceUpdateAvailable.equalsIgnoreCase("1")) {
+                    Utils.showUpdateDialog(activity, "hide", currentVersionStr);
+                } else if (Utils.getPref(mContext, "notnow").equalsIgnoreCase("1") &&
+                        !Utils.getPref(mContext, "appVersion").equalsIgnoreCase(currentVersionStr)) {  //isUpdateAvailable
+                    Utils.showUpdateDialog(activity, "show", currentVersionStr);
+                } else if (Utils.getPref(mContext, "notnow").equalsIgnoreCase("0") &&
+                        !Utils.getPref(mContext, "appVersion").equalsIgnoreCase(currentVersionStr) && isForceUpdateAvailable.equalsIgnoreCase("1")) {
+                    Utils.showUpdateDialog(activity, "hide", currentVersionStr);
+                } else if (Utils.getPref(mContext, "notnow").equalsIgnoreCase("0") &&
+                        !Utils.getPref(mContext, "appVersion").equalsIgnoreCase(currentVersionStr)) {
+                    Utils.showUpdateDialog(activity, "show", currentVersionStr);
+                }
+            }else{
+                if (isForceUpdateAvailable.equalsIgnoreCase("1")){
+                    Utils.showUpdateDialog(activity, "hide", currentVersionStr);
+                }else{
+                    Utils.showUpdateDialog(activity, "show", currentVersionStr);
+                }
+            }
+        }else{
+            if (isForceUpdateAvailable.equalsIgnoreCase("1")){
+                Utils.showUpdateDialog(activity, "hide", currentVersionStr);
+            }else{
+                Utils.showUpdateDialog(activity, "show", currentVersionStr);
+            }
+        }
+    }
+
 
     public static void showThanyouDialog(final Activity activity, String wheretocome) {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity);
@@ -552,9 +589,7 @@ public class Utils {
                 }
             });
 
-        } else if (wheretocome.equalsIgnoreCase("Feedback")) {
-            dialog_headertxt.setText("Thank you for register your feedback");
-        } else {
+        }  else {
             if (Utils.retriveLoginOtherData(activity) != null) {
                 if (wheretocome.equalsIgnoreCase("imageUpload")) {
                     for (int i = 0; i < Utils.retriveLoginOtherData(activity).size(); i++) {
@@ -631,9 +666,6 @@ public class Utils {
                         dashboardIntent.putExtra("whichPageRun", "1");
                         activity.startActivity(dashboardIntent);
                         activity.finish();
-                    } else if (wheretocome.equalsIgnoreCase("Feedback")) {
-                        Intent dashboardIntent = new Intent(activity, DashboardActivity.class);
-                        activity.startActivity(dashboardIntent);
                     } else if (wheretocome.equalsIgnoreCase("sports")) {
 
                     }
@@ -854,9 +886,20 @@ public class Utils {
         return id;
     }
 
+    public static int getAppLoginId() {
+        int id = 0;
+
+        if (Utils.retriveLoginData(getApplicationContext()) != null) {
+            id = Utils.retriveLoginData(getApplicationContext()).getId();
+        } else {
+            id = 0;
+        }
+        return id;
+    }
+
     public static String getVersionCode() {
         String VersionId = "";
-        VersionId = String.valueOf(BuildConfig.VERSION_CODE);
+        VersionId = String.valueOf(BuildConfig.VERSION_NAME);
 
         return VersionId;
     }
@@ -992,7 +1035,7 @@ public class Utils {
         map.put("TokenId", viewsTokenId);
         map.put("ReferenceId", viewsReferenceId);
         map.put("SourceType", viewsSourceType);
-
+        map.put("ModelName", Utils.getDeviceName());
         return map;
 
     }

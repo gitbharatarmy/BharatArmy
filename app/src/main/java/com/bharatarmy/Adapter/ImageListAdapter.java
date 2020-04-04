@@ -94,11 +94,6 @@ public class ImageListAdapter extends RecyclerView.Adapter<ImageListAdapter.Item
         viewHolder.imageListBinding.fansImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Utils.viewsMemberId = String.valueOf(Utils.getAppUserId(mContext));
-                Utils.viewsReferenceId = String.valueOf(detail.getBAGalleryId());
-                Utils.viewsSourceType = "1";
-                Utils.viewsTokenId = Utils.getPref(mContext, "registration_id");
-                Utils.InsertBAViews(mContext, activity);
                 dataCheck = new ArrayList<String>();
                 dataCheck.add(String.valueOf(detail.getGalleryURL()));
                 image_click.image_more_click();

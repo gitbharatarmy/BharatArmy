@@ -33,7 +33,7 @@ public class LoginwithEmailActivity extends AppCompatActivity implements View.On
     ActivityLoginwithemailBinding loginBinding;
     Context mContext;
     String username_str, password_str;
-
+    public String isUpdateAvailable, isForceUpdateAvailable, currentVersionStr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -161,6 +161,13 @@ public class LoginwithEmailActivity extends AppCompatActivity implements View.On
                     return;
                 }
                 if (loginModel.getIsValid() == 1) {
+                    isUpdateAvailable = String.valueOf(loginModel.getIsUpdateAvailable());
+                    isForceUpdateAvailable = String.valueOf(loginModel.getIsForceUpdate());
+//                    isForceUpdateAvailable = "0";
+                    currentVersionStr = String.valueOf(loginModel.getCurrentVersion());
+                    if (isUpdateAvailable.equalsIgnoreCase("1")) {
+                        Utils.checkupdateApplication(mContext, LoginwithEmailActivity.this, isForceUpdateAvailable, currentVersionStr);
+                    }
                     if (loginModel.getData() != null) {
                         Utils.setPref(mContext, "IsSkipLogin", "");
                         Utils.setPref(mContext, "IsLoginUser", "1");

@@ -65,7 +65,7 @@ import retrofit.client.Response;
 import static android.app.Activity.RESULT_OK;
 
 // remove comment code 05-06-2019   & 23-01-2020 evening
-public class ImageFragment extends Fragment  {
+public class ImageFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -88,6 +88,7 @@ public class ImageFragment extends Fragment  {
     ArrayList<String> galleryImageLike = new ArrayList<>();
     ArrayList<String> galleryImageId = new ArrayList<>();
     ArrayList<String> galleryImageWatchList = new ArrayList<>();
+    ArrayList<String> galleryView = new ArrayList<>();
 
 
     String imageClickData;
@@ -103,6 +104,7 @@ public class ImageFragment extends Fragment  {
 
     Uri selectedUri;
     private static final int REQUEST_VIDEO_TRIMMER = 0x01;
+    public String isUpdateAvailable, isForceUpdateAvailable, currentVersionStr;
 
     public ImageFragment() {
         // Required empty public constructor
@@ -348,7 +350,13 @@ public class ImageFragment extends Fragment  {
                     return;
                 }
                 if (imageMainModel.getIsValid() == 1) {
-
+                    isUpdateAvailable = String.valueOf(imageMainModel.getIsUpdateAvailable());
+                    isForceUpdateAvailable = String.valueOf(imageMainModel.getIsForceUpdate());
+//                    isForceUpdateAvailable = "0";
+                    currentVersionStr = String.valueOf(imageMainModel.getCurrentVersion());
+                    if (isUpdateAvailable.equalsIgnoreCase("1")) {
+                        Utils.checkupdateApplication(mContext, getActivity(), isForceUpdateAvailable, currentVersionStr);
+                    }
                     if (imageMainModel.getData() != null) {
                         fragmentImageBinding.shimmerViewContainer.stopShimmerAnimation();
                         fragmentImageBinding.shimmerViewContainer.setVisibility(View.GONE);
@@ -422,6 +430,7 @@ public class ImageFragment extends Fragment  {
                 gallerydetailIntent.putStringArrayListExtra("dataId", galleryImageId);
                 gallerydetailIntent.putStringArrayListExtra("dataLike", galleryImageLike);
                 gallerydetailIntent.putStringArrayListExtra("dataWatchList", galleryImageWatchList);
+                gallerydetailIntent.putStringArrayListExtra("dataView", galleryView);
                 gallerydetailIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(gallerydetailIntent);
             }
@@ -449,7 +458,7 @@ public class ImageFragment extends Fragment  {
         galleryImageId.clear();
         galleryImageLike.clear();
         galleryImageWatchList.clear();
-
+        galleryView.clear();
 
         for (int i = 0; i < result.size(); i++) {
             galleryImageUrl.addAll(Collections.singleton(result.get(i).getGalleryURL()));
@@ -458,6 +467,7 @@ public class ImageFragment extends Fragment  {
             galleryImageId.addAll(Collections.singleton(String.valueOf(result.get(i).getBAGalleryId())));
             galleryImageLike.addAll(Collections.singleton(String.valueOf(result.get(i).getIsLike())));
             galleryImageWatchList.addAll(Collections.singleton(String.valueOf(result.get(i).getIsInWatchlist())));
+            galleryView.addAll(Collections.singleton(result.get(i).getStrViewCount()));
         }
         Log.d("galleryImageUrl", "" + galleryImageUrl.size() + "galleryImageId :" + galleryImageId.size());
 
@@ -487,7 +497,13 @@ public class ImageFragment extends Fragment  {
                     return;
                 }
                 if (imageMainModel.getIsValid() == 1) {
-
+                    isUpdateAvailable = String.valueOf(imageMainModel.getIsUpdateAvailable());
+                    isForceUpdateAvailable = String.valueOf(imageMainModel.getIsForceUpdate());
+//                    isForceUpdateAvailable = "0";
+                    currentVersionStr = String.valueOf(imageMainModel.getCurrentVersion());
+                    if (isUpdateAvailable.equalsIgnoreCase("1")) {
+                        Utils.checkupdateApplication(mContext, getActivity(), isForceUpdateAvailable, currentVersionStr);
+                    }
                     if (imageMainModel.getData() != null) {
 
                         imageDetailModelList1.addAll(0, imageMainModel.getData());
@@ -498,7 +514,7 @@ public class ImageFragment extends Fragment  {
                             for (int i = 0; i < imageDetailModelList1.size(); i++) {
                                 for (int j = 0; j < AppConfiguration.watchlistId.size(); j++) {
                                     if (imageDetailModelList1.get(i).getBAGalleryId().toString().equalsIgnoreCase(AppConfiguration.watchlistId.get(j))) {
-                                     imageDetailModelList1.get(i).setIsInWatchlist(Integer.valueOf(Utils.WatchListStatus));
+                                        imageDetailModelList1.get(i).setIsInWatchlist(Integer.valueOf(Utils.WatchListStatus));
                                     }
                                 }
                             }

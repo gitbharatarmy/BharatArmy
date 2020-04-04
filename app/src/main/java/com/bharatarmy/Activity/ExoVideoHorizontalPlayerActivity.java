@@ -155,7 +155,7 @@ public class ExoVideoHorizontalPlayerActivity extends AppCompatActivity implemen
     LoginDataModel postedDataList;
     LinearLayout mBottomLayout,bottom_gradiant_line;
     RelativeLayout video_play_layout;
-
+    public String isUpdateAvailable, isForceUpdateAvailable, currentVersionStr;
 
     // Activity lifecycle
     private static boolean isBehindLiveWindow(ExoPlaybackException e) {
@@ -287,7 +287,13 @@ public class ExoVideoHorizontalPlayerActivity extends AppCompatActivity implemen
                     return;
                 }
                 if (relatedHorizontalVideoModel.getIsValid() == 1) {
-
+                    isUpdateAvailable = String.valueOf(relatedHorizontalVideoModel.getIsUpdateAvailable());
+                    isForceUpdateAvailable = String.valueOf(relatedHorizontalVideoModel.getIsForceUpdate());
+//                    isForceUpdateAvailable = "0";
+                    currentVersionStr = String.valueOf(relatedHorizontalVideoModel.getCurrentVersion());
+                    if (isUpdateAvailable.equalsIgnoreCase("1")) {
+                        Utils.checkupdateApplication(mContext, ExoVideoHorizontalPlayerActivity.this, isForceUpdateAvailable, currentVersionStr);
+                    }
                     if (relatedHorizontalVideoModel.getData() != null) {
                         videoDetailModelsList = relatedHorizontalVideoModel.getData();
 

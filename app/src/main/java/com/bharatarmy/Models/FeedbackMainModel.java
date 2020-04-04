@@ -6,28 +6,6 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class FeedbackMainModel {
-    //    @SerializedName("Status")
-//    @Expose
-//    private String status;
-//    @SerializedName("FeedbackQuestionAnswerData")
-//    @Expose
-//    private List<FeedbackQuestionAnswerDatum> feedbackQuestionAnswerData = null;
-//
-//    public String getStatus() {
-//        return status;
-//    }
-//
-//    public void setStatus(String status) {
-//        this.status = status;
-//    }
-//
-//    public List<FeedbackQuestionAnswerDatum> getFeedbackQuestionAnswerData() {
-//        return feedbackQuestionAnswerData;
-//    }
-//
-//    public void setFeedbackQuestionAnswerData(List<FeedbackQuestionAnswerDatum> feedbackQuestionAnswerData) {
-//        this.feedbackQuestionAnswerData = feedbackQuestionAnswerData;
-//    }
     @SerializedName("Message")
     @Expose
     private Object message;
@@ -55,7 +33,18 @@ public class FeedbackMainModel {
     @SerializedName("RecordCount")
     @Expose
     private Integer recordCount;
-
+    @SerializedName("IsUpdateAvailable")
+    @Expose
+    private Integer isUpdateAvailable;
+    @SerializedName("IsForceUpdate")
+    @Expose
+    private Integer isForceUpdate;
+    @SerializedName("VersionCode")
+    @Expose
+    private Integer versionCode;
+    @SerializedName("CurrentVersion")
+    @Expose
+    private Double currentVersion;
     public Object getMessage() {
         return message;
     }
@@ -127,5 +116,34 @@ public class FeedbackMainModel {
     public void setRecordCount(Integer recordCount) {
         this.recordCount = recordCount;
     }
+    public Integer getIsUpdateAvailable() {
+        return isUpdateAvailable;
+    }
 
+    public void setIsUpdateAvailable(Integer isUpdateAvailable) {
+        this.isUpdateAvailable = isUpdateAvailable;
+    }
+
+    public Integer getIsForceUpdate() {
+        return isForceUpdate;
+    }
+
+    public void setIsForceUpdate(Integer isForceUpdate) {
+        this.isForceUpdate = isForceUpdate;
+    }
+    public Integer getVersionCode() {
+        return versionCode;
+    }
+
+    public void setVersionCode(Integer versionCode) {
+        this.versionCode = versionCode;
+    }
+
+    public Double getCurrentVersion() {
+        return currentVersion;
+    }
+
+    public void setCurrentVersion(Double currentVersion) {
+        this.currentVersion = currentVersion;
+    }
 }

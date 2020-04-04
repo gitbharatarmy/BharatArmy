@@ -73,6 +73,8 @@ public class AlbumDetailActivity extends AppCompatActivity implements View.OnCli
     boolean isalbumImageLoading = true;
     GridLayoutManager gridLayoutManageralbumdetail;
     int albumpagesize = 15;
+    public String isUpdateAvailable, isForceUpdateAvailable, currentVersionStr;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -232,7 +234,13 @@ public class AlbumDetailActivity extends AppCompatActivity implements View.OnCli
                     return;
                 }
                 if (albumDeatilMainModel.getIsValid() == 1) {
-
+                    isUpdateAvailable = String.valueOf(albumDeatilMainModel.getIsUpdateAvailable());
+                    isForceUpdateAvailable = String.valueOf(albumDeatilMainModel.getIsForceUpdate());
+//                    isForceUpdateAvailable = "0";
+                    currentVersionStr = String.valueOf(albumDeatilMainModel.getCurrentVersion());
+                    if (isUpdateAvailable.equalsIgnoreCase("1")) {
+                        Utils.checkupdateApplication(mContext, AlbumDetailActivity.this, isForceUpdateAvailable, currentVersionStr);
+                    }
                     if (albumDeatilMainModel.getData() != null) {
                         activityAlbumDetailBinding.shimmerViewContainer.stopShimmerAnimation();
                         activityAlbumDetailBinding.shimmerViewContainer.setVisibility(View.GONE);
@@ -361,7 +369,13 @@ public class AlbumDetailActivity extends AppCompatActivity implements View.OnCli
                     return;
                 }
                 if (albumdetailMainModel.getIsValid() == 1) {
-
+                    isUpdateAvailable = String.valueOf(albumdetailMainModel.getIsUpdateAvailable());
+                    isForceUpdateAvailable = String.valueOf(albumdetailMainModel.getIsForceUpdate());
+//                    isForceUpdateAvailable = "0";
+                    currentVersionStr = String.valueOf(albumdetailMainModel.getCurrentVersion());
+                    if (isUpdateAvailable.equalsIgnoreCase("1")) {
+                        Utils.checkupdateApplication(mContext, AlbumDetailActivity.this, isForceUpdateAvailable, currentVersionStr);
+                    }
                     if (albumdetailMainModel.getData() != null) {
                         galleryImageUrl.clear();
                         galleryImageThumbUrl.clear();

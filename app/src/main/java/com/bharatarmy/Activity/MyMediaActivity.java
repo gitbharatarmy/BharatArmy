@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -18,6 +19,7 @@ import com.bharatarmy.Adapter.MyMediaAdapter;
 import com.bharatarmy.Interfaces.image_click;
 import com.bharatarmy.Models.GalleryImageModel;
 import com.bharatarmy.R;
+import com.bharatarmy.UploadService;
 import com.bharatarmy.Utility.DbHandler;
 import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.ActivityMyMediaBinding;
@@ -32,9 +34,10 @@ public class MyMediaActivity extends AppCompatActivity implements View.OnClickLi
     public List<GalleryImageModel> updatearray;
     MyMediaAdapter myMediaAdapter;
 
-       List<GalleryImageModel> galleryimage;
+    List<GalleryImageModel> galleryimage;
+    List<GalleryImageModel> retryUploadimageList;
 
-       // Database
+    // Database
     DbHandler dbHandler;
     Handler timerHandler;
     Runnable timerRunnable;
@@ -70,18 +73,20 @@ public class MyMediaActivity extends AppCompatActivity implements View.OnClickLi
 
         if (dbHandler.getMediaImageData() != null && dbHandler.getMediaImageData().size() > 0) {
             galleryimage = dbHandler.getMediaImageData();
-            Log.d("galleryimage :",""+galleryimage.size());
+            Log.d("galleryimage :", "" + galleryimage.size());
             if (galleryimage != null && galleryimage.size() > 0) {
                 activityMyMediaBinding.showMediaRcv.setVisibility(View.VISIBLE);
                 activityMyMediaBinding.noRecordrel.setVisibility(View.GONE);
                 setDataList();
             } else {
                 activityMyMediaBinding.showMediaRcv.setVisibility(View.GONE);
+                activityMyMediaBinding.retryLinear.setVisibility(View.GONE);
                 activityMyMediaBinding.noRecordrel.setVisibility(View.VISIBLE);
 //                Utils.ping(mContext, "No media available");
             }
         } else {
             activityMyMediaBinding.showMediaRcv.setVisibility(View.GONE);
+            activityMyMediaBinding.retryLinear.setVisibility(View.GONE);
 //            Utils.ping(mContext, "No media available");
             activityMyMediaBinding.noRecordrel.setVisibility(View.VISIBLE);
         }
@@ -111,7 +116,7 @@ public class MyMediaActivity extends AppCompatActivity implements View.OnClickLi
     public void setListiner() {
         activityMyMediaBinding.backImg.setOnClickListener(this);
         activityMyMediaBinding.refreshImg.setOnClickListener(this);
-
+        activityMyMediaBinding.retryBtn.setOnClickListener(this);
     }
 
     public void refreshView() {
@@ -150,9 +155,35 @@ public class MyMediaActivity extends AppCompatActivity implements View.OnClickLi
                 break;
             case R.id.refresh_img:
                 break;
+            case R.id.retry_btn:
+                retryUploadImage();
+                break;
         }
     }
 
+    public void retryUploadImage() {
+        if (dbHandler.getMediaImageData() != null && dbHandler.getMediaImageData().size() > 0) {
+            retryUploadimageList = dbHandler.getMediaImageData();
+            Log.d("retryUploadimageList :", "" + galleryimage.size());
+            if (retryUploadimageList != null && retryUploadimageList.size() > 0) {
+                for (int i = 0; i < retryUploadimageList.size(); i++) {
+                    if (retryUploadimageList.get(i).getUploadcompelet().equalsIgnoreCase("2")) {
+                        dbHandler.DeleteImage(galleryimage.get(i).getId());
+                        dbHandler.insertImageDetails(retryUploadimageList.get(i).getImageUri(), retryUploadimageList.get(i).getImageSize(),
+                                "0", retryUploadimageList.get(i).getVideolength(),
+                                retryUploadimageList.get(i).getFileType(), retryUploadimageList.get(i).getVideoTitle(),
+                                retryUploadimageList.get(i).getVideoDesc(), retryUploadimageList.get(i).getVideoHeight(),
+                                retryUploadimageList.get(i).getVideoWidth(), retryUploadimageList.get(i).getPrivacySetting(), mContext);
+                    }
+                }
+
+                Intent intent = new Intent(mContext, UploadService.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startService(intent);
+                finish();
+            }
+        }
+    }
 
     @Override
     public void onBackPressed() {

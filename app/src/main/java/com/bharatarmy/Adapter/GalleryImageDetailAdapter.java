@@ -22,7 +22,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bharatarmy.Activity.CommentActivity;
-import com.bharatarmy.Fragment.ImageCommentsBottomSheetFragment;
+
 import com.bharatarmy.Interfaces.MorestoryClick;
 import com.bharatarmy.Interfaces.image_click;
 import com.bharatarmy.Models.MyScreenChnagesModel;
@@ -31,7 +31,7 @@ import com.bharatarmy.TargetCallback;
 import com.bharatarmy.Utility.AppConfiguration;
 import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.GalleryImageDetailListBinding;
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+
 import com.like.LikeButton;
 import com.like.OnLikeListener;
 import com.squareup.picasso.Picasso;
@@ -50,6 +50,7 @@ public class GalleryImageDetailAdapter extends RecyclerView.Adapter<GalleryImage
     ArrayList<String> imageDuration;
     ArrayList<String> imageId;
     ArrayList<String> imageLike;
+    ArrayList<String> imageView;
     Activity activity;
     image_click image_click;
     MorestoryClick morestoryClick;
@@ -61,8 +62,8 @@ public class GalleryImageDetailAdapter extends RecyclerView.Adapter<GalleryImage
 
     public GalleryImageDetailAdapter(Context mContext, Activity activity, ArrayList<String> imageList,
                                      ArrayList<String> imageAddusername, ArrayList<String> imageDuration,
-                                     ArrayList<String> imageId, ArrayList<String> imageLike, LinearLayout watchlistLinear,
-                                     MorestoryClick morestoryClick,image_click image_click) {
+                                     ArrayList<String> imageId, ArrayList<String> imageLike, ArrayList<String> imageView, LinearLayout watchlistLinear,
+                                     MorestoryClick morestoryClick, image_click image_click) {
         this.mContext = mContext;
         this.activity = activity;
         this.imageList = imageList;
@@ -70,6 +71,7 @@ public class GalleryImageDetailAdapter extends RecyclerView.Adapter<GalleryImage
         this.imageDuration = imageDuration;
         this.imageId = imageId;
         this.imageLike = imageLike;
+        this.imageView = imageView;
         this.watchlistLinear=watchlistLinear;
         this.image_click = image_click;
         this.morestoryClick=morestoryClick;
@@ -117,6 +119,7 @@ public class GalleryImageDetailAdapter extends RecyclerView.Adapter<GalleryImage
 
         holder.galleryImageDetailListBinding.uploadimageUserNametxt.setText(userNameList.get(position));
         holder.galleryImageDetailListBinding.uploadimageDurationtxt.setText(imageDuration.get(position));
+        holder.galleryImageDetailListBinding.uploadimageViewstxt.setText(imageView.get(position));
         Log.d("userName :", userNameList.get(position));
         holder.galleryImageDetailListBinding.imageFull.getController()
                 .getSettings()

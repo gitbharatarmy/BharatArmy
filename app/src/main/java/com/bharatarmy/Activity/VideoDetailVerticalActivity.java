@@ -64,7 +64,7 @@ public class VideoDetailVerticalActivity extends AppCompatActivity implements Vi
     LoginDataModel postedDataList;
     Handler timerHandler;
     Runnable timerRunnable;
-
+    public String isUpdateAvailable, isForceUpdateAvailable, currentVersionStr;
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {

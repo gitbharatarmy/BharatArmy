@@ -19,6 +19,7 @@ import com.bharatarmy.Activity.AppLoginActivity;
 import com.bharatarmy.Activity.DashboardActivity;
 import com.bharatarmy.Activity.DisplayAddedUserActivity;
 import com.bharatarmy.Activity.DisplaySFAUserActivity;
+import com.bharatarmy.Activity.FeedbackActivity;
 import com.bharatarmy.Activity.InquriyActivity;
 import com.bharatarmy.Activity.MoreInformationActivity;
 import com.bharatarmy.Activity.MyMediaActivity;
@@ -154,7 +155,6 @@ public class MoreFragment extends Fragment implements View.OnClickListener, Goog
             );
             params.setMargins(0, 40, 0, 120);
             fragmentMoreBinding.settingLinear.setLayoutParams(params);
-
         }
     }
 
@@ -162,6 +162,7 @@ public class MoreFragment extends Fragment implements View.OnClickListener, Goog
         fragmentMoreBinding.userprofileLinear.setOnClickListener(this);
         fragmentMoreBinding.aboutusLinear.setOnClickListener(this);
         fragmentMoreBinding.contactusLinear.setOnClickListener(this);
+        fragmentMoreBinding.helpLinear.setOnClickListener(this);
         fragmentMoreBinding.logoutLinear.setOnClickListener(this);
         fragmentMoreBinding.inquiryLinear.setOnClickListener(this);
         fragmentMoreBinding.mediaLinear.setOnClickListener(this);
@@ -205,6 +206,14 @@ public class MoreFragment extends Fragment implements View.OnClickListener, Goog
                 Intent inquriy = new Intent(mContext, InquriyActivity.class);
                 startActivity(inquriy);
                 break;
+            case R.id.help_linear:
+                Utils.handleClickEvent(mContext, fragmentMoreBinding.contactusLinear);
+                Intent help = new Intent(mContext, MoreInformationActivity.class);
+                help.putExtra("Story Heading", "Help");
+                help.putExtra("StroyUrl", "https://www.bharatarmy.com/contact?isapp=1");
+                help.putExtra("whereTocome", "aboutus");
+                startActivity(help);
+                break;
             case R.id.logout_linear:
                 Utils.handleClickEvent(mContext, fragmentMoreBinding.logoutLinear);
                 AlertDialog.Builder alertDialog2 = new AlertDialog.Builder(getActivity());
@@ -244,6 +253,7 @@ public class MoreFragment extends Fragment implements View.OnClickListener, Goog
                 startActivity(media);
                 break;
             case R.id.withoutlogin_linear:
+                Utils.whereTocomeLogin = null;
                 Utils.handleClickEvent(mContext, fragmentMoreBinding.withoutloginLinear);
                 Intent intent = new Intent(mContext, AppLoginActivity.class);
                 startActivity(intent);
@@ -287,9 +297,11 @@ public class MoreFragment extends Fragment implements View.OnClickListener, Goog
                 break;
             case R.id.feedback_linear:
                 Utils.handleClickEvent(mContext, fragmentMoreBinding.feedbackLinear);
-                Intent DashboardIntent = new Intent(mContext, DashboardActivity.class);
-                DashboardIntent.putExtra("whichPageRun", "2");
-                startActivity(DashboardIntent);
+//                Intent DashboardIntent = new Intent(mContext, DashboardActivity.class);
+//                DashboardIntent.putExtra("whichPageRun", "2");
+//                startActivity(DashboardIntent);
+                Intent feedbackIntent=new Intent(mContext, FeedbackActivity.class);
+                mContext.startActivity(feedbackIntent);
                 break;
         }
     }

@@ -204,42 +204,34 @@ public class ExoVideoVerticalPlayerAdapter extends RecyclerView.Adapter<Recycler
 
             if (postedDataModel != null) {
                 if (postedDataModel.getLikes() != null) {
-                    if (postedDataModel.getLikes().equals(0)) {
-                        ((ExoVideoVerticalPlayerAdapter.HeaderViewHolder) holder).videoDetailVerticaleHeaderBinding.totalLikeTxt.setText("");
-                    } else {
-                        ((ExoVideoVerticalPlayerAdapter.HeaderViewHolder) holder).videoDetailVerticaleHeaderBinding.totalLikeTxt
-                                .setText(String.valueOf(postedDataModel.getLikes()));
-                    }
+                    ((ExoVideoVerticalPlayerAdapter.HeaderViewHolder) holder).videoDetailVerticaleHeaderBinding.totalLikeTxt
+                            .setText(String.valueOf(postedDataModel.getLikes()));
+                }else{
+                    ((ExoVideoVerticalPlayerAdapter.HeaderViewHolder) holder).videoDetailVerticaleHeaderBinding.totalLikeTxt.setText("");
                 }
             }
             if (postedDataModel != null) {
                 if (postedDataModel.getPosted() != null) {
-                    if (postedDataModel.getPosted().equals(0)) {
-                        ((ExoVideoVerticalPlayerAdapter.HeaderViewHolder) holder).videoDetailVerticaleHeaderBinding.totalPostedTxt.setText("");
-                    } else {
-                        ((ExoVideoVerticalPlayerAdapter.HeaderViewHolder) holder).videoDetailVerticaleHeaderBinding.totalPostedTxt
-                                .setText(String.valueOf(postedDataModel.getPosted()));
-                    }
+                    ((ExoVideoVerticalPlayerAdapter.HeaderViewHolder) holder).videoDetailVerticaleHeaderBinding.totalPostedTxt
+                            .setText(String.valueOf(postedDataModel.getPosted()));
+                }else{
+                    ((ExoVideoVerticalPlayerAdapter.HeaderViewHolder) holder).videoDetailVerticaleHeaderBinding.totalPostedTxt.setText("");
                 }
             }
             if (postedDataModel != null) {
                 if (postedDataModel.getComments() != null) {
-                    if (postedDataModel.getComments().equals(0)) {
-                        ((ExoVideoVerticalPlayerAdapter.HeaderViewHolder) holder).videoDetailVerticaleHeaderBinding.totalCommentTxt.setText("");
-                    } else {
-                        ((ExoVideoVerticalPlayerAdapter.HeaderViewHolder) holder).videoDetailVerticaleHeaderBinding.totalCommentTxt
-                                .setText(String.valueOf(postedDataModel.getComments()));
-                    }
+                    ((ExoVideoVerticalPlayerAdapter.HeaderViewHolder) holder).videoDetailVerticaleHeaderBinding.totalCommentTxt
+                            .setText(String.valueOf(postedDataModel.getComments()));
+                }else {
+                    ((ExoVideoVerticalPlayerAdapter.HeaderViewHolder) holder).videoDetailVerticaleHeaderBinding.totalCommentTxt.setText("");
                 }
             }
             if (postedDataModel != null) {
                 if (postedDataModel.getPostView() != null) {
-                    if (postedDataModel.getPostView().equals(0)) {
-                        ((ExoVideoVerticalPlayerAdapter.HeaderViewHolder) holder).videoDetailVerticaleHeaderBinding.totalVideoViewTxt.setText("");
-                    } else {
-                        ((ExoVideoVerticalPlayerAdapter.HeaderViewHolder) holder).videoDetailVerticaleHeaderBinding.totalVideoViewTxt
-                                .setText(String.valueOf(postedDataModel.getPostView()));
-                    }
+                    ((ExoVideoVerticalPlayerAdapter.HeaderViewHolder) holder).videoDetailVerticaleHeaderBinding.totalVideoViewTxt
+                            .setText(String.valueOf(postedDataModel.getPostView()));
+                }else{
+                    ((ExoVideoVerticalPlayerAdapter.HeaderViewHolder) holder).videoDetailVerticaleHeaderBinding.totalVideoViewTxt.setText("");
                 }
             }
 

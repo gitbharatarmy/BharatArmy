@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,6 +9,7 @@
     tools:context=".Activity.MyMediaActivity">
 
     <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_50sdp"
         android:background="@color/heading_bg">
@@ -64,15 +65,17 @@
     </androidx.appcompat.widget.Toolbar>
 
     <View
+        android:id="@+id/top_gradiant_view"
         android:layout_width="match_parent"
         android:layout_height="5dp"
-        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/toolbar"
         android:background="@drawable/bg_gradiant_line" />
 
     <RelativeLayout
         android:id="@+id/no_recordrel"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/top_gradiant_view"
         android:visibility="gone">
 
         <ImageView
@@ -100,6 +103,30 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/show_mediaRcv"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-</LinearLayout>
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/top_gradiant_view"/>
+
+    <LinearLayout
+        android:id="@+id/retry_linear"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/_90sdp"
+        android:orientation="vertical">
+        <Button
+            android:id="@+id/retry_btn"
+            android:layout_width="@dimen/_90sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:background="@color/heading_bg"
+            android:text="@string/retry"
+            android:textColor="@color/splash_bg_color"
+            android:textSize="@dimen/_15sdp"
+            style="@style/text_font"/>
+        <View
+            android:layout_width="@dimen/_90sdp"
+            android:layout_height="@dimen/_3sdp"
+            android:background="@drawable/bg_gradiant_line" />
+    </LinearLayout>
+</RelativeLayout>
 </layout>

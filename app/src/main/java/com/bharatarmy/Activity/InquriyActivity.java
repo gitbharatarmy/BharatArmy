@@ -12,6 +12,7 @@ import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.InputQueue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -56,7 +57,7 @@ public class InquriyActivity extends AppCompatActivity implements View.OnClickLi
 
     InquiryFilterListAdapter inquiryFilterListAdapter;
     List<MoreDetailDataModel> moreDetailDataModelList;
-
+    public String isUpdateAvailable, isForceUpdateAvailable, currentVersionStr;
 
     LinearLayoutManager mLayoutManager;
     BottomSheetDialogFragment bottomSheetDialogFragment, bottomSheet1DialogFragment;
@@ -210,6 +211,13 @@ public class InquriyActivity extends AppCompatActivity implements View.OnClickLi
                     return;
                 }
                 if (moreDataModel.getIsValid() == 1) {
+                    isUpdateAvailable = String.valueOf(moreDataModel.getIsUpdateAvailable());
+                    isForceUpdateAvailable = String.valueOf(moreDataModel.getIsForceUpdate());
+//                    isForceUpdateAvailable = "0";
+                    currentVersionStr = String.valueOf(moreDataModel.getCurrentVersion());
+                    if (isUpdateAvailable.equalsIgnoreCase("1")) {
+                        Utils.checkupdateApplication(mContext, InquriyActivity.this, isForceUpdateAvailable, currentVersionStr);
+                    }
                     if (moreDataModel.getData() != null) {
 
                         moreDetailDataModelList = moreDataModel.getData();
@@ -371,6 +379,13 @@ public class InquriyActivity extends AppCompatActivity implements View.OnClickLi
                     return;
                 }
                 if (moreDataModel.getIsValid() == 1) {
+                    isUpdateAvailable = String.valueOf(moreDataModel.getIsUpdateAvailable());
+                    isForceUpdateAvailable = String.valueOf(moreDataModel.getIsForceUpdate());
+//                    isForceUpdateAvailable = "0";
+                    currentVersionStr = String.valueOf(moreDataModel.getCurrentVersion());
+                    if (isUpdateAvailable.equalsIgnoreCase("1")) {
+                        Utils.checkupdateApplication(mContext,InquriyActivity.this, isForceUpdateAvailable, currentVersionStr);
+                    }
                     if (moreDataModel.getData() != null) {
 
                         assignmemberlist = moreDataModel.getData();
@@ -445,6 +460,13 @@ public class InquriyActivity extends AppCompatActivity implements View.OnClickLi
                     return;
                 }
                 if (moreDataModel.getIsValid() == 1) {
+                    isUpdateAvailable = String.valueOf(moreDataModel.getIsUpdateAvailable());
+                    isForceUpdateAvailable = String.valueOf(moreDataModel.getIsForceUpdate());
+//                    isForceUpdateAvailable = "0";
+                    currentVersionStr = String.valueOf(moreDataModel.getCurrentVersion());
+                    if (isUpdateAvailable.equalsIgnoreCase("1")) {
+                        Utils.checkupdateApplication(mContext, InquriyActivity.this, isForceUpdateAvailable, currentVersionStr);
+                    }
                     if (moreDataModel.getData() != null) {
 
                         assignmemberlist = moreDataModel.getData();
@@ -535,6 +557,13 @@ public class InquriyActivity extends AppCompatActivity implements View.OnClickLi
                     return;
                 }
                 if (moreDataModel.getIsValid() == 1) {
+                    isUpdateAvailable = String.valueOf(moreDataModel.getIsUpdateAvailable());
+                    isForceUpdateAvailable = String.valueOf(moreDataModel.getIsForceUpdate());
+//                    isForceUpdateAvailable = "0";
+                    currentVersionStr = String.valueOf(moreDataModel.getCurrentVersion());
+                    if (isUpdateAvailable.equalsIgnoreCase("1")) {
+                        Utils.checkupdateApplication(mContext, InquriyActivity.this, isForceUpdateAvailable, currentVersionStr);
+                    }
                     if (moreDataModel.getData() != null) {
 
                         moreDetailDataModelList = moreDataModel.getData();

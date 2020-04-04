@@ -49,7 +49,7 @@
                         android:id="@+id/header_image"
                         android:layout_width="@dimen/_160sdp"
                         android:layout_height="@dimen/_60sdp"
-                        android:layout_centerHorizontal="true"
+                        android:layout_alignParentLeft="true"
                         android:src="@drawable/header_logo_new" />
 <!--                    android:layout_alignParentLeft="true"-->
                     <RelativeLayout
@@ -59,46 +59,13 @@
                         android:layout_centerVertical="true"
                         android:layout_marginRight="@dimen/_7sdp"
                         android:layout_toRightOf="@+id/header_image"
-                        android:visibility="gone">
-                        <RelativeLayout
-                            android:id="@+id/feedbackLayout_rel"
-                            android:layout_width="@dimen/_40sdp"
-                            android:layout_height="match_parent"
-                            android:layout_alignParentRight="true"
-                            android:visibility="visible">
-
-                            <ImageView
-                                android:id="@+id/feedback_image"
-                                android:layout_width="@dimen/_22sdp"
-                                android:layout_height="@dimen/_25sdp"
-                                android:layout_alignParentRight="true"
-                                android:layout_marginTop="@dimen/_16sdp"
-                                android:layout_marginRight="@dimen/_5sdp"
-                                android:src="@drawable/ic_feedback_other"
-                                android:tint="@color/splash_bg_color"/>
-
-                            <TextView
-                                android:id="@+id/feedback_view_txt"
-                                style="@style/title_text_font"
-                                android:layout_width="@dimen/_30sdp"
-                                android:layout_height="wrap_content"
-                                android:layout_below="@+id/feedback_image"
-                                android:layout_alignParentRight="true"
-                                android:layout_marginBottom="@dimen/_5sdp"
-                                android:gravity="center_horizontal"
-                                android:text="Feedback"
-                                android:textColor="@color/splash_bg_color"
-                                android:textSize="@dimen/_6sdp"
-                                android:textStyle="bold"
-                                android:visibility="visible" />
-
-                        </RelativeLayout>
+                        android:visibility="visible">
                         <RelativeLayout
                             android:id="@+id/cartLayout_rel"
                             android:layout_width="@dimen/_40sdp"
                             android:layout_height="match_parent"
                             android:layout_alignParentRight="true"
-                            android:visibility="gone">
+                            android:visibility="visible">
 
                             <ImageView
                                 android:id="@+id/cart_image"

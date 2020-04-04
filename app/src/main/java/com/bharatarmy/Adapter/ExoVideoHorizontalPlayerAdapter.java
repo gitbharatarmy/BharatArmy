@@ -14,8 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bharatarmy.Activity.CommentActivity;
 import com.bharatarmy.Activity.ExoVideoHorizontalPlayerActivity;
 import com.bharatarmy.Activity.ExoVideoVerticalPlayerActivity;
-import com.bharatarmy.Activity.VideoDetailHorizontalActivity;
-import com.bharatarmy.Activity.VideoDetailVerticalActivity;
 import com.bharatarmy.Interfaces.image_click;
 import com.bharatarmy.Models.ImageDetailModel;
 import com.bharatarmy.Models.LoginDataModel;
@@ -201,42 +199,34 @@ public class ExoVideoHorizontalPlayerAdapter extends RecyclerView.Adapter<Recycl
 
             if (postedDataList != null) {
                 if (postedDataList.getLikes() != null) {
-                    if (postedDataList.getLikes().equals(0)) {
-                        ((ExoVideoHorizontalPlayerAdapter.HeaderViewHolder) holder).videoDetailHorizontalHeaderBinding.totalLikeTxt.setText("");
-                    } else {
-                        ((ExoVideoHorizontalPlayerAdapter.HeaderViewHolder) holder).videoDetailHorizontalHeaderBinding.totalLikeTxt
+                    ((ExoVideoHorizontalPlayerAdapter.HeaderViewHolder) holder).videoDetailHorizontalHeaderBinding.totalLikeTxt
                                 .setText(String.valueOf(postedDataList.getLikes()));
-                    }
+                }else{
+                    ((ExoVideoHorizontalPlayerAdapter.HeaderViewHolder) holder).videoDetailHorizontalHeaderBinding.totalLikeTxt.setText("");
                 }
             }
             if (postedDataList != null) {
                 if (postedDataList.getPosted() != null) {
-                    if (postedDataList.getPosted().equals(0)) {
-                        ((ExoVideoHorizontalPlayerAdapter.HeaderViewHolder) holder).videoDetailHorizontalHeaderBinding.totalPostedTxt.setText("");
-                    } else {
                         ((ExoVideoHorizontalPlayerAdapter.HeaderViewHolder) holder).videoDetailHorizontalHeaderBinding.totalPostedTxt
                                 .setText(String.valueOf(postedDataList.getPosted()));
-                    }
+                }else{
+                    ((ExoVideoHorizontalPlayerAdapter.HeaderViewHolder) holder).videoDetailHorizontalHeaderBinding.totalPostedTxt.setText("");
                 }
             }
             if (postedDataList != null) {
                 if (postedDataList.getComments() != null) {
-                    if (postedDataList.getComments().equals(0)) {
-                        ((ExoVideoHorizontalPlayerAdapter.HeaderViewHolder) holder).videoDetailHorizontalHeaderBinding.totalCommentTxt.setText("");
-                    } else {
                         ((ExoVideoHorizontalPlayerAdapter.HeaderViewHolder) holder).videoDetailHorizontalHeaderBinding.totalCommentTxt
                                 .setText(String.valueOf(postedDataList.getComments()));
-                    }
+                }else {
+                    ((ExoVideoHorizontalPlayerAdapter.HeaderViewHolder) holder).videoDetailHorizontalHeaderBinding.totalCommentTxt.setText("");
                 }
             }
             if (postedDataList != null) {
                 if (postedDataList.getPostView() != null) {
-                    if (postedDataList.getPostView().equals(0)) {
-                        ((ExoVideoHorizontalPlayerAdapter.HeaderViewHolder) holder).videoDetailHorizontalHeaderBinding.totalVideoViewTxt.setText("");
-                    } else {
                         ((ExoVideoHorizontalPlayerAdapter.HeaderViewHolder) holder).videoDetailHorizontalHeaderBinding.totalVideoViewTxt
                                 .setText(String.valueOf(postedDataList.getPostView()));
-                    }
+                }else{
+                    ((ExoVideoHorizontalPlayerAdapter.HeaderViewHolder) holder).videoDetailHorizontalHeaderBinding.totalVideoViewTxt.setText("");
                 }
             }
 

@@ -54,7 +54,7 @@ public class StoryDetailActivity extends AppCompatActivity implements View.OnCli
     boolean likeflag = false;
     ImageMainModel storyDetailDataList;
     LoginDataModel postedDataList;
-
+    public String isUpdateAvailable, isForceUpdateAvailable, currentVersionStr;
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -236,26 +236,32 @@ public class StoryDetailActivity extends AppCompatActivity implements View.OnCli
 
         ApiHandler.getApiService().getStoryDetail(getStoryDetailData(), new retrofit.Callback<ImageMainModel>() {
             @Override
-            public void success(ImageMainModel imageMainModel, Response response) {
+            public void success(ImageMainModel storyDetailMainModel, Response response) {
                 Utils.dismissDialog();
-                if (imageMainModel == null) {
+                if (storyDetailMainModel == null) {
                     Utils.ping(mContext, getString(R.string.something_wrong));
                     return;
                 }
-                if (imageMainModel.getIsValid() == null) {
+                if (storyDetailMainModel.getIsValid() == null) {
                     Utils.ping(mContext, getString(R.string.something_wrong));
                     return;
                 }
-                if (imageMainModel.getIsValid() == 0) {
+                if (storyDetailMainModel.getIsValid() == 0) {
                     Utils.ping(mContext, getString(R.string.false_msg));
                     return;
                 }
-                if (imageMainModel.getIsValid() == 1) {
+                if (storyDetailMainModel.getIsValid() == 1) {
+                    isUpdateAvailable = String.valueOf(storyDetailMainModel.getIsUpdateAvailable());
+                    isForceUpdateAvailable = String.valueOf(storyDetailMainModel.getIsForceUpdate());
+//                    isForceUpdateAvailable = "0";
+                    currentVersionStr = String.valueOf(storyDetailMainModel.getCurrentVersion());
+                    if (isUpdateAvailable.equalsIgnoreCase("1")) {
+                        Utils.checkupdateApplication(mContext, StoryDetailActivity.this, isForceUpdateAvailable, currentVersionStr);
+                    }
+                    if (storyDetailMainModel.getData() != null) {
 
-                    if (imageMainModel.getData() != null) {
-
-                        if (imageMainModel.getData().size()!=0){
-                            storyDetailDataList = imageMainModel;
+                        if (storyDetailMainModel.getData().size()!=0){
+                            storyDetailDataList = storyDetailMainModel;
 
                             callPostedViewData();
                         }
@@ -291,38 +297,30 @@ public class StoryDetailActivity extends AppCompatActivity implements View.OnCli
     public void setAPIValue() {
         if (postedDataList != null) {
             if (postedDataList.getLikes() != null) {
-                if (postedDataList.getLikes().equals(0)) {
-                    activityStoryDetailBinding.uprStoryTotalLikeTxt.setText("");
-                } else {
                     activityStoryDetailBinding.uprStoryTotalLikeTxt.setText(String.valueOf(postedDataList.getLikes()));
-                }
+            }else {
+                activityStoryDetailBinding.uprStoryTotalLikeTxt.setText("");
             }
         }
         if (postedDataList != null) {
             if (postedDataList.getPosted() != null) {
-                if (postedDataList.getPosted().equals(0)) {
-                    activityStoryDetailBinding.totalPostedTxt.setText("");
-                } else {
                     activityStoryDetailBinding.totalPostedTxt.setText(String.valueOf(postedDataList.getPosted()));
-                }
+            }else{
+                activityStoryDetailBinding.totalPostedTxt.setText("");
             }
         }
         if (postedDataList != null) {
             if (postedDataList.getComments() != null) {
-                if (postedDataList.getComments().equals(0)) {
-                    activityStoryDetailBinding.totalCommentTxt.setText("");
-                } else {
                     activityStoryDetailBinding.totalCommentTxt.setText(String.valueOf(postedDataList.getComments()));
-                }
+            }else{
+                activityStoryDetailBinding.totalCommentTxt.setText("");
             }
         }
         if (postedDataList != null) {
             if (postedDataList.getPostView() != null) {
-                if (postedDataList.getPostView().equals(0)) {
-                    activityStoryDetailBinding.totalViewTxt.setText("");
-                } else {
                     activityStoryDetailBinding.totalViewTxt.setText(String.valueOf(postedDataList.getPostView()));
-                }
+            }else{
+                activityStoryDetailBinding.totalViewTxt.setText("");
             }
         }
 

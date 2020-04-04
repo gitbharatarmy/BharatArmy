@@ -46,6 +46,8 @@ public class CommentActivity extends AppCompatActivity implements View.OnClickLi
     LinearLayoutManager mLayoutManager;
     List<ImageDetailModel> commentList;
     int pageIndex = 0;
+    public String isUpdateAvailable, isForceUpdateAvailable, currentVersionStr;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -179,6 +181,13 @@ public class CommentActivity extends AppCompatActivity implements View.OnClickLi
                     return;
                 }
                 if (commentModel.getIsValid() == 1) {
+                    isUpdateAvailable = String.valueOf(commentModel.getIsUpdateAvailable());
+                    isForceUpdateAvailable = String.valueOf(commentModel.getIsForceUpdate());
+//                    isForceUpdateAvailable = "0";
+                    currentVersionStr = String.valueOf(commentModel.getCurrentVersion());
+                    if (isUpdateAvailable.equalsIgnoreCase("1")) {
+                        Utils.checkupdateApplication(mContext, CommentActivity.this, isForceUpdateAvailable, currentVersionStr);
+                    }
                         activityCommentBinding.commentEdt.setText("");
                         callGetAddCommentData();
                 }
@@ -233,6 +242,13 @@ public class CommentActivity extends AppCompatActivity implements View.OnClickLi
                     return;
                 }
                 if (commentaddModel.getIsValid() == 1) {
+                    isUpdateAvailable = String.valueOf(commentaddModel.getIsUpdateAvailable());
+                    isForceUpdateAvailable = String.valueOf(commentaddModel.getIsForceUpdate());
+//                    isForceUpdateAvailable = "0";
+                    currentVersionStr = String.valueOf(commentaddModel.getCurrentVersion());
+                    if (isUpdateAvailable.equalsIgnoreCase("1")) {
+                        Utils.checkupdateApplication(mContext, CommentActivity.this, isForceUpdateAvailable, currentVersionStr);
+                    }
                     if (commentaddModel.getData() != null && commentaddModel.getData().size()>0) {
 
                         commentList=commentaddModel.getData();

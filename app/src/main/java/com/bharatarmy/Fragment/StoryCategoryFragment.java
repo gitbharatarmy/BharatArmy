@@ -53,7 +53,7 @@ public class StoryCategoryFragment extends Fragment {
     List<ImageDetailModel> storyDetailModelList;
     StoryCategoryAdapter storyCategoryAdapter;
     public static OnItemClick mListener;
-
+    public String isUpdateAvailable, isForceUpdateAvailable, currentVersionStr;
 
 
     SpeedDialView speedDial;
@@ -155,25 +155,31 @@ public class StoryCategoryFragment extends Fragment {
 
         ApiHandler.getApiService().getBAStories(getStoryCategoryData(), new retrofit.Callback<ImageMainModel>() {
             @Override
-            public void success(ImageMainModel imageMainModel, Response response) {
+            public void success(ImageMainModel storyCategoryMainModel, Response response) {
                 Utils.dismissDialog();
-                if (imageMainModel == null) {
+                if (storyCategoryMainModel == null) {
                     Utils.ping(mContext, getString(R.string.something_wrong));
                     return;
                 }
-                if (imageMainModel.getIsValid() == null) {
+                if (storyCategoryMainModel.getIsValid() == null) {
                     Utils.ping(mContext, getString(R.string.something_wrong));
                     return;
                 }
-                if (imageMainModel.getIsValid() == 0) {
+                if (storyCategoryMainModel.getIsValid() == 0) {
                     Utils.ping(mContext, getString(R.string.false_msg));
                     return;
                 }
-                if (imageMainModel.getIsValid() == 1) {
+                if (storyCategoryMainModel.getIsValid() == 1) {
+                    isUpdateAvailable = String.valueOf(storyCategoryMainModel.getIsUpdateAvailable());
+                    isForceUpdateAvailable = String.valueOf(storyCategoryMainModel.getIsForceUpdate());
+//                    isForceUpdateAvailable = "0";
+                    currentVersionStr = String.valueOf(storyCategoryMainModel.getCurrentVersion());
+                    if (isUpdateAvailable.equalsIgnoreCase("1")) {
+                        Utils.checkupdateApplication(mContext, getActivity(), isForceUpdateAvailable, currentVersionStr);
+                    }
+                    if (storyCategoryMainModel.getData() != null) {
 
-                    if (imageMainModel.getData() != null) {
-
-                        storyDetailModelList = imageMainModel.getData();
+                        storyDetailModelList = storyCategoryMainModel.getData();
                         fragmentStoryCategoryBinding.shimmerViewContainer.stopShimmerAnimation();
                         fragmentStoryCategoryBinding.shimmerViewContainer.setVisibility(View.GONE);
 

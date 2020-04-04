@@ -54,7 +54,7 @@ public class WalkThrough extends AppCompatActivity {
     private List<WalkthroughData> walkthroughDataList;
     Context mContext;
     PrefManager prefManager;
-
+    public String isUpdateAvailable, isForceUpdateAvailable, currentVersionStr;
 
 
 
@@ -192,6 +192,13 @@ public class WalkThrough extends AppCompatActivity {
                     return;
                 }
                 if (getWalkthroughModel.getIsValid() == 1) {
+                    isUpdateAvailable = String.valueOf(getWalkthroughModel.getIsUpdateAvailable());
+                    isForceUpdateAvailable = String.valueOf(getWalkthroughModel.getIsForceUpdate());
+//                    isForceUpdateAvailable = "0";
+                    currentVersionStr = String.valueOf(getWalkthroughModel.getCurrentVersion());
+                    if (isUpdateAvailable.equalsIgnoreCase("1")) {
+                        Utils.checkupdateApplication(mContext,WalkThrough.this, isForceUpdateAvailable, currentVersionStr);
+                    }
                     if (getWalkthroughModel.getData() != null) {
                         layouts = new ArrayList<Integer>();
                         walkthroughDataList = new ArrayList<WalkthroughData>();

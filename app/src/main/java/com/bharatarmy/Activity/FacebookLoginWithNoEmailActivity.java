@@ -130,8 +130,8 @@ public class FacebookLoginWithNoEmailActivity extends AppCompatActivity implemen
             public void onCompleted(GraphResponse graphResponse) {
 
                 LoginManager.getInstance().logOut();
-//                Intent returnAppLoginIntent = new Intent(mContext, AppLoginActivity.class);
-//                startActivity(returnAppLoginIntent);
+                Intent returnAppLoginIntent = new Intent(mContext, AppLoginActivity.class);
+                startActivity(returnAppLoginIntent);
                 finish();
                 hideProgressDialog();
             }
@@ -215,54 +215,58 @@ public class FacebookLoginWithNoEmailActivity extends AppCompatActivity implemen
                 }
                 if (loginModel.getIsValid() == 1) {
                     if (loginModel.getData() != null) {
-                        Utils.setPref(mContext, "IsSkipLogin", "");
-                        Utils.setPref(mContext, "IsLoginUser", "1");
-                        Utils.setPref(mContext, "LoginType", "Facebook");
-                        Utils.storeLoginData(loginModel.getData(), mContext);
-                        Utils.storeCurrentLocationData(loginModel.getCurrentLocation(), mContext);
-                        Utils.storeLoginOtherData(loginModel.getOtherData(), mContext);
-                        if (Utils.whereTocomeLogin != null) {
-                            if (Utils.whereTocomeLogin.equalsIgnoreCase("more")) {
-                                Intent DashboardIntent = new Intent(mContext, DashboardActivity.class);
+                        if (loginModel.getData().getId() > 0) {
+                            Utils.setPref(mContext, "IsSkipLogin", "");
+                            Utils.setPref(mContext, "IsLoginUser", "1");
+                            Utils.setPref(mContext, "LoginType", "Facebook");
+                            Utils.storeLoginData(loginModel.getData(), mContext);
+                            Utils.storeCurrentLocationData(loginModel.getCurrentLocation(), mContext);
+                            Utils.storeLoginOtherData(loginModel.getOtherData(), mContext);
+                            if (getIntent().getStringExtra("whereTocomeLogin") != null) {
+                                if (getIntent().getStringExtra("whereTocomeLogin").equalsIgnoreCase("more")) {
+                                    Intent DashboardIntent = new Intent(mContext, DashboardActivity.class);
 //                                DashboardIntent.putExtra("whichPageRun", "4");
+                                    startActivity(DashboardIntent);
+                                    finish();
+                                } else {
+                                    finish();
+                                }
+                            } else {
+                                Intent DashboardIntent = new Intent(mContext, DashboardActivity.class);
+                                AppConfiguration.position = 0;
                                 startActivity(DashboardIntent);
                                 finish();
-                            } else {
-                                finish();
                             }
-                        } else {
-                            Intent DashboardIntent = new Intent(mContext, DashboardActivity.class);
-                            AppConfiguration.position = 0;
-                            startActivity(DashboardIntent);
-                            finish();
+                        }else{
+                            facebooklogout();
+                            Utils.ping(mContext,getResources().getString(R.string.login_error_msg));
                         }
                     }
 
+                    }
                 }
-            }
 
-            @Override
-            public void failure(RetrofitError error) {
-                Utils.dismissDialog();
-                error.printStackTrace();
-                error.getMessage();
-                Utils.ping(mContext, getString(R.string.something_wrong));
-            }
-        });
+                @Override
+                public void failure (RetrofitError error){
+                    Utils.dismissDialog();
+                    error.printStackTrace();
+                    error.getMessage();
+                    Utils.ping(mContext, getString(R.string.something_wrong));
+                }
+            });
 
+        }
+
+        private Map<String, String> getFacebookSignUpData () {
+            Map<String, String> map = new HashMap<>();
+            map.put("email", personEmailStr);
+            map.put("Name", personNameStr);
+            map.put("Image", personImageStr);
+            map.put("TokenId", Utils.getPref(mContext, "registration_id"));
+            map.put("ModelName", Utils.getDeviceName());
+            map.put("PhoneNo", personNumberStr);
+            map.put("CountryISOCode", AppConfiguration.currentCountryISOCode);
+            map.put("CountryDialCode", personCountryDialCodeStr);
+            return map;
+        }
     }
-
-    private Map<String, String> getFacebookSignUpData() {
-        Map<String, String> map = new HashMap<>();
-        map.put("email", personEmailStr);
-        map.put("Name", personNameStr);
-        map.put("Image", personImageStr);
-        map.put("TokenId", Utils.getPref(mContext, "registration_id"));
-        map.put("ModelName", Utils.getDeviceName());
-        map.put("PhoneNo", personNumberStr);
-        map.put("CountryISOCode", AppConfiguration.currentCountryISOCode);
-        map.put("CountryDialCode", personCountryDialCodeStr);
-
-        return map;
-    }
-}

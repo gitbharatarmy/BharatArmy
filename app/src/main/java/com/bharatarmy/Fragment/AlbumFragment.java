@@ -72,7 +72,7 @@ public class AlbumFragment extends Fragment {
     List<ImageDetailModel> albumModelList;
     List<ImageDetailModel> albumModelList1 = new ArrayList<>();
     ArrayList<String> AlbumUrl = new ArrayList<>();
-
+    public String isUpdateAvailable, isForceUpdateAvailable, currentVersionStr;
 
     StaggeredGridLayoutManager staggeredGridLayoutManagerAlbum;
 
@@ -386,7 +386,13 @@ public class AlbumFragment extends Fragment {
                     return;
                 }
                 if (albumMainModel.getIsValid() == 1) {
-
+                    isUpdateAvailable = String.valueOf(albumMainModel.getIsUpdateAvailable());
+                    isForceUpdateAvailable = String.valueOf(albumMainModel.getIsForceUpdate());
+//                    isForceUpdateAvailable = "0";
+                    currentVersionStr = String.valueOf(albumMainModel.getCurrentVersion());
+                    if (isUpdateAvailable.equalsIgnoreCase("1")) {
+                        Utils.checkupdateApplication(mContext, getActivity(), isForceUpdateAvailable, currentVersionStr);
+                    }
                     if (albumMainModel.getData() != null) {
 
                         if (whereTocall.equalsIgnoreCase("Starting")) {
@@ -499,7 +505,13 @@ public class AlbumFragment extends Fragment {
                     return;
                 }
                 if (albumMainModel.getIsValid() == 1) {
-
+                    isUpdateAvailable = String.valueOf(albumMainModel.getIsUpdateAvailable());
+                    isForceUpdateAvailable = String.valueOf(albumMainModel.getIsForceUpdate());
+//                    isForceUpdateAvailable = "0";
+                    currentVersionStr = String.valueOf(albumMainModel.getCurrentVersion());
+                    if (isUpdateAvailable.equalsIgnoreCase("1")) {
+                        Utils.checkupdateApplication(mContext, getActivity(), isForceUpdateAvailable, currentVersionStr);
+                    }
                     if (albumMainModel.getData() != null) {
 
 

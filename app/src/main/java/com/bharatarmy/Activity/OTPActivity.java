@@ -311,7 +311,7 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
 
     public void setListiner() {
 
-
+        Utils.scrollScreen(activityOtpBinding.scrollView);
         activityOtpBinding.noTxt.setText("+" + strCountrycode + "-" + strMobileno);
 
         activityOtpBinding.edit1.addTextChangedListener(new TextWatcher() {
@@ -482,13 +482,20 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
 ////                    overridePendingTransition(0, 0);
 //                    finish();
 //                }
-                finish();
+            wheretoback();
                 break;
         }
     }
 
     public void wheretoback() {
-        finish();
+        if (strWheretocome.equalsIgnoreCase("EditProfile")) {
+            Intent editIntent = new Intent(mContext, EditProfileActivity.class);
+            startActivity(editIntent);
+            overridePendingTransition(R.anim.slide_in_left_new, 0);
+            finish();
+        } else {
+            finish();
+        }
     }
 
     public void getOtpData() {
@@ -611,23 +618,34 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
                 }
                 if (loginModel.getIsValid() == 1) {
                     if (loginModel.getData() != null) {
-                        Utils.setPref(mContext, "IsSkipLogin", "");
-                        Utils.setPref(mContext, "IsLoginUser", "1");
-                        Utils.setPref(mContext, "LoginType", "Email");
-                        Utils.storeLoginData(loginModel.getData(), mContext);
-                        Utils.storeCurrentLocationData(loginModel.getCurrentLocation(), mContext);
-                        Utils.storeLoginOtherData(loginModel.getOtherData(), mContext);
-                        /*SFA Screen Goto direct*/
-                        if (Utils.retriveLoginData(mContext).getMemberType().equalsIgnoreCase(",3,")) {
-                            Intent SFAintent = new Intent(mContext, DisplaySFAUserActivity.class);
-                            startActivity(SFAintent);
-                            finish();
-                        } else {
-                            if (Utils.whereTocomeLogin != null) {
-                                if (Utils.whereTocomeLogin.equalsIgnoreCase("more")) {
-                                    if (Utils.retriveLoginData(mContext).getMemberType().equalsIgnoreCase(",3,")) {
-                                        Intent SFAintent = new Intent(mContext, DisplaySFAUserActivity.class);
-                                        startActivity(SFAintent);
+                        if (loginModel.getData().getId() > 0) {
+                            Utils.setPref(mContext, "IsSkipLogin", "");
+                            Utils.setPref(mContext, "IsLoginUser", "1");
+                            Utils.setPref(mContext, "LoginType", "Email");
+                            Utils.storeLoginData(loginModel.getData(), mContext);
+                            Utils.storeCurrentLocationData(loginModel.getCurrentLocation(), mContext);
+                            Utils.storeLoginOtherData(loginModel.getOtherData(), mContext);
+                            /*SFA Screen Goto direct*/
+                            if (Utils.retriveLoginData(mContext).getMemberType().equalsIgnoreCase(",3,")) {
+                                Intent SFAintent = new Intent(mContext, DisplaySFAUserActivity.class);
+                                startActivity(SFAintent);
+                                finish();
+                            } else {
+                                if (Utils.whereTocomeLogin != null) {
+                                    if (Utils.whereTocomeLogin.equalsIgnoreCase("more")) {
+                                        if (Utils.retriveLoginData(mContext).getMemberType().equalsIgnoreCase(",3,")) {
+                                            Intent SFAintent = new Intent(mContext, DisplaySFAUserActivity.class);
+                                            startActivity(SFAintent);
+                                            finish();
+                                        } else {
+                                            Intent DashboardIntent = new Intent(mContext, DashboardActivity.class);
+//                                DashboardIntent.putExtra("whichPageRun", "4");
+                                            startActivity(DashboardIntent);
+                                            finish();
+                                        }
+                                    } else if (Utils.whereTocomeLogin.equalsIgnoreCase("Feedback")) {
+                                        Intent DashboardIntent = new Intent(mContext, DashboardActivity.class);
+                                        startActivity(DashboardIntent);
                                         finish();
                                     } else {
                                         Intent DashboardIntent = new Intent(mContext, DashboardActivity.class);
@@ -635,28 +653,21 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
                                         startActivity(DashboardIntent);
                                         finish();
                                     }
-                                } else if (Utils.whereTocomeLogin.equalsIgnoreCase("Feedback")) {
-                                    Intent DashboardIntent = new Intent(mContext, DashboardActivity.class);
-                                    startActivity(DashboardIntent);
-                                    finish();
                                 } else {
                                     Intent DashboardIntent = new Intent(mContext, DashboardActivity.class);
-//                                DashboardIntent.putExtra("whichPageRun", "4");
+                                    AppConfiguration.position = 0;
                                     startActivity(DashboardIntent);
                                     finish();
                                 }
-                            } else {
-                                Intent DashboardIntent = new Intent(mContext, DashboardActivity.class);
-                                AppConfiguration.position = 0;
-                                startActivity(DashboardIntent);
-                                finish();
-                            }
 
+                            }
+                        } else {
+                            Utils.ping(mContext, getResources().getString(R.string.login_error_msg));
+                            finish();
                         }
                     } else {
                         Utils.dismissDialog();
                     }
-
                 }
             }
 
@@ -731,7 +742,7 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
 //            overridePendingTransition(0, 0);
 ////            finish();
 //        }
-        finish();
+        wheretoback();
         super.onBackPressed();
     }
 
@@ -762,7 +773,7 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
 
     @Override
     public void onOtpTimeout() {
-        Utils.ping(mContext, "Timeout");
+//        Utils.ping(mContext, "Timeout");
     }
 
 

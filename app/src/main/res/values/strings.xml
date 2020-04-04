@@ -10,6 +10,7 @@
     <string name="blank" translatable="false">Blank Filed Not Allowed</string>
     <string name="false_msg" translatable="false">Record not found</string>
     <string name="something_wrong" translatable="false">Something Wrong</string>
+    <string name="login_error_msg" translatable="false">Internal error, Please try again latter.</string>
 
 
     <!--Login Activity String-->
@@ -113,6 +114,7 @@
     <string name="address_type" translatable="false">Addresses Type</string>
     <string name="save" translatable="false">Save</string>
     <string name="cancel" translatable="false">Cancel</string>
+    <string name="retry" translatable="false">Retry</string>
     <string name="enter_no" translatable="false">phone number</string>
     <string name="send" translatable="false">Send</string>
     <string name="verify" translatable="false">Verified</string>
@@ -126,6 +128,7 @@
     <string name="sports" translatable="false">Sports</string>
     <string name="user_name" translatable="false">Name</string>
     <string name="register_info" translatable="false">Register for other sports ?</string>
+    <string name="remove_account_info" translatable="false">Your Account Removal Is in Process. Once done you will get mail.</string>
     <string name="sfa_entry" translatable="false">SFA Data Entry</string>
     <string name="data_entry" translatable="false">My User</string>
     <string name="ceritificate_entry" translatable="false">Certificate</string>

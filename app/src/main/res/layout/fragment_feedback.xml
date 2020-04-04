@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
-
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
@@ -96,7 +95,7 @@
                     android:layout_height="wrap_content"
                     android:clipToPadding="false"
                     android:overScrollMode="never"
-                    android:paddingBottom="@dimen/_50sdp" />
+                    android:paddingBottom="@dimen/_120sdp" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -113,7 +112,7 @@
                     android:layout_height="wrap_content"
                     android:clipToPadding="false"
                     android:overScrollMode="never"
-                    android:paddingBottom="@dimen/_50sdp" />
+                    android:paddingBottom="@dimen/_120sdp" />
             </RelativeLayout>
 <!--            android:layout_marginBottom="@dimen/_50sdp"-->
             <ScrollView
@@ -151,7 +150,7 @@
                             android:gravity="top|left"
                             android:imeOptions="actionGo"
                             android:inputType="textMultiLine"
-                            android:maxLines="15"
+                            android:maxLines="7"
                             android:paddingBottom="@dimen/_3sdp"
                             android:textColor="@color/all_text_color"
                             android:textCursorDrawable="@drawable/color_cursor"
@@ -174,7 +173,7 @@
                     android:layout_height="wrap_content"
                     android:clipToPadding="false"
                     android:overScrollMode="never"
-                    android:paddingBottom="@dimen/_50sdp" />
+                    android:paddingBottom="@dimen/_120sdp" />
 
             </RelativeLayout>
 
@@ -192,7 +191,7 @@
                     android:layout_height="wrap_content"
                     android:clipToPadding="false"
                     android:overScrollMode="never"
-                    android:paddingBottom="@dimen/_50sdp" />
+                    android:paddingBottom="@dimen/_120sdp" />
 
             </RelativeLayout>
 
@@ -210,7 +209,7 @@
                     android:layout_height="wrap_content"
                     android:clipToPadding="false"
                     android:overScrollMode="never"
-                    android:paddingBottom="@dimen/_50sdp" />
+                    android:paddingBottom="@dimen/_120sdp" />
 
             </RelativeLayout>
 

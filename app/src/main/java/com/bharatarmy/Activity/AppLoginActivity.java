@@ -39,6 +39,7 @@ import com.facebook.GraphResponse;
 import com.facebook.HttpMethod;
 import com.facebook.Profile;
 import com.facebook.ProfileTracker;
+import com.facebook.login.LoginBehavior;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.google.android.gms.auth.api.Auth;
@@ -48,6 +49,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -328,7 +331,7 @@ public class AppLoginActivity extends AppCompatActivity implements View.OnClickL
 //                if (isLoggedIn == true) {
 //                    facebooklogout();
 //                } else {
-                    facebookLogin();
+                facebookLogin();
 //                }
 
                 break;
@@ -397,9 +400,6 @@ public class AppLoginActivity extends AppCompatActivity implements View.OnClickL
         setAutoLogAppEventsEnabled(false);
         callbackManager = CallbackManager.Factory.create();
 
-
-        callbackManager = CallbackManager.Factory.create();
-
         accessTokenTracker = new AccessTokenTracker() {
             @Override
             protected void onCurrentAccessTokenChanged(AccessToken oldToken, AccessToken newToken) {
@@ -418,9 +418,9 @@ public class AppLoginActivity extends AppCompatActivity implements View.OnClickL
         profileTracker.startTracking();
 
         activityAppLoginBinding.loginButton.setReadPermissions(Arrays.asList("public_profile", "email"));  //"user_birthday", "user_friends"  , "email"
-        activityAppLoginBinding.loginButton.registerCallback(callbackManager, callback);
 
 //        LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile", "email"));
+        activityAppLoginBinding.loginButton.registerCallback(callbackManager, callback);
 //
 //        LoginManager.getInstance().registerCallback(callbackManager, callback);
     }
@@ -438,6 +438,22 @@ public class AppLoginActivity extends AppCompatActivity implements View.OnClickL
             }
 
         }).executeAsync();
+    }
+
+    public void googlelogout() {
+        if (mGoogleApiClient.isConnected()) {
+            Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
+                    new ResultCallback<Status>() {
+                        @Override
+                        public void onResult(Status status) {
+//                            // Write your code here to execute after dialog
+                        }
+                    });
+
+
+        } else {
+            Utils.ping(mContext, "error occured");
+        }
     }
 
     //    User Login with google
@@ -578,30 +594,38 @@ public class AppLoginActivity extends AppCompatActivity implements View.OnClickL
                 }
                 if (loginModel.getIsValid() == 1) {
                     if (loginModel.getData() != null) {
-                        Utils.setPref(mContext, "IsSkipLogin", "");
-                        Utils.setPref(mContext, "IsLoginUser", "1");
-                        Utils.setPref(mContext, "LoginType", "Gmail");
-                        Utils.storeLoginData(loginModel.getData(), mContext);
-                        Utils.storeCurrentLocationData(loginModel.getCurrentLocation(), mContext);
-                        Utils.storeLoginOtherData(loginModel.getOtherData(), mContext);
-                        if (Utils.whereTocomeLogin != null) {
-                            if (Utils.whereTocomeLogin.equalsIgnoreCase("more")) {
-                                Intent DashboardIntent = new Intent(mContext, DashboardActivity.class);
+                        if (loginModel.getData().getId() > 0) {
+                            Utils.setPref(mContext, "IsSkipLogin", "");
+                            Utils.setPref(mContext, "IsLoginUser", "1");
+                            Utils.setPref(mContext, "LoginType", "Gmail");
+                            Utils.storeLoginData(loginModel.getData(), mContext);
+                            Utils.storeCurrentLocationData(loginModel.getCurrentLocation(), mContext);
+                            Utils.storeLoginOtherData(loginModel.getOtherData(), mContext);
+                            if (Utils.whereTocomeLogin != null) {
+                                if (Utils.whereTocomeLogin.equalsIgnoreCase("more")) {
+                                    Intent DashboardIntent = new Intent(mContext, DashboardActivity.class);
 //                                DashboardIntent.putExtra("whichPageRun", "4");
-                                startActivity(DashboardIntent);
-                                finish();
+                                    startActivity(DashboardIntent);
+                                    finish();
+                                } else if (Utils.whereTocomeLogin.equalsIgnoreCase("Feedback")) {
+                                    Intent DashboardIntent = new Intent(mContext, DashboardActivity.class);
+                                    DashboardIntent.putExtra("whichPageRun", "2");
+                                    startActivity(DashboardIntent);
+                                    finish();
+                                } else {
+                                    finish();
+                                }
                             } else {
+                                Intent DashboardIntent = new Intent(mContext, DashboardActivity.class);
+                                AppConfiguration.position = 0;
+                                startActivity(DashboardIntent);
                                 finish();
                             }
                         } else {
-
-                            Intent DashboardIntent = new Intent(mContext, DashboardActivity.class);
-                            AppConfiguration.position = 0;
-                            startActivity(DashboardIntent);
-                            finish();
+                            googlelogout();
+                            Utils.ping(mContext, getResources().getString(R.string.login_error_msg));
                         }
                     }
-
                 }
             }
 
@@ -657,29 +681,33 @@ public class AppLoginActivity extends AppCompatActivity implements View.OnClickL
                 }
                 if (loginModel.getIsValid() == 1) {
                     if (loginModel.getData() != null) {
-                        Utils.setPref(mContext, "IsSkipLogin", "");
-                        Utils.setPref(mContext, "IsLoginUser", "1");
-                        Utils.setPref(mContext, "LoginType", "Facebook");
-                        Utils.storeLoginData(loginModel.getData(), mContext);
-                        Utils.storeCurrentLocationData(loginModel.getCurrentLocation(), mContext);
-                        Utils.storeLoginOtherData(loginModel.getOtherData(), mContext);
-                        if (Utils.whereTocomeLogin != null) {
-                            if (Utils.whereTocomeLogin.equalsIgnoreCase("more")) {
-                                Intent DashboardIntent = new Intent(mContext, DashboardActivity.class);
+                        if (loginModel.getData().getId() > 0) {
+                            Utils.setPref(mContext, "IsSkipLogin", "");
+                            Utils.setPref(mContext, "IsLoginUser", "1");
+                            Utils.setPref(mContext, "LoginType", "Facebook");
+                            Utils.storeLoginData(loginModel.getData(), mContext);
+                            Utils.storeCurrentLocationData(loginModel.getCurrentLocation(), mContext);
+                            Utils.storeLoginOtherData(loginModel.getOtherData(), mContext);
+                            if (Utils.whereTocomeLogin != null) {
+                                if (Utils.whereTocomeLogin.equalsIgnoreCase("more")) {
+                                    Intent DashboardIntent = new Intent(mContext, DashboardActivity.class);
 //                                DashboardIntent.putExtra("whichPageRun", "4");
-                                startActivity(DashboardIntent);
-                                finish();
+                                    startActivity(DashboardIntent);
+                                    finish();
+                                } else {
+                                    finish();
+                                }
                             } else {
+                                Intent DashboardIntent = new Intent(mContext, DashboardActivity.class);
+                                AppConfiguration.position = 0;
+                                startActivity(DashboardIntent);
                                 finish();
                             }
                         } else {
-                            Intent DashboardIntent = new Intent(mContext, DashboardActivity.class);
-                            AppConfiguration.position = 0;
-                            startActivity(DashboardIntent);
-                            finish();
+                            facebooklogout();
+                            Utils.ping(mContext, getResources().getString(R.string.login_error_msg));
                         }
                     }
-
                 }
             }
 
@@ -712,17 +740,32 @@ public class AppLoginActivity extends AppCompatActivity implements View.OnClickL
     @Override
     public void onBackPressed() {
         if (Utils.whereTocomeLogin != null) {
-            if (Utils.whereTocomeLogin.equalsIgnoreCase("profile")) {
-                Intent DashboardIntent = new Intent(mContext, DashboardActivity.class);
-//                                DashboardIntent.putExtra("whichPageRun", "4");
-                startActivity(DashboardIntent);
-                finish();
+            if (Utils.whereTocomeLogin.equalsIgnoreCase("Remove Account")) {
+
             } else {
-                finish();
+                if (Utils.whereTocomeLogin.equalsIgnoreCase("profile")) {
+                    Intent DashboardIntent = new Intent(mContext, DashboardActivity.class);
+//                                DashboardIntent.putExtra("whichPageRun", "4");
+                    startActivity(DashboardIntent);
+                    finish();
+                } else {
+                    finish();
+                }
+                try {
+                    super.onBackPressed();
+                } catch (IllegalStateException e) { // can output some information here
+                    finish();
+                }
             }
         } else {
             finish();
+            try {
+                super.onBackPressed();
+            } catch (IllegalStateException e) { // can output some information here
+                finish();
+            }
         }
-        super.onBackPressed();
+
+
     }
 }

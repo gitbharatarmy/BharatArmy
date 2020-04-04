@@ -24,7 +24,18 @@ public class GetWalkthroughModel {
     @SerializedName("OtherData")
     @Expose
     private Object otherData;
-
+    @SerializedName("IsUpdateAvailable")
+    @Expose
+    private Integer isUpdateAvailable;
+    @SerializedName("IsForceUpdate")
+    @Expose
+    private Integer isForceUpdate;
+    @SerializedName("VersionCode")
+    @Expose
+    private Integer versionCode;
+    @SerializedName("CurrentVersion")
+    @Expose
+    private Double currentVersion;
     public String getMessage() {
         return message;
     }
@@ -73,5 +84,34 @@ public class GetWalkthroughModel {
         this.otherData = otherData;
     }
 
+    public Integer getIsUpdateAvailable() {
+        return isUpdateAvailable;
+    }
 
+    public void setIsUpdateAvailable(Integer isUpdateAvailable) {
+        this.isUpdateAvailable = isUpdateAvailable;
+    }
+
+    public Integer getIsForceUpdate() {
+        return isForceUpdate;
+    }
+
+    public void setIsForceUpdate(Integer isForceUpdate) {
+        this.isForceUpdate = isForceUpdate;
+    }
+    public Integer getVersionCode() {
+        return versionCode;
+    }
+
+    public void setVersionCode(Integer versionCode) {
+        this.versionCode = versionCode;
+    }
+
+    public Double getCurrentVersion() {
+        return currentVersion;
+    }
+
+    public void setCurrentVersion(Double currentVersion) {
+        this.currentVersion = currentVersion;
+    }
 }

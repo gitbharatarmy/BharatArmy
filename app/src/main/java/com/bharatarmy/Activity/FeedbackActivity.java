@@ -1,28 +1,27 @@
-package com.bharatarmy.Fragment;
+package com.bharatarmy.Activity;
 
-import android.content.Context;
-import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
+import android.graphics.Rect;
+import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.bharatarmy.Adapter.FeedbackImagewithTextAdapter;
 import com.bharatarmy.Adapter.FeedbackRatingAdapter;
@@ -34,12 +33,14 @@ import com.bharatarmy.Interfaces.MorestoryClick;
 import com.bharatarmy.Models.FeedbackAnswerList;
 import com.bharatarmy.Models.FeedbackMainModel;
 import com.bharatarmy.Models.LoginDataModel;
+import com.bharatarmy.Models.MyScreenChnagesModel;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.ApiHandler;
 import com.bharatarmy.Utility.AppConfiguration;
 import com.bharatarmy.Utility.Utils;
-import com.bharatarmy.databinding.FragmentFeedbackBinding;
-import com.leinardi.android.speeddial.SpeedDialView;
+import com.bharatarmy.databinding.ActivityFeedbackBinding;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -50,14 +51,10 @@ import java.util.Map;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-// remove extra code 04/04/2020 with backup
-
-public class FeedbackFragment extends Fragment implements View.OnClickListener {
-    /*Fragment variable*/
-    private View rootView;
+public class FeedbackActivity extends AppCompatActivity implements View.OnClickListener {
+    ActivityFeedbackBinding activityFeedbackBinding;
+    /*Activity variable*/
     private Context mContext;
-    FragmentFeedbackBinding fragmentFeedbackBinding;
-    SpeedDialView speedDial;
     public String isUpdateAvailable, isForceUpdateAvailable, currentVersionStr;
 
     /*Image with text adapter*/
@@ -116,85 +113,54 @@ public class FeedbackFragment extends Fragment implements View.OnClickListener {
     /*data model list*/
     FeedbackMainModel feedbackQuestionAnswermodellist;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public FeedbackFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment FeedbackFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static FeedbackFragment newInstance(String param1, String param2) {
-        FeedbackFragment fragment = new FeedbackFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+    boolean isKeyboardShowing = false;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
+        activityFeedbackBinding = DataBindingUtil.setContentView(this, R.layout.activity_feedback);
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        fragmentFeedbackBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_feedback, container, false);
-
-        rootView = fragmentFeedbackBinding.getRoot();
-        mContext = getActivity().getApplicationContext();
-
-
-        speedDial = getActivity().findViewById(R.id.speedDial);
-        speedDial.setVisibility(View.GONE);
-
-
-        return rootView;
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
+        mContext = FeedbackActivity.this;
 
         init();
         setListiner();
     }
 
     public void init() {
-        fragmentFeedbackBinding.shimmerViewContainer.startShimmerAnimation();
-        fragmentFeedbackBinding.shimmerViewContainer.setVisibility(View.VISIBLE);
+        activityFeedbackBinding.toolbarTitleTxt.setText("Feedback");
+        activityFeedbackBinding.shimmerViewContainer.startShimmerAnimation();
+        activityFeedbackBinding.shimmerViewContainer.setVisibility(View.VISIBLE);
         callQuestionAnswerList();
     }
-
+//    void onKeyboardVisibilityChanged(boolean opened) {
+//       if (opened ==true){
+//           RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+//                  getResources().getDimensionPixelOffset(R.dimen._70sdp),
+//                   getResources().getDimensionPixelOffset(R.dimen._35sdp)
+//           );
+//           params.setMargins(getResources().getDimensionPixelOffset(R.dimen._10sdp), 0, getResources().getDimensionPixelOffset(R.dimen._10sdp), getResources().getDimensionPixelOffset(R.dimen._10sdp));
+//           activityFeedbackBinding.nextLinear.setLayoutParams(params);
+//           activityFeedbackBinding.previousLinear.setLayoutParams(params);
+//       }else{
+//           RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+//                   getResources().getDimensionPixelOffset(R.dimen._70sdp),
+//                   getResources().getDimensionPixelOffset(R.dimen._35sdp)
+//           );
+//           params.setMargins(getResources().getDimensionPixelOffset(R.dimen._10sdp), 0, getResources().getDimensionPixelOffset(R.dimen._10sdp), getResources().getDimensionPixelOffset(R.dimen._50sdp));
+//           activityFeedbackBinding.nextLinear.setLayoutParams(params);
+//           activityFeedbackBinding.previousLinear.setLayoutParams(params);
+//       }
+//    }
     public void setListiner() {
-        fragmentFeedbackBinding.nextLinear.setOnClickListener(this);
-        fragmentFeedbackBinding.previousLinear.setOnClickListener(this);
-        fragmentFeedbackBinding.editLinear.setOnClickListener(this);
-        fragmentFeedbackBinding.viewFeedbackBtn.setOnClickListener(this);
+        activityFeedbackBinding.nextLinear.setOnClickListener(this);
+        activityFeedbackBinding.previousLinear.setOnClickListener(this);
+        activityFeedbackBinding.editLinear.setOnClickListener(this);
+        activityFeedbackBinding.viewFeedbackBtn.setOnClickListener(this);
+        activityFeedbackBinding.edittextAnsTxt.setOnClickListener(this);
+        activityFeedbackBinding.backImg.setOnClickListener(this);
 
-        fragmentFeedbackBinding.edittextAnsTxt.addTextChangedListener(new TextWatcher() {
+        activityFeedbackBinding.edittextAnsTxt.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -202,7 +168,7 @@ public class FeedbackFragment extends Fragment implements View.OnClickListener {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                Integer textlength1 = fragmentFeedbackBinding.edittextAnsTxt.getText().length();
+                Integer textlength1 = activityFeedbackBinding.edittextAnsTxt.getText().length();
 
 
             }
@@ -221,12 +187,45 @@ public class FeedbackFragment extends Fragment implements View.OnClickListener {
             }
         });
 
-        fragmentFeedbackBinding.edittextAnsTxt.setOnKeyListener(new View.OnKeyListener() {
+// ContentView is the root view of the layout of this activity/fragment
+//        activityFeedbackBinding.feedbackScroll.getViewTreeObserver().addOnGlobalLayoutListener(
+//                new ViewTreeObserver.OnGlobalLayoutListener() {
+//                    @Override
+//                    public void onGlobalLayout() {
+//
+//                        Rect r = new Rect();
+//                        activityFeedbackBinding.feedbackScroll.getWindowVisibleDisplayFrame(r);
+//                        int screenHeight = activityFeedbackBinding.feedbackScroll.getRootView().getHeight();
+//
+//                        // r.bottom is the position above soft keypad or device button.
+//                        // if keypad is shown, the r.bottom is smaller than that before.
+//                        int keypadHeight = screenHeight - r.bottom;
+//
+//                        Log.d("Height", "keypadHeight = " + keypadHeight);
+//
+//                        if (keypadHeight > screenHeight * 0.15) { // 0.15 ratio is perhaps enough to determine keypad height.
+//                            // keyboard is opened
+//                            if (!isKeyboardShowing) {
+//                                isKeyboardShowing = true;
+//                                onKeyboardVisibilityChanged(true);
+//                            }
+//                        }
+//                        else {
+//                            // keyboard is closed
+//                            if (isKeyboardShowing) {
+//                                isKeyboardShowing = false;
+//                                onKeyboardVisibilityChanged(false);
+//                            }
+//                        }
+//                    }
+//                });
+
+        activityFeedbackBinding.edittextAnsTxt.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 if (keyCode == KeyEvent.KEYCODE_ENTER) {
                     //do your stuff here
-                    fragmentFeedbackBinding.scrollView.fullScroll(View.FOCUS_DOWN);
+                    activityFeedbackBinding.feedbackScroll.fullScroll(View.FOCUS_DOWN);
                 }
                 return false;
             }
@@ -248,16 +247,16 @@ public class FeedbackFragment extends Fragment implements View.OnClickListener {
                 previousLayoutvalue();
                 break;
             case R.id.view_feedback_btn:
-                Utils.hideKeyboard(getActivity());
-                fragmentFeedbackBinding.thankyouLinear.setVisibility(View.GONE);
-                fragmentFeedbackBinding.previousLinear.setVisibility(View.GONE);
-                fragmentFeedbackBinding.nextLinear.setVisibility(View.GONE);
-                fragmentFeedbackBinding.questionLinear.setVisibility(View.GONE);
-                fragmentFeedbackBinding.scrollView.setVisibility(View.GONE);
-                fragmentFeedbackBinding.edittextAnsLinear.setVisibility(View.GONE);
+                Utils.hideKeyboard(FeedbackActivity.this);
+                activityFeedbackBinding.thankyouLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.previousLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.nextLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.questionLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.feedbackScroll.setVisibility(View.GONE);
+                activityFeedbackBinding.edittextAnsLinear.setVisibility(View.GONE);
 
-                fragmentFeedbackBinding.shimmerViewContainer.setVisibility(View.VISIBLE);
-                fragmentFeedbackBinding.shimmerViewContainer.startShimmerAnimation();
+                activityFeedbackBinding.shimmerViewContainer.setVisibility(View.VISIBLE);
+                activityFeedbackBinding.shimmerViewContainer.startShimmerAnimation();
                 feedbackAnswerValueStr = "";
                 callQuestionAnswerList();
 //                answerstoreLocal();
@@ -266,62 +265,81 @@ public class FeedbackFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.edit_linear:
                 stayfeedbacksurvey();
-                fragmentFeedbackBinding.thankyouLinear.setVisibility(View.GONE);
-                fragmentFeedbackBinding.questionAnsViewLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.thankyouLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.questionAnsViewLinear.setVisibility(View.GONE);
                 /*Animation for visibility gone*/
                 Animation animSlideoute = AnimationUtils.loadAnimation(mContext, R.anim.slide_out_left_new);
-                fragmentFeedbackBinding.questionAnsViewLinear.startAnimation(animSlideoute);
+                activityFeedbackBinding.questionAnsViewLinear.startAnimation(animSlideoute);
 
-                fragmentFeedbackBinding.editLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.editLinear.setVisibility(View.GONE);
 //                if (count == 1) {
-                fragmentFeedbackBinding.previousLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.previousLinear.setVisibility(View.GONE);
 //                } else {
-//                    fragmentFeedbackBinding.previousLinear.setVisibility(View.VISIBLE);
+//                    activityFeedbackBinding.previousLinear.setVisibility(View.VISIBLE);
 //                }
-                fragmentFeedbackBinding.nextLinear.setVisibility(View.VISIBLE);
-                fragmentFeedbackBinding.shimmerViewContainer.setVisibility(View.VISIBLE);
-                fragmentFeedbackBinding.shimmerViewContainer.startShimmerAnimation();
+                activityFeedbackBinding.nextLinear.setVisibility(View.VISIBLE);
+                activityFeedbackBinding.shimmerViewContainer.setVisibility(View.VISIBLE);
+                activityFeedbackBinding.shimmerViewContainer.startShimmerAnimation();
                 /*Animation for visibility visible*/
                 Animation animSlideine = AnimationUtils.loadAnimation(mContext, R.anim.slide_in_right_new);
-                fragmentFeedbackBinding.shimmerViewContainer.startAnimation(animSlideine);
+                activityFeedbackBinding.shimmerViewContainer.startAnimation(animSlideine);
                 count = 1;
                 currentQuestionIndex = 1;
                 nextQuestionIndex = 0;
                 callFeedbackQuestionAnswerData();
 
-                fragmentFeedbackBinding.nextImg.setImageResource(R.drawable.ic_next_question);
+                activityFeedbackBinding.nextImg.setImageResource(R.drawable.ic_next_question);
+                break;
+            case R.id.edittext_ans_txt:
+                Utils.scrollScreen(activityFeedbackBinding.feedbackScroll);
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                        LinearLayout.LayoutParams.MATCH_PARENT,
+                        LinearLayout.LayoutParams.WRAP_CONTENT
+                );
+                break;
+            case R.id.back_img:
+                backActivity();
                 break;
         }
 
     }
 
+    public void backActivity() {
+        finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        backActivity();
+        super.onBackPressed();
+    }
 
     public void setQuestionAnswer() {
 
         isRequired = feedbackQuestionAnswermodellist.getData().getIsRequired();
 
-        fragmentFeedbackBinding.questionCategoryTitleTxt.setText(feedbackQuestionAnswermodellist.getData().getHeaderTypeText());
-        fragmentFeedbackBinding.questionTxt.setText(feedbackQuestionAnswermodellist.getData().getFeedbackQuestion());
+        activityFeedbackBinding.questionCategoryTitleTxt.setText(feedbackQuestionAnswermodellist.getData().getHeaderTypeText());
+        activityFeedbackBinding.questionTxt.setText(feedbackQuestionAnswermodellist.getData().getFeedbackQuestion());
         if (feedbackQuestionAnswermodellist.getData().getFeedbackType().equals(1)) {
-           
+
             setValueTextView(String.valueOf(feedbackQuestionAnswermodellist.getData().getFeedbackDescription()));
         } else if (feedbackQuestionAnswermodellist.getData().getFeedbackType().equals(4)) {
-           
+
             setImageandTextValue();
         } else if (feedbackQuestionAnswermodellist.getData().getFeedbackType().equals(5)) {
 
             setEditextValue();
         } else if (feedbackQuestionAnswermodellist.getData().getFeedbackType().equals(6)) {
-           
+
             setTextMultiChoiceValue();
         } else if (feedbackQuestionAnswermodellist.getData().getFeedbackType().equals(7)) {
-           
+
             setTextWithRatingSingleChoiceValue();
         } else if (feedbackQuestionAnswermodellist.getData().getFeedbackType().equals(2)) {
-           
+
             setTextSingleChoiceValue();
         } else if (feedbackQuestionAnswermodellist.getData().getFeedbackType().equals(8)) {
-           
+
             setTextGridSingleChoiceValue();
         }
 
@@ -330,9 +348,9 @@ public class FeedbackFragment extends Fragment implements View.OnClickListener {
 
     public void updateNextCountValueText(int count) {
         if (count <= 9) {
-            fragmentFeedbackBinding.submitTxt.setText("0" + String.valueOf(count) + " of " + String.valueOf(totalLayout));
+            activityFeedbackBinding.submitTxt.setText("0" + String.valueOf(count) + " of " + String.valueOf(totalLayout));
         } else {
-            fragmentFeedbackBinding.submitTxt.setText(String.valueOf(count) + " of " + String.valueOf(totalLayout));
+            activityFeedbackBinding.submitTxt.setText(String.valueOf(count) + " of " + String.valueOf(totalLayout));
         }
     }
 
@@ -362,23 +380,23 @@ public class FeedbackFragment extends Fragment implements View.OnClickListener {
         }
         if (Utils.getPref(mContext, "feedbackgiveflag") != null) {
             if (Utils.getPref(mContext, "feedbackgiveflag").equalsIgnoreCase("1")) {
-                fragmentFeedbackBinding.shimmerViewContainer.stopShimmerAnimation();
-                fragmentFeedbackBinding.shimmerViewContainer.setVisibility(View.GONE);
+                activityFeedbackBinding.shimmerViewContainer.stopShimmerAnimation();
+                activityFeedbackBinding.shimmerViewContainer.setVisibility(View.GONE);
                 /*Animation for visibility gone*/
                 Animation animSlideout = AnimationUtils.loadAnimation(mContext, R.anim.slide_out_left_new);
-                fragmentFeedbackBinding.shimmerViewContainer.startAnimation(animSlideout);
+                activityFeedbackBinding.shimmerViewContainer.startAnimation(animSlideout);
 
-                fragmentFeedbackBinding.questionAnsViewLinear.setVisibility(View.VISIBLE);
-                fragmentFeedbackBinding.editLinear.setVisibility(View.VISIBLE);
+                activityFeedbackBinding.questionAnsViewLinear.setVisibility(View.VISIBLE);
+                activityFeedbackBinding.editLinear.setVisibility(View.VISIBLE);
                 /*Animation for visibility visible*/
                 Animation animSlidein = AnimationUtils.loadAnimation(mContext, R.anim.slide_in_right_new);
-                fragmentFeedbackBinding.questionAnsViewLinear.startAnimation(animSlidein);
+                activityFeedbackBinding.questionAnsViewLinear.startAnimation(animSlidein);
                 Log.d("imageStr", feedbackansimageStr);
                 feedbackViewAdapter = new FeedbackViewAdapter(mContext, feedbackviewanslist, feedbackansimageStr);
                 ansviewmLayout = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
-                fragmentFeedbackBinding.questionAnsViewRcv.setLayoutManager(ansviewmLayout);
-                fragmentFeedbackBinding.questionAnsViewRcv.setItemAnimator(new DefaultItemAnimator());
-                fragmentFeedbackBinding.questionAnsViewRcv.setAdapter(feedbackViewAdapter);
+                activityFeedbackBinding.questionAnsViewRcv.setLayoutManager(ansviewmLayout);
+                activityFeedbackBinding.questionAnsViewRcv.setItemAnimator(new DefaultItemAnimator());
+                activityFeedbackBinding.questionAnsViewRcv.setAdapter(feedbackViewAdapter);
             } else {
                 currentQuestionIndex = 1;
                 nextQuestionIndex = 0;
@@ -393,18 +411,18 @@ public class FeedbackFragment extends Fragment implements View.OnClickListener {
 
     /*Set the textview value in layout*/
     public void setValueTextView(String text) {
-//        fragmentFeedbackBinding.textviewAnsLinear.setVisibility(View.VISIBLE);
+//        activityFeedbackBinding.textviewAnsLinear.setVisibility(View.VISIBLE);
         String textUrl = "<html><style type='text/css'>@font-face { font-family: thesansplain; src: url('fonts/thesansplain.ttf'); } body p {font-family: thesansplain;}</style>"
                 + "<body >" + "<p align=\"justify\" style=\"font-size: 22px; font-family: spqr;\">" + text + "</p> " + "</body></html>";
 
 
-        fragmentFeedbackBinding.textviewAnsTxt.getSettings().setJavaScriptEnabled(true);
+        activityFeedbackBinding.textviewAnsTxt.getSettings().setJavaScriptEnabled(true);
 
-        fragmentFeedbackBinding.textviewAnsTxt.setVerticalScrollBarEnabled(false);
-        fragmentFeedbackBinding.textviewAnsTxt.loadDataWithBaseURL("file:///android_asset/", textUrl, "text/html", "UTF-8", null);
+        activityFeedbackBinding.textviewAnsTxt.setVerticalScrollBarEnabled(false);
+        activityFeedbackBinding.textviewAnsTxt.loadDataWithBaseURL("file:///android_asset/", textUrl, "text/html", "UTF-8", null);
 
 
-        fragmentFeedbackBinding.textviewAnsTxt.setWebViewClient(new WebViewClient() {
+        activityFeedbackBinding.textviewAnsTxt.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
 
@@ -417,7 +435,7 @@ public class FeedbackFragment extends Fragment implements View.OnClickListener {
     /*Set the ImageandTextSinglechoice value in layout*/
     public void setImageandTextValue() {
         feedbackansimagetextmodellist = feedbackQuestionAnswermodellist.getData().getOptions();
-        fragmentFeedbackBinding.ImagewithtextsinglechoiceLinear.setVisibility(View.VISIBLE);
+        activityFeedbackBinding.ImagewithtextsinglechoiceLinear.setVisibility(View.VISIBLE);
         for (int i = 0; i < feedbackansimagetextmodellist.size(); i++) {
             feedbackansimagetextmodellist.get(i).setQuestionAnswerImagewithTextSelect("0");
             if (!feedbackQuestionAnswermodellist.getData().getAnswerValue().equalsIgnoreCase("")) {
@@ -444,42 +462,42 @@ public class FeedbackFragment extends Fragment implements View.OnClickListener {
         });
         gridLayoutManager = new GridLayoutManager(mContext, 3);
         gridLayoutManager.setOrientation(RecyclerView.VERTICAL); // set Horizontal Orientation
-        fragmentFeedbackBinding.ImagewithtextsinglechoiceAnsRcv.setLayoutManager(gridLayoutManager); // set LayoutManager to RecyclerView
-        fragmentFeedbackBinding.ImagewithtextsinglechoiceAnsRcv.setAdapter(feedbackImagewithTextAdapter);
+        activityFeedbackBinding.ImagewithtextsinglechoiceAnsRcv.setLayoutManager(gridLayoutManager); // set LayoutManager to RecyclerView
+        activityFeedbackBinding.ImagewithtextsinglechoiceAnsRcv.setAdapter(feedbackImagewithTextAdapter);
     }
 
     /*Set the Edittext value in layout*/
     public void setEditextValue() {
-        fragmentFeedbackBinding.scrollView.setVisibility(View.VISIBLE);
-        fragmentFeedbackBinding.edittextAnsLinear.setVisibility(View.VISIBLE);
+        activityFeedbackBinding.feedbackScroll.setVisibility(View.VISIBLE);
+        activityFeedbackBinding.edittextAnsLinear.setVisibility(View.VISIBLE);
 
         if (feedbackQuestionAnswermodellist.getData().getId().equals(3)) {
             if (!feedbackQuestionAnswermodellist.getData().getAnswerValue().equalsIgnoreCase("")) {
-                fragmentFeedbackBinding.edittextAnsTxt.setText(feedbackQuestionAnswermodellist.getData().getAnswerValue());
+                activityFeedbackBinding.edittextAnsTxt.setText(feedbackQuestionAnswermodellist.getData().getAnswerValue());
             }
         } else if (feedbackQuestionAnswermodellist.getData().getId().equals(4)) {
             if (!feedbackQuestionAnswermodellist.getData().getAnswerValue().equalsIgnoreCase("")) {
-                fragmentFeedbackBinding.edittextAnsTxt.setText(feedbackQuestionAnswermodellist.getData().getAnswerValue());
+                activityFeedbackBinding.edittextAnsTxt.setText(feedbackQuestionAnswermodellist.getData().getAnswerValue());
             }
         } else if (feedbackQuestionAnswermodellist.getData().getId().equals(5)) {
             if (!feedbackQuestionAnswermodellist.getData().getAnswerValue().equalsIgnoreCase("")) {
-                fragmentFeedbackBinding.edittextAnsTxt.setText(feedbackQuestionAnswermodellist.getData().getAnswerValue());
+                activityFeedbackBinding.edittextAnsTxt.setText(feedbackQuestionAnswermodellist.getData().getAnswerValue());
             }
         } else if (feedbackQuestionAnswermodellist.getData().getId().equals(6)) {
             if (!feedbackQuestionAnswermodellist.getData().getAnswerValue().equalsIgnoreCase("")) {
-                fragmentFeedbackBinding.edittextAnsTxt.setText(feedbackQuestionAnswermodellist.getData().getAnswerValue());
+                activityFeedbackBinding.edittextAnsTxt.setText(feedbackQuestionAnswermodellist.getData().getAnswerValue());
             }
         } else if (feedbackQuestionAnswermodellist.getData().getId().equals(8)) {
             if (!feedbackQuestionAnswermodellist.getData().getAnswerValue().equalsIgnoreCase("")) {
-                fragmentFeedbackBinding.edittextAnsTxt.setText(feedbackQuestionAnswermodellist.getData().getAnswerValue());
+                activityFeedbackBinding.edittextAnsTxt.setText(feedbackQuestionAnswermodellist.getData().getAnswerValue());
             }
         } else if (feedbackQuestionAnswermodellist.getData().getId().equals(12)) {
             if (!feedbackQuestionAnswermodellist.getData().getAnswerValue().equalsIgnoreCase("")) {
-                fragmentFeedbackBinding.edittextAnsTxt.setText(feedbackQuestionAnswermodellist.getData().getAnswerValue());
+                activityFeedbackBinding.edittextAnsTxt.setText(feedbackQuestionAnswermodellist.getData().getAnswerValue());
             }
         } else if (feedbackQuestionAnswermodellist.getData().getId().equals(13)) {
             if (!feedbackQuestionAnswermodellist.getData().getAnswerValue().equalsIgnoreCase("")) {
-                fragmentFeedbackBinding.edittextAnsTxt.setText(feedbackQuestionAnswermodellist.getData().getAnswerValue());
+                activityFeedbackBinding.edittextAnsTxt.setText(feedbackQuestionAnswermodellist.getData().getAnswerValue());
             }
         }
     }
@@ -487,7 +505,7 @@ public class FeedbackFragment extends Fragment implements View.OnClickListener {
     /*Set the TextMultiChoice value in layout*/
     public void setTextMultiChoiceValue() {
         feedbacktextmultichoicelist = feedbackQuestionAnswermodellist.getData().getOptions();
-        fragmentFeedbackBinding.textmultichoiceLinear.setVisibility(View.VISIBLE);
+        activityFeedbackBinding.textmultichoiceLinear.setVisibility(View.VISIBLE);
         for (int i = 0; i < feedbacktextmultichoicelist.size(); i++) {
             feedbacktextmultichoicelist.get(i).setQuestionAnswerTextMultiSelect("0");
             if (!feedbackQuestionAnswermodellist.getData().getAnswerValue().equalsIgnoreCase("")) {
@@ -516,14 +534,14 @@ public class FeedbackFragment extends Fragment implements View.OnClickListener {
             }
         });
         textmultichoicelinearLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
-        fragmentFeedbackBinding.textmultichoiceAnsRcv.setLayoutManager(textmultichoicelinearLayoutManager);
-        fragmentFeedbackBinding.textmultichoiceAnsRcv.setItemAnimator(new DefaultItemAnimator());
-        fragmentFeedbackBinding.textmultichoiceAnsRcv.setAdapter(feedbackTextMultiChoiceAdapter);
+        activityFeedbackBinding.textmultichoiceAnsRcv.setLayoutManager(textmultichoicelinearLayoutManager);
+        activityFeedbackBinding.textmultichoiceAnsRcv.setItemAnimator(new DefaultItemAnimator());
+        activityFeedbackBinding.textmultichoiceAnsRcv.setAdapter(feedbackTextMultiChoiceAdapter);
     }
 
     /*Set the TextWithRatingSignleChoice value in layout*/
     public void setTextWithRatingSingleChoiceValue() {
-        fragmentFeedbackBinding.textwithsingleratingchoiceLinear.setVisibility(View.VISIBLE);
+        activityFeedbackBinding.textwithsingleratingchoiceLinear.setVisibility(View.VISIBLE);
 
         feedbackratingsinglechoicelist = new ArrayList<>();
 
@@ -558,9 +576,9 @@ public class FeedbackFragment extends Fragment implements View.OnClickListener {
             }
         });
         ratingsinglechoicelinearLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
-        fragmentFeedbackBinding.textwithsingleratingchoiceAnsRcv.setLayoutManager(ratingsinglechoicelinearLayoutManager);
-        fragmentFeedbackBinding.textwithsingleratingchoiceAnsRcv.setItemAnimator(new DefaultItemAnimator());
-        fragmentFeedbackBinding.textwithsingleratingchoiceAnsRcv.setAdapter(feedbackRatingAdapter);
+        activityFeedbackBinding.textwithsingleratingchoiceAnsRcv.setLayoutManager(ratingsinglechoicelinearLayoutManager);
+        activityFeedbackBinding.textwithsingleratingchoiceAnsRcv.setItemAnimator(new DefaultItemAnimator());
+        activityFeedbackBinding.textwithsingleratingchoiceAnsRcv.setAdapter(feedbackRatingAdapter);
     }
 
     /*Set the TextSingleChoice value in layout*/
@@ -580,7 +598,7 @@ public class FeedbackFragment extends Fragment implements View.OnClickListener {
 
             }
 
-            fragmentFeedbackBinding.textsinglechoiceLinear.setVisibility(View.VISIBLE);
+            activityFeedbackBinding.textsinglechoiceLinear.setVisibility(View.VISIBLE);
             feedbackSingleChoiceAdapter = new FeedbackSingleChoiceAdapter(mContext, feedbacktextsinglechoicelist, selectedtextsinglechangesposition, new MorestoryClick() {
                 @Override
                 public void getmorestoryClick() {
@@ -596,15 +614,15 @@ public class FeedbackFragment extends Fragment implements View.OnClickListener {
                 }
             });
             textsinglechoicelinearLayoutManager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false);
-            fragmentFeedbackBinding.textsinglechoiceAnsRcv.setLayoutManager(textsinglechoicelinearLayoutManager);
-            fragmentFeedbackBinding.textsinglechoiceAnsRcv.setItemAnimator(new DefaultItemAnimator());
-            fragmentFeedbackBinding.textsinglechoiceAnsRcv.setAdapter(feedbackSingleChoiceAdapter);
+            activityFeedbackBinding.textsinglechoiceAnsRcv.setLayoutManager(textsinglechoicelinearLayoutManager);
+            activityFeedbackBinding.textsinglechoiceAnsRcv.setItemAnimator(new DefaultItemAnimator());
+            activityFeedbackBinding.textsinglechoiceAnsRcv.setAdapter(feedbackSingleChoiceAdapter);
         }
     }
 
     /*Set the TextGridSinglechoice value in layout*/
     public void setTextGridSingleChoiceValue() {
-        fragmentFeedbackBinding.textsinglegridchoiceLinear.setVisibility(View.VISIBLE);
+        activityFeedbackBinding.textsinglegridchoiceLinear.setVisibility(View.VISIBLE);
 
         feedbackanstextsinglechoicegridlist = new ArrayList<>();
         feedbackanstextsinglechoicegridlist.add(new FeedbackAnswerList("10", ""));
@@ -647,46 +665,46 @@ public class FeedbackFragment extends Fragment implements View.OnClickListener {
         });
         textsinglegridLayoutManager = new GridLayoutManager(mContext, 2);
         gridLayoutManager.setOrientation(RecyclerView.VERTICAL); // set Horizontal Orientation
-        fragmentFeedbackBinding.textsinglegridchoiceAnsRcv.setLayoutManager(textsinglegridLayoutManager); // set LayoutManager to RecyclerView
-        fragmentFeedbackBinding.textsinglegridchoiceAnsRcv.setAdapter(feedbackTextSingleChoiceGridAdapter);
+        activityFeedbackBinding.textsinglegridchoiceAnsRcv.setLayoutManager(textsinglegridLayoutManager); // set LayoutManager to RecyclerView
+        activityFeedbackBinding.textsinglegridchoiceAnsRcv.setAdapter(feedbackTextSingleChoiceGridAdapter);
     }
 
     /*Forward Question Layout variable*/
     public void forwardLayoutvalue() {
         if (count != 13) {
             count = count + 1;
-            Utils.hideKeyboard(getActivity());
+            Utils.hideKeyboard(FeedbackActivity.this);
             updateNextCountValueText(count);
             if (count == 2) {
-                fragmentFeedbackBinding.shimmerViewContainer.startShimmerAnimation();
-                fragmentFeedbackBinding.shimmerViewContainer.setVisibility(View.VISIBLE);
-                fragmentFeedbackBinding.questionLinear.setVisibility(View.GONE);
-                fragmentFeedbackBinding.textviewAnsLinear.setVisibility(View.GONE);
-                fragmentFeedbackBinding.nextLinear.setVisibility(View.GONE);
-                fragmentFeedbackBinding.previousLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.shimmerViewContainer.startShimmerAnimation();
+                activityFeedbackBinding.shimmerViewContainer.setVisibility(View.VISIBLE);
+                activityFeedbackBinding.questionLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.textviewAnsLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.nextLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.previousLinear.setVisibility(View.GONE);
                 currentQuestionIndex = 1;
                 nextQuestionIndex = 2;
                 callFeedbackQuestionAnswerData();
             } else if (count == 3) {
                 getSelectedImageandTextValue();
-                fragmentFeedbackBinding.shimmerViewContainer.startShimmerAnimation();
-                fragmentFeedbackBinding.shimmerViewContainer.setVisibility(View.VISIBLE);
-                fragmentFeedbackBinding.questionLinear.setVisibility(View.GONE);
-                fragmentFeedbackBinding.ImagewithtextsinglechoiceLinear.setVisibility(View.GONE);
-                fragmentFeedbackBinding.nextLinear.setVisibility(View.GONE);
-                fragmentFeedbackBinding.previousLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.shimmerViewContainer.startShimmerAnimation();
+                activityFeedbackBinding.shimmerViewContainer.setVisibility(View.VISIBLE);
+                activityFeedbackBinding.questionLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.ImagewithtextsinglechoiceLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.nextLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.previousLinear.setVisibility(View.GONE);
                 currentQuestionIndex = 2;
                 nextQuestionIndex = 3;
                 callFeedbackQuestionAnswerData();
             } else if (count == 4) {
-                fragmentFeedbackBinding.shimmerViewContainer.startShimmerAnimation();
-                fragmentFeedbackBinding.shimmerViewContainer.setVisibility(View.VISIBLE);
-                fragmentFeedbackBinding.questionLinear.setVisibility(View.GONE);
-                fragmentFeedbackBinding.scrollView.setVisibility(View.GONE);
-                fragmentFeedbackBinding.edittextAnsLinear.setVisibility(View.GONE);
-                fragmentFeedbackBinding.nextLinear.setVisibility(View.GONE);
-                fragmentFeedbackBinding.previousLinear.setVisibility(View.GONE);
-                question3ansStr = fragmentFeedbackBinding.edittextAnsTxt.getText().toString();
+                activityFeedbackBinding.shimmerViewContainer.startShimmerAnimation();
+                activityFeedbackBinding.shimmerViewContainer.setVisibility(View.VISIBLE);
+                activityFeedbackBinding.questionLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.feedbackScroll.setVisibility(View.GONE);
+                activityFeedbackBinding.edittextAnsLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.nextLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.previousLinear.setVisibility(View.GONE);
+                question3ansStr = activityFeedbackBinding.edittextAnsTxt.getText().toString();
                 if (question3ansStr.trim().length() >= 1) {
                     AppConfiguration.question3 = "fill";
                     isRequired = 0;
@@ -700,14 +718,14 @@ public class FeedbackFragment extends Fragment implements View.OnClickListener {
                 nextQuestionIndex = 4;
                 callFeedbackQuestionAnswerData();
             } else if (count == 5) {
-                fragmentFeedbackBinding.shimmerViewContainer.startShimmerAnimation();
-                fragmentFeedbackBinding.shimmerViewContainer.setVisibility(View.VISIBLE);
-                fragmentFeedbackBinding.questionLinear.setVisibility(View.GONE);
-                fragmentFeedbackBinding.scrollView.setVisibility(View.GONE);
-                fragmentFeedbackBinding.edittextAnsLinear.setVisibility(View.GONE);
-                fragmentFeedbackBinding.nextLinear.setVisibility(View.GONE);
-                fragmentFeedbackBinding.previousLinear.setVisibility(View.GONE);
-                question4ansStr = fragmentFeedbackBinding.edittextAnsTxt.getText().toString();
+                activityFeedbackBinding.shimmerViewContainer.startShimmerAnimation();
+                activityFeedbackBinding.shimmerViewContainer.setVisibility(View.VISIBLE);
+                activityFeedbackBinding.questionLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.feedbackScroll.setVisibility(View.GONE);
+                activityFeedbackBinding.edittextAnsLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.nextLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.previousLinear.setVisibility(View.GONE);
+                question4ansStr = activityFeedbackBinding.edittextAnsTxt.getText().toString();
                 if (question4ansStr.trim().length() >= 1) {
                     AppConfiguration.question4 = "fill";
                     feedbackAnswerValueStr = question4ansStr.trim();
@@ -721,14 +739,14 @@ public class FeedbackFragment extends Fragment implements View.OnClickListener {
                 nextQuestionIndex = 5;
                 callFeedbackQuestionAnswerData();
             } else if (count == 6) {
-                fragmentFeedbackBinding.shimmerViewContainer.startShimmerAnimation();
-                fragmentFeedbackBinding.shimmerViewContainer.setVisibility(View.VISIBLE);
-                fragmentFeedbackBinding.questionLinear.setVisibility(View.GONE);
-                fragmentFeedbackBinding.scrollView.setVisibility(View.GONE);
-                fragmentFeedbackBinding.edittextAnsLinear.setVisibility(View.GONE);
-                fragmentFeedbackBinding.nextLinear.setVisibility(View.GONE);
-                fragmentFeedbackBinding.previousLinear.setVisibility(View.GONE);
-                question5ansStr = fragmentFeedbackBinding.edittextAnsTxt.getText().toString();
+                activityFeedbackBinding.shimmerViewContainer.startShimmerAnimation();
+                activityFeedbackBinding.shimmerViewContainer.setVisibility(View.VISIBLE);
+                activityFeedbackBinding.questionLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.feedbackScroll.setVisibility(View.GONE);
+                activityFeedbackBinding.edittextAnsLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.nextLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.previousLinear.setVisibility(View.GONE);
+                question5ansStr = activityFeedbackBinding.edittextAnsTxt.getText().toString();
                 if (question5ansStr.trim().length() >= 1) {
                     AppConfiguration.question5 = "fill";
                     isRequired = 0;
@@ -742,14 +760,14 @@ public class FeedbackFragment extends Fragment implements View.OnClickListener {
                 nextQuestionIndex = 6;
                 callFeedbackQuestionAnswerData();
             } else if (count == 7) {
-                fragmentFeedbackBinding.shimmerViewContainer.startShimmerAnimation();
-                fragmentFeedbackBinding.shimmerViewContainer.setVisibility(View.VISIBLE);
-                fragmentFeedbackBinding.questionLinear.setVisibility(View.GONE);
-                fragmentFeedbackBinding.scrollView.setVisibility(View.GONE);
-                fragmentFeedbackBinding.edittextAnsLinear.setVisibility(View.GONE);
-                fragmentFeedbackBinding.nextLinear.setVisibility(View.GONE);
-                fragmentFeedbackBinding.previousLinear.setVisibility(View.GONE);
-                question6ansStr = fragmentFeedbackBinding.edittextAnsTxt.getText().toString();
+                activityFeedbackBinding.shimmerViewContainer.startShimmerAnimation();
+                activityFeedbackBinding.shimmerViewContainer.setVisibility(View.VISIBLE);
+                activityFeedbackBinding.questionLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.feedbackScroll.setVisibility(View.GONE);
+                activityFeedbackBinding.edittextAnsLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.nextLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.previousLinear.setVisibility(View.GONE);
+                question6ansStr = activityFeedbackBinding.edittextAnsTxt.getText().toString();
                 if (question6ansStr.trim().length() >= 1) {
                     AppConfiguration.question6 = "fill";
                     isRequired = 0;
@@ -764,25 +782,25 @@ public class FeedbackFragment extends Fragment implements View.OnClickListener {
                 callFeedbackQuestionAnswerData();
             } else if (count == 8) {
                 getSelectedTextMultiChoiceValue();
-                fragmentFeedbackBinding.shimmerViewContainer.startShimmerAnimation();
-                fragmentFeedbackBinding.shimmerViewContainer.setVisibility(View.VISIBLE);
-                fragmentFeedbackBinding.questionLinear.setVisibility(View.GONE);
-                fragmentFeedbackBinding.textmultichoiceLinear.setVisibility(View.GONE);
-                fragmentFeedbackBinding.nextLinear.setVisibility(View.GONE);
-                fragmentFeedbackBinding.previousLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.shimmerViewContainer.startShimmerAnimation();
+                activityFeedbackBinding.shimmerViewContainer.setVisibility(View.VISIBLE);
+                activityFeedbackBinding.questionLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.textmultichoiceLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.nextLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.previousLinear.setVisibility(View.GONE);
                 currentQuestionIndex = 7;
                 nextQuestionIndex = 8;
                 callFeedbackQuestionAnswerData();
 
             } else if (count == 9) {
-                fragmentFeedbackBinding.shimmerViewContainer.startShimmerAnimation();
-                fragmentFeedbackBinding.shimmerViewContainer.setVisibility(View.VISIBLE);
-                fragmentFeedbackBinding.questionLinear.setVisibility(View.GONE);
-                fragmentFeedbackBinding.scrollView.setVisibility(View.GONE);
-                fragmentFeedbackBinding.edittextAnsLinear.setVisibility(View.GONE);
-                fragmentFeedbackBinding.nextLinear.setVisibility(View.GONE);
-                fragmentFeedbackBinding.previousLinear.setVisibility(View.GONE);
-                question8ansStr = fragmentFeedbackBinding.edittextAnsTxt.getText().toString();
+                activityFeedbackBinding.shimmerViewContainer.startShimmerAnimation();
+                activityFeedbackBinding.shimmerViewContainer.setVisibility(View.VISIBLE);
+                activityFeedbackBinding.questionLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.feedbackScroll.setVisibility(View.GONE);
+                activityFeedbackBinding.edittextAnsLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.nextLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.previousLinear.setVisibility(View.GONE);
+                question8ansStr = activityFeedbackBinding.edittextAnsTxt.getText().toString();
                 if (question8ansStr.trim().length() >= 1) {
                     AppConfiguration.question8 = "fill";
                     isRequired = 0;
@@ -797,46 +815,46 @@ public class FeedbackFragment extends Fragment implements View.OnClickListener {
                 callFeedbackQuestionAnswerData();
             } else if (count == 10) {
                 getSelectedRatingSingleChoiceValue();
-                fragmentFeedbackBinding.shimmerViewContainer.startShimmerAnimation();
-                fragmentFeedbackBinding.shimmerViewContainer.setVisibility(View.VISIBLE);
-                fragmentFeedbackBinding.questionLinear.setVisibility(View.GONE);
-                fragmentFeedbackBinding.textwithsingleratingchoiceLinear.setVisibility(View.GONE);
-                fragmentFeedbackBinding.nextLinear.setVisibility(View.GONE);
-                fragmentFeedbackBinding.previousLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.shimmerViewContainer.startShimmerAnimation();
+                activityFeedbackBinding.shimmerViewContainer.setVisibility(View.VISIBLE);
+                activityFeedbackBinding.questionLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.textwithsingleratingchoiceLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.nextLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.previousLinear.setVisibility(View.GONE);
                 currentQuestionIndex = 9;
                 nextQuestionIndex = 10;
                 callFeedbackQuestionAnswerData();
             } else if (count == 11) {
                 getSelectedTextGridSingleChoiceValue();
-                fragmentFeedbackBinding.shimmerViewContainer.startShimmerAnimation();
-                fragmentFeedbackBinding.shimmerViewContainer.setVisibility(View.VISIBLE);
-                fragmentFeedbackBinding.questionLinear.setVisibility(View.GONE);
-                fragmentFeedbackBinding.textsinglegridchoiceLinear.setVisibility(View.GONE);
-                fragmentFeedbackBinding.nextLinear.setVisibility(View.GONE);
-                fragmentFeedbackBinding.previousLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.shimmerViewContainer.startShimmerAnimation();
+                activityFeedbackBinding.shimmerViewContainer.setVisibility(View.VISIBLE);
+                activityFeedbackBinding.questionLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.textsinglegridchoiceLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.nextLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.previousLinear.setVisibility(View.GONE);
                 currentQuestionIndex = 10;
                 nextQuestionIndex = 11;
                 callFeedbackQuestionAnswerData();
             } else if (count == 12) {
                 getSelectedTextSingleChoiceValue();
-                fragmentFeedbackBinding.shimmerViewContainer.startShimmerAnimation();
-                fragmentFeedbackBinding.shimmerViewContainer.setVisibility(View.VISIBLE);
-                fragmentFeedbackBinding.questionLinear.setVisibility(View.GONE);
-                fragmentFeedbackBinding.textsinglechoiceLinear.setVisibility(View.GONE);
-                fragmentFeedbackBinding.nextLinear.setVisibility(View.GONE);
-                fragmentFeedbackBinding.previousLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.shimmerViewContainer.startShimmerAnimation();
+                activityFeedbackBinding.shimmerViewContainer.setVisibility(View.VISIBLE);
+                activityFeedbackBinding.questionLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.textsinglechoiceLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.nextLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.previousLinear.setVisibility(View.GONE);
                 currentQuestionIndex = 11;
                 nextQuestionIndex = 12;
                 callFeedbackQuestionAnswerData();
             } else if (count == 13) {
-                fragmentFeedbackBinding.shimmerViewContainer.startShimmerAnimation();
-                fragmentFeedbackBinding.shimmerViewContainer.setVisibility(View.VISIBLE);
-                fragmentFeedbackBinding.questionLinear.setVisibility(View.GONE);
-                fragmentFeedbackBinding.scrollView.setVisibility(View.GONE);
-                fragmentFeedbackBinding.edittextAnsLinear.setVisibility(View.GONE);
-                fragmentFeedbackBinding.nextLinear.setVisibility(View.GONE);
-                fragmentFeedbackBinding.previousLinear.setVisibility(View.GONE);
-                question12ansStr = fragmentFeedbackBinding.edittextAnsTxt.getText().toString();
+                activityFeedbackBinding.shimmerViewContainer.startShimmerAnimation();
+                activityFeedbackBinding.shimmerViewContainer.setVisibility(View.VISIBLE);
+                activityFeedbackBinding.questionLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.feedbackScroll.setVisibility(View.GONE);
+                activityFeedbackBinding.edittextAnsLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.nextLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.previousLinear.setVisibility(View.GONE);
+                question12ansStr = activityFeedbackBinding.edittextAnsTxt.getText().toString();
                 if (question12ansStr.trim().length() >= 1) {
                     AppConfiguration.question12 = "fill";
                     isRequired = 0;
@@ -851,8 +869,8 @@ public class FeedbackFragment extends Fragment implements View.OnClickListener {
                 callFeedbackQuestionAnswerData();
             }
         } else {
-            Utils.hideKeyboard(getActivity());
-            question13ansStr = fragmentFeedbackBinding.edittextAnsTxt.getText().toString();
+            Utils.hideKeyboard(FeedbackActivity.this);
+            question13ansStr = activityFeedbackBinding.edittextAnsTxt.getText().toString();
             if (question13ansStr.trim().length() >= 1) {
                 AppConfiguration.question13 = "fill";
                 isRequired = 0;
@@ -874,50 +892,50 @@ public class FeedbackFragment extends Fragment implements View.OnClickListener {
     public void previousLayoutvalue() {
         if (count != 1) {
             count = count - 1;
-            Utils.hideKeyboard(getActivity());
+            Utils.hideKeyboard(FeedbackActivity.this);
             updateNextCountValueText(count);
             currentQuestionId = 0;
             if (count == 1) {
                 getSelectedImageandTextValue();
-                fragmentFeedbackBinding.shimmerViewContainer.startShimmerAnimation();
-                fragmentFeedbackBinding.shimmerViewContainer.setVisibility(View.VISIBLE);
-                fragmentFeedbackBinding.questionLinear.setVisibility(View.GONE);
-                fragmentFeedbackBinding.ImagewithtextsinglechoiceLinear.setVisibility(View.GONE);
-                fragmentFeedbackBinding.previousLinear.setVisibility(View.GONE);
-                fragmentFeedbackBinding.nextLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.shimmerViewContainer.startShimmerAnimation();
+                activityFeedbackBinding.shimmerViewContainer.setVisibility(View.VISIBLE);
+                activityFeedbackBinding.questionLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.ImagewithtextsinglechoiceLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.previousLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.nextLinear.setVisibility(View.GONE);
                 currentQuestionIndex = 1;
                 nextQuestionIndex = 0;
                 callFeedbackQuestionAnswerData();
             } else if (count == 2) {
-                fragmentFeedbackBinding.shimmerViewContainer.startShimmerAnimation();
-                fragmentFeedbackBinding.shimmerViewContainer.setVisibility(View.VISIBLE);
-                fragmentFeedbackBinding.questionLinear.setVisibility(View.GONE);
-                fragmentFeedbackBinding.scrollView.setVisibility(View.GONE);
-                fragmentFeedbackBinding.edittextAnsLinear.setVisibility(View.GONE);
-                fragmentFeedbackBinding.previousLinear.setVisibility(View.GONE);
-                fragmentFeedbackBinding.nextLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.shimmerViewContainer.startShimmerAnimation();
+                activityFeedbackBinding.shimmerViewContainer.setVisibility(View.VISIBLE);
+                activityFeedbackBinding.questionLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.feedbackScroll.setVisibility(View.GONE);
+                activityFeedbackBinding.edittextAnsLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.previousLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.nextLinear.setVisibility(View.GONE);
                 currentQuestionIndex = 2;
                 nextQuestionIndex = 0;
                 callFeedbackQuestionAnswerData();
             } else if (count == 3) {
-                fragmentFeedbackBinding.shimmerViewContainer.startShimmerAnimation();
-                fragmentFeedbackBinding.shimmerViewContainer.setVisibility(View.VISIBLE);
-                fragmentFeedbackBinding.questionLinear.setVisibility(View.GONE);
-                fragmentFeedbackBinding.scrollView.setVisibility(View.GONE);
-                fragmentFeedbackBinding.edittextAnsLinear.setVisibility(View.GONE);
-                fragmentFeedbackBinding.previousLinear.setVisibility(View.GONE);
-                fragmentFeedbackBinding.nextLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.shimmerViewContainer.startShimmerAnimation();
+                activityFeedbackBinding.shimmerViewContainer.setVisibility(View.VISIBLE);
+                activityFeedbackBinding.questionLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.feedbackScroll.setVisibility(View.GONE);
+                activityFeedbackBinding.edittextAnsLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.previousLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.nextLinear.setVisibility(View.GONE);
                 currentQuestionIndex = 3;
                 nextQuestionIndex = 0;
                 callFeedbackQuestionAnswerData();
             } else if (count == 4) {
-                fragmentFeedbackBinding.shimmerViewContainer.startShimmerAnimation();
-                fragmentFeedbackBinding.shimmerViewContainer.setVisibility(View.VISIBLE);
-                fragmentFeedbackBinding.questionLinear.setVisibility(View.GONE);
-                fragmentFeedbackBinding.scrollView.setVisibility(View.GONE);
-                fragmentFeedbackBinding.edittextAnsLinear.setVisibility(View.GONE);
-                fragmentFeedbackBinding.previousLinear.setVisibility(View.GONE);
-                fragmentFeedbackBinding.nextLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.shimmerViewContainer.startShimmerAnimation();
+                activityFeedbackBinding.shimmerViewContainer.setVisibility(View.VISIBLE);
+                activityFeedbackBinding.questionLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.feedbackScroll.setVisibility(View.GONE);
+                activityFeedbackBinding.edittextAnsLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.previousLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.nextLinear.setVisibility(View.GONE);
                 if (question3ansStr.trim().length() >= 1) {
                     AppConfiguration.question3 = "fill";
                 } else {
@@ -927,13 +945,13 @@ public class FeedbackFragment extends Fragment implements View.OnClickListener {
                 nextQuestionIndex = 0;
                 callFeedbackQuestionAnswerData();
             } else if (count == 5) {
-                fragmentFeedbackBinding.shimmerViewContainer.startShimmerAnimation();
-                fragmentFeedbackBinding.shimmerViewContainer.setVisibility(View.VISIBLE);
-                fragmentFeedbackBinding.questionLinear.setVisibility(View.GONE);
-                fragmentFeedbackBinding.scrollView.setVisibility(View.GONE);
-                fragmentFeedbackBinding.edittextAnsLinear.setVisibility(View.GONE);
-                fragmentFeedbackBinding.previousLinear.setVisibility(View.GONE);
-                fragmentFeedbackBinding.nextLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.shimmerViewContainer.startShimmerAnimation();
+                activityFeedbackBinding.shimmerViewContainer.setVisibility(View.VISIBLE);
+                activityFeedbackBinding.questionLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.feedbackScroll.setVisibility(View.GONE);
+                activityFeedbackBinding.edittextAnsLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.previousLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.nextLinear.setVisibility(View.GONE);
                 if (question4ansStr.trim().length() >= 1) {
                     AppConfiguration.question4 = "fill";
                 } else {
@@ -943,12 +961,12 @@ public class FeedbackFragment extends Fragment implements View.OnClickListener {
                 nextQuestionIndex = 0;
                 callFeedbackQuestionAnswerData();
             } else if (count == 6) {
-                fragmentFeedbackBinding.shimmerViewContainer.startShimmerAnimation();
-                fragmentFeedbackBinding.shimmerViewContainer.setVisibility(View.VISIBLE);
-                fragmentFeedbackBinding.questionLinear.setVisibility(View.GONE);
-                fragmentFeedbackBinding.textmultichoiceLinear.setVisibility(View.GONE);
-                fragmentFeedbackBinding.previousLinear.setVisibility(View.GONE);
-                fragmentFeedbackBinding.nextLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.shimmerViewContainer.startShimmerAnimation();
+                activityFeedbackBinding.shimmerViewContainer.setVisibility(View.VISIBLE);
+                activityFeedbackBinding.questionLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.textmultichoiceLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.previousLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.nextLinear.setVisibility(View.GONE);
                 if (question5ansStr.trim().length() >= 1) {
                     AppConfiguration.question5 = "fill";
                 } else {
@@ -958,13 +976,13 @@ public class FeedbackFragment extends Fragment implements View.OnClickListener {
                 nextQuestionIndex = 0;
                 callFeedbackQuestionAnswerData();
             } else if (count == 7) {
-                fragmentFeedbackBinding.shimmerViewContainer.startShimmerAnimation();
-                fragmentFeedbackBinding.shimmerViewContainer.setVisibility(View.VISIBLE);
-                fragmentFeedbackBinding.questionLinear.setVisibility(View.GONE);
-                fragmentFeedbackBinding.scrollView.setVisibility(View.GONE);
-                fragmentFeedbackBinding.edittextAnsLinear.setVisibility(View.GONE);
-                fragmentFeedbackBinding.previousLinear.setVisibility(View.GONE);
-                fragmentFeedbackBinding.nextLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.shimmerViewContainer.startShimmerAnimation();
+                activityFeedbackBinding.shimmerViewContainer.setVisibility(View.VISIBLE);
+                activityFeedbackBinding.questionLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.feedbackScroll.setVisibility(View.GONE);
+                activityFeedbackBinding.edittextAnsLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.previousLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.nextLinear.setVisibility(View.GONE);
                 if (question6ansStr.trim().length() >= 1) {
                     AppConfiguration.question6 = "fill";
                 } else {
@@ -974,22 +992,22 @@ public class FeedbackFragment extends Fragment implements View.OnClickListener {
                 nextQuestionIndex = 0;
                 callFeedbackQuestionAnswerData();
             } else if (count == 8) {
-                fragmentFeedbackBinding.shimmerViewContainer.startShimmerAnimation();
-                fragmentFeedbackBinding.shimmerViewContainer.setVisibility(View.VISIBLE);
-                fragmentFeedbackBinding.questionLinear.setVisibility(View.GONE);
-                fragmentFeedbackBinding.textwithsingleratingchoiceLinear.setVisibility(View.GONE);
-                fragmentFeedbackBinding.previousLinear.setVisibility(View.GONE);
-                fragmentFeedbackBinding.nextLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.shimmerViewContainer.startShimmerAnimation();
+                activityFeedbackBinding.shimmerViewContainer.setVisibility(View.VISIBLE);
+                activityFeedbackBinding.questionLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.textwithsingleratingchoiceLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.previousLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.nextLinear.setVisibility(View.GONE);
                 currentQuestionIndex = 8;
                 nextQuestionIndex = 0;
                 callFeedbackQuestionAnswerData();
             } else if (count == 9) {
-                fragmentFeedbackBinding.shimmerViewContainer.startShimmerAnimation();
-                fragmentFeedbackBinding.shimmerViewContainer.setVisibility(View.VISIBLE);
-                fragmentFeedbackBinding.questionLinear.setVisibility(View.GONE);
-                fragmentFeedbackBinding.textsinglegridchoiceLinear.setVisibility(View.GONE);
-                fragmentFeedbackBinding.previousLinear.setVisibility(View.GONE);
-                fragmentFeedbackBinding.nextLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.shimmerViewContainer.startShimmerAnimation();
+                activityFeedbackBinding.shimmerViewContainer.setVisibility(View.VISIBLE);
+                activityFeedbackBinding.questionLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.textsinglegridchoiceLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.previousLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.nextLinear.setVisibility(View.GONE);
                 if (question8ansStr.trim().length() >= 1) {
                     AppConfiguration.question8 = "fill";
                 } else {
@@ -999,47 +1017,47 @@ public class FeedbackFragment extends Fragment implements View.OnClickListener {
                 nextQuestionIndex = 0;
                 callFeedbackQuestionAnswerData();
             } else if (count == 10) {
-                fragmentFeedbackBinding.shimmerViewContainer.startShimmerAnimation();
-                fragmentFeedbackBinding.shimmerViewContainer.setVisibility(View.VISIBLE);
-                fragmentFeedbackBinding.questionLinear.setVisibility(View.GONE);
-                fragmentFeedbackBinding.textsinglechoiceLinear.setVisibility(View.GONE);
-                fragmentFeedbackBinding.edittextAnsLinear.setVisibility(View.GONE);
-                fragmentFeedbackBinding.previousLinear.setVisibility(View.GONE);
-                fragmentFeedbackBinding.nextLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.shimmerViewContainer.startShimmerAnimation();
+                activityFeedbackBinding.shimmerViewContainer.setVisibility(View.VISIBLE);
+                activityFeedbackBinding.questionLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.textsinglechoiceLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.edittextAnsLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.previousLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.nextLinear.setVisibility(View.GONE);
                 currentQuestionIndex = 10;
                 nextQuestionIndex = 0;
                 callFeedbackQuestionAnswerData();
             } else if (count == 11) {
-                fragmentFeedbackBinding.shimmerViewContainer.startShimmerAnimation();
-                fragmentFeedbackBinding.shimmerViewContainer.setVisibility(View.VISIBLE);
-                fragmentFeedbackBinding.questionLinear.setVisibility(View.GONE);
-                fragmentFeedbackBinding.scrollView.setVisibility(View.GONE);
-                fragmentFeedbackBinding.edittextAnsLinear.setVisibility(View.GONE);
-                fragmentFeedbackBinding.previousLinear.setVisibility(View.GONE);
-                fragmentFeedbackBinding.nextLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.shimmerViewContainer.startShimmerAnimation();
+                activityFeedbackBinding.shimmerViewContainer.setVisibility(View.VISIBLE);
+                activityFeedbackBinding.questionLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.feedbackScroll.setVisibility(View.GONE);
+                activityFeedbackBinding.edittextAnsLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.previousLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.nextLinear.setVisibility(View.GONE);
                 currentQuestionIndex = 11;
                 nextQuestionIndex = 0;
                 callFeedbackQuestionAnswerData();
 
             } else if (count == 12) {
-                fragmentFeedbackBinding.shimmerViewContainer.startShimmerAnimation();
-                fragmentFeedbackBinding.shimmerViewContainer.setVisibility(View.VISIBLE);
-                fragmentFeedbackBinding.questionLinear.setVisibility(View.GONE);
-                fragmentFeedbackBinding.scrollView.setVisibility(View.GONE);
-                fragmentFeedbackBinding.edittextAnsLinear.setVisibility(View.GONE);
-                fragmentFeedbackBinding.previousLinear.setVisibility(View.GONE);
-                fragmentFeedbackBinding.nextLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.shimmerViewContainer.startShimmerAnimation();
+                activityFeedbackBinding.shimmerViewContainer.setVisibility(View.VISIBLE);
+                activityFeedbackBinding.questionLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.feedbackScroll.setVisibility(View.GONE);
+                activityFeedbackBinding.edittextAnsLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.previousLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.nextLinear.setVisibility(View.GONE);
                 currentQuestionIndex = 12;
                 nextQuestionIndex = 0;
                 callFeedbackQuestionAnswerData();
             } else if (count == 13) {
-                fragmentFeedbackBinding.shimmerViewContainer.startShimmerAnimation();
-                fragmentFeedbackBinding.shimmerViewContainer.setVisibility(View.VISIBLE);
-                fragmentFeedbackBinding.questionLinear.setVisibility(View.GONE);
-                fragmentFeedbackBinding.scrollView.setVisibility(View.GONE);
-                fragmentFeedbackBinding.edittextAnsLinear.setVisibility(View.GONE);
-                fragmentFeedbackBinding.previousLinear.setVisibility(View.GONE);
-                fragmentFeedbackBinding.nextLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.shimmerViewContainer.startShimmerAnimation();
+                activityFeedbackBinding.shimmerViewContainer.setVisibility(View.VISIBLE);
+                activityFeedbackBinding.questionLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.feedbackScroll.setVisibility(View.GONE);
+                activityFeedbackBinding.edittextAnsLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.previousLinear.setVisibility(View.GONE);
+                activityFeedbackBinding.nextLinear.setVisibility(View.GONE);
                 if (question12ansStr.trim().length() >= 1) {
                     AppConfiguration.question12 = "fill";
                 } else {
@@ -1126,7 +1144,7 @@ public class FeedbackFragment extends Fragment implements View.OnClickListener {
     /* Call the question answer list*/
     public void callFeedbackQuestionAnswerData() {
         if (!Utils.checkNetwork(mContext)) {
-            Utils.showCustomDialog(getResources().getString(R.string.internet_error), getResources().getString(R.string.internet_connection_error), getActivity());
+            Utils.showCustomDialog(getResources().getString(R.string.internet_error), getResources().getString(R.string.internet_connection_error), FeedbackActivity.this);
             return;
         }
 
@@ -1154,38 +1172,39 @@ public class FeedbackFragment extends Fragment implements View.OnClickListener {
 //                    isForceUpdateAvailable = "0";
                     currentVersionStr = String.valueOf(feedbackMainModel.getCurrentVersion());
                     if (isUpdateAvailable.equalsIgnoreCase("1")) {
-                        Utils.checkupdateApplication(mContext, getActivity(), isForceUpdateAvailable, currentVersionStr);
+                        Utils.checkupdateApplication(mContext, FeedbackActivity.this, isForceUpdateAvailable, currentVersionStr);
                     }
                     if (feedbackMainModel.getData() != null) {
                         feedbackQuestionAnswermodellist = feedbackMainModel;
                         if (currentQuestionIndex == 13 && nextQuestionIndex == 0) {
-                            fragmentFeedbackBinding.scrollView.setVisibility(View.GONE);
-                            fragmentFeedbackBinding.edittextAnsLinear.setVisibility(View.GONE);
-                            fragmentFeedbackBinding.previousLinear.setVisibility(View.GONE);
-                            fragmentFeedbackBinding.nextLinear.setVisibility(View.GONE);
-                            fragmentFeedbackBinding.questionLinear.setVisibility(View.GONE);
+                            activityFeedbackBinding.feedbackScroll.setVisibility(View.GONE);
+                            activityFeedbackBinding.edittextAnsLinear.setVisibility(View.GONE);
+                            activityFeedbackBinding.previousLinear.setVisibility(View.GONE);
+                            activityFeedbackBinding.nextLinear.setVisibility(View.GONE);
+                            activityFeedbackBinding.questionLinear.setVisibility(View.GONE);
                             /*Animation for visibility gone*/
                             Animation animSlideout = AnimationUtils.loadAnimation(mContext, R.anim.slide_out_left_new);
-                            fragmentFeedbackBinding.questionLinear.startAnimation(animSlideout);
+                            activityFeedbackBinding.questionLinear.startAnimation(animSlideout);
 
-                            fragmentFeedbackBinding.thankyouLinear.setVisibility(View.VISIBLE);
+                            activityFeedbackBinding.thankyouLinear.setVisibility(View.VISIBLE);
 //                    /*Animation for visibility visible*/
                             Animation animSlidein = AnimationUtils.loadAnimation(mContext, R.anim.slide_in_right_new);
-                            fragmentFeedbackBinding.thankyouLinear.startAnimation(animSlidein);
+                            activityFeedbackBinding.thankyouLinear.startAnimation(animSlidein);
                         } else {
-                            fragmentFeedbackBinding.shimmerViewContainer.stopShimmerAnimation();
-                            fragmentFeedbackBinding.shimmerViewContainer.setVisibility(View.GONE);
-                            fragmentFeedbackBinding.questionLinear.setVisibility(View.VISIBLE);
-                            fragmentFeedbackBinding.edittextAnsTxt.setText("");
+                            activityFeedbackBinding.shimmerViewContainer.stopShimmerAnimation();
+                            activityFeedbackBinding.shimmerViewContainer.setVisibility(View.GONE);
+                            activityFeedbackBinding.feedbackScroll.setVisibility(View.VISIBLE);
+                            activityFeedbackBinding.questionLinear.setVisibility(View.VISIBLE);
+                            activityFeedbackBinding.edittextAnsTxt.setText("");
                             totalLayout = feedbackQuestionAnswermodellist.getRecordCount();
                             currentQuestionId = feedbackQuestionAnswermodellist.getData().getId();
                             if (count == 1) {
-                                fragmentFeedbackBinding.previousLinear.setVisibility(View.GONE);
+                                activityFeedbackBinding.previousLinear.setVisibility(View.GONE);
                             } else {
-                                fragmentFeedbackBinding.previousLinear.setVisibility(View.VISIBLE);
+                                activityFeedbackBinding.previousLinear.setVisibility(View.VISIBLE);
                             }
                             updateNextCountValueText(count);
-                            fragmentFeedbackBinding.nextLinear.setVisibility(View.VISIBLE);
+                            activityFeedbackBinding.nextLinear.setVisibility(View.VISIBLE);
                             setQuestionAnswer();
                         }
                     } else if (feedbackMainModel.getOtherData() != null) {
@@ -1255,7 +1274,6 @@ public class FeedbackFragment extends Fragment implements View.OnClickListener {
         AppConfiguration.addtextchoice = "fill";
 
     }
-
 
 
     public void callQuestionAnswerList() {

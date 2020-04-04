@@ -49,7 +49,7 @@ public class InquiryChildInformationFragment extends BottomSheetDialogFragment {
     List<MoreDetailDataModel> assignmemberlist;
     InquiryAssignAdapter inquiryAssignAdapter;
     ShimmerFrameLayout shimmer_view_containerdialog;
-
+    public String isUpdateAvailable, isForceUpdateAvailable, currentVersionStr;
     int selectedposition=-1;
     @Override
     public void setupDialog(Dialog dialog, int style) {
@@ -140,6 +140,13 @@ public class InquiryChildInformationFragment extends BottomSheetDialogFragment {
                     return;
                 }
                 if (moreDataModel.getIsValid() == 1) {
+                    isUpdateAvailable = String.valueOf(moreDataModel.getIsUpdateAvailable());
+                    isForceUpdateAvailable = String.valueOf(moreDataModel.getIsForceUpdate());
+//                    isForceUpdateAvailable = "0";
+                    currentVersionStr = String.valueOf(moreDataModel.getCurrentVersion());
+                    if (isUpdateAvailable.equalsIgnoreCase("1")) {
+                        Utils.checkupdateApplication(mContext, getActivity(), isForceUpdateAvailable, currentVersionStr);
+                    }
                     if (moreDataModel.getData().size() != 0) {
                         moreInquiryDetaildataList = moreDataModel.getData();
                         shimmer_view_container.stopShimmerAnimation();
@@ -213,6 +220,13 @@ public class InquiryChildInformationFragment extends BottomSheetDialogFragment {
                     return;
                 }
                 if (moreDataModel.getIsValid() == 1) {
+                    isUpdateAvailable = String.valueOf(moreDataModel.getIsUpdateAvailable());
+                    isForceUpdateAvailable = String.valueOf(moreDataModel.getIsForceUpdate());
+//                    isForceUpdateAvailable = "0";
+                    currentVersionStr = String.valueOf(moreDataModel.getCurrentVersion());
+                    if (isUpdateAvailable.equalsIgnoreCase("1")) {
+                        Utils.checkupdateApplication(mContext, getActivity(), isForceUpdateAvailable, currentVersionStr);
+                    }
                     if (moreDataModel.getData() != null) {
 
                         assignmemberlist = moreDataModel.getData();
@@ -286,6 +300,13 @@ public class InquiryChildInformationFragment extends BottomSheetDialogFragment {
                     return;
                 }
                 if (moreDataModel.getIsValid() == 1) {
+                    isUpdateAvailable = String.valueOf(moreDataModel.getIsUpdateAvailable());
+                    isForceUpdateAvailable = String.valueOf(moreDataModel.getIsForceUpdate());
+//                    isForceUpdateAvailable = "0";
+                    currentVersionStr = String.valueOf(moreDataModel.getCurrentVersion());
+                    if (isUpdateAvailable.equalsIgnoreCase("1")) {
+                        Utils.checkupdateApplication(mContext, getActivity(), isForceUpdateAvailable, currentVersionStr);
+                    }
                     if (moreDataModel.getData() != null) {
 
                         assignmemberlist = moreDataModel.getData();

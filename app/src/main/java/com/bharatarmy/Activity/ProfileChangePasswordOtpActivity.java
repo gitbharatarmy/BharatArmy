@@ -40,7 +40,7 @@ String userEnterOtpStr,accessOtpStr;
     }
     
     public void setListiner(){
-
+        Utils.scrollScreen(activityProfileChangePasswordOtpBinding.scrollView);
         activityProfileChangePasswordOtpBinding.edit1.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {

@@ -47,7 +47,7 @@ public class StoryAuthorActivity extends AppCompatActivity implements View.OnCli
     GridLayoutManager gridLayoutManager;
     boolean ispull;
     int authorIdStr;
-
+    public String isUpdateAvailable, isForceUpdateAvailable, currentVersionStr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -161,27 +161,33 @@ public class StoryAuthorActivity extends AppCompatActivity implements View.OnCli
 
 //        Utils.showDialog(mContext);
 
-        ApiHandler.getApiService().getBAStories(getStoryData(), new retrofit.Callback<ImageMainModel>() {
+        ApiHandler.getApiService(). getBAStories(getStoryData(), new retrofit.Callback<ImageMainModel>() {
             @Override
-            public void success(ImageMainModel imageMainModel, Response response) {
+            public void success(ImageMainModel storyAuthorMainModel, Response response) {
                 Utils.dismissDialog();
-                if (imageMainModel == null) {
+                if (storyAuthorMainModel == null) {
                     Utils.ping(mContext, getString(R.string.something_wrong));
                     return;
                 }
-                if (imageMainModel.getIsValid() == null) {
+                if (storyAuthorMainModel.getIsValid() == null) {
                     Utils.ping(mContext, getString(R.string.something_wrong));
                     return;
                 }
-                if (imageMainModel.getIsValid() == 0) {
+                if (storyAuthorMainModel.getIsValid() == 0) {
                     Utils.ping(mContext, getString(R.string.false_msg));
                     return;
                 }
-                if (imageMainModel.getIsValid() == 1) {
+                if (storyAuthorMainModel.getIsValid() == 1) {
+                    isUpdateAvailable = String.valueOf(storyAuthorMainModel.getIsUpdateAvailable());
+                    isForceUpdateAvailable = String.valueOf(storyAuthorMainModel.getIsForceUpdate());
+//                    isForceUpdateAvailable = "0";
+                    currentVersionStr = String.valueOf(storyAuthorMainModel.getCurrentVersion());
+                    if (isUpdateAvailable.equalsIgnoreCase("1")) {
+                        Utils.checkupdateApplication(mContext, StoryAuthorActivity.this, isForceUpdateAvailable, currentVersionStr);
+                    }
+                    if (storyAuthorMainModel.getData() != null) {
 
-                    if (imageMainModel.getData() != null) {
-
-                        storyDetailModelList = imageMainModel.getData();
+                        storyDetailModelList = storyAuthorMainModel.getData();
                         activityStoryAuthorNewBinding.shimmerViewContainer.stopShimmerAnimation();
                         activityStoryAuthorNewBinding.shimmerViewContainer.setVisibility(View.GONE);
                         activityStoryAuthorNewBinding.storyAuthorRcvList.setVisibility(View.VISIBLE);
@@ -193,7 +199,7 @@ public class StoryAuthorActivity extends AppCompatActivity implements View.OnCli
 //                            Utils.ping(mContext,"No more data available");
                             Log.d("pageIndex", "" + pageIndex);
                             isLoading = true;
-                            addOldNewValue(imageMainModel.getData());
+                            addOldNewValue(storyAuthorMainModel.getData());
                         } else {
                             fillStoryGallery();
 
@@ -258,24 +264,30 @@ activityStoryAuthorNewBinding.storyTitleTxt.setText(storyDetailModelList.get(0).
 
         ApiHandler.getApiService().getBAStories(getStoryPullData(), new retrofit.Callback<ImageMainModel>() {
             @Override
-            public void success(ImageMainModel imageMainModel, Response response) {
+            public void success(ImageMainModel storyAuthorMainModel, Response response) {
                 Utils.dismissDialog();
-                if (imageMainModel == null) {
+                if (storyAuthorMainModel == null) {
                     Utils.ping(mContext, getString(R.string.something_wrong));
                     return;
                 }
-                if (imageMainModel.getIsValid() == null) {
+                if (storyAuthorMainModel.getIsValid() == null) {
                     Utils.ping(mContext, getString(R.string.something_wrong));
                     return;
                 }
-                if (imageMainModel.getIsValid() == 0) {
+                if (storyAuthorMainModel.getIsValid() == 0) {
                     Utils.ping(mContext, getString(R.string.false_msg));
                     return;
                 }
-                if (imageMainModel.getIsValid() == 1) {
-
-                    if (imageMainModel.getData() != null) {
-                        storyDetailModelList = imageMainModel.getData();
+                if (storyAuthorMainModel.getIsValid() == 1) {
+                    isUpdateAvailable = String.valueOf(storyAuthorMainModel.getIsUpdateAvailable());
+                    isForceUpdateAvailable = String.valueOf(storyAuthorMainModel.getIsForceUpdate());
+//                    isForceUpdateAvailable = "0";
+                    currentVersionStr = String.valueOf(storyAuthorMainModel.getCurrentVersion());
+                    if (isUpdateAvailable.equalsIgnoreCase("1")) {
+                        Utils.checkupdateApplication(mContext, StoryAuthorActivity.this, isForceUpdateAvailable, currentVersionStr);
+                    }
+                    if (storyAuthorMainModel.getData() != null) {
+                        storyDetailModelList = storyAuthorMainModel.getData();
                         activityStoryAuthorNewBinding.storyAuthorRcvList.setVisibility(View.VISIBLE);
 
 //                        addOldNewPullValue (imageDetailModelsList);
