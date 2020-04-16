@@ -85,7 +85,7 @@
         <activity
             android:name=".Activity.DemoActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.Transparent"
+            android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateHidden|adjustResize" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
