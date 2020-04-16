@@ -483,7 +483,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                     LinearLayout.LayoutParams.WRAP_CONTENT
             );
             params.setMargins(0, 0, 0, 200);
-            fragmentHomeBinding.settingLinear.setLayoutParams(params);
+            fragmentHomeBinding.feedbackLinear.setLayoutParams(params);
         } else {
             fragmentHomeBinding.settingLinear.setVisibility(View.GONE);
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(

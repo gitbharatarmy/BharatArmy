@@ -4,31 +4,27 @@
     tools:showIn="navigation_view">
 
     <group android:checkableBehavior="single">
-        <!--<item-->
-            <!--android:id="@+id/nav_home"-->
-            <!--android:icon="@drawable/ic_home"-->
-            <!--android:title="HOME" />-->
-        <!--<item-->
-            <!--android:id="@+id/nav_fan"-->
-            <!--android:icon="@drawable/ic_fans"-->
-            <!--android:title="FAN" />-->
-        <!--<item-->
-            <!--android:id="@+id/nav_travel"-->
-            <!--android:icon="@drawable/ic_flight"-->
-            <!--android:title="TRAVEL" />-->
-        <!--<item-->
-            <!--android:id="@+id/nav_event"-->
-            <!--android:icon="@drawable/ic_event"-->
-            <!--android:title="EVENT" />-->
-        <!--<item-->
-            <!--android:id="@+id/nav_ftp"-->
-            <!--android:icon="@drawable/ic_ftp"-->
-            <!--android:title="FTP" />-->
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/ic_home_new"
+            android:title="HOME" />
+        <item
+            android:id="@+id/nav_fan"
+            android:icon="@drawable/ic_fans_new"
+            android:title="FAN" />
+        <item
+            android:id="@+id/nav_travel"
+            android:icon="@drawable/ic_travel_new"
+            android:title="TRAVEL" />
+        <item
+            android:id="@+id/nav_event"
+            android:icon="@drawable/ic_feedback_other"
+            android:title="EVENT" />
+        <item
+            android:id="@+id/nav_ftp"
+            android:icon="@drawable/ic_more"
+            android:title="FTP" />
 
-        <!--<item-->
-            <!--android:id="@+id/nav_story"-->
-            <!--android:icon="@drawable/ic_news"-->
-            <!--android:title="STORY" />-->
 
 <!--        <item-->
 <!--            android:id="@+id/nav_history"-->

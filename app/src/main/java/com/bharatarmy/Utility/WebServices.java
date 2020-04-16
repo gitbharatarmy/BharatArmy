@@ -1,5 +1,6 @@
 package com.bharatarmy.Utility;
 
+import com.bharatarmy.Models.BAShopMainModel;
 import com.bharatarmy.Models.DashboardModel;
 import com.bharatarmy.Models.FeedbackMainModel;
 import com.bharatarmy.Models.GetSchoolNameModel;
@@ -114,6 +115,10 @@ public interface WebServices {
     @FormUrlEncoded
     @POST("/SaveRegisterInterest")
     void getSaveRegisterInterest(@FieldMap Map<String, String> map, Callback<LogginModel> callback);
+
+    @FormUrlEncoded
+    @POST("/InsertFTPInquiry")
+    void getInsertFTPInquiry(@FieldMap Map<String, String> map, Callback<LogginModel> callback);
 
     /* profile image uploading with multiple parameter*/
     @Multipart
@@ -269,5 +274,5 @@ public interface WebServices {
     Call<TravelDataModel> getHospitalityList(@Url String url);
 
     @GET
-    Call<FeedbackMainModel> getFeedbackQuestionANswerList(@Url String url);
+    Call<BAShopMainModel> getBAShopList(@Url String url);
 }

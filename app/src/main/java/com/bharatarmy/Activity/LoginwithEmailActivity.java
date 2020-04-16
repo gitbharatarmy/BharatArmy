@@ -219,10 +219,11 @@ public class LoginwithEmailActivity extends AppCompatActivity implements View.On
     }
 
     public void whereToBack() {
-//        Intent appLoginIntent = new Intent(mContext, AppLoginActivity.class);
-//        appLoginIntent.putExtra("whereTocomeLogin", getIntent().getStringExtra("whereTocomeLogin"));
-//        startActivity(appLoginIntent);
-        finish();
+        Intent appLoginIntent = new Intent(mContext, AppLoginActivity.class);
+        appLoginIntent.putExtra("whereTocomeLogin", getIntent().getStringExtra("whereTocomeLogin"));
+        startActivity(appLoginIntent);
+        overridePendingTransition(R.anim.slide_in_left_new,0);
+//        finish();
     }
 
     public void goToAfterLogin() {
@@ -241,7 +242,7 @@ public class LoginwithEmailActivity extends AppCompatActivity implements View.On
                 }
             } else if (Utils.whereTocomeLogin.equalsIgnoreCase("Feedback")) {
                 Intent DashboardIntent = new Intent(mContext, DashboardActivity.class);
-                DashboardIntent.putExtra("whichPageRun", "2");
+                DashboardIntent.putExtra("whichPageRun", "3");
                 startActivity(DashboardIntent);
                 finish();
             }else{

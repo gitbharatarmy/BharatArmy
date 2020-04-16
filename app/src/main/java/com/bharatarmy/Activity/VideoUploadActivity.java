@@ -118,9 +118,6 @@ public class VideoUploadActivity extends AppCompatActivity implements View.OnCli
                 }, 200);
                 break;
             case R.id.back_img:
-//                Intent dashboardIntent = new Intent(mContext, DashboardActivity.class);
-//                dashboardIntent.putExtra("whichPageRun", "1");
-//                startActivity(dashboardIntent);
                 finish();
                 break;
 
@@ -187,7 +184,7 @@ public class VideoUploadActivity extends AppCompatActivity implements View.OnCli
                                                         alertDialog.dismiss();
                                                     }
                                                     Intent dashboardIntent = new Intent(mContext, DashboardActivity.class);
-                                                    dashboardIntent.putExtra("whichPageRun", "1");
+                                                    dashboardIntent.putExtra("whichPageRun", "2");
                                                     startActivity(dashboardIntent);
                                                     finish();
                                                 } catch (Exception e) {

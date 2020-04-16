@@ -853,7 +853,7 @@
                             android:layout_centerVertical="true"
                             android:layout_marginLeft="@dimen/_10sdp"
                             android:layout_toRightOf="@+id/faq_img"
-                            android:text="FAQ"
+                            android:text="@string/home_faq_text"
                             android:textAllCaps="true"
                             android:textColor="@color/heading_bg"
                             android:textSize="@dimen/_11sdp" />
@@ -904,7 +904,7 @@
                             android:layout_centerVertical="true"
                             android:layout_marginLeft="@dimen/_10sdp"
                             android:layout_toRightOf="@+id/terms_condition_img"
-                            android:text="Privacy policy"
+                            android:text="@string/home_privacy_text"
                             android:textColor="@color/heading_bg"
                             android:textSize="@dimen/_11sdp" />
 
@@ -954,7 +954,7 @@
                             android:layout_centerVertical="true"
                             android:layout_marginLeft="@dimen/_10sdp"
                             android:layout_toRightOf="@+id/help_img"
-                            android:text="Need help? Chat with us"
+                            android:text="@string/home_help_text"
                             android:textColor="@color/heading_bg"
                             android:textSize="@dimen/_11sdp" />
 
@@ -1004,7 +1004,7 @@
                             android:layout_centerVertical="true"
                             android:layout_marginLeft="@dimen/_10sdp"
                             android:layout_toRightOf="@+id/setting_img"
-                            android:text="Turn on Notification Permission"
+                            android:text="@string/home_notification_text"
                             android:textColor="@color/heading_bg"
                             android:textSize="@dimen/_11sdp" />
 
@@ -1054,7 +1054,7 @@
                             android:layout_centerVertical="true"
                             android:layout_marginLeft="@dimen/_10sdp"
                             android:layout_toRightOf="@+id/feedback_img"
-                            android:text="Give Your Feedback"
+                            android:text="@string/home_feedback_text"
                             android:textColor="@color/heading_bg"
                             android:textSize="@dimen/_11sdp" />
 

@@ -1,23 +1,31 @@
 package com.bharatarmy.Activity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.databinding.DataBindingUtil;
 
 import com.bharatarmy.Models.ImageMainModel;
+import com.bharatarmy.Models.LogginModel;
 import com.bharatarmy.R;
+import com.bharatarmy.UploadService;
 import com.bharatarmy.Utility.ApiHandler;
+import com.bharatarmy.Utility.AppConfiguration;
 import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.ActivityFtpdetailsBinding;
 
@@ -34,7 +42,8 @@ public class FTPDetailsActivity extends AppCompatActivity implements View.OnClic
 
     ActivityFtpdetailsBinding ftpdetailsBinding;
     Context mContext;
-    String ftpmaintitleStr, ftpdateStr, ftpshortdescStr, ftptourdescStr, ftpbannerimgStr,ftpstr1,ftpstr2,ftpstr3,ftpIdStr;
+    String ftpmaintitleStr, ftpdateStr, ftpshortdescStr, ftptourdescStr, ftpbannerimgStr, ftpstr1, ftpstr2, ftpstr3, ftpIdStr,
+            firstNameStr, lastNameStr, emailStr, phoneNumberStr, countrydialcodeStr, countryISOcodeStr;
     int ftpId;
     ImageMainModel ftpDetailDataList;
     public String isUpdateAvailable, isForceUpdateAvailable, currentVersionStr;
@@ -56,11 +65,11 @@ public class FTPDetailsActivity extends AppCompatActivity implements View.OnClic
         ftpshortdescStr = getIntent().getStringExtra("ftpshortdesc");
         ftptourdescStr = getIntent().getStringExtra("ftptourdesc");
         ftpbannerimgStr = getIntent().getStringExtra("ftpbannerimg");
-        ftpstr1=getIntent().getStringExtra("str1");
-        ftpstr2=getIntent().getStringExtra("str2");
-        ftpstr3=getIntent().getStringExtra("str3");
-        ftpId=getIntent().getIntExtra("ftpId",0);
-        ftpIdStr= String.valueOf(ftpId);
+        ftpstr1 = getIntent().getStringExtra("str1");
+        ftpstr2 = getIntent().getStringExtra("str2");
+        ftpstr3 = getIntent().getStringExtra("str3");
+        ftpId = getIntent().getIntExtra("ftpId", 0);
+        ftpIdStr = String.valueOf(ftpId);
 
         Log.d("webview", ftptourdescStr);
         Utils.setImageInImageView(ftpbannerimgStr, ftpdetailsBinding.backdrop, mContext);
@@ -76,33 +85,58 @@ public class FTPDetailsActivity extends AppCompatActivity implements View.OnClic
 
 
         if (!ftpstr1.equalsIgnoreCase("")) {
-            if (!ftpstr1.equalsIgnoreCase("1")){
+            if (!ftpstr1.equalsIgnoreCase("1")) {
                 ftpdetailsBinding.linear1Txt.setVisibility(View.VISIBLE);
                 ftpdetailsBinding.linear1Txt.setText(ftpstr1);
-            }else {
+            } else {
                 ftpdetailsBinding.linear1Txt.setVisibility(View.GONE);
             }
         }
 
         if (!ftpstr2.equalsIgnoreCase("")) {
-            if(!ftpstr2.equalsIgnoreCase("1")){
+            if (!ftpstr2.equalsIgnoreCase("1")) {
                 ftpdetailsBinding.linear2Txt.setVisibility(View.VISIBLE);
                 ftpdetailsBinding.linear2Txt.setText(ftpstr2);
-            }else {
+            } else {
                 ftpdetailsBinding.linear2Txt.setVisibility(View.GONE);
             }
         }
 
         if (!ftpstr3.equalsIgnoreCase("")) {
-            if (!ftpstr3.equalsIgnoreCase("1")){
+            if (!ftpstr3.equalsIgnoreCase("1")) {
                 ftpdetailsBinding.linear3Txt.setVisibility(View.VISIBLE);
                 ftpdetailsBinding.linear3Txt.setText(ftpstr3);
-            }else {
+            } else {
                 ftpdetailsBinding.linear3Txt.setVisibility(View.GONE);
             }
 
         }
+        getUserDetail();
+
         callFTPDetailData();
+    }
+
+    public void getUserDetail() {
+        if (Utils.retriveLoginData(mContext).getName() != null) {
+            firstNameStr = Utils.retriveLoginData(mContext).getName();
+        }
+        if (Utils.retriveLoginData(mContext).getEmail() != null) {
+            emailStr = Utils.retriveLoginData(mContext).getEmail();
+        }
+        if (Utils.retriveLoginData(mContext).getPhoneNo() != null &&
+                !Utils.retriveLoginData(mContext).getPhoneNo().equalsIgnoreCase("")) {
+            phoneNumberStr = Utils.retriveLoginData(mContext).getPhoneNo();
+        }
+        if (Utils.retriveLoginData(mContext).getCountryISOCode() != null) {
+            if (!Utils.retriveLoginData(mContext).getCountryISOCode().equalsIgnoreCase("")) {
+                AppConfiguration.currentCountryISOCode = Utils.retriveLoginData(mContext).getCountryISOCode();
+            } else {
+                AppConfiguration.currentCountryISOCode = Utils.retriveCurrentLocationData(mContext).getIsoCode();
+            }
+        }
+        countryISOcodeStr = AppConfiguration.currentCountryISOCode;
+
+        countryISOcodeStr = "";
     }
 
     public void setListiner() {
@@ -148,8 +182,8 @@ public class FTPDetailsActivity extends AppCompatActivity implements View.OnClic
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.inquriy_btn:
-                if(Utils.isMember(mContext,"FTP Detail")){
-
+                if (Utils.isMember(mContext, "FTP Detail")) {
+                callInsertInquiry();
                 }
                 break;
             case R.id.ftp_comment:
@@ -207,7 +241,7 @@ public class FTPDetailsActivity extends AppCompatActivity implements View.OnClic
 //                    isForceUpdateAvailable = "0";
                     currentVersionStr = String.valueOf(imageMainModel.getCurrentVersion());
                     if (isUpdateAvailable.equalsIgnoreCase("1")) {
-                        Utils.checkupdateApplication(mContext,FTPDetailsActivity.this, isForceUpdateAvailable, currentVersionStr);
+                        Utils.checkupdateApplication(mContext, FTPDetailsActivity.this, isForceUpdateAvailable, currentVersionStr);
                     }
                     if (imageMainModel.getData() != null) {
                         ftpDetailDataList = imageMainModel;
@@ -257,4 +291,92 @@ public class FTPDetailsActivity extends AppCompatActivity implements View.OnClic
         ftpdetailsBinding.bottomGradiantView.setVisibility(View.VISIBLE);
     }
 
+    // Api calling SendInquiry
+    public void callInsertInquiry() {
+        if (!Utils.checkNetwork(mContext)) {
+            Utils.showCustomDialog(getResources().getString(R.string.internet_error), getResources().getString(R.string.internet_connection_error), FTPDetailsActivity.this);
+            return;
+        }
+
+//        Utils.showDialog(mContext);
+
+        ApiHandler.getApiService().getInsertFTPInquiry(getInsertInquiryDetailData(), new retrofit.Callback<LogginModel>() {
+            @Override
+            public void success(LogginModel logginModel, Response response) {
+                Utils.dismissDialog();
+                if (logginModel == null) {
+                    Utils.ping(mContext, getString(R.string.something_wrong));
+                    return;
+                }
+                if (logginModel.getIsValid() == null) {
+                    Utils.ping(mContext, getString(R.string.something_wrong));
+                    return;
+                }
+                if (logginModel.getIsValid() == 0) {
+                    Utils.ping(mContext, getString(R.string.false_msg));
+                    return;
+                }
+                if (logginModel.getIsValid() == 1) {
+                    showThankyouDialog(FTPDetailsActivity.this, logginModel.getMessage());
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                Utils.dismissDialog();
+                error.printStackTrace();
+                error.getMessage();
+                Utils.ping(mContext, getString(R.string.something_wrong));
+            }
+        });
+
+
+    }
+
+    private Map<String, String> getInsertInquiryDetailData() {
+        Map<String, String> map = new HashMap<>();
+        map.put("FirstName", firstNameStr);
+        map.put("LastName", lastNameStr);
+        map.put("Email", emailStr);
+        map.put("PhoneNo", phoneNumberStr);
+        map.put("CountryDialCode", countrydialcodeStr);
+        map.put("CountryISOCode", countryISOcodeStr);
+        map.put("ReferenceId", ftpIdStr);
+
+        return map;
+    }
+
+    public void showThankyouDialog(final Activity activity, String msg) {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(activity);
+        LayoutInflater inflater = activity.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.thankyou_dialog_item, null);
+        dialogBuilder.setView(dialogView);
+        AlertDialog alertDialog = dialogBuilder.create();
+        alertDialog.setCanceledOnTouchOutside(false);
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        TextView dialog_headertxt = (TextView) dialogView.findViewById(R.id.dialog_headertxt);
+        TextView dialog_descriptiontxt = (TextView) dialogView.findViewById(R.id.dialog_descriptiontxt);
+        TextView hometxt = (TextView) dialogView.findViewById(R.id.home_txt);
+
+        hometxt.setText("OK");
+        dialog_descriptiontxt.setText(msg);
+
+        hometxt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    alertDialog.dismiss();
+                    activity.finish();
+
+                } catch (Exception e) {
+
+                }
+            }
+        });
+        try {
+            alertDialog.show();
+        } catch (Exception e) {
+
+        }
+    }
 }

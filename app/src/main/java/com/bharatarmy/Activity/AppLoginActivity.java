@@ -204,6 +204,7 @@ public class AppLoginActivity extends AppCompatActivity implements View.OnClickL
 
     public void init() {
         googleLogin();
+
         cycleRecyclerview();
         facebooklogout();
     }
@@ -294,7 +295,7 @@ public class AppLoginActivity extends AppCompatActivity implements View.OnClickL
 //                loginemail.putExtra("whereTocomeLogin", getIntent().getStringExtra("whereTocomeLogin"));
 
                 startActivity(loginemail);
-//                finish();
+                finish();
                 break;
 
             case R.id.skip_linear:
@@ -452,7 +453,7 @@ public class AppLoginActivity extends AppCompatActivity implements View.OnClickL
 
 
         } else {
-            Utils.ping(mContext, "error occured");
+
         }
     }
 
@@ -467,6 +468,8 @@ public class AppLoginActivity extends AppCompatActivity implements View.OnClickL
                 .enableAutoManage(this, this)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
+        mGoogleApiClient.connect();
+
     }
 
     @Override
@@ -609,7 +612,7 @@ public class AppLoginActivity extends AppCompatActivity implements View.OnClickL
                                     finish();
                                 } else if (Utils.whereTocomeLogin.equalsIgnoreCase("Feedback")) {
                                     Intent DashboardIntent = new Intent(mContext, DashboardActivity.class);
-                                    DashboardIntent.putExtra("whichPageRun", "2");
+                                    DashboardIntent.putExtra("whichPageRun", "3");
                                     startActivity(DashboardIntent);
                                     finish();
                                 } else {

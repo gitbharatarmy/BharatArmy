@@ -25,8 +25,52 @@ public class GalleryImageModel {
     int headerImage;
     String selectedposition;
 
+    String navigationDrawerTitleText;
+    int navigationDrawerTitleImage;
+    String navigationDrawerSubTitleText;
+    int navigationDrawerImageColor;
 
     public GalleryImageModel() {
+    }
+
+    public GalleryImageModel(String navigationDrawerTitleText, int navigationDrawerTitleImage,
+                             String navigationDrawerSubTitleText, int navigationDrawerImageColor) {
+        this.navigationDrawerTitleText = navigationDrawerTitleText;
+        this.navigationDrawerTitleImage = navigationDrawerTitleImage;
+        this.navigationDrawerSubTitleText = navigationDrawerSubTitleText;
+        this.navigationDrawerImageColor = navigationDrawerImageColor;
+    }
+
+    public String getNavigationDrawerTitleText() {
+        return navigationDrawerTitleText;
+    }
+
+    public void setNavigationDrawerTitleText(String navigationDrawerTitleText) {
+        this.navigationDrawerTitleText = navigationDrawerTitleText;
+    }
+
+    public int getNavigationDrawerTitleImage() {
+        return navigationDrawerTitleImage;
+    }
+
+    public void setNavigationDrawerTitleImage(int navigationDrawerTitleImage) {
+        this.navigationDrawerTitleImage = navigationDrawerTitleImage;
+    }
+
+    public String getNavigationDrawerSubTitleText() {
+        return navigationDrawerSubTitleText;
+    }
+
+    public void setNavigationDrawerSubTitleText(String navigationDrawerSubTitleText) {
+        this.navigationDrawerSubTitleText = navigationDrawerSubTitleText;
+    }
+
+    public int getNavigationDrawerImageColor() {
+        return navigationDrawerImageColor;
+    }
+
+    public void setNavigationDrawerImageColor(int navigationDrawerImageColor) {
+        this.navigationDrawerImageColor = navigationDrawerImageColor;
     }
 
     public GalleryImageModel(String headertxt, String subtxt, int headerImage, String selectedposition) {
@@ -223,4 +267,6 @@ public class GalleryImageModel {
     public int hashCode() {
         return Objects.hash(imageUri);
     }
+
+
 }

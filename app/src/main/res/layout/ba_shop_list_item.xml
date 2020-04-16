@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/shoplist_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_2sdp"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/shoplist_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/_2sdp"
+            android:layout_marginTop="@dimen/_4sdp"
+            android:layout_marginRight="@dimen/_2sdp"
+            android:layout_marginBottom="@dimen/_1sdp"
+            android:background="@drawable/ticket_hospitality_all_corner_shape"
+            android:elevation="3dp">
+
+            <com.bharatarmy.RoundishImageView
+                android:id="@+id/shoplist_product_img"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_120sdp"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/australia_tour"
+                app:cornerRadius="@dimen/packge_hospitality"
+                app:roundedCorners="topRight|topLeft" />
+
+            <View
+                android:id="@+id/topView"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_3sdp"
+                android:layout_below="@id/shoplist_product_img"
+                android:background="@drawable/bg_gradiant_line"
+                android:visibility="visible" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/topView"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:id="@+id/shoplist_product_name_txt"
+                    style="@style/title_text_font"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="2"
+                    android:paddingLeft="@dimen/_5sdp"
+                    android:paddingRight="@dimen/_5sdp"
+                    android:layout_marginTop="@dimen/_9sdp"
+                    android:text="Category A"
+                    android:textAllCaps="true"
+                    android:textColor="@color/heading_bg"
+                    android:textSize="@dimen/_12sdp" />
+
+                <TextView
+                    android:id="@+id/sshoplist_product_description_txt"
+                    style="@style/text_font"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="3"
+                    android:layout_marginTop="@dimen/_2sdp"
+                    android:layout_marginBottom="@dimen/_2sdp"
+                    android:paddingLeft="@dimen/_5sdp"
+                    android:paddingRight="@dimen/_5sdp"
+                    android:text="@string/lorem_txt"
+                    android:textColor="@color/normal_font_color"
+                    android:textSize="@dimen/_8sdp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_1sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:background="@drawable/line_shape"
+                    android:visibility="gone"/>
+
+                <TextView
+                    style="@style/title_text_font"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/_5sdp"
+                    android:paddingTop="@dimen/_5sdp"
+                    android:paddingRight="@dimen/_7sdp"
+                    android:paddingBottom="@dimen/_5sdp"
+                    android:text="Your Experience Includes"
+                    android:textColor="@color/unselected_view"
+                    android:textSize="@dimen/_7sdp"
+                    android:visibility="gone" />
+
+                <RelativeLayout
+                    android:id="@+id/add_cart_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_30sdp"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:background="@drawable/add_to_cart_ticket_hospitality_shape"
+                    android:weightSum="1">
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:layout_centerInParent="true">
+                        <ImageView
+                            android:layout_width="@dimen/_15sdp"
+                            android:layout_height="@dimen/_15sdp"
+                            android:src="@drawable/ic_cart"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginRight="@dimen/_5sdp"
+                            android:tint="@color/splash_bg_color"
+                            android:visibility="visible"/>
+                        <TextView
+                            android:id="@+id/cart_txt"
+                            style="@style/title_text_font"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:gravity="center_vertical"
+                            android:text="Add To Cart"
+                            android:textColor="@color/splash_bg_color"
+                            android:textSize="@dimen/_11sdp" />
+                    </LinearLayout>
+
+
+
+                </RelativeLayout>
+                <RelativeLayout
+                    android:id="@+id/remove_cart_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_30sdp"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:background="@drawable/remove_to_cart_ticket_hospitality_shape"
+                    android:weightSum="1"
+                    android:visibility="gone">
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:layout_centerInParent="true">
+                        <ImageView
+                            android:layout_width="@dimen/_15sdp"
+                            android:layout_height="@dimen/_15sdp"
+                            android:src="@drawable/ic_remove_cart"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginRight="@dimen/_5sdp"
+                            android:tint="@color/splash_bg_color"
+                            android:visibility="visible"/>
+                        <TextView
+                            android:id="@+id/remove_cart_txt"
+                            style="@style/title_text_font"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"
+                            android:gravity="center_vertical"
+                            android:text="Remove"
+                            android:textColor="@color/splash_bg_color"
+                            android:textSize="@dimen/_11sdp" />
+                    </LinearLayout>
+
+
+
+                </RelativeLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="@dimen/_109sdp"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:background="@drawable/pacakageprice_curve_shape"
+                android:orientation="horizontal"
+                android:visibility="visible">
+                <include
+                    layout="@layout/travel_price_tag_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tickethospitalityprice_txt"/>
+
+            </LinearLayout>
+
+
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+</layout>

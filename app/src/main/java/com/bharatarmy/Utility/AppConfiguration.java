@@ -7,14 +7,14 @@ import java.util.ArrayList;
 public class AppConfiguration {
 //    public static final String BASEURL = "http://beta.bharatarmy.com/API/v1/";
 
-    public static final String BASEURL = "https://www.bharatarmy.com/API/v1/";
+//    public static final String BASEURL = "https://www.bharatarmy.com/API/v1/";
 
 //    public static final String BASEURL = "http://mob.bharatarmy.com/API/v1/";
 
     /*Url for static data*/
     public static final String URL = "http://www.mocky.io/v2/5e43d07331000024413b01eb";
 
-//    public static final String BASEURL = "http://devenv.bharatarmy.com/API/v1/";
+    public static final String BASEURL = "http://devenv.bharatarmy.com/API/v1/";
 
     public static final String IMAGE_URL = "https://www.bharatarmy.com/Docs/Mobile/";
     public static final String FLAG_URL = "https://www.bharatarmy.com/Content/images/flags-mini/small/";

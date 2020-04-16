@@ -157,7 +157,8 @@ public class RemoveAccountActivity extends AppCompatActivity implements View.OnC
 
 
         } else {
-            Utils.ping(mContext, "error occured");
+//            Utils.ping(mContext, "error occured");
+            logoutFuncation();
         }
     }
 

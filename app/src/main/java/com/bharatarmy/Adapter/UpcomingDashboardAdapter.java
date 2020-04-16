@@ -11,6 +11,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bharatarmy.Activity.FTPDetailsActivity;
+import com.bharatarmy.Activity.RegisterInterestActivityNew;
 import com.bharatarmy.Models.UpcommingDashboardModel;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.Utils;
@@ -38,7 +39,7 @@ public class UpcomingDashboardAdapter extends RecyclerView.Adapter<UpcomingDashb
         public MyViewHolder(UpcomingTournamentListNewBinding upcomingTournamentListNewBinding) {
             super(upcomingTournamentListNewBinding.getRoot());
 
-            this.upcomingTournamentListNewBinding=upcomingTournamentListNewBinding;
+            this.upcomingTournamentListNewBinding = upcomingTournamentListNewBinding;
 
         }
     }
@@ -46,15 +47,14 @@ public class UpcomingDashboardAdapter extends RecyclerView.Adapter<UpcomingDashb
 
     @Override
     public UpcomingDashboardAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-      UpcomingTournamentListNewBinding upcomingTournamentListNewBinding= DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
-              R.layout.upcoming_tournament_list_new,parent,false);
-      return new UpcomingDashboardAdapter.MyViewHolder(upcomingTournamentListNewBinding);
+        UpcomingTournamentListNewBinding upcomingTournamentListNewBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()),
+                R.layout.upcoming_tournament_list_new, parent, false);
+        return new UpcomingDashboardAdapter.MyViewHolder(upcomingTournamentListNewBinding);
     }
 
     @SuppressLint("ResourceAsColor")
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-
 
 
         final UpcommingDashboardModel upcomingData = upcomingDataList.get(position);
@@ -65,7 +65,7 @@ public class UpcomingDashboardAdapter extends RecyclerView.Adapter<UpcomingDashb
         holder.upcomingTournamentListNewBinding.armyUpcomingPraTxt.setText(upcomingData.getTourShortDescription());
 
 
-        Utils.setImageInImageView(upcomingData.getFutureTourThumbImageURL(),holder.upcomingTournamentListNewBinding.bannerImg,mcontext);
+        Utils.setImageInImageView(upcomingData.getFutureTourThumbImageURL(), holder.upcomingTournamentListNewBinding.bannerImg, mcontext);
 
         if (!upcomingData.getStr1().equalsIgnoreCase("")) {
             holder.upcomingTournamentListNewBinding.linear1Txt.setVisibility(View.VISIBLE);
@@ -95,23 +95,33 @@ public class UpcomingDashboardAdapter extends RecyclerView.Adapter<UpcomingDashb
         } else {
             holder.upcomingTournamentListNewBinding.linear3Txt.setVisibility(View.GONE);
         }
-  holder.upcomingTournamentListNewBinding.upcomingCard.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-          Intent ftpIntent =new Intent(mcontext, FTPDetailsActivity.class);
-          ftpIntent.putExtra("ftpmaintitle",upcomingData.getTourName());
-          ftpIntent.putExtra("ftpdate",upcomingData.getDateAdded());
-          ftpIntent.putExtra("ftpshortdesc",upcomingData.getTourShortDescription());
-          ftpIntent.putExtra("ftptourdesc",upcomingData.getTourDescription());
-          ftpIntent.putExtra("ftpbannerimg",upcomingData.getFutureTourThumbImageURL());
-          ftpIntent.putExtra("str1",upcomingData.getStr1());
-          ftpIntent.putExtra("str2",upcomingData.getStr2());
-          ftpIntent.putExtra("str3",upcomingData.getStr3());
-          ftpIntent.putExtra("ftpId",upcomingData.getFutureTourId());
-          ftpIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-          mcontext.startActivity(ftpIntent);
-      }
-  });
+        holder.upcomingTournamentListNewBinding.upcomingCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (upcomingData.getPageTypeId().equals(1)) {
+                    Intent ftpIntent = new Intent(mcontext, FTPDetailsActivity.class);
+                    ftpIntent.putExtra("ftpmaintitle", upcomingData.getTourName());
+                    ftpIntent.putExtra("ftpdate", upcomingData.getDateAdded());
+                    ftpIntent.putExtra("ftpshortdesc", upcomingData.getTourShortDescription());
+                    ftpIntent.putExtra("ftptourdesc", upcomingData.getTourDescription());
+                    ftpIntent.putExtra("ftpbannerimg", upcomingData.getFutureTourThumbImageURL());
+                    ftpIntent.putExtra("str1", upcomingData.getStr1());
+                    ftpIntent.putExtra("str2", upcomingData.getStr2());
+                    ftpIntent.putExtra("str3", upcomingData.getStr3());
+                    ftpIntent.putExtra("ftpId", upcomingData.getFutureTourId());
+                    ftpIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    mcontext.startActivity(ftpIntent);
+                } else if (upcomingData.getPageTypeId().equals(2)) {
+                    Intent registerIntent = new Intent(mcontext, RegisterInterestActivityNew.class);
+                    registerIntent.putExtra("tournamentId",String.valueOf(upcomingData.getFutureTourId()));
+                    registerIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    mcontext.startActivity(registerIntent);
+                }else if (upcomingData.getPageTypeId().equals(3)){
+
+                }
+
+            }
+        });
 
     }
 

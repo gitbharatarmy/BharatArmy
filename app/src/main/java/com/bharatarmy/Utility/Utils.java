@@ -73,7 +73,9 @@ import com.bharatarmy.Activity.AppLoginActivity;
 import com.bharatarmy.Activity.DashboardActivity;
 import com.bharatarmy.BuildConfig;
 import com.bharatarmy.CallOneAnimationCartAddItemMethod;
+import com.bharatarmy.CallOneAnimationShopCartAddItemMethod;
 import com.bharatarmy.CallTwoAnimationCartAddItemMethod;
+import com.bharatarmy.CallTwoAnimationShopCartAddItemMethod;
 import com.bharatarmy.Models.GalleryImageModel;
 import com.bharatarmy.Models.ImageMainModel;
 import com.bharatarmy.Models.LoginDataModel;
@@ -663,7 +665,7 @@ public class Utils {
                         activity.finish();
                     } else if (wheretocome.equalsIgnoreCase("videoUpload")) {
                         Intent dashboardIntent = new Intent(activity, DashboardActivity.class);
-                        dashboardIntent.putExtra("whichPageRun", "1");
+                        dashboardIntent.putExtra("whichPageRun", "2");
                         activity.startActivity(dashboardIntent);
                         activity.finish();
                     } else if (wheretocome.equalsIgnoreCase("sports")) {
@@ -1300,7 +1302,27 @@ public class Utils {
             }
         }
     }
+    public static void animationShopCartAdd(Context mContext, RelativeLayout cartlayout,Toolbar toolbar, ImageView cartImage,
+                                    TextView cartCounttxt, RelativeLayout relativeLayout, int position, String adapterListName) {
+        if (cartlayout.isShown()) {
+            CallTwoAnimationShopCartAddItemMethod callCart = new CallTwoAnimationShopCartAddItemMethod();
+            callCart.defineCartControl(mContext, toolbar, cartImage, cartCounttxt, position, adapterListName);
+            if (relativeLayout != null) {
+                callCart.startAnimationOnClick(relativeLayout);
+            } else if (relativeLayout != null) {
+                callCart.startAnimationOnClick(relativeLayout);
+            }
 
+        } else {
+            CallOneAnimationShopCartAddItemMethod callCart = new CallOneAnimationShopCartAddItemMethod();
+            callCart.defineCartControl(mContext, toolbar, cartImage, cartCounttxt, position, adapterListName);
+            if (relativeLayout != null) {
+                callCart.startAnimationOnClick(relativeLayout);
+            } else if (relativeLayout != null) {
+                callCart.startAnimationOnClick(relativeLayout);
+            }
+        }
+    }
     public static void videoPlayinSlider(Context mContext, VideoView videoView, ProgressBar progressImage,
                                          ImageView startpauseVideoImage, ImageView volumeImage, ImageView muteImage,
                                          ImageView videoThumbnailImage, LinearLayout volumeLinear,

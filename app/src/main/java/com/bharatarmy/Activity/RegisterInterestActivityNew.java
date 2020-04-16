@@ -236,20 +236,20 @@ public class RegisterInterestActivityNew extends AppCompatActivity implements Vi
                     }
                 }
                 if (selectedtournamentId.size() != 0) {
-                    String tournamentIdStr;
-                    tournamentIdStr = "";
+                    String selectmatchIdStr;
+                    selectmatchIdStr = "";
                     for (String s : selectedtournamentId) {
-                        tournamentIdStr = tournamentIdStr + "," + s;
+                        selectmatchIdStr = selectmatchIdStr + "," + s;
                     }
-                    Log.d("tournamentIdStr", tournamentIdStr);
-                    tournamentIdStr = tournamentIdStr.substring(1, tournamentIdStr.length());
-                    Log.d("finalstatusStr", tournamentIdStr);
-                    matchidStr = tournamentIdStr;
+                    Log.d("selectmatchIdStr", selectmatchIdStr);
+                    selectmatchIdStr = selectmatchIdStr.substring(1, selectmatchIdStr.length());
+                    Log.d("finalstatusStr", selectmatchIdStr);
+                    matchidStr = selectmatchIdStr;
                     if (Utils.isMember(mContext, "Dashboard")) {
                         memberIdStr = String.valueOf(Utils.getAppUserId(mContext));
 
                         if (Utils.retriveLoginData(mContext).getName() != null) {
-                            nameStr = nameStr = Utils.retriveLoginData(mContext).getName();
+                            nameStr = Utils.retriveLoginData(mContext).getName();
                         }
                         if (Utils.retriveLoginData(mContext).getEmail() != null) {
                             emailStr = Utils.retriveLoginData(mContext).getEmail();
@@ -272,14 +272,14 @@ public class RegisterInterestActivityNew extends AppCompatActivity implements Vi
                         Log.d("save register data :", " memberId :" + memberIdStr + "namestr :" + nameStr + "email :" + emailStr +
                                 "mobile :" + mobilenoStr + "countrycode :" + countrycodeStr + "countrydialcode " + countrydialcodeStr);
 
-                        if (!memberIdStr.equalsIgnoreCase("") && !nameStr.equalsIgnoreCase("") &&
-                                !emailStr.equalsIgnoreCase("") && !mobilenoStr.equalsIgnoreCase("") &&
-                                !mobilenoStr.equalsIgnoreCase("") /*&& !countrydialcodeStr.equalsIgnoreCase("") */ &&
-                                !countrycodeStr.equalsIgnoreCase("")) {
+//                        if (!memberIdStr.equalsIgnoreCase("") && !nameStr.equalsIgnoreCase("") &&
+//                                !emailStr.equalsIgnoreCase("") && !mobilenoStr.equalsIgnoreCase("") &&
+//                                !mobilenoStr.equalsIgnoreCase("") /*&& !countrydialcodeStr.equalsIgnoreCase("") */ &&
+//                                !countrycodeStr.equalsIgnoreCase("")) {
                             callSaveInterestDetailData();
-                        } else {
-                            Utils.ping(mContext, "blank filed not allowed");
-                        }
+//                        } else {
+//                            Utils.ping(mContext, "blank filed not allowed");
+//                        }
                     }
                 } else {
                     Utils.ping(mContext, "Please select atleast one match");
@@ -414,15 +414,15 @@ public class RegisterInterestActivityNew extends AppCompatActivity implements Vi
                 Log.d("selectedteamId :", selectedtournamentteamId.toString());
             }
         }
-        String tournamentIdStr;
-        tournamentIdStr = "";
+        String selectmatchIdStr;
+        selectmatchIdStr = "";
         if (selectedtournamentteamId.size() != 0) {
             for (String s : selectedtournamentteamId) {
-                tournamentIdStr = tournamentIdStr + "," + s;
+                selectmatchIdStr = selectmatchIdStr + "," + s;
             }
-            Log.d("tournamentIdStr", tournamentIdStr);
-            tournamentIdStr = tournamentIdStr.substring(1, tournamentIdStr.length());
-            Log.d("finalstatusStr", tournamentIdStr);
+            Log.d("selectmatchIdStr", selectmatchIdStr);
+            selectmatchIdStr = selectmatchIdStr.substring(1, selectmatchIdStr.length());
+            Log.d("finalstatusStr", selectmatchIdStr);
         }
 
         ArrayList<String> selectedtournamentVenuename = new ArrayList<>();

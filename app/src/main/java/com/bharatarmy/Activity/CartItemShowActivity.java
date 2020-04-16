@@ -175,7 +175,7 @@ public class CartItemShowActivity extends AppCompatActivity implements View.OnCl
 
     public void cartEmptyRedirect() {
         Intent DashboardIntent = new Intent(mContext, DashboardActivity.class);
-        DashboardIntent.putExtra("whichPageRun", "2");
+        DashboardIntent.putExtra("whichPageRun", "3");
         startActivity(DashboardIntent);
 //        finish();
     }

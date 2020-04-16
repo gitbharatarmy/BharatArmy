@@ -78,7 +78,9 @@ public class CallTwoAnimationCartAddItemMethod {
     public void startAnimationOnClick(RelativeLayout mainLinear) {
         mCartsDetailView.addWithAnimation(mainLinear);
     }
-
+    public void startshopAnimationOnClick(LinearLayout mainLinear) {
+        mCartsDetailView.addWithAnimation(mainLinear);
+    }
     public int addItemCount(Context mContext) {
         if (Utils.getPref(mContext, "cartCounter") == null) {
             itemCounter = itemCounter + 1;

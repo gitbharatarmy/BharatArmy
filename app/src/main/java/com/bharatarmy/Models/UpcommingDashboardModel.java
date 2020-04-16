@@ -94,6 +94,12 @@ public class UpcommingDashboardModel {
     @SerializedName("SelectOptionData")
     @Expose
     private String selectOptionData;
+    @SerializedName("SponserType")
+    @Expose
+    private String sponserType;
+    @SerializedName("PageTypeId")
+    @Expose
+    private Integer pageTypeId;
 
     public Integer getDisplayAsPopup() {
         return displayAsPopup;
@@ -318,7 +324,21 @@ public class UpcommingDashboardModel {
     public void setSelectOptionData(String selectOptionData) {
         this.selectOptionData = selectOptionData;
     }
+    public String getSponserType() {
+        return sponserType;
+    }
 
+    public void setSponserType(String sponserType) {
+        this.sponserType = sponserType;
+    }
+
+    public Integer getPageTypeId() {
+        return pageTypeId;
+    }
+
+    public void setPageTypeId(Integer pageTypeId) {
+        this.pageTypeId = pageTypeId;
+    }
     public String getStr1() {
         return Str1;
     }

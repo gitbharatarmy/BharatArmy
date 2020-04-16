@@ -154,6 +154,11 @@
     <string name="exception_not_enough_items" translatable="false">Items list should have minimum 3 items</string>
     <string name="exception_too_many_items" translatable="false">Items list should have maximum 5 items</string>
     <string name="view_profile" translatable="false"><u>View Profile</u></string>
+    <string name="home_faq_text" translatable="false">FAQ</string>
+    <string name="home_privacy_text" translatable="false">Privacy Policy</string>
+    <string name="home_help_text" translatable="false">Need help? Chat with us</string>
+    <string name="home_notification_text" translatable="false">Turn on Notification Permission</string>
+    <string name="home_feedback_text" translatable="false">Give Your Feedback</string>
 
 
     <!--Image Upload String-->
@@ -455,4 +460,13 @@ Sincerity is the hallmark of Pan Pacific Hotels Group. The Group is known to its
     <string name="question8_ans1" translatable="false">5 Star</string>
 
     <string name="submit_feedback" translatable="false">Submit</string>
+
+
+    <array name="menuOptions">
+        <item>Home</item>
+        <item>Personal</item>
+        <item>High scores</item>
+        <item>Settings</item>
+        <item>About</item>
+    </array>
 </resources>

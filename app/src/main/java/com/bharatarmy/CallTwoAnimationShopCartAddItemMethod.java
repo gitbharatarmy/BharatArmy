@@ -13,22 +13,19 @@ import android.widget.TextView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
-import com.bharatarmy.Models.MyScreenChnagesModel;
 import com.bharatarmy.Utility.Utils;
 
-import org.greenrobot.eventbus.EventBus;
-
-public class CallOneAnimationCartAddItemMethod {
+public class CallTwoAnimationShopCartAddItemMethod {
     /*add Item to cart animation */
-    CartDetailViewOneAnimation mCartsDetailView;
+    CartDetailViewTwoAnimation mCartsDetailView;
     private int[] mShoppingBagCoordinate = new int[2];
     int itemCounter = 0;
     String cartItemCount;
 
 
-    public void defineCartControl(Context mContext, Toolbar toolbar, ImageView cartImage, TextView textView, int position,String adapterlistname) {
+    public void defineCartControl(Context mContext, Toolbar toolbar, ImageView cartImage, TextView textView, int position , String adapterlistname) {
         /*cart cantrol */
-        mCartsDetailView = (CartDetailViewOneAnimation) View.inflate(mContext, R.layout.cart_detail_one_animation_view, null);
+        mCartsDetailView = (CartDetailViewTwoAnimation) View.inflate(mContext, R.layout.cart_shop_detail_two_animation_view, null);
         RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT);
         mCartsDetailView.setLayoutParams(lp);
@@ -74,6 +71,12 @@ public class CallOneAnimationCartAddItemMethod {
         handler.postDelayed(runnable, 2000);
     }
 
+    public void startAnimationOnClick(RelativeLayout mainLinear) {
+        mCartsDetailView.addWithAnimation(mainLinear);
+    }
+    public void startshopAnimationOnClick(LinearLayout mainLinear) {
+        mCartsDetailView.addWithAnimation(mainLinear);
+    }
     public int addItemCount(Context mContext) {
         if (Utils.getPref(mContext, "cartCounter") == null) {
             itemCounter = itemCounter + 1;
@@ -90,12 +93,7 @@ public class CallOneAnimationCartAddItemMethod {
 
         return itemCounter;
     }
-    public void startAnimationOnClick(RelativeLayout mainLinear) {
-        mCartsDetailView.addWithAnimation(mainLinear);
-    }
-    public void startShopAnimationOnClick(LinearLayout mainLinear) {
-        mCartsDetailView.addWithAnimation(mainLinear);
-    }
+
     public void startAnimationOnClick(CoordinatorLayout htabMaincontent) {
         mCartsDetailView.addWithAnimation(htabMaincontent);
     }

@@ -28,6 +28,7 @@ import com.bharatarmy.Activity.NotificationDetailActivity;
 import com.bharatarmy.Activity.ProfileSettingActivity;
 import com.bharatarmy.Activity.RemoveAccountActivity;
 import com.bharatarmy.Activity.WishListShowActivity;
+import com.bharatarmy.Models.GalleryImageModel;
 import com.bharatarmy.Models.MyScreenChnagesModel;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.Utils;
@@ -48,6 +49,8 @@ import com.leinardi.android.speeddial.SpeedDialView;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+
+import java.util.ArrayList;
 
 
 public class MoreFragment extends Fragment implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
@@ -105,6 +108,8 @@ public class MoreFragment extends Fragment implements View.OnClickListener, Goog
     }
 
     public void init() {
+
+
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build();
@@ -175,6 +180,7 @@ public class MoreFragment extends Fragment implements View.OnClickListener, Goog
         fragmentMoreBinding.notificationLinear.setOnClickListener(this);
         fragmentMoreBinding.wishlistLinear.setOnClickListener(this);
         fragmentMoreBinding.feedbackLinear.setOnClickListener(this);
+
     }
 
     @Override
@@ -328,10 +334,8 @@ public class MoreFragment extends Fragment implements View.OnClickListener, Goog
                             logoutFuncation();
                         }
                     });
-
-
         } else {
-            Utils.ping(mContext, "error occured");
+            logoutFuncation();
         }
     }
 

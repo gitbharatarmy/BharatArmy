@@ -157,7 +157,7 @@ dependencies {
 //    circle indicator in recyclerview
     implementation 'me.relex:circleindicator:2.1.4'
 
-
+    implementation 'com.google.android.material:material:1.1.0-alpha09'
 //    unuse gradle
 /* SVG Loader implementation 'com.github.ar-android:AndroidSvgLoader:1.0.0'
   facebook login use

@@ -125,4 +125,28 @@ public class LogginModel {
     public void setCurrentLocation(LoginDataModel currentLocation) {
         this.currentLocation = currentLocation;
     }
+
+//    send Inquriy
+    @SerializedName("GlobalData")
+    @Expose
+    private Object globalData;
+    @SerializedName("RecordCount")
+    @Expose
+    private Integer recordCount;
+
+    public Object getGlobalData() {
+        return globalData;
+    }
+
+    public void setGlobalData(Object globalData) {
+        this.globalData = globalData;
+    }
+
+    public Integer getRecordCount() {
+        return recordCount;
+    }
+
+    public void setRecordCount(Integer recordCount) {
+        this.recordCount = recordCount;
+    }
 }
