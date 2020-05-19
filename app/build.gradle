@@ -44,6 +44,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation 'androidx.appcompat:appcompat:1.0.2'
+    implementation 'com.google.android.material:material:1.1.0-alpha10'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.1'
@@ -107,7 +108,7 @@ dependencies {
     implementation 'com.etebarian:meow-bottom-navigation:1.0.1'  //1.0.1  1.2.0
 
     //  image/view upload select option
-    implementation "com.leinardi.android:speed-dial:2.0.1"
+//    implementation "com.leinardi.android:speed-dial:2.0.1"
 
     //  rating bar
     implementation 'com.github.whinc:ratingbar:1.1.1'
@@ -157,7 +158,10 @@ dependencies {
 //    circle indicator in recyclerview
     implementation 'me.relex:circleindicator:2.1.4'
 
-    implementation 'com.google.android.material:material:1.1.0-alpha09'
+// quiz timer
+    implementation 'com.akexorcist:round-corner-progress-bar:2.1.0'
+
+
 //    unuse gradle
 /* SVG Loader implementation 'com.github.ar-android:AndroidSvgLoader:1.0.0'
   facebook login use

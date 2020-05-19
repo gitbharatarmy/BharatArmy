@@ -22,9 +22,10 @@ import com.bharatarmy.Models.MyScreenChnagesModel
 import com.bharatarmy.R
 import com.bharatarmy.Utility.AppConfiguration
 import com.bharatarmy.Utility.Utils
+import com.bharatarmy.speeddialView.SpeedDialOverlayLayout
+import com.bharatarmy.speeddialView.SpeedDialView
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation
-import com.leinardi.android.speeddial.SpeedDialOverlayLayout
-import com.leinardi.android.speeddial.SpeedDialView
+
 import kotlinx.android.synthetic.main.app_bar_dashboard.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe

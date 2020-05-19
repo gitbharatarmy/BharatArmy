@@ -144,14 +144,14 @@
             app:mbn_selectedIconColor="@color/skip_color"
             app:mbn_shadowColor="#1f212121" />
 
-        <com.leinardi.android.speeddial.SpeedDialOverlayLayout
+        <com.bharatarmy.speeddialView.SpeedDialOverlayLayout
             android:id="@+id/overlay"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:visibility="gone"
             app:clickable_overlay="true" />
 
-        <com.leinardi.android.speeddial.SpeedDialView
+        <com.bharatarmy.speeddialView.SpeedDialView
             android:id="@+id/speedDial"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -168,6 +168,8 @@
             app:sdMainFabClosedSrc="@drawable/ic_add_white_24dp"
             app:sdMainFabOpenedBackgroundColor="@color/heading_bg"
             app:sdMainFabOpenedSrc="@drawable/ic_error"
+            app:sdMainFabOpenedIconColor="@color/splash_bg_color"
+            app:sdMainFabClosedIconColor="@color/splash_bg_color"
             app:sdOverlayLayout="@id/overlay" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

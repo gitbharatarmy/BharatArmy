@@ -112,7 +112,9 @@
                     android:id="@+id/camera_linear"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true">
 
                     <LinearLayout
                         android:id="@+id/selected_image_video_linear"
@@ -135,96 +137,81 @@
 
                     </LinearLayout>
 
-                    <TextView
-                        android:id="@+id/personal_info_txt"
-                        style="@style/title_text_font"
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/videoupload_title_textinputlayout"
+                        style="@style/SignupSigninEditTextStyle"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="@dimen/_45sdp"
                         android:layout_marginLeft="@dimen/_15sdp"
                         android:layout_marginRight="@dimen/_15sdp"
-                        android:gravity="center_vertical"
-                        android:paddingTop="@dimen/_5sdp"
-                        android:paddingBottom="@dimen/_5sdp"
-                        android:text="@string/video_title"
-                        android:textColor="@color/heading_bg"
-                        android:textSize="@dimen/_13sdp" />
+                        android:hint="@string/video_title"
+                        app:errorIconDrawable="@null"
+                        app:startIconDrawable="@drawable/ic_video_upload_icon"
+                        app:startIconTint="@color/text_input_box_stroke">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/_15sdp"
-                        android:layout_marginRight="@dimen/_15sdp"
-                        android:layout_marginBottom="@dimen/_10sdp"
-                        android:background="@drawable/rectangle_line"
-                        android:orientation="horizontal">
-
-                        <EditText
+                        <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/videoTitle_edt"
-                            style="@style/text_font"
                             android:layout_width="match_parent"
-                            android:layout_height="@dimen/_30sdp"
-                            android:background="@android:color/transparent"
+                            android:layout_height="match_parent"
+                            android:layout_centerInParent="true"
                             android:gravity="center_vertical"
-                            android:hint="@string/video_title_txt"
-                            android:inputType="textEmailAddress"
+                            android:imeOptions="actionNext"
+                            android:inputType="textNoSuggestions|textCapSentences|textCapWords"
                             android:maxLength="200"
                             android:maxLines="1"
-                            android:paddingLeft="@dimen/_5sdp"
-                            android:paddingRight="@dimen/_5sdp"
-                            android:textColor="@color/heading_bg"
-                            android:textColorHint="@color/hint_txt_color"
-                            android:textCursorDrawable="@drawable/color_cursor"
-                            android:textSize="@dimen/_12sdp" />
-                    </LinearLayout>
+                            android:textColor="@color/heading_bg" />
 
-                    <TextView
-                        android:id="@+id/videodesc_showtxt"
-                        style="@style/title_text_font"
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/videotitle_error_txt"
+                        style="@style/ErrorTextView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/_15sdp"
-                        android:layout_marginRight="@dimen/_15sdp"
-                        android:gravity="center_vertical"
-                        android:paddingTop="@dimen/_5sdp"
-                        android:paddingBottom="@dimen/_5sdp"
-                        android:text="@string/video_desc"
-                        android:textColor="@color/heading_bg"
-                        android:textSize="@dimen/_13sdp" />
-
-                    <LinearLayout
+                        android:text="@string/video_upload_title_error"
+                        android:visibility="gone" />
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/videoupload_desc_textinputlayout"
+                        style="@style/SignupSigninEditTextStyle"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="@dimen/_45sdp"
                         android:layout_marginLeft="@dimen/_15sdp"
                         android:layout_marginRight="@dimen/_15sdp"
-                        android:layout_marginBottom="@dimen/_10sdp"
-                        android:background="@drawable/rectangle_line"
-                        android:orientation="horizontal">
+                        android:layout_marginTop="@dimen/material_margin_top"
+                        android:hint="@string/video_desc"
+                        app:errorIconDrawable="@null"
+                        app:startIconDrawable="@drawable/ic_video_upload_icon"
+                        app:startIconTint="@color/text_input_box_stroke">
 
-                        <EditText
+                        <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/videodesc_edt"
-                            style="@style/text_font"
                             android:layout_width="match_parent"
-                            android:layout_height="@dimen/_70sdp"
-                            android:background="@android:color/transparent"
-                            android:gravity="top"
-                            android:hint="@string/video_desc_txt"
-                            android:inputType="textCapSentences|textMultiLine"
+                            android:layout_height="match_parent"
+                            android:layout_centerInParent="true"
+                            android:gravity="center_vertical"
+                            android:imeOptions="actionNext"
                             android:maxLength="200"
                             android:maxLines="3"
-                            android:paddingLeft="@dimen/_5sdp"
-                            android:paddingTop="@dimen/_5sdp"
-                            android:paddingRight="@dimen/_5sdp"
-                            android:textColor="@color/heading_bg"
-                            android:textColorHint="@color/hint_txt_color"
-                            android:textCursorDrawable="@drawable/color_cursor"
-                            android:textSize="@dimen/_12sdp" />
-                    </LinearLayout>
+                            android:inputType="textNoSuggestions|textCapSentences|textCapWords"
+                            android:textColor="@color/heading_bg" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/videodesc_error_txt"
+                        style="@style/ErrorTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/signup_firstname_error"
+                        android:visibility="gone" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_80sdp"
                         android:layout_marginLeft="@dimen/_15sdp"
                         android:layout_marginRight="@dimen/_15sdp"
+                        android:layout_marginTop="@dimen/material_margin_top"
                         android:orientation="vertical">
 
                         <TextView

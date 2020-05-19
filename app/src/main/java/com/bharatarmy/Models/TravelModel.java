@@ -109,14 +109,15 @@ public class TravelModel {
     String cityHotelTeamStr;
 
 
+
     public TravelModel(String cityHotelImageStr, String cityHotelNameStr, String cityHotelDescStr, int cityHotelRatingStr,
                        String cityHotelPriceStr, String cityHotelCityStr, String cityHotelTeamStr) {
         this.cityHotelImageStr = cityHotelImageStr;
         this.cityHotelNameStr = cityHotelNameStr;
         this.cityHotelDescStr = cityHotelDescStr;
         this.cityHotelRatingStr = cityHotelRatingStr;
-        this.cityHotelPriceStr =cityHotelPriceStr;
-        this.cityHotelCityStr=cityHotelCityStr;
+        this.cityHotelPriceStr = cityHotelPriceStr;
+        this.cityHotelCityStr = cityHotelCityStr;
         this.cityHotelTeamStr = cityHotelTeamStr;
     }
 
@@ -370,6 +371,8 @@ public class TravelModel {
     public void setMatch_shortDesc(String match_shortDesc) {
         this.match_shortDesc = match_shortDesc;
     }
+
+
 
     public TravelModel(int facilityIcon, String facilityName, String facilityOffer) {
         this.facilityIcon = facilityIcon;

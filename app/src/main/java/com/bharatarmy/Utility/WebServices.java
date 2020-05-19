@@ -10,6 +10,7 @@ import com.bharatarmy.Models.ImageMainModel;
 import com.bharatarmy.Models.LogginModel;
 import com.bharatarmy.Models.MoreDataModel;
 import com.bharatarmy.Models.OtpModel;
+import com.bharatarmy.Models.QuizMainModel;
 import com.bharatarmy.Models.TravelDataModel;
 import com.bharatarmy.Models.TravelMainModel;
 import com.bharatarmy.Models.WatchListModel;
@@ -263,6 +264,13 @@ public interface WebServices {
     @POST("/GetFeedback")
     void getFeedback(@FieldMap Map<String, String> map, Callback<FeedbackMainModel> callback);
 
+    @FormUrlEncoded
+    @POST("/GetQuizListing")
+    void getQuizListing(@FieldMap Map<String, String> map, Callback<QuizMainModel> callback);
+
+    @FormUrlEncoded
+    @POST("/GetQuizDetailsById")
+    void getQuizDetailsById(@FieldMap Map<String, String> map, Callback<LogginModel> callback);
 
     @GET
     Call<WatchListModelDemo> getWatchList(@Url String url);
@@ -275,4 +283,13 @@ public interface WebServices {
 
     @GET
     Call<BAShopMainModel> getBAShopList(@Url String url);
+
+    @GET
+    Call<BAShopMainModel> getBAPollList(@Url String url);
+
+    @GET
+    Call<BAShopMainModel> getBAPollResultList(@Url String url);
+
+    @GET
+    Call<BAShopMainModel> getBAQuizList(@Url String url);
 }

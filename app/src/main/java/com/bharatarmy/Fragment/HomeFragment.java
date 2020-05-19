@@ -21,7 +21,6 @@ import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.util.Log;
 import android.util.Pair;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -42,6 +41,7 @@ import android.widget.ViewSwitcher;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -51,12 +51,13 @@ import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.bharatarmy.Activity.AllVideoShowInFullScreenActivity;
+import com.bharatarmy.Activity.BAQuizDetailActivity;
+import com.bharatarmy.Activity.BaPollActivity;
 import com.bharatarmy.Activity.FeedbackActivity;
 import com.bharatarmy.Activity.MoreInformationActivity;
 import com.bharatarmy.Activity.MyProfileActivity;
-import com.bharatarmy.Activity.Splash_Screen;
-import com.bharatarmy.Activity.TravelMatchStadiumDetailActivity;
 import com.bharatarmy.Adapter.BharatArmyStoriesAdapter;
+import com.bharatarmy.Adapter.ExploreHomeCategoryAdapter;
 import com.bharatarmy.Adapter.MyBgpageAdapter;
 import com.bharatarmy.Adapter.MyPagerAdapter;
 import com.bharatarmy.Adapter.PartnersAdapter;
@@ -65,6 +66,7 @@ import com.bharatarmy.AlphaPageTransformer;
 import com.bharatarmy.Interfaces.image_click;
 import com.bharatarmy.Models.DashboardDataModel;
 import com.bharatarmy.Models.DashboardModel;
+import com.bharatarmy.Models.ExpolringCategoryModel;
 import com.bharatarmy.Models.HomeTemplateDetailModel;
 import com.bharatarmy.Models.HomeTemplateModel;
 import com.bharatarmy.Models.StoryDashboardData;
@@ -78,6 +80,7 @@ import com.bharatarmy.Utility.MyApplication;
 import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.CustomerGalleryItemBinding;
 import com.bharatarmy.databinding.FragmentHomeBinding;
+import com.bharatarmy.speeddialView.SpeedDialView;
 import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.DefaultRenderersFactory;
@@ -108,7 +111,7 @@ import com.google.android.exoplayer2.upstream.DefaultAllocator;
 import com.google.android.exoplayer2.util.ErrorMessageProvider;
 import com.google.android.exoplayer2.util.EventLogger;
 import com.google.android.exoplayer2.util.Util;
-import com.leinardi.android.speeddial.SpeedDialView;
+
 
 import java.net.CookieHandler;
 import java.net.CookieManager;
@@ -145,9 +148,11 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
     BharatArmyStoriesAdapter bharatArmyStoriesAdapter;
     MyCustomerGalleryViewPagerAdapter customerGalleryViewPagerAdapter;
     PartnersAdapter partnersAdapter;
+    ExploreHomeCategoryAdapter exploreHomeCategoryAdapter;
     private TextView[] dots;
     List<TravelModel> customergalleryList;
     List<TravelModel> partnerlist;
+    List<ExpolringCategoryModel> exploringcategorylist;
     List<HomeTemplateDetailModel> homeTemplateDetailModelList;
     String categoryIdStr, categoryNameStr, wheretocome;
     List<UpcommingDashboardModel> upcommingDashboardModelList;
@@ -305,6 +310,7 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
 
     }
 
+    @SuppressLint("ResourceType")
     public void init() {
 
 
@@ -443,6 +449,24 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         fragmentHomeBinding.partnersRcyList.setItemAnimator(new DefaultItemAnimator());
         fragmentHomeBinding.partnersRcyList.setAdapter(partnersAdapter);
 
+        //     Exploring category List
+        exploringcategorylist = new ArrayList<>();
+
+        exploringcategorylist.add(new ExpolringCategoryModel(R.drawable.ic_poll,"BA Poll",
+                "1 poll", ContextCompat.getColor(mContext,R.color.orange)));
+
+        exploringcategorylist.add(new ExpolringCategoryModel(R.drawable.ic_quiz,"BA Quiz",
+                "2 quiz", ContextCompat.getColor(mContext,R.color.heading_bg)));
+
+
+        exploreHomeCategoryAdapter = new ExploreHomeCategoryAdapter(mContext, exploringcategorylist);
+        RecyclerView.LayoutManager mLayoutManagerexplore = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL, false);
+        fragmentHomeBinding.exploreCategoryRcyList.setLayoutManager(mLayoutManagerexplore);
+        fragmentHomeBinding.exploreCategoryRcyList.setItemAnimator(new DefaultItemAnimator());
+        fragmentHomeBinding.exploreCategoryRcyList.setAdapter(exploreHomeCategoryAdapter);
+
+
+
 //      Customer Gallery
         customergalleryList = new ArrayList<>();
         customergalleryList.add(new TravelModel("Sri Ram", "http://devenv.bharatarmy.com//Docs/16636938-9.jpg",
@@ -527,6 +551,9 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
         fragmentHomeBinding.termsConditionLinear.setOnClickListener(this);
         fragmentHomeBinding.feedbackLinear.setOnClickListener(this);
         fragmentHomeBinding.settingLinear.setOnClickListener(this);
+//        fragmentHomeBinding.baquizLinear.setOnClickListener(this);
+        fragmentHomeBinding.submitPollBtn.setOnClickListener(this);
+        fragmentHomeBinding.submitQuizBtn.setOnClickListener(this);
 //        fragmentHomeBinding.baVideo.setOnClickListener(this);
     }
 
@@ -818,6 +845,16 @@ public class HomeFragment extends Fragment implements View.OnClickListener {
                 Intent feedbackIntent=new Intent(mContext, FeedbackActivity.class);
                 feedbackIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 mContext.startActivity(feedbackIntent);
+                break;
+            case R.id.submit_quiz_btn:
+                Intent bapollIntent=new Intent(mContext, BAQuizDetailActivity.class);
+                bapollIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                mContext.startActivity(bapollIntent);
+                break;
+            case R.id.submit_poll_btn:
+                Intent pollIntent=new Intent(mContext, BaPollActivity.class);
+                pollIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                mContext.startActivity(pollIntent);
                 break;
             case R.id.ba_video:
 //                if (fragmentHomeBinding.baVideo.isPlaying()) {

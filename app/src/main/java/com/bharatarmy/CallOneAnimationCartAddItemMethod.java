@@ -28,7 +28,12 @@ public class CallOneAnimationCartAddItemMethod {
 
     public void defineCartControl(Context mContext, Toolbar toolbar, ImageView cartImage, TextView textView, int position,String adapterlistname) {
         /*cart cantrol */
-        mCartsDetailView = (CartDetailViewOneAnimation) View.inflate(mContext, R.layout.cart_detail_one_animation_view, null);
+        if (adapterlistname.equalsIgnoreCase("bashopdetail")) {
+            mCartsDetailView = (CartDetailViewOneAnimation) View.inflate(mContext, R.layout.cart_shop_detail_one_animation_view, null);
+        } else {
+            mCartsDetailView = (CartDetailViewOneAnimation) View.inflate(mContext, R.layout.cart_detail_one_animation_view, null);
+        }
+
         RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT);
         mCartsDetailView.setLayoutParams(lp);

@@ -27,7 +27,8 @@ import com.bharatarmy.Utility.ApiHandler;
 import com.bharatarmy.Utility.AppConfiguration;
 import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.FragmentStoryBinding;
-import com.leinardi.android.speeddial.SpeedDialView;
+import com.bharatarmy.speeddialView.SpeedDialView;
+
 
 import java.util.ArrayList;
 import java.util.HashMap;

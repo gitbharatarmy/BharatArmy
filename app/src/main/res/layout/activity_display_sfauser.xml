@@ -298,11 +298,12 @@
                 android:layout_marginTop="@dimen/_15sdp"
                 android:orientation="vertical">
 
-                <Button
+                <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/search_btn"
                     style="@style/text_font"
                     android:layout_width="@dimen/_90sdp"
                     android:layout_height="@dimen/_30sdp"
+                    android:gravity="center"
                     android:background="@color/heading_bg"
                     android:text="Search"
                     android:textColor="@color/splash_bg_color"
@@ -489,6 +490,7 @@
             android:visibility="gone">
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
+                style="@style/Widget.MaterialComponents.FloatingActionButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -496,7 +498,7 @@
                 android:src="@drawable/ic_add_white_24dp"
                 app:borderWidth="0dp"
                 app:elevation="1dp"
-                app:fabSize="normal" />
+                app:fabSize="normal"/>
 
         </LinearLayout>
     </RelativeLayout>

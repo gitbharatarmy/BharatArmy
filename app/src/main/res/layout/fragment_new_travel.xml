@@ -247,15 +247,18 @@
                         android:layout_gravity="center_horizontal"
                         android:orientation="vertical"
                         android:layout_marginTop="@dimen/_5sdp">
-                        <Button
+                        <androidx.appcompat.widget.AppCompatButton
                             android:id="@+id/save_btn"
-                            android:layout_width="@dimen/_70sdp"
+                            style="@style/text_font"
+                            android:layout_width="match_parent"
                             android:layout_height="@dimen/_20sdp"
+                            android:layout_marginTop="@dimen/_10sdp"
                             android:background="@color/heading_bg"
-                            android:text="view more"
+                            android:gravity="center"
+                            android:text="@string/view_more"
+                            android:textAllCaps="true"
                             android:textColor="@color/splash_bg_color"
-                            android:textSize="@dimen/_9sdp"
-                            style="@style/text_font"/>
+                            android:textSize="@dimen/_9sdp" />
                         <View
                             android:layout_width="@dimen/_70sdp"
                             android:layout_height="@dimen/_3sdp"

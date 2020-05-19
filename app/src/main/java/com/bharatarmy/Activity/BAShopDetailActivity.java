@@ -42,6 +42,7 @@ import com.google.android.flexbox.FlexboxLayoutManager;
 import com.google.android.flexbox.JustifyContent;
 import com.google.android.material.appbar.AppBarLayout;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,7 +63,11 @@ public class BAShopDetailActivity extends AppCompatActivity implements View.OnCl
     List<BAShopProductSpecification> productcolorList;
     List<BAShopProductSpecification> productspecificationList;
     List<BAShopListModel> shopproductList;
-    String selectedProductIdStr,selectedProductNameStr;
+    String selectedProductIdStr, selectedProductNameStr;
+
+    //    use for ticket price
+    int bashopcount = 1;
+    double totalamount = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +81,7 @@ public class BAShopDetailActivity extends AppCompatActivity implements View.OnCl
 
     public void init() {
         selectedProductIdStr = getIntent().getStringExtra("selectedProductId");
-        selectedProductNameStr=getIntent().getStringExtra("selectedProductName");
+        selectedProductNameStr = getIntent().getStringExtra("selectedProductName");
 
         activityBAShopDetailBinding.shimmerViewContainerMain.startShimmerAnimation();
 
@@ -84,6 +89,11 @@ public class BAShopDetailActivity extends AppCompatActivity implements View.OnCl
     }
 
     public void setListiner() {
+        activityBAShopDetailBinding.removetocartLinear.setOnClickListener(this);
+        activityBAShopDetailBinding.addtocartLinear.setOnClickListener(this);
+        activityBAShopDetailBinding.bashopMinusLayout.setOnClickListener(this);
+        activityBAShopDetailBinding.bashopPlusLayout.setOnClickListener(this);
+
         setSupportActionBar(activityBAShopDetailBinding.toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
@@ -109,11 +119,15 @@ public class BAShopDetailActivity extends AppCompatActivity implements View.OnCl
                     activityBAShopDetailBinding.collapsingToolbar.setExpandedTitleTypeface(typeface);
                     activityBAShopDetailBinding.collapsingToolbar.setCollapsedTitleGravity(Gravity.START);
                     activityBAShopDetailBinding.collapsingToolbar.setExpandedTitleGravity(Gravity.START);
-
+                    activityBAShopDetailBinding.addcarticon.cartLayout.setVisibility(View.VISIBLE);
+                    activityBAShopDetailBinding.toolbarTitleTextview.setVisibility(View.VISIBLE);
+                    activityBAShopDetailBinding.toolbarTitleTextview.setText(selectedProductNameStr);
                     isShow = true;
                 } else if (isShow) {
                     activityBAShopDetailBinding.toolbar.setBackgroundColor(ContextCompat.getColor(mContext, R.color.transparent));
                     activityBAShopDetailBinding.collapsingToolbar.setTitle(" ");
+                    activityBAShopDetailBinding.addcarticon.cartLayout.setVisibility(View.GONE);
+                    activityBAShopDetailBinding.toolbarTitleTextview.setVisibility(View.GONE);
                     isShow = false;
                 }
 
@@ -167,10 +181,10 @@ public class BAShopDetailActivity extends AppCompatActivity implements View.OnCl
                 shopproductdetaillist = shopproductList.get(i).getBAShopProductDetailImage();
                 productsizeList = shopproductList.get(i).getBAShopProductSize();
                 productspecificationList = shopproductList.get(i).getBAShopProductSpecification();
-                productcolorList =shopproductList.get(i).getbAShopProductDetailColor();
+                productcolorList = shopproductList.get(i).getbAShopProductDetailColor();
                 //        fill product name, description, price
                 activityBAShopDetailBinding.productNnameTxt.setText(shopproductList.get(i).getBAShopProductName());
-                activityBAShopDetailBinding.productPriceTxt.setText(shopproductList.get(i).getBAShopProductPrice());
+//                activityBAShopDetailBinding.priceTxt.setText(shopproductList.get(i).getBAShopProductPrice());
                 activityBAShopDetailBinding.productDescTxt.setText(shopproductList.get(i).getBAShopProductDescription());
 
             }
@@ -196,7 +210,7 @@ public class BAShopDetailActivity extends AppCompatActivity implements View.OnCl
                 activityBAShopDetailBinding.productSpecificationLinear.addView(view);
             }
 
-        }else{
+        } else {
             activityBAShopDetailBinding.productSpecificationViewtxt.setVisibility(View.GONE);
             activityBAShopDetailBinding.productSpecificationLinear.setVisibility(View.GONE);
         }
@@ -212,7 +226,7 @@ public class BAShopDetailActivity extends AppCompatActivity implements View.OnCl
             layoutManager.setJustifyContent(JustifyContent.FLEX_START);
             activityBAShopDetailBinding.shopProductSizelist.setLayoutManager(layoutManager); // set LayoutManager to RecyclerView
             activityBAShopDetailBinding.shopProductSizelist.setAdapter(baShopProductSizeAdapter);
-        }else{
+        } else {
             activityBAShopDetailBinding.productSizeTxt.setVisibility(View.GONE);
             activityBAShopDetailBinding.shopProductSizelist.setVisibility(View.GONE);
         }
@@ -227,7 +241,7 @@ public class BAShopDetailActivity extends AppCompatActivity implements View.OnCl
             layoutManager.setJustifyContent(JustifyContent.FLEX_START);
             activityBAShopDetailBinding.shopProductColorlist.setLayoutManager(layoutManager); // set LayoutManager to RecyclerView
             activityBAShopDetailBinding.shopProductColorlist.setAdapter(baShopProductColorAdapter);
-        }else{
+        } else {
             activityBAShopDetailBinding.productColorTxt.setVisibility(View.GONE);
             activityBAShopDetailBinding.shopProductColorlist.setVisibility(View.GONE);
         }
@@ -261,6 +275,38 @@ public class BAShopDetailActivity extends AppCompatActivity implements View.OnCl
         switch (v.getId()) {
             case R.id.back_img:
                 BAShopDetailActivity.this.finish();
+                break;
+            case R.id.addtocart_linear:
+                Utils.handleClickEvent(mContext, activityBAShopDetailBinding.addtocartLinear);
+                activityBAShopDetailBinding.addtocartLinear.setVisibility(View.GONE);
+                activityBAShopDetailBinding.removetocartLinear.setVisibility(View.VISIBLE);
+                Utils.animationAdd(mContext, activityBAShopDetailBinding.addcarticon.cartLayout,
+                        activityBAShopDetailBinding.toolbar, activityBAShopDetailBinding.addcarticon.cartImage,
+                        activityBAShopDetailBinding.addcarticon.cartCountItemTxt, activityBAShopDetailBinding.baShopMaincontent,
+                        null, null, 0, "bashopdetail");
+                break;
+            case R.id.removetocart_linear:
+                Utils.handleClickEvent(mContext, activityBAShopDetailBinding.removetocartLinear);
+                activityBAShopDetailBinding.addtocartLinear.setVisibility(View.VISIBLE);
+                activityBAShopDetailBinding.removetocartLinear.setVisibility(View.GONE);
+                Utils.removeCartItemCount(mContext, activityBAShopDetailBinding.addcarticon.cartCountItemTxt);
+                break;
+            case R.id.bashop_minus_layout:
+                if (bashopcount != 1) {
+                    bashopcount = bashopcount - 1;
+                    activityBAShopDetailBinding.countOfItem.setText(String.valueOf(bashopcount));
+                    totalamount = 500 * bashopcount;
+                    activityBAShopDetailBinding.priceTxt.setText(String.valueOf(roundTwoDecimals(totalamount)));
+                } else {
+                    activityBAShopDetailBinding.bashopMinusLayout.setClickable(false);
+                }
+                break;
+            case R.id.bashop_plus_layout:
+                activityBAShopDetailBinding.bashopMinusLayout.setClickable(true);
+                bashopcount = bashopcount + 1;
+                totalamount = 500 * bashopcount;
+                activityBAShopDetailBinding.priceTxt.setText(String.valueOf(roundTwoDecimals(totalamount)));
+                activityBAShopDetailBinding.countOfItem.setText(String.valueOf(bashopcount));
                 break;
         }
     }
@@ -346,6 +392,10 @@ public class BAShopDetailActivity extends AppCompatActivity implements View.OnCl
         }
     }
 
-
+    // use for ticket price round figure
+    double roundTwoDecimals(double d) {
+        DecimalFormat twoDForm = new DecimalFormat("#.##");
+        return Double.valueOf(twoDForm.format(d));
+    }
 }
 

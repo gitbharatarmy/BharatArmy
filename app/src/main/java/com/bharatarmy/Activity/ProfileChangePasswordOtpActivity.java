@@ -219,10 +219,10 @@ String userEnterOtpStr,accessOtpStr;
                 startActivity(changePasswordIntent);
                 finish();
             } else {
-                Utils.ping(mContext, "Please enter valid otp");
+                Utils.ping(mContext, getResources().getString(R.string.otp_wrong_error));
             }
         } else {
-            Utils.ping(mContext, "Please enter otp");
+            Utils.ping(mContext, getResources().getString(R.string.otp_error));
         }
 
     }

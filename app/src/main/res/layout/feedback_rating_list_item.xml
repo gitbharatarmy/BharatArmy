@@ -21,7 +21,7 @@
             android:layout_margin="@dimen/_5sdp"
             android:visibility="visible">
 
-            <CheckBox
+            <androidx.appcompat.widget.AppCompatCheckBox
                 android:id="@+id/textrating_singlechoice_option_chk"
                 android:layout_width="@dimen/_20sdp"
                 android:layout_height="@dimen/_20sdp"
@@ -36,7 +36,7 @@
                 android:layout_toLeftOf="@+id/textrating_singlechoice_option_chk"
                 android:orientation="vertical">
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/textrating_singlechoice_option_txt"
                     style="@style/title_text_font"
                     android:layout_width="wrap_content"

@@ -27,9 +27,13 @@ public class CallTwoAnimationCartAddItemMethod {
     String cartItemCount;
 
 
-    public void defineCartControl(Context mContext, Toolbar toolbar, ImageView cartImage, TextView textView, int position ,String adapterlistname) {
+    public void defineCartControl(Context mContext, Toolbar toolbar, ImageView cartImage, TextView textView, int position, String adapterlistname) {
         /*cart cantrol */
-        mCartsDetailView = (CartDetailViewTwoAnimation) View.inflate(mContext, R.layout.cart_detail_two_animation_view, null);
+        if (adapterlistname.equalsIgnoreCase("bashopdetail")) {
+            mCartsDetailView = (CartDetailViewTwoAnimation) View.inflate(mContext, R.layout.cart_shop_detail_two_animation_view, null);
+        } else {
+            mCartsDetailView = (CartDetailViewTwoAnimation) View.inflate(mContext, R.layout.cart_detail_two_animation_view, null);
+        }
         RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT);
         mCartsDetailView.setLayoutParams(lp);
@@ -78,9 +82,11 @@ public class CallTwoAnimationCartAddItemMethod {
     public void startAnimationOnClick(RelativeLayout mainLinear) {
         mCartsDetailView.addWithAnimation(mainLinear);
     }
+
     public void startshopAnimationOnClick(LinearLayout mainLinear) {
         mCartsDetailView.addWithAnimation(mainLinear);
     }
+
     public int addItemCount(Context mContext) {
         if (Utils.getPref(mContext, "cartCounter") == null) {
             itemCounter = itemCounter + 1;

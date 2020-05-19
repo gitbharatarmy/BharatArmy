@@ -197,7 +197,7 @@ public class CountryCodePicker extends RelativeLayout {
             int textSize = a.getDimensionPixelSize(R.styleable.CountryCodePicker_ccp_textSize, 0);
             if (textSize > 0) {
                 mTvSelectedCountry.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize);
-                setFlagSize(textSize);
+//                setFlagSize(textSize);
                 setArrowSize(textSize);
             } else { //no text size specified
                 DisplayMetrics dm = getContext().getResources().getDisplayMetrics();
@@ -875,7 +875,7 @@ public class CountryCodePicker extends RelativeLayout {
         if (textSize > 0) {
             mTvSelectedCountry.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize);
             setArrowSize(textSize);
-            setFlagSize(textSize);
+//            setFlagSize(textSize);
         }
     }
 
@@ -977,7 +977,8 @@ public class CountryCodePicker extends RelativeLayout {
      * @param flagSize size in pixels
      */
     public void setFlagSize(int flagSize) {
-        mImvFlag.getLayoutParams().height = flagSize;
+//        mImvFlag.getLayoutParams().height = flagSize;
+        mImvFlag.getLayoutParams().height = getResources().getDimensionPixelSize(R.dimen._17sdp);
         mImvFlag.requestLayout();
     }
 

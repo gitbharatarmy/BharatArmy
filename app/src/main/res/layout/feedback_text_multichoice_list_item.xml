@@ -21,7 +21,7 @@
             android:layout_margin="@dimen/_5sdp"
             android:visibility="visible">
 
-            <CheckBox
+            <androidx.appcompat.widget.AppCompatCheckBox
                 android:id="@+id/option_chk"
                 android:layout_width="@dimen/_20sdp"
                 android:layout_height="@dimen/_20sdp"
@@ -31,7 +31,7 @@
                 android:button="@drawable/feedback_chk_indicator" />
 
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/option_txt"
                 style="@style/text_font"
                 android:layout_width="match_parent"

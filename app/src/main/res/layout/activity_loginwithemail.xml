@@ -50,60 +50,98 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/_15sdp"
-                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/material_margin_top"
                 android:layout_marginRight="@dimen/_15sdp"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
                 android:orientation="vertical">
-
+                <!--               -->
                 <com.google.android.material.textfield.TextInputLayout
-
+                    android:id="@+id/login_username_textinputlayout"
                     style="@style/SignupSigninEditTextStyle"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_45sdp"
                     android:hint="@string/email"
-                    app:startIconDrawable="@drawable/ic_email">
+                    app:errorIconDrawable="@null"
+                    app:startIconDrawable="@drawable/ic_email"
+                    app:startIconTint="@color/text_input_box_stroke">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/user_name_edt"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_centerInParent="true"
+                        android:focusedByDefault="false"
+                        android:gravity="center_vertical"
                         android:imeOptions="actionNext"
-                        android:inputType="textEmailAddress"
+                        android:inputType="textNoSuggestions|textEmailAddress"
                         android:maxLength="150"
                         android:maxLines="1"
+                        android:textColor="@color/heading_bg" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/email_error_txt"
+                    style="@style/ErrorTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/usererror"
+                    android:visibility="gone" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/login_password_textinputlayout"
+                    style="@style/SignupSigninEditTextStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_45sdp"
+                    android:layout_marginTop="@dimen/material_margin_top"
+                    android:hint="@string/password"
+                    app:endIconMode="password_toggle"
+                    app:errorIconDrawable="@null"
+                    app:startIconDrawable="@drawable/ic_password"
+                    app:startIconTint="@color/text_input_box_stroke"
+            >
+                    <!--                    app:counterEnabled="true"-->
+                    <!--                    app:counterMaxLength="10"-->
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/user_password_edt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:gravity="center_vertical"
+                        android:imeOptions="actionDone"
+                        android:inputType="textNoSuggestions|textPassword"
+                        android:maxLength="10"
                         android:textColor="@color/heading_bg"
                         />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <com.google.android.material.textfield.TextInputLayout
-
-                    style="@style/SignupSigninEditTextStyle"
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/password_error_txt"
+                    style="@style/ErrorTextView"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_45sdp"
-                    android:layout_marginTop="@dimen/_10sdp"
-                    android:hint="@string/password"
-                    app:endIconMode="password_toggle"
-                    app:startIconDrawable="@drawable/ic_password">
+                    android:layout_height="wrap_content"
+                    android:text="@string/usererror"
+                    android:visibility="gone" />
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/user_password_edt"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:imeOptions="actionDone"
-                        android:inputType="textPassword"
-                        android:maxLength="10"
-                        android:maxLines="1"/>
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-
-                <Button
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/server_error_txt"
+                    style="@style/ErrorTextView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/server_error_margin_top"
+                    android:layout_marginBottom="@dimen/server_error_margin_bottom"
+                    android:gravity="center"
+                    android:text="@string/usererror"
+                    android:visibility="gone" />
+                <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/loggin_btn"
                     style="@style/text_font"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_40sdp"
-                    android:layout_marginTop="@dimen/_10sdp"
                     android:background="@color/heading_bg"
+                    android:gravity="center"
                     android:text="@string/login_btn"
                     android:textColor="@color/splash_bg_color"
                     android:textSize="@dimen/_15sdp" />
@@ -111,8 +149,6 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="5dp"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginBottom="@dimen/_5sdp"
                     android:background="@drawable/bg_gradiant_line" />
 
                 <TextView

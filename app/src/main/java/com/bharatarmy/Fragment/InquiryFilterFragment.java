@@ -269,7 +269,7 @@ public class InquiryFilterFragment extends BottomSheetDialogFragment{
         fromdate_linear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fromdatePickerDialog = new DatePickerDialog(getActivity(), R.style.CustomDatePickerDialogTheme,
+                fromdatePickerDialog = new DatePickerDialog(getActivity(),
                         new DatePickerDialog.OnDateSetListener() {
 
                             @Override
@@ -297,7 +297,7 @@ public class InquiryFilterFragment extends BottomSheetDialogFragment{
         todate_linear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                todatePickerDialog = new DatePickerDialog(getActivity(), R.style.CustomDatePickerDialogTheme,
+                todatePickerDialog = new DatePickerDialog(getActivity(),
                         new DatePickerDialog.OnDateSetListener() {
 
                             @Override

@@ -76,6 +76,7 @@ import com.bharatarmy.CallOneAnimationCartAddItemMethod;
 import com.bharatarmy.CallOneAnimationShopCartAddItemMethod;
 import com.bharatarmy.CallTwoAnimationCartAddItemMethod;
 import com.bharatarmy.CallTwoAnimationShopCartAddItemMethod;
+import com.bharatarmy.Models.BAShopProductSpecification;
 import com.bharatarmy.Models.GalleryImageModel;
 import com.bharatarmy.Models.ImageMainModel;
 import com.bharatarmy.Models.LoginDataModel;
@@ -215,7 +216,6 @@ public class Utils {
         }
 
     }
-
 
 
     public static void hideKeyboard(Activity context) {
@@ -477,7 +477,7 @@ public class Utils {
 //    }
 
 
-    public static void showUpdateDialog(final Activity activity,String hideStr,String versioncode) {
+    public static void showUpdateDialog(final Activity activity, String hideStr, String versioncode) {
         final Dialog dialog = new Dialog(activity);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setCancelable(false);
@@ -491,9 +491,9 @@ public class Utils {
         TextView notnow_txt = (TextView) dialog.findViewById(R.id.notnow_txt);
         ImageView updateapp_img = (ImageView) dialog.findViewById(R.id.updateapp_img);
 
-        if (hideStr.equalsIgnoreCase("hide")){
+        if (hideStr.equalsIgnoreCase("hide")) {
             notnow_txt.setVisibility(View.GONE);
-        }else{
+        } else {
             notnow_txt.setVisibility(View.VISIBLE);
         }
 
@@ -504,9 +504,9 @@ public class Utils {
         update.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Utils.setPref(getApplicationContext(),"Dialogshow","1");
-                Utils.setPref(getApplicationContext(),"notnow","0");
-                Utils.setPref(getApplicationContext(),"appVersion",versioncode);
+                Utils.setPref(getApplicationContext(), "Dialogshow", "1");
+                Utils.setPref(getApplicationContext(), "notnow", "0");
+                Utils.setPref(getApplicationContext(), "appVersion", versioncode);
                 dialog.dismiss();
 //                try {
 //                    Intent viewIntent =
@@ -524,9 +524,9 @@ public class Utils {
         notnow_txt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Utils.setPref(getApplicationContext(),"Dialogshow","1");
-                Utils.setPref(getApplicationContext(),"notnow","1");
-                Utils.setPref(getApplicationContext(),"appVersion",versioncode);
+                Utils.setPref(getApplicationContext(), "Dialogshow", "1");
+                Utils.setPref(getApplicationContext(), "notnow", "1");
+                Utils.setPref(getApplicationContext(), "appVersion", versioncode);
                 dialog.dismiss();
 
             }
@@ -534,9 +534,9 @@ public class Utils {
         dialog.show();
     }
 
-    public static void checkupdateApplication(Context mContext,Activity activity,String isForceUpdateAvailable,String currentVersionStr) {
+    public static void checkupdateApplication(Context mContext, Activity activity, String isForceUpdateAvailable, String currentVersionStr) {
         if (Utils.getPref(mContext, "notnow") != null && Utils.getPref(mContext, "appVersion") != null) {
-            if (!Utils.getPref(mContext,"notnow").equalsIgnoreCase("") && !Utils.getPref(mContext,"appVersion").equalsIgnoreCase("")) {
+            if (!Utils.getPref(mContext, "notnow").equalsIgnoreCase("") && !Utils.getPref(mContext, "appVersion").equalsIgnoreCase("")) {
                 if (Utils.getPref(mContext, "notnow").equalsIgnoreCase("1") &&
                         !Utils.getPref(mContext, "appVersion").equalsIgnoreCase(currentVersionStr) && isForceUpdateAvailable.equalsIgnoreCase("1")) {
                     Utils.showUpdateDialog(activity, "hide", currentVersionStr);
@@ -550,17 +550,17 @@ public class Utils {
                         !Utils.getPref(mContext, "appVersion").equalsIgnoreCase(currentVersionStr)) {
                     Utils.showUpdateDialog(activity, "show", currentVersionStr);
                 }
-            }else{
-                if (isForceUpdateAvailable.equalsIgnoreCase("1")){
+            } else {
+                if (isForceUpdateAvailable.equalsIgnoreCase("1")) {
                     Utils.showUpdateDialog(activity, "hide", currentVersionStr);
-                }else{
+                } else {
                     Utils.showUpdateDialog(activity, "show", currentVersionStr);
                 }
             }
-        }else{
-            if (isForceUpdateAvailable.equalsIgnoreCase("1")){
+        } else {
+            if (isForceUpdateAvailable.equalsIgnoreCase("1")) {
                 Utils.showUpdateDialog(activity, "hide", currentVersionStr);
-            }else{
+            } else {
                 Utils.showUpdateDialog(activity, "show", currentVersionStr);
             }
         }
@@ -591,7 +591,7 @@ public class Utils {
                 }
             });
 
-        }  else {
+        } else {
             if (Utils.retriveLoginOtherData(activity) != null) {
                 if (wheretocome.equalsIgnoreCase("imageUpload")) {
                     for (int i = 0; i < Utils.retriveLoginOtherData(activity).size(); i++) {
@@ -1302,11 +1302,14 @@ public class Utils {
             }
         }
     }
-    public static void animationShopCartAdd(Context mContext, RelativeLayout cartlayout,Toolbar toolbar, ImageView cartImage,
-                                    TextView cartCounttxt, RelativeLayout relativeLayout, int position, String adapterListName) {
+
+    public static void animationShopCartAdd(Context mContext, RelativeLayout cartlayout, Toolbar toolbar, ImageView cartImage,
+                                            TextView cartCounttxt, RelativeLayout relativeLayout, int position,
+                                            String adapterListName,String productName,String productDesc,
+                                            List<BAShopProductSpecification> shopProductSize, List<BAShopProductSpecification> shopProductColor) {
         if (cartlayout.isShown()) {
             CallTwoAnimationShopCartAddItemMethod callCart = new CallTwoAnimationShopCartAddItemMethod();
-            callCart.defineCartControl(mContext, toolbar, cartImage, cartCounttxt, position, adapterListName);
+            callCart.defineCartControl(mContext, toolbar, cartImage, cartCounttxt, position, adapterListName,productName,productDesc,shopProductSize,shopProductColor);
             if (relativeLayout != null) {
                 callCart.startAnimationOnClick(relativeLayout);
             } else if (relativeLayout != null) {
@@ -1315,7 +1318,8 @@ public class Utils {
 
         } else {
             CallOneAnimationShopCartAddItemMethod callCart = new CallOneAnimationShopCartAddItemMethod();
-            callCart.defineCartControl(mContext, toolbar, cartImage, cartCounttxt, position, adapterListName);
+            callCart.defineCartControl(mContext, toolbar, cartImage, cartCounttxt, position, adapterListName,productName,productDesc,
+                    shopProductSize,shopProductColor);
             if (relativeLayout != null) {
                 callCart.startAnimationOnClick(relativeLayout);
             } else if (relativeLayout != null) {
@@ -1323,6 +1327,7 @@ public class Utils {
             }
         }
     }
+
     public static void videoPlayinSlider(Context mContext, VideoView videoView, ProgressBar progressImage,
                                          ImageView startpauseVideoImage, ImageView volumeImage, ImageView muteImage,
                                          ImageView videoThumbnailImage, LinearLayout volumeLinear,

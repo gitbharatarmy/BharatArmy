@@ -528,7 +528,7 @@ public class OTPActivity extends AppCompatActivity implements View.OnClickListen
 //                Utils.ping(mContext, "Please Enter Valid OTP");
 //            }
         } else {
-            Utils.ping(mContext, "Please Enter OTP");
+            Utils.ping(mContext, getResources().getString(R.string.otp_error));
         }
 
     }

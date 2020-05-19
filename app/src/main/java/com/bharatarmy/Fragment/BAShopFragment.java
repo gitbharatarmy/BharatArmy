@@ -1,15 +1,12 @@
 package com.bharatarmy.Fragment;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -18,43 +15,26 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.bharatarmy.Activity.AlbumImageVideoShowActivity;
-import com.bharatarmy.Activity.WishListShowActivity;
 import com.bharatarmy.Adapter.BAShopAdapter;
-import com.bharatarmy.Adapter.StoryCategoryAdapter;
-import com.bharatarmy.Adapter.StoryLsitAdapter;
-import com.bharatarmy.Adapter.WishListShowAdapter;
 import com.bharatarmy.Interfaces.MorestoryClick;
 import com.bharatarmy.Interfaces.image_click;
 import com.bharatarmy.Models.BAShopListModel;
 import com.bharatarmy.Models.BAShopMainModel;
-import com.bharatarmy.Models.ImageDetailModel;
-import com.bharatarmy.Models.ImageMainModel;
-import com.bharatarmy.Models.WatchListModelDemo;
+import com.bharatarmy.Models.BAShopProductSpecification;
 import com.bharatarmy.R;
-import com.bharatarmy.Utility.ApiHandler;
 import com.bharatarmy.Utility.AppConfiguration;
 import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.Utility.WebServices;
 import com.bharatarmy.databinding.FragmentBAShopBinding;
-import com.bharatarmy.databinding.FragmentStoryBinding;
-import com.leinardi.android.speeddial.SpeedDialView;
+import com.bharatarmy.speeddialView.SpeedDialView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
-import retrofit.RetrofitError;
-import retrofit.client.Response;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Retrofit;
@@ -83,7 +63,8 @@ public class BAShopFragment extends Fragment {
     TextView cartCountItemTxt;
     RelativeLayout cartLayoutrel;
     ImageView cartImage;
-
+    List<BAShopProductSpecification> shopProductColor;
+    List<BAShopProductSpecification> shopProductSize;
 
     int storypagesize = 14;
     int pageIndex = 0;
@@ -91,7 +72,7 @@ public class BAShopFragment extends Fragment {
     StaggeredGridLayoutManager staggeredGridLayoutManager;
 
 
-    String categoryIdStr, categoryNameStr, wheretocome;
+    String productNamestr,productDescStr;
 //    public static BAShopFragment.OnItemClick mListener;
 
     public BAShopFragment() {
@@ -224,6 +205,7 @@ public class BAShopFragment extends Fragment {
     }
 
     public void setDataValueInList() {
+
         fragmentBAShopBinding.shimmerViewContainer.stopShimmerAnimation();
         fragmentBAShopBinding.shimmerViewContainer.setVisibility(View.GONE);
         fragmentBAShopBinding.shopRcyList.setVisibility(View.VISIBLE);
@@ -232,13 +214,23 @@ public class BAShopFragment extends Fragment {
         baShopAdapter = new BAShopAdapter(mContext, baShopListModelsList, new image_click() {
             @Override
             public void image_more_click() {
-                Utils.removeCartItemCount(mContext,cartCountItemTxt);
+                Utils.removeCartItemCount(mContext, cartCountItemTxt);
             }
         }, new MorestoryClick() {
             @Override
             public void getmorestoryClick() {
                 int addTocartposition = baShopAdapter.adptercartAddPosition();
-                Utils.animationShopCartAdd(mContext,cartLayoutrel,toolbar,cartImage,cartCountItemTxt,fragmentBAShopBinding.bashopLinear,addTocartposition,"bashopfragment");
+                for (int i = 0; i < baShopListModelsList.size(); i++) {
+                    if (addTocartposition == i) {
+                        shopProductSize = baShopListModelsList.get(i).getBAShopProductSize();
+                        shopProductColor=baShopListModelsList.get(i).getbAShopProductDetailColor();
+                        productNamestr=baShopListModelsList.get(i).getBAShopProductName();
+                        productDescStr=baShopListModelsList.get(i).getBAShopProductDescription();
+                    }
+                }
+                Utils.animationShopCartAdd(mContext, cartLayoutrel, toolbar, cartImage, cartCountItemTxt,
+                        fragmentBAShopBinding.bashopLinear, addTocartposition, "bashopfragment",
+                        productNamestr,productDescStr,shopProductSize,shopProductColor);
             }
         });
         staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, 1);

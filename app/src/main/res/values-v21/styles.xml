@@ -1,32 +1,7 @@
 <resources>
-
-    <style name="AppTheme.NoActionBar">
-        <item name="android:windowTranslucentNavigation">false</item>
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:windowActionBar">false</item>
-        <item name="android:windowFullscreen">true</item>
-        <item name="android:windowContentOverlay">@null</item>
-        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
-        <item name="colorControlActivated">@color/heading_bg</item>
-
-    </style>
-
-    <style name="CustomDatePickerDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
-        <item name="colorAccent">@color/heading_bg</item>
-        <item name="android:datePickerStyle">@style/CustomDatePickerStyle</item>
-        <item name="android:colorAccent">@color/colorPrimaryDark</item>
-    </style>
-
-    <style name="CustomDatePickerStyle" parent="@android:style/Widget.Material.Light.DatePicker">
-        <item name="android:headerBackground">@color/heading_bg</item>
-        <item name="android:calendarTextColor">@color/colorPrimaryDark</item>
-        <item name="android:dayOfWeekBackground">@color/gray</item>
-        <item name="android:yearListSelectorColor">@color/normal_font_color</item>
-     <item name="android:buttonBarPositiveButtonStyle">@color/heading_bg</item>
-        <item name="android:buttonBarNegativeButtonStyle">@drawable/curvetricolorbg</item>
-    </style>
-
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <!-- remove code 25-02-2020 with backup-->
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="windowActionBar">true</item>
         <item name="windowNoTitle">true</item>
@@ -34,6 +9,112 @@
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
         <item name="android:windowAnimationStyle">@style/CustomActivityAnimation</item>
         <item name="colorControlActivated">@color/heading_bg</item>
+        <item name="materialAlertDialogTheme">@style/AlertDialogMaterialTheme</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="android:windowTranslucentNavigation">false</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowActionBar">true</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:windowAnimationStyle">@style/CustomActivityAnimation</item>
+        <item name="colorControlActivated">@color/heading_bg</item>
+
+    </style>
+
+    <style name="CustomDatePickerStyle" parent="@android:style/Widget.Material.Light.DatePicker">
+        <item name="android:headerBackground">@color/heading_bg</item>
+        <item name="android:calendarTextColor">@color/colorPrimaryDark</item>
+        <item name="android:dayOfWeekBackground">@color/gray</item>
+        <item name="android:yearListSelectorColor">@color/normal_font_color</item>
+        <item name="android:buttonBarPositiveButtonStyle">@color/heading_bg</item>
+        <item name="android:buttonBarNegativeButtonStyle">@drawable/curvetricolorbg</item>
+
+
+    </style>
+
+    <style name="FilePickerTheme" parent="LibAppTheme">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/heading_bg</item>
+        <item name="colorPrimaryDark">@color/heading_bg</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+
+    <style name="MyThemeVideo" parent="Theme.AppCompat.Light">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">false</item>
+
+    </style>
+
+    <style name="text_font">
+        <item name="android:fontFamily">@font/thesansplain</item>
+    </style>
+
+    <style name="title_text_font">
+        <item name="android:fontFamily">@font/helveticaneueltstdbdcn</item>
+    </style>
+
+    <style name="title_desc_font">
+        <item name="android:fontFamily">@font/helveticaneueltstdcn</item>
+    </style>
+
+    <style name="AppTheme.WhiteAccent">
+        <item name="colorAccent">@color/splash_bg_color</item> <!-- Whatever color you want-->
+    </style>
+
+    <style name="MyProgressBar" parent="@style/Widget.AppCompat.ProgressBar.Horizontal">
+        <item name="android:progressBackgroundTint">#69f0ae</item>
+        <item name="android:progressTint">#b71c1c</item>
+        <item name="android:minWidth">200dp</item>
+    </style>
+
+    <style name="ErrorTextView" parent="@style/Widget.MaterialComponents.TextView">
+        <item name="android:textColor">@color/red</item>
+        <item name="fontFamily">@style/text_font</item>
+        <item name="android:textSize">@dimen/_11sdp</item>
+        <item name="paddingStart">@dimen/_3sdp</item>
+        <item name="android:paddingTop">@dimen/_3sdp</item>
+    </style>
+
+    <style name="SignupSigninEditTextStyle" parent="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="fontFamily">@style/text_font</item>
+        <item name="android:textSize">@dimen/_12sdp</item>
+        <item name="android:textCursorDrawable">@drawable/color_cursor</item>
+        <item name="boxStrokeColor">@color/text_input_box_stroke</item>
+        <item name="hintTextColor">@color/text_input_box_stroke</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="helperTextTextColor">@color/heading_bg</item>
+        <item name="colorError">@color/red</item>
+        <item name="backgroundColor">@color/transparent</item>
+    </style>
+
+    <style name="SignupSigninButtonStyle" parent="@style/Widget.MaterialComponents.Button.TextButton">
+        <item name="fontFamily">@style/text_font</item>
+        <item name="android:textSize">@dimen/_15sdp</item>
+        <item name="android:textColor">@color/splash_bg_color</item>
+        <item name="android:gravity">center</item>
+        <item name="background">@color/heading_bg</item>
+    </style>
+
+
+    <style name="AppTheme.AppBarOverlay" parent="Theme.AppCompat.DayNight.Dialog">
+        <item name="colorPrimary">@color/heading_bg</item>
+    </style>
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+
+    <style name="DialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/slide_up_dialog</item>
+        <item name="android:windowExitAnimation">@anim/slide_out_down</item>
+    </style>
+
+    <!-- Animation for dialog box -->
+    <style name="DialogSlideAnim" parent="@android:style/Theme.Dialog">
+        <item name="android:windowAnimationStyle">@style/DialogAnimation</item>
     </style>
 
     <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">
@@ -68,9 +149,11 @@
         <item name="android:textSize">@dimen/welcome_content</item>
         <item name="android:textColor">@color/heading_bg</item>
     </style>
+
     <style name="ToolbarTitle" parent="@style/TextAppearance.Widget.AppCompat.Toolbar.Title">
         <item name="android:textSize">20sp</item>
     </style>
+
     <style name="Widget.CardContent" parent="android:Widget">
         <item name="android:paddingLeft">16dp</item>
         <item name="android:paddingRight">16dp</item>
@@ -78,21 +161,22 @@
         <item name="android:paddingBottom">24dp</item>
         <item name="android:orientation">vertical</item>
     </style>
+
     <style name="travel" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimaryDark">@color/demo_dark_transparent</item>
     </style>
 
-    <style name="DialogAnimation">
-        <item name="android:windowEnterAnimation">@anim/slide_up_dialog</item>
-        <item name="android:windowExitAnimation">@anim/slide_out_down</item>
-    </style>
-    <style name="DialogSlideAnim" parent="@android:style/Theme.Dialog">
-        <item name="android:windowAnimationStyle">@style/DialogAnimation</item>
-    </style>
     <style name="SpinnerTheme">
         <item name="colorAccent">@color/heading_bg</item>
         <item name="colorControlNormal">@color/heading_bg</item>
         <item name="android:fontFamily">@font/thesansplain</item>
+    </style>
+
+    <style name="Spinner">
+        <!-- Used for the bottom line when not selected / focused -->
+        <item name="colorControlNormal">@color/black</item>
+        <item name="colorControlActivated">@color/colorPrimary</item>
+        <!-- colorControlActivated & colorControlHighlight use the colorAccent          color by default -->
     </style>
 
     <style name="TextAppearance.AppCompat.Title.Collapse">
@@ -103,14 +187,16 @@
 
     <style name="TextAppearance.AppCompat.Title.Expand">
         <item name="android:fontFamily">@font/helveticaneueltstdbdcn</item>
-        <item name="android:textSize">@dimen/_15sdp</item>
+        <item name="android:textSize">@dimen/_18sdp</item>
         <item name="android:textColor">@color/splash_bg_color</item>
     </style>
+
     <style name="ToolBarStyle" parent="Theme.AppCompat">
         <item name="android:textColorPrimary">@android:color/white</item>
         <item name="android:textColorSecondary">@android:color/white</item>
         <item name="actionMenuTextColor">@android:color/white</item>
     </style>
+
 
     <style name="ActionBar.SemiTransp" parent="Base.Widget.AppCompat.ActionBar">
         <item name="displayOptions">showHome|showTitle</item>
@@ -140,15 +226,18 @@
         <item name="android:windowEnterAnimation">@anim/slide_up_dialog</item>
         <item name="android:windowExitAnimation">@anim/slide_out_down</item>
     </style>
+
     <style name="LinearLayout">
         <item name="android:gravity">center</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
 
+
     <style name="TextAppearance.BottomNavigation.Overline" parent="TextAppearance.MaterialComponents.Overline">
         <item name="android:textSize">12sp</item>
         <item name="fontFamily">@font/helveticaneueltstdbdcn</item>
+        <item name="android:textStyle">normal</item>
         <item name="android:textAllCaps">false</item>
     </style>
 
@@ -158,13 +247,6 @@
         <item name="android:fontFamily">@font/thesansplain</item>
     </style>
 
-    <style name="text_font">
-        <item name="android:fontFamily">@font/thesansplain</item>
-    </style>
-
-    <style name="title_text_font">
-        <item name="android:fontFamily">@font/helveticaneueltstdbdcn</item>
-    </style>
 
     <style name="Spinner_comment" parent="Widget.AppCompat.Light.DropDownItem.Spinner">
         <item name="android:paddingStart">0dp</item>
@@ -175,8 +257,9 @@
 
     <style name="MyPopupMenu" parent="@style/Widget.AppCompat.PopupMenu">
         <item name="android:dropDownHorizontalOffset">-20dp</item>
-        <item name="android:dropDownVerticalOffset">0dp</item>
+        <item name="android:dropDownVerticalOffset">4dp</item>
     </style>
+
 
     <style name="CustomActivityAnimation" parent="@android:style/Animation.Activity">
         <item name="android:activityOpenEnterAnimation">@anim/slide_in_right_new</item>
@@ -191,21 +274,80 @@
     </style>
 
 
-
-    <style name="SignupSigninEditTextStyle" parent="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-        <item name="fontFamily">@style/text_font</item>
-        <item name="android:textSize">@dimen/_12sdp</item>
-        <item name="android:textColor">@color/heading_bg</item>
-        <item name="android:textColorHint">@color/hint_txt_color</item>
-        <item name="android:textCursorDrawable">@drawable/color_cursor</item>
-        <item name="boxStrokeColor">@color/heading_bg</item>
-        <item name="android:gravity">center_vertical</item>
+    <style name="ShowCase" parent="@style/ThemeOverlay.AppCompat.Dialog.Alert">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowAnimationStyle">@null</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
     </style>
-    <style name="SignupSigninButtonStyle" parent="@style/Widget.MaterialComponents.Button.TextButton">
-        <item name="fontFamily">@style/text_font</item>
-        <item name="android:textSize">@dimen/_15sdp</item>
-        <item name="android:textColor">@color/splash_bg_color</item>
-        <item name="android:gravity">center</item>
-        <item name="background">@color/heading_bg</item>
+
+    <style name="FeedbackDialogTheme">
+        <item name="android:windowMinWidthMajor">70%</item>
+        <item name="android:windowMinWidthMinor">70%</item>
+    </style>
+
+
+    <!--    facebook progressbar hide-->
+    <style name="FullyTranslucent" parent="android:Theme.Translucent.NoTitleBar">
+        <item name="android:progressBarStyle">@style/InvisibleProgress</item>
+    </style>
+
+    <style name="InvisibleProgress">
+        <item name="android:visibility">gone</item>
+    </style>
+
+
+    <style name="AlertDialogMaterialTheme" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="buttonBarPositiveButtonStyle">@style/Alert.Button.Positive</item>
+        <item name="buttonBarNegativeButtonStyle">@style/Alert.Button.Negative</item>
+    </style>
+
+    <style name="Alert.Button.Positive" parent="Widget.MaterialComponents.Button.TextButton">
+        <!--        <item name="android:fillColor">@color/color_0054BB</item>-->
+        <item name="android:textColor">@color/heading_bg</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">14sp</item>
+        <!--        <item name="rippleColor">@color/colorAccent_main</item>-->
+    </style>
+
+    <style name="Alert.Button.Negative" parent="Widget.MaterialComponents.Button.TextButton">
+        <!--        <item name="strokeColor">@color/color_0054BB</item>-->
+        <item name="android:textColor">@color/heading_bg</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:layout_marginEnd">8dp</item>
+        <!--        <item name="rippleColor">@color/colorAccent_main</item>-->
+    </style>
+
+    <!--    speed dial-->
+    <style name="SpeedDial" />
+
+    <style name="SpeedDial.Base" />
+
+    <style name="SpeedDial.Base.FabLabelStyle">
+        <item name="android:ellipsize">end</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:maxWidth">@dimen/sd_label_max_width</item>
+        <item name="android:paddingLeft">4dp</item>
+        <item name="android:paddingRight">4dp</item>
+        <item name="android:textAppearance">?android:textAppearanceSmall</item>
+        <item name="android:textColor">@color/sd_label_text_color</item>
+    </style>
+
+    <style name="SpeedDial.FabLabelStyle" parent="SpeedDial.Base.FabLabelStyle">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <!--    quiz timer-->
+    <style name="SampleProgress">
+        <item name="android:layout_width">@dimen/content_width</item>
+        <item name="android:layout_height">30dp</item>
     </style>
 </resources>
+
+

@@ -10,6 +10,7 @@
         android:orientation="vertical">
 
         <com.google.android.material.tabs.TabLayout
+            style="@style/Widget.MaterialComponents.TabLayout.Colored"
             android:id="@+id/tabLayout_Fans"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_50sdp"

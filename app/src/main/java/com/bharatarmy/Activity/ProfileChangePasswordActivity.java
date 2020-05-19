@@ -6,16 +6,20 @@ import androidx.databinding.DataBindingUtil;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bharatarmy.Models.LogginModel;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.ApiHandler;
 import com.bharatarmy.Utility.Utils;
+import com.bharatarmy.appenum.PasswordStrength;
 import com.bharatarmy.databinding.ActivityProfileChangePasswordBinding;
 
 import java.util.HashMap;
@@ -43,7 +47,24 @@ public class ProfileChangePasswordActivity extends AppCompatActivity {
 
     public void init() {
        memberIdStr= String.valueOf(Utils.getAppUserId(mContext));
-
+        setmarginofservererrorTxtview();
+    }
+    public void setmarginofservererrorTxtview() {
+        if (activityProfileChangePasswordBinding.serverErrorTxt.isShown()) {
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+            );
+            params.setMargins(0, 0, 0, 0);
+            activityProfileChangePasswordBinding.profileChangePassSubmitBtn.setLayoutParams(params);
+        } else {
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+            );
+            params.setMargins(0, getResources().getDimensionPixelOffset(R.dimen.material_margin_top), 0, 0);
+            activityProfileChangePasswordBinding.profileChangePassSubmitBtn.setLayoutParams(params);
+        }
     }
 
     public void setListiner() {
@@ -64,7 +85,7 @@ public class ProfileChangePasswordActivity extends AppCompatActivity {
             }
         });
 
-        activityProfileChangePasswordBinding.submitBtn.setOnClickListener(new View.OnClickListener() {
+        activityProfileChangePasswordBinding.profileChangePassSubmitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 //                Utils.handleClickEvent(mContext, activityProfileChangePasswordBinding.submitBtn);
@@ -86,9 +107,131 @@ public class ProfileChangePasswordActivity extends AppCompatActivity {
                 wheretoBack();
             }
         });
+        activityProfileChangePasswordBinding.newpasswordEdt.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                calculatePasswordStrength(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.length() > 0) {
+                    setmarginofservererrorTxtview();
+                    activityProfileChangePasswordBinding.newpasswordErrorTxt.setVisibility(View.GONE);
+                    activityProfileChangePasswordBinding.passwordStrengthLinear.setVisibility(View.VISIBLE);
+                } else if (s.toString().equalsIgnoreCase("")) {
+                    setmarginofservererrorTxtview();
+                    activityProfileChangePasswordBinding.passwordStrengthLinear.setVisibility(View.GONE);
+                    activityProfileChangePasswordBinding.passwordStrengthTxtview1.setBackgroundColor(getResources().getColor(R.color.gray));
+                    activityProfileChangePasswordBinding.uppercaseImageRel.setVisibility(View.GONE);
+                    activityProfileChangePasswordBinding.digitImageRel.setVisibility(View.GONE);
+                    activityProfileChangePasswordBinding.minimumCharImageRel.setVisibility(View.GONE);
+                    activityProfileChangePasswordBinding.specialCharImageRel.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        activityProfileChangePasswordBinding.confirmpasswordEdt.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.length() > 0) {
+                    setmarginofservererrorTxtview();
+                    activityProfileChangePasswordBinding.confirmpasswordErrorTxt.setVisibility(View.GONE);
+                } else if (s.toString().equalsIgnoreCase("")) {
+                    setmarginofservererrorTxtview();
+                    activityProfileChangePasswordBinding.confirmpasswordErrorTxt.setVisibility(View.GONE);
+                }
+            }
+        });
     }
 
+    private void calculatePasswordStrength(String str) {
+        // Now, we need to define a PasswordStrength enum
+        // with a calculate static method returning the password strength
+        PasswordStrength passwordStrength = PasswordStrength.calculate(str);
+        activityProfileChangePasswordBinding.passwordStrengthTxtview.setText(passwordStrength.msg);
+        activityProfileChangePasswordBinding.passwordStrengthTxtview.setTextColor(passwordStrength.color);
+        if (activityProfileChangePasswordBinding.passwordStrengthTxtview.getText().toString().equalsIgnoreCase("WEAK")) {
+            activityProfileChangePasswordBinding.passwordStrengthTxtview2.setBackgroundColor(getResources().getColor(R.color.gray));
+            activityProfileChangePasswordBinding.passwordStrengthTxtview3.setBackgroundColor(getResources().getColor(R.color.gray));
+            activityProfileChangePasswordBinding.passwordStrengthTxtview4.setBackgroundColor(getResources().getColor(R.color.gray));
+            activityProfileChangePasswordBinding.passwordStrengthTxtview1.setBackgroundColor(passwordStrength.color);
+        } else if (activityProfileChangePasswordBinding.passwordStrengthTxtview.getText().toString().equalsIgnoreCase("MEDIUM")) {
+            activityProfileChangePasswordBinding.passwordStrengthTxtview3.setBackgroundColor(getResources().getColor(R.color.gray));
+            activityProfileChangePasswordBinding.passwordStrengthTxtview4.setBackgroundColor(getResources().getColor(R.color.gray));
+            activityProfileChangePasswordBinding.passwordStrengthTxtview1.setBackgroundColor(passwordStrength.color);
+            activityProfileChangePasswordBinding.passwordStrengthTxtview2.setBackgroundColor(passwordStrength.color);
+        } else if (activityProfileChangePasswordBinding.passwordStrengthTxtview.getText().toString().equalsIgnoreCase("STRONG")) {
+            activityProfileChangePasswordBinding.passwordStrengthTxtview4.setBackgroundColor(getResources().getColor(R.color.gray));
+            activityProfileChangePasswordBinding.passwordStrengthTxtview1.setBackgroundColor(passwordStrength.color);
+            activityProfileChangePasswordBinding.passwordStrengthTxtview2.setBackgroundColor(passwordStrength.color);
+            activityProfileChangePasswordBinding.passwordStrengthTxtview3.setBackgroundColor(passwordStrength.color);
+        } else if (activityProfileChangePasswordBinding.passwordStrengthTxtview.getText().toString().equalsIgnoreCase("VERY STRONG")) {
+            activityProfileChangePasswordBinding.passwordStrengthTxtview1.setBackgroundColor(passwordStrength.color);
+            activityProfileChangePasswordBinding.passwordStrengthTxtview2.setBackgroundColor(passwordStrength.color);
+            activityProfileChangePasswordBinding.passwordStrengthTxtview3.setBackgroundColor(passwordStrength.color);
+            activityProfileChangePasswordBinding.passwordStrengthTxtview4.setBackgroundColor(passwordStrength.color);
+        } else {
+            activityProfileChangePasswordBinding.passwordStrengthTxtview2.setBackgroundColor(getResources().getColor(R.color.gray));
+            activityProfileChangePasswordBinding.passwordStrengthTxtview3.setBackgroundColor(getResources().getColor(R.color.gray));
+            activityProfileChangePasswordBinding.passwordStrengthTxtview4.setBackgroundColor(getResources().getColor(R.color.gray));
+            activityProfileChangePasswordBinding.passwordStrengthTxtview1.setBackgroundColor(getResources().getColor(R.color.gray));
+        }
 
+        if (PasswordStrength.uppercase.equalsIgnoreCase("yes")) {
+            activityProfileChangePasswordBinding.uppercaseImageRel.setVisibility(View.VISIBLE);
+            activityProfileChangePasswordBinding.uppercaseImageRel.setBackground(getResources().getDrawable(R.drawable.ic_fill_correct_password));
+            activityProfileChangePasswordBinding.uppercaseDisplayTxtview.setTextColor(getResources().getColor(R.color.heading_bg));
+        } else {
+            activityProfileChangePasswordBinding.uppercaseImageRel.setVisibility(View.VISIBLE);
+            activityProfileChangePasswordBinding.uppercaseImageRel.setBackground(getResources().getDrawable(R.drawable.ic_incorrect_strength_password));
+            activityProfileChangePasswordBinding.uppercaseDisplayTxtview.setTextColor(getResources().getColor(R.color.red));
+        }
+
+        if (PasswordStrength.digitcase.equalsIgnoreCase("yes")) {
+            activityProfileChangePasswordBinding.digitImageRel.setVisibility(View.VISIBLE);
+            activityProfileChangePasswordBinding.digitImageRel.setBackground(getResources().getDrawable(R.drawable.ic_fill_correct_password));
+            activityProfileChangePasswordBinding.digitDisplayTxtview.setTextColor(getResources().getColor(R.color.heading_bg));
+        } else {
+            activityProfileChangePasswordBinding.digitImageRel.setVisibility(View.VISIBLE);
+            activityProfileChangePasswordBinding.digitImageRel.setBackground(getResources().getDrawable(R.drawable.ic_incorrect_strength_password));
+            activityProfileChangePasswordBinding.digitDisplayTxtview.setTextColor(getResources().getColor(R.color.red));
+        }
+        if (PasswordStrength.specialcharcase.equalsIgnoreCase("yes")) {
+            activityProfileChangePasswordBinding.specialCharImageRel.setVisibility(View.VISIBLE);
+            activityProfileChangePasswordBinding.specialCharImageRel.setBackground(getResources().getDrawable(R.drawable.ic_fill_correct_password));
+            activityProfileChangePasswordBinding.specialCharDisplayTxtview.setTextColor(getResources().getColor(R.color.heading_bg));
+        } else {
+            activityProfileChangePasswordBinding.specialCharImageRel.setVisibility(View.VISIBLE);
+            activityProfileChangePasswordBinding.specialCharImageRel.setBackground(getResources().getDrawable(R.drawable.ic_incorrect_strength_password));
+            activityProfileChangePasswordBinding.specialCharDisplayTxtview.setTextColor(getResources().getColor(R.color.red));
+        }
+        if (PasswordStrength.minimumcharcase.equalsIgnoreCase("yes")) {
+            activityProfileChangePasswordBinding.minimumCharImageRel.setVisibility(View.VISIBLE);
+            activityProfileChangePasswordBinding.minimumCharImageRel.setBackground(getResources().getDrawable(R.drawable.ic_fill_correct_password));
+            activityProfileChangePasswordBinding.minimumDisplayTxtview.setTextColor(getResources().getColor(R.color.heading_bg));
+        } else {
+            activityProfileChangePasswordBinding.minimumCharImageRel.setVisibility(View.VISIBLE);
+            activityProfileChangePasswordBinding.minimumCharImageRel.setBackground(getResources().getDrawable(R.drawable.ic_incorrect_strength_password));
+            activityProfileChangePasswordBinding.minimumDisplayTxtview.setTextColor(getResources().getColor(R.color.red));
+        }
+    }
+    
     @Override
     public void onBackPressed() {
         wheretoBack();
@@ -105,22 +248,32 @@ public class ProfileChangePasswordActivity extends AppCompatActivity {
         newPasswordStr = activityProfileChangePasswordBinding.newpasswordEdt.getText().toString();
         confirmPasswordStr = activityProfileChangePasswordBinding.confirmpasswordEdt.getText().toString();
         if (!newPasswordStr.equalsIgnoreCase("")) {
-            if (newPasswordStr.length() >= 5 && newPasswordStr.length() <= 10) {
-                if (newPasswordStr.equalsIgnoreCase(confirmPasswordStr)) {
-                    if (!memberIdStr.equalsIgnoreCase("")) {
-                        getChangePassword();
+            if (!confirmPasswordStr.equalsIgnoreCase("")) {
+                if (PasswordStrength.uppercase.equalsIgnoreCase("yes") &&
+                        PasswordStrength.digitcase.equalsIgnoreCase("yes") &&
+                        PasswordStrength.minimumcharcase.equalsIgnoreCase("yes") &&
+                        PasswordStrength.specialcharcase.equalsIgnoreCase("yes")) {
+                    if (newPasswordStr.equalsIgnoreCase(confirmPasswordStr)) {
+                        if (!memberIdStr.equalsIgnoreCase("")) {
+                            getChangePassword();
+                        } else {
+                            Utils.ping(mContext, "memberId blank");
+                        }
                     } else {
-                        Utils.ping(mContext, "memberId blank");
+                        activityProfileChangePasswordBinding.confirmpasswordErrorTxt.setVisibility(View.VISIBLE);
+                        activityProfileChangePasswordBinding.confirmpasswordErrorTxt.setText(getResources().getString(R.string.change_pass_error));
                     }
                 } else {
-                    activityProfileChangePasswordBinding.confirmpasswordEdt.setError("confirm password and new password must be same");
+                    activityProfileChangePasswordBinding.newpasswordErrorTxt.setVisibility(View.VISIBLE);
+                    activityProfileChangePasswordBinding.newpasswordErrorTxt.setText(getResources().getString(R.string.singup_password_error));
                 }
             } else {
-                activityProfileChangePasswordBinding.newpasswordEdt.setError("password Length must be greter than 5 or less than 10");
+                activityProfileChangePasswordBinding.confirmpasswordErrorTxt.setVisibility(View.VISIBLE);
+                activityProfileChangePasswordBinding.confirmpasswordErrorTxt.setText(getResources().getString(R.string.change_confirmpassword_error));
             }
-
         } else {
-            activityProfileChangePasswordBinding.newpasswordEdt.setError("blank filed not allowed");
+            activityProfileChangePasswordBinding.newpasswordErrorTxt.setVisibility(View.VISIBLE);
+            activityProfileChangePasswordBinding.newpasswordErrorTxt.setText(getResources().getString(R.string.change_newpassword_error));
         }
     }
 
@@ -145,7 +298,7 @@ public class ProfileChangePasswordActivity extends AppCompatActivity {
                     return;
                 }
                 if (changeModel.getIsValid() == 0) {
-                    Utils.ping(mContext, changeModel.getMessage());
+                    setmarginofservererrorTxtview();
                     return;
                 }
                 if (changeModel.getIsValid() == 1) {

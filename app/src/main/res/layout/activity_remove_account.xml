@@ -85,17 +85,17 @@
 
                     android:orientation="vertical">
 
-                    <ImageView
+                    <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_120sdp"
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="@dimen/_10sdp"
                         android:layout_marginRight="@dimen/_10sdp"
                         android:layout_marginTop="@dimen/_15sdp"
-                        android:src="@drawable/app_logo_new" />
+                      app:srcCompat="@drawable/app_logo_new"/>
                 </LinearLayout>
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/remove_txt"
                     style="@style/text_font"
                     android:layout_width="wrap_content"
@@ -106,7 +106,7 @@
                     android:textColor="@color/heading_bg"
                     android:textSize="@dimen/_20sdp" />
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     style="@style/text_font"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -137,11 +137,12 @@
                         android:layout_marginLeft="@dimen/_32sdp"
                         android:layout_gravity="center_horizontal">
 
-                        <Button
+                        <androidx.appcompat.widget.AppCompatButton
                             android:id="@+id/yes_btn"
                             style="@style/text_font"
                             android:layout_width="@dimen/_90sdp"
                             android:layout_height="@dimen/_30sdp"
+                            android:gravity="center"
                             android:background="@color/heading_bg"
                             android:text="Yes"
                             android:textColor="@color/splash_bg_color"
@@ -159,11 +160,12 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
-                        <Button
+                        <androidx.appcompat.widget.AppCompatButton
                             android:id="@+id/no_btn"
                             style="@style/text_font"
                             android:layout_width="@dimen/_90sdp"
                             android:layout_height="@dimen/_31sdp"
+                            android:gravity="center"
                             android:layout_marginLeft="@dimen/_25sdp"
                             android:background="@color/heading_bg"
                             android:text="No"

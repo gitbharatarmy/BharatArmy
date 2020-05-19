@@ -1,4 +1,4 @@
-<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="app_name" translatable="false">Bharat Army</string>
     <string name="next" translatable="false">NEXT</string>
     <string name="skip" translatable="false">SKIP</string>
@@ -7,7 +7,7 @@
     <string name="alert_msg" translatable="false">Alert Msg</string>
     <string name="internet_error" translatable="false">Internet Connection !</string>
     <string name="internet_connection_error" translatable="false">Admin requires an internet connection.Make sure Wi-Fi or mobile networks are turned on, then try again.</string>
-    <string name="blank" translatable="false">Blank Filed Not Allowed</string>
+    <string name="blank" translatable="false">Blank Field Not Allowed</string>
     <string name="false_msg" translatable="false">Record not found</string>
     <string name="something_wrong" translatable="false">Something Wrong</string>
     <string name="login_error_msg" translatable="false">Internal error, Please try again latter.</string>
@@ -22,7 +22,7 @@
     <string name="singup" translatable="false">Sign Up</string>
     <string name="fb_txt" translatable="false">Facebook</string>
     <string name="link_txt" translatable="false">LinkedIn</string>
-    <string name="usererror" translatable="false">Blank filed not allowed</string>
+    <string name="usererror" translatable="false">Blank field not allowed</string>
     <string name="verification" translatable="false">Verification</string>
     <string name="otp_str" translatable="false">We have sent you an access code via SMS for Mobile number verifications</string>
     <!--Please enter the verification code-->
@@ -30,14 +30,42 @@
     <string name="verification_str" translatable="false">We will send a One Time Password (OTP) on this number for verification</string>
     <string name="mobile_veri" translatable="false">Phone Verification</string>
     <string name="verifycode" translatable="false">Verification</string>
+    <string name="login_user_password_error" translatable="false">Please enter valid password</string>
+    <string name="login_user_email_error" translatable="false">Please enter valid email address</string>
+    <string name="login_user_password_helpertext1" translatable="false">Your password is week</string>
+    <string name="login_user_password_helpertext2" translatable="false">Your password is strong</string>
+    <string name="login_user_password_helpertext0" translatable="false">Password Required</string>
+    <string name="login_user_email_helpertext" translatable="false">Email Required</string>
+    <string name="weak" translatable="false">Weak</string>
+    <string name="medium" translatable="false">Medium</string>
+    <string name="strong" translatable="false">Strong</string>
+    <string name="very_strong" translatable="false">Very Strong</string>
+    <string name="password_strength" translatable="false">Password Strength</string>
+    <string name="digit_password_strength" translatable="false">One Number</string>
+    <string name="uppercase_password_strength" translatable="false">One uppercase character</string>
+    <string name="minimum_password_strength" translatable="false">Minimum 5 character</string>
+    <string name="specialchar_password_strength" translatable="false">One special character</string>
+    <string name="signup_firstname_error" translatable="false">First Name is required</string>
+    <string name="signup_secondname_error" translatable="false">Last Name is required</string>
+    <string name="signup_blankemail_error" translatable="false">Email Address is required</string>
+    <string name="signup_email_error" translatable="false">Invalid Email Address</string>
+    <string name="signup_county_code_error" translatable="false">Country Code is required</string>
+    <string name="signup_blankphone_number_error" translatable="false">Phone Number is required</string>
+    <string name="signup_phone_number_error" translatable="false">Invalid Phone Number</string>
+    <string name="signup_blankpassword_error" translatable="false">Password is required</string>
+    <string name="singup_password_error" translatable="false">Password formate wrong</string>
+    <string name="signup_privacy_error" translatable="false">Check the privacy policy</string>
+    <string name="facebook_signup_error" translatable="false">Name is required</string>
+    <string name="change_pass_confirm_error" translatable="false">Confim password required</string>
+    <string name="change_pass_new_error" translatable="false">New password required</string>
 
 
     <!--    ForgotPassword & Change Password-->
     <string name="forgot_txt" translatable="false">To recover your password you need to enter your registered email address. We will sent the recovery code to your email</string>
     <string name="change_password_alert_txt" translatable="false">We have sent the recovery code via registered Email or Mobile Number</string>
     <string name="change_txt" translatable="false">Use at least 5 characters. Don\'t share the password. </string>
-    <string name="new_pass" translatable="false">Enter New Password</string>
-    <string name="confirm_pass" translatable="false">Enter Confirm Password</string>
+    <string name="new_pass" translatable="false">New Password</string>
+    <string name="confirm_pass" translatable="false">Confirm Password</string>
     <string name="submit" translatable="false">Submit</string>
     <string name="otppass_str" translatable="false"> We have sent you an access code via registered Email or Mobile Number</string>
     <string name="change_password_main" translatable="false">Change Password</string>
@@ -49,6 +77,11 @@
     <string name="change_password_alert" translatable="false">Change Password Alert ?</string>
     <string name="remove_account" translatable="false">Remove Account Alert ?</string>
     <string name="remove_account_alert_txt" translatable="false">Remove this account you will lose all your message along with any media and files you shared.</string>
+    <string name="forgot_password_email_error" translatable="false">Please enter register email address</string>
+    <string name="change_newpassword_error" translatable="false">Please enter new password</string>
+    <string name="change_confirmpassword_error" translatable="false">Please enter confirm password</string>
+    <string name="change_pass_error" translatable="false">confirm password and new password must be same</string>
+    <string name="mobile_verification_txt" translatable="false">Verify your mobile number</string>
 
     <!--SingUp Activity String-->
     <string name="fullname" translatable="false">Name</string>
@@ -57,6 +90,8 @@
     <string name="title_activity_dashboard" translatable="false">DashboardActivity</string>
     <string name="firstname" translatable="false">First Name</string>
     <string name="lastname" translatable="false">Last Name</string>
+    <string name="otp_error" translatable="false">Please Enter OTP</string>
+    <string name="otp_wrong_error" translatable="false">Please enter valid otp</string>
 
     <string name="nav_header_title" translatable="false">Android Studio</string>
     <string name="nav_header_subtitle" translatable="false">android.studio@android.com</string>
@@ -71,12 +106,20 @@
     <!--Home Fragment  String-->
     <string name="know_more" translatable="false">Know More</string>
     <string name="upcoming" translatable="false">UPCOMING TOURNAMENTS &amp; SERIES</string>
+    <string name="exploring_category" translatable="false">Explore Categories</string>
+    <string name="exploring_show" translatable="false">Show all</string>
     <string name="sposer_ads" translatable="false">Sposer ads</string>
     <string name="fixture" translatable="false">ICC CRICKET WORLD CUP 2019 FIXTURES</string>
     <string name="all_fixture" translatable="false">ALL FIXTURES</string>
     <string name="bharat_army_story" translatable="false">BHARAT ARMY NEWS</string>
     <string name="about_us" translatable="false">About Us</string>
     <string name="sponser" translatable="false">Sponsor ads</string>
+    <string name="quiz_header" translatable="false">Bharat Army Quiz</string>
+    <string name="quiz_answer_explanation" translatable="false">Explanation</string>
+    <string name="quiz_answer_correct" translatable="false">This Answer is Correct</string>
+    <string name="quiz_answer_incorrect" translatable="false">This Answer is Incorrect</string>
+    <string name="quiz_your_ans" translatable="false">Your Answer</string>
+    <string name="quiz_correct_ans" translatable="false">Correct Answer</string>
 
     <!--My Profile String-->
     <string name="email" translatable="false">Email</string>
@@ -105,6 +148,11 @@
     <string name="verify_credential" translatable="false">verifying credentials...</string>
     <string name="facebook_app_id" translatable="false">569015383846103</string>
     <string name="fb_login_protocol_scheme" translatable="false">fb569015383846103</string>
+    <string name="edit_firstname_error" translatable="false">Please enter firstname</string>
+    <string name="edit_lastname_error" translatable="false">Please enter lastname</string>
+    <string name="edit_countrycode_error" translatable="false">Please select country code</string>
+    <string name="edit_phonenumber_error" translatable="false">Please enter phone number</string>
+    <string name="edit_gender_error" translatable="false">Please select gender</string>
 
 
     <string name="hello_txt" translatable="false">Hello</string>
@@ -121,8 +169,8 @@
     <string name="address_line1" translatable="false">Address Line1</string>
     <string name="address_line2" translatable="false">Address Line2</string>
     <string name="country" translatable="false">Country</string>
-    <string name="state" translatable="false">States</string>
-    <string name="city" translatable="false">City</string>
+    <string name="state" translatable="false">Select States</string>
+    <string name="city" translatable="false">Select City</string>
     <string name="pincode" translatable="false">Pincode</string>
     <string name="area" translatable="false">Area</string>
     <string name="sports" translatable="false">Sports</string>
@@ -159,7 +207,11 @@
     <string name="home_help_text" translatable="false">Need help? Chat with us</string>
     <string name="home_notification_text" translatable="false">Turn on Notification Permission</string>
     <string name="home_feedback_text" translatable="false">Give Your Feedback</string>
-
+    <string name="home_ba_poll_text" translatable="false">BA Poll</string>
+    <string name="home_ba_quiz_text" translatable="false">BA Quiz</string>
+    <string name="submit_your_poll" translatable="false">Submit your vote!</string>
+    <string name="submit_your_quiz" translatable="false">Take Quiz</string>
+    <string name="home_ba_poll_question" translatable="false">Do you think this is a good design for poll?</string>
 
     <!--Image Upload String-->
     <string name="toast_image_intent_null" translatable="false">Image picker option is missing!</string>
@@ -261,6 +313,12 @@
     <string name="video_title_txt" translatable="false">Please Enter Video Title</string>
     <string name="video_desc_txt" translatable="false">Please Enter Video Description</string>
     <string name="video_error" translatable="false">video is corrupt or the format is not supported.</string>
+    <string name="video_upload_title_error" translatable="false">Please Enter Video Title</string>
+    <string name="video_upload_desc_error" translatable="false">Please Enter Video Description</string>
+    <string name="video_upload_not_support" translatable="false">video can\'t support</string>
+    <string name="video_upload_select_error" translatable="false">Please select video</string>
+    <string name="video_upload_privacy_text" translatable="false">Choose video privacy</string>
+
 
     <string name="storage_permission_denied" translatable="false">Permission to access storage was denied</string>
     <string name="error_unsupported_video" translatable="false">Media includes video tracks, but none are playable by this device</string>
@@ -469,4 +527,19 @@ Sincerity is the hallmark of Pan Pacific Hotels Group. The Group is known to its
         <item>Settings</item>
         <item>About</item>
     </array>
+
+    <!--    speed dial-->
+    <string name="speeddial_snackbar_behavior" translatable="false" tools:ignore="UnusedResources">
+        com.leinardi.android.speeddial.SpeedDialView$SnackbarBehavior
+    </string>
+    <string name="speeddial_scrolling_view_snackbar_behavior" translatable="false" tools:ignore="UnusedResources">
+        com.leinardi.android.speeddial.SpeedDialView$ScrollingViewSnackbarBehavior
+    </string>
+
+    <!--    BA Quiz string-->
+    <string name="ba_quiz_title" translatable="false">Cricket Quiz Questions And Answers: For Sports Brains</string>
+    <string name="ba_quiz_date" translatable="false">02 May 20,Sat</string>
+    <string name="ba_quiz_type" translatable="false">Cricket</string>
+    <string name="ba_quiz_subtitle" translatable="false">Fantastic Games, Competition &amp; Prizes to be won in our live interactive sports quizzes.</string>
+    <string name="ba_quiz_desc" translatable="false">Immensely popular in the UK, India, Australia, and many other countries in the British Commonwealth, cricket has a long literacy and history that becomes a favorite sport and way of life for many people. These cricket quiz questions and answers will show you some of the basic and interesting facts of this sport. Let’s challenge your knowledge and test how much you know about this great activity.</string>
 </resources>

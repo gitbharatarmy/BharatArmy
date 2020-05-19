@@ -7,10 +7,13 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bharatarmy.Models.LogginModel;
@@ -64,8 +67,26 @@ public class FacebookLoginWithNoEmailActivity extends AppCompatActivity implemen
                 activityFacebookLoginWithNoEmailBinding.ccp.setCountryForNameCode(AppConfiguration.currentCountryISOCode);
             }
         }
+        setmarginofservererrorTxtview();
 
+    }
 
+    public void setmarginofservererrorTxtview() {
+        if (activityFacebookLoginWithNoEmailBinding.serverErrorTxt.isShown()) {
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+            );
+            params.setMargins(0, 0, 0, 0);
+            activityFacebookLoginWithNoEmailBinding.continueBtn.setLayoutParams(params);
+        } else {
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+            );
+            params.setMargins(0, getResources().getDimensionPixelOffset(R.dimen.material_margin_top), 0, 0);
+            activityFacebookLoginWithNoEmailBinding.continueBtn.setLayoutParams(params);
+        }
     }
 
     public void setListiner() {
@@ -81,7 +102,74 @@ public class FacebookLoginWithNoEmailActivity extends AppCompatActivity implemen
                 return false;
             }
         });
+        activityFacebookLoginWithNoEmailBinding.nameEdt.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.length() > 0) {
+                    activityFacebookLoginWithNoEmailBinding.fullnameErrorTxt.setVisibility(View.GONE);
+                    setmarginofservererrorTxtview();
+                } else if (s.toString().equalsIgnoreCase("")) {
+                    setmarginofservererrorTxtview();
+                    activityFacebookLoginWithNoEmailBinding.fullnameErrorTxt.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        activityFacebookLoginWithNoEmailBinding.emailEdt.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.length() > 0) {
+                    activityFacebookLoginWithNoEmailBinding.emailErrorTxt.setVisibility(View.GONE);
+                    setmarginofservererrorTxtview();
+                } else if (s.toString().equalsIgnoreCase("")) {
+                    setmarginofservererrorTxtview();
+                    activityFacebookLoginWithNoEmailBinding.emailErrorTxt.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        activityFacebookLoginWithNoEmailBinding.phoneNoEdt.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.length() > 0) {
+                    activityFacebookLoginWithNoEmailBinding.phoneNumberErrorTxt.setVisibility(View.GONE);
+                    setmarginofservererrorTxtview();
+                } else if (s.toString().equalsIgnoreCase("")) {
+                    activityFacebookLoginWithNoEmailBinding.phoneNumberErrorTxt.setVisibility(View.GONE);
+                    setmarginofservererrorTxtview();
+                }
+            }
+        });
     }
 
     public void facebookLogin() {
@@ -103,22 +191,27 @@ public class FacebookLoginWithNoEmailActivity extends AppCompatActivity implemen
                             if (Utils.isValidPhoneNumber(personNumberStr)) {
                                 callFacebookSignUp();
                             } else {
-                                activityFacebookLoginWithNoEmailBinding.phoneNoEdt.setError("Invalid Phone Number");
+                                activityFacebookLoginWithNoEmailBinding.phoneNumberErrorTxt.setVisibility(View.VISIBLE);
+                                activityFacebookLoginWithNoEmailBinding.phoneNumberErrorTxt.setText(getResources().getString(R.string.signup_phone_number_error));
                             }
                         } else {
-                            activityFacebookLoginWithNoEmailBinding.phoneNoEdt.setError("Phone Number is required");
+                            activityFacebookLoginWithNoEmailBinding.phoneNumberErrorTxt.setVisibility(View.VISIBLE);
+                            activityFacebookLoginWithNoEmailBinding.phoneNumberErrorTxt.setText(getResources().getString(R.string.signup_blankphone_number_error));
                         }
                     } else {
                         Utils.ping(mContext, "Country Code is required");
                     }
                 } else {
-                    activityFacebookLoginWithNoEmailBinding.emailEdt.setError("Invalid Email Address");
+                    activityFacebookLoginWithNoEmailBinding.emailErrorTxt.setVisibility(View.VISIBLE);
+                    activityFacebookLoginWithNoEmailBinding.emailErrorTxt.setText(getResources().getString(R.string.signup_email_error));
                 }
             } else {
-                activityFacebookLoginWithNoEmailBinding.emailEdt.setError("Email Address is required");
+                activityFacebookLoginWithNoEmailBinding.emailErrorTxt.setVisibility(View.VISIBLE);
+                activityFacebookLoginWithNoEmailBinding.emailErrorTxt.setText(getResources().getString(R.string.signup_blankemail_error));
             }
         } else {
-            activityFacebookLoginWithNoEmailBinding.nameEdt.setError("Name is required");
+            activityFacebookLoginWithNoEmailBinding.fullnameErrorTxt.setVisibility(View.VISIBLE);
+            activityFacebookLoginWithNoEmailBinding.fullnameErrorTxt.setText(getResources().getString(R.string.facebook_signup_error));
         }
     }
 
@@ -210,7 +303,7 @@ public class FacebookLoginWithNoEmailActivity extends AppCompatActivity implemen
                 }
                 if (loginModel.getIsValid() == 0) {
                     Utils.dismissDialog();
-                    Utils.ping(mContext, loginModel.getMessage());
+                    setmarginofservererrorTxtview();
                     return;
                 }
                 if (loginModel.getIsValid() == 1) {
@@ -236,36 +329,36 @@ public class FacebookLoginWithNoEmailActivity extends AppCompatActivity implemen
                                 startActivity(DashboardIntent);
                                 finish();
                             }
-                        }else{
+                        } else {
                             facebooklogout();
-                            Utils.ping(mContext,getResources().getString(R.string.login_error_msg));
+                            Utils.ping(mContext, getResources().getString(R.string.login_error_msg));
                         }
                     }
 
-                    }
                 }
+            }
 
-                @Override
-                public void failure (RetrofitError error){
-                    Utils.dismissDialog();
-                    error.printStackTrace();
-                    error.getMessage();
-                    Utils.ping(mContext, getString(R.string.something_wrong));
-                }
-            });
+            @Override
+            public void failure(RetrofitError error) {
+                Utils.dismissDialog();
+                error.printStackTrace();
+                error.getMessage();
+                Utils.ping(mContext, getString(R.string.something_wrong));
+            }
+        });
 
-        }
-
-        private Map<String, String> getFacebookSignUpData () {
-            Map<String, String> map = new HashMap<>();
-            map.put("email", personEmailStr);
-            map.put("Name", personNameStr);
-            map.put("Image", personImageStr);
-            map.put("TokenId", Utils.getPref(mContext, "registration_id"));
-            map.put("ModelName", Utils.getDeviceName());
-            map.put("PhoneNo", personNumberStr);
-            map.put("CountryISOCode", AppConfiguration.currentCountryISOCode);
-            map.put("CountryDialCode", personCountryDialCodeStr);
-            return map;
-        }
     }
+
+    private Map<String, String> getFacebookSignUpData() {
+        Map<String, String> map = new HashMap<>();
+        map.put("email", personEmailStr);
+        map.put("Name", personNameStr);
+        map.put("Image", personImageStr);
+        map.put("TokenId", Utils.getPref(mContext, "registration_id"));
+        map.put("ModelName", Utils.getDeviceName());
+        map.put("PhoneNo", personNumberStr);
+        map.put("CountryISOCode", AppConfiguration.currentCountryISOCode);
+        map.put("CountryDialCode", personCountryDialCodeStr);
+        return map;
+    }
+}

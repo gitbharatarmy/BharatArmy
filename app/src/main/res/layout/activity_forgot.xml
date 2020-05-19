@@ -85,7 +85,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <ImageView
+                    <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_150sdp"
                         android:layout_gravity="center_vertical"
@@ -93,7 +93,7 @@
                         android:src="@drawable/app_logo_new" />
                 </LinearLayout>
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/forgot_txt"
                     style="@style/text_font"
                     android:layout_width="wrap_content"
@@ -104,7 +104,7 @@
                     android:textColor="@color/heading_bg"
                     android:textSize="@dimen/_20sdp" />
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     style="@style/text_font"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -124,45 +124,58 @@
                     android:layout_marginLeft="@dimen/_20sdp"
                     android:layout_marginTop="@dimen/_15sdp"
                     android:layout_marginRight="@dimen/_20sdp"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true">
 
-                    <LinearLayout
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/signup_email_textinputlayout"
+                        style="@style/SignupSigninEditTextStyle"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/line_shape"
-                        android:orientation="horizontal">
+                        android:layout_height="@dimen/_45sdp"
+                        android:layout_marginTop="@dimen/material_margin_top"
+                        android:hint="@string/email"
+                        app:errorIconDrawable="@null"
+                        app:startIconDrawable="@drawable/ic_email"
+                        app:startIconTint="@color/text_input_box_stroke">
 
-                        <ImageView
-                            android:layout_width="@dimen/_15sdp"
-                            android:layout_height="@dimen/_15sdp"
-                            android:layout_gravity="center_vertical"
-                            android:src="@drawable/ic_email" />
-
-                        <EditText
+                        <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/forgot_passwordemail_edt"
-                            style="@style/text_font"
                             android:layout_width="match_parent"
-                            android:layout_height="@dimen/_30sdp"
-                            android:background="@android:color/transparent"
-                            android:hint="Enter Your Registered Email"
+                            android:layout_height="match_parent"
+                            android:layout_centerInParent="true"
+                            android:gravity="center_vertical"
                             android:imeOptions="actionDone"
-                            android:inputType="textEmailAddress"
+                            android:inputType="textNoSuggestions|textEmailAddress"
                             android:maxLength="150"
                             android:maxLines="1"
-                            android:paddingLeft="@dimen/_5sdp"
-                            android:paddingRight="@dimen/_7sdp"
-                            android:textColor="@color/heading_bg"
-                            android:textColorHint="@color/hint_txt_color"
-                            android:textCursorDrawable="@drawable/color_cursor"
-                            android:textSize="@dimen/_12sdp" />
-                    </LinearLayout>
+                            android:textColor="@color/heading_bg" />
 
-                    <Button
-                        android:id="@+id/submit_btn"
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/forgotemail_error_txt"
+                        style="@style/ErrorTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/signup_email_error"
+                        android:visibility="gone" />
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/server_error_txt"
+                        style="@style/ErrorTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/server_error_margin_top"
+                        android:layout_marginBottom="@dimen/server_error_margin_bottom"
+                        android:gravity="center"
+                        android:text="@string/usererror"
+                        android:visibility="gone" />
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/forgot_submit_btn"
                         style="@style/text_font"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_40sdp"
-                        android:layout_marginTop="@dimen/_25sdp"
+                        android:gravity="center"
                         android:background="@color/heading_bg"
                         android:imeOptions="actionDone"
                         android:text="Send"

@@ -709,6 +709,7 @@ public class TravelMatchScheduleDetailActivity extends AppCompatActivity impleme
 
     @Override
     public void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
         releasePlayer();
         releaseAdsLoader();
         clearStartPosition();

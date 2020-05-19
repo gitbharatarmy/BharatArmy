@@ -1,0 +1,430 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/splash_bg_color">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_50sdp"
+            android:background="@color/heading_bg"
+            android:minHeight="?attr/actionBarSize"
+            app:contentInsetEnd="0dp"
+            app:contentInsetStart="0dp"
+            app:titleTextAppearance="@style/ToolbarTitle">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:orientation="horizontal"
+                android:weightSum="3">
+
+                <LinearLayout
+                    android:id="@+id/back_img"
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_15sdp"
+                        android:layout_gravity="left|center_vertical"
+                        android:src="@drawable/ic_left_arrow2"
+                        android:tint="@color/splash_bg_color" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/toolbar_title_txt"
+                    style="@style/title_text_font"
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_weight="3"
+                    android:ellipsize="end"
+                    android:gravity="center_vertical"
+                    android:maxLines="1"
+                    android:paddingLeft="@dimen/_5sdp"
+                    android:text="@string/heading"
+                    android:textColor="@color/splash_bg_color"
+                    android:textSize="@dimen/_14sdp" />
+
+
+            </LinearLayout>
+        </androidx.appcompat.widget.Toolbar>
+
+        <View
+            android:id="@+id/top_gradiant_view"
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:layout_below="@+id/toolbar"
+            android:background="@drawable/bg_gradiant_line" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/top_gradiant_view"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_35sdp"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:layout_marginEnd="@dimen/_10sdp">
+
+                <com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar
+                    android:id="@+id/time_progress"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_35sdp"
+                    app:rcBackgroundColor="@color/skip_color"
+                    app:rcBackgroundPadding="0dp"
+                    app:rcMax="335"
+                    app:rcProgressColors="@array/sample_progress_gradient"
+                    app:rcRadius="30dp" />
+                <!--                @array/sample_progress_gradient-->
+                <RelativeLayout
+                    android:id="@+id/time_display_linear"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_25sdp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:layout_marginRight="@dimen/_5sdp"
+                    android:orientation="horizontal"
+                    android:visibility="visible">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/remaining_time_txt"
+                        style="@style/title_text_font"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="@dimen/_5sdp"
+                        android:layout_toEndOf="@+id/quiz_time_img"
+                        android:gravity="center_vertical"
+                        android:maxLines="1"
+                        android:text="Timer :"
+                        android:textColor="@color/splash_bg_color"
+                        android:textSize="@dimen/_14sdp" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/quiz_time_img"
+                        android:layout_width="@dimen/_15sdp"
+                        android:layout_height="@dimen/_15sdp"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="@dimen/_7sdp"
+                        android:src="@drawable/ic_quiz_timer_icon"
+                        android:tint="@color/splash_bg_color" />
+                </RelativeLayout>
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:orientation="vertical">
+
+                <com.facebook.shimmer.ShimmerFrameLayout
+                    android:id="@+id/shimmer_view_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="visible">
+
+                    <include layout="@layout/feedback_loading_dataholder" />
+                </com.facebook.shimmer.ShimmerFrameLayout>
+
+
+                <RelativeLayout
+                    android:id="@+id/question_linear"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/question_txt"
+                        style="@style/title_text_font"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="@dimen/_2sdp"
+                        android:paddingRight="@dimen/_2sdp"
+                        android:text="@string/question1"
+                        android:textColor="@color/heading_bg"
+                        android:textSize="@dimen/allquestion_font_size" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/textsinglechoice_linear"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/question_linear"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:visibility="gone">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/textsinglechoice_ans_rcv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clipToPadding="false"
+                        android:overScrollMode="never"
+                        android:paddingBottom="@dimen/_120sdp" />
+
+                </RelativeLayout>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/questioncount_txt"
+                    style="@style/text_font"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/textsinglechoice_linear"
+                    android:gravity="center"
+                    android:paddingStart="@dimen/_2sdp"
+                    android:paddingEnd="@dimen/_2sdp"
+                    android:text="01/10"
+                    android:textColor="@color/heading_bg"
+                    android:textSize="@dimen/_10sdp"
+                    android:visibility="gone" />
+            </RelativeLayout>
+        </LinearLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/thankyou_linear"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/top_gradiant_view"
+            android:visibility="gone">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/thankyou_img"
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="@dimen/_100sdp"
+                android:layout_centerInParent="true"
+                android:src="@drawable/ic_likes_blue"
+                android:tint="@color/heading_bg" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/title_text_font"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/thankyou_img"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:gravity="center"
+                android:text="Thank You"
+                android:textColor="@color/heading_bg"
+                android:textSize="@dimen/_16sdp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/timeup_linear"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/top_gradiant_view"
+            android:visibility="gone">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/timeup_img"
+                android:layout_width="@dimen/_80sdp"
+                android:layout_height="@dimen/_80sdp"
+                android:layout_centerInParent="true"
+                android:src="@drawable/ic_quiz_timer"
+                android:tint="@color/heading_bg" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                style="@style/title_text_font"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/timeup_img"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:gravity="center"
+                android:text="Your Time is up"
+                android:textColor="@color/heading_bg"
+                android:textSize="@dimen/_16sdp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/next_linear"
+            android:layout_width="@dimen/_70sdp"
+            android:layout_height="@dimen/_35sdp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_50sdp"
+            android:background="@drawable/feedback_submit_shape"
+            android:backgroundTint="@color/heading_bg"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/submit_txt"
+                style="@style/title_desc_font"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/_7sdp"
+                android:text="01 of 10"
+                android:textColor="@color/splash_bg_color"
+                android:textSize="@dimen/_13sdp" />
+
+            <ImageView
+                android:id="@+id/next_img"
+                android:layout_width="@dimen/_13sdp"
+                android:layout_height="@dimen/_13sdp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/_5sdp"
+                android:layout_marginRight="@dimen/_5sdp"
+                android:layout_marginBottom="@dimen/_1sdp"
+                android:layout_toRightOf="@+id/submit_txt"
+                android:imeOptions="actionDone"
+                android:paddingTop="@dimen/_2sdp"
+                android:src="@drawable/ic_next_question"
+                android:tint="@color/splash_bg_color" />
+        </RelativeLayout>
+
+        <FrameLayout
+            android:id="@+id/question_result_type2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/top_gradiant_view"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:id="@+id/correct_incorrect_img"
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="@dimen/_100sdp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/_65sdp"
+                android:orientation="vertical"
+                android:background="@drawable/ic_correct_answer"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_270sdp"
+                android:layout_gravity="bottom"
+                android:background="@color/splash_bg_color">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/incorrect_linear"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_50sdp"
+                    android:background="@color/bgBottomNavigation"
+                    android:orientation="horizontal"
+                    android:weightSum="1">
+                   <androidx.appcompat.widget.AppCompatTextView
+                       android:layout_width="0dp"
+                       android:layout_height="match_parent"
+                       android:layout_weight="0.5"
+                       style="@style/title_text_font"
+                       android:text="@string/quiz_your_ans"
+                       android:textColor="@color/black_translucent1"
+                       android:textSize="@dimen/_12sdp"
+                       android:textAllCaps="true"/>
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="@dimen/_15sdp"
+                        android:layout_height="@dimen/_15sdp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginEnd="@dimen/_1sdp"
+                        android:src="@drawable/ic_incorrect_ans_sign" />
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/incorrect_ans_txt"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.5"
+                        style="@style/title_text_font"
+                        android:text="@string/quiz_your_ans"
+                        android:textColor="@color/splash_bg_color"
+                        android:textSize="@dimen/_12sdp"
+                        android:textAllCaps="true"/>
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/correct_linear"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_50sdp"
+                    android:layout_below="@+id/incorrect_linear"
+                    android:background="@color/correct_answer_color"
+                    android:orientation="horizontal">
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.5"
+                        style="@style/title_text_font"
+                        android:text="@string/quiz_correct_ans"
+                        android:textColor="@color/black_translucent1"
+                        android:textSize="@dimen/_12sdp"
+                        android:textAllCaps="true"/>
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="@dimen/_15sdp"
+                        android:layout_height="@dimen/_15sdp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginEnd="@dimen/_1sdp"
+                        android:src="@drawable/ic_check_mark" />
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/correct_ans_txt"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.5"
+                        style="@style/title_text_font"
+                        android:text="@string/quiz_correct_ans"
+                        android:textColor="@color/splash_bg_color"
+                        android:textSize="@dimen/_12sdp"
+                        android:textAllCaps="true"/>
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/answer_explanation_textView"
+                    style="@style/title_text_font"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/correct_linear"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_15sdp"
+                    android:gravity="start"
+                    android:maxLines="1"
+                    android:text="@string/quiz_answer_explanation"
+                    android:textColor="@color/colorGrey400"
+                    android:textSize="@dimen/_9sdp" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/correct_answer_explanation_textView"
+                    style="@style/text_font"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/answer_explanation_textView"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginEnd="@dimen/_15sdp"
+                    android:gravity="start"
+                    android:maxLines="7"
+                    android:text="@string/dialog_permission_message"
+                    android:textColor="@color/normal_font_color"
+                    android:textSize="@dimen/_9sdp" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/title_text_font"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:layout_marginEnd="@dimen/_15sdp"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:text="@string/quiz_answer_correct"
+                    android:textColor="@color/heading_bg"
+                    android:textSize="@dimen/_9sdp" />
+            </RelativeLayout>
+        </FrameLayout>
+    </RelativeLayout>
+</layout>

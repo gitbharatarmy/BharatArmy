@@ -20,7 +20,7 @@
                 android:paddingTop="@dimen/_3sdp"
                 android:orientation="vertical">
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/assignname_txt"
                     style="@style/title_text_font"
                     android:layout_width="wrap_content"
@@ -30,7 +30,7 @@
                     android:textColor="@color/heading_bg"
                     android:textSize="@dimen/_13sdp" />
 
-                <TextView
+                <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/assignemail_txt"
                     style="@style/text_font"
                     android:layout_width="wrap_content"
@@ -41,7 +41,7 @@
                     android:textSize="@dimen/_9sdp" />
             </LinearLayout>
 
-            <CheckBox
+            <androidx.appcompat.widget.AppCompatCheckBox
                 android:id="@+id/selected_chk"
                 android:layout_width="@dimen/_18sdp"
                 android:layout_height="@dimen/_18sdp"

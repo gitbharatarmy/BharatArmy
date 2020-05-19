@@ -2,7 +2,7 @@
 <resources>
     <!--<color name="colorPrimary">#008577</color>-->
     <!--<color name="colorPrimaryDark">#00574B</color>-->
-<!--    <color name="colorAccent">#D81B60</color>-->
+    <!--    <color name="colorAccent">#D81B60</color>-->
     <color name="heading_bg">#2a3550</color>
 
     <color name="skip_color">#02ACEA</color>
@@ -81,6 +81,7 @@
     <color name="line_button">#565758</color>
     <color name="black_translucent">#50000000</color>
     <color name="black_translucent1">#90000000</color>
+    <color name="correct_answer_color">#119C3B</color>
 
 
     <!--showcase view-->
@@ -95,4 +96,21 @@
     <color name="feedback_txt_color">#B7BABA</color>
     <color name="feedback_write_txt_color">@color/heading_bg</color>
 
+    <!--    speed dial -->
+    <color name="sd_label_text_color">#757575</color>
+    <color name="sd_overlay_color">#aaffffff</color>
+
+    <!--    quiz timer gradiant color -->
+    <color name="sample_progress_text_color">#ffffff</color>
+    <color name="sample_progress_gradient_start">#2a3550</color>
+    <color name="sample_progress_gradient_end">#0452FB</color>
+    <array name="sample_progress_gradient">
+        <item>@color/sample_progress_gradient_start</item>
+        <item>@color/sample_progress_gradient_start</item>
+    </array>
+
+    <array name="result_progress_gradient">
+        <item>@color/skip_color</item>
+        <item>@color/skip_color</item>
+    </array>
 </resources>

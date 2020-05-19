@@ -1,16 +1,17 @@
 <resources>
-<!-- remove code 25-02-2020 with backup-->
+    <!-- remove code 25-02-2020 with backup-->
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
-        <item name="windowActionBar">true</item>
-        <item name="windowNoTitle">true</item>
-        <item name="android:statusBarColor">@color/heading_bg</item>
-        <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
-        <item name="android:windowAnimationStyle">@style/CustomActivityAnimation</item>
-        <item name="colorControlActivated">@color/heading_bg</item>
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
+    <!-- Customize your theme here. -->
+    <item name="windowActionBar">true</item>
+    <item name="windowNoTitle">true</item>
+    <item name="android:statusBarColor">@color/heading_bg</item>
+    <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
+    <item name="android:windowAnimationStyle">@style/CustomActivityAnimation</item>
+    <item name="colorControlActivated">@color/heading_bg</item>
+    <item name="materialAlertDialogTheme">@style/AlertDialogMaterialTheme</item>
+</style>
 
-    </style>
     <style name="AppTheme.NoActionBar">
         <item name="android:windowTranslucentNavigation">false</item>
         <item name="android:windowNoTitle">true</item>
@@ -33,6 +34,7 @@
 
 
     </style>
+
     <style name="FilePickerTheme" parent="LibAppTheme">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/heading_bg</item>
@@ -58,6 +60,7 @@
     <style name="title_desc_font">
         <item name="android:fontFamily">@font/helveticaneueltstdcn</item>
     </style>
+
     <style name="AppTheme.WhiteAccent">
         <item name="colorAccent">@color/splash_bg_color</item> <!-- Whatever color you want-->
     </style>
@@ -68,15 +71,24 @@
         <item name="android:minWidth">200dp</item>
     </style>
 
+    <style name="ErrorTextView" parent="@style/Widget.MaterialComponents.TextView">
+        <item name="android:textColor">@color/red</item>
+        <item name="fontFamily">@style/text_font</item>
+        <item name="android:textSize">@dimen/_11sdp</item>
+        <item name="paddingStart">@dimen/_3sdp</item>
+        <item name="android:paddingTop">@dimen/_3sdp</item>
+    </style>
 
     <style name="SignupSigninEditTextStyle" parent="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="fontFamily">@style/text_font</item>
         <item name="android:textSize">@dimen/_12sdp</item>
-        <item name="android:textColor">@color/heading_bg</item>
-        <item name="android:textColorHint">@color/hint_txt_color</item>
         <item name="android:textCursorDrawable">@drawable/color_cursor</item>
-        <item name="boxStrokeColor">@color/heading_bg</item>
+        <item name="boxStrokeColor">@color/text_input_box_stroke</item>
+        <item name="hintTextColor">@color/text_input_box_stroke</item>
         <item name="android:gravity">center_vertical</item>
+        <item name="helperTextTextColor">@color/heading_bg</item>
+        <item name="colorError">@color/red</item>
+        <item name="backgroundColor">@color/transparent</item>
     </style>
 
     <style name="SignupSigninButtonStyle" parent="@style/Widget.MaterialComponents.Button.TextButton">
@@ -88,13 +100,11 @@
     </style>
 
 
-
-    <style name="AppTheme.AppBarOverlay" parent="Theme.AppCompat.DayNight.Dialog" >
+    <style name="AppTheme.AppBarOverlay" parent="Theme.AppCompat.DayNight.Dialog">
         <item name="colorPrimary">@color/heading_bg</item>
     </style>
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
-
 
 
     <style name="DialogAnimation">
@@ -111,10 +121,12 @@
         <item name="spinBars">true</item>
         <item name="color">@color/splash_bg_color</item>
     </style>
+
     <style name="tab_text" parent="@android:style/TextAppearance.Widget.TabWidget">
         <item name="android:fontFamily">@font/helveticaneueltstdbdcn</item>
         <item name="android:textStyle">normal</item>
     </style>
+
     <style name="count_down">
         <item name="android:fontFamily">@font/helveticaneueltstdbdcn</item>
         <item name="android:textStyle">bold</item>
@@ -137,6 +149,7 @@
         <item name="android:textSize">@dimen/welcome_content</item>
         <item name="android:textColor">@color/heading_bg</item>
     </style>
+
     <style name="ToolbarTitle" parent="@style/TextAppearance.Widget.AppCompat.Toolbar.Title">
         <item name="android:textSize">20sp</item>
     </style>
@@ -165,7 +178,7 @@
         <item name="colorControlActivated">@color/colorPrimary</item>
         <!-- colorControlActivated & colorControlHighlight use the colorAccent          color by default -->
     </style>
-    
+
     <style name="TextAppearance.AppCompat.Title.Collapse">
         <item name="android:fontFamily">@font/helveticaneueltstdbdcn</item>
         <item name="android:textSize">@dimen/_15sdp</item>
@@ -279,13 +292,61 @@
     </style>
 
 
-<!--    facebook progressbar hide-->
+    <!--    facebook progressbar hide-->
     <style name="FullyTranslucent" parent="android:Theme.Translucent.NoTitleBar">
         <item name="android:progressBarStyle">@style/InvisibleProgress</item>
     </style>
 
     <style name="InvisibleProgress">
         <item name="android:visibility">gone</item>
+    </style>
+
+
+    <style name="AlertDialogMaterialTheme" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="buttonBarPositiveButtonStyle">@style/Alert.Button.Positive</item>
+        <item name="buttonBarNegativeButtonStyle">@style/Alert.Button.Negative</item>
+    </style>
+
+    <style name="Alert.Button.Positive" parent="Widget.MaterialComponents.Button.TextButton">
+        <!--        <item name="android:fillColor">@color/color_0054BB</item>-->
+        <item name="android:textColor">@color/heading_bg</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">14sp</item>
+        <!--        <item name="rippleColor">@color/colorAccent_main</item>-->
+    </style>
+
+    <style name="Alert.Button.Negative" parent="Widget.MaterialComponents.Button.TextButton">
+        <!--        <item name="strokeColor">@color/color_0054BB</item>-->
+        <item name="android:textColor">@color/heading_bg</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:layout_marginEnd">8dp</item>
+        <!--        <item name="rippleColor">@color/colorAccent_main</item>-->
+    </style>
+
+    <!--    speed dial-->
+    <style name="SpeedDial" />
+
+    <style name="SpeedDial.Base" />
+
+    <style name="SpeedDial.Base.FabLabelStyle">
+        <item name="android:ellipsize">end</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:maxWidth">@dimen/sd_label_max_width</item>
+        <item name="android:paddingLeft">4dp</item>
+        <item name="android:paddingRight">4dp</item>
+        <item name="android:textAppearance">?android:textAppearanceSmall</item>
+        <item name="android:textColor">@color/sd_label_text_color</item>
+    </style>
+
+    <style name="SpeedDial.FabLabelStyle" parent="SpeedDial.Base.FabLabelStyle">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+<!--    quiz timer-->
+    <style name="SampleProgress">
+        <item name="android:layout_width">@dimen/content_width</item>
+        <item name="android:layout_height">30dp</item>
     </style>
 </resources>
 

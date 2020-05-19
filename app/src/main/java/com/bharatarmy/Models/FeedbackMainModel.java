@@ -146,4 +146,5 @@ public class FeedbackMainModel {
     public void setCurrentVersion(Double currentVersion) {
         this.currentVersion = currentVersion;
     }
+
 }

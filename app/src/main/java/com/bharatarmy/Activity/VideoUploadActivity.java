@@ -8,6 +8,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -99,6 +101,48 @@ public class VideoUploadActivity extends AppCompatActivity implements View.OnCli
         activityVideoUploadBinding.submitLinear.setOnClickListener(this);
         activityVideoUploadBinding.backImg.setOnClickListener(this);
         activityVideoUploadBinding.pictureChooseLinear.setOnClickListener(this);
+
+        activityVideoUploadBinding.videoTitleEdt.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.length() > 0) {
+                    activityVideoUploadBinding.videotitleErrorTxt.setVisibility(View.GONE);
+                } else if (s.toString().equalsIgnoreCase("")) {
+                    activityVideoUploadBinding.videotitleErrorTxt.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        activityVideoUploadBinding.videodescEdt.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.length() > 0) {
+                    activityVideoUploadBinding.videodescErrorTxt.setVisibility(View.GONE);
+                } else if (s.toString().equalsIgnoreCase("")) {
+                    activityVideoUploadBinding.videodescErrorTxt.setVisibility(View.GONE);
+                }
+            }
+        });
     }
 
     @Override
@@ -195,22 +239,24 @@ public class VideoUploadActivity extends AppCompatActivity implements View.OnCli
                                         alertDialog.show();
 
                                     } else {
-                                        Utils.ping(mContext, "Please select video");
+                                        Utils.ping(mContext, getResources().getString(R.string.video_upload_select_error));
                                     }
                                 } else {
                                     Utils.showCustomDialog(getResources().getString(R.string.internet_error), getResources().getString(R.string.internet_connection_error), VideoUploadActivity.this);
                                 }
-                            }else {
-                                Utils.ping(mContext, "video can't support");
+                            } else {
+                                Utils.ping(mContext, getResources().getString(R.string.video_upload_not_support));
                             }
                         } else {
-                            Utils.ping(mContext, "video can't support");
+                            Utils.ping(mContext, getResources().getString(R.string.video_upload_not_support));
                         }
                     } else {
-                        activityVideoUploadBinding.videodescEdt.setError("please enter video description");
+                        activityVideoUploadBinding.videodescErrorTxt.setVisibility(View.VISIBLE);
+                        activityVideoUploadBinding.videodescErrorTxt.setText(getResources().getString(R.string.video_upload_desc_error));
                     }
                 } else {
-                    activityVideoUploadBinding.videoTitleEdt.setError("please enter video title");
+                    activityVideoUploadBinding.videotitleErrorTxt.setVisibility(View.VISIBLE);
+                    activityVideoUploadBinding.videoTitleEdt.setText(getResources().getString(R.string.video_upload_title_error));
                 }
                 break;
             case R.id.picture_choose_linear:

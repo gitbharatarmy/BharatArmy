@@ -149,4 +149,6 @@ public class LogginModel {
     public void setRecordCount(Integer recordCount) {
         this.recordCount = recordCount;
     }
+
+
 }

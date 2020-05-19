@@ -31,15 +31,16 @@ import com.bharatarmy.R;
 import com.bharatarmy.Utility.ApiHandler;
 import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.FragmentAlbumBinding;
+import com.bharatarmy.speeddialView.FabWithLabelView;
+import com.bharatarmy.speeddialView.SpeedDialActionItem;
+import com.bharatarmy.speeddialView.SpeedDialOverlayLayout;
+import com.bharatarmy.speeddialView.SpeedDialView;
 import com.karumi.dexter.Dexter;
 import com.karumi.dexter.MultiplePermissionsReport;
 import com.karumi.dexter.PermissionToken;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
-import com.leinardi.android.speeddial.FabWithLabelView;
-import com.leinardi.android.speeddial.SpeedDialActionItem;
-import com.leinardi.android.speeddial.SpeedDialOverlayLayout;
-import com.leinardi.android.speeddial.SpeedDialView;
+
 
 
 import java.util.ArrayList;

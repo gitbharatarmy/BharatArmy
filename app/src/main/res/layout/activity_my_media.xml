@@ -114,11 +114,12 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="@dimen/_90sdp"
         android:orientation="vertical">
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/retry_btn"
             android:layout_width="@dimen/_90sdp"
             android:layout_height="@dimen/_30sdp"
             android:background="@color/heading_bg"
+            android:gravity="center"
             android:text="@string/retry"
             android:textColor="@color/splash_bg_color"
             android:textSize="@dimen/_15sdp"

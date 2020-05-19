@@ -1,10 +1,12 @@
 package com.bharatarmy.Activity;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 
 import android.app.DatePickerDialog;
 import android.content.Context;
@@ -114,7 +116,7 @@ int agentid;
 
 
     public void fromDateLinear() {
-        datePickerDialog = new DatePickerDialog(mContext, R.style.CustomDatePickerDialogTheme,
+        datePickerDialog = new DatePickerDialog(mContext,
                 new DatePickerDialog.OnDateSetListener() {
 
                     @Override
@@ -154,7 +156,7 @@ int agentid;
     }
 
     public void toDateLinear() {
-        datePickerDialog = new DatePickerDialog(mContext, R.style.CustomDatePickerDialogTheme,
+        datePickerDialog = new DatePickerDialog(mContext,
                 new DatePickerDialog.OnDateSetListener() {
 
                     @Override
@@ -444,7 +446,7 @@ int agentid;
                 filterData();
                 break;
             case R.id.logout_img:
-                android.app.AlertDialog.Builder alertDialog2 = new android.app.AlertDialog.Builder(this);
+              AlertDialog.Builder alertDialog2 = new AlertDialog.Builder(this);
                 alertDialog2.setTitle("Logout Confirm");
                 alertDialog2.setMessage("Are you sure you want logout?");
                 alertDialog2.setIcon(R.drawable.app_logo_new);

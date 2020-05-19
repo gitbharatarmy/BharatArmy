@@ -45,8 +45,8 @@ import com.bharatarmy.R;
 import com.bharatarmy.Utility.AppConfiguration;
 import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.FragmentNewTravelBinding;
+import com.bharatarmy.speeddialView.SpeedDialView;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
-import com.leinardi.android.speeddial.SpeedDialView;
 import com.tmall.ultraviewpager.UltraViewPager;
 import com.tmall.ultraviewpager.transformer.UltraScaleTransformer;
 

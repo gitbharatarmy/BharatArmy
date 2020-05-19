@@ -117,23 +117,26 @@ public class FTPDetailsActivity extends AppCompatActivity implements View.OnClic
     }
 
     public void getUserDetail() {
-        if (Utils.retriveLoginData(mContext).getName() != null) {
-            firstNameStr = Utils.retriveLoginData(mContext).getName();
-        }
-        if (Utils.retriveLoginData(mContext).getEmail() != null) {
-            emailStr = Utils.retriveLoginData(mContext).getEmail();
-        }
-        if (Utils.retriveLoginData(mContext).getPhoneNo() != null &&
-                !Utils.retriveLoginData(mContext).getPhoneNo().equalsIgnoreCase("")) {
-            phoneNumberStr = Utils.retriveLoginData(mContext).getPhoneNo();
-        }
-        if (Utils.retriveLoginData(mContext).getCountryISOCode() != null) {
-            if (!Utils.retriveLoginData(mContext).getCountryISOCode().equalsIgnoreCase("")) {
-                AppConfiguration.currentCountryISOCode = Utils.retriveLoginData(mContext).getCountryISOCode();
-            } else {
-                AppConfiguration.currentCountryISOCode = Utils.retriveCurrentLocationData(mContext).getIsoCode();
+        if (Utils.retriveLoginData(mContext)!=null){
+            if (Utils.retriveLoginData(mContext).getName() != null) {
+                firstNameStr = Utils.retriveLoginData(mContext).getName();
+            }
+            if (Utils.retriveLoginData(mContext).getEmail() != null) {
+                emailStr = Utils.retriveLoginData(mContext).getEmail();
+            }
+            if (Utils.retriveLoginData(mContext).getPhoneNo() != null &&
+                    !Utils.retriveLoginData(mContext).getPhoneNo().equalsIgnoreCase("")) {
+                phoneNumberStr = Utils.retriveLoginData(mContext).getPhoneNo();
+            }
+            if (Utils.retriveLoginData(mContext).getCountryISOCode() != null) {
+                if (!Utils.retriveLoginData(mContext).getCountryISOCode().equalsIgnoreCase("")) {
+                    AppConfiguration.currentCountryISOCode = Utils.retriveLoginData(mContext).getCountryISOCode();
+                } else {
+                    AppConfiguration.currentCountryISOCode = Utils.retriveCurrentLocationData(mContext).getIsoCode();
+                }
             }
         }
+
         countryISOcodeStr = AppConfiguration.currentCountryISOCode;
 
         countryISOcodeStr = "";

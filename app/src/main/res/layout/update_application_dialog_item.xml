@@ -11,7 +11,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:layout_gravity="center_vertical">
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/updateapp_img"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_90sdp"
@@ -19,7 +19,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="@dimen/_140sdp"/>
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="match_parent"
             android:layout_height="@dimen/_30sdp"
             android:text="Update"
@@ -30,7 +30,7 @@
             android:gravity="center"/>
 
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="We added lots of new features and fix some bugs to make your experience as smooth as possible"
@@ -42,11 +42,12 @@
             android:layout_marginRight="@dimen/_20sdp"
             android:layout_marginTop="@dimen/_5sdp" />
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/update_btn"
             android:layout_width="@dimen/_130sdp"
             android:layout_height="@dimen/_40sdp"
             android:layout_gravity="center_horizontal"
+            android:gravity="center"
             android:text="Update App"
             android:layout_marginTop="@dimen/_30sdp"
             android:background="@color/skip_color"
@@ -55,7 +56,7 @@
             android:textSize="@dimen/_15sdp"
             style="@style/title_text_font"/>
 
-        <TextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/notnow_txt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

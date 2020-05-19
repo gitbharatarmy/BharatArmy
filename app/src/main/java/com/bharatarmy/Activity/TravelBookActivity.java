@@ -191,7 +191,7 @@ public class TravelBookActivity extends AppCompatActivity implements View.OnClic
 
     public void setDateList() {
 
-        datePickerDialog = new DatePickerDialog(mContext, R.style.CustomDatePickerDialogTheme,
+        datePickerDialog = new DatePickerDialog(mContext,
                 new DatePickerDialog.OnDateSetListener() {
 
                     @Override

@@ -2,6 +2,8 @@ package com.bharatarmy.Activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -9,17 +11,21 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.databinding.DataBindingUtil;
 
 import com.bharatarmy.Models.LogginModel;
+import com.bharatarmy.ProgressDrawable;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.ApiHandler;
 import com.bharatarmy.Utility.AppConfiguration;
 import com.bharatarmy.Utility.Utils;
 
+import com.bharatarmy.appenum.PasswordStrength;
 import com.bharatarmy.databinding.ActivityLoginwithemailBinding;
 
 
@@ -35,13 +41,37 @@ public class LoginwithEmailActivity extends AppCompatActivity implements View.On
     String username_str, password_str;
     public String isUpdateAvailable, isForceUpdateAvailable, currentVersionStr;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         loginBinding = DataBindingUtil.setContentView(this, R.layout.activity_loginwithemail);
         mContext = LoginwithEmailActivity.this;
+        init();
         setListner();
 
+    }
+
+    public void init() {
+     setmarginofservererrorTxtview();
+    }
+
+    public void setmarginofservererrorTxtview(){
+        if (loginBinding.serverErrorTxt.isShown()){
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+            );
+            params.setMargins(0, 0, 0, 0);
+            loginBinding.logginBtn.setLayoutParams(params);
+        }else{
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+            );
+            params.setMargins(0, getResources().getDimensionPixelOffset(R.dimen.material_margin_top), 0, 0);
+            loginBinding.logginBtn.setLayoutParams(params);
+        }
     }
 
     public void setListner() {
@@ -60,7 +90,8 @@ public class LoginwithEmailActivity extends AppCompatActivity implements View.On
                 return false;
             }
         });
-        loginBinding.userPasswordEdt.addTextChangedListener(new TextWatcher() {
+
+        loginBinding.userNameEdt.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -68,41 +99,92 @@ public class LoginwithEmailActivity extends AppCompatActivity implements View.On
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
 
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.length() > 0) {
+                    loginBinding.emailErrorTxt.setVisibility(View.GONE);
+                    loginBinding.serverErrorTxt.setVisibility(View.GONE);
+                    setmarginofservererrorTxtview();
+                }else if (s.toString().equalsIgnoreCase("")){
+                    loginBinding.emailErrorTxt.setVisibility(View.GONE);
+                    loginBinding.serverErrorTxt.setVisibility(View.GONE);
+                    setmarginofservererrorTxtview();
+                }
+            }
+        });
+
+        loginBinding.userPasswordEdt.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
             }
 
             @Override
             public void afterTextChanged(Editable s) {
                 password_str = loginBinding.userPasswordEdt.getText().toString();
-
-                if (!password_str.equalsIgnoreCase("")) {
-
+                if (s.length() > 0) {
+                    loginBinding.serverErrorTxt.setVisibility(View.GONE);
+                    loginBinding.passwordErrorTxt.setVisibility(View.GONE);
+                    setmarginofservererrorTxtview();
+                } else if (s.toString().equalsIgnoreCase("")) {
+                    loginBinding.serverErrorTxt.setVisibility(View.GONE);
+                    loginBinding.passwordErrorTxt.setVisibility(View.GONE);
+                    setmarginofservererrorTxtview();
                 }
             }
         });
+
+
     }
+
 
     public void verifyLoginDetails() {
         username_str = loginBinding.userNameEdt.getText().toString();
         password_str = loginBinding.userPasswordEdt.getText().toString();
 
-        if (!username_str.equalsIgnoreCase("") & !password_str.equalsIgnoreCase("")) {
+
+        if (!username_str.equalsIgnoreCase("")) {
             if (Utils.isValidEmailId(username_str)) {
-                if (password_str.length() >= 5 && password_str.length() <= 10) {
-                    getLogin();
+                if (!password_str.equalsIgnoreCase("")) {
+                    if (password_str.length() >= 5 && password_str.length() <= 10) {
+                        getLogin();
+                    } else {
+                        loginBinding.passwordErrorTxt.setVisibility(View.VISIBLE);
+                        loginBinding.passwordErrorTxt.setText(getResources().getString(R.string.login_user_password_error));
+                    }
                 } else {
-                    loginBinding.userPasswordEdt.setError("Password Length must be greter than 5 or less than 10");
+                    loginBinding.passwordErrorTxt.setVisibility(View.VISIBLE);
+                    loginBinding.passwordErrorTxt.setText(getResources().getString(R.string.usererror));
                 }
             } else {
-                loginBinding.userNameEdt.setError("Please enter valid email address");
+                if (!password_str.equalsIgnoreCase("")) {
+                    if (password_str.length() >= 5 && password_str.length() <= 10) {
+
+                    } else {
+                        loginBinding.passwordErrorTxt.setVisibility(View.VISIBLE);
+                        loginBinding.passwordErrorTxt.setText(getResources().getString(R.string.login_user_password_error));
+                    }
+                } else {
+                    loginBinding.passwordErrorTxt.setVisibility(View.VISIBLE);
+                    loginBinding.passwordErrorTxt.setText(getResources().getString(R.string.usererror));
+                }
+                loginBinding.emailErrorTxt.setVisibility(View.VISIBLE);
+                loginBinding.emailErrorTxt.setText(getResources().getString(R.string.login_user_email_error));
             }
-
         } else {
-            loginBinding.userNameEdt.setError("Blank field not allowed");
-            loginBinding.userPasswordEdt.setError("Blank field not allowed");
+            loginBinding.emailErrorTxt.setVisibility(View.VISIBLE);
+            loginBinding.emailErrorTxt.setText(getResources().getString(R.string.usererror));
+            if (password_str.equalsIgnoreCase("")) {
+                loginBinding.passwordErrorTxt.setVisibility(View.VISIBLE);
+            }
         }
-
     }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -157,7 +239,9 @@ public class LoginwithEmailActivity extends AppCompatActivity implements View.On
                 }
                 if (loginModel.getIsValid() == 0) {
                     Utils.dismissDialog();
-                    Utils.ping(mContext, loginModel.getMessage());
+                    loginBinding.serverErrorTxt.setVisibility(View.VISIBLE);
+                    loginBinding.serverErrorTxt.setText(loginModel.getMessage());
+                    setmarginofservererrorTxtview();
                     return;
                 }
                 if (loginModel.getIsValid() == 1) {
@@ -172,7 +256,7 @@ public class LoginwithEmailActivity extends AppCompatActivity implements View.On
                         Utils.setPref(mContext, "IsSkipLogin", "");
                         Utils.setPref(mContext, "IsLoginUser", "1");
                         Utils.storeLoginData(loginModel.getData(), mContext);
-                        Utils.storeCurrentLocationData(loginModel.getCurrentLocation(),mContext);
+                        Utils.storeCurrentLocationData(loginModel.getCurrentLocation(), mContext);
                         Utils.storeLoginOtherData(loginModel.getOtherData(), mContext);
 
                         if (loginModel.getData().getIsNumberVerified() == 0) {
@@ -183,9 +267,9 @@ public class LoginwithEmailActivity extends AppCompatActivity implements View.On
                         } else {
                             Utils.setPref(mContext, "LoginType", "Email");
                             goToAfterLogin();
-                           Utils.dismissDialog();
+                            Utils.dismissDialog();
                         }
-                    }else{
+                    } else {
                         Utils.dismissDialog();
                     }
 
@@ -208,7 +292,7 @@ public class LoginwithEmailActivity extends AppCompatActivity implements View.On
         map.put("Email", username_str);
         map.put("Password", password_str);
         map.put("TokenId", Utils.getPref(mContext, "registration_id"));
-        map.put("ModelName",Utils.getDeviceName());
+        map.put("ModelName", Utils.getDeviceName());
         return map;
     }
 
@@ -222,7 +306,7 @@ public class LoginwithEmailActivity extends AppCompatActivity implements View.On
         Intent appLoginIntent = new Intent(mContext, AppLoginActivity.class);
         appLoginIntent.putExtra("whereTocomeLogin", getIntent().getStringExtra("whereTocomeLogin"));
         startActivity(appLoginIntent);
-        overridePendingTransition(R.anim.slide_in_left_new,0);
+        overridePendingTransition(R.anim.slide_in_left_new, 0);
 //        finish();
     }
 
@@ -245,7 +329,7 @@ public class LoginwithEmailActivity extends AppCompatActivity implements View.On
                 DashboardIntent.putExtra("whichPageRun", "3");
                 startActivity(DashboardIntent);
                 finish();
-            }else{
+            } else {
                 finish();
             }
         } else {

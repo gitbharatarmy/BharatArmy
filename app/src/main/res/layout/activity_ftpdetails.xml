@@ -374,6 +374,7 @@
                     android:layout_gravity="bottom"
                     android:layout_marginLeft="@dimen/_15sdp"
                     android:layout_marginRight="@dimen/_15sdp"
+                    android:layout_marginBottom="@dimen/_20sdp"
                     android:background="@drawable/bg_gradiant_line"
                     android:visibility="gone" />
             </LinearLayout>

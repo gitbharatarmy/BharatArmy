@@ -17,7 +17,7 @@
 
 <!--    </RadioGroup>-->
 
-    <CheckBox
+    <androidx.appcompat.widget.AppCompatCheckBox
         android:id="@+id/dialog_item_checkbox"
         android:layout_width="@dimen/_18sdp"
         android:layout_height="@dimen/_18sdp"

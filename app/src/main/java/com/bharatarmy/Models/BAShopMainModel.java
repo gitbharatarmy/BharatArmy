@@ -12,6 +12,12 @@ public class BAShopMainModel {
     @SerializedName("ShopData")
     @Expose
     private List<BAShopListModel> shopData = null;
+    @SerializedName("BAPollData")
+    @Expose
+    private List<BAPollDatum> bAPollData = null;
+    @SerializedName("BAQuizData")
+    @Expose
+    private List<BAPollDatum> bAQuizData = null;
 
     public String getStatus() {
         return status;
@@ -27,5 +33,21 @@ public class BAShopMainModel {
 
     public void setShopData(List<BAShopListModel> shopData) {
         this.shopData = shopData;
+    }
+
+    public List<BAPollDatum> getBAPollData() {
+        return bAPollData;
+    }
+
+    public void setBAPollData(List<BAPollDatum> bAPollData) {
+        this.bAPollData = bAPollData;
+    }
+
+    public List<BAPollDatum> getBAQuizData() {
+        return bAQuizData;
+    }
+
+    public void setBAQuizData(List<BAPollDatum> bAQuizData) {
+        this.bAQuizData = bAQuizData;
     }
 }

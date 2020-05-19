@@ -352,8 +352,9 @@ public class SportsInterestActivity extends AppCompatActivity implements View.On
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == REQUEST_IMAGE){
+            if (requestCode == REQUEST_IMAGE) {
                 getCameraImagePath(fileName);
             } else if (requestCode == CUSTOM_REQUEST_CODE) {
                 photoPaths = new ArrayList<>();
@@ -362,7 +363,7 @@ public class SportsInterestActivity extends AppCompatActivity implements View.On
                 filePath = photoPaths.get(0);
 
 
-                Log.d("filepath",filePath);
+                Log.d("filepath", filePath);
                 addToView(photoPaths);
             }
 

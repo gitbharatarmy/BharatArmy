@@ -1,12 +1,13 @@
 package com.bharatarmy.Fragment;
 
-import android.app.AlertDialog;
+
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
@@ -33,6 +34,7 @@ import com.bharatarmy.Models.MyScreenChnagesModel;
 import com.bharatarmy.R;
 import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.FragmentMoreBinding;
+import com.bharatarmy.speeddialView.SpeedDialView;
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
@@ -45,8 +47,6 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
-import com.leinardi.android.speeddial.SpeedDialView;
-
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
@@ -222,6 +222,7 @@ public class MoreFragment extends Fragment implements View.OnClickListener, Goog
                 break;
             case R.id.logout_linear:
                 Utils.handleClickEvent(mContext, fragmentMoreBinding.logoutLinear);
+
                 AlertDialog.Builder alertDialog2 = new AlertDialog.Builder(getActivity());
                 alertDialog2.setTitle("Logout Confirm");
                 alertDialog2.setMessage("Are you sure you want logout?");
@@ -306,7 +307,7 @@ public class MoreFragment extends Fragment implements View.OnClickListener, Goog
 //                Intent DashboardIntent = new Intent(mContext, DashboardActivity.class);
 //                DashboardIntent.putExtra("whichPageRun", "2");
 //                startActivity(DashboardIntent);
-                Intent feedbackIntent=new Intent(mContext, FeedbackActivity.class);
+                Intent feedbackIntent = new Intent(mContext, FeedbackActivity.class);
                 mContext.startActivity(feedbackIntent);
                 break;
         }

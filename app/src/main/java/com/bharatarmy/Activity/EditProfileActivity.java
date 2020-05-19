@@ -244,6 +244,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
                 return false;
             }
         });
+        
         activityEditProfileBinding.ccp.setOnCountryChangeListener(new CountryCodePicker.OnCountryChangeListener() {
             @Override
             public void onCountrySelected(Country selectedCountry) {
@@ -328,6 +329,173 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
             }
         });
 
+        activityEditProfileBinding.userFnameEdt.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.length() > 0) {
+                    activityEditProfileBinding.firstnameErrorTxt.setVisibility(View.GONE);
+                } else if (s.toString().equalsIgnoreCase("")) {
+                    activityEditProfileBinding.firstnameErrorTxt.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        activityEditProfileBinding.userLnameEdt.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.length() > 0) {
+                    activityEditProfileBinding.secondnameErrorTxt.setVisibility(View.GONE);
+                } else if (s.toString().equalsIgnoreCase("")) {
+                    activityEditProfileBinding.secondnameErrorTxt.setVisibility(View.GONE);
+                }
+            }
+        });
+      
+        activityEditProfileBinding.phoneNoEdt.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.length() > 0) {
+                    activityEditProfileBinding.phoneNumberErrorTxt.setVisibility(View.GONE);
+                } else if (s.toString().equalsIgnoreCase("")) {
+                    activityEditProfileBinding.phoneNumberErrorTxt.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        activityEditProfileBinding.addressErrorTxt.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.length() > 0) {
+                    activityEditProfileBinding.addressErrorTxt.setVisibility(View.GONE);
+                } else if (s.toString().equalsIgnoreCase("")) {
+                    activityEditProfileBinding.addressErrorTxt.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        activityEditProfileBinding.areaEdt.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.length() > 0) {
+                    activityEditProfileBinding.areaErrorTxt.setVisibility(View.GONE);
+                } else if (s.toString().equalsIgnoreCase("")) {
+                    activityEditProfileBinding.areaErrorTxt.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        activityEditProfileBinding.statesEdt.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.length() > 0) {
+                    activityEditProfileBinding.statesErrorTxt.setVisibility(View.GONE);
+                } else if (s.toString().equalsIgnoreCase("")) {
+                    activityEditProfileBinding.statesErrorTxt.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        activityEditProfileBinding.cityEdt.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.length() > 0) {
+                    activityEditProfileBinding.citiesErrorTxt.setVisibility(View.GONE);
+                } else if (s.toString().equalsIgnoreCase("")) {
+                    activityEditProfileBinding.citiesErrorTxt.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        activityEditProfileBinding.pincodeEdt.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.length() > 0) {
+                    activityEditProfileBinding.pincodeErrorTxt.setVisibility(View.GONE);
+                } else if (s.toString().equalsIgnoreCase("")) {
+                    activityEditProfileBinding.pincodeErrorTxt.setVisibility(View.GONE);
+                }
+            }
+        });
     }
 
     @Override
@@ -432,6 +600,7 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_IMAGE) {
             if (resultCode == Activity.RESULT_OK) {
                 uri = data.getParcelableExtra("path");
@@ -725,27 +894,30 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
                                 MobileNoUpdate();
                             }
                         } else {
-                            Utils.ping(mContext, "Please select gender");
+                            Utils.ping(mContext, getResources().getString(R.string.edit_gender_error));
                             activityEditProfileBinding.editScroll.scrollTo(0, activityEditProfileBinding.genderRg.getTop());
 
                         }
                     } else {
-                        activityEditProfileBinding.phoneNoEdt.setError("Please enter phonenumber");
+                        activityEditProfileBinding.phoneNumberErrorTxt.setVisibility(View.VISIBLE);
+                        activityEditProfileBinding.phoneNumberErrorTxt.setText(getResources().getString(R.string.edit_phonenumber_error));
                         activityEditProfileBinding.editScroll.scrollTo(0, activityEditProfileBinding.phoneNoEdt.getTop());
                         activityEditProfileBinding.phoneNoEdt.requestFocus();
                     }
                 } else {
-                    Utils.ping(mContext, "Please select country code");
+                    Utils.ping(mContext, getResources().getString(R.string.edit_countrycode_error));
                     activityEditProfileBinding.editScroll.scrollTo(0, activityEditProfileBinding.ccp.getTop());
                     activityEditProfileBinding.ccp.requestFocus();
                 }
             } else {
-                activityEditProfileBinding.userLnameEdt.setError("Please enter lastname");
+                activityEditProfileBinding.userLnameEdt.setVisibility(View.VISIBLE);
+                activityEditProfileBinding.userLnameEdt.setText(getResources().getString(R.string.edit_lastname_error));
                 activityEditProfileBinding.editScroll.scrollTo(0, activityEditProfileBinding.userLnameEdt.getTop());
                 activityEditProfileBinding.userLnameEdt.requestFocus();
             }
         } else {
-            activityEditProfileBinding.userFnameEdt.setError("Please enter firstname");
+            activityEditProfileBinding.firstnameErrorTxt.setVisibility(View.VISIBLE);
+            activityEditProfileBinding.firstnameErrorTxt.setText(getResources().getString(R.string.edit_firstname_error));
             activityEditProfileBinding.editScroll.scrollTo(0, activityEditProfileBinding.userFnameEdt.getTop());
             activityEditProfileBinding.userFnameEdt.requestFocus();
         }

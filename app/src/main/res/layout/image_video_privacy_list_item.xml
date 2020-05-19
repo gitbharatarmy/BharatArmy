@@ -13,7 +13,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <CheckBox
+            <androidx.appcompat.widget.AppCompatCheckBox
                 android:id="@+id/selected_chk"
                 android:layout_width="@dimen/_18sdp"
                 android:layout_height="@dimen/_18sdp"

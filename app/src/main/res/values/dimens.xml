@@ -137,4 +137,27 @@
     <dimen name="allans_font_size">@dimen/_14sdp</dimen>
     <dimen name="category_font_size">@dimen/_8sdp</dimen>
     <dimen name="scollview_padding">@dimen/_85sdp</dimen>
+
+    <dimen name="material_margin_top">@dimen/_20sdp</dimen>
+    <dimen name="material_margin_top2">@dimen/_10sdp</dimen>
+    <dimen name="server_error_margin_top">@dimen/_5sdp</dimen>
+    <dimen name="server_error_margin_bottom">@dimen/_10sdp</dimen>
+
+<!--    speed dial dimens-->
+    <dimen name="sd_close_elevation">5dp</dimen>
+    <dimen name="sd_fab_mini_size">54dp</dimen>
+    <dimen name="sd_fab_normal_size">72dp</dimen>
+    <dimen name="sd_fab_side_margin">12dp</dimen>|
+    <dimen name="sd_label_max_width">160dp</dimen>
+    <dimen name="sd_open_elevation">8dp</dimen>
+    <dimen name="sd_overlay_elevation">@dimen/sd_close_elevation</dimen>
+
+
+    <dimen name="country_code_width">@dimen/_25sdp</dimen>
+    <dimen name="country_code_height">@dimen/_29sdp</dimen>
+    <dimen name="country_code_start">@dimen/_8sdp</dimen>
+    <dimen name="country_code_top">@dimen/_19sdp</dimen>
+
+<!--    quiz timer dimens-->
+    <dimen name="content_width">260dp</dimen>
 </resources>

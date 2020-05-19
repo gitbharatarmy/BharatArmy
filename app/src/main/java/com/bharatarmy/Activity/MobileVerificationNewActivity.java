@@ -3,10 +3,13 @@ package com.bharatarmy.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.CompoundButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
@@ -42,14 +45,37 @@ public class MobileVerificationNewActivity extends AppCompatActivity implements 
         mobileVerificationNewBinding = DataBindingUtil.setContentView(this, R.layout.activity_mobile_verification_new);
 
         mContext = MobileVerificationNewActivity.this;
+        init();
         setListiner();
     }
 
-    public void setListiner() {
+    public void init(){
+        setmarginofservererrorTxtview();
+    }
 
+    public void setmarginofservererrorTxtview(){
+        if (mobileVerificationNewBinding.serverErrorTxt.isShown()){
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+            );
+            params.setMargins(0, 0, 0, 0);
+            mobileVerificationNewBinding.mobileVerifyBtn.setLayoutParams(params);
+        }else{
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+            );
+            params.setMargins(0, getResources().getDimensionPixelOffset(R.dimen.material_margin_top), 0, 0);
+            mobileVerificationNewBinding.mobileVerifyBtn.setLayoutParams(params);
+        }
+    }
+
+    public void setListiner() {
+        mobileVerificationNewBinding.phoneNoEdt.setOnClickListener(this);
         mobileVerificationNewBinding.ccp.setCountryForNameCode(AppConfiguration.currentCountryISOCode);
-        if (Utils.retriveLoginData(mContext)!=null){
-            if (Utils.retriveLoginData(mContext).getPhoneNo()!=null){
+        if (Utils.retriveLoginData(mContext) != null) {
+            if (Utils.retriveLoginData(mContext).getPhoneNo() != null) {
                 mobileVerificationNewBinding.phoneNoEdt.setText(Utils.retriveLoginData(mContext).getPhoneNo());
             }
         }
@@ -69,8 +95,7 @@ public class MobileVerificationNewActivity extends AppCompatActivity implements 
         mobileVerificationNewBinding.ccp.setOnCountryChangeListener(new CountryCodePicker.OnCountryChangeListener() {
             @Override
             public void onCountrySelected(Country selectedCountry) {
-                mobileVerificationNewBinding.codeTxt.setText("+" + selectedCountry.getPhoneCode());
-                        AppConfiguration.currentCountryISOCode=mobileVerificationNewBinding.ccp.getSelectedCountryNameCode();
+                AppConfiguration.currentCountryISOCode = mobileVerificationNewBinding.ccp.getSelectedCountryNameCode();
             }
         });
 
@@ -81,6 +106,29 @@ public class MobileVerificationNewActivity extends AppCompatActivity implements 
                     strCheck = "1";
                 } else {
                     strCheck = "0";
+                }
+            }
+        });
+
+        mobileVerificationNewBinding.phoneNoEdt.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.length() > 0) {
+                    setmarginofservererrorTxtview();
+                    mobileVerificationNewBinding.phoneNumberErrorTxt.setVisibility(View.GONE);
+                } else if (s.toString().equalsIgnoreCase("")) {
+                    setmarginofservererrorTxtview();
+                    mobileVerificationNewBinding.phoneNumberErrorTxt.setVisibility(View.GONE);
                 }
             }
         });
@@ -104,11 +152,11 @@ public class MobileVerificationNewActivity extends AppCompatActivity implements 
                 }
                 break;
             case R.id.mobile_verify_btn:
-                Utils.handleClickEvent(mContext,mobileVerificationNewBinding.mobileVerifyBtn);
+                Utils.handleClickEvent(mContext, mobileVerificationNewBinding.mobileVerifyBtn);
                 getMobileverificationData();
                 break;
             case R.id.term_condition_txt:
-                Utils.handleClickEvent(mContext,mobileVerificationNewBinding.termConditionTxt);
+                Utils.handleClickEvent(mContext, mobileVerificationNewBinding.termConditionTxt);
                 Intent privacypolicyIntent = new Intent(mContext, MoreInformationActivity.class);
                 privacypolicyIntent.putExtra("Story Heading", "Privacy Policy");
                 privacypolicyIntent.putExtra("StroyUrl", AppConfiguration.TERMSURL);
@@ -116,34 +164,39 @@ public class MobileVerificationNewActivity extends AppCompatActivity implements 
                 privacypolicyIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(privacypolicyIntent);
                 break;
+            case R.id.phone_no_edt:
+                Utils.scrollScreen(mobileVerificationNewBinding.mobileverificationScrollView);
+                break;
         }
     }
 
 
     public void getMobileverificationData() {
         phoneNoStr = mobileVerificationNewBinding.phoneNoEdt.getText().toString();
-        countryCodeStr = mobileVerificationNewBinding.codeTxt.getText().toString();
+        countryCodeStr = mobileVerificationNewBinding.ccp.getSelectedCountryCode();
         if (countryCodeStr.length() > 0) {
             if (phoneNoStr.length() > 0) {
                 if (Utils.isValidPhoneNumber(phoneNoStr)) {
 //                    boolean status = Utils.validateNumber(mContext, countryCodeStr, phoneNoStr);
 //                    if (status) {
-                        if (!strCheck.equalsIgnoreCase("0")) {
-                             getOtpVerification ();
-                        } else {
-                            Utils.ping(mContext, "Please accept the privacy policy.");
-                        }
+                    if (!strCheck.equalsIgnoreCase("0")) {
+                        getOtpVerification();
+                    } else {
+                        Utils.ping(mContext, getResources().getString(R.string.signup_privacy_error));
+                    }
 //                    } else {
 //                        mobileVerificationNewBinding.phoneNoEdt.setError("Invalid Phone Number");
 //                    }
                 } else {
-                    mobileVerificationNewBinding.phoneNoEdt.setError("Invalid Phone Number");
+                    mobileVerificationNewBinding.phoneNumberErrorTxt.setVisibility(View.VISIBLE);
+                    mobileVerificationNewBinding.phoneNumberErrorTxt.setText(getResources().getString(R.string.signup_phone_number_error));
                 }
             } else {
-                mobileVerificationNewBinding.phoneNoEdt.setError("Phone Number is required");
+                mobileVerificationNewBinding.phoneNumberErrorTxt.setVisibility(View.VISIBLE);
+                mobileVerificationNewBinding.phoneNumberErrorTxt.setText(getResources().getString(R.string.signup_blankphone_number_error));
             }
         } else {
-            mobileVerificationNewBinding.codeTxt.setError("Country Code is required");
+            Utils.ping(mContext, getResources().getString(R.string.signup_county_code_error));
         }
 
     }
