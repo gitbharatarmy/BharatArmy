@@ -108,7 +108,8 @@
             app:tabSelectedTextColor="@color/orange"
             app:tabTextColor="@color/unselected_view"
             app:tabGravity="fill"
-            app:tabMode="fixed"/>
+            app:tabMode="fixed"
+            app:tabMaxWidth="0dp"/>
 
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/matchticketfilterpager"

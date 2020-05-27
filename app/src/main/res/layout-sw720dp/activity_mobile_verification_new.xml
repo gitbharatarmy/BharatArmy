@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/mobileverification_scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:orientation="vertical"
+        tools:context=".Activity.ForgotActivity">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.Toolbar
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_50sdp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_15sdp"
+                    android:layout_marginRight="@dimen/_15sdp"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:id="@+id/back_img"
+                        android:layout_width="@dimen/_40sdp"
+                        android:layout_height="@dimen/_40sdp"
+                        android:layout_alignParentLeft="true"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="@dimen/_20sdp"
+                            android:layout_height="@dimen/_15sdp"
+                            android:layout_gravity="left|center_vertical"
+                            android:src="@drawable/ic_left_arrow2" />
+                    </LinearLayout>
+                </RelativeLayout>
+            </androidx.appcompat.widget.Toolbar>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_150sdp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="@dimen/_15sdp"
+                        android:src="@drawable/app_logo_new" />
+                </LinearLayout>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/forgot_txt"
+                    style="@style/text_font"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/_10sdp"
+                    android:text="@string/mobile_verification_txt"
+                    android:textColor="@color/heading_bg"
+                    android:textSize="@dimen/_20sdp" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/text_font"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_left"
+                    android:layout_marginTop="@dimen/margin_top"
+                    android:layout_marginRight="@dimen/margin_right"
+                    android:gravity="center_horizontal"
+                    android:paddingRight="@dimen/_5sdp"
+                    android:text="@string/verification_str"
+                    android:textColor="@color/normal_font_color"
+                    android:textSize="@dimen/_12sdp" />
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_20sdp"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:layout_marginRight="@dimen/_20sdp"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/material_margin_top"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:orientation="horizontal">
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/mobileverification_mobilenumber_textinputlayout"
+                            style="@style/SignupSigninEditTextStyle"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_45sdp"
+                            android:hint="@string/phoneno"
+                            android:orientation="horizontal"
+                            app:errorIconDrawable="@null"
+                            app:startIconDrawable="@drawable/ic_email">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/phone_no_edt"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_centerInParent="true"
+                                android:gravity="center_vertical"
+                                android:imeOptions="actionDone"
+                                android:inputType="textNoSuggestions|phone"
+                                android:maxLength="14"
+                                android:textColor="@color/heading_bg"
+                                android:visibility="visible" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <LinearLayout
+                            android:layout_width="@dimen/_22sdp"
+                            android:layout_height="@dimen/_25sdp"
+                            android:layout_centerVertical="true"
+                            android:layout_marginStart="@dimen/_3sdp"
+                            android:layout_marginTop="@dimen/country_code_top">
+
+                            <com.bharatarmy.CountryCodePicker
+                                android:id="@+id/ccp"
+                                style="@style/text_font"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:gravity="center"
+                                android:visibility="visible"
+                                app:ccp_countryPreference="IN,GB,AU,CA,US,SG"
+                                app:ccp_hideNameCode="true"
+                                app:ccp_hidePhoneCode="true"
+                                app:ccp_textColor="@color/normal_font_color"
+                                app:ccp_textFont="thesansplain.ttf" />
+                        </LinearLayout>
+                    </RelativeLayout>
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/phone_number_error_txt"
+                        style="@style/ErrorTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/signup_blankphone_number_error"
+                        android:visibility="gone" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_gravity="bottom"
+                        android:layout_marginTop="@dimen/material_margin_top"
+                        android:layout_weight="0.5"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/title_text_font"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center_vertical"
+                            android:text="Terms and Conditions"
+                            android:textColor="@color/heading_bg"
+                            android:textSize="@dimen/_12sdp"
+                            android:textStyle="normal" />
+
+                        <androidx.appcompat.widget.LinearLayoutCompat
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/_20sdp"
+                            android:orientation="horizontal">
+
+                            <androidx.appcompat.widget.LinearLayoutCompat
+                                android:layout_width="@dimen/_20sdp"
+                                android:layout_height="@dimen/_20sdp"
+                                android:gravity="center">
+
+                                <androidx.appcompat.widget.AppCompatCheckBox
+                                    android:id="@+id/terms_chk"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:button="@drawable/chk_indicator" />
+                            </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/term_txt"
+                                style="@style/text_font"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/terms_txt"
+                                android:textColor="@color/heading_bg"
+                                android:textSize="@dimen/_11sdp" />
+
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/term_condition_txt"
+                                style="@style/text_font"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/_2sdp"
+                                android:paddingRight="@dimen/_5sdp"
+                                android:text="@string/terms_condition_txt"
+                                android:textColor="@color/heading_bg"
+                                android:textSize="@dimen/_11sdp" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/term2_txt"
+                                style="@style/text_font"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="of The Bharat Army"
+                                android:textColor="@color/heading_bg"
+                                android:textSize="@dimen/_11sdp" />
+                            <!--</LinearLayout>-->
+                        </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    </LinearLayout>
+
+                    <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/server_error_txt"
+                        style="@style/ErrorTextView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/server_error_margin_top"
+                        android:layout_marginBottom="@dimen/server_error_margin_bottom"
+                        android:gravity="center"
+                        android:text="@string/usererror"
+                        android:visibility="gone" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/mobile_verify_btn"
+                        style="@style/text_font"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_40sdp"
+                        android:background="@color/heading_bg"
+                        android:gravity="center"
+                        android:imeOptions="actionDone"
+                        android:text="Send"
+                        android:textAllCaps="true"
+                        android:textColor="@color/splash_bg_color"
+                        android:textSize="@dimen/_15sdp" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="5dp"
+                        android:layout_alignParentBottom="true"
+                        android:background="@drawable/bg_gradiant_line" />
+
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</layout>

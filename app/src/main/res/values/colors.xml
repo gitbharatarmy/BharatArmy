@@ -81,7 +81,8 @@
     <color name="line_button">#565758</color>
     <color name="black_translucent">#50000000</color>
     <color name="black_translucent1">#90000000</color>
-    <color name="correct_answer_color">#119C3B</color>
+    <color name="correct_answer_color">#80119C3B</color>
+    <color name="wrong_answer_color">#80FF0000</color>
 
 
     <!--showcase view-->

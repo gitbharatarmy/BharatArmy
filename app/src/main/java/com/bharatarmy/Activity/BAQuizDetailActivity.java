@@ -33,7 +33,7 @@ public class BAQuizDetailActivity extends AppCompatActivity implements View.OnCl
     ActivityBAQuizDetailBinding activityBAQuizDetailBinding;
     LoginDataModel quizDetailModelslist;
     public String isUpdateAvailable, isForceUpdateAvailable, currentVersionStr;
-    String clickquiztitle, quizIdStr,quizTime;
+    String clickquiztitle, quizIdStr, quizTime, quizResultType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,8 +106,10 @@ public class BAQuizDetailActivity extends AppCompatActivity implements View.OnCl
             case R.id.take_quiz_linear:
                 Intent intent = new Intent(mContext, BAQuizQuestionAnswerActivity.class);
                 intent.putExtra("quiztitle", activityBAQuizDetailBinding.quizMainTitleTxt.getText().toString());
-                intent.putExtra("quizTime",quizTime);
+                intent.putExtra("quizTime", quizTime);
+                intent.putExtra("quizeResultType", quizResultType);
                 startActivity(intent);
+                finish();
                 break;
         }
     }
@@ -205,6 +207,7 @@ public class BAQuizDetailActivity extends AppCompatActivity implements View.OnCl
         } else {
             activityBAQuizDetailBinding.quizTimerLinear.setVisibility(View.GONE);
         }
+        quizResultType = String.valueOf(quizDetailModelslist.getDisplayResultType());
         quizTime = String.valueOf(quizDetailModelslist.getTimerValue());
         activityBAQuizDetailBinding.quizTimeTxt.setText("Timer : " + quizDetailModelslist.getTimerValue() + " seconds");
     }

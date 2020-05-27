@@ -1,4 +1,5 @@
 <resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!--    change string according vishal sir change 27/05/2020 -->
     <string name="app_name" translatable="false">Bharat Army</string>
     <string name="next" translatable="false">NEXT</string>
     <string name="skip" translatable="false">SKIP</string>
@@ -6,12 +7,12 @@
     <string name="ok" translatable="false">Ok</string>
     <string name="alert_msg" translatable="false">Alert Msg</string>
     <string name="internet_error" translatable="false">Internet Connection !</string>
-    <string name="internet_connection_error" translatable="false">Admin requires an internet connection.Make sure Wi-Fi or mobile networks are turned on, then try again.</string>
+    <string name="internet_connection_error" translatable="false">Oops, No internet connection Make sure wifi or cellular data is turned on then try again</string>
     <string name="blank" translatable="false">Blank Field Not Allowed</string>
     <string name="false_msg" translatable="false">Record not found</string>
-    <string name="something_wrong" translatable="false">Something Wrong</string>
-    <string name="login_error_msg" translatable="false">Internal error, Please try again latter.</string>
-
+    <string name="something_wrong" translatable="false">Aaah! Something went wrong Brace yourself till we get the error fixed from our end. Pull to refresh the page or try again later.</string>
+    <string name="login_error_msg" translatable="false">Awww... Well, this is unexpected... An error has occurred and we\'re working to fix the problem! We'll be up and running shortly.</string>
+    <string name="update_dialog_text" translatable="false">We\'re better than ever! We have added new features &amp; fixed some bugs to make your experience as smooth as possible.</string>
 
     <!--Login Activity String-->
     <string name="username" translatable="false">Email</string>
@@ -120,6 +121,7 @@
     <string name="quiz_answer_incorrect" translatable="false">This Answer is Incorrect</string>
     <string name="quiz_your_ans" translatable="false">Your Answer</string>
     <string name="quiz_correct_ans" translatable="false">Correct Answer</string>
+    <string name="quiz_continue_text" translatable="false">Continue</string>
 
     <!--My Profile String-->
     <string name="email" translatable="false">Email</string>
@@ -144,8 +146,8 @@
     <string name="termsofservice" translatable="false">Terms of Service</string>
     <string name="privacy_policy" translatable="false">Privacy Policy</string>
     <string name="contentpolicy" translatable="false">Content Policy</string>
-    <string name="loading" translatable="false">Loading...</string>
-    <string name="verify_credential" translatable="false">verifying credentials...</string>
+    <string name="loading" translatable="false">Loading... Please Wait</string>
+    <string name="verify_credential" translatable="false">We are verifying your credentials...</string>
     <string name="facebook_app_id" translatable="false">569015383846103</string>
     <string name="fb_login_protocol_scheme" translatable="false">fb569015383846103</string>
     <string name="edit_firstname_error" translatable="false">Please enter firstname</string>
@@ -412,6 +414,8 @@ Sincerity is the hallmark of Pan Pacific Hotels Group. The Group is known to its
     <string name="hospitality_header" translatable="false">Hospitality</string>
     <string name="transfer_header" translatable="false">Transfer</string>
     <string name="cart_swipe_delete" translatable="false">Delete</string>
+    <string name="ba_poll_list_headertext" translatable="false">BA Poll</string>
+    <string name="ba_poll_view_history_text" translatable="false">Voting History</string>
 
     <string name="privacy_detail" translatable="false"> \u25CF Please note that after the finalization of the Tour service Cost, if there are any Hike in entrance fees of monuments  museums, Taxes, fuel cost or guide charges – by Govt of India, the same would be charged as extra. \n \u25CF TourMyIndia.com act only in the capacity of agent for the hotels, airlines, transporters, railways &amp; contractors providing other services &amp; all exchange orders, receipts, contracts &amp; tickets issued by us are issued subject to terms &amp; conditions under which these services are provided by them.</string>
 

@@ -33,7 +33,7 @@
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="We added lots of new features and fix some bugs to make your experience as smooth as possible"
+            android:text="@string/update_dialog_text"
             style="@style/text_font"
             android:textColor="@color/heading_bg"
             android:textSize="@dimen/_13sdp"

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:layout_width="@dimen/_10sdp"
+        android:layout_height="@dimen/_10sdp"
+        android:src="@drawable/ball_scroll"
+        android:layout_margin="@dimen/_3sdp"
+        android:layout_centerVertical="true"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/ba_poll_list_txt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="hello \n hello"
+        style="@style/text_font"
+        android:textSize="@dimen/_10sdp"
+        android:textColor="@color/normal_font_color"
+        android:layout_toLeftOf="@id/goto_poll_btn"
+        android:maxLines="2"
+        android:ellipsize="end"
+        android:layout_marginLeft="@dimen/_3sdp"/>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/goto_poll_btn"
+        android:layout_width="@dimen/_10sdp"
+        android:layout_height="@dimen/_10sdp"
+        android:layout_alignParentRight="true"
+        android:layout_marginEnd="@dimen/_5sdp"
+        android:src="@drawable/ic_right_arrow_angle"
+        android:layout_centerVertical="true"/>
+</RelativeLayout>
+</layout>

@@ -434,7 +434,7 @@
                         android:layout_marginTop="@dimen/_3sdp"
                         android:orientation="horizontal">
 
-                        <TextView
+                        <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/cart_hotel_Name_txt"
                             style="@style/title_text_font"
                             android:layout_width="wrap_content"
@@ -443,7 +443,7 @@
                             android:ellipsize="end"
                             android:gravity="top|left"
                             android:maxLines="2"
-                            android:paddingRight="@dimen/_3sdp"
+                            android:paddingEnd="@dimen/_3sdp"
                             android:text="India"
                             android:textColor="@color/heading_bg"
                             android:textSize="@dimen/_12sdp" />

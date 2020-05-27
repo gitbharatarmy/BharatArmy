@@ -161,6 +161,9 @@ dependencies {
 // quiz timer
     implementation 'com.akexorcist:round-corner-progress-bar:2.1.0'
 
+//    count down timer
+    implementation 'com.ankushgrover:Hourglass:2.0.0'
+
 
 //    unuse gradle
 /* SVG Loader implementation 'com.github.ar-android:AndroidSvgLoader:1.0.0'

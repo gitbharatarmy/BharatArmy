@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".Activity.BAPollListActivity">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_50sdp"
+            android:background="@color/heading_bg">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/back_img"
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_alignParentStart="true"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_15sdp"
+                        android:layout_gravity="start|center_vertical"
+                        android:src="@drawable/ic_left_arrow2"
+                        android:tint="@color/splash_bg_color" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_toEndOf="@+id/back_img"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/toolbar_title_txt"
+                        style="@style/title_text_font"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/_2sdp"
+                        android:ellipsize="end"
+                        android:gravity="center_vertical"
+                        android:maxLines="1"
+                        android:paddingStart="@dimen/_5sdp"
+                        android:paddingEnd="@dimen/_2sdp"
+                        android:text="@string/ba_poll_list_headertext"
+                        android:textAllCaps="true"
+                        android:textColor="@color/splash_bg_color"
+                        android:textSize="@dimen/main_title_size" />
+
+                </LinearLayout>
+            </RelativeLayout>
+        </androidx.appcompat.widget.Toolbar>
+
+        <View
+            android:id="@+id/top_gradiant_view"
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:layout_below="@+id/toolbar"
+            android:background="@drawable/bg_gradiant_line" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/top_gradiant_view"
+            android:orientation="vertical">
+
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:id="@+id/shimmer_view_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="vertical"
+                android:visibility="visible">
+
+                <include layout="@layout/travel_match_schedule_dataholder" />
+
+
+            </com.facebook.shimmer.ShimmerFrameLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/ba_poll_list_rcv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipToPadding="false"
+                android:paddingBottom="@dimen/_55sdp" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/bottom_linear"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_50sdp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/heading_bg"
+            android:baselineAligned="false"
+            android:orientation="horizontal"
+            android:visibility="visible"
+            android:weightSum="1">
+
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/voting_history_txt"
+                        style="@style/title_text_font"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="@dimen/_2sdp"
+                        android:paddingEnd="@dimen/_2sdp"
+                        android:text="@string/ba_poll_view_history_text"
+                        android:textColor="@color/splash_bg_color"
+                        android:textSize="@dimen/_15sdp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+</layout>

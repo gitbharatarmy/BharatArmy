@@ -85,6 +85,7 @@
         <item name="android:textCursorDrawable">@drawable/color_cursor</item>
         <item name="boxStrokeColor">@color/text_input_box_stroke</item>
         <item name="hintTextColor">@color/text_input_box_stroke</item>
+        <item name="paddingStart">@dimen/_4sdp</item>
         <item name="android:gravity">center_vertical</item>
         <item name="helperTextTextColor">@color/heading_bg</item>
         <item name="colorError">@color/red</item>

@@ -15,6 +15,7 @@ import com.bharatarmy.R;
 import com.bharatarmy.databinding.BaPollTextsingleChoiceAnsListItemBinding;
 import com.bharatarmy.databinding.BaQuizTextsingleChoiceListItemBinding;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class BAQuizSingleChoiceAdapter extends RecyclerView.Adapter<BAQuizSingleChoiceAdapter.MyViewHolder> {
@@ -22,6 +23,7 @@ public class BAQuizSingleChoiceAdapter extends RecyclerView.Adapter<BAQuizSingle
     List<BAPollDatum> bapolltextsinglechoicelist;
     int selectedchangesposition = -1;
     MorestoryClick morestoryClick;
+    String layoutShoworNot;
 
     public BAQuizSingleChoiceAdapter(Context mContext, List<BAPollDatum> bapolltextsinglechoicelist, MorestoryClick morestoryClick) {
         this.mcontext = mContext;
@@ -55,14 +57,15 @@ public class BAQuizSingleChoiceAdapter extends RecyclerView.Adapter<BAQuizSingle
     public void onBindViewHolder(BAQuizSingleChoiceAdapter.MyViewHolder holder, int position) {
         BAPollDatum detail = bapolltextsinglechoicelist.get(position);
 
-        if (selectedchangesposition == position) {
-            holder.baQuizTextsingleChoiceListItemBinding.optionChk.setChecked(true);
-            detail.setbAquizQuestionAnswerSelected("1");
-            morestoryClick.getmorestoryClick();
-        } else {
-            holder.baQuizTextsingleChoiceListItemBinding.optionChk.setChecked(false);
-            detail.setbAquizQuestionAnswerSelected("0");
-        }
+//        if (selectedchangesposition == position) {
+//            holder.baQuizTextsingleChoiceListItemBinding.optionChk.setChecked(true);
+//            detail.setbAquizQuestionAnswerSelected("1");
+//            layoutShoworNot = "show";
+//            morestoryClick.getmorestoryClick();
+//        } else {
+//            holder.baQuizTextsingleChoiceListItemBinding.optionChk.setChecked(false);
+//            detail.setbAquizQuestionAnswerSelected("0");
+//        }
 
 
         holder.baQuizTextsingleChoiceListItemBinding.baQuizTextviewAnsTxt.setText(detail.getBAQuizQuestionAnswer());
@@ -71,20 +74,21 @@ public class BAQuizSingleChoiceAdapter extends RecyclerView.Adapter<BAQuizSingle
         holder.baQuizTextsingleChoiceListItemBinding.baQuizHeaderBannerRcv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (holder.baQuizTextsingleChoiceListItemBinding.headerLinear.isShown()) {
-//                    holder.baQuizTextsingleChoiceListItemBinding.headerLinear.setVisibility(View.GONE);
-                    holder.baQuizTextsingleChoiceListItemBinding.optionChk.setChecked(false);
-                    detail.setbAquizQuestionAnswerSelected("0");
-                    selectedchangesposition = position;
-                    notifyDataSetChanged();
-                } else {
+//                if (holder.baQuizTextsingleChoiceListItemBinding.headerLinear.isShown()) {
+////                    holder.baQuizTextsingleChoiceListItemBinding.headerLinear.setVisibility(View.GONE);
+//                    holder.baQuizTextsingleChoiceListItemBinding.optionChk.setChecked(false);
+//                    detail.setbAquizQuestionAnswerSelected("0");
+////                    morestoryClick.getmorestoryClick();
+////                    selectedchangesposition = position;
+////                    notifyDataSetChanged();
+//                } else {
 //                    holder.baQuizTextsingleChoiceListItemBinding.headerLinear.setVisibility(View.VISIBLE);
                     holder.baQuizTextsingleChoiceListItemBinding.optionChk.setChecked(true);
                     detail.setbAquizQuestionAnswerSelected("1");
-                    selectedchangesposition = position;
-                    notifyDataSetChanged();
-
-                }
+//                    selectedchangesposition = position;
+//                    notifyDataSetChanged();
+                    morestoryClick.getmorestoryClick();
+//                }
 
             }
         });
@@ -92,15 +96,17 @@ public class BAQuizSingleChoiceAdapter extends RecyclerView.Adapter<BAQuizSingle
         holder.baQuizTextsingleChoiceListItemBinding.optionChk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (holder.baQuizTextsingleChoiceListItemBinding.optionChk.isChecked()){
+                if (holder.baQuizTextsingleChoiceListItemBinding.optionChk.isChecked()) {
                     detail.setbAquizQuestionAnswerSelected("1");
-                    selectedchangesposition = position;
-                    notifyDataSetChanged();
-                }else{
-                    detail.setbAquizQuestionAnswerSelected("0");
-                    selectedchangesposition = position;
-                    notifyDataSetChanged();
+//                    selectedchangesposition = position;
+//                    notifyDataSetChanged();
+                    morestoryClick.getmorestoryClick();
                 }
+//                else {
+//                    detail.setbAquizQuestionAnswerSelected("0");
+////                    selectedchangesposition = position;
+////                    notifyDataSetChanged();
+//                }
 
 
             }
@@ -123,6 +129,9 @@ public class BAQuizSingleChoiceAdapter extends RecyclerView.Adapter<BAQuizSingle
         return bapolltextsinglechoicelist.size();
     }
 
+    public String layoutShoworNot() {
+        return layoutShoworNot();
+    }
 
 }
 

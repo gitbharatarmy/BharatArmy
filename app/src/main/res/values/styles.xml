@@ -2,15 +2,15 @@
     <!-- remove code 25-02-2020 with backup-->
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
-    <!-- Customize your theme here. -->
-    <item name="windowActionBar">true</item>
-    <item name="windowNoTitle">true</item>
-    <item name="android:statusBarColor">@color/heading_bg</item>
-    <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
-    <item name="android:windowAnimationStyle">@style/CustomActivityAnimation</item>
-    <item name="colorControlActivated">@color/heading_bg</item>
-    <item name="materialAlertDialogTheme">@style/AlertDialogMaterialTheme</item>
-</style>
+        <!-- Customize your theme here. -->
+        <item name="windowActionBar">true</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:statusBarColor">@color/heading_bg</item>
+        <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
+        <item name="android:windowAnimationStyle">@style/CustomActivityAnimation</item>
+        <item name="colorControlActivated">@color/heading_bg</item>
+        <item name="materialAlertDialogTheme">@style/AlertDialogMaterialTheme</item>
+    </style>
 
     <style name="AppTheme.NoActionBar">
         <item name="android:windowTranslucentNavigation">false</item>
@@ -85,6 +85,7 @@
         <item name="android:textCursorDrawable">@drawable/color_cursor</item>
         <item name="boxStrokeColor">@color/text_input_box_stroke</item>
         <item name="hintTextColor">@color/text_input_box_stroke</item>
+        <item name="paddingStart">@dimen/_4sdp</item>
         <item name="android:gravity">center_vertical</item>
         <item name="helperTextTextColor">@color/heading_bg</item>
         <item name="colorError">@color/red</item>
@@ -343,7 +344,7 @@
         <item name="android:textStyle">bold</item>
     </style>
 
-<!--    quiz timer-->
+    <!--    quiz timer-->
     <style name="SampleProgress">
         <item name="android:layout_width">@dimen/content_width</item>
         <item name="android:layout_height">30dp</item>

@@ -67,6 +67,7 @@
 
 
         <LinearLayout
+            android:id="@+id/question_timer_linear"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/top_gradiant_view"
@@ -295,90 +296,108 @@
             android:id="@+id/question_result_type2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:elevation="5dp"
+            android:background="@drawable/dropshadow_blue"
             android:layout_below="@+id/top_gradiant_view"
             android:visibility="gone">
 
             <LinearLayout
                 android:id="@+id/correct_incorrect_img"
-                android:layout_width="@dimen/_100sdp"
-                android:layout_height="@dimen/_100sdp"
+                android:layout_width="@dimen/_110sdp"
+                android:layout_height="@dimen/_110sdp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/_65sdp"
+                android:alpha="0.7"
+                android:background="@drawable/ic_correct_answer"
                 android:orientation="vertical"
-                android:background="@drawable/ic_correct_answer"/>
+                android:elevation="5dp"/>
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_270sdp"
+                android:layout_height="@dimen/_250sdp"
                 android:layout_gravity="bottom"
                 android:background="@color/splash_bg_color">
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:id="@+id/incorrect_linear"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_50sdp"
-                    android:background="@color/bgBottomNavigation"
+                    android:layout_height="@dimen/_40sdp"
+                    android:background="@color/wrong_answer_color"
                     android:orientation="horizontal"
                     android:weightSum="1">
-                   <androidx.appcompat.widget.AppCompatTextView
-                       android:layout_width="0dp"
-                       android:layout_height="match_parent"
-                       android:layout_weight="0.5"
-                       style="@style/title_text_font"
-                       android:text="@string/quiz_your_ans"
-                       android:textColor="@color/black_translucent1"
-                       android:textSize="@dimen/_12sdp"
-                       android:textAllCaps="true"/>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/title_text_font"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.5"
+                        android:gravity="center_vertical"
+                        android:paddingStart="@dimen/_15sdp"
+                        android:text="@string/quiz_your_ans"
+                        android:textAllCaps="true"
+                        android:textColor="@color/black_translucent1"
+                        android:textSize="@dimen/_12sdp" />
+
                     <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="@dimen/_15sdp"
                         android:layout_height="@dimen/_15sdp"
                         android:layout_gravity="center_vertical"
                         android:layout_marginEnd="@dimen/_1sdp"
                         android:src="@drawable/ic_incorrect_ans_sign" />
+
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/incorrect_ans_txt"
+                        style="@style/title_text_font"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="0.5"
-                        style="@style/title_text_font"
+                        android:gravity="center_vertical"
+                        android:paddingStart="@dimen/_5sdp"
                         android:text="@string/quiz_your_ans"
+                        android:textAllCaps="true"
                         android:textColor="@color/splash_bg_color"
-                        android:textSize="@dimen/_12sdp"
-                        android:textAllCaps="true"/>
+                        android:textSize="@dimen/_12sdp" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:id="@+id/correct_linear"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_50sdp"
+                    android:layout_height="@dimen/_40sdp"
                     android:layout_below="@+id/incorrect_linear"
                     android:background="@color/correct_answer_color"
                     android:orientation="horizontal">
+
                     <androidx.appcompat.widget.AppCompatTextView
+                        style="@style/title_text_font"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="0.5"
-                        style="@style/title_text_font"
+                        android:gravity="center_vertical"
+                        android:paddingStart="@dimen/_15sdp"
                         android:text="@string/quiz_correct_ans"
+                        android:textAllCaps="true"
                         android:textColor="@color/black_translucent1"
-                        android:textSize="@dimen/_12sdp"
-                        android:textAllCaps="true"/>
+                        android:textSize="@dimen/_12sdp" />
+
                     <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="@dimen/_15sdp"
                         android:layout_height="@dimen/_15sdp"
                         android:layout_gravity="center_vertical"
                         android:layout_marginEnd="@dimen/_1sdp"
                         android:src="@drawable/ic_check_mark" />
+
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/correct_ans_txt"
+                        style="@style/title_text_font"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="0.5"
-                        style="@style/title_text_font"
+                        android:gravity="center_vertical"
+                        android:paddingStart="@dimen/_5sdp"
                         android:text="@string/quiz_correct_ans"
+                        android:textAllCaps="true"
                         android:textColor="@color/splash_bg_color"
-                        android:textSize="@dimen/_12sdp"
-                        android:textAllCaps="true"/>
+                        android:textSize="@dimen/_12sdp" />
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -403,15 +422,30 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/answer_explanation_textView"
                     android:layout_marginStart="@dimen/_15sdp"
-                    android:layout_marginTop="@dimen/_10sdp"
+                    android:layout_marginTop="@dimen/_3sdp"
                     android:layout_marginEnd="@dimen/_15sdp"
                     android:gravity="start"
-                    android:maxLines="7"
+                    android:maxLines="5"
                     android:text="@string/dialog_permission_message"
                     android:textColor="@color/normal_font_color"
-                    android:textSize="@dimen/_9sdp" />
+                    android:textSize="@dimen/_12sdp" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/continue_quiz_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_35sdp"
+                    android:layout_above="@+id/user_answer_textView"
+                    android:layout_marginStart="@dimen/_15sdp"
+                    android:layout_marginEnd="@dimen/_15sdp"
+                    android:layout_marginBottom="@dimen/_10sdp"
+                    android:text="@string/quiz_continue_text"
+                    android:textColor="@color/splash_bg_color"
+                    android:background="@color/heading_bg"
+                    android:textSize="@dimen/_12sdp"
+                    style="@style/text_font"/>
 
                 <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/user_answer_textView"
                     style="@style/title_text_font"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

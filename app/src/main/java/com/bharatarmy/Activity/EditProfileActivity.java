@@ -115,9 +115,9 @@ public class EditProfileActivity extends AppCompatActivity implements View.OnCli
 //        activityEditProfileBinding.ccp.setCountryForNameCode(AppConfiguration.currentCountryISOCode);
         activityEditProfileBinding.toolbarTitleTxt.setText("Edit Member Profile");
         if (Utils.retriveLoginData(mContext) != null) {
-            if (Utils.retriveLoginData(mContext).getCountryPhoneNo() != null &&
-                    !Utils.retriveLoginData(mContext).getCountryPhoneNo().equalsIgnoreCase("")) {
-                activityEditProfileBinding.ccp.setCountryForNameCode(Utils.retriveLoginData(mContext).getCountryPhoneNo());
+            if (Utils.retriveLoginData(mContext).getCountryISOCode() != null &&
+                    !Utils.retriveLoginData(mContext).getCountryISOCode().equalsIgnoreCase("")) {
+                activityEditProfileBinding.ccp.setCountryForNameCode(Utils.retriveLoginData(mContext).getCountryISOCode());
             }
             if (Utils.retriveLoginData(mContext).getFirstName() != null) {
                 activityEditProfileBinding.userFnameEdt.setText(Utils.retriveLoginData(mContext).getFirstName());

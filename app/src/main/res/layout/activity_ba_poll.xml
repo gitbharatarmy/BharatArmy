@@ -160,7 +160,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
-            android:text="Sumbit vote!"
+            android:text="Submit vote!"
             android:textColor="@color/splash_bg_color"
             android:textSize="@dimen/_14sdp" />
 

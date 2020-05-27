@@ -4,28 +4,29 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.os.Handler;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 
+import com.ankushgrover.hourglass.Hourglass;
 import com.bharatarmy.Adapter.BAQuizSingleChoiceAdapter;
 import com.bharatarmy.Interfaces.MorestoryClick;
 import com.bharatarmy.Models.BAPollDatum;
 import com.bharatarmy.Models.BAShopMainModel;
 import com.bharatarmy.R;
-import com.bharatarmy.UploadService;
 import com.bharatarmy.Utility.AppConfiguration;
 import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.Utility.WebServices;
 import com.bharatarmy.databinding.ActivityBAQuizQuestionAnswerBinding;
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import java.util.List;
-import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -40,10 +41,7 @@ public class BAQuizQuestionAnswerActivity extends AppCompatActivity implements V
     public int timecounter = 0;
     private long timeLeftInMillis;
 
-    String url1, url2, url3, url4, url5, url6, url7, url8, url9, url10,
-            answer1TextStr, answer2TextStr, answer3TextStr, answer4TextStr,
-            answer5TextStr, answer6TextStr, answer7TextStr, answer8TextStr,
-            answer9TextStr, answer10TextStr, quiztitle;
+    String url1, url2, url3, url4, url5, url6, url7, url8, url9, url10, answer1TextStr, quiztitle;
 
     /*text Singlechoice adapter*/
     BAQuizSingleChoiceAdapter baQuizSingleChoiceAdapter;
@@ -51,6 +49,9 @@ public class BAQuizQuestionAnswerActivity extends AppCompatActivity implements V
     List<BAPollDatum> baquiztextsinglechoicelist;
     int count = 1;
     int quiztime;
+    String quizeResultType;
+    long quizTimeresult;
+    Hourglass quizTimer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,32 +66,43 @@ public class BAQuizQuestionAnswerActivity extends AppCompatActivity implements V
     public void init() {
         quiztitle = getIntent().getStringExtra("quiztitle");
         quiztime = Integer.parseInt(getIntent().getStringExtra("quizTime"));
+        quizeResultType = getIntent().getStringExtra("quizeResultType");
         activityBAQuizQuestionAnswerBinding.toolbarTitleTxt.setText(quiztitle);
         activityBAQuizQuestionAnswerBinding.shimmerViewContainer.startShimmerAnimation();
         activityBAQuizQuestionAnswerBinding.shimmerViewContainer.setVisibility(View.VISIBLE);
+        secondTomillis();
+
         setUrl();
         callNextBAQuiz(count);
 
     }
 
+    public void secondTomillis() {
+        quizTimeresult = TimeUnit.SECONDS.toMillis(quiztime);
+        Log.d("millsresult", "" + quizTimeresult);
+    }
+
     public void setListiner() {
         activityBAQuizQuestionAnswerBinding.backImg.setOnClickListener(this);
         activityBAQuizQuestionAnswerBinding.nextLinear.setOnClickListener(this);
-        activityBAQuizQuestionAnswerBinding.timeProgress.setProgress(335);
+        activityBAQuizQuestionAnswerBinding.timeProgress.setMax(quiztime+35);
+        activityBAQuizQuestionAnswerBinding.timeProgress.setProgress(quiztime+35);
+        activityBAQuizQuestionAnswerBinding.continueQuizBtn.setOnClickListener(this);
 
-        new CountDownTimer(300000, 1000) {
+
+        quizTimer = new Hourglass(quizTimeresult, 1000) {
             @Override
-            public void onTick(long millisUntilFinished) {
+            public void onTimerTick(long timeRemaining) {
                 activityBAQuizQuestionAnswerBinding.timeupLinear.setVisibility(View.GONE);
-                timeLeftInMillis = millisUntilFinished;
-                activityBAQuizQuestionAnswerBinding.timeProgress.setProgress(335 - timecounter);
+                timeLeftInMillis = timeRemaining;
+                activityBAQuizQuestionAnswerBinding.timeProgress.setProgress(quiztime+35 - timecounter);
                 Log.d("time:", String.valueOf(timecounter));
                 timecounter++;
                 updateCountDownText();
             }
 
             @Override
-            public void onFinish() {
+            public void onTimerFinish() {
                 activityBAQuizQuestionAnswerBinding.timeupLinear.setVisibility(View.VISIBLE);
                 activityBAQuizQuestionAnswerBinding.timeDisplayLinear.setVisibility(View.GONE);
                 activityBAQuizQuestionAnswerBinding.timeProgress.setVisibility(View.GONE);
@@ -101,18 +113,18 @@ public class BAQuizQuestionAnswerActivity extends AppCompatActivity implements V
                 activityBAQuizQuestionAnswerBinding.shimmerViewContainer.setVisibility(View.GONE);
                 activityBAQuizQuestionAnswerBinding.questioncountTxt.setVisibility(View.GONE);
             }
-        }.start();
+        };
+
+        quizTimer.startTimer();
     }
 
     private void updateCountDownText() {
         int minutes = (int) (timeLeftInMillis / 1000) / 60;
         int seconds = (int) (timeLeftInMillis / 1000) % 60;
         Log.d("minutes :", "" + minutes + "seconds :" + "" + seconds);
-//        String timeFormatted = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
 
         String timeFormatted = "Timer : " + minutes + " min " + seconds + " seconds ";
         Log.d("timeFormatted:", timeFormatted);
-//        textViewCountDown.setText(timeFormatted);
         activityBAQuizQuestionAnswerBinding.remainingTimeTxt.setText(timeFormatted);
     }
 
@@ -134,6 +146,11 @@ public class BAQuizQuestionAnswerActivity extends AppCompatActivity implements V
         switch (v.getId()) {
             case R.id.back_img:
                 whereToback();
+                break;
+            case R.id.continue_quiz_btn:
+                unfreezeLayout();
+                goToNext();
+                quizTimer.resumeTimer();
                 break;
         }
     }
@@ -247,13 +264,22 @@ public class BAQuizQuestionAnswerActivity extends AppCompatActivity implements V
                 @Override
                 public void getmorestoryClick() {
                     getSelectedTextSingleChoiceValue();
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            goToNext();
+                    if (quizeResultType.equalsIgnoreCase("2")) {
+                        freezeLayout();
+                        overridePendingTransition(R.anim.slide_out_down, R.anim.slide_up_dialog);
+                        activityBAQuizQuestionAnswerBinding.questionResultType2.setVisibility(View.VISIBLE);
 
-                        }
-                    }, 500);
+                        quizTimer.pauseTimer();
+                    } else {
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                goToNext();
+                            }
+                        }, 500);
+
+                    }
+
 
                 }
             });
@@ -268,9 +294,35 @@ public class BAQuizQuestionAnswerActivity extends AppCompatActivity implements V
         for (int i = 0; i < baquiztextsinglechoicelist.size(); i++) {
             if (baquiztextsinglechoicelist.get(i).getbAquizQuestionAnswerSelected().equalsIgnoreCase("1")) {
                 answer1TextStr = baquiztextsinglechoicelist.get(i).getBAQuizQuestionAnswer();
+
             }
         }
 
     }
 
+    public void freezeLayout() {
+        activityBAQuizQuestionAnswerBinding.backImg.setEnabled(false);
+        activityBAQuizQuestionAnswerBinding.backImg.setClickable(false);
+//        activityBAQuizQuestionAnswerBinding.textsinglechoiceAnsRcv.addOnItemTouchListener(new RecyclerView.SimpleOnItemTouchListener() {
+//            @Override
+//            public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
+//                // true: consume touch event
+//                // false: dispatch touch event
+//                return true;
+//            }
+//        });
+    }
+
+    public void unfreezeLayout() {
+        activityBAQuizQuestionAnswerBinding.questionResultType2.setVisibility(View.GONE);
+        activityBAQuizQuestionAnswerBinding.questionTimerLinear.setAlpha(1f);
+        activityBAQuizQuestionAnswerBinding.backImg.setEnabled(true);
+        activityBAQuizQuestionAnswerBinding.backImg.setClickable(true);
+//        activityBAQuizQuestionAnswerBinding.textsinglechoiceAnsRcv.addOnItemTouchListener(new RecyclerView.SimpleOnItemTouchListener() {
+//            @Override
+//            public boolean onInterceptTouchEvent(RecyclerView view, MotionEvent e) {
+//                return false;
+//            }
+//        });
+    }
 }

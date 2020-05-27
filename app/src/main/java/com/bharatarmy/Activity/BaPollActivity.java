@@ -111,6 +111,7 @@ public class BaPollActivity extends AppCompatActivity implements View.OnClickLis
                 if (!answerTextStr.equalsIgnoreCase("")){
                     Intent pollresult = new Intent(mContext,BaPollResultActivity.class);
                     startActivity(pollresult);
+                    finish();
                 }
                 break;
         }

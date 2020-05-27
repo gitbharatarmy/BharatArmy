@@ -308,7 +308,7 @@ public class MoreFragment extends Fragment implements View.OnClickListener, Goog
 //                DashboardIntent.putExtra("whichPageRun", "2");
 //                startActivity(DashboardIntent);
                 Intent feedbackIntent = new Intent(mContext, FeedbackActivity.class);
-                mContext.startActivity(feedbackIntent);
+              startActivity(feedbackIntent);
                 break;
         }
     }
