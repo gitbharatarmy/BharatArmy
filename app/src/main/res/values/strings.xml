@@ -11,7 +11,7 @@
     <string name="blank" translatable="false">Blank Field Not Allowed</string>
     <string name="false_msg" translatable="false">Record not found</string>
     <string name="something_wrong" translatable="false">Aaah! Something went wrong Brace yourself till we get the error fixed from our end. Pull to refresh the page or try again later.</string>
-    <string name="login_error_msg" translatable="false">Awww... Well, this is unexpected... An error has occurred and we\'re working to fix the problem! We'll be up and running shortly.</string>
+    <string name="login_error_msg" translatable="false">Awww... Well, this is unexpected... An error has occurred and we\'re working to fix the problem! We\'ll be up and running shortly.</string>
     <string name="update_dialog_text" translatable="false">We\'re better than ever! We have added new features &amp; fixed some bugs to make your experience as smooth as possible.</string>
 
     <!--Login Activity String-->

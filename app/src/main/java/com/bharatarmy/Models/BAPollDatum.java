@@ -60,6 +60,7 @@ public class BAPollDatum {
     @SerializedName("BAPollVoteCount")
     @Expose
     private Double bAPollVoteCount;
+
     public Double getBAPollVoteCount() {
         return bAPollVoteCount;
     }
@@ -67,6 +68,7 @@ public class BAPollDatum {
     public void setBAPollVoteCount(Double bAPollVoteCount) {
         this.bAPollVoteCount = bAPollVoteCount;
     }
+
     public String getBAPollQuestionAnswerVote() {
         return bAPollQuestionAnswerVote;
     }
@@ -146,4 +148,7 @@ public class BAPollDatum {
     public void setBAQuizQuestionAnswer(String bAQuizQuestionAnswer) {
         this.bAQuizQuestionAnswer = bAQuizQuestionAnswer;
     }
+
+
+
 }

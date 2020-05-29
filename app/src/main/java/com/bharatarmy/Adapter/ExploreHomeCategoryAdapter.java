@@ -10,10 +10,12 @@ import android.view.ViewGroup;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bharatarmy.Activity.BAPollListActivity;
 import com.bharatarmy.Activity.BAQuizListActivity;
 import com.bharatarmy.Activity.BaPollActivity;
 import com.bharatarmy.Models.ExpolringCategoryModel;
 import com.bharatarmy.R;
+import com.bharatarmy.Utility.Utils;
 import com.bharatarmy.databinding.ExploreHomeCategoryListItemBinding;
 
 import java.util.List;
@@ -60,14 +62,16 @@ public class ExploreHomeCategoryAdapter extends RecyclerView.Adapter<ExploreHome
         holder.exploreHomeCategoryListItemBinding.expolreCategoryCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (exploringcategoryData.getExplorecategoryName().equalsIgnoreCase("BA Poll")) {
-                    Intent bapollIntent = new Intent(mcontext, BaPollActivity.class);
-                    bapollIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    mcontext.startActivity(bapollIntent);
-                } else if (exploringcategoryData.getExplorecategoryName().equalsIgnoreCase("BA Quiz")) {
-                    Intent baquizIntent = new Intent(mcontext, BAQuizListActivity.class);
-                    baquizIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    mcontext.startActivity(baquizIntent);
+                if (Utils.isMember(mcontext, "Home")) {
+                    if (exploringcategoryData.getExplorecategoryName().equalsIgnoreCase("BA Poll")) {
+                        Intent bapollIntent = new Intent(mcontext, BAPollListActivity.class);
+                        bapollIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        mcontext.startActivity(bapollIntent);
+                    } else if (exploringcategoryData.getExplorecategoryName().equalsIgnoreCase("BA Quiz")) {
+                        Intent baquizIntent = new Intent(mcontext, BAQuizListActivity.class);
+                        baquizIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        mcontext.startActivity(baquizIntent);
+                    }
                 }
             }
         });

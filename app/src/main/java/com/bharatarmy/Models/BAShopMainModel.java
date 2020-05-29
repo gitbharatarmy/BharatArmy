@@ -50,4 +50,8 @@ public class BAShopMainModel {
     public void setBAQuizData(List<BAPollDatum> bAQuizData) {
         this.bAQuizData = bAQuizData;
     }
+
+
+
+
 }

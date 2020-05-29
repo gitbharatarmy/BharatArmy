@@ -327,4 +327,50 @@ public class QuizDetailModel {
     public void setQuizBannerUrl(String quizBannerUrl) {
         this.quizBannerUrl = quizBannerUrl;
     }
+
+    //    BA Poll List
+    @SerializedName("strDuration")
+    @Expose
+    private String strDuration;
+    @SerializedName("BAPollId")
+    @Expose
+    private Integer bAPollId;
+    @SerializedName("BAPollTitle")
+    @Expose
+    private String bAPollTitle;
+    @SerializedName("NoofVotes")
+    @Expose
+    private Integer noofVotes;
+
+    public String getStrDuration() {
+        return strDuration;
+    }
+
+    public void setStrDuration(String strDuration) {
+        this.strDuration = strDuration;
+    }
+
+    public Integer getBAPollId() {
+        return bAPollId;
+    }
+
+    public void setBAPollId(Integer bAPollId) {
+        this.bAPollId = bAPollId;
+    }
+
+    public String getBAPollTitle() {
+        return bAPollTitle;
+    }
+
+    public void setBAPollTitle(String bAPollTitle) {
+        this.bAPollTitle = bAPollTitle;
+    }
+
+    public Integer getNoofVotes() {
+        return noofVotes;
+    }
+
+    public void setNoofVotes(Integer noofVotes) {
+        this.noofVotes = noofVotes;
+    }
 }

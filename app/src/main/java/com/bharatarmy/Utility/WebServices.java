@@ -272,6 +272,10 @@ public interface WebServices {
     @POST("/GetQuizDetailsById")
     void getQuizDetailsById(@FieldMap Map<String, String> map, Callback<LogginModel> callback);
 
+    @FormUrlEncoded
+    @POST("/GetPollListByMember")
+    void getPollListByMember(@FieldMap Map<String, String> map, Callback<QuizMainModel> callback);
+
     @GET
     Call<WatchListModelDemo> getWatchList(@Url String url);
 
